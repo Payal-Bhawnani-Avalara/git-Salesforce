@@ -1,0 +1,181 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false"> 
+	<apex:outputPanel rendered="{!$CurrentPage.parameters.categoryId!=null}">
+
+     <script>
+	//overwrite productDetails so that all links to Product Detail from PLP go to Product Config page
+	//currently only works for dynamic kit; TO DO: update to prepopulate addon (sku=dynamickitsku, skuaddon=skuonthisbutton)
+
+      var productConfigurator = function(productId) {
+      	console.log("productConfigurator firing inside end of html page include");
+
+        document.location = "/AvalaraStore/ccrz__ProductDetails?viewState=DetailView&cartID=" + CCRZ.pagevars.currentCartID + "&sku=" + productId + getCSRQueryString() + "&showproductconfig=true";
+      	}
+
+      var productConfiguratorAddon = function(parentProductId, addonId) {
+      	console.log("productConfiguratorAddon firing inside end of html page include");
+      	console.log("prodBean:" + this.prodBean);
+
+        document.location = "/AvalaraStore/ccrz__ProductDetails?viewState=DetailView&cartID=" + CCRZ.pagevars.currentCartID + "&sku=" + parentProductId + "&skuAddon=" + addonId + getCSRQueryString() + "&showproductconfig=true";
+      	}
+
+      //or the sledgehammer: just copy the whole view
+ jQuery(function($){
+   CCRZ.views.productListView = CCRZ.CloudCrazeView.extend({
+   templatePhone : CCRZ.util.template(CCRZ.uiProperties.productListView.phone.tmpl),
+   templateDesktop : CCRZ.util.template(CCRZ.uiProperties.productListView.desktop.tmpl),
+   managedSubView : true,
+   viewName : "productListView",
+   events : {
+    "click .plus" : "addSingleQty",
+    "click .minus" : "removeSingleQty",
+    "click .plusFF" : "addSkipQty",
+    "click .minusFF" : "removeSkipQty",
+    "click .productName" : "productDetails",
+    "click .productBuyButton" : "productConfigurator",
+    "click .productBuyButtonAddon" : "productConfiguratorAddon",
+    "click .addItem" : "addToCart",
+    "keypress .entry" : "addToCartKey",
+    "click .add_to_cart_desktop_button" : "addToCart"
+   },
+   init : function(){
+    this.items = new CCRZ.collections.productItemCollection();
+    var v = this;
+    this.items.on("refreshedFromServer", function(){
+     v.render();
+    });
+                this.pickerView = _.isUndefined(CCRZ.views.wishlistPickerModal)?false:(new CCRZ.views.wishlistPickerModal());
+    this.itemCount = 5;
+   },
+   refresh: function(dataSet, pageSize, pageNum, sortVal, sortAscending) {
+    v = this;
+    this.items.fetch(dataSet, pageSize, pageNum, sortVal, sortAscending, function() {
+     v.render();
+    });
+   },
+   renderPhone : function(){
+    this.$el.html('');
+    this.setElement($(CCRZ.uiProperties.productListView.phone.selector));
+    this.$el.html(this.templatePhone(this.items.toJSON()));
+    if(this.pickerView){
+     this.pickerView.render();
+    }
+   },
+   renderDesktop : function(){
+    this.$el.html('');
+    this.setElement($(CCRZ.uiProperties.productListView.desktop.selector));
+    this.$el.html(this.templateDesktop(this.items.toJSON()));
+    if(this.pickerView){
+     this.pickerView.render();
+    }
+   },
+   addSingleQty : function(event){
+    this.adjustQty(event, 1, '.item_qtyIncrement');
+   },
+   removeSingleQty : function(event){
+    this.adjustQty(event, -1, '.item_qtyIncrement');
+   },
+   addSkipQty : function(event){
+    this.adjustQty(event, 1, '.item_qtySkipIncrement');
+   },
+   removeSkipQty : function(event){
+    this.adjustQty(event, -1, '.item_qtySkipIncrement');
+   },
+   adjustQty: function(event, direction, multipler) {
+    var p = $(event.target).parent();
+    var objItems = p.find(".entry");
+    if (objItems) {
+     var incr = p.find(multipler);
+     var increment = 1;
+     if (incr)
+      increment = parseInt(incr.val());
+     var qty = parseInt(objItems.val());
+     if (direction > 0 || qty >= increment)
+      objItems.val(qty + direction*increment);
+     else
+      objItems.val('0');
+    }
+   },
+   productDetails : function(event){
+     var sku = $(event.currentTarget).data("sku");
+     productDetails(sku);
+   },
+   productConfigurator : function(event){
+     var sku = $(event.currentTarget).data("sku");
+     console.log('firing in the view');
+     productConfigurator(sku);
+   },
+   productConfiguratorAddon : function(event){
+     var sku = $(event.currentTarget).data("sku");
+     var addon = $(event.currentTarget).data("addon");
+     productConfiguratorAddon(sku, addon);
+   },
+   addToCartKey : function(event){
+    var v = this;
+    if (window.event && window.event.keyCode == 13 || event.which == 13) {
+     if(CCRZ.display.isPhone()){
+      $(event.currentTarget).parents(".products_1_row_medium_item").find(".addItem").click();
+     }else{
+      $(event.currentTarget).parents(".products_1_row_medium_item").find(".add_to_cart_desktop_button").click();
+     }
+
+     return false;
+    } else {
+     return CCRZ.util.isValidNumericInput(event);
+    }
+   },
+   addToCart : function(event){
+    var objLink = $(event.currentTarget);
+    var productId = objLink.data("id");
+    var sellerId = objLink.data("seller");
+    var qtyInput = objLink.parents(".products_1_row_medium_item").find(".entry");
+    var qty = qtyInput.val();
+    var scrubbedQty = CCRZ.util.scrubQuantity(qty);
+    if(qty !== scrubbedQty || qty < 1) {
+     CCRZ.pubSub.trigger("pageMessage", CCRZ.createPageMessage('WARN', "messagingSection-Warning", 'Invalid_Qty'));
+     qtyInput.val(scrubbedQty);
+    } else {
+     var inventory = objLink.data("inventory");
+     var subscriptionFrequencyMap = new Object();
+     objLink.parents(".products_1_row_medium_item").find(".subscriptionFrequencySelection").map(
+      function(){
+       subscriptionFrequencyMap[$(this).data('subscription')]=$(this).val();
+      }
+     );
+     this.className = 'cc_RemoteActionController';
+     this.processAddItem(productId,qty,subscriptionFrequencyMap, sellerId);
+                    document.body.scrollTop = document.documentElement.scrollTop = 0;
+    }
+   },
+   processAddItem: function(productId, qty, subscriptionFrequencyMap, sellerId) {
+    console.log('find result here');
+    this.invokeContainerLoadingCtx(
+     $(".products_1_row_medium")
+     ,'addItem'
+     ,productId
+     ,qty
+     ,null
+     ,null
+     ,sellerId
+     ,function(response){
+      cartId = response.data;
+      console.log('here is the cartId ' + cartId);
+      CCRZ.pagevars.currentCartID = cartId;
+      //cart change will update cookie
+      CCRZ.pubSub.trigger('cartChange', cartId);
+      this.className = 'cc_ctrl_ProductListRD';
+      if (CCRZ.pagevars.pageConfig.isTrue('pl.g2c')) {
+       cartDetails();
+      }
+     }
+    );
+   }
+  });
+
+  CCRZ.prodCatView = new CCRZ.views.productCatalogView();
+  CCRZ.prodView = new CCRZ.views.productListView();
+  CCRZ.pageView = new CCRZ.views.productPaginationView();
+ });
+ </script>
+
+	</apex:outputPanel>
+</apex:page>

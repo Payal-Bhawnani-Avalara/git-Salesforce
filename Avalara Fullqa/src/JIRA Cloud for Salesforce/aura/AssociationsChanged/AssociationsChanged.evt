@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="Event signaling a change in associations">
+    <aura:attribute name="shouldRefreshComments" type="Boolean"/>
+</aura:event>

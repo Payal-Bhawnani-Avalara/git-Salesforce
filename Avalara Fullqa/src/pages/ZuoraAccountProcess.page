@@ -1,0 +1,26 @@
+<apex:page controller="ZuoraAccountProcess">  
+  <apex:sectionHeader title="" subtitle="Upload and Process Account Records"/>
+
+  <apex:form enctype="multipart/form-data">
+    <apex:pageMessages />
+    <apex:pageBlock title="Upload a Attachment">
+
+      <apex:pageBlockButtons location="bottom">
+        <apex:commandButton action="{!upload}" value="Upload and Process"/>
+      </apex:pageBlockButtons>
+
+      <apex:pageBlockSection showHeader="false" columns="2" id="block1">
+
+        <apex:pageBlockSectionItem >
+          <apex:outputLabel value="File" for="file"/>
+          <apex:inputFile value="{!attachment.body}" filename="{!attachment.name}" id="file"/>
+        </apex:pageBlockSectionItem>
+
+      </apex:pageBlockSection>
+
+    </apex:pageBlock>
+	<apex:pageBlock title="Processing records...">
+		<iframe src='/apex/ZuoraAccountProcessNow' width="100%" height="800px;"></iframe>
+	</apex:pageBlock>    
+  </apex:form>
+</apex:page>

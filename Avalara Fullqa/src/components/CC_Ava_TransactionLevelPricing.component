@@ -1,0 +1,264 @@
+<apex:component controller="cc_Ava_ctrl_ConfigFlow">
+
+<!-- START (2017-04-03): everything is copied from Config Flow page -->
+
+
+	<!-- can't configure a product with a product sku, so only render and grab data based on sku if sku is in url parameter -->
+    <apex:outputPanel rendered="{!$CurrentPage.parameters.sku!=null}">
+
+    	<!--target div for backbone view is now located in pdp, at bottom of ProductDetail-Desktop-Ava  -->
+		<!-- <div class="Ava-ConfigFlow-target"></div> -->
+
+		<!--define handlebars template for use in backbone view -->
+		<script type="text/template" id="Ava-ConfigFlow">
+			<!--NB: this == CCRZ.subsc.myAvaConfigFlowView.model.attributes -->
+			<div id="transactionPricing" class="transactions-anchor content-container">
+				{{#each this}}
+					<!-- show Tier info only -->
+					{{#ifEquals groupName 'Tier'}}
+						<div class="transactionLevelContainer">
+							<div class="span31 transaction-container">
+								{{#each productsThisGroupOnly}}
+									<!--@kevin you should be able to target container and each box by class -->
+									<div class="transactionLevelBox">
+										<div class="transaction-holder">
+											<div>
+												<h3 class="transaction-header">{{this.productInfo.tagline}}</h3>
+												<div class="pricing-container">
+													<p><span class="annual-price">{{price this.productInfo.maxSubPrice currencyIsoCode}}</span></p>
+													<p class="conjunction">for</p>
+													<p class="tagline">{{this.productInfo.sfdcName}}</p>
+                          <p class="billing-period">billed annually</p>
+												</div>
+											</div>
+											<div class="select-action"><a href="javascript:void(0);" class="selectTransactionLevel" data-sku="{!$CurrentPage.parameters.sku}" data-transactionlevelsku="{{this.productInfo.SKU}}"><button type="button" class="btn-add-to-cart btn-blue"></button></a>
+											</div>
+										</div>
+									</div>
+								{{/each}}
+							</div>
+
+							<!-- fourth element for contact info etc. -->
+							<div class="span transaction-contact-container">
+								<div class="transaction-holder">
+									<div>
+										{{pageLabelMap 'AvalaraTransactionLevelsContactUs'}}
+									</div>
+								</div>
+							</div>
+
+						</div>
+					{{/ifEquals}}
+				{{/each}}
+			</div>
+		</script>
+
+		<!-- define backbone models and views -->
+		<script type="text/javascript">
+
+			//set correct uiproperties values from div and handlebars template defined above -->
+			CCRZ.uiProperties.AvaConfigFlow = {
+				tmpl: 'Ava-ConfigFlow',
+				selector: '.Ava-ConfigFlow-target',
+			};
+
+			//create the models and views only after document.ready
+			jQuery(function($) {
+
+				//initialize root namespace for subscriber models
+				CCRZ.subsc = CCRZ.subsc || {};
+				CCRZ.subsc.models = CCRZ.subsc.models || {};
+				CCRZ.subsc.views = CCRZ.subsc.views || {};
+
+				//need sku from page parameter, and product api needs js array->apex List
+				var skuArray = [];
+				var mySku = '{!$CurrentPage.parameters.sku}';
+				skuArray.push(mySku);
+				console.log('skuArray: ' + skuArray);
+
+				var sortProducts = function(responseData) {
+					var sorted = responseData;
+					//backbone model includes irrelevant 'loaded' and 'remove' properties
+					for(var i=0; i<Object.keys(sorted).length-2; i++) {
+						//use elseifs to sort other groups using different sort functions
+						if(sorted[i].groupName==='Tier') {
+							sorted[i].productsThisGroupOnly.sort(function(a,b) {
+							    if(a.numberofTransactions < b.numberofTransactions)
+							        return -1;
+							    else if (a.numberofTransactions > b.numberofTransactions)
+							        return 0
+							    else return 1;
+							});							
+						}
+					}
+					return sorted;
+				};
+
+				//set up model by extending CloudCrazeModel
+				CCRZ.subsc.models.AvaConfigFlowModel = CCRZ.CloudCrazeModel.extend({
+					className: 'cc_Ava_ctrl_ConfigFlow',
+					fetch: function(callback) {
+						var model = this;
+						this.invokeCtx(
+							'fetchCompositeProducts', skuArray,
+							function(response, event) {
+								if(event.status && response && response.data) {
+										//EXAMPLE: here's how you might add an attribute (like 'doIWantThis') before attaching the model
+										// var modelOnPage = initOnPageProducts(model.parse(response.data));
+										//and here's a sample sort of tiers by number of transactions
+										// model.set(modelOnPage);
+										sortedProducts = sortProducts(model.parse(response.data));
+										//model.set(model.parse(response.data));
+										model.set(sortedProducts);
+										model.set('loaded',true);
+										callback(response);
+								} else {
+									model.set('loaded',false);
+									if(response && response.messages && _.isArray(response.messages) && response.messages.length) {
+										CCRZ.console.log('got loaded');
+										callback(response);
+									} else {
+										CCRZ.console.log('got error');
+										callback(response);
+									}
+								}
+							}
+							,{nmsp: false}
+						);
+					}
+
+				});
+
+				//setup view by extending CloudCrazeView
+				CCRZ.subsc.views.AvaConfigFlowView = CCRZ.CloudCrazeView.extend({
+					viewName: 'AvaConfigFlowView',
+					templateBoth: CCRZ.util.template(CCRZ.uiProperties.AvaConfigFlow.tmpl),
+					managedSubView: true,
+					init: function() {
+						var v = this;
+						//recall that model is attached only to view instance
+						v.model.fetch(function() {
+							v.render();
+						});
+					},
+					events: {
+						"click .selectTransactionLevel" : "configWithTransactionLevel",
+						"click .chatNow" : "chatNow"
+					},
+					doRender: function(theTemplate, theSelector) {
+
+						this.setElement(theSelector);
+						var v = this;
+						v.$el.html(theTemplate(v.model.toJSON())),
+						updatePricingOutput();
+
+					},
+					renderDesktop: function() {
+						this.doRender(this.templateBoth, $(CCRZ.uiProperties.AvaConfigFlow.selector));
+					},
+					renderPhone: function() {
+						this.doRender(this.templateBoth, $(CCRZ.uiProperties.AvaConfigFlow.selector))
+					},
+					configWithTransactionLevel: function(event) {
+						var sku = $(event.currentTarget).data("sku");
+						var transactionLevel = $(event.currentTarget).data("transactionlevelsku");
+						document.location = CCRZ.pagevars.currSiteURL + "ccrz__CCPage?pageKey=configflow&cartID=" + CCRZ.pagevars.currentCartID + "&sku=" + sku + "&transactionLevelSku=" + transactionLevel + getCSRQueryString();
+					},
+					chatNow: function(event) {
+						var sku = $(event.currentTarget).data("sku");
+						alert('PLACEHOLDER start chatting about sku ' + sku);
+					}
+				});
+
+				//instantiate model
+				CCRZ.subsc.AvaConfigFlowModelData = new CCRZ.subsc.models.AvaConfigFlowModel();
+				//instantiate view and attach model
+				CCRZ.subsc.myAvaConfigFlowView = new CCRZ.subsc.views.AvaConfigFlowView({
+					model: CCRZ.subsc.AvaConfigFlowModelData
+				});
+
+				//add handlebars helpers
+				Handlebars.registerHelper('removeSpaces', function(spaceyString) {
+					if(spaceyString) {
+						return spaceyString.replace(/\s+/g, '');
+					} else {
+						return 'no group name';
+					}
+				});
+
+				Handlebars.registerHelper('annualDiscount', function(monthlyAmount, annualAmount, periodMultiplier) {
+					if(monthlyAmount && annualAmount && periodMultiplier){
+						return monthlyAmount*periodMultiplier - annualAmount;
+					} else {
+						return 0;
+					}
+				});
+
+			});
+
+		</script>
+
+    	<!-- backbone models and views for config flow DEPRECATED -->
+
+    	<!--bring product group data (tiers, integrations, addons, whatever) into page 
+		<script>
+			//@kevin this will store all product data for the master composite product to include in the config flow
+			//each 'tab name' is a related product group, available under productData.EProductGuidesS[number].relatedProductGroupR.sfdcName
+			//each 'component' is a composite product, available under productData.compositeProductsS[number].componentR -- BUT this only has sku, currency, sfid; you probably want all the data in this object, so we'll add that
+			compositeProductData = '';
+			//need to send an array because ccProductApi accepts only List as input
+			var skuArray = [];
+			var mySku = '{!$CurrentPage.parameters.sku}';
+			skuArray.push(mySku);
+			
+			//call apex controller to call ccproductapi to get composite product info, which contains product groups
+			cc_Ava_ctrl_ConfigFlow.fetchCompositeProducts(CCRZ.pagevars.remoteContext, skuArray, function(response) {
+					if(response && response.success) {
+						compositeProductData = response.data;
+						//show in page for now
+						$('#dataPile').text('temporarily making data visible on the page: ' + JSON.stringify(compositeProductData));
+					} else {
+						console.log('something went wrong with the ccproductapi request');
+					}
+			});
+			//currently grabbing all composite product data; need to add pricing, really should be on the same object 
+		</script>-->
+
+		<script>
+			function updatePricingOutput(){
+				$ = jQuery;
+
+				$('.annual-price, .monthly-price').each(function(){
+
+					var isValue = $.trim($(this).text());
+					isValue = isValue.split('.');
+					var mainValue = isValue[0];
+					$(this).text(isValue);
+					isValue = isValue[1] !== undefined 
+						&& isValue[1].length > 0 
+						&& isValue[1] !== '00'
+						&& isValue[1] !== '0' ?
+							mainValue+'.'+isValue[1]
+							: mainValue;
+
+					$(this).text(isValue);
+			
+				});
+
+			}
+
+			function checkScrollToButton(){
+
+        $('data-scroll-element').length > 0 ? 
+          $(data-scroll-element).show()
+          : '';
+
+      } checkScrollToButton();
+
+		</script>
+
+	</apex:outputPanel>
+
+{!blank}
+
+</apex:component>

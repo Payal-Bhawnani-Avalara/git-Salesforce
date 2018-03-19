@@ -1,0 +1,280 @@
+<apex:component id="CC_Ava_Footer">
+	<c:CC_AVA_AI_API />
+	<script id="foot_desktop" type="text/template">
+		</div>
+		<div class="footer-link-list-container">
+			<div clas="content-container">
+				<div class="span31 footer-link-list mobile-gutter0 gutter20">
+
+					<div>
+						<ul>
+							<li><span class="footer-list-title">Products &amp; Solutions</span>
+								<ul>
+									<li><a href="//www.avalara.com/avatax-2-alt/" rel="noopener noreferrer" target="_blank">Avalara AvaTax - Sales tax calculation</a></li>
+									<li><a href="//www.avalara.com/products/sales-and-use-tax/returns/" rel="noopener noreferrer" target="_blank">Avalara Returns - Fully managed filing</a></li>
+									<li><a href="//www.avalara.com/learn/testimonials/" rel="noopener noreferrer" target="_blank">Testimonials</a></li>
+									<li><a href="//www.avalara.com/solutions/" rel="noopener noreferrer" target="_blank">By solution</a></li>
+									<li><a href="//www.avalara.com/tax-type/" rel="noopener noreferrer" target="_blank">By tax type</a></li>
+									<li><a href="//www.avalara.com/learn/" rel="noopener noreferrer" target="_blank">Resources</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<!--div>
+						<ul>
+							<li><span class="footer-list-title">Integrations</span>
+								<ul>
+									<li><a href="//www.avalara.com/integrations/" rel="noopener noreferrer" target="_blank">Integration bundles</a></li>
+									<li><a href="//www.avalara.com/integrations/bigcommerce/" rel="noopener noreferrer" target="_blank">BigCommerce</a></li>
+									<li><a href="//www.avalara.com/integrations/woocommerce/" rel="noopener noreferrer" target="_blank">WooCommerce</a></li>
+									<li><a href="//www.avalara.com/integrations/quickbooks/" rel="noopener noreferrer" target="_blank">QuickBooks Desktop</a></li>
+									<li><a href="//www.avalara.com/integrations/quickbooks/" rel="noopener noreferrer" target="_blank">QuickBooks Online</a></li>
+									<li><a href="//www.avalara.com/integrations/3dcart/" rel="noopener noreferrer" target="_blank">3dcart</a></li>
+									<li><a href="//www.avalara.com/integrations/" rel="noopener noreferrer" target="_blank">Search 500+ more integrations</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div-->
+
+					<div>
+						<ul>
+							<li><span class="footer-list-title">About</span>
+								<ul>
+									<li><a href="//www.avalara.com" rel="noopener noreferrer" target="_blank">Avalara.com</a></li>
+									<li><a href="//www.avalara.com/partners/" rel="noopener noreferrer" target="_blank">Partner with Avalara</a></li>
+									<li><a href="//help.avalara.com/007_AvalaraUniversity" rel="noopener noreferrer" target="_blank">Avalara University</a></li>
+									<li><a href="//www.avalara.com/about/leadership/" rel="noopener noreferrer" target="_blank">Leadership</a></li>
+									<li><a href="//www.avalara.com/about/locations/" rel="noopener noreferrer" target="_blank">Locations</a></li>
+									<li><a href="//www.avalara.com/about/press/" rel="noopener noreferrer" target="_blank">Press</a></li>
+									<li><a href="//www.avalara.com/about/jobs/" rel="noopener noreferrer" target="_blank">Careers</a></li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+					<div>
+						<ul>
+							<li><span class="footer-list-title">Connect</span>
+								<ul>
+									<li><a href="tel://(877) 780-4848" rel="noopener noreferrer" target="_blank">(877) 780-4848</a></li>
+									<li><a href="//www.avalara.com/store-contact-us/" rel="noopener noreferrer" target="_blank">Contact us</a></li>
+									<li><a href="//www.avalara.com/login/" rel="noopener noreferrer" target="_blank">Login</a></li>
+									<li><a href="//www.avalara.com/blog/" rel="noopener noreferrer" target="_blank">Blog</a></li>
+									<li>&nbsp;</li>
+									<li>&nbsp;</li>
+									<li class="social-icons">
+										<a href="//www.youtube.com/Avalara" rel="noopener noreferrer" target="_blank" class="youtube"><img src="{!$Resource.CC_Ava_ProductImages}/YouTube_orange.png"></a>
+										<a href="//www.linkedin.com/company-beta/22026/?pathWildcard=22026" rel="noopener noreferrer" target="_blank" class="linkedin"><img src="{!$Resource.CC_Ava_ProductImages}/LinkedIn_orange.png"></a>
+										<a href="//www.facebook.com/avalara" rel="noopener noreferrer" target="_blank" class="facebook"><img src="{!$Resource.CC_Ava_ProductImages}/Facebook_orange.png"></a>
+										<a href="//twitter.com/Avalara" rel="noopener noreferrer" target="_blank" class="twitter"><img src="{!$Resource.CC_Ava_ProductImages}/Twitter_orange.png"></a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="footer-main">
+			<div>
+				<div class="footer-text">
+					<span class="copyright-text">&copy; Copyright 2017 Avalara Inc - All rights reserved.</span>
+					<span class="separator first-separator">|</span>
+					<a href="//www.avalara.com/terms" rel="noopener noreferrer" target="_blank">Terms of Use</a>
+					<span class="separator">|</span>
+					<a href="//www.avalara.com/legal/privacy-policy/" rel="noopener noreferrer" target="_blank">Privacy Policy</a>
+				</div>
+				<div class="back-to-top-container">
+					<a href="#" title="Back to top"><span class="fa fa-chevron-up"></span><br>Back to top</a>
+				</div>
+			</div>
+		</div>
+
+	</script>
+
+	<!-- keeping footer in backbone (even though collection is local to the page) makes multi-device behavior align with general cloudcraze multidevice behavior -->
+	<script>
+		
+		var resourceUrl = '{!$Resource.CC_Avalara_Theme}';
+    var resourceImageUrl = '{!$Resource.CC_Ava_ProductImages}';
+    var cobrandTimeout = '';
+
+		var checkSatelliteTimeout = '';
+		function triggerSatellite(){
+
+			if(typeof _satellite !== "undefined") {
+			  _satellite.pageBottom();
+
+			  clearTimeout(checkSatelliteTimeout);
+			  typeof avalaraLoggingConsole !== "undefined" ?
+			  	avalaraLoggingConsole('_satellite.pageBottom found')
+			  	: '';
+			  
+			  var checkAATimeout = '';
+
+			  function checkAA(){
+					  
+					  typeof s_gi === 'undefined' ?
+					  checkAATimeout = setTimeout(function(){
+					  	typeof avalaraLoggingConsole !== "undefined" ? 
+					  		avalaraLoggingConsole('Check AA Again s_gi is undefined')
+					  		: '';
+					  	checkAA()
+					  	return; 
+					  	
+					  },300)
+					  : setTimeout(function(){
+
+					   	clearTimeout(checkAATimeout);
+					   	typeof avalaraLoggingConsole !== "undefined" ?
+					   		avalaraLoggingConsole('s_gi defined')
+					   		: '';
+					   	
+						  ava_aa.track({
+								type:'navigation',
+								target:analyticsPage
+							});
+
+							return;
+
+						},500);
+				}
+
+				checkAA();
+				
+			} else {
+
+				checkSatelliteTimeout = setTimeout(function(){
+
+					console.log('check _satellite.pageBottom again');
+					triggerSatellite();
+
+				},300);
+
+			}
+
+		}
+		triggerSatellite();
+
+
+
+		jQuery(function($) {
+
+			//grab (globally) html of contact us button component so that we can prefix it to rewrite of footerPhone and footerBrowser below
+			contactUsButtonHTML = $('#theContactUsButton').html();
+
+			//now the actual backbone definition of the footer
+			CCRZ.models.footModel = Backbone.Model.extend();
+
+			CCRZ.collections.footList = Backbone.Collection.extend({
+				model : CCRZ.models.footModel
+			});
+
+			CCRZ.views.footView = Backbone.View.extend({
+				templatePhone : CCRZ.util.template('foot_phone'),
+				templateDesktop : CCRZ.util.template('foot_desktop'),
+				viewName : "footView",
+				initialize : function(){
+					this.render(),
+					addSocialLinks();
+				},
+				render: function(){
+					this.$el.html('');
+					if(CCRZ.display.isPhone()) {
+						this.$el = $(".footerPhone");
+						//stick contact us button component html before current template
+						this.$el.html(contactUsButtonHTML + this.templatePhone(this.collection.toJSON()));
+					}else{
+						this.$el = $(".footerBrowser");
+						//stick contact us button component html before current template
+						this.$el.html(contactUsButtonHTML + this.templateDesktop(this.collection.toJSON()));
+					}
+					CCRZ.pubSub.trigger("view:"+this.viewName+":refresh", this),
+					addSocialLinks();
+				},
+				viewChanged: function() {
+					if(this.currentView !== CCRZ.display.currentView) {
+						this.currentView = CCRZ.display.currentView;
+						addSocialLinks();
+						return true;
+					}
+					return false;
+				},
+				renderViewChanged: function() {
+					CCRZ.display.setCurrentView();
+					if(this.viewChanged()) {
+						this.render(),
+						addSocialLinks();
+					}
+				}
+			});
+
+			//@kevin modify content here & feel free to add properties to each model
+			var footerCollection = new CCRZ.collections.footList();
+
+			/*
+			footerCollection.add(new CCRZ.models.footModel({
+				href : "http://www.cloudcraze.com/",
+				label : "Component_SiteFooter_CloudCrazeHome",
+				target : "_blank"
+			}));
+
+			footerCollection.add(new CCRZ.models.footModel({
+				href : "http://www.cloudcraze.com/cloud-ecommerce-features/",
+				label : "Component_SiteFooter_ProductInformation",
+				target : "_blank"
+			}));
+
+			footerCollection.add(new CCRZ.models.footModel({
+				href : "http://www.cloudcraze.com/ecommerce-demo/",
+				label : "Component_SiteFooter_ViewDemo",
+				target : "_blank"
+			}));
+			footerCollection.add(new CCRZ.models.footModel({
+				href : "http://www.cloudcraze.com/ecommerce-website-builder/",
+				label : "Component_SiteFooter_AboutUS",
+				target : "_blank"
+			}));*/
+
+			var footerView = new CCRZ.views.footView({
+				collection : footerCollection
+			});
+			CCRZ.dynamicViews.push(footerView);
+		});
+
+
+		function addSocialLinks(){
+			
+			var socialLinks = {
+				'youtube':'//www.youtube.com/Avalara',
+				'linkedin':'//www.linkedin.com/company-beta/22026/?pathWildcard=22026',
+				'facebook':'//www.facebook.com/avalara',
+				'twitter':'//twitter.com/Avalara'
+			};
+			
+			$ = jQuery;
+			$.each(socialLinks, function(k,v){
+
+				$('.footer-link-list li.social-icons').find('a.'+k).attr('href',v+'?referrer=&lastReferrer=Avalara eComm Store');
+
+			});
+
+
+		}
+
+
+
+
+
+
+
+
+
+		$('.header,.footer,cc_footer').addClass('cobrand');
+
+	</script>
+
+</apex:component>

@@ -1,0 +1,21 @@
+<apex:page >
+  <!-- Begin Default Content REMOVE THIS -->
+  <apex:pageBlock > 
+  
+  <h2>Product Knowledge Bases in MindTouch</h2><br/><br/>
+  
+  
+       <a href="http://avalara.mindtouch.us/005_AvaTax_Integrations/Sage_50_Knowledge_Base" target="_blank">Sage 50 KB</a><br/>
+       <a href="http://avalara.mindtouch.us/005_AvaTax_Integrations/Sage_100_Resources/Sage_100_(MAS_90_and_200)_User_Guide/Sage_100_Knowledge_Base" target="_blank">Sage 100 KB</a><br/>
+       <a href="http://avalara.mindtouch.us/005_AvaTax_Integrations/Sage_300_Resources/Sage_300_(Accpac)_User_Guide/Sage_300_Knowledge_Base" target="_blank">Sage 300 KB</a><br/>
+       <a href="http://avalara.mindtouch.us/005_AvaTax_Integrations/Sage_500_Resources/Sage_500_(MAS_500)_User_Guide/Sage_500_Knowledge_Base" target="_blank">Sage 500 KB</a><br/>
+       <a href="http://avalara.mindtouch.us/005_AvaTax_Integrations/Netsuite_Oneworld_Resources/Netsuite_Oneworld_User_Guide/Netsuite_OneWorld_Knowledge_Base" target="_blank">NetSuite One World KB</a><br/>
+       <a href="http://avalara.mindtouch.us/005_AvaTax_Integrations/Netsuite_Resources/Netsuite_User_Guide/Netsuite_Knowledge_Base" target="_blank">NetSuite (Basic) KB</a><br/>
+       <a href="http://avalara.mindtouch.us/002_AvaTax_Calc/AvaTax_Admin_Console_User_Guide/AvaTax_Calc_Knowledge_Base" target="_blank">AvaTax Calc KB</a><br/><br/>
+       
+   
+  </apex:pageBlock>
+ 
+  
+   <!-- End Default Content REMOVE THIS -->
+</apex:page>

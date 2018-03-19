@@ -1,0 +1,71 @@
+<apex:page controller="infer3.InferConfigController" action="{!loadSettings}">
+  <style>
+    .infer-section { margin: 20px 0; }
+    .infer-section h3 {}
+    .infer-section p.details { margin: 1.3em 0; }
+    .infer-textarea { width: 500px; height: 10em; }
+  </style>
+  <apex:sectionHeader title="Infer Scoring"/>
+  <apex:form >
+    <apex:pageBlock title="Bucket Settings">
+      <apex:pageBlockButtons >
+        <apex:commandButton action="{!save}" value="Save"/>
+        <apex:commandButton action="{!cancel}" value="Cancel"/>
+      </apex:pageBlockButtons>
+      <apex:pageMessages ></apex:pageMessages>
+      <div class="infer-section">
+        <h3>Set Bucket Name And Threshold</h3>
+        <p class="details">
+          Infer by default writes scores from 0 to 100 into the "Infer: Score" field, where a higher score indicates higher likelihood of winning.
+          We have found, however, that it is often more effective to put that numeric score into a few buckets that are easier for your sales reps to
+          understand.  Here, you can define what those buckets should be called, and what the thresholds for each bucket should be.
+        </p>
+        <apex:pageBlockSection >
+          <apex:inputField value="{!inferSettings.infer3__Score_Bucket_1_Label__c}" label="Best Bucket Name"/>
+          <apex:inputField value="{!inferSettings.infer3__Score_Bucket_1_Threshold__c}" label="Best Bucket Threshold"/>
+          <apex:inputField value="{!inferSettings.infer3__Score_Bucket_2_Label__c}" label="Second Bucket Name"/>
+          <apex:inputField value="{!inferSettings.infer3__Score_Bucket_2_Threshold__c}" label="Second Bucket Threshold"/>
+          <apex:inputField value="{!inferSettings.infer3__Score_Bucket_3_Label__c}" label="Third Bucket Name"/>
+          <apex:inputField value="{!inferSettings.infer3__Score_Bucket_3_Threshold__c}" label="Third Bucket Threshold"/>
+          <apex:inputField value="{!inferSettings.infer3__Score_Bucket_4_Label__c}" label="Worst Bucket Name"/>
+        </apex:pageBlockSection>
+      </div>
+    </apex:pageBlock>
+        <apex:pageBlock title="Basic Settings">
+      <apex:pageBlockButtons >
+        <apex:commandButton action="{!save}" value="Save"/>
+        <apex:commandButton action="{!cancel}" value="Cancel"/>
+      </apex:pageBlockButtons>
+      <div class="infer-section">
+        <h3>Enable Infer Scoring</h3>
+        <p class="details">
+          Select the type of entities you want Infer to score. We will reserve the necessary space by creating score objects in the background.
+        </p>
+        <apex:pageBlockSection >
+          <apex:inputField value="{!inferSettings.infer3__Enable_Lead_Scoring__c}" label="Enable lead scoring"/>
+          <apex:inputField value="{!inferSettings.infer3__Enable_Contact_Scoring__c}" label="Enable contact scoring"/>
+          <apex:inputField value="{!inferSettings.infer3__Enable_Account_Scoring__c}" label="Enable account scoring"/>
+          <apex:inputField value="{!inferSettings.infer3__Enable_Opportunity_Scoring__c}" label="Enable opportunity scoring"/>
+        </apex:pageBlockSection>
+      </div>
+    </apex:pageBlock>
+    <apex:pageBlock title="Advanced Settings">
+      <apex:pageBlockButtons >
+        <apex:commandButton action="{!save}" value="Save"/>
+        <apex:commandButton action="{!cancel}" value="Cancel"/>
+      </apex:pageBlockButtons>
+      <div class="infer-section">
+        <h3>Update Entity with Score Update</h3>
+        <p class="details">
+          If you plan to use custom triggers or third-party systems to track score changes, select the type of entities you want to track below. We will then update the entity itself each time the score changes by saving a copy to the Score Snapshot field.
+        </p>
+        <apex:pageBlockSection >
+          <apex:inputField value="{!inferSettings.infer3__Update_Lead_With_Score_Update__c}" label="Update lead with score update"/>
+          <apex:inputField value="{!inferSettings.infer3__Update_Contact_with_Score_Update__c}" label="Update contact with score update"/>
+          <apex:inputField value="{!inferSettings.infer3__Update_Account_with_Score_Update__c}" label="Update account with score update"/>
+          <apex:inputField value="{!inferSettings.infer3__Update_Opportunity_with_Score_Update__c}" label="Update opportunity with score update"/>
+        </apex:pageBlockSection>
+      </div>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

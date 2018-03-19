@@ -1,0 +1,190 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false">
+
+<!-- 
+		Start dynamic model/view render
+		This following will render into the empty div "ExampleTemplate"
+	-->
+   
+   	<script id="trustfile_container" type="text/template">
+			<div class="content-container header-info-container">
+				<div class="info-container">
+					<div>
+						<h2 class="page-title fcolorTheme">Tax compliance done right</h2>
+						<h3 class="page-sub-title">Let Avalara automate your sales tax returns and filing.</h3>
+					</div>
+					<div>&nbsp;</div>
+				</div>
+			</div>
+
+			<div class="content-container">
+				<div class="info-container">
+				
+					<div>
+						
+						<div class="content-container">
+							<p>Keeping on top of changing tax rules and filing requirements is a challenge no growing business needs. Avalara has two great products to get this off your to-do list.</p>
+							<p>With our <b>TrustFile Returns</b> software service or our fully <b>Managed Returns</b> service, Avalara gets the job done right so you can get back to yours.</p>
+						</div>
+				
+					</div>
+				
+					<div>
+					
+						<div class="logo-container">
+							<img src="{!$Resource.CC_Avalara_Theme}/images/ava_bc_3x.png" alt="Avalara + BigCommerce" />
+						</div>
+					
+					</div>
+				
+				</div>
+			</div>
+
+			<div class="content-container">
+				<div class="info-container">
+					<div>
+						<div class="header-container">
+							<h4>TrustFile Returns</h4>
+						</div>
+					</div>
+					<div>
+						<div class="header-container secondary">
+							<h4>Managed Returns</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="split-container negMargT30">
+				<div class="content-container">
+					<div class="info-container">
+						<div style="border-bottom:none">
+							<div class="info-content">
+								<h5 class="info-title">Avalara simplifies when and how you file</h5>
+								<p class="info-sub-title">We prepare your returns and you manage filing them</p>
+								<p>Handle your cash flow by paying your taxes when you file </p>
+								<p>Ideal for companies selling general merchandise that file only in the U.S.</p>
+								<p>Connect to your sales data from popular marketplaces including Amazon, eBay, and Etsy</p>
+							</div>
+							<div class="pricing-container trustfile-price">
+								<div>
+									<p>Starting <br>from</p>
+								</div>
+								<div class="price-value">
+									<p>$24</p>
+								</div>
+								<div>
+									<p>per<br/>
+									month</p>
+								</div>
+							</div>
+							<div>
+								<a href="https://app.trustfile.avalara.com/#/signup?campaignID=7010b000001DmC6"><button>Get started with Avalara TrustFile</button></a>
+							</div>
+						</div>
+						<div>
+							<div class="info-content">
+								<h5 class="info-title">Avalara manages and files on your behalf</h5>
+								<p class="info-sub-title">We provide the heavy lifting to prepare and manage filing your returns and you keep control over changes and approvals</p>
+								<p>Make one automatic payment per period for all your filings</p>
+								<p>Taxability codes and rates for over 5,000 products types</p>
+								<p>Import data from most sources, including accounting and ecommerce software</p>
+							</div>
+							<div class="pricing-container">
+								<div style="min-width:20px;">
+									<p></p>
+								</div>
+								<div class="price-value">
+									<p>$35</p>
+								</div>
+								<div>
+									<p>per<br/>
+									return</p>
+								</div>
+							</div>
+							<div>
+								<a href="/ccrz__CCPage?pageKey=ldpg_bigcommerce" data-link="ldpg_bigcommerce"><button>Get started with Avalara Managed Returns</button></a>
+							</div>
+						</div>
+					</div>
+
+					<div class="info-container ribbon">
+						<div>
+							<img src="{!$Resource.CC_Avalara_Theme}/images/trustfile-ribbon.png" style="max-width: 100%;" />
+						</div>
+						<div>
+							<p>&nbsp;</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			</div>
+
+		</script>
+
+
+	<!-- 
+		End dynamic model/view render
+	-->
+
+<!--
+		Define handlebars template for use in backbone view
+	-->
+
+		
+		<div class="trustFile_template"></div>
+
+
+	<!--
+		End define handlebars template for use in backbone view
+	-->
+
+	<!--
+		Initiate render
+	-->
+		
+
+		<script type="text/javascript">
+
+			jQuery(function($){
+        
+        CCRZ.util.createView({
+          
+          desktop: {target:'trustFile_template', template:'trustfile_container'},
+        
+        });
+
+      });
+
+      var setLink;
+      function setBigCommerceLink(){
+
+      	if($('a[data-link="ldpg_bigcommerce"]').length < 1){
+      		setLink = setTimeout(function(){
+      			setBigCommerceLink();
+      		},200);
+      		return;
+      	}
+      	clearTimeout(setLink);
+      	$('a[data-link="ldpg_bigcommerce"]').attr('href', '/ccrz__CCPage?pageKey=ldpg_bigcommerce');
+      	avalaraLoggingConsole(['Links set', $('a[data-link="ldpg_bigcommerce"]').attr('href')])
+      	return;
+      }
+
+
+      $(document).ready(function(){
+      	setLink = setTimeout(function(){
+    			setBigCommerceLink();
+    		},200);
+      });
+
+
+		</script>
+
+
+	<!--
+		End initial render
+	-->
+
+
+</apex:page>

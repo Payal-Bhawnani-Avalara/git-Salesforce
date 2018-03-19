@@ -1,0 +1,17 @@
+<aura:component controller="CameleonCPQ.PA_CreateContract_VFCtrl" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" >
+  <aura:dependency resource="markup://force:navigateToURL" type="EVENT"/>
+  <aura:registerEvent name="navigateToURL" type="CameleonCPQ:navigateToURL"/>
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+  <aura:attribute name="contractStartDate" type="Date" access="GLOBAL"/>
+  <aura:attribute name="contractEndDate" type="Date" access="GLOBAL"/>
+  <ui:inputDate aura:id="contractStartDate"  class="slds-input" label="{!$Label.cameleoncpq.CLM_CONTRACT_START_DATE}" displayDatePicker="true" value="{!v.contractStartDate}"/>
+  <ui:inputDate aura:id="contractEndDate"  class="slds-input" label="{!$Label.cameleoncpq.CLM_CONTRACT_END_DATE}" displayDatePicker="true" value="{!v.contractEndDate}"/>
+    
+  <div class="modal-footer slds-modal__footer">
+	<div class="forceModalActionContainer--footerAction forceModalActionContainer">
+      <lightning:button label="{!$Label.cameleoncpq.CLM_CREATE_CONTRACT}" onclick="{!c.createContract}"/>
+    </div>
+  </div>
+  <lightning:spinner variant="brand" size="large" aura:id="ccSpinner" class="slds-hide"/>
+</aura:component>

@@ -1,0 +1,397 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false">
+
+	<!--override header to hide My Account -->
+	<link rel="stylesheet" type="text/css" href="{!$Resource.CC_Avalara_Theme}/css3/icomoon-font.css" />
+	<script id="Ava-HeaderDesktop" type="text/template">
+		<nav class="l1-nav">
+			<div class="topNav l1">
+				<div class="navigation-container">
+				<div class="logo_tagline hidden-phone">
+					<div class="logo">
+				  	<a href="#" id="logoUrl">
+				  		<img src="{!$Resource.CC_Ava_ProductImages}/avalra-store-logo.png"/>
+				  	</a>
+				  </div>
+				</div>
+				  
+
+				<ul>
+				  <li><a href="tel://{{pageLabelMap 'AvalaraContactPhone'}}" class="main-phone" title="Contact us"><span class="fa fa-phone"></span> {{pageLabelMap 'AvalaraContactPhone'}}</a></li>
+				  <!-- <li class="lssec"></li> -->
+				  <!-- hide my account for now 
+				  <li class="acctsec">
+				  	<a class="acct" id="goToAccount" href="#" >{{pageLabelMap 'Component_SiteHeader_MyAccount'}}<br><hr></a> |
+				  </li>
+				  -->
+				  <!--cartsec span normally goes here
+				 	<li class="cartsec">
+				 	  <a id="cartHeader" class="smartCart cartHeaderLink" href="#"><br><hr></a>
+				  </li>
+				  -->
+				  <!-- hide login for now 2017-03-30
+				  <li class="loginoutsec"></li>
+				  -->
+				</ul>
+			</div>
+		</div>
+		</nav>
+	</script>
+
+	<!-- override locale switcher to remove click behavior  -->
+	<script id="Ava-LocaleSwitcher-Desktop" type="text/template">
+	  <div class="localeContainer">
+		<!-- <a class="changeLocale" href="javascript:void(0)">{{pageLabelMap 'LocaleSwitcher_Label'}} {{pageLabelPrefixMap 'LOC_' locale locale}} <br><hr></a> -->
+	  	<!-- backbone view listener is on changeLocale class, so just remove that class; also no need for anchor tag or href -->
+ 	   <span class="fa fa-globe"></span> {{pageLabelPrefixMap 'LOC_' locale locale}}
+
+	  </div>
+	  <div id="modalSecLocale" class="localeContainer"></div>
+	</script>
+
+	<!-- override cart display to show icon if cart items -->
+	<script id="Ava-CartHeaderBrowser" type="text/template">
+		<!-- NB: this == CCRZ.headerView.model.attributes.header.attributes -->
+
+		<!-- hide cart count for now
+		{{pageLabelMap 'Component_SiteHeader_MyCart'}}: {{this.cartCount}} {{pageLabelMap 'Component_MiniCart_Item'}},&#160; -->
+	
+		<!-- @kevin: this will render in id==cartHeader; best to use background-image css for icons and vary style by setting id conditional on this.cartCount? as currently (2017-03-23) background-image: themefile/images/glyphicons-halflings.png in navigation.scss -->
+		Cart <span class="fa fa-shopping-cart"></span>
+		{{#ifEquals this.cartCount 0}}
+		{{else}}
+			<span class="fa fa-check"></span>
+		{{/ifEquals}}
+
+	</script>
+
+	<script id="Ava-menu-desktop-template" type="text/template">
+	   <nav class="navbar navbar-default navbar-static-top cc_navbar">
+	    <div class="cc_container navigation-container">
+	     <div class="navbar-header cc_navbar_header">
+	      <button type="button" class="navbar-toggle collapsed cc_navbar_toggle" data-toggle="collapse" data-target="#navbar"
+	       aria-expanded="false" aria-controls="navbar">
+	       <span class="sr-only">Toggle navigation</span>
+	        <!--***********-->
+	        <span class="fa fa-bars"></span>
+	      </button>
+	     </div>
+	     <div id="navbar" class="navbar-collapse collapse cc_navbar_collapse topNav l2">
+	      <ul class="navbar-nav cc_navbar-nav">
+	       {{#each .}}
+	        {{#if children}}
+	         <li class="dropdown cc_dropdown">
+	          <a href="{{linkURL}}" class="dropdown-toggle cc_dropdown_toggle" data-toggle="dropdown" data-menuid="{{menuId}}" {{linkTarget openInNewWindow}} role="button" aria-haspopup="true" aria-expanded="false">{{displayName}}<span class="caret"></span><br><hr></a>
+	          <ul class="dropdown-menu cc_dropdown-menu">
+	           {{> subMenuItem}}
+	          </ul>
+	         </li>
+	        {{else}}
+	         {{#ifEquals mType 'Category'}}
+	          <li class="dropdown cc_dropdown"><a class="category cc_category" href="javascript:void(0);" data-id="{{linkURL}}" data-menuid="{{menuId}}" {{linkTarget openInNewWindow}}>{{displayName}}<br><hr></a></li>
+	         {{/ifEquals}}
+	         {{#ifEquals mType 'Product'}}
+	          <li class="dropdown cc_dropdown"><a class="product cc_product" href="javascript:void(0);" data-id="{{linkURL}}" data-menuid="{{menuId}}" {{linkTarget openInNewWindow}}>{{displayName}}<br><hr></a></li>
+	         {{/ifEquals}}
+	         {{#ifEquals mType 'URL'}}
+	          <li class="dropdown cc_dropdown"><a class="menuTypeURL cc_menu_type_url" href="javascript:void(0);" data-href="{{linkURL}}" data-menuid="{{menuId}}" {{linkTarget openInNewWindow}}>{{displayName}}<br><hr></a></li>
+	         {{/ifEquals}}
+	         {{#ifEquals mType 'None'}}
+	          <li class="dropdown cc_dropdown"><a href="javascript:void(0);" class="cc_display_name" data-menuid="{{menuId}}">{{displayName}}<br><hr></a></li>
+	         {{/ifEquals}}
+	        {{/if}}
+	       {{/each}}
+		   		<li class="dropdown cc_dropdown cart-item" style="float:right;"><a id="cartHeader" class="smartCart cartHeaderLink" href="#">{{cartInfo}} Cart <span class="fa fa-shopping-cart"></span><br><hr></a></li>
+			    <!--li class="dropdown cc_dropdown login-item" style="float:right;"><a class="acct" id="goToAccount" href="#" ><span class="fa fa-user"></span> {{pageLabelMap 'Component_SiteHeader_MyAccount'}}<br><hr></a></li-->
+	      </ul>
+	     </div>
+	    </div>
+	   </nav>
+	 </script>
+
+
+	<script src="//assets.adobedtm.com/bc10a2a9cf337c664f8f74e778a1987125aea184/satelliteLib-0387aefee1ddb8b2a9db7e4165c8d84dc0de8621.js"></script>
+	<script>
+	 var segSwitch = window.location.host.indexOf('store.avalara') !== -1 ? 
+	 	'FETwJu9qygv8JZmXI29EG738fa1xpJ6x'
+	 	: '3E9hvEajb3DDaT96CAni2OOVyNr1WVFD';
+	 !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="4.0.0";
+	 analytics.load(segSwitch);
+	 analytics.page();
+	 //analytics.page({path: segmentPage});
+	 }}();
+	</script>
+	<script>
+	var checkUrl = window.location.href;
+	checkUrl.indexOf('store.') !==-1 ? 
+		function(){
+			window['_fs_debug'] = false;
+			window['_fs_host'] = 'fullstory.com';
+			window['_fs_org'] = '1G7V8';
+			window['_fs_namespace'] = 'FS',
+			(function(m,n,e,t,l,o,g,y){
+			    if (e in m && m.console && m.console.log) { m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].'); return;}
+			    g=m[e]=function(a,b){g.q?g.q.push([a,b]):g._api(a,b);};g.q=[];
+			    o=n.createElement(t);o.async=1;o.src='https://'+_fs_host+'/s/fs.js';
+			    y=n.getElementsByTagName(t)[0];y.parentNode.insertBefore(o,y);
+			    g.identify=function(i,v){g(l,{uid:i});if(v)g(l,v)};g.setUserVars=function(v){g(l,v)};
+			    g.identifyAccount=function(i,v){o='account';v=v||{};v.acctId=i;g(o,v)};
+			    g.clearUserCookie=function(c,d,i){if(!c || document.cookie.match('fs_uid=[`;`]*`[`;`]*`[`;`]*`')){
+			    d=n.domain;while(1){n.cookie='fs_uid=;domain='+d+
+			    ';path=/;expires='+new Date(0).toUTCString();i=d.indexOf('.');if(i<0)break;d=d.slice(i+1)}}};
+			})(window,document,window['_fs_namespace'],'script','user');
+		}() : '';
+	</script>
+	<script>
+
+		//set new uiproperties so that backbone view will grab new template
+	    jQuery(function($){
+        CCRZ.uiProperties.headerView.desktop.tmpl='Ava-HeaderDesktop';
+        CCRZ.uiProperties.headerView.desktop.selector='.header';
+        CCRZ.uiProperties.localeSwitcherView.desktop.tmpl='Ava-LocaleSwitcher-Desktop';
+        CCRZ.uiProperties.localeSwitcherView.desktop.selector='.lssec';
+        CCRZ.uiProperties.cartHeaderView.desktop.tmpl='Ava-CartHeaderBrowser';
+        CCRZ.uiProperties.cartHeaderView.desktop.selector='#cartHeader';
+        CCRZ.uiProperties.Menu.desktop.tmpl='Ava-menu-desktop-template';
+      });
+
+
+		//handle click on cart icon differently based on whether cart exists or not
+		//make sure the element exists before trying to attach the event listener
+		var waitForNavbar = setInterval(function() {
+			if($('#cartHeader').length && $('.nav').length){
+				document.getElementById("cartHeader").addEventListener("click",function() {
+					var cartPage = CCRZ.pages.cart;
+					if(CCRZ.headerView.model.attributes.header.attributes.cartCount!=0 && CCRZ.headerView.model.attributes.header.attributes.cartCount !="" & CCRZ.getQueryParam('pageKey') != "configflow") {
+            window.location.href = 'ccrz__CCPage?pageKey=configflow&cartId=' + CCRZ.pagevars.currentCartID + '&viewState=' + CCRZ.headerModel.attributes.viewState + getCSRQueryString() + '&sku=ATBDK001';
+					} else {
+						$('.category').click();
+					}
+				});
+				//move the cart into L2
+				//$('.nav').append($('.cartsec'));
+				clearInterval(waitForNavbar);
+
+				
+
+
+
+
+
+
+				/* ADD ON.CLICK TO TOGGLE MENU DISPLAY ON .FA ICON FROM BARS TO X */
+				jQuery('button.navbar-toggle').on('click', function(){
+						
+					jQuery('button.navbar-toggle').find('.fa').toggleClass('fa-bars fa-close');
+					
+				});
+
+				
+
+
+
+
+
+
+
+				/* SET MIN HEIGHT TO NAVIGATION-CONTAINER FOR STICK PURPOSES */
+				jQuery('nav').each(function(){
+
+					jQuery(this).find('.l2 .navigation-container')
+						.css({'min-height': jQuery(this).outerHeight()+'px'});
+					
+				});
+
+				var setStick = 0;
+				function triggerStickScroll(container){
+					
+					!container.find('ul').is(':visible') ? 
+						setTimeout(function(){
+
+							setStick++;
+
+							if(setStick == 50){
+								avalaraLoggingConsole(['Could not set stick']);
+								return false;
+							}
+
+							triggerStickScroll(container);
+
+						},100)
+						: '';
+
+					setStickScroll(container);
+
+				}
+
+				triggerStickScroll(jQuery('.topNav.l2'));
+
+
+			}
+
+
+		}, 500);
+
+		//default text to display before cart change events fire
+		Handlebars.registerHelper('cartInfo', function() {
+			if(CCRZ.headerView.model.attributes.header.attributes.cartCount===0) {
+				return '';
+			} else {
+				return '';
+			}
+		});
+
+
+
+
+		function setStickScroll(container){
+			
+			$ = jQuery;
+			var topOffset = container.offset();
+			topOffset = topOffset.top;
+			var windowMargin = $(window).scrollTop();
+
+
+			/* CHECK PAGE LOAD OFFSET */
+
+			windowMargin >= topOffset ? 
+				container.addClass('stick')
+				: container.removeClass('stick');
+
+			
+			/* LISTEN TO SCROLL */
+
+			$(window).scroll(function(){
+
+				if($('button.navbar-toggle').is(':visible')){
+					container.removeClass('stick')
+					return;
+				}
+				
+				var windowMargin = $(window).scrollTop();
+				windowMargin >= topOffset ? 
+					container.addClass('stick')
+					: container.removeClass('stick');
+
+			});
+
+
+
+
+
+
+
+
+
+			/* LISTEN TO RESIZE */
+
+			$(window).resize(function(){
+
+				window.scroll($(window).scrollTop()+1,$(window).scrollTop()-1);
+
+			});
+
+		}
+
+
+		/* Set up new header content */
+
+		var headerTimeOut = '';
+
+		function setHeaderAttributes(){
+
+			if($('.header').length < 1
+				|| $('.main-phone').length < 1){
+				
+					headerTimeOut = setTimeout(function(){
+
+						setHeaderAttributes();
+
+					},200);
+
+					return false;
+			}
+
+			clearTimeout(headerTimeOut);
+			avalaraLoggingConsole(['Set new header attributes'])
+    	$('.header').addClass('cobrand');
+      $('.main-phone').text('Need help? Call us at '+$('.main-phone').text());
+     
+		}
+
+		var elementCheckTimeout = '';
+
+		function checkMenuElements(){
+
+			if($('.menu_container').length < 1){
+				elementCheckTimeout = setTimeout(function(){
+
+					avalaraLoggingConsole(['Menu not found, recheck']);
+					checkMenuElements();
+
+				},300)
+			}
+
+			clearTimeout(elementCheckTimeout);
+			var headerAssetsRemovals = ['ldpg_bigcommerce', 'bigcommerce_returns_thankyou', 'static_configflow', 'trustfile'];
+	    var checkPageKey = getPageUrlParams().pageKey;
+	    checkPageKey = checkPageKey !== undefined ? 
+	    	checkPageKey.replace('#','')
+	    	: '';
+
+	    if(checkPageKey !== '' && checkPageKey === 'trustfile'){
+	    	$('.menu_container').remove();
+	    	setTimeout(function(){
+	    		$('.navigation-container div.logo').html($('a#logoUrl img'));
+	    	},500);
+	    	return false;
+	    }
+
+	    if(checkPageKey !== '' 
+	    	&& $.inArray(checkPageKey.replace('#',''),headerAssetsRemovals) !=-1){
+
+	    	$('.menu_container').addClass('topNav-l2-element-settings');
+
+	    	setTimeout(function(){
+	    		
+	    		$('.menu_container nav > div').remove();
+	    		$('.navigation-container div.logo').html($('a#logoUrl img'));
+
+	    	},500);
+	    	
+	    	avalaraLoggingConsole(['Remove menu navigations']);
+	    	
+	    }
+
+	  }
+
+    setTimeout(function(){
+    	
+    	setHeaderAttributes();
+
+    },200);
+
+
+    setTimeout(function(){
+    	
+    	checkMenuElements();
+
+    },300);
+
+
+    var checkPage = window.location.href.split('?')[0];
+	    checkPage = checkPage.split('/');
+	    checkPage = checkPage[checkPage.length-1];
+
+	    avalaraLoggingConsole(['Check method', checkPage, getPageUrlParams().sku])
+
+	    checkPage === 'ccrz__ProductDetails' 
+	    	&& getPageUrlParams().sku === 'AR0002' ? 
+	    		function(){
+	    			window.location.href = '/';
+	    			return false;
+	    		}()
+	    		: '';
+
+	</script>
+
+</apex:page>

@@ -1,0 +1,256 @@
+<aura:component controller="JCFS.RemoteProxyController">
+
+    <ltng:require scripts="{!$Resource.JCFS__JcfsLightning}"/>
+
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="sObjectName" type="String"/>
+    <aura:attribute name="projects" type="Object[]"/>
+    <aura:attribute name="issuetypes" type="Object[]"/>
+
+    <aura:attribute name="isProjectFetched" type="Boolean" default="false"/>
+    <aura:attribute name="shouldDisplayDialog" type="Boolean" default="false"/>
+
+    <aura:attribute name="selectedProjectId" type="String"/>
+    <aura:attribute name="selectedIssuetypeId" type="String"/>
+    <aura:attribute name="selectedPostAction" type="String"/>
+
+    <aura:attribute name="viewOnly" type="Boolean" default="false"/>
+    <aura:attribute name="autoPullFromJira" type="Boolean"/>
+    <aura:attribute name="autoPushToJira" type="Boolean"/>
+    <aura:attribute name="toggleSpinner" type="Boolean"/>
+    <aura:attribute name="formLayout" type="String" default="basicForm"/>
+
+    <aura:attribute name="formFields" type="Object[]"/>
+    <aura:attribute name="multiples" type="String[]"/>
+    <aura:attribute name="screenItemsMap" type="Object"/>
+    <aura:attribute name="transformedEntity" type="Object[]"/>
+    <aura:attribute name="createmetaFields" type="Object"/>
+    <aura:attribute name="pending" type="Boolean" default="false"/>
+    <aura:attribute name="associationConfigHelpfulMessage" type="String"/>
+    <aura:attribute name="postActionHelpfulMessage" type="String"/>
+
+    <aura:method name="refreshIssuesAndComments" description="Refreshes Jira issues and comments"/>
+
+    <lightning:button label="Create" onclick="{!c.initAndOpenModal}"/>
+
+    <aura:if isTrue="{!v.shouldDisplayDialog}">
+        <div aura:id="creation-modal" role="dialog" tabindex="-1" aria-labelledby="title"
+             class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close"
+                            onclick="{!c.closeModal}" title="Close">
+                        <lightning:icon iconName="utility:close" variant="bare"/>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="title" class="slds-text-heading--medium">
+                        Create Jira Issue
+                    </h2>
+                </div>
+
+                <div class="slds-modal__content slds-p-around--large slds-is-relative modal-content">
+                    <aura:if isTrue="{!v.formLayout == 'basicForm'}">
+                        <aura:if isTrue="{!v.isProjectFetched}">
+                            <aura:if isTrue="{!!empty(v.projects)}">
+                                <form class="slds-form--stacked">
+                                    <div class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                            <ui:inputSelect aura:id="jiraProject" label="Project" change="{!c.onProjectChange}"
+                                                            value="{!v.selectedProjectId}">
+                                                <aura:iteration items="{!v.projects}" var="project">
+                                                    <ui:inputSelectOption text="{!project.id}" label="{!project.name}"/>
+                                                </aura:iteration>
+                                            </ui:inputSelect>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form-element slds-m-bottom--large">
+                                        <div class="slds-form-element__control">
+                                            <ui:inputSelect aura:id="jiraIssuetype" label="Issue Type"
+                                                            value="{!v.selectedIssuetypeId}">
+                                                <aura:iteration items="{!v.issuetypes}" var="issuetype">
+                                                    <ui:inputSelectOption text="{!issuetype.id}" label="{!issuetype.name}"/>
+                                                </aura:iteration>
+                                            </ui:inputSelect>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form-element slds-m-vertical--large">
+                                        <h3 class="slds-box--x-small slds-theme--shade">
+                                            <b>Association Configuration</b>
+                                        </h3>
+                                    </div>
+                                    <div class="slds-grid">
+                                        <div class="slds-p-horizontal_small slds-size_1-of-2 border-right-1">
+                                            <div class="slds-form-element">
+                                                <div class="slds-form-element__control">
+                                                    <fieldset>
+                                                        <lightning:input aura:id="viewOnly"
+                                                                         type="toggle"
+                                                                         name="viewOnly"
+                                                                         label="View only"
+                                                                         value="{!v.viewOnly}"
+                                                                         checked="{!v.viewOnly}"
+                                                                         onchange="{!c.viewOnlyChanged}"
+                                                                         title="If enabled, manual and automatic synchronisation will be disabled"
+                                                                         messageToggleActive=""
+                                                                         messageToggleInactive=""
+                                                                         class="right-margin-1"/>
+                                                        <lightning:input aura:id="autoPullFromJira"
+                                                                         type="toggle"
+                                                                         name="autoPullFromJira"
+                                                                         label="Auto pull"
+                                                                         value="{!v.autoPullFromJira}"
+                                                                         checked="{!v.autoPullFromJira}"
+                                                                         onchange="{!c.syncSettingsChanged}"
+                                                                         title="Changes to the associated Jira Issue will be pulled automatically to this Object"
+                                                                         messageToggleActive=""
+                                                                         messageToggleInactive=""
+                                                                         class="right-margin-1-1"/>
+                                                        <lightning:input aura:id="autoPushToJira"
+                                                                         type="toggle"
+                                                                         name="autoPushToJira"
+                                                                         label="Auto push"
+                                                                         value="{!v.autoPushToJira}"
+                                                                         checked="{!v.autoPushToJira}"
+                                                                         onchange="{!c.syncSettingsChanged}"
+                                                                         title="Changes to this Object will be pushed automatically to associated Jira Issues given respective triggers are installed"
+                                                                         messageToggleActive=""
+                                                                         messageToggleInactive=""/>
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                            <div class="slds-form-element">
+                                                <div class="slds-form-element__control">
+                                                    <ui:inputSelect aura:id="postAction" label="After creating"
+                                                                    value="{!v.selectedPostAction}"
+                                                                    change="{!c.updateHelpfulMessage}"/>
+                                                </div>
+                                                <label class="slds-form-element__label" for="select-01">
+                                                    Choose the action that happens immediately after the issue is created
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="slds-p-horizontal_small slds-size_1-of-2">
+                                            <div class="slds-form-element">
+                                                <div class="slds-form-element__control">
+                                                    <div class="slds-grid slds-wrap slds-grid_pull-padded">
+                                                        <div class="slds-p-horizontal_small slds-size_1-of-2 slds-medium-size_1-of-1 slds-large-size_1-of-5">
+                                                            <lightning:icon iconName="action:goal" class="slds-m-top_small"/>
+                                                        </div>
+                                                        <div class="slds-p-horizontal_small slds-size_1-of-2 slds-medium-size_1-of-1 slds-large-size_4-of-5">
+                                                    <span>
+                                                        <b>WHAT WILL HAPPEN?</b><br/>
+                                                    </span>
+                                                            <span class="font-size-12">
+                                                        {!v.associationConfigHelpfulMessage}<br/><br/>
+                                                    </span>
+                                                            <span class="font-size-12">
+                                                                    {!v.postActionHelpfulMessage}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <aura:set attribute="else">
+                                    <ui:message title="No Jira Project available for Jira Issue Creation"
+                                                severity="info" closable="true">
+                                        <div class="slds-text-longform">
+                                            <br/>
+                                            <p>Contact your administrator to:</p>
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    <a href="https://docs.servicerocket.com/x/DgAdAQ" target="_blank"
+                                                       rel="noopener noreferrer">
+                                                        bind a Jira project to this connection
+                                                    </a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <a href="https://docs.servicerocket.com/x/SYIJAQ" target="_blank"
+                                                       rel="noopener noreferrer">
+                                                        add a mapping to at least one issue type in Jira
+                                                    </a>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <a href="https://docs.servicerocket.com/x/jYKNAQ" target="_blank"
+                                                       rel="noopener noreferrer">
+                                                        configure project filters in package configuration
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </ui:message>
+                                </aura:set>
+                            </aura:if>
+                        </aura:if>
+                        <aura:if isTrue="{!v.toggleSpinner}">
+                            <lightning:spinner alternativeText="Pending..." class="jira-spinner"/>
+                        </aura:if>
+                    </aura:if>
+                    <aura:if isTrue="{!v.formLayout == 'fieldsForm'}">
+                        <form id="lightning-issues-dialog-create-form-advanced" class="slds-form--stacked">
+                            <aura:if isTrue="{!!empty(v.formFields)}">
+                                <aura:iteration items="{!v.formFields}" var="field">
+                                    <aura:if isTrue="{!field}">
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <aura:if isTrue="{!field.fieldArity == 'single'}">
+                                                    <aura:if isTrue="{!field.fieldType == 'option'}">
+                                                        <JCFS:SingleSelectField name="{!field.jiraFieldName}"
+                                                                             optionType="{!field.optionType}"
+                                                                             options="{!field.options}"
+                                                                             value="{!field.transformValue}"
+                                                                             label="{!field.jiraFieldLabel}"
+                                                                             placeHolder="{!field.placeHolder}"
+                                                                             required="{!field.required}"/>
+                                                        <aura:set attribute="else">
+                                                            <JCFS:SingleField name="{!field.jiraFieldName}"
+                                                                           fieldType="{!field.fieldType}"
+                                                                           value="{!field.transformValue}"
+                                                                           label="{!field.jiraFieldLabel}"
+                                                                           required="{!field.required}"/>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                </aura:if>
+                                                <aura:if isTrue="{!field.fieldArity == 'multiple'}">
+                                                    <aura:if isTrue="{!field.fieldType == 'option'}">
+                                                        <JCFS:MultiSelectField name="{!field.jiraFieldName}"
+                                                                            optionType="{!field.optionType}"
+                                                                            options="{!field.options}"
+                                                                            values="{!field.values}"
+                                                                            joinedValues="{!field.joinedValues}"
+                                                                            label="{!field.jiraFieldLabel}"
+                                                                            placeHolder="{!field.placeHolder}"
+                                                                            required="{!field.required}"/>
+                                                    </aura:if>
+                                                </aura:if>
+                                            </div>
+                                        </div>
+                                    </aura:if>
+                                </aura:iteration>
+                            </aura:if>
+                            <aura:if isTrue="{!v.toggleSpinner}">
+                                <lightning:spinner alternativeText="Pending..." class="jira-spinner"/>
+                            </aura:if>
+                        </form>
+                    </aura:if>
+                </div>
+                <div class="slds-modal__footer issue-creation-footer">
+                    <lightning:button label="Cancel" class="modal-button" onclick="{!c.closeModal}"/>
+                    <aura:if isTrue="{!v.formLayout == 'basicForm'}">
+                        <lightning:button label="Review &amp; Create" onclick="{!c.changeLayoutToReviewAndCreate}"
+                                          disabled="{!or(v.pending, empty(v.projects))}" class="modal-button"/>
+                        <lightning:button label="Create" variant="brand" onclick="{!c.createIssue}"
+                                          disabled="{!or(v.pending, empty(v.projects))}" class="modal-button"/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.formLayout == 'fieldsForm'}">
+                        <lightning:button label="Create" variant="brand" onclick="{!c.advancedCreateIssue}"
+                                          disabled="{!or(v.pending, empty(v.projects))}" class="modal-button"/>
+                    </aura:if>
+                </div>
+            </div>
+        </div>
+        <div aura:id="backdrop" class="slds-backdrop slds-backdrop--open"/>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>brating__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <formula>IF(ISBLANK(bscore__c), NULL,
+IF(bscore__c &gt;= $Setup.Infer_Scoring_Settings__c.Score_Bucket_1_Threshold__c, 1,
+IF(bscore__c &gt;= $Setup.Infer_Scoring_Settings__c.Score_Bucket_2_Threshold__c, 2,
+IF(bscore__c &gt;= $Setup.Infer_Scoring_Settings__c.Score_Bucket_3_Threshold__c, 3,
+4))))</formula>
+        <label>Infer: Behavior Score [1-4]</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>bscore__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Score from your Infer behavior model</description>
+        <externalId>false</externalId>
+        <label>Infer: Behavior Score [0-100]</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>matched_account_id__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Infer: Matched Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Leads</relationshipLabel>
+        <relationshipName>Leads</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>updated__c</fullName>
+        <deprecated>false</deprecated>
+        <description>When the behavior score was last updated</description>
+        <externalId>false</externalId>
+        <label>Infer: Behavior Score Last Updated</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>DateTime</type>
+    </fields>
+</CustomObject>

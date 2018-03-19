@@ -1,0 +1,89 @@
+<apex:page controller="EchoSign_selectQuotePdf" tabStyle="echosign_dev1__SIGN_Agreement__c" sidebar="false" showHeader="false">
+<apex:form >
+    <script type="text/javascript" src="/js/functions.js"></script>
+     <script src="/soap/ajax/12.0/connection.js"></script>
+     <script>
+         
+         var isPdfExists = "{!isDocumentExists}";
+         //alert('hi'+isPdfExists);
+         if(isPdfExists == 'false')
+         {
+            //alert("{!ContactName}");
+            //top.parent.window.opener.location.href = '../a01/e?CF00NA00000029NJh='+"{!ContactName}"+'&amp;CF00NA00000029NJh_lkid='+"{!quote}"+'&amp;retURL=%'+"{!quote}";
+            parent.top.location.href = '../a01/e?CF00NA00000029NJh='+'{!SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(ContactName,'&','&amp;'),'\'','&rsquo;'),'"','&quot;'),'<','&lt;'),'>','&gt;')}'
+            +'&amp;CF00NA00000029NJh_lkid='+'{!SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(quote,'&','&amp;'),'\'','&rsquo;'),'"','&quot;'),'<','&lt;'),'>','&gt;')}'
+            +'&amp;retURL=%'+'{!SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(quote,'&','&amp;'),'\'','&rsquo;'),'"','&quot;'),'<','&lt;'),'>','&gt;')}';
+            //top.parent.window.close(); 
+            //window.parent.parent.location.href =  '../a01/e?CF00NA00000029NJh='+"{!ContactName}"+'&amp;CF00NA00000029NJh_lkid='+"{!quote}"+'&amp;retURL=%'+"{!quote}";
+         }
+     </script>
+        <table width="100%" align="center">
+        <tr>
+        <td>
+         
+            <apex:outputPanel id="opDummy">
+                <!--<b><apex:outputLabel value="{!strErrorMessage}">
+                </apex:outputLabel></b>-->
+               <apex:pageMessages />
+               
+
+                    <script>
+                        var isInsert = "{!isInserted}";
+                        var hasErrorOccured = "{!isError}";
+                        //alert('hello' + isInsert);
+                        if(isInsert == 'true')
+                        {
+                            if(hasErrorOccured == 'true')
+                            {
+                                
+                            }
+                            else
+                            {
+                                                            
+                               //alert(this.getElementById('quotePDFOverlayTitle'));
+                               try
+                               {
+                                  parent.top.location.href = '../'+'{!SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(agreementId,'&','&amp;'),'\'','&rsquo;'),'"','&quot;'),'<','&lt;'),'>','&gt;')}';
+                               }
+                                catch(err)
+                                {
+                                    alert(err.message);
+                                }
+                                
+                            }
+                        }
+                    </script>
+            </apex:outputPanel>
+            
+        </td>
+        </tr>
+        <tr align="center">
+        <td  align="center" width="100%">
+        <apex:outputPanel rendered="{!isDocumentExists}" >
+
+            <apex:pageBlock id="pbMain"  >
+                <apex:selectList size="1" id="txtSelectedQuote" value="{!strSelectedQuote}" >
+                    <apex:selectOptions value="{!QuotePdf}" />
+                </apex:selectList>
+            </apex:pageBlock>
+            <apex:commandButton value="Create Agreement" action="{!next}" rerender="opDummy"/>
+            <apex:commandButton value="Cancel" onclick="closeWindow()" rerender="opDummy"/>
+        </apex:outputPanel>
+        </td>
+        </tr>
+        <tr>
+            <td>
+                 
+            </td>
+        </tr>
+        </table>
+         <script>
+             function closeWindow()
+             {
+                 parent.top.location.href = '../'+'{!SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(quote,'&','&amp;'),'\'','&rsquo;'),'"','&quot;'),'<','&lt;'),'>','&gt;')}';
+                 
+             }
+         </script>  
+        
+    </apex:form>
+</apex:page>

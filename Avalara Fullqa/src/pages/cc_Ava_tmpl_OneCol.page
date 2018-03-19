@@ -1,0 +1,737 @@
+<apex:page id="cc_Ava_tmpl_OneCol" docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" controller="cc_Ava_ctrl_PLP">
+
+	<apex:define name="htmlbody">
+
+    <div class="homepage-container co-brand">
+      
+      <div class="hero-banner jumbo-tron home-page">
+        <div class="dynamic-background-image"
+          data-image="{!$Resource.CC_Avalara_Theme}/images/E-Comm_HomeHero.png"
+          data-position="top left"
+          data-size="cover"
+          data-repeat="no-repeat"
+        ></div>
+          <div class="content-container">
+            <div class="promo-content-container">
+              <h2 class="promo-title">Do tax compliance right and get back to business with Avalara</h2>
+              <p class="promo-content">Avalara offers automated solutions for your tax compliance challenges, providing relief to you and your business.</p>
+              <a href="#" onClick="goToProducts(this);return false;"><button class="hero-button">See our products</button></a>
+
+            </div>
+          </div>
+      </div>
+
+    <!-- Start focus content -->
+
+      <div class="background-dark-grey">
+        <div class="content-container">
+          <h2 class="fcolorTheme container-title">Focus on what you love and leave the taxes to us</h2>
+            <div class="span421 business-focus-container">
+              <div class="talignC">
+                <div class="image-holder"><img src="{!$Resource.CC_Avalara_Theme}/images/business-rocket.png" /></div>
+                <p>Save time on preparing taxes and returns so you can focus on growing your business</p>
+              </div>
+              
+              <div class="talignC">
+                <div class="image-holder"><img src="{!$Resource.CC_Avalara_Theme}/images/calculator.png" /></div>
+                <p>Calculate taxes and file returns accurately and on-time, guaranteed</p>
+              </div>
+              
+              <div class="talignC">
+                <div class="image-holder"><img src="{!$Resource.CC_Avalara_Theme}/images/integrations.png" /></div>
+                <p>Seamless integration with over 500 e-commerce, marketplace, and accounting applications</p>
+              </div>
+
+              <div class="talignC">
+                <div class="image-holder"><img src="{!$Resource.CC_Avalara_Theme}/images/global-commerce.png" /></div>
+                <p>Accurate tax calculations in over 12,000 tax jurisdictions in 193 countries, and counting</p>
+              </div>
+              
+            </div>
+            <div class="talignC">
+              <a href="#"  onClick="goToProducts(this);return false;"><button class="hero-button">See our products</button></a>
+            </div>
+        </div>
+      </div>
+
+    <!-- End focus content -->
+
+    <!-- Start product video -->
+
+      <div class="video-content-container">
+        <div class="content-container talignC">
+          <h2 class="fcolorTheme container-title">See how the Avalara suite of products work</h2>
+          
+          <div class="video-constrain">
+            <div class="video-container">
+              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/P4ppqLhEQHs" frameborder="0" allowfullscreen="true"></iframe>
+            </div>
+            <a href="#" data-sku="ATBDK001" data-addon="AR0003" onClick="goToProducts(this);return false;" data-product-name="Pre Pay Returns Standalone">
+            <button class="btn-blue">Get started today</button>
+          </a>
+          </div>
+        </div>
+      </div>
+
+    <!-- End product video -->
+
+    <!-- Start integrations content -->
+
+      <div class="background-grey">
+        <div class="content-container">
+          <h2 class="fcolorTheme container-title">Seamless integration with the applications you already use</h2>
+          <p>The entire Avalara suite of products integrate seamlessly with over 500 ERP, POS, and e-commerce applications and platforms, and we’re adding more integrations everyday.</p>
+            <div class="span621 business-integrations-container">
+              <div class="talignC">
+                <div class="image-holder"><img src="{!$Resource.CC_Avalara_Theme}/images/logos_intuit.svg" /></div>
+              </div>
+              <div class="talignC">
+                <div class="image-holder"><img src="{!$Resource.CC_Avalara_Theme}/images/woo-vertical.svg" /></div>
+              </div>
+              <div class="talignC">
+                <div class="image-holder"><img src="{!$Resource.CC_Avalara_Theme}/images/BigCommerce-logo.png" /></div>
+              </div>
+              <div class="talignC">
+                <div class="image-holder"><img src="{!$Resource.CC_Avalara_Theme}/images/magento-vertical.svg" /></div>
+              </div>
+              <div class="talignC">
+                <div class="image-holder"><img src="{!$Resource.CC_Avalara_Theme}/images/3dcart.svg" /></div>
+              </div>
+              <div class="talignC">
+                <div class="image-holder"><img src="{!$Resource.CC_Avalara_Theme}/images/Drupal_commerce.png" /></div>
+              </div>
+            </div>
+            <!--div class="talignC">
+              <a href="#"><button class="btn-blue search-integrations-btn">Search through all 500+ integrations</button></a>
+            </div-->
+            <div class="end-link talignC">
+              <a href="https://www.avalara.com/about/partners/" target="_blank" rel="noreferr noopener">Interested in becoming an Avalara integration partner? Find out more!</a>
+            </div>
+        </div>
+      </div>
+
+    <!-- End integrations content -->
+
+
+      
+      <!--<div class="span">
+        <div class="product-container-view">
+          <div class="product-content-container">
+            <div class="col-md-6">
+              <h3 class="product-title"><img src="{!$Resource.CC_Ava_ProductImages}/AvaTax-Icon.png" class="product-icon" title="Avatax icon" />AvaTax</h3>
+              <p>Spending valuable time and resources on something that doesn't make your business more profitable doesn't make sense. With over 500 pre-built integrations, AvaTax automates sales and use tax calculation and compliance within your existing ERP, POS, or ecommerce system. No more manually entering data or uploading rate tables and tax information!</p>
+              <div class="download-link">
+                <p><i class="fa fa-file-text-o" aria-hidden="true"></i><a href="https://www.avalara.com/wp-content/uploads/2017/01/Avalara_AvaTax.pdf" class="datasheet-link" title="Download AvaTax datasheet" rel="noopener noreferrer" target="_blank">Download AvaTax product datasheet</a></p>
+              </div>
+              <a href="ccrz__CCPage?pageKey=configflow&cartID=&sku=ATBDK001&transactionLevelSku=AT001&isCSRFlow=true&portalUser=&store=&cclcl=en_US" class="productBuyButtonAddon staticBuyNowButton" data-sku="a93c000000002lFAAQ" data-addon="ATBDK001"><button class="btn-add-to-cart"></button></a> <a href="javascript:void(0);" class="productName staticLearnMoreButton" data-sku="ATBDK001"><button class="btn-learn-more  btn-reverse-blue"></button></a>
+            </div>
+            <div class="col-sm-6">
+              <img class="prodList img-responsive center-block" src="{!$Resource.CC_Ava_ProductImages}/avatax-map.png" alt="AvaTax" />
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- Start testimonials content -->
+
+        <div class="content-container">
+					<c:CC_AVA_QuoteCarousel />
+        </div>
+
+      <!-- End testimonials content -->  
+
+      <!--<div class="span">
+        <div class="product-container-view">
+          <div class="product-content-container">
+            <div class="col-sm-6">
+              <img class="prodList img-responsive center-block" src="{!$Resource.CC_Ava_ProductImages}/avalarareturns_prodsearch.png" alt="Returns" />
+            </div>
+            <div class="col-sm-6">
+              <h3 class="product-title"><img src="{!$Resource.CC_Ava_ProductImages}/Returns-Icon.png" class="product-icon" title="Returns icon" />Returns</h3>
+              <div class="homepage-content">
+              <p>Filing and remitting sales tax returns is a time-consuming and error-prone activity. With the help of automated sales tax return software, you can manage your remittance schedule with ease. Avalara Returns works with AvaTax, and automatically prepares, files, and pays sales tax calculations &mdash; on time.</p>
+              </div>
+              <div class="download-link">
+                <p><i class="fa fa-file-text-o" aria-hidden="true"></i><a href="https://www.avalara.com/wp-content/uploads/2017/03/Avalara_Returns.pdf" class="datasheet-link" title="Download Avalara Returns datasheet" rel="noopener noreferrer" target="_blank">Download Avalara Returns product datasheet</a></p>
+              </div>
+              <a href="javascript:void(0);" class="productBuyButtonAddon staticBuyNowButton" data-sku="a93c000000002lGAAQ" data-addon="AR0003" onClick="getReturnsModal(this);return false;"><button type="button" class="btn-add-to-cart"></button></a>
+              <a href="javascript:void(0);" class="productName staticLearnMoreButton" data-sku="AR0001"><button class="btn-learn-more btn-reverse-blue" data-id="AR0001"></button></a>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+    <!-- Start As Seen In Section --> 
+
+      <div class="background-grey">
+        <div class="content-container">
+					<c:CC_AVA_AsSeenIn />
+        </div>
+      </div>
+
+    <!-- End As Seen In Section -->
+
+    <!-- Start saving cta -->
+
+			<c:CC_AVA_SaveCallToAction />
+
+    <!-- End saving cta --> 
+
+          
+    <c:CC_Ava_Guarantee />
+
+    </div>
+	</apex:define>
+
+<script id="promo-desktop-template-Ava" type="text/template">
+
+   {{#if this}}
+    <div class="panel panel-default hidden-xs hidden-sm cc_panel cc_promo">
+     <div class="panel-body cc_body">
+     {{#each this}}
+ 	   <!--@kevin i'm leaving the float-properly-above-the-image magic to you (see style defined above, except for inline style with image filename); lmk if you need help -->
+	   <div class="promo_with_background_image" style="background-image: url('{{fullImageURL}}')">
+	   	<!--'shortDecription' is correct spelling as of 2017-03-23 -->
+		   <h2>{{shortDecription}}</h2>
+		   <h3>{{longDesc}}</h3>
+	   </div>
+	   <!-- hide for avalara
+      {{#if sku}}
+       <a data-id="{{sku}}" href="javascript:productDetails('{{sku}}');" class="cc_promo_link"><img data-id="{{sku}}" class="img-responsive img-rounded cc_promo_img" src="{{fullImageURL}}" alt="{{altMsg}}" /></a>
+      {{else}}{{#if categoryId}}
+       <a data-id="{{categoryId}}" href="javascript:productList('{{categoryId}}');" class="cc_promo_link"><img class="img-responsive img-rounded cc_promo_img" data-id="{{categoryId}}" src="{{fullImageURL}}" alt="{{altMsg}}" /></a>
+      {{else}}{{#if externalLink}}
+       <a href="{{externalLink}}" class="cc_promo_link" {{#if isNewWindow}}rel="noopener noreferrer" target="_blank"{{/if}} ><img class="img-responsive img-rounded cc_promo_img" src="{{fullImageURL}}" alt="{{altMsg}}" /></a>
+      {{else}}{{#if isDownload }}
+       <a href="{{downloadUri}}" rel="noopener noreferrer" target="_blank" class="cc_promo_link"><img class="img-responsive img-rounded cc_promo_img" src="{{fullImageURL}}" alt="{{altMsg}}" /></a>
+      {{else}}{{#if noLink }}
+       <img src="{{fullImageURL}}" class="img-responsive img-rounded cc_promo_img" alt="{{altMsg}}" /><br>
+      {{/if}}{{/if}}{{/if}}{{/if}}{{/if}}-->
+     {{/each}}
+     </div>
+    </div>
+   {{/if}}
+  </script>
+
+
+	<!-- deprecated in favor of bootstrap3 in cloudcraze 4.6 -->
+	<script id="promo-desktop-template-Ava_BOOTSTRAP2" type="text/template">
+	  <div class="promo_container promo_side_container">
+	   {{#each this}}
+
+	   <!--@kevin i'm leaving the float-properly-above-the-image magic to you (see style defined above, except for inline style with image filename); lmk if you need help -->
+	   <div class="promo_with_background_image" style="background-image: url('{{fullImageURL}}')">
+	   	<!--'shortDecription' is correct spelling as of 2017-03-23 -->
+		   <h2>{{shortDecription}}</h2>
+		   <h3>{{longDesc}}</h3>
+	   </div>
+
+<!-- 	hide for avalara because these ccpromotions are not clickable
+	    <div class="promotion_side promo_desk {{sfid}}">
+	     {{#if sku}}
+	      <a class="promoLink promo_desk promo_sku" data-id="{{sku}}" href="javascript:productDetails('{{sku}}');"><img data-id="{{sku}}" src="none" alt="{{altMsg}}" class="promoLink promo_desk promo_sku"/></a>
+	     {{else}}{{#if categoryId}}
+	      <a class="promoLink promo_desk promo_category" data-id="{{categoryId}}" href="javascript:productList('{{categoryId}}');"><img data-id="{{categoryId}}" src="none" alt="{{altMsg}}" class="promoLink promo_desk promo_category"/></a>
+	     {{else}}{{#if externalLink}}
+	      <a href="{{externalLink}}" {{#if isNewWindow}}rel="noopener noreferrer" target="_blank"{{/if}} class="promoLink promo_desk promo_ext {{#if isNewWindow}}promo_newwindow{{/if}}"><img src="none" alt="{{altMsg}}" class="promoLink promo_desk promo_ext {{#if isNewWindow}}promo_newwindow{{/if}}" /></a>
+	     {{else}}{{#if isDownload }}
+           <a href="{{downloadUri}}" rel="noopener noreferrer" target="_blank" class="promoLink promo_desk promo_dwnld"><img src="none" alt="{{altMsg}}" class="promoLink promo_desk promo_dwnld"/></a>
+        {{else}}{{#if noLink }}
+          <img src="none" alt="{{altMsg}}" class="promo_desk promo_nolink"/>
+        {{/if}}{{/if}}{{/if}}{{/if}}{{/if}}
+	    </div> -->
+	    
+	   {{/each}}
+	  </div>
+	</script>
+
+	<!-- add more featured product info -->
+	<!-- NB: this == CCRZ.views.spotView.model.attributes -->
+
+<script id="Spotlight-Desktop-Ava" type="text/template">
+   {{#if this.Spotlight}}
+    <div class="panel panel-default cc_panel cc_spotlight_products">
+     <div class="panel-heading cc_heading">
+      <h3 class="panel-title cc_title">
+       {{#if this.crossSell}}
+        {{pageLabelMap 'CrossSell_AlsoConsider'}}
+       {{else}}
+        {{pageLabelMap 'Spotlight_Title'}}
+       {{/if}}
+      </h3>
+     </div>
+     <div class="panel-body cc_body">
+      {{#each this.Spotlight}}
+      <div class="row">
+       <div class="col-md-12">
+       {{#if this.mockProduct.videoEmbedCode}}
+       		{{displayEmbed this.mockProduct.videoEmbedCode}}
+       {{else}}
+	        <a href="javascript:void(0);" class="productName cc_product_name_img" data-id="{{this.mockProduct.sku}}">
+	         {{displayImage this.mediaWrapper 'spot img-responsive center-block' alt=this.mockProduct.name dataId=this.mockProduct.sku}}
+	        </a>
+       {{/if}}
+       </div>
+      </div>
+      <div class="row">
+       <div class="col-md-12">
+        <h5>
+         {{swapImage this.mediaWrapper.imageFullPath this.mediaWrapper.uri this.mockProduct.productIcon}} <a href="javascript:void(0);" class="productName cc_product_name" data-id="{{this.mockProduct.sku}}">{{this.productNameAfterIcon}}</a>
+        </h5>
+		<!-- hide for avalara        
+		<p class="cc_sku">
+         <span class="cc_sku_label">{{pageLabelMap 'CartInc_SKU'}}</span>&#160;
+         <span class="cc_sku_value">{{this.mockProduct.sku}}</span>
+        </p> -->
+        <p class="description cc_description">
+         {{unescape this.mockProduct.shortDesc}}
+         {{unescape this.mockProduct.longDesc}}
+        </p>
+    	<!--@kevin button formatting up to you, i think, since other buttons' content/text is specified in css -->
+       <a href="javascript:void(0);" class="productAdd" data-id="{{this.mockProduct.sku}}">ADD TO CART</a>
+       <a href="javascript:void(0);" class="productName" data-id="{{this.mockProduct.sku}}">LEARN MORE</a>
+        <!-- hide for avalara
+        {{#if this.showNewSubscriptionSelection}}
+         <p class="price priceSubscription cc_price_subscription">
+          <span class="cc_subscr_price">{{pageLabelMap 'Prod_SpotLightPrice' (price this.price) (price this.minSubPrice) (price this.maxSubPrice)}}</span>
+         </p>
+        {{else}}
+         {{#if this.maxPrice}}
+          <p class="price cc_price">
+           {{#ifbothPricesZero this.minPrice this.maxPrice}}
+           <span class="cc_price_label">{{pageLabelMap 'CartInc_Price'}}:</span>
+           <span class="cc_price_value">{{displayRangePrice 'ProductDetails_PriceRangeFormat' this.minPrice this.maxPrice}}</span>
+           {{/ifbothPricesZero}}
+          </p>
+         {{else}}
+          {{#if this.displayPrice}}
+           <p class="price displayPrice cc_display_price">
+            <span class="cc_display_price">{{pageLabelPrefixMap 'DisplayPrice_' this.displayPrice}}</span>
+           </p>
+          {{else}}
+           <p class="price cc_price">
+            <span class="cc_price_label">{{pageLabelMap 'CartInc_Price'}}:</span>
+            <span class="cc_price_value">{{price this.price}}</span>
+           </p>
+          {{/if}}
+         {{/if}}
+        {{/if}} -->
+       </div>
+      </div>
+      <hr>
+      {{/each}}
+     </div>
+    </div>
+   {{/if}}
+   {{#if this.Featured}}
+    <div class="panel panel-default cc_feeatured_products">
+     <div class="panel-heading cc_heading">
+      <h3 class="panel-title cc_title">
+       {{#if this.crossSell}}
+        {{pageLabelMap 'CrossSell_AlsoConsider'}}
+       {{else}}
+        {{pageLabelMap 'Featured_Title'}}
+       {{/if}}
+      </h3>
+     </div>
+     <div class="panel-body cc_body">
+      <div class="row">
+       {{#each this.Featured}}
+        <div class="col-md-6">
+         <a href="javascript:void(0);" class="productName cc_product_name_img" data-id="{{this.mockProduct.sku}}">
+          {{displayImage this.mediaWrapper 'featured img-responsive center-block' alt=this.mockProduct.name dataId=this.mockProduct.sku}}
+         </a>
+
+         <h5>
+          <a href="javascript:void(0);" class="productName cc_product_name" data-id="{{this.mockProduct.sku}}">{{this.mockProduct.name}}</a>
+         </h5>
+         <p class="cc_sku">
+          <span class="cc_sku_label">{{pageLabelMap 'CartInc_SKU'}}</span>&#160;
+          <span class="cc_sku_value">{{this.mockProduct.sku}}</span>
+         </p>
+         <p class="description cc_description">
+          {{unescape this.mockProduct.shortDesc}}
+          {{unescape this.mockProduct.longDesc}}
+         </p>
+         {{#if this.showNewSubscriptionSelection}}
+          <p class="price priceSubscription cc_price_subscription">
+           <span class="cc_subscr_price">{{pageLabelMap 'Prod_SpotLightPrice' (price this.price) (price this.minSubPrice) (price this.maxSubPrice)}}</span>
+          </p>
+         {{else}}
+          <!--********************************************************-->
+          {{#if this.maxPrice}}
+          <!--*******************************************-->
+           <p class="price cc_price"> {{#ifbothPricesZero this.minPrice this.maxPrice}}
+            <span class="cc_price_label">{{pageLabelMap 'CartInc_Price'}}:</span>
+            <span class="cc_price_value">{{displayRangePrice 'ProductDetails_PriceRangeFormat' this.minPrice this.maxPrice}}</span>
+            {{/ifbothPricesZero}}
+           </p>
+          {{else}}
+           {{#if this.displayPrice}}
+            <p class="price displayPrice cc_display_price">
+             <span class="cc_display_price">{{pageLabelPrefixMap 'DisplayPrice_' this.displayPrice}}</span>
+            </p>
+           {{else}}
+            <p class="price cc_price">
+             <span class="cc_price_label">{{pageLabelMap 'CartInc_Price'}}:</span>
+             <span class="cc_price_value">{{price this.price}}</span>
+            </p>
+           {{/if}}
+          {{/if}}
+         {{/if}}
+        </div>
+        {{#if_odd @index}}
+         <div class="clearfix"></div>
+         <hr>
+        {{/if_odd}}
+       {{/each}}
+      </div>
+     </div>
+    </div>
+   {{/if}}
+  </script>
+
+
+  	<!--deprecated in favor of bootstrap3 in cloudcraze 4.6 -->
+	<script id="Spotlight-Desktop-Ava_BOOTSTRAP2" type="text/template">
+	  {{#if this.Spotlight}}
+	   <div class="product_spotlight_container" >
+	    <h2 class="title">
+	     {{#if this.crossSell}}
+	      {{pageLabelMap 'CrossSell_AlsoConsider'}}
+	     {{else}}
+	      {{pageLabelMap 'Spotlight_Title_Avalara'}}
+	     {{/if}}
+	    </h2>
+	    <div class="product_spotlight">
+	     {{#each this.Spotlight}}
+	     <!-- because we added fields to the product service class, these fields are available in this page too -->
+	      <div class="product_spotlight_item">
+	       <p>
+	       <!-- @kevin the icon should probably get a special css class (at least for sizing), but up to you which element you want to put it on; lmk if you need my input -->
+	        <a href="javascript:void(0);" class="productName" data-id="{{this.mockProduct.sku}}">{{swapImage this.mediaWrapper.imageFullPath this.mediaWrapper.uri this.mockProduct.productIcon}}{{this.productNameAfterIcon}}</a>
+	        <br/>
+	       </p>
+	       <!--@kevin inline styling just to see how it looks; remove as you restyle of course -->
+	       <div class="product_spotlight_viewport" style="float: right">
+	        <a href="javascript:void(0);" class="productName" data-id="{{this.mockProduct.sku}}">
+      <!-- {{displayImage this.mediaWrapper 'spot' alt=this.mockProduct.name dataId=this.mockProduct.sku}} -->
+			<!--@kevin this needs styling to adjust wrap, padding/margin, etc. -->
+          	{{displayEmbed this.mockProduct.videoEmbedCode}}</a>
+	       </div>
+	       <div class="description richtext">
+	        {{unescape this.mockProduct.shortDesc}}
+	        {{this.mockProduct.longDesc}}
+	       </div>
+	       <!--@kevin button formatting up to you, i think, since other buttons' content/text is specified in css -->
+	       <div class="productName"><a href="javascript:void(0);" class="productName" data-id="{{this.mockProduct.sku}}"><button class="btn-learn-more"></button></a>
+	       </div>
+
+        <!-- {{#if this.showNewSubscriptionSelection}}
+            <p class="price priceSubscription">
+              <strong>{{pageLabelMap 'Prod_SpotLightPrice' (price this.price) (price this.minSubPrice) (price this.maxSubPrice)}}</strong>
+            </p>
+          {{else}}
+            {{#if this.maxPrice}} 
+              <p class="price"> {{#ifbothPricesZero this.minPrice this.maxPrice}}
+              {{pageLabelMap 'CartInc_Price'}}: <strong>{{displayRangePrice 'ProductDetails_PriceRangeFormat' this.minPrice this.maxPrice}}</strong>      
+              {{/ifbothPricesZero}}</p> 
+            {{else}}
+              {{#if this.displayPrice}}
+                <p class="price displayPrice">
+                  {{pageLabelPrefixMap 'DisplayPrice_' this.displayPrice}}
+                </p>
+              {{else}}
+                <p class="price">
+                  {{pageLabelMap 'CartInc_Price'}}: <strong>{{price this.price}}</strong>
+                </p>
+              {{/if}}
+            {{/if}}
+          {{/if}} -->
+	      </div>
+	     {{/each}}
+	    </div>
+	   </div>
+	  {{/if}}
+	  {{#if this.Featured}}
+	   <div class="featured_products_container">
+	    <h2 class="title">
+	     {{#if this.crossSell}}
+	      {{pageLabelMap 'CrossSell_AlsoConsider'}}
+	     {{else}}
+	      {{pageLabelMap 'Featured_Title'}}
+	     {{/if}}
+	    </h2>
+	    <div class="featured_products"> 
+	     {{#eachStyles this.Featured this.colNum "featured_products_item"}}
+	        <div class="{{styleClass}}">
+	         <div class="featured_products_viewport">
+	        <a href="javascript:void(0);" class="productName" data-id="{{this.mockProduct.sku}}">
+	         {{displayImage this.mediaWrapper 'featured' alt=this.mockProduct.name dataId=this.mockProduct.sku}}
+	                 </a>
+	         </div>
+	       <p>
+	        <a href="javascript:void(0);" class="productName" data-id="{{this.mockProduct.sku}}">{{this.mockProduct.name}}</a>
+	        <br/>
+	        <strong>{{pageLabelMap 'CartInc_SKU'}}</strong>&#160;{{this.mockProduct.sku}}
+	       </p>
+	       <div class="description">
+	        {{unescape this.mockProduct.shortDesc}}
+	       </div>
+            {{#if this.showNewSubscriptionSelection}}
+              <p class="price priceSubscription">
+                  <strong>{{pageLabelMap 'Prod_SpotLightPrice' (price this.price) (price this.minSubPrice) (price this.maxSubPrice)}}</strong>
+              </p>
+            {{else}}
+              <!--********************************************************-->
+              {{#if this.maxPrice}} 
+                <!--*******************************************-->
+                <p class="price"> {{#ifbothPricesZero this.minPrice this.maxPrice}}
+                {{pageLabelMap 'CartInc_Price'}}: <strong>{{displayRangePrice 'ProductDetails_PriceRangeFormat' this.minPrice this.maxPrice}}</strong>  
+                {{/ifbothPricesZero}}</p>
+              {{else}}
+                {{#if this.displayPrice}}
+                    <p class="price displayPrice">
+                        {{pageLabelPrefixMap 'DisplayPrice_' this.displayPrice}}
+                    </p>
+                {{else}}
+                    <p class="price">
+                        {{pageLabelMap 'CartInc_Price'}}: <strong>{{price this.price}}</strong>
+                    </p>
+                {{/if}}
+              {{/if}}
+            {{/if}}
+	      </div>
+	     {{/eachStyles}}
+	    </div>
+	   </div>
+	  {{/if}}
+	</script>
+	<!-- end featured product template override -->
+
+	<!-- override new handlebars template above->uiproperties->backboneview->grab that new handlebars template setting -->
+	<script class="source-cleanup-remove">
+		jQuery(function($){
+			CCRZ.uiProperties.PromoDisp.desktop.tmpl='promo-desktop-template-Ava';
+			CCRZ.uiProperties.spotlightView.desktop.tmpl='Spotlight-Desktop-Ava';
+
+
+      //add additional ava-specific product data to item.attributes
+      CCRZ.pubSub.once('view:spotlightView:refresh', function(spotView) { 
+       
+        var spotlightViewPrototype = Object.getPrototypeOf(spotView);
+        var gotoConfigflow = function(productId) {
+
+          document.location = CCRZ.pagevars.currSiteURL + "ccrz__CCPage?pageKey=configflow&cartID=" + CCRZ.pagevars.currentCartID + "&sku=" + productId + getCSRQueryString();
+
+        }
+
+        //add 'add to cart' functionality
+       	if (spotlightViewPrototype != null) {
+
+          spotlightViewPrototype.events = _.extend(spotlightViewPrototype.events, {
+            "click .productAdd" : "gotoConfigflow",
+          });
+
+          spotlightViewPrototype = _.extend(spotlightViewPrototype, {
+            gotoConfigflow : function(event){
+
+              var sku = $(event.currentTarget).data("id");
+              gotoConfigflow(sku);
+
+            }
+
+          });
+
+          spotView.delegateEvents();
+
+      	}
+
+
+        var productIds = [];
+        for (var i = 0; i < spotView.model.attributes.Spotlight.length; i++) {
+          productIds[i] = spotView.model.attributes.Spotlight[i].mockProduct.sku;
+        } 
+      
+        cc_Ava_ctrl_PLP.fetchExtraProduct(
+          CCRZ.pagevars.remoteContext,
+          productIds,
+            function(response) {
+              if (response && response.success) {
+                for(var j = 0; j < response.data.length; j++){
+                  var videoEmbedCode = 'no plp video';
+                  var productIcon = 'no product icon';
+                  if(response.data[j].EProductMediasS != null && response.data[j].EProductMediasS.length > 0){
+                    var productMediaArray = response.data[j].EProductMediasS;
+                    for (var k = 0; k < productMediaArray.length; k++) {
+                      var thisProductMedia = productMediaArray[k];
+                      if(thisProductMedia.mediaType == 'Video') {
+                        videoEmbedCode = thisProductMedia.URI;
+                      } else if (thisProductMedia.mediaType == 'Product Icon') {
+                        productIcon = thisProductMedia.filePath;
+                    };
+                    // mediaType = response.data[j].EProductMediasS[0].mediaType;
+                  }
+                  var longDesc = response.data[j].longDesc; 
+                  var dataRes = response.data[j];
+                  var extraData = {longDesc: longDesc, videoEmbedCode: videoEmbedCode, productIcon: productIcon};
+                  spotView.model.attributes.Spotlight[j].mockProduct = _.extend(spotView.model.attributes.Spotlight[j].mockProduct, extraData);
+
+                }
+              }
+                
+              spotView.render();
+
+            }
+
+          }
+                            
+        );
+      });           
+          
+
+
+		//register handlebars helpers for displaying video and icon
+		//swapImage call depends on grabbing additional product fields in controller as on PLP (future: get these fields in service class override; temporarily not available in return dataset)
+		Handlebars.registerHelper('swapImage', function(sourceUrl, originalImage, newImage) {
+			var fullUrl = sourceUrl;
+			if(fullUrl && newImage!=('no product icon')) {
+				var newUrl = fullUrl.replace(originalImage, newImage);
+				var newImageHTML = new Handlebars.SafeString("<img src='" + newUrl + "' />")
+				return newImageHTML;
+			}
+	  });
+
+    function convertEscaped(str)
+    {
+      var riframe = /iframe/g;
+      var rquot = /&quot/g;
+      var rlt = /&lt/g;
+      var rgt = /&gt/g;
+      str = str.replace(rgt, ">");
+      str = str.replace(rlt, "<");
+      str = str.replace(rquot, "/'");
+      str = str.replace(riframe, "FLYFRAME");
+      return str;
+    };
+
+
+		Handlebars.registerHelper('displayEmbed', function(embedCode) {
+      if(embedCode) {
+        var myEmbed = convertEscaped(embedCode);
+        var videoUrl  = embedCode;
+        if (videoUrl.includes('youtube') || videoUrl.includes('vimeo')) {
+            return new Handlebars.SafeString("<iframe width='100%' src=" + videoUrl + " frameborder='0' allowfullscreen></iframe>");
+            }
+      }
+    });
+
+		Handlebars.registerHelper('displayIcon', function(iconFilename) {
+			if(iconFilename) {
+				return CCRZ.pagevars.currSiteURL+"servlet/servlet.FileDownload?file=" + iconFilename;
+			}
+		});
+
+
+		});
+    
+
+    
+
+
+
+
+
+
+    var rotateCount = 0;
+    var backgroundCount = 0;
+    var resourceUrl = '{!$Resource.CC_Avalara_Theme}';
+    jQuery(document).ready(function(){
+
+      jQuery('.rotate').each(function(){
+        
+        setupRotateContainer(jQuery(this));
+
+      });
+
+      jQuery('.dynamic-background-image').each(function(){
+
+        jQuery('head').append('<style type="text/css" id="dynamicBackgroundImages"></style>');
+
+        setDynamicBackgroundImage(jQuery(this));
+
+      });
+
+      jQuery('a.staticBuyNowButton').each(function(){
+
+      })
+
+      jQuery('a.staticLearnMoreButton').each(function(){
+
+        $ = jQuery;
+        $(this).unbind('click').click(function(){
+
+          var linkData = $(this).data();
+          window.location
+            .replace('ccrz__ProductDetails?viewState=DetailView&cartID=&sku='+
+              linkData.sku+'&isCSRFlow=true&portalUser=&store=&cclcl=en_US');
+
+        });
+
+      });
+
+      //jQuery('.source-cleanup-remove').remove();
+
+    });
+
+    
+
+
+
+
+
+
+
+    /***********************************************
+                  START GO TO PRODUCTS
+            This function is used to allow in
+            in page links to go to all products
+            page by using the navigation link. 
+    ************************************************/
+
+      var gotoCount = 1;
+      function goToProducts(event){
+
+        $('.topNav.l2').length > 0 ? 
+          function(){
+
+            $('.topNav.l2 li').each(function(){
+              var linkText = $(this).find('a').text().toLowerCase();
+
+              linkText === 'browse products' ? 
+                $(this).find('a').trigger('click')
+                : '';
+
+            });
+
+          }()
+          : setTimeout(function(){
+            gotoCount++;
+
+            if(gotoCount == 10){
+              avalaraLoggingConsole(['Could not find product link'])
+              return false;
+            }
+            goToProducts(event);
+          },200);
+      }
+    /***********************************************
+                    END GO TO PRODUCTS
+    ************************************************/
+
+
+
+  </script>
+
+{!blank}
+</apex:page>

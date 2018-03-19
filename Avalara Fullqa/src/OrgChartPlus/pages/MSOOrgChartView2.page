@@ -1,0 +1,100 @@
+<apex:page sidebar="false" showHeader="false" standardController="Opportunity" extensions="OrgChartPlus.SM_OrgChartPlusPage">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+
+        <style type="text/css">
+            html, body  { height:100%; width:100%; margin:0px; padding:0px; overflow:hidden }
+            .bannerTable        { background-color:#0099FF; border-collapse:collapse; table-layout:fixed; }
+            .bannerTable h1     { font-family:'Verdana', 'Geneva', sans-serif; color:#fff; font-size:91%; padding-top:2px; margin-top:0px; margin-bottom:0px; display:inline }
+            .bannerTable h1 a:link      {color:#fff }
+            .bannerTable h1 a:visited   {color:#fff }
+            .bannerTable h1 a:hover     {color:#000 }
+            .bannerTable h2     { font-family:'Verdana', 'Geneva', sans-serif; color:#fff; font-size:112%; font-weight:bold; padding-top:2px; margin-top:0px; margin-bottom:0px; display:inline }
+            .bannerTable td     { padding:0; margin:0; vertical-align:top }
+            .bannerTable th     { padding:1px }
+            .bannerTable img    { padding:2px; background-color:#0099FF; margin:1px 2px 0px 2px; border:0 }
+			.bannerTable div	{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+			.MSOHelpLink 		{ width:125px; }
+			.MSOHelpLink a		{ color:#fff; font-family:'Arial', 'Helvetica', sans-serif; font-size:91%; text-decoration:none }
+			.MSOHelpLink span	{ text-decoration:underline; padding-right:5px }
+			.MSOHelpLink img	{ vertical-align:middle; padding:2px; margin:0 }
+            [id*=ocpComponent] { width:100%; height:100%; }
+			
+			@media (max-width: 500px) {
+				.MSOHelpLink { width:20px; }
+				.MSOHelpLink span { display: none; }
+			}
+        </style>
+
+        <script type="text/javascript">
+            function showHelpPage(helpurl)
+            {
+                win = window.open(helpurl, '_blank', 'width=800,height=800,resizable=yes,toolbar=yes,status=no,scrollbars=yes,menubar=yes,directories=no,location=no', false);
+                win.focus();
+            }
+        </script>
+    </head>
+
+    <body>
+    	
+    	<!-- Use a table to allow ocpContainer to occupy full height below banner div -->
+		<table style="width:100%; height:100%; border-collapse:collapse;" border="0" cellspacing="0" cellpadding="0"><tr><td>
+    	
+        <div style="padding:0; margin:0; width:100%; font-size:75%" id="bannerDiv">
+            <table class="bannerTable" style="width:100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td width="140px" align="center">
+                        <apex:image value="{!$Resource.OrgChartPlus__BannerOCP}" alt="OrgChartPlus" style="padding-top:3px" width="125" height="35"/>
+                    </td>
+        
+                    <td>
+                        <div style="padding-top:5px">
+                            <h1>
+                                <apex:outputLink value="{!masterURL}">Opportunity</apex:outputLink>
+                                &nbsp;»&nbsp;OrgChartPlus
+                            </h1>
+                        </div>
+                        <div style="padding-top:3px; padding-bottom:5px">
+                            <h2>
+                                <apex:outputText value="{!masterName}"/>
+                            </h2>
+                        </div>
+                    </td>
+
+                    <td class="MSOHelpLink" align="right">
+                        <a href="#" onclick="showHelpPage('{!$Resource.HelpZip}/OCPMainFrame.html'); return false;">
+                            <span>Help for this page</span><apex:image value="{!$Resource.OrgChartPlus__HelpIcon}" width="16" height="16"/>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+  
+        </td></tr>
+        <tr><td style="height:100%;">
+
+		<c:OCPEditor id="ocpComponent" masterId="{!masterId}" chartId="{!chartId}" readOnly="{!readOnly}" defaultView="{!defaultView}" noMenu="{!noMenu}"/>
+
+        </td></tr>
+		</table>
+
+<!--
+
+DO WE STILL NEED THIS?
+ 
+<script type="text/javascript">
+jQuery(function($) {
+    (function(w) {
+        // Fix for URLFOR bug in Salesforce where the customer has overidden the standard page
+        var $a = $('.bannerTable h1 a'), h = $a.attr('href');
+        if ( h.indexOf('orgchartplus.') === 8 )
+            $a.attr('href', 'https://c' + h.substring(20) )
+    })(window);
+});
+</script>
+-->
+
+</body>
+</html>
+</apex:page>

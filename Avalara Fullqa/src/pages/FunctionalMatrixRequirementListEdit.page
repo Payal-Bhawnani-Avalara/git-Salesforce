@@ -1,0 +1,57 @@
+<apex:page standardController="Functional_Matrix__c"
+            extensions="FunctionalMatrixRequirementListEdit"
+            showHeader="true" 
+            sidebar="false"
+            title="Edit Functional Matrix Requirement">
+	<apex:form >
+    <apex:pageMessages id="messages"/>
+    <apex:pageBlock title="Edit Functional Matrix Requirements">
+      <apex:pageBlockButtons >
+        <apex:commandButton value="Cancel" action="{!cancel}" />
+        <apex:commandButton value="Save" action="{!save}"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockSection title="Functional Matrix Information" collapsible="false">
+        <apex:pageBlockSectionItem >
+          <apex:outputText value="Functional Matrix Name" />
+          <apex:outputLink value="/{!Functional_Matrix__c.Id}" target="_blank">{!Functional_Matrix__c.Name}</apex:outputLink>
+        </apex:pageBlockSectionItem>
+        <!-- Add additional parent fields here -->
+      </apex:pageBlockSection>
+      <apex:pageBlockSection id="childList" columns="1" title="Functional Matrix Requirements" collapsible="false">
+        <!-- There is a trick to creating a counter when rendering rows in a
+              pageBlockTable. You have to define a variable to default to 0,
+              and then update that variable inside the table row. This is the
+              way that I can leverage smart row deletes -->
+        <apex:variable var="rowNum" value="{!ZERO}" />
+        <apex:outputLabel value="No Functional Matrix Requirements currently exist. Click below to Add." rendered="{!NOT(hasChildren)}"/>
+        <apex:pageBlockTable value="{!children}" var="fmr" rendered="{!hasChildren}">
+          <apex:column headerValue="Name">
+            <apex:outputField value="{!fmr.Functional_Matrix_Requirements_Config__r.Name}" />
+          </apex:column>
+          <apex:column headerValue="Date">
+            <apex:inputField value="{!fmr.Date__c}" />
+          </apex:column>
+          <apex:column headerValue="Note">
+            <apex:inputField value="{!fmr.Note__c}" />
+          </apex:column>
+          <apex:column headerValue="Sort Order">
+            <apex:inputField value="{!fmr.Sort_Order__c}" />
+          </apex:column>          
+          <!-- Add additional children metadata columns here -->
+          <apex:column headerValue=" " rendered="false">
+            <!-- This is the second half of the trick to keep track
+                  of your row index for deletion. -->
+            <apex:variable var="rowNum" value="{!rowNum + 1}" />
+            <apex:commandLink value="Delete" action="{!removeFromList}" rerender="childList, messages" immediate="true">
+              <apex:param name="removeIndex" assignTo="{!removeIndex}" value="{!rowNum}" />
+            </apex:commandLink>
+          </apex:column>
+        </apex:pageBlockTable>
+        <!-- Want to specify immediate here and above so validation does
+              not occur when you are trying to add/remove rows. Only want
+              validation to occur when trying to save -->
+        <apex:commandButton value="Add Functional Matrix Requirement" action="{!addToList}" rerender="childList, messages" immediate="true" rendered="false"/>
+      </apex:pageBlockSection>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>

@@ -1,0 +1,159 @@
+<apex:page standardcontroller="QuoteSheet__c" extensions="QSExt01">
+<apex:form >
+<apex:pageblock title="Heading Information">
+<apex:pageblockbuttons >
+<apex:commandbutton action="{!save}" value="Save" />
+<apex:commandbutton action="{!edit}" value="Edit" />
+<apex:commandbutton action="{!cancel}" value="Cancel" />
+</apex:pageblockbuttons>
+<table width="100%">
+<tr>
+<td width="50%">Opportunity:<apex:outputfield value="{!QuoteSheet__c.Opportunity__r.name}"/></td>
+<td>QuoteSheet Name:  <apex:inputfield value="{!QuoteSheet__c.name}"/></td>
+</tr>
+</table>
+</apex:pageblock>
+<apex:pageblock title="AvaTax - Primary Connector">
+<apex:pageblockbuttons >
+<apex:commandbutton action="{!quicksave}" value="Recalc" />
+</apex:pageblockbuttons>
+
+<table width="100%">
+<tr style="font-weight:bold">
+<td width="30%"><apex:outputLabel value="Service Plan"/></td>
+<td width="15%">&nbsp;</td>
+<td width="15%"style="text-align:center"><apex:outputLabel value="One-Time Activation"/></td>
+<td width="20%"style="text-align:center"><apex:outputLabel value="Recurring Service"/></td>
+<td width="20%"style="text-align:center"><apex:outputLabel value="Overage Transactions"/></td>
+</tr>
+<tr>
+<!-- <td width="30%"><apex:outputField value="{!QuoteSheet__c.Plan_Name__c}"/></td> -->
+<td width="30%"><apex:inputField value="{!QuoteSheet__c.Product__c}" /></td>
+<td width="15%"><apex:outputLabel value="Annual List Price"/></td>
+<td width="15%"style="text-align:center"><apex:outputField value="{!QuoteSheet__c.AT_Activation_List__c}"/></td>
+<td width="20%"style="text-align:center"><apex:outputField value="{!QuoteSheet__c.AT_Service_List__c}"/></td>
+<td width="20%" style="text-align:center"><apex:outputField value="{!QuoteSheet__c.AT_Add_Trans_List__c}"/></td>
+</tr>
+<tr>
+<td width="30%"><apex:outputField value="{!Product2.Name}"/></td>
+<td width="15%"><apex:outputLabel value="Annual Sale Price"/></td>
+<td width="15%"><apex:inputField value="{!QuoteSheet__c.AT_Activation_Sale__c}" style="text-align:center"/></td>
+<td width="20%"><apex:inputField value="{!QuoteSheet__c.AT_Service_Sale__c}" style="text-align:center"/></td>
+<td width="20%"><apex:inputField value="{!QuoteSheet__c.AT_Add_Trans_Sale__c}" style="text-align:center"/></td>
+</tr>
+
+<tr>
+<td width="30%">&NBSP;</td>
+<td width="15%"><apex:inputfield value="{!QuoteSheet__c.AT_MPO__c}"/><apex:outputLabel value="Monthly Pay Plan?"/></td>
+<td width="15%"style="text-align:center"><apex:outputField value="{!QuoteSheet__c.AT_Activation_Sale__c}" /></td>
+<td width="20%" style="text-align:center"><apex:outputField value="{!QuoteSheet__c.AT_ServiceM_Sale__c}"/>/month</td>
+<td width="20%"style="text-align:center"><apex:outputField value="{!QuoteSheet__c.AT_Extra_TransM_Sale__c}"/></td>
+</tr>
+</table>
+<!-- Begin AvaTax Attachment  -->
+<table width="100%">
+<tr style="font-weight:bold">
+<td width="20%"><apex:outputLabel value="Service Plan Add-Ons"/></td>
+<td width="20%">&nbsp;</td>
+<td width="15%"style="text-align:center"><apex:outputLabel value="One-Time Fee"/></td>
+<td width="20%"style="text-align:center"><apex:outputLabel value="Recurring Service"/></td>
+<td width="20%"style="text-align:center">&nbsp;</td>
+</tr>
+<td width="20%"><apex:inputfield value="{!QuoteSheet__c.AT_ADD_SDK__c}"/><apex:outputLabel value="Add Software Developer Kit (SDK)"/></td>
+<td width="20%"><apex:outputLabel value="List Price"/></td>
+<td width="15%"><apex:outputField value="{!QuoteSheet__c.SDK_Activation_List__c}" style="text-align:center"/></td>
+<td width="20%">&nbsp;</td>
+<td width="20%">&nbsp;</td>
+</tr>
+<tr>
+<td width="30%">&nbsp;</td>
+<td width="15%"><apex:outputLabel value="Sale Price"/></td>
+<td width="15%"style="text-align:center"><apex:inputField value="{!QuoteSheet__c.SDK_Activation_Sale__c}" /></td>
+<td width="20%" style="text-align:center">&nbsp;</td>
+<td width="20%"style="text-align:center">&nbsp;</td>
+</tr>
+</table>
+<table width="100%">
+<td width="20%"><apex:inputfield value="{!QuoteSheet__c.AT_Add_QuickStart__c}"/><apex:outputLabel value="Add QuickStart Installation"/></td>
+<td width="20%"><apex:outputLabel value="List Price"/></td>
+<td width="15%"><apex:outputField value="{!QuoteSheet__c.AT_QuickStart_List__c}" style="text-align:center"/></td>
+<td width="20%">&nbsp;</td>
+<td width="20%">&nbsp;</td>
+</tr>
+<tr>
+<td width="30%">&nbsp;</td>
+<td width="15%"><apex:outputLabel value="Sale Price"/></td>
+<td width="15%"style="text-align:center"><apex:inputField value="{!QuoteSheet__c.AT_QuickStart_Sale__c}" /></td>
+<td width="20%" style="text-align:center">&nbsp;</td>
+<td width="20%"style="text-align:center">&nbsp;</td>
+</tr>
+</table>
+<table width="100%">
+<td width="20%">Select Support Plan: <apex:inputfield value="{!QuoteSheet__c.AT_Spt_Plan__c}"/></td>
+<td width="20%"><apex:outputLabel value="List Price"/></td>
+<td width="20%">&nbsp;</td>
+<td width="15%"><apex:outputField value="{!QuoteSheet__c.AT_Spt_Plan_List__c}" style="text-align:center"/></td>
+<td width="20%">&nbsp;</td>
+</tr>
+<tr>
+<td width="30%">&nbsp;</td>
+<td width="15%"><apex:outputLabel value="Sale Price"/></td>
+<td width="20%" style="text-align:center">&nbsp;</td>
+<td width="15%"style="text-align:center"><apex:inputField value="{!QuoteSheet__c.AT_Spt_Plan_Sale__c}" />
+</td>
+<td width="20%"style="text-align:center">&nbsp;</td>
+</tr>
+</table>
+<table width="100%">
+<td width="20%"><apex:inputfield value="{!QuoteSheet__c.AT_ADD_SBOX__c}"/><apex:outputLabel value="Add Sandbox Development Account"/></td>
+<td width="20%"><apex:outputLabel value="List Price"/></td>
+<td width="15%"><apex:outputField value="{!QuoteSheet__c.AT_SBox_List__c}" style="text-align:center"/></td>
+<td width="20%">&nbsp;</td>
+<td width="20%">&nbsp;</td>
+</tr>
+<tr>
+<td width="30%">&nbsp;</td>
+<td width="15%"><apex:outputLabel value="Sale Price"/></td>
+<td width="15%"style="text-align:center"><apex:inputField value="{!QuoteSheet__c.AT_SBox_Sale__c}" /></td>
+<td width="20%" style="text-align:center">&nbsp;</td>
+<td width="20%"style="text-align:center">&nbsp;</td>
+</tr>
+</table>
+</apex:pageblock>
+
+<!--- Begin AvaFile Section --->
+
+<apex:pageblock title="AvaFile - Managed Returns Service">
+<apex:pageblockbuttons >
+<apex:commandbutton action="{!quicksave}" value="Recalc" />
+</apex:pageblockbuttons>
+
+<table width="100%">
+<tr style="font-weight:bold">
+<td width="30%"><apex:outputLabel value="MRS Service Plan"/></td>
+<td width="15%">&nbsp;</td>
+<td width="15%"style="text-align:center"><apex:outputLabel value="One-Time Activation"/></td>
+<td width="20%"style="text-align:center">&nbsp;</td>
+<td width="20%"style="text-align:center"><apex:outputLabel value="Per Return Fee"/></td>
+</tr>
+<tr>
+<td width="30%"><apex:outputField value="{!QuoteSheet__c.Plan_Name__c}"/></td>
+<td width="15%"><apex:outputLabel value="List Price"/></td>
+<td width="15%"style="text-align:center"><apex:outputField value="{!QuoteSheet__c.AT_Activation_List__c}"/></td>
+<td width="20%"style="text-align:center">&nbsp;</td>
+<td width="20%" style="text-align:center"><apex:outputField value="{!QuoteSheet__c.AT_Add_Trans_List__c}"/></td>
+</tr>
+<tr>
+<td width="30%">&nbsp;</td>
+<td width="15%"><apex:outputLabel value="Sale Price"/></td>
+<td width="15%"><apex:inputField value="{!QuoteSheet__c.AT_Activation_Sale__c}" style="text-align:center"/></td>
+<td width="20%">&nbsp;</td>
+<td width="20%"><apex:inputField value="{!QuoteSheet__c.AT_Add_Trans_Sale__c}" style="text-align:center"/></td>
+</tr>
+<tr>
+</table>
+</apex:pageblock>
+
+<!--- end avafile --->
+</apex:form>
+</apex:page>

@@ -1,0 +1,214 @@
+<apex:component selfClosing="true" layout="none" controller="AvalaraCommunityWizardCtrl">
+    <apex:attribute name="currentversionId" type="String"  description="current version id in this process" AssignTo="{!versionId}" Required="true"/>
+    <apex:attribute name="isRequirement" type="Boolean" description="a renderer variable between Note and Matrix Requirement" default="false"/>
+    <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js" />
+    <style>
+
+        [aria-expanded="true"] .glyphicon-plus-sign{
+            display:none;
+        }
+
+
+        [aria-expanded="false"] .glyphicon-plus-sign{
+             display:inline-block;
+        }
+
+        [aria-expanded="true"] .glyphicon-minus-sign{
+             display:inline-block;
+        }
+
+
+        [aria-expanded="false"] .glyphicon-minus-sign{
+             display:none;
+        }
+         .panel-primary > .panel-heading .badge {
+            color: #337ab7;
+            background-color: #fff;
+            font-weight: bold;
+            padding-top: 6px;
+        }
+        .list-group-item{
+            color:#000;
+        }
+
+        [aria-expanded="true"] .glyphicon-plus-sign{
+            display:none;
+        }
+
+
+        [aria-expanded="false"] .glyphicon-plus-sign{
+             display:inline-block;
+        }
+
+        [aria-expanded="true"] .glyphicon-minus-sign{
+             display:inline-block;
+        }
+
+
+        [aria-expanded="false"] .glyphicon-minus-sign{
+             display:none;
+        }
+        .badge{
+             border-radius:0px;
+         }
+         .badge-primary{
+             background: #2e6da4;
+         }
+         .main-badge{
+            margin-top: -14px;
+            margin-bottom: 10px;
+            margin-left: -1px;
+         }
+    </style>
+    <script>
+        var app{!randomJsIden} = angular.module('app{!randomJsIden}',[]);
+        app{!randomJsIden}.controller('ctrl{!randomJsIden}',function($scope, $q, $window){
+
+            $scope.freenote = '';
+            $scope.versionNotes = [];
+            $scope.currentUserId = '{!$User.Id}';
+            var versionId = '{!currentversionId}';
+            $scope.data = {};
+
+
+            function fetchVersionNotes(){
+                var deferred = $q.defer();
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.AvalaraCommunityWizardCtrl.fetchVersionNote}',
+                    versionId,
+                    function(result,event){
+                        deferred.resolve(result);
+                    },{
+                        escape: false
+                    }
+                );
+                return deferred.promise;
+            }
+
+            $scope.insertnotes = function($event){
+                if ($event.which === 13) {
+                    $event.preventDefault();
+                    Visualforce.remoting.Manager.invokeAction(
+                        '{!$RemoteAction.AvalaraCommunityWizardCtrl.insertVersionNote}',
+                        versionId,$scope.freenote,
+                        function(result,event){
+                            if(event.status){
+                                $window.location.reload();
+                            }
+                            else{
+                                alert(result.error);
+                            }
+                        },{
+                            escape: false
+                        }
+                    );
+                }
+            }
+
+            fetchVersionNotes().then(function(r){
+                $scope.versionNotes = r;
+            })
+
+            function getRequirements(versionId){
+                var deferred = $q.defer();
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.AvalaraCommunityWizardCtrl.getRequirements}',
+                    versionId,
+                    function(result, event){
+                        deferred.resolve(result);
+                    },{
+                        escape: false
+                    }
+                );
+                return deferred.promise;
+            }
+
+            function getConfig() {
+                getRequirements(versionId).then(function (res) {
+                    for (var i = 0; i < res.length; i++) {
+                        var c = res[i].Functional_Matrix_Requirements_Config__r;
+                        c.Section__c = c.Section__c || '';
+                        c.SubHeader__c = c.SubHeader__c || '';
+                        $scope.data[c.Section__c] = $scope.data[c.Section__c] || {};
+                        $scope.data[c.Section__c][c.SubHeader__c] = $scope.data[c.Section__c][c.SubHeader__c] || [];
+                        $scope.data[c.Section__c][c.SubHeader__c].push(res[i]);
+                    }
+                })
+            }
+            getConfig();
+        });
+
+        setTimeout(function () {
+            var s = angular.element(document.getElementById("app{!randomJsIden}")).scope();
+            if(!s){
+                angular.bootstrap(document.getElementById("app{!randomJsIden}"), ['app{!randomJsIden}']);
+            }
+
+        },1000)
+    </script>
+    <div ng-controller="ctrl{!randomJsIden}" ng-app="app{!randomJsIden}" id="app{!randomJsIden}">
+        <apex:outputPanel layout="block" rendered="{!!isRequirement}">
+            <div class="container">
+                <div class="panel panel-primary" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h3 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseNote" aria-expanded="false" aria-controls="collapseNote" style="text-decoration:none;color:#fff;">
+                                <span class="glyphicon glyphicon-plus-sign" data-toggle="tooltip" data-placement="top" title="click to expand"/>
+                                <span class="glyphicon glyphicon-minus-sign" data-toggle="tooltip" data-placement="top" title="click to collapse"/> Note
+                            </a>
+                            <span class="badge pull-right">{{versionNotes.length}}</span>
+                        </h3>
+                    </div>
+                    <div id="collapseNote" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            <div class="well">
+                                <input type="text" class="form-control input-sm" ng-model="freenote" ng-keypress="insertnotes($event)" placeholder="add a note..."></input>
+                                <br/>
+                                <div ng-repeat="note in versionNotes" >
+                                    <p ng-if="currentUserId != note.OwnerId" style="margin:0px;">@{{note.Owner.Username}}&nbsp;-&nbsp;<span style="font-size:10px;">{{note.CreatedDate | date}}</span></p>
+                                    <p ng-if="currentUserId == note.OwnerId" style="margin:0px;text-align:right;font-size:10px;margin-top:5px;">{{note.CreatedDate | date}}</p>
+                                    <div ng-class="{'note-others':currentUserId != note.OwnerId,'note-self':currentUserId == note.OwnerId}">
+                                        {{note.Body__c}}
+                                    </div>
+                                    <div class="clearfix"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </apex:outputPanel>
+        <apex:outputPanel layout="block" rendered="{!isRequirement}">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-info">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" style="text-decoration:none;">
+                                <span class="glyphicon glyphicon-plus-sign" data-toggle="tooltip" data-placement="top" title="click to expand"/>
+                                <span class="glyphicon glyphicon-minus-sign" data-toggle="tooltip" data-placement="top" title="click to collapse"/> Functional Matrix Requirements
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            <div ng-repeat="(k,v) in data" style="position:relative;margin-bottom:25px;border: 1px solid #a4c6e4;">
+                                <span class="badge badge-primary main-badge">{{k}}</span>
+                                <div  class="slds-box">
+                                    <div ng-repeat="(sk,sv) in v" style="margin-bottom:15px;">
+                                        <span class="badge" style="margin-left:18px;">{{sk}}</span>
+                                        <hr style="margin-top:0px;margin-left:18px;"/>
+                                        <ul class="list-group">
+                                            <li ng-repeat="r in sv" class="list-group-item">
+                                                {{r.Functional_Requirement_Name__c}} &nbsp; <input type="checkbox" ng-checked="r.Date__c" mg-model="r.Date__c" ng-disabled="true" style="float:right;"/>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </apex:outputPanel>
+    </div>
+</apex:component>

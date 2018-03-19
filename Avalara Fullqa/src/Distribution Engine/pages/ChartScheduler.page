@@ -1,0 +1,149 @@
+<apex:page controller="n2de.ChartSchedulerController" sidebar="false" tabstyle="Distribution_Analytics__tab">
+    <head>
+        <script type="text/javascript" src='https://www.google.com/jsapi?autoload={"modules":[{"name":"visualization","version":"1.1","packages":["corechart", "line"]}]}'/>
+        <c:CommonHeader />
+        <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[]}"></script>
+        <script type="text/javascript" src="{!URLFOR($Resource.DEResources, 'scripts/jquery-1.7.1.min.js')}"></script>
+        <script type="text/javascript" src="{!URLFOR($Resource.DEResources, 'jstree/jquery.jstree.js')}"></script>
+        <c:CommonMask />
+    </head>
+
+    <style>
+        .container {
+            width: 100%;
+        }
+        #stats_container {
+            border: solid 1px grey;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            display: table;
+            table-layout: fixed;
+            box-sizing: border-box;
+        }
+        #chart_container {
+            padding-top: 40px;
+            overflow: auto;
+            height: 600px;
+        }
+        .chart-text {
+            font-size: 14px;
+            color: rgb(117, 117, 117);
+            padding-right: 2px;
+            display: table-cell;
+            text-align: left;
+        }
+        .de-green {
+            color: #56aa1c;
+            font-size: 20px;
+        }
+
+    </style>
+
+    <script>
+        var visualization;
+        var timeframe;
+        $(document).ready(function() {
+            showMask();
+            timeframe = $('#timeframe_select').val();
+            google.setOnLoadCallback(getSchedulerActivity);
+
+            $('#timeframe_select').change(function() {
+                showMask();
+                timeframe = this.value;
+                getSchedulerActivity();
+            });
+        });
+
+        function getSchedulerActivity() {
+            Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ChartSchedulerController.getSchedulerActivityRemote}', timeframe,
+                function(result, event) {
+                    if (event.type == 'exception') {
+                        alert(event.message);
+                    } else {
+                        drawChart(result);
+                        getEngineStats();
+                    }
+                });
+        }
+
+        function getEngineStats() {
+            Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ChartSchedulerController.getEngineStatisticsRemote}', timeframe,
+                function(result, event) {
+                    if (event.type == 'exception') {
+                        alert(event.message);
+                    } else {
+                        displayEngineStats(result);
+                        hideMask();
+                    }
+                });
+        }
+
+        function buildChartDataTable(chartData) {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Date / time');
+            data.addColumn('number', 'Run time (secs)');
+            data.addColumn('number', 'Assignment count');
+
+            for (var i = 0; i < chartData.length; i++) {
+                var schedulervo = chartData[i];
+                data.addRow([
+                    schedulervo.StartTimeString,
+                    schedulervo.Duration,
+                    schedulervo.recordCount
+                ]);
+            }
+            return data;
+        }
+
+        function drawChart(chartData) {
+            var dataTable = buildChartDataTable(chartData);
+            var mixedChart = new google.charts.Line(document.getElementById('chart_block'));
+            var options = {
+                chart: {
+                    title: 'Scheduler performance'
+                },
+                colors: ['#56aa1c', 'grey'],
+                height: 600,
+                series: {
+                    0: {axis: 'RunTime'},
+                    1: {axis: 'Count'}
+                },
+                axes: {
+                    y: {
+                        RunTime: {label: 'Run time (secs)'},
+                        Count: {label: 'Assignment count'}
+                    }
+                }
+            };
+            mixedChart.draw(dataTable, options);
+        }
+
+        function displayEngineStats(stats) {
+            $('#run_time').html(stats.AverageRunTime + ' secs');
+            $('#restart_count').html(stats.NumberRestarts);
+            $('#total_assignments').html(stats.TotalAssignments);
+        }
+
+    </script>
+
+    <apex:pageBlock >
+        <div id="body">
+            <div class="container" id="stats_container">
+            <span class="chart-text">Show data for:
+            <select id="timeframe_select">
+                <apex:repeat value="{!TimeframeOptions}" var="t">
+                    <option value="{!t.value}">{!t.label}</option>
+                 </apex:repeat>
+            </select>
+            </span>
+                <span class="chart-text">Average run time: <span class="de-green" id="run_time"></span></span>
+                <span class="chart-text">Total assignments: <span class="de-green" id="total_assignments"></span></span>
+                <span class="chart-text">Number of restarts: <span class="de-green" id="restart_count"></span></span>
+            </div>
+            <div class="container" id="chart_container">
+                <div id="chart_block" class="chart"/>
+            </div>
+        </div>
+    </apex:pageBlock>
+</apex:page>

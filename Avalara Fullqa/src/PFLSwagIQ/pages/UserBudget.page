@@ -1,0 +1,154 @@
+<apex:page showHeader="true" controller="PFLSwagIQ.UserBudgetController" sidebar="false" docType="html-5.0" title="SwagIQ Tools" standardStylesheets="false">
+
+ <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <apex:includeScript value="{!$Resource.PFLSwagIQ__SLDS100}/svgfix/svg4everybody.legacy.min.js"/>        
+        <script>svg4everybody();</script>
+        <apex:stylesheet value="{!URLFOR($Resource.PFLSwagIQ__SLDS100,'/assets/styles/salesforce-lightning-design-system-vf.min.css')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.PFLSwagIQ__Chartjs,'/Chart.bundle.min.js')}"/>  
+        <style>
+           .pie-legend li span {
+                background-color: red;
+                display: inline-block;
+                width: 12px;
+                height: 12px;
+                margin-right:10px;
+                font-size: 12px;
+            }
+            
+            ul.pie-legend{
+                list-style-type: none;
+                margin:0;
+                padding:0;     
+            }
+            #budgetInfoDiv {
+                font-size: 12px;
+            }
+            #warningMes {
+                display: none;
+                font-size: 14px;
+                color:red;
+            }
+        </style>
+    </head>
+    <div class='class="swagiq"'> 
+        <div class='pfl-swagiq slds'>
+            <apex:form >            
+                <apex:actionFunction name="updateBudgetInfo" action="{!updateBudget}" oncomplete="showBudgetChart('{!budgetInfo}')"  status="refreshBudget"/>
+                <apex:actionStatus onstart="startLoading()" onstop="finishLoading()" id="refreshBudget"/>
+            </apex:form>
+            <div class="slds-spinner_container slds-hide" id='loading'>
+                <div role="status" class="slds-spinner slds-spinner--large slds-spinner--brand">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+            <div class="slds-align--absolute-center">
+                 <div class="slds-size--1-of-1"> 
+                    <div class="slds-grid slds-grid--align-center slds-wrap">
+                        <div class="block-title slds-size--1-of-12 slds-medium-size--1-of-12 slds-large-size--2-of-12">
+                             <button class="slds-button slds-button--icon-border" aria-live="assertive" title="Refresh user budget" id='refreshBtn'>
+                                <svg class="slds-button__icon" aria-hidden="true">
+                                    <use xlink:href="{!URLFOR($Resource.SLDS100)}/assets/icons/action-sprite/svg/symbols.svg#refresh"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Refresh</span>
+                            </button>
+                        </div>
+                        <div class="block-title slds-size--11-of-12 slds-medium-size--11-of-12 slds-large-size--6-of-12">                           
+                            <div class='slds-text-align--center'><b class="slds-text-heading--medium" style="font-weight: 700">SwagIQ Budget Usage</b></div>
+                            <div class="slds-text-color--error slds-m-around--large" id='warningMes'>There is no information on user budget.</div>
+                            <div class='slds-m-top--large' style="width:95%" id='canvasDiv'>
+                                <canvas id="myChart" width="auto" height='auto'></canvas>    
+                            </div>                       
+                        </div>
+                        <div class="block-title slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--4-of-12 slds-align-bottom">
+                                <div id="legendDiv"></div>
+                                <div id='budgetInfoDiv'></div>
+                        </div>
+                    </div>                   
+                 </div>
+            </div>
+        </div>
+    </div>
+        <script>
+
+            window.onload = function(){
+
+               document.getElementById("refreshBtn").addEventListener('click', function(e){
+                        e.preventDefault();
+                        updateBudgetInfo();
+                    }, false);
+               updateBudgetInfo();
+            }
+
+            function showBudgetChart(budgetJson) {
+                var budget = JSON.parse(budgetJson);      
+                if (!budget) {
+                    document.getElementById("budgetInfoDiv").innerHTML = "";
+                    document.getElementById("legendDiv").innerHTML = "";
+                    document.getElementById("canvasDiv").style.display = 'none';
+                    document.getElementById("warningMes").style.display = 'block';
+                } else {
+                    document.getElementById("canvasDiv").style.display = 'block';
+                    document.getElementById("warningMes").style.display = 'none';      
+                    var data = [    
+                        {
+                            value : budget["remainingBudget"],
+                            color : "#4971c6",
+                            highlight: "#4971c6", 
+                            label: "Budget Remaining"                               
+                        },
+                        {
+                            value: budget["usedBudget"],
+                            color: "#d33621",
+                            highlight: "#d33621", 
+                            label: "Budget Used"
+                        }   
+                    ];
+
+                    var options = {
+                        animation:true,
+                        animationSteps : 1,
+                        animateScale : true,
+                        showTooltip: true,
+                        segmentShowStroke : false,
+                        tooltipTemplate: "$<%= value %>",
+                        tooltipEvents: ["none"],
+                        tooltipFillColor: "rgba(0,0,0,0.0)",
+                        tooltipFontColor: "#000000",
+                        tooltipXOffset: 10,
+                        tooltipTitleFontSize: 14,
+                        responsive : true, 
+                        scaleFontSize: 4,
+                        tooltipTitleFontStyle: "bold",
+                        onAnimationComplete: function(){      
+                            this.showTooltip(myNewChart.segments, true);
+                        }
+                    }
+
+                    var ctx = document.getElementById("myChart").getContext("2d");
+                    var myNewChart = new Chart(ctx).Pie(data, options);
+                   
+                    document.getElementById("budgetInfoDiv").innerHTML = "Total Budget: $" + budget["totalBudget"] + "<br/>Budget Expiration: " + budget["dateExpires"] +  "<br/>Time Remaining: " + budget["remain"] + " <br/>";
+                    document.getElementById("legendDiv").innerHTML = myNewChart.generateLegend();
+                }          
+            }
+
+            function startLoading() {
+                var spinner = document.getElementById("loading");
+                spinner.classList.add('slds-show');
+                spinner.classList.remove('slds-hide');
+            }
+
+            function finishLoading() {
+                var spinner = document.getElementById("loading");
+                spinner.classList.add('slds-hide');
+                spinner.classList.remove('slds-show');
+            }
+                   
+        </script> 
+    </html>
+</apex:page>

@@ -1,0 +1,78 @@
+<aura:component controller="JCFS.RemoteProxyController">
+    <ltng:require scripts="{!$Resource.JCFS__JcfsLightning}"/>
+
+    <aura:method name="openModal">
+        <aura:attribute name="jiraIssueId" type="String"/>
+        <aura:attribute name="soid" type="String"/>
+    </aura:method>
+    <aura:method name="closeModal" description="Closes the configure association dialog"/>
+    <aura:method name="refreshIssues" description="Refreshes Jira issues"/>
+    <aura:attribute name="toggleSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="shouldDisplayDialog" type="Boolean" default="false"/>
+
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="viewOnly" type="Boolean"/>
+    <aura:attribute name="autoPullFromJira" type="Boolean"/>
+    <aura:attribute name="autoPushToJira" type="Boolean"/>
+    <aura:attribute name="issueId" type="String"/>
+    <aura:attribute name="pending" type="Boolean" default="false"/>
+
+    <aura:if isTrue="{!v.shouldDisplayDialog}">
+        <div aura:id="association-config-modal"
+             role="dialog" tabindex="-1" aria-labelledby="title" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <h2 id="title" class="slds-text-heading--medium">
+                        Configure Association
+                    </h2>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium slds-is-relative">
+                    <form class="slds-form--stacked">
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <ui:inputCheckbox aura:id="viewOnly"
+                                                  label="View Only"
+                                                  value="{!v.viewOnly}"
+                                                  change="{!c.viewOnlyChanged}"/>
+                                <label class="slds-form-element__label">
+                                    If enabled, manual and automatic synchronisation will be disabled
+                                </label>
+                            </div>
+                        </div>
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <ui:inputCheckbox aura:id="autoPullFromJira"
+                                                  label="Auto Pull"
+                                                  value="{!v.autoPullFromJira}"/>
+                                <label class="slds-form-element__label">
+                                    Changes to the associated Jira Issue will be pulled automatically to this Object
+                                </label>
+                            </div>
+                        </div>
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <ui:inputCheckbox aura:id="autoPushToJira"
+                                                  label="Auto Push"
+                                                  value="{!v.autoPushToJira}"/>
+                                <label class="slds-form-element__label">
+                                    Changes to this Object will be pushed automatically to associated Jira Issues given
+                                    respective triggers are installed
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                    <aura:if isTrue="{!v.toggleSpinner}">
+                        <lightning:spinner alternativeText="Pending..." class="jira-spinner"/>
+                    </aura:if>
+                </div>
+                <div class="slds-modal__footer">
+                    <lightning:button label="Cancel" onclick="{!c.closeModal}"/>
+                    <lightning:button label="Apply" variant="brand" onclick="{!c.configureAssociation}"
+                                      disabled="{!v.pending}"/>
+                </div>
+            </div>
+        </div>
+
+        <div aura:id="backdrop" class="slds-backdrop slds-backdrop--open"/>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,98 @@
+<aura:component controller="JCFS.RemoteProxyController"
+                implements="flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName" access="global">
+    <ltng:require scripts="{!$Resource.JCFS__JcfsLightning}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="sObjectName" type="String"/>
+    <aura:attribute name="toggleSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="comments" type="Object[]"/>
+    <aura:attribute name="commentSize" type="Integer"/>
+    <aura:attribute name="jiraCommentTagFilter" type="Object"/>
+    <aura:attribute name="salesforceCommentTagFilter" type="Object"/>
+    <aura:attribute name="hasCommentTagFilter" type="Boolean"/>
+    <aura:attribute name="commentSortOrder" type="String"/>
+
+    <aura:handler event="JCFS:AssociationsChanged" action="{!c.doInit}"/>
+    <aura:registerEvent name="associationsChanged" type="JCFS:AssociationsChanged"/>
+
+    <article class="slds-card slds-is-relative slds-theme--default">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-has-flexi-truncate">
+                <div>
+                    <span class="slds-text-heading--small">Jira Comments
+                        <aura:if isTrue="{!not(empty(v.comments))}">
+                            ({!v.commentSize})
+                        </aura:if>
+                        <aura:if isTrue="{! !empty(v.comments)}">
+                            <aura:if isTrue="{!v.commentSortOrder == 'asc'}">
+                                <lightning:buttonIcon class="slds-float--right"
+                                        onclick="{!c.toggleCommentSortOrder}"
+                                        title="Ascending order. Click to reverse"
+                                        iconName="utility:chevronup"
+                                        alternativeText="Sort ASC"
+                                />
+                            </aura:if>
+                            <aura:if isTrue="{!v.commentSortOrder == 'desc'}">
+                                <lightning:buttonIcon class="slds-float--right"
+                                        onclick="{!c.toggleCommentSortOrder}"
+                                        title="Descending order. Click to reverse"
+                                        iconName="utility:chevrondown"
+                                        alternativeText="Sort DESC"
+                                />
+                            </aura:if>
+                        </aura:if>
+                    </span>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body">
+            <aura:if isTrue="{! !empty(v.jiraCommentTagFilter)}">
+                <div class="slds-card__body--inner slds-grid slds-wrap slds-grid--pull-padded">
+                    <div class="slds-box slds-box--small slds-theme--info slds-medium-size--5-of-6 slds-m-around--xx-small">
+                        <div class="slds-m-around--xx-small">
+                            Only Jira comments with one of these tags will be shown:
+                            <aura:iteration items="{!v.jiraCommentTagFilter}" var="jiraComment">
+                                <span class="slds-badge comment-tag-filter">{!jiraComment}</span>
+                            </aura:iteration>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{! !empty(v.salesforceCommentTagFilter)}">
+                <div class="slds-card__body--inner slds-grid slds-wrap slds-grid--pull-padded">
+                    <div class="slds-box slds-box--small slds-theme--info slds-medium-size--5-of-6 slds-m-around--xx-small">
+                        <div class="slds-m-around--xx-small">
+                            Only Salesforce comments with one of these tags will be shown:
+                            <aura:iteration items="{!v.salesforceCommentTagFilter}" var="tagFilter">
+                                <span class="slds-badge comment-tag-filter">{!tagFilter}</span>
+                            </aura:iteration>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{! !empty(v.comments)}">
+                <div class="slds-card__body--inner slds-grid slds-wrap slds-grid--pull-padded">
+                    <aura:iteration items="{!v.comments}" var="comment">
+                        <aura:if isTrue="{!comment.isJiraComment}">
+                            <div class="slds-box slds-box--small slds-theme--shade slds-size_5-of-6 slds-m-around--xx-small">
+                                <div class="slds-m-around--x-small">
+                                    <JCFS:JiraComment comment="{!comment}"/>
+                                </div>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-box slds-box--small slds-size_5-of-6 slds-m-around--xx-small salesforce-comment">
+                                    <div class="slds-m-around--x-small">
+                                        <JCFS:SalesforceComment comment="{!comment}"/>
+                                    </div>
+                                </div>
+                            </aura:set>
+                        </aura:if>
+                    </aura:iteration>
+                </div>
+            </aura:if>
+        </div>
+        <aura:if isTrue="{!v.toggleSpinner}">
+            <lightning:spinner alternativeText="Pending..."/>
+        </aura:if>
+    </article>
+</aura:component>

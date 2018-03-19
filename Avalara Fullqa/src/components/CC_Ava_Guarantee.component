@@ -1,0 +1,30 @@
+<apex:component id="CC_Ava_Guarantee">
+<!-- Start Avalara Guarantee -->
+
+       <div class="background-grey-no guarantee_comp">
+        <div class="avalara-guarantee">
+          <div class="content-container">
+            <h2 class="fcolorTheme container-title">The Avalara Guarantee</h2>
+            <div class="text-containers">
+              <div>
+                <img src="{!$Resource.CC_Avalara_Theme}/images/avalara_guarantee_accurate.png" title="Avalara Guarantee" />
+                <div class="legal-container">
+                  <p class="legal-text">For as long as you are a customer of Avalara AvaTax, if you ever suffer a negative audit finding and financial loss related to an inaccurate result returned by the Avalara service, we will pay your uncollected tax, penalty and interest, or refund your prior 12 months’ service fee, whichever is lower.</p>
+                  <p class="legal-link"><a href="https://www.avalara.com/legal/guarantee/" rel="noopener noreferrer" target="_blank" title="View the Avalara Guarantee">See full terms and conditions</a></p>
+                </div>
+              </div>
+
+              <div>
+                <img src="{!$Resource.CC_Avalara_Theme}/images/avalara_guarantee_60-day.png" title="60 Day money back satisfaction" />
+                <div class="legal-container">
+                  <p class="legal-text">We believe in providing a fast, easy, and accurate way to manage your taxes. If you are not fully satisfied after 60 days, we will provide a refund for your purchase.</p>
+                  <p class="legal-link"><a href="https://www.avalara.com/legal/money-back-guarantee/" rel="noopener noreferrer" target="_blank" title="View the Avalara Guarantee">See full terms and conditions</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<!-- End Avalara Guarantee -->
+</apex:component>

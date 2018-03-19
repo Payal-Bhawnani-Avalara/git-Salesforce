@@ -1,0 +1,27 @@
+<apex:page >
+
+ <apex:enhancedList type="Activity" height="400" rowsPerPage="50" id="D00B33000007J0x0" />
+  
+  <h1>Strategic Value Management Program Launchpad</h1>
+  
+  <apex:form >
+   <apex:commandButton onclick="window.open('https://wiki.avalara.com/display/SRMP/Strategic+Value+Management+Program+Home');" value="Confluence" />
+   
+       
+   <apex:commandButton onclick="window.open('https://avalara.my.salesforce.com/00O0b000003vHN3');" value="Open Support Cases" />
+   
+   <apex:commandButton onclick="window.open('https://avalara1-my.sharepoint.com/personal/jesse_niziol_avalara_com/Documents/SVM Customer Notes?d=w07b4c1f8ffe246439a320dc26e8d7ffa&e=5%3A1b25edc225794438bf82c01bee44f698');" value="OneNote Online" />
+   
+   <apex:commandButton onclick="window.open('https://drive.google.com/drive/folders/0BxYVP1XYQb6rYWZkUGVYM3ExWWs');" value="GDrive Presentations" />
+   
+    </apex:form>
+   
+   
+   
+   
+   
+   <apex:enhancedList type="Contact" height="400" rowsPerPage="50" listid="00B0b000007NNLE" />
+   
+   
+   
+</apex:page>

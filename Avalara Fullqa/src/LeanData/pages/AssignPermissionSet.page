@@ -1,0 +1,34 @@
+<apex:page controller="LeanData.AssignPermissionSetController" sideBar="False" showHeader="false">
+<script>
+function confirmDelete(){
+    var r=confirm("Are you sure you wish to clear all LeanData Permission Set Assignments?");
+    if (r==true) {
+        deleteAssignmentsAF();
+    }
+    else {
+    }    
+}
+</script>
+    <apex:form >
+        <apex:actionFunction name="deleteAssignmentsAF" action="{!deletePermissionSetAssignments}" rerender="permissionSetPageBlock"/>
+        <apex:pageBlock title="Assign Permission Sets" id="permissionSetPageBlock">
+            <apex:pageMessages />
+            <apex:pageBlockButtons > 
+                <apex:commandButton action="{!savePermissionSetAssignments}" reRender="permissionSetPageBlock" value="Save Permission Set Assignments"/>
+                <apex:commandButton onClick="confirmDelete();" reRender="permissionSetPageBlock" value="Clear All Permission Set Assignments"/>
+            </apex:pageBlockButtons>
+            <p>
+            <b>Assign the Permission Set "LeanData Custom Objects Read-Write" to the Profiles associated with the page layouts where you've placed the LeanData View. Click "Save Permission Set Assignments when you are done.</b><br/>
+            <b>If you prefer, assign the Permission Set to all Profiles so the LeanData View automatically becomes visible to users once it is placed on additional layouts. Email customersuccess@leandatainc.com with any questions or to get help.</b>
+            </p>
+            <apex:pageBlockTable value="{!profilePermissionSetList}" var="P">
+                <apex:column headerValue="Profile Name"><apex:outputText value="{!P.prof.Name}" /></apex:column>
+                <apex:column headerValue="Permission Set" >
+                    <apex:selectList value="{!P.permSetId}" size="1">
+                        <apex:selectOptions value="{!PermissionSetPicklist}"></apex:selectOptions>
+                    </apex:selectList>
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

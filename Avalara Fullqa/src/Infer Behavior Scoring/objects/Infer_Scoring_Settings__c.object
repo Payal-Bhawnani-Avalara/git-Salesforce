@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Engaged_Threshold__c</fullName>
+        <defaultValue>70</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Entities with engagement exceeding this threshold count as &apos;engaged&apos; for the purposes of contact-&gt;account and lead-&gt;account rollup.</description>
+        <externalId>false</externalId>
+        <label>Engaged Threshold</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Score_Bucket_1_Threshold__c</fullName>
+        <defaultValue>70</defaultValue>
+        <deprecated>false</deprecated>
+        <description>An object with an Infer Behavior Score exceeding this value will be given an Infer Behavior Rating of 1.</description>
+        <externalId>false</externalId>
+        <label>Best Behavior Score Threshold</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Score_Bucket_2_Threshold__c</fullName>
+        <defaultValue>50</defaultValue>
+        <deprecated>false</deprecated>
+        <description>An object with an Infer Behavior Score exceeding this value will be given an Infer Behavior Rating of 2.</description>
+        <externalId>false</externalId>
+        <label>Second Behavior Score Threshold</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Score_Bucket_3_Threshold__c</fullName>
+        <defaultValue>30</defaultValue>
+        <deprecated>false</deprecated>
+        <description>An object with an Infer Behavior Score exceeding this value will be given an Infer Behavior Rating of 3.</description>
+        <externalId>false</externalId>
+        <label>Third Behavior Score Threshold</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Infer Behavior Scoring Settings</label>
+    <visibility>Public</visibility>
+</CustomObject>

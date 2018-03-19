@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="navigateToURL event template">
+    <aura:attribute name="url" type="String" description="The URL where to redirect"/>
+</aura:event>

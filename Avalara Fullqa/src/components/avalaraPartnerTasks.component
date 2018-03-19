@@ -1,0 +1,62 @@
+<apex:component selfClosing="true" controller="AvalaraPartnerTasksCtrl">
+    <apex:attribute name="versionId" type="String" description="Version Id" assignTo="{!sVersionId}"></apex:attribute>
+    <style>
+        .list-group-item{
+            color:#000;
+        }   
+     
+        [aria-expanded="true"] .glyphicon-plus-sign{
+            display:none;
+        }
+     
+     
+        [aria-expanded="false"] .glyphicon-plus-sign{
+             display:inline-block;
+        }
+        
+        [aria-expanded="true"] .glyphicon-minus-sign{
+             display:inline-block;
+        }
+         
+         
+        [aria-expanded="false"] .glyphicon-minus-sign{
+             display:none;
+        }
+     
+    </style>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-info">
+            <div class="panel-heading" role="tab" id="headingOne">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne" style="text-decoration:none;">
+                        <span class="glyphicon glyphicon-plus-sign" data-toggle="tooltip" data-placement="top" title="click to expand"/> 
+                        <span class="glyphicon glyphicon-minus-sign" data-toggle="tooltip" data-placement="top" title="click to collapse"/> Partner Launch Tasks
+                    </a>
+                    <span class="badge pull-right">
+                        <apex:outputText value="{!completedTasks} / {!totalTasks}"/>
+                    </span>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="panel-body">
+                    <apex:repeat value="{!mapTasksByType}" var="key">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    {!key} 
+                                </h3>
+                            </div>
+                             <ul class="list-group">
+                                <apex:repeat value="{!mapTasksByType[key]}" var="val">
+                                    <li class="list-group-item">
+                                        <apex:outputField value="{!val.Complete__c}"/> &nbsp; {!val.Name}
+                                    </li>
+                                </apex:repeat>
+                            </ul>
+                        </div>
+                    </apex:repeat> 
+                </div>
+            </div>
+        </div>
+    </div>
+</apex:component>

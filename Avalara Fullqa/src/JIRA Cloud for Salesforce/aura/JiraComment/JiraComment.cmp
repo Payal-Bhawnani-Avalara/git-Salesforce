@@ -1,0 +1,35 @@
+<aura:component controller="JCFS.RemoteProxyController">
+    <ltng:require scripts="{!$Resource.JCFS__JcfsLightning}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <aura:attribute name="comment" type="Object"/>
+    <aura:attribute name="authorAvatarUrl" type="String"/>
+    <aura:attribute name="authorDisplayName" type="String"/>
+    <aura:attribute name="authorEmailAddress" type="String"/>
+    <aura:attribute name="createdDate" type="Object"/>
+    <aura:attribute name="fullCreatedDate" type="String"/>
+    <aura:attribute name="issueKey" type="String"/>
+    <aura:attribute name="issueTypeIconUrl" type="String"/>
+    <aura:attribute name="issueBrowseUrl" type="String"/>
+    <aura:attribute name="renderedBody" type="String"/>
+
+    <div class="slds-grid slds-wrap slds-has-flexi-truncate">
+        <div class="slds-col">
+            <span class="slds-m-right--x-small">
+                <img class="slds-icon_x-small" src="{!v.authorAvatarUrl}"/>
+            </span>
+            <a title="{!v.authorEmailAddress}" class="slds-m-right--x-small">{!v.authorDisplayName}</a>
+            <span class="slds-m-right--x-small"> added a comment - </span>
+            <span title="{!v.fullCreatedDate}">
+                <lightning:relativeDateTime value="{!v.createdDate}"/>
+            </span>
+        </div>
+        <div class="slds-col slds-text-align_right">
+            <img src="{!v.issueTypeIconUrl}" class="slds-m-right--x-small slds-icon_x-small"/>
+            <a target="_blank" href="{!v.issueBrowseUrl}">{!v.issueKey}</a>
+        </div>
+    </div>
+    <div class="slds-text-longform slds-text-body--small">
+        <aura:unescapedHtml value="{!v.renderedBody}"/>
+    </div>
+
+</aura:component>

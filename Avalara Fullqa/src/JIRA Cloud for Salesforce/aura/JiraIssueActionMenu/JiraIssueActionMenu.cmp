@@ -1,0 +1,28 @@
+<aura:component controller="JCFS.RemoteProxyController">
+    <ltng:require scripts="{!$Resource.JCFS__JcfsLightning}"/>
+
+    <aura:attribute name="soid" type="Id"/>
+    <aura:attribute name="son" type="String"/>
+    <aura:attribute name="jiraIssueId" type="String"/>
+    <aura:attribute name="jiraProjectId" type="String"/>
+    <aura:attribute name="viewOnly" type="Boolean"/>
+    <aura:attribute name="featureFlags" type="Object"/>
+    <aura:attribute name="featureDisabledWarning" type="String" default="Your Salesforce Admin has disabled this option"/>
+
+    <aura:method name="refreshIssues" description="Refreshes Jira issues"/>
+    <aura:method name="refreshIssuesAndComments" description="Refreshes Jira issues and comments"/>
+
+    <lightning:buttonMenu alternativeText="Operations" onselect="{!c.handleMenuSelect}" iconSize="x-small"
+                          menuAlignment="right" class="slds-dropdown_actions slds-col_bump-left">
+
+        <lightning:menuItem label="Configure" value="Configure" disabled="{!not(v.featureFlags.configureAssociation)}"
+                            title="{!if(not(v.featureFlags.configureAssociation), v.featureDisabledWarning)}"/>
+        <lightning:menuItem label="Push" value="Push" disabled="{!or(v.viewOnly, not(v.featureFlags.pushToJira))}"
+                            title="{!if(not(v.featureFlags.pushToJira), v.featureDisabledWarning)}"/>
+        <lightning:menuItem label="Pull" value="Pull" disabled="{!or(v.viewOnly, not(v.featureFlags.pullFromJira))}"
+                            title="{!if(not(v.featureFlags.pullFromJira), v.featureDisabledWarning)}"/>
+        <lightning:menuItem label="Unlink" value="Unlink" disabled="{!not(v.featureFlags.unlinkJiraIssue)}"
+                            title="{!if(not(v.featureFlags.unlinkJiraIssue), v.featureDisabledWarning)}"/>
+    </lightning:buttonMenu>
+    <JCFS:JiraConfigureAssociation aura:id="config-modal"/>
+</aura:component>

@@ -1,0 +1,3 @@
+<!-- DEPRECATED -->
+<apex:page controller="LeanData.InstallPageController" action="{!redirect}">
+</apex:page>
