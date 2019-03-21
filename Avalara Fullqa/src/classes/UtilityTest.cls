@@ -15,5 +15,8 @@ private class UtilityTest {
     }
     static testMethod void vatNumberVerification() {
         Utility.vatNumberVerification('USA', '123','test');
-    }           
+    }   
+    static testMethod void testGetSObjectFields() {
+        Utility.getSObjectFields('User');
+    }     
 }

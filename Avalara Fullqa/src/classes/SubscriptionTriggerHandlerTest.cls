@@ -1,7 +1,7 @@
 @isTest
 private class SubscriptionTriggerHandlerTest {
   static zqu__Quote__c quote{get;set;}
-
+  Connector__c c;
   static zqu__zProduct__c product{get;set;}
 
   static List<zqu__ProductRatePlan__c> prpList{get;set;}
@@ -29,7 +29,7 @@ private class SubscriptionTriggerHandlerTest {
 	    Account acc = TestFactory.makeAccount();
 	    acc.ActiveCustomer__c=true;
 	    update acc;
-	    Contact con = TestFactory.makeContact( acc );
+	    Contact con=TestUtil.createContact(acc.Id,1,true)[0];
 	    Opportunity opp = TestFactory.makeOpportunity( acc );
 	    //opp.SubType__c='Included';
 	    //update opp;
@@ -77,5 +77,21 @@ private class SubscriptionTriggerHandlerTest {
     		 o=[Select Id,Ding_Value__c,Ding_Month__c,Ding_Year__c From Opportunity Where Id=:o.Id];
     		System.assertEquals(a.ActiveSubscriptionCount__c,1);
     		System.assertEquals(a.First_Purchase_Date__c,Date.today());*/      		
+    }
+     static testMethod void testOpportunityLookUpOnUpdate() {	
+    		Test.startTest();
+    		  //Create an account
+	      Id customerAccountTypeId=[Select Id from RecordType where DeveloperName='Customer_Account_Type' limit 1].Id;
+	      Account a =TestUtil.createAccount(customerAccountTypeId,1,true)[0];
+		  //create Opportunity
+	      Id defaultOppRecTypeId=[Select Id from RecordType where DeveloperName='Default_OppRecType' limit 1].Id;
+	      Opportunity o = TestUtil.createOpportunity(a.id,defaultOppRecTypeId,1,true)[0];		 
+	      Zuora__Subscription__c sub=TestUtil.createZuoraSubscription(a.Id,1,true)[0];
+	      sub.OpportunityID__c=o.id;
+          update sub;
+      	  sub=[Select Id,OpportunityID__c,Opportunity__c From Zuora__Subscription__c Where Id=:sub.Id];
+          System.assertEquals(sub.Opportunity__c, sub.OpportunityID__c);
+        Test.stopTest();
+        
     }
 }

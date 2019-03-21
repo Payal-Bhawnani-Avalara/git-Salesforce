@@ -1,0 +1,555 @@
+<apex:page action="{!if(!isSysAdmin,urlFor('/apex/zsfjira__ZInsufficientPriv'), null)}" setup="true"
+           controller="zsfjira.ZCaseIssueFieldMappingController">
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-ui-1.10.3.custom.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__dynatree_1_2_4_js)}" />
+
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__jQuery, '/css/slds-theme/jquery-ui-1.10.4.custom.min.css')}" />
+
+   <!--  <apex:stylesheet value="{!URLFOR($Resource.jQuery, '/css/redmond/jquery-ui-1.10.3.custom.min.css')}" /> -->
+     <apex:stylesheet value="{!URLFOR($Resource.zsfjira__SLDS103, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+
+    <!-- <apex:sectionHeader title="Case - Issue field Mapping" subtitle="Configure field mapping"/>     -->
+    <style>
+        ul.sortable {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        margin-bottom: 10px;
+        }
+        
+        ul.sortable > li {
+        margin: 5px;
+        padding: 5px;
+        width: 500px;
+        border: 1px solid #D4DADC;
+        border-radius: 4px;
+        background-color: #f4f6f9;
+        }
+        
+        ul.sortable>li>ul>li {
+        width: 420px;
+        background-color: #FAFAFA;
+        }
+        
+        ul.sortable li>span.closeable {
+        float: right;
+        height: 12px;
+        padding: 3px;
+        text-align: center;
+        width: 12px;
+        cursor: pointer;
+        }
+        .undrag{
+        color: gray;
+        }
+        .pageMessageContainer {
+        display: none;
+        }
+        ul.sortable li>select {
+        width: 100%;
+        max-width: 45%;
+        }
+
+        .divline{
+            
+            height: 1px;
+            background: #CFD7E6;
+            margin-top:1%;                  
+        }
+
+        .messageText {
+            color: white !important;
+        }
+
+         .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+            font-weight: normal !important;
+        }
+
+        .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+            font-weight: normal !important;
+        }
+        
+        
+    </style>
+    <script>
+    Visualforce.remoting.timeout = 120000;
+    </script>
+    
+     <div class="slds">
+         <div class="slds-page-header">
+          <div class="slds-grid">
+            <div class="slds-col slds-has-flexi-truncate">
+              <p class="slds-text-body--small">Case - Issue field Mapping</p>
+              <div class="slds-grid">
+                <div class="slds-grid slds-type-focus slds-no-space">
+                  <h1 class="slds-text-heading--medium slds-truncate" title="Settings">Configure field mapping</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <apex:form >
+        <div class='pageMessageContainer'>
+            <apex:pageMessage strength="1" severity="info"
+                              id="zUpCorrectMessage" />
+        </div>
+        <div class="slds-grid">
+            <div class="slds-card slds-m-around--large slds-col">
+                        <div class="slds-card__header slds-grid grid--flex-spread">
+                             <h2 class="slds-text-heading--small slds-truncate">Case - Issue field Mapping</h2>
+                        </div>
+                        <div class="divline"> </div>
+                        <div class="slds-card__body slds-p-horizontal--small">
+                             <div class="slds-m-vertical--small">
+                                In this section you can map Case fields to JIRA issue fields.
+                                Only issue fields of compatible types are listed next to each Case field. 
+                            </div>        
+                            <div class='pageMessageContainer'>
+                                <apex:pageMessage strength="1" severity="error"
+                                                  id="zUpErrorMessage" />
+                            </div>                            
+                            <div id="tabs">
+                                <ul>
+                                    <li class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+                                        <a id="case-tab" class="ui-tabs-anchor" href="#Case-TabBody">Case</a>
+                                    </li>
+                                </ul>
+                                <div class="ui-widget ui-widget-content ui-corner-all" id="Case-TabBody">
+                                    &nbsp; <select class="slds-select" id="sf-properties" style="width:auto;min-width: 500px;"></select> <button class="slds-button slds-button--neutral" id="add-sf-property-button">Add</button>
+                                    <ul class="sortable ui-sortable" id="Case-fieldMapping">
+                                        <li style="color:#54698d;background-color: #f4f6f9">
+                                            <table><tr><th></th><th width="50%">Case Field</th><th width="50%">Issue Field</th></tr></table>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <table class="slds-m-vertical--small">                   
+                                <tr id="tr-auto-edit-issues">
+                                    <td>
+                                        <div class="slds-form-element">
+                                          <div class="slds-form-element__control">
+                                            <label class="slds-checkbox">
+                                                 <input onchange="changeAutoEdit(this);"
+                                                        type="checkbox" id="auto-edit-issues" />
+                                                 <span class="slds-checkbox--faux"></span>
+                                                  <span class="slds-form-element__label"></span>
+                                                </label>
+                                              </div>
+                                            </div>
+                                     </td>
+                                    <td style="color:#16325c;">Automatically update Issue(s) on Case update. <span style="color: gray; font-size: 12px">If enabled, update JIRA issue fields when corresponding case fields are modified. Only issues created from salesforce would be updated according to case/issue field mapping above.</span></td>
+                                </tr>                    
+                            </table>
+                            <br />                
+                            <div class='pageMessageContainer'>
+                                <apex:pageMessage strength="1" severity="error"
+                                                  id="zDwErrorMessage" />
+                            </div>
+                            <div class='pageMessageContainer'>
+                                <apex:pageMessage strength="1" severity="info"
+                                                  id="zDwCorrectMessage" />
+                            </div>
+                        </div>
+            </div>
+        </div>            
+        </apex:form>
+        <div style="text-align: center;">
+            <button class ="slds-button slds-button--brand" onclick="save();return false;" id="buttonSave">Save</button>
+            <button class="slds-button slds-button--brand" onclick="returnToMainSettings();">
+                Return
+            </button>  
+        </div>  
+    </div>
+    <script>
+    var salesforceFields;
+    var salesforceFieldsByName = {};
+    var salesforceTypes;
+    var jiraFields;
+    var jiraTypes;
+    var jiraItems;
+    var jiraOnDemand;
+    var standarJiraSfFieldsMap = {};
+    var standarSfFieldsMap = new Set();    
+    $jqz("#tabs").tabs();
+
+    window.addNewMappedFields = false;
+
+    $jqz("#add-sf-property-button").click(function(event) {
+        var name = $jqz("#sf-properties option:selected").val();
+        var label = $jqz("#sf-properties option:selected").text();
+        window.addNewMappedFields = true;
+        
+        var lis = document.getElementById("Case-fieldMapping").getElementsByTagName("li");
+        var alreadySelected = false;
+        for(var i = 0; i < lis.length; i++){
+            if(lis[i].id==name){
+                alreadySelected = true;
+                break;
+            }
+        }
+        if(alreadySelected){
+            $jqz("span[id$=zUpErrorMessage] DIV.messageText").html('Field \''+label+'\' is already selected');
+            $jqz("span[id$=zUpErrorMessage]").show().delay(5000).fadeOut();            
+        }
+        else{
+            var html = buildCaseField(name, label);
+            $jqz("#Case-fieldMapping").append(html);
+        }
+        return false;
+    });
+
+    $jqz(function() {
+        overridePageMessages();
+        $jqz("span[id$=zUpCorrectMessage]").show();
+        $jqz("span[id$=zUpCorrectMessage] DIV.messageText").html("Loading...");
+        
+        $jqz("span[id$=zDwCorrectMessage]").hide();
+        $jqz("span[id$=zUpErrorMessage]").hide();
+        $jqz("span[id$=zDwErrorMessage]").hide();
+        
+        //$jqz("#buttonSave").attr("disabled", "");
+        //$jqz("#buttonSave").attr("class", "btnDisabled");
+        window.issueFieldsByName = null;
+        window.compatibleFieldsByType = null;
+
+        Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ZCaseIssueFieldMappingController.getCompatibleCFTypesforForFieldTypeByName}',
+            function(result, event) {
+                compatibleFieldsByType = result;
+            }
+        );
+        Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ZCaseIssueFieldMappingController.getAutoCreateEditValues}',
+            function(result, event) {
+                $jqz("#auto-edit-issues").prop("checked", result.autoEditIssues);
+            }
+        );        
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZCaseIssueFieldMappingController.remoteSaveDefaultValuesIfNotExists}',
+            function(result, event) {
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZCaseIssueFieldMappingController.issueCreateMeta}',
+                    function(result, event) {
+                        if (event.status) {
+                            if (result.body) {
+                                issueFieldsByName = mergeIssueFields(result.body);
+                                if(issueFieldsByName.aggregateprogress){
+                                    delete issueFieldsByName.aggregateprogress;
+                                }
+                                if(issueFieldsByName.aggregatetimeestimate){
+                                    delete issueFieldsByName.aggregatetimeestimate;
+                                }
+                                if(issueFieldsByName.aggregatetimeoriginalestimate){
+                                    delete issueFieldsByName.aggregatetimeoriginalestimate;
+                                }
+                                if(issueFieldsByName.aggregatetimespent){
+                                    delete issueFieldsByName.aggregatetimespent;
+                                }
+                                $jqz("span[id$=zUpCorrectMessage] DIV.messageText").html("Loading Case Fields Mapping...");
+                                Visualforce.remoting.Manager.invokeAction(
+                                    '{!$RemoteAction.ZCaseIssueFieldMappingController.getCaseFields}',
+                                    function(result, event) {
+                                        if (event.status) {
+                                            fillCaseFields(result);
+                                        } else {
+                                            showErrorMessage("Could not read Case fields. See if fields are accessible for current user.");
+                                        }
+                                        $jqz("span[id$=zUpCorrectMessage]").hide("fast", function(){});
+                                    }
+                                );
+                            } else {
+                                $jqz("span[id$=zUpCorrectMessage]").hide("fast", function(){});
+                                showErrorMessage(result.status);
+                            }
+                        } else {
+                            $jqz("span[id$=zUpCorrectMessage]").hide("fast", function(){});
+                            showErrorMessage("Could not read Issue Fields. See if JIRA is configured properly.");
+                        }
+                    }
+                );
+            }
+        );
+        $jqz("div.pageMessageContainer").each(function(i){
+            $jqz(this).removeAttr("class");
+        });        
+    });
+    
+    function mergeIssueFields(fields) {
+        var issueFields = {};
+        for (var i=0; i<fields.length; i++) {
+            if(fields[i].schema){
+                issueFields[fields[i].id] = fields[i];
+            }
+        }
+        return issueFields;
+    }
+    function buildCaseField(name, label) {
+        var html = "<li id='" + name + "' class='ui-sortable-handle' style='color:#16325c;'><div title='" + label;
+        html += "' style='width: 220px; overflow: hidden; display: inline-block; margin-right: 5px;'>";
+        html += label + "</div>" + buildSelect(salesforceFieldsByName[name]);
+        html += " <img class='warning' style='display:none' src='/img/msg_icons/warning16.png' title='This field is already mapped.' />";
+        html += "<span onclick='removeProperty(this)' title='Remove this item' class='closeable'><img src='/img/dismiss.gif'></span></li>";
+        return html;
+    }
+
+    function removeProperty(closeButton) {
+        var elementToRemove = $jqz($jqz(closeButton)[0]).parent();
+        $jqz(elementToRemove).hide("fast", function() {
+            $jqz(elementToRemove).remove();
+        });
+    }
+
+    function fillCaseFields(caseFields) {      
+        caseFields.sort(
+            function(a, b) {
+                var a_aux = a.label + "";
+                var b_aux = b.label + "";
+                return a_aux.toLowerCase().localeCompare(b_aux.toLowerCase()); 
+            }
+        );
+        for (var i=0; i < caseFields.length; i++) {
+            var currentField = caseFields[i];
+            salesforceFieldsByName[currentField.name] = currentField;
+            $jqz("#sf-properties").append("<option value='" + currentField.name + "'>" + currentField.label + "</option>");
+            if (issueFieldsByName[currentField.issueFieldName]) {
+//              html = "<li id='"+currentField.name+"' class='ui-sortable-handle'><table><tr><td type='check_input'><td width='50%'>";
+//              html += currentField.label + "</td><td width='50%'>" + issueFieldsByName[currentField.issueFieldName].name + "</td></tr></table></li>";
+                html = buildCaseField(currentField.name, currentField.label);
+            } else {
+                html = "";
+            }
+            $jqz("#Case-fieldMapping").append(html);
+        }
+    }
+
+    function buildSelect(currentField) {
+        console.log('-->' + JSON.stringify(currentField));
+        var compatibleFields = compatibleFieldsByType[currentField.type];
+        var possibleFields = [];
+        var fieldOrder = [];
+        var sfFieldType = currentField.type;
+        var html = "<select class='slds-select' id='issueField' onchange='checkDuplicatedFieldsAndOtherControls(this);'><option>---</option>"
+        var htmlStandardFields = "";
+        var htmlCustomFields = "";
+        if (compatibleFields != undefined) {
+            if(issueFieldsByName.timeestimate){
+                issueFieldsByName.timeestimate.schema.type = 'timetracking';
+            }
+            if(issueFieldsByName.timeoriginalestimate){
+                issueFieldsByName.timeoriginalestimate.schema.type = 'timetracking';
+            }
+            if(issueFieldsByName.timetracking){
+                delete issueFieldsByName.timetracking;
+            }
+            for(var fieldName in issueFieldsByName) {
+                var issueField = issueFieldsByName[fieldName];                
+                var isCompatible = false;
+                isCompatible = $jqz.inArray(issueField.schema.type, compatibleFields) != -1;
+                if (!isCompatible && issueField.schema.type == "array") {
+                    isCompatible = $jqz.inArray("array:"+ issueField.schema.items, compatibleFields) != -1;
+                }
+                if (!isCompatible && issueField.schema.type == "string" && issueField.schema.system) {
+                    isCompatible = $jqz.inArray("system:string", compatibleFields) != -1;
+                }
+                if (!isCompatible && issueField.schema.type == "array" && issueField.schema.items == "string" && issueField.schema.system) {
+                    isCompatible = $jqz.inArray("system:array:string", compatibleFields) != -1;
+                }
+                if (!isCompatible && issueField.schema.custom) {
+                    isCompatible = $jqz.inArray(issueField.schema.custom, compatibleFields) != -1;
+                }
+                if (isCompatible) {
+                    possibleFields[issueField.name] = issueField;
+                    fieldOrder.push(issueField.name);
+                }
+            }
+
+            fieldOrder.sort();
+            var fieldAmount = fieldOrder.length;
+            for(var item = 0; item < fieldAmount; item++){
+                var field = fieldOrder[item];
+                var htmlOption = "<option value='" + possibleFields[field].id +"' ";
+                if(possibleFields[field].id == currentField.issueFieldName){
+                    htmlOption += " selected";
+                }
+                htmlOption += " title='" + possibleFields[field].id + "' >" + field + "</option>";
+                if (possibleFields[field].schema.custom){
+                    htmlCustomFields += htmlOption;
+                } else {
+                    htmlStandardFields += htmlOption;
+                }
+                
+            }
+        }
+        html += '<optgroup label="Standard Fields">' + htmlStandardFields + '</optgroup>';
+        html += '<optgroup label="Custom Fields">' + htmlCustomFields + '</optgroup>';
+        html += "<select/>"
+        return html;
+    }
+
+    function showErrorMessage(message) {
+        $jqz("span[id$=zUpErrorMessage] DIV.messageText").html(message);
+        $jqz("span[id$=zUpErrorMessage]").show().delay(10000).fadeOut();
+    }
+    
+    function changeAutoEdit(input){
+        var autoEdit = $jqz(input).prop("checked");
+        if(autoEdit){
+            var found = false;
+            var foundFieldsMap={};
+            $jqz("ul#Case-fieldMapping select").each(function(index, item) {
+                var value = $jqz(item).val();
+                if(value=='project'||value=='issuetype'){
+                    found=true;
+                    foundFieldsMap[value]=true;
+                }
+            });
+            if(found){
+                var foundFields=[];
+                for(field in foundFieldsMap){
+                    foundFields.push(field);
+                }
+                var confirmation = confirm('Field(s): '+foundFields+' will only apply on issue creation,'+
+                                           ' on Case update it will not have any effect.\n\n Do you want to continue?');
+                if(!confirmation){
+                    $jqz(input).prop("checked",false);
+                }
+            }
+        }
+    }
+    function checkDuplicatedFieldsAndOtherControls(select) {
+        $jqz("ul#Case-fieldMapping select").each(function(index, item) {
+            var value = $jqz(item).val();
+            var duplicates = $jqz("ul#Case-fieldMapping select option:selected[value='" + value + "']");
+            if (duplicates.length > 1) {
+                $jqz("img.warning", $jqz(duplicates).parent().parent().parent()).show();
+            } else {
+                $jqz("img.warning", $jqz(duplicates).parent().parent().parent()).hide();
+            }
+        });
+        var autoEdit = $jqz("#auto-edit-issues").prop("checked");
+        var selectedField = $jqz(select).val();
+        if(autoEdit && (selectedField=='project'||selectedField=='issuetype')){
+            var confirmation = confirm('Field '+selectedField+' will only apply on issue creation,'+
+                                       ' on Case update it will not have any effect.\n\n Do you want to continue?');
+            if(!confirmation){
+                $jqz(select).val('');
+            }
+        }
+    }
+
+    function save() {        
+        $jqz("span[id$=zUpCorrectMessage]").hide();
+        $jqz("span[id$=zUpErrorMessage]").hide();
+        $jqz("span[id$=zDwErrorMessage]").hide();
+        $jqz("span[id$=zDwCorrectMessage]").hide();
+        
+        var jsonObj = {};
+        var autoCreateEditValues = {
+            autoEditIssues: $jqz("#auto-edit-issues").prop("checked")
+        };
+        var foundSummary = false;
+        var someNoMappedIssues = false;
+        var byIssueField = {};
+        $jqz("ul#Case-fieldMapping > li").each(function(index, item) {
+            var sfPropertyName = $jqz(item).attr("id");
+            var issuePropertyName = $jqz("li#" + sfPropertyName + " select").val();
+            if (issuePropertyName != "---") {
+                jsonObj[sfPropertyName] = issuePropertyName;
+                if (byIssueField[issuePropertyName]) {
+                    byIssueField[issuePropertyName].push(sfPropertyName);
+                } else {
+                    byIssueField[issuePropertyName] = [sfPropertyName];
+                }
+            }
+            else{                         
+                $jqz("span[id$=zDwErrorMessage]").show().delay(10000).fadeOut();
+                $jqz("span[id$=zDwErrorMessage] DIV.messageText").html("Please select a field for: "+sfPropertyName);
+                someNoMappedIssues = true;                
+            }
+            if (issuePropertyName == "summary") {
+                foundSummary = true;
+            }
+        });
+        if(someNoMappedIssues){
+            return;
+        }
+        var duplicated = [];
+        var duplicatedMap = {};
+        $jqz("ul#Case-fieldMapping select").each(function(index, item) {
+            var value = $jqz(item).val();            
+            var duplicates = $jqz("ul#Case-fieldMapping select option:selected[value='" + value + "']");
+            if (duplicates.length > 1) {
+                duplicatedMap[value]=true;
+            }
+        });
+        for(var dupKey in duplicatedMap){
+            duplicated.push(dupKey);
+        }
+        window.console.log(JSON.stringify(duplicated));
+        if (!foundSummary) {                    
+            $jqz("span[id$=zDwErrorMessage]").show().delay(10000).fadeOut();
+            $jqz("span[id$=zDwErrorMessage] DIV.messageText").html("Can not save: Issue Summary should be mapped.");
+            return;
+        }
+        if (duplicated.length > 0) {            
+            $jqz("span[id$=zDwErrorMessage]").show().delay(10000).fadeOut();
+            $jqz("span[id$=zDwErrorMessage] DIV.messageText").html("The following fields are being mapped twice: " + duplicated);
+            return;
+        }
+        $jqz("span[id$=zDwCorrectMessage]").show();
+        $jqz("span[id$=zDwCorrectMessage] DIV.messageText").html("Saving...");
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZCaseIssueFieldMappingController.saveMappedFields}', jsonObj,
+            function(result, event) {
+                if (event.status) {
+                    Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ZCaseIssueFieldMappingController.saveAutoCreateEditValues}', autoCreateEditValues,
+                        function(result, event) {
+                            if (event.status) {
+                                $jqz("span[id$=zDwCorrectMessage]").show().delay(5000).fadeOut();;
+                                $jqz("span[id$=zDwCorrectMessage] DIV.messageText").html("Saved successfully");
+                            } else {
+                                $jqz("span[id$=zDwCorrectMessage]").hide("fast", function(){});
+                                $jqz("span[id$=zDwErrorMessage]").show().delay(10000).fadeOut();
+                                $jqz("span[id$=zDwErrorMessage] DIV.messageText").html("Couldn't Save configuration for auto-create or update issues.");
+                            }
+                    });
+                    if (window.addNewMappedFields) {
+                        $jqz("span[id$=zWarnMessage]").show();
+                        $jqz("span[id$=zWarnMessage] DIV.messageText").html("Since you added new mapped fields, we recommend that yoy perform <a href='ZSyncMapping'>Sync "+
+                                                                                                    "mapped Salesforce fields in JIRA</a>, as new fields were configured to be send "+
+                                                                                                    "to JIRA when a Case is modified. "+
+                                                                                                    "If you have other changes to make, complete them first so that "+
+                                                                                                    "you don't perform multiple Sync operations.");
+                    }
+                } else {
+                    $jqz("span[id$=zDwCorrectMessage]").hide("fast", function(){});                    
+                    $jqz("span[id$=zDwErrorMessage]").show().delay(10000).fadeOut();
+                    $jqz("span[id$=zDwErrorMessage] DIV.messageText").html("Couldn't save mapped fields, internal server error: " + event.message);
+                    window.console.log('jsonObj->'+JSON.stringify(jsonObj));
+                }
+            }
+        );
+    }
+
+     function overridePageMessages() {
+          $jqz('.warningM4').addClass('slds-notify slds-notify--alert slds-theme--warning customMessage ');          
+        $jqz('.confirmM4').addClass('slds-notify slds-notify--alert slds-theme--success  customMessage ');    
+        $jqz('.errorM4').addClass('slds-notify slds-notify--alert slds-theme--error customMessage ');                  
+        $jqz('.infoM4').addClass('slds-notify slds-notify--alert customMessage ');    
+                         
+        $jqz('.errorM4').removeClass('errorM4'); 
+        $jqz('.confirmM4').removeClass('confirmM4'); 
+        $jqz('.infoM4').removeClass('infoM4');   
+        $jqz('.warningM4').removeClass('warningM4');  
+     }
+    function returnToMainSettings(){
+        var settingsPage ='/apex/zsfjira__zAgile_Settings';
+        if (typeof sforce != 'undefined' && sforce && sforce.one) {
+            sforce.one.back(false);
+        }else{
+            window.location.replace(settingsPage);
+        }
+    }
+    </script>
+</apex:page>

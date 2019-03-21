@@ -1,0 +1,3 @@
+<apex:page controller="LeanData.AlignContactAccountController" showHeader="false" sidebar="false" id="AlignContactAccountOwnerPage" >  
+<!----- DEPRECATED PAGE ---->
+</apex:page>

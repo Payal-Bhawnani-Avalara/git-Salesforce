@@ -1,0 +1,36 @@
+<apex:page docType="html-5.0" showHeader="false" sidebar="false"
+           standardStylesheets="false" standardcontroller="Case">
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__bootstrap, 'bootstrap-3.2.0-dist/css/bootstrap.min.css')}" />
+    <style>
+        body {
+        padding-top: 5px;
+        padding-left: 20px;
+        }
+    </style>
+    <body>
+        <h4>            
+            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            <a style="color:#000000" onclick="goToLink();">Related Jira Issues</a>
+        </h4>
+    </body>
+    <script>
+    function postListener(e){
+        var messageData = e.data + '';
+        if(messageData.indexOf("sfdcFrameLoaded") != -1){            
+            var messageJson = JSON.parse(messageData);
+            var params = messageJson.params[0];
+            window.console.log('History Length: '+params.history.length);
+            if(params.history.length!=0){
+                goToLink();
+            }
+        }  
+    }
+    function goToLink(){
+        var page = 'zsfjira__ZSFJIRAMobileLink?id={!Case.Id}';
+        var source = '/apex/' + page;
+        sforce.one.navigateToURL(source);
+    }
+    window.addEventListener("message", postListener, false);
+    </script>
+</apex:page>

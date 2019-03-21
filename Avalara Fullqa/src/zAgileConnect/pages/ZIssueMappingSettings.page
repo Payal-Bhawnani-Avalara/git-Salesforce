@@ -1,0 +1,667 @@
+<apex:page action="{!if(!isSysAdmin,urlFor('/apex/zsfjira__ZInsufficientPriv'), null)}"
+           controller="zsfjira.ZIssueMappingSettings" setup="true">      
+<html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">  
+
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-ui-1.10.3.custom.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__dynatree_1_2_4_js)}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__jQuery, '/css/redmond/jquery-ui-1.10.3.custom.min.css')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/js/bootstrap.min.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/css/bootstrap.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__SLDS103, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+
+    <!-- <apex:sectionHeader title="Configure issue fields mapping" subtitle="zAgileConnect Settings"/> -->
+    <script>
+    Visualforce.remoting.timeout = 120000;
+    
+    var Set = function() {}
+    Set.prototype.add = function(o) { this[o] = true; }
+    Set.prototype.remove = function(o) { delete this[o]; }
+    </script>
+    <style>
+        ul.sortable {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        margin-bottom: 10px;
+        cursor: pointer;
+        }
+        
+        ul.sortable > li {
+        margin: 5px;
+        padding: 5px;
+        width: 450px;
+        border: 1px solid #D4DADC;
+        border-radius: 4px;
+        background-color: #f4f6f9;
+        }
+        
+        ul.sortable>li>ul>li {
+        width: 420px;
+        background-color: #FAFAFA;
+        }
+        
+        ul.sortable li>span.closeable {
+        cursor: pointer;
+        float: right;
+        height: 12px;
+        padding: 3px;
+        text-align: center;
+        width: 12px;
+        cursor: default;
+        }
+        .undrag{
+        color: gray;
+        }
+        .pageMessageContainer {
+        display: none;
+        }
+
+        .divline{
+                    
+                    height: 1px;
+                    background: #CFD7E6;
+                    margin-top:1%;                  
+                }
+        .messageText {
+            color: white !important;
+        }
+    </style>
+
+
+     <div class="slds">
+         <div class="slds-page-header">
+          <div class="slds-grid">
+            <div class="slds-col slds-has-flexi-truncate">
+              <p class="slds-text-body--small">Configure issue fields mapping</p>
+              <div class="slds-grid">
+                <div class="slds-grid slds-type-focus slds-no-space">
+                  <h1 class="slds-text-heading--medium slds-truncate" title="Settings">zAgileConnect Settings</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <apex:form >
+
+           
+
+                 <apex:actionFunction name="funcRefreshNeedToSync" oncomplete="needToSyncMessage({!needToSyncZIssue},false);"/>
+            <div style="display: inline-block;float:right;white-space:nowrap;padding-right:5px;">
+                <a href="#" class="helpLink" onclick="$jqz('#modalHelp').modal('show');">Help for this page&nbsp;
+                    <!-- <img src="/s.gif" alt="" class="helpIcon"/> -->
+                    <span class="slds-icon_container" title="Help for this page">
+                      <svg aria-hidden="true" class="slds-icon slds-icon--x-small slds-icon-text-default">
+                        <use xlink:href="{!URLFOR($Resource.SLDS103, '/assets/icons/utility-sprite/svg/symbols.svg#help')}"></use>
+                      </svg>
+                      <span class="slds-assistive-text">Help for this page</span>
+                    </span>
+
+                </a>
+            </div>
+
+         <div class="slds-grid">
+            <div class="slds-m-vertical--medium">            
+                 In this section you may select JIRA fields to store in Salesforce and which of them will be displayed in the Related JIRA Issues section.       
+            </div>            
+
+        </div>  
+
+        <div class="slds-grid">
+            <div class="bs">
+                <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                The checkboxes indicate fields which will be visible in Related JIRA Issues Section
+            </div>
+           
+        </div>
+            <div class='pageMessageContainer'>
+                <apex:pageMessage strength="1" severity="info"
+                                  id="zUpCorrectMessage" />
+            </div>
+            <div class="slds-grid">
+                <div class="slds-card slds-m-around--large slds-col">
+                    <div class="slds-card__header slds-grid grid--flex-spread">
+                         <h2 class="slds-text-heading--small slds-truncate">Configure issue fields mapping</h2>
+                    </div>
+                    <div class="divline"> </div>
+                    <div class="slds-card__body slds-p-horizontal--small">
+                        <div class="slds-m-around--small">
+
+                             <div class='pageMessageContainer'>
+                                <apex:pageMessage strength="1" severity="error"
+                                                  id="zUpErrorMessage" />
+                            </div>
+                            <div class='pageMessageContainer'>
+                                <apex:pageMessage strength="1" severity="warning"
+                                                  id="zUpWarningMessage" />
+                            </div>                            
+
+                            <div class="slds-m-vertical--small">
+                                 <select class="slds-select" id='lstJiraFields' style="width:auto;min-width: 450px;"/>
+                                                     
+                                                    <button class="slds-button slds-button--neutral" onclick="add();return false;">Add</button>
+                            </div>
+                            <div class="ui-widget ui-widget-content ui-corner-all">
+                               <!--  <table class="tabBody ui-widget-content ui-corner-bottom" aria-expanded="true" aria-hidden="false" style="display: block;">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div>
+                                               
+                                                    <select class="slds-select" id='lstJiraFields' style="width:auto;"/>
+                                                     
+                                                    <button class="slds-button slds-button--neutral" onclick="add();return false;">Add</button>
+                                                </div>                        
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table> -->
+                                <ul class="sortable ui-sortable" style='cursor:default' id="jiraSelectedFields">
+                                    <li class='ui-sortable-handle undrag' style="cursor:default;color:#54698d;background-color: #f4f6f9">
+                                        <table><tbody><tr><th></th><th width="50%">JIRA Issue Field</th><th width="50%">Salesforce ZIssue Field</th></tr></tbody></table>
+                                    </li>
+                                </ul>  
+                            </div>
+                            <br/>
+                            <div>
+                                (*) To map JIRA custom fields, first create a corresponding field with compatible type in 
+                                <apex:outputPanel rendered="{!zIssueObjId!='NOT FOUND'}">
+                                    <a href="/{!zIssueObjId}" target="_blank">ZIssue Custom Object.</a>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!zIssueObjId=='NOT FOUND'}">
+                                    ZIssue Custom Object.
+                                </apex:outputPanel>
+                            </div>
+                            <br/>                  
+                            <div class='pageMessageContainer'>
+                                <apex:pageMessage strength="1" severity="error"
+                                                  id="zDwErrorMessage" />
+                            </div>
+                            <div class='pageMessageContainer'>
+                                <apex:pageMessage strength="1" severity="info"
+                                                  id="zDwCorrectMessage" />
+                            </div>
+                            <div class='pageMessageContainer'>
+                                <apex:pageMessage strength="1" severity="warning"
+                                                  id="zDwWarningMessage" />
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+     
+        </apex:form>
+        
+        <div style="text-align: center;">
+            <button class="slds-button slds-button--brand" onclick="save();return false;" id="buttonSave">Save</button>
+            <button class="slds-button slds-button--brand" onclick="returnToMainSettings();">
+                Return
+            </button>          
+        </div> 
+        <div class="bs">
+            <div id="modalHelp" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close slds-button slds-button--neutral" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <span class="glyphicon glyphicon-question-sign"></span>
+                            <h4 class="modal-title">
+                                Help
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p class="text-warning">
+                                Fields added in this section are the JIRA issues fields that will be stored in 
+                                Salesforce in ZIssue Custom Object. Issue standard fields like priority, status,
+                                subject, etc. will be mapped to its corresponding field in Salesforce ZIssue
+                                custom object. If you want to store a JIRA issue custom field in Salesforce
+                                you will need to first create a custom field with compatible field type in                             
+                                ZIssue Custom Object. Once salesforce custom field is created, it will show up
+                                here in the combo box next to the issue custom field, map it and save.
+                                <br/><br/>
+                                Fields with the "display" checkbox enabled will be displayed in the Related JIRA
+                                Issues section as columns, the order of the fields in this section is reflected in
+                                the order of the columns in Related JIRA issues section, you can reorder fields by
+                                drag and drop.                        
+                            </p> 
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary slds-button slds-button--brand" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+    var salesforceFields;
+    var salesforceTypes;
+    var jiraFields;
+    var jiraTypes;
+    var jiraItems;
+    var jiraOnDemand;
+    var standarJiraSfFieldsMap = {};
+    var standarSfFieldsMap = new Set();
+    
+    $jqz(function() {
+
+        overridePageMessages();
+        loadStandarFieldsMap();
+        $jqz("span[id$=zUpCorrectMessage]").show();
+        $jqz("span[id$=zUpCorrectMessage] DIV.messageText").html("Loading...");
+        
+        $jqz("span[id$=zDwCorrectMessage]").hide();
+        $jqz("span[id$=zUpErrorMessage]").hide();
+        $jqz("span[id$=zUpWarningMessage]").hide();     
+        $jqz("span[id$=zDwWarningMessage]").hide();
+        $jqz("span[id$=zDwErrorMessage]").hide();
+        
+        $jqz("#buttonSave").attr("disabled", "");
+        $jqz("#buttonSave").addClass("btnDisabled");
+        
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZIssueMappingSettings.getJiraFields}',
+            function(result, event) {
+                if (event.status) {
+                    jiraFields = result.names;
+                    jiraTypes = result.types;
+                    jiraItems = result.items;
+                    jiraOnDemand = result.onDemand;
+                    fillJiraFields();                    
+                    Visualforce.remoting.Manager.invokeAction(
+                        '{!$RemoteAction.ZIssueMappingSettings.fillSelectOptions}',
+                        function(result, event) {                
+                            if (event.status) {
+                                salesforceFields = result.sfnames;
+                                salesforceTypes = result.sftypes;
+                                Visualforce.remoting.Manager.invokeAction(
+                                    '{!$RemoteAction.ZIssueMappingSettings.getSelectedFields}',
+                                    function(result, event) {                
+                                        if (event.status) {
+                                            fillSelectedFields(result);
+                                            $jqz("#buttonSave").removeAttr("disabled");
+                                            $jqz("#buttonSave").removeClass("btnDisabled");
+                                        }
+                                        $jqz("span[id$=zUpCorrectMessage]").hide();
+                                    }
+                                );
+                            }
+                        }
+                    );
+                }
+            }
+        );        
+        $jqz(".sortable").sortable({ revert : true , items: ">li:not(.undrag)" });   
+        $jqz("div.pageMessageContainer").each(function(i){
+            $jqz(this).removeAttr("class");
+        });
+        needToSyncMessage({!needToSyncZIssue},true);
+    });
+    function needToSyncMessage(needToSync,upMessage){
+        $jqz("span[id$=zUpWarningMessage]").hide("fast", function(){});
+        $jqz("span[id$=zDwWarningMessage]").hide("fast", function(){});
+        window.console.log('needs sync:' +needToSync);
+        if(needToSync){            
+            var jQueryFd = upMessage?'zUpWarningMessage':'zDwWarningMessage';
+            window.console.log('render on:' +jQueryFd);
+            $jqz("span[id$="+jQueryFd+"]").show("fast", function(){});            
+            $jqz("span[id$="+jQueryFd+"] DIV.messageText").html("Since you added new mapped fields, we recommend that you perform a <a href='/apex/zsfjira__ZSyncJiraSf'>Refresh JIRA Issue data in Salesforce"+
+                                                                "</a>. This way existing issues data in Salesforce would be refreshed. "+
+                                                                "If you have other changes to make, complete them first so that "+
+                                                                "you don't perform multiple Sync operations.");
+        }
+    }
+    function removeField(idToClose) {
+        var removeAge= false;
+        if(idToClose=='created' || idToClose=='resolutiondate'){
+            var lis = document.getElementById("jiraSelectedFields").getElementsByTagName("li");                
+            for(var i = 0; i < lis.length; i++){
+                if(lis[i].id=='age'){
+                    removeAge = true;
+                    break;
+                }
+            }
+        }
+        var elementToRemove = '#'+idToClose;
+        $jqz(elementToRemove).hide("fast", function(){
+            $jqz(elementToRemove).remove();
+        });
+        if(removeAge){
+            $jqz('#age').hide("fast", function(){
+                $jqz('#age').remove();
+            });
+        }
+    }
+    function htmlDecode(value){
+        return $jqz('<div/>').html(value).text();
+    }
+    function fillSelectedFields(selectedFields){
+        $jqz("#jiraSelectedFields").append("<li style='cursor:default' id='key' class='ui-sortable-handle undrag'><table><tr><td type='check_input' width='40%'><div class='slds-form-element'><div class='slds-form-element__control'><label class='slds-checkbox'> <input title='Display in Salesforce' type='checkbox' checked disabled"+
+                                           "/>  <span class='slds-checkbox--faux'></span><span class='slds-form-element__label'> Issue Key</span></label></div></div><td width='50%'></td><td></td></tr></table></li>");
+        for(var i = 0; i < selectedFields.length; i++){
+            var currentField = selectedFields[i];
+            if(currentField.jiraid!='age'){
+                var jiraIdTxt = currentField.jiraid+'';
+                $jqz("#jiraSelectedFields").append("<li style='cursor:pointer' id='"+currentField.jiraid+"' class='ui-sortable-handle'><table><tr><td type='check_input' width='40%'> <div class='slds-form-element' style='display: inline-block;'><div class='slds-form-element__control'><label class='slds-checkbox'> <input id='ch_"+currentField.jiraid+"' title='Display in Salesforce' type='checkbox' "+
+                                                   (currentField.displayongrid?"checked='true'":"")+"/> <span class='slds-checkbox--faux'></span><span class='slds-form-element__label'>"+getLabel(currentField.issuefieldlabel,jiraIdTxt)+"</span></label></div></div><td width='50%'>"+buildSelect(currentField.jiraid,currentField.salesforcefieldname)+"</td><td style='padding-left: 5%;'>"+
+                                                   "<span class='closeable' title='Remove this item' onclick=\"removeField('"+currentField.jiraid+"');\"><img src='/img/dismiss.gif'/></span></td></tr></table></li>");
+                setSfStandardSelectControl(currentField.jiraid,true);
+            }
+            else{
+                $jqz("#jiraSelectedFields").append("<li style='cursor:pointer' id='age' class='ui-sortable-handle'><table><tr><td type='check_input'> <div class='slds-form-element' style='display: inline-block;'><div class='slds-form-element__control'><label class='slds-checkbox'><input id='ch_age' title='Display in Salesforce' type='checkbox' checked disabled"+
+                                                   "/> <span class='slds-checkbox--faux'></span><span class='slds-form-element__label'> Age </span></label></div></div><td width='50%'></td><td>"+
+                                                   "<span class='closeable' title='Remove this item' onclick=\"removeField('age');\"><img src='/img/dismiss.gif'/></span></td></tr></table></li>");
+            }
+        }
+        
+    }
+    function getLabel(issuefieldlabel,jiraIdTxt){
+        if(jiraIdTxt in jiraFields){
+            return htmlDecode(issuefieldlabel) + (jiraIdTxt.indexOf('customfield_')==0?' *':'');
+        }
+        else{
+            return htmlDecode(issuefieldlabel) + "<img src='/img/msg_icons/warning16.png' title='Field is currently not accessible from JIRA, check field permissions and availability'/>";
+        }              
+    }
+    function setSfStandardSelectControl(jiraId,setStandardValue){
+        if(jiraId.indexOf('customfield_')!=0){
+            sfSelection = document.getElementById("sf_"+jiraId);
+            sfSelection.disabled = true;
+            if(setStandardValue){
+                sfSelection.value = standarJiraSfFieldsMap[jiraId];
+            }
+        }
+    }
+    function buildSelect(jiraId,salesforcefieldname){
+        var allowedTypes = new Set();
+        allowedTypes.add('STRING');
+        allowedTypes.add('TEXTAREA');
+        if(jiraTypes[jiraId]=='date'){
+            allowedTypes.add('DATE');
+        }
+        else if(jiraTypes[jiraId]=='datetime'){
+            allowedTypes.add('DATETIME');
+        }
+            else if(jiraTypes[jiraId]=='number'){
+                allowedTypes.add('DOUBLE');            
+            }
+        
+        var html = "<select class='slds-select' id='sf_"+jiraId+"'>"
+        if(jiraId.indexOf('customfield_')==0){
+            for(var sfField in salesforceFields){
+                if(!(sfField in standarSfFieldsMap) && ((salesforceTypes[sfField] in allowedTypes)||sfField=='')){
+                    if(sfField!=salesforcefieldname){
+                        html += "<option value='"+sfField+"'>"+salesforceFields[sfField]+"</option>";
+                    }
+                    else{
+                        html += "<option value='"+sfField+"' selected>"+salesforceFields[sfField]+"</option>";
+                    }
+                }
+            }
+        }
+        else{
+            for(var sfField in salesforceFields){
+                if(sfField!=salesforcefieldname){
+                    html += "<option value='"+sfField+"'>"+salesforceFields[sfField]+"</option>";
+                }
+                else{
+                    html += "<option value='"+sfField+"' selected>"+salesforceFields[sfField]+"</option>";
+                }
+            }
+        }
+        html += "<select/>"
+        return html;
+    }
+    function fillJiraFields(){
+        var sortedFields = {};
+        var sIndex=0;
+        for(var jiraFieldId in jiraFields){            
+            sortedFields[sIndex] = jiraFieldId;
+            sIndex++;
+        }        
+        var minIndex = 0;
+        var auxJiraField="";
+        var lstContentStandard = "<optgroup label='Standard Fields'>";
+        var lstContentCustom   = "<optgroup label='Custom Fields'>";
+        for(var i=0;i<sIndex;i++){
+            minIndex = i;
+            for(var j=i+1;j<sIndex;j++){
+                if(jiraFields[sortedFields[j]]<jiraFields[sortedFields[minIndex]]){
+                    minIndex = j;
+                }
+            }            
+            if(minIndex!=i){
+                auxJiraField = sortedFields[i];
+                sortedFields[i] = sortedFields[minIndex];
+                sortedFields[minIndex] = auxJiraField;
+            }
+            auxJiraField = sortedFields[i];
+            if(auxJiraField.indexOf("customfield_")==0){
+                lstContentCustom += "<option value='" +
+                    auxJiraField + "'>" +
+                    jiraFields[auxJiraField] + "</option>";
+            }
+            else{
+                lstContentStandard += "<option value='" +
+                    auxJiraField + "'>" +
+                    jiraFields[auxJiraField] + "</option>";
+            }
+        }
+        lstContentStandard += "</optgroup>";
+        lstContentCustom   += "</optgroup>";
+        
+        $jqz("#lstJiraFields").append(lstContentStandard);
+        $jqz("#lstJiraFields").append(lstContentCustom);             
+    }
+    function showErrorMessage(message) {
+        $jqz("span[id$=zUpErrorMessage] DIV.messageText").html(message);
+        $jqz("span[id$=zUpErrorMessage]").show().delay(5000).fadeOut();   
+    }
+    function add(){
+        var selectJiraFields = document.getElementById("lstJiraFields");      
+        var lis = document.getElementById("jiraSelectedFields").getElementsByTagName("li");
+        var alreadySelected = false;
+        var existsCreated = false;
+        var existsResolved = false;
+        for(var i = 0; i < lis.length; i++){
+            if(lis[i].id==selectJiraFields.value){
+                alreadySelected = true;
+                break;
+            }
+            if(lis[i].id=='created'){
+                existsCreated = true;
+            }
+            if(lis[i].id=='resolutiondate'){
+                existsResolved = true;
+            }
+        }
+        if(alreadySelected){
+            showErrorMessage("Field "+(selectJiraFields.value=="age"?"Age":jiraFields[selectJiraFields.value])+" is already selected");
+        }
+        else{
+            if(selectJiraFields.value!="age"){
+                var jiraIdTxt = selectJiraFields.value+'';
+                $jqz("#jiraSelectedFields").append("<li style='cursor:pointer' id='"+selectJiraFields.value+"' class='ui-sortable-handle'><table><tr><td type='check_input' width='40%'> <div class='slds-form-element' style='display: inline-block;'><div class='slds-form-element__control'><label class='slds-checkbox'><input id='ch_"+selectJiraFields.value+"' title='Display in Salesforce' type='checkbox'"+
+                                                   " checked/>  <span class='slds-checkbox--faux'></span><span class='slds-form-element__label'>"+jiraFields[selectJiraFields.value]+(jiraIdTxt.indexOf('customfield_')==0?' *':'')+"</span></label></div></div><td/><td width='50%'>"+buildSelect(selectJiraFields.value,'')+"</td><td style='padding-left: 5%;'>"+
+                                                   "<span class='closeable' title='Remove this item' onclick=\"removeField('"+selectJiraFields.value+"');\"><img src='/img/dismiss.gif'/></span></td></tr></table></li>");
+                setSfStandardSelectControl(selectJiraFields.value,true);
+            }
+            else{
+                $jqz("#jiraSelectedFields").append("<li style='cursor:pointer' id='age' class='ui-sortable-handle'><table><tr><td type='check_input'><div class='slds-form-element' style='display: inline-block;'><div class='slds-form-element__control'><label class='slds-checkbox'><input id='ch_age' title='Display in Salesforce' type='checkbox' checked disabled"+
+                                                   "/><span class='slds-checkbox--faux'></span><span class='slds-form-element__label'> Age </span></label></div></div> <td/><td width='50%'>"+
+                                                   "</td><td>"+
+                                                   "<span class='closeable' title='Remove this item' onclick=\"removeField('age');\"><img src='/img/dismiss.gif'/></span></td></tr></table></li>");
+                if(!existsCreated){
+                    var idjira='created';
+                    $jqz("#jiraSelectedFields").append("<li style='cursor:pointer' id='"+idjira+"' class='ui-sortable-handle'><table><tr><td type='check_input' width='40%'><div class='slds-form-element' style='display: inline-block;'><div class='slds-form-element__control'><label class='slds-checkbox'><input id='ch_"+idjira+"' title='Display in Salesforce' type='checkbox'"+
+                                                       "/> <span class='slds-checkbox--faux'></span><span class='slds-form-element__label'>"+ jiraFields[idjira] +"</span></label></div></div><td/><td width='50%'>"+buildSelect(idjira,'')+"</td><td style='padding-left: 5%;'>"+
+                                                       "<span class='closeable' title='Remove this item' onclick=\"removeField('"+idjira+"');\"><img src='/img/dismiss.gif'/></span></td></tr></table></li>");
+                    setSfStandardSelectControl(idjira,true);
+                }
+                if(!existsResolved){
+                    var idjira='resolutiondate';
+                    $jqz("#jiraSelectedFields").append("<li style='cursor:pointer' id='"+idjira+"' class='ui-sortable-handle'><table><tr><td type='check_input' width='40%'><div class='slds-form-element' style='display: inline-block;'><div class='slds-form-element__control'><label class='slds-checkbox'><input id='ch_"+idjira+"' title='Display in Salesforce' type='checkbox'"+
+                                                       "/> <span class='slds-checkbox--faux'></span><span class='slds-form-element__label'>"+jiraFields[idjira]+"</span></label></div></div><td/><td width='50%'>"+buildSelect(idjira,'')+"</td><td style='padding-left: 5%;'>"+
+                                                       "<span class='closeable' title='Remove this item' onclick=\"removeField('"+idjira+"');\"><img src='/img/dismiss.gif'/></span></td></tr></table></li>");
+                    setSfStandardSelectControl(idjira,true);
+                }
+            }
+        }
+    }
+    function save(){
+        $jqz("span[id$=zDwCorrectMessage]").hide();
+        $jqz("span[id$=zUpErrorMessage]").hide();
+        $jqz("span[id$=zDwErrorMessage]").hide();
+        var userSelectedValues = {};
+        var sfSelection = '';
+        var chkDisplay;
+        var lis = document.getElementById("jiraSelectedFields").getElementsByTagName("li");
+        var existsAge = false; 
+        var ageIndex = 0;
+        for(var i = 1; i < lis.length; i++){
+            if(lis[i].id!='age' && lis[i].id!='key'){
+                if(!(lis[i].id in jiraFields)){
+                    $jqz("span[id$=zDwErrorMessage] DIV.messageText").html(
+                        "Can't Save. Field "+lis[i].id+" is currently not accessible from JIRA,"+
+                        " check field permissions and availability");
+                    $jqz("span[id$=zDwErrorMessage]").show();
+                    return;
+                }
+                sfSelection = document.getElementById("sf_"+lis[i].id).value;
+                chkDisplay = document.getElementById("ch_"+lis[i].id).checked;
+                userSelectedValues[lis[i].id] = {
+                    salesforceField:sfSelection,
+                    jiraLabel:jiraFields[lis[i].id],
+                    checkDisplay:chkDisplay,
+                    jiraType:jiraTypes[lis[i].id],
+                    jiraItem:jiraItems[lis[i].id],
+                    salesforceType:salesforceTypes[sfSelection],
+                    index:i
+                };
+            }
+            else if(lis[i].id=='age'){
+                ageIndex = i;
+                existsAge = true;
+            }
+        }
+        for(var jiraId_i in userSelectedValues){
+            if(userSelectedValues[jiraId_i].salesforceField==''){
+                $jqz("span[id$=zDwErrorMessage] DIV.messageText").html("Can't Save. Please Select salesforce field for '"+jiraFields[jiraId_i] + "' or remove field");                
+                $jqz("span[id$=zDwErrorMessage]").show();
+                return;
+            }
+            for(var jiraId_j in userSelectedValues){
+                if(jiraId_i!=jiraId_j){
+                    if(userSelectedValues[jiraId_i].salesforceField==userSelectedValues[jiraId_j].salesforceField){
+                        $jqz("span[id$=zDwErrorMessage] DIV.messageText").html("Can't Save. Salesforce field '"+
+                                                                               salesforceFields[userSelectedValues[jiraId_i].salesforceField]+
+                                                                               "' for JIRA field '"+jiraFields[jiraId_i]+
+                                                                               "' is already in use in JIRA field '" + 
+                                                                               jiraFields[jiraId_j]+"'");
+                        $jqz("span[id$=zDwErrorMessage]").show();                     
+                        return;
+                    }
+                }
+            }
+        }
+        
+        if(existsAge){
+            userSelectedValues['age'] = {
+                salesforceField:'N/A',
+                jiraLabel:'Age',
+                checkDisplay:true,
+                jiraType:'N/A',
+                jiraItem:'N/A',
+                salesforceType:'N/A',
+                index:ageIndex
+            };
+        }        
+        var userSelectedValuesJSON = JSON.stringify(userSelectedValues);                
+        $jqz("span[id$=zDwCorrectMessage]").show();
+        $jqz("span[id$=zDwCorrectMessage] DIV.messageText").html("Saving...");
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZIssueMappingSettings.save}',
+            userSelectedValuesJSON,
+            function(result, event) {
+                if (event.status) {
+                    if (result.type == "error") {
+                        $jqz("span[id$=zDwCorrectMessage]").hide();
+                        $jqz("span[id$=zDwErrorMessage] DIV.messageText").html(result.message);
+                        $jqz("span[id$=zDwErrorMessage]").show();   
+                    } else {
+                        $jqz("span[id$=zDwCorrectMessage]").show().delay(5000).fadeOut();
+                        $jqz("span[id$=zDwCorrectMessage] DIV.messageText").html("Saved successfully.");
+                        funcRefreshNeedToSync();
+                    }
+                }
+                else{
+                    $jqz("span[id$=zDwCorrectMessage]").hide();
+                    $jqz("span[id$=zDwErrorMessage] DIV.messageText").html("Problems during saving, internal server error, "+ event.message);
+                    $jqz("span[id$=zDwErrorMessage]").show();
+                    window.console.log('userSelectedValuesJSON->'+userSelectedValuesJSON);
+                }
+            },
+            {escape: false}
+        );
+    }
+    function loadStandarFieldsMap(){
+        standarJiraSfFieldsMap['summary'] = 'Summary__c';
+        standarJiraSfFieldsMap['issuetype'] = 'IssueType__c';
+        standarJiraSfFieldsMap['timespent'] = 'TimeSpent__c';
+        standarJiraSfFieldsMap['reporter'] = 'Reporter__c';
+        standarJiraSfFieldsMap['created'] = 'Created__c';
+        standarJiraSfFieldsMap['updated'] = 'Updated__c';
+        standarJiraSfFieldsMap['description'] = 'Description__c';
+        standarJiraSfFieldsMap['priority'] = 'Prioriy__c';
+        standarJiraSfFieldsMap['status'] = 'Status__c';
+        standarJiraSfFieldsMap['labels'] = 'Labels__c';
+        standarJiraSfFieldsMap['workratio'] = 'WorkRatio__c';
+        standarJiraSfFieldsMap['project'] = 'Project__c';
+        standarJiraSfFieldsMap['environment'] = 'Environment__c';
+        standarJiraSfFieldsMap['components'] = 'Components__c';
+        standarJiraSfFieldsMap['timeoriginalestimate'] = 'OriginalEstimate__c';
+        standarJiraSfFieldsMap['votes'] = 'Votes__c';
+        standarJiraSfFieldsMap['resolution'] = 'Resolution__c';
+        standarJiraSfFieldsMap['fixVersions'] = 'FixVersions__c';
+        standarJiraSfFieldsMap['resolutiondate'] = 'Resolved__c';
+        standarJiraSfFieldsMap['creator'] = 'Creator__c';
+        standarJiraSfFieldsMap['duedate'] = 'DueDate__c';
+        standarJiraSfFieldsMap['watches'] = 'Watchers__c';
+        standarJiraSfFieldsMap['assignee'] = 'Assignee__c';
+        standarJiraSfFieldsMap['versions'] = 'AffectsVersions__c';
+        standarJiraSfFieldsMap['timeestimate'] = 'RemainingEstimate__c';
+        
+        for(jiraFieldId in standarJiraSfFieldsMap){
+            standarSfFieldsMap.add(standarJiraSfFieldsMap[jiraFieldId]);
+        }
+    }
+
+     function overridePageMessages() {
+          $jqz('.warningM4').addClass('slds-notify slds-notify--alert slds-theme--warning customMessage ');          
+        $jqz('.confirmM4').addClass('slds-notify slds-notify--alert slds-theme--success  customMessage ');    
+        $jqz('.errorM4').addClass('slds-notify slds-notify--alert slds-theme--error customMessage ');                  
+        $jqz('.infoM4').addClass('slds-notify slds-notify--alert customMessage ');    
+
+        $jqz('.errorM4').removeClass('errorM4'); 
+        $jqz('.confirmM4').removeClass('confirmM4'); 
+        $jqz('.infoM4').removeClass('infoM4');   
+        $jqz('.warningM4').removeClass('warningM4');  
+    }
+    function returnToMainSettings(){
+        var settingsPage ='/apex/zsfjira__zAgile_Settings';
+        if (typeof sforce != 'undefined' && sforce && sforce.one) {
+            sforce.one.back();
+        }else{
+            window.location.replace(settingsPage);
+        }
+    }
+    </script>
+</html>
+</apex:page>

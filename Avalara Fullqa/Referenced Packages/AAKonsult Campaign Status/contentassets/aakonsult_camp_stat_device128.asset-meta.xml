@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentAsset xmlns="http://soap.sforce.com/2006/04/metadata">
+    <language>en_US</language>
+    <masterLabel>aakonsult_camp_stat_device128</masterLabel>
+    <relationships>
+        <organization>
+            <access>VIEWER</access>
+        </organization>
+    </relationships>
+    <versions>
+        <version>
+            <number>1</number>
+            <pathOnClient>aakonsult_camp_stat_device128.png</pathOnClient>
+        </version>
+    </versions>
+</ContentAsset>

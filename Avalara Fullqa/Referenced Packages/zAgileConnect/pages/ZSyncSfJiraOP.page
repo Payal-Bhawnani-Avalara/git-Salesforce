@@ -1,0 +1,278 @@
+<apex:page action="{!if(!isSysAdmin,urlFor('/apex/zsfjira__ZInsufficientPriv'), null)}"
+           controller="zsfjira.ZSettingsController" setup="true">
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-ui-1.10.3.custom.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__dynatree_1_2_4_js)}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__jQuery, '/css/redmond/jquery-ui-1.10.3.custom.min.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__SLDS103, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+    <style>        
+        .pageMessageContainer {
+        display: none;
+        }
+        .divline{
+        height: 1px;
+        background: #CFD7E6;
+        margin-top:1%;                  
+        }
+        .messageText {
+        color: white !important;
+        }
+        .slds .slds-input {
+        width: auto;
+        }
+        div.pageMessageContainer>span{
+        width:100%;
+        }
+    </style>
+    <script>
+    Visualforce.remoting.timeout = 120000;
+    </script>
+    <div class="slds">
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <p class="slds-text-body--small">Syncing Salesforce Data in JIRA</p>
+                    <div class="slds-grid">
+                        <div class="slds-grid slds-type-focus slds-no-space">
+                            <h1 class="slds-text-heading--medium slds-truncate" title="Settings">
+                                Refresh Salesforce properties in JIRA
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>   
+        
+        <div class='pageMessageContainer'>
+            <apex:pagemessage strength="1" severity="info" id="zSyncInfoMessage" />
+        </div>
+        <div class='pageMessageContainer'>
+            <apex:pagemessage strength="1" severity="warning"
+                              id="zSyncWarnMessage" />
+        </div>
+        <apex:form id="ZFormDataSync">
+            <div class="slds-grid">
+                <div class="slds-card slds-m-around--large slds-col">
+                    <div class="slds-card__header slds-grid grid--flex-spread">
+                        <h2 class="slds-text-heading--small slds-truncate">Syncing Salesforce Data in JIRA</h2>
+                    </div>
+                    <div class="divline"> </div>
+                    <div class="slds-card__body slds-p-horizontal--small">
+                        <p>This option updates Salesforce data cached in JIRA. When
+                            properties are added or updated in Salesforce settings, the sync
+                            action will refresh them in JIRA. By clicking on the Synchronize
+                            Updated Properties button, all Salesforce entities stored in JIRA
+                            will be updated with the new properties. By clicking on the
+                            Synchronize All button, all Salesforce entities stored in JIRA will
+                            be updated with all the new properties and the existing ones.
+                        </p>
+                    </div>                    
+                </div>                
+            </div>       
+            <div class="slds-text-align--center slds-m-vertical--medium">
+                <button id="syncNewProperties" disabled="disabled"
+                        class="slds-button slds-button--brand"
+                        onclick="synchronizeProperties('syncNew'); return false;">Synchronize
+                    Updated Properties</button>
+                <button id="syncAllProperties" disabled="disabled"
+                        class="slds-button slds-button--brand"
+                        onclick="synchronizeProperties('syncAll'); return false;">Synchronize
+                    All</button>
+                <button class="slds-button slds-button--brand"
+                        onclick="returnToMainSettings(); return false;">
+                    Return
+                </button>
+            </div>
+        </apex:form>
+        <div>                    
+            <div class='pageMessageContainer'>
+                <apex:pageMessage strength="1" severity="info"
+                                  id="zSyncCorrectMessage" />
+            </div>
+            <div class='pageMessageContainer'>
+                <apex:pageMessage strength="1" severity="error"
+                                  id="zSyncErrorMessage" />
+            </div>
+        </div>
+    </div>
+    <script>
+    console = console ? console : {"log" : function(){}};           
+    
+    $jqz(function() {
+        overridePageMessages();
+        
+        $jqz("span[id$=zSyncInfoMessage]").hide("fast", function(){});
+        $jqz("span[id$=zSyncWarningMessage]").hide("fast", function(){});
+        $jqz("span[id$=zSyncCorrectMessage]").hide("fast", function(){});
+        $jqz("span[id$=zSyncErrorMessage]").hide("fast", function(){});
+        $jqz("span[id$=zSyncWarnMessage]").hide("fast", function(){});
+        
+        
+        $jqz("div.pageMessageContainer").each(function(i){
+            $jqz(this).css("display","block");
+        });
+        initSyncInfo();
+    });                
+    function synchronizeProperties(operation){
+        disableSyncButtons();
+        hideResultMessages(); 
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.synchronizeData}',operation,
+            function(result, event){
+                var enableButtons = true;
+                if (event.status && result != null) {
+                    showSyncInfoMessage(result);
+                    showNonAccessibleProperties(result);
+                    if( result.sf_status_code == 200 ){ //If sync is valid, not show info message
+                        $jqz("span[id$=zSyncInfoMessage]").hide("fast", function(){});
+                        $jqz("span[id$=zSyncWarnMessage]").hide("fast", function(){});
+                        enableButtons = false;
+                    }
+                    
+                    if( result.sf_status_code && result.sf_status_code != 409 )//Not show message if other process is running
+                        showSyncResultMessages(result);
+                    
+                }
+                console.log(result);
+                if( result.sf_status_code && result.sf_status_code == 409 ){
+                    //If other process is running not enable buttons.
+                    enableButtons = false;
+                    $jqz("span[id$=zSyncWarnMessage]").hide("fast", function(){});
+                }                
+                if( enableButtons ){
+                    enableSyncButtons();
+                }
+            }
+        );
+    }        
+    function initSyncInfo(){
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.getSyncInfo}',
+            function(result, event){
+                if (event.status && result != null ) {
+                    disableOrEnableButtons(result);
+                    showSyncInfoMessage(result);
+                    if( result.sf_status_code && result.sf_status_code != 409 ){ //not show if other process is running
+                        showNonAccessibleProperties(result);
+                    }
+                }
+            }
+        );
+    }    
+    function disableOrEnableButtons(result){ 
+        if( result.can_sync != null ){
+            if( result.can_sync == true ){
+                enableSyncButtons();
+            }else{
+                disableSyncButtons();
+                showSyncResultMessages(result);
+            }
+        }
+    }    
+    function disableSyncButtons(){
+        $jqz("#syncNewProperties").attr("disabled", "disabled");
+        $jqz("#syncAllProperties").attr("disabled", "disabled");
+    }
+    
+    function enableSyncButtons(){
+        $jqz("#syncNewProperties").removeAttr("disabled");
+        $jqz("#syncAllProperties").removeAttr("disabled");
+    }
+    
+    function hideResultMessages(){
+        $jqz("span[id$=zSyncCorrectMessage]").hide("fast", function(){});
+        $jqz("span[id$=zSyncErrorMessage]").hide("fast", function(){});
+    }
+    
+    function showSyncInfoMessage(result){           
+        if( result.status_info ){
+            var infoHtml = '';
+            var len = result.status_info.length;
+            for( var i = 0 ; i < len ; ++i ){
+                if( i > 0 )
+                    infoHtml += '<br/>';
+                infoHtml += result.status_info[i];
+            }
+            $jqz("span[id$=zSyncInfoMessage]").show("fast", function(){});
+            $jqz("span[id$=zSyncInfoMessage] DIV.messageText").html(infoHtml);            
+        }
+        console.log(result);
+    }       
+    function showSyncResultMessages(result){
+        var message = '';
+        if( result.messages ){
+            var messages = result.messages;
+            for( var i = 0 ; i < messages.length ; ++i ){
+                if( i > 0 )
+                    message += ' ';
+                message += messages[i];
+            }
+            message = message.trim();
+        }
+        if( message.length > 0 ){
+            if(result.can_sync){
+                $jqz("span[id$=zSyncErrorMessage]").hide("fast", function(){});
+                $jqz("span[id$=zSyncCorrectMessage]").show("fast", function(){});
+                //$jqz("span[id$=zSyncCorrectMessage]").show().delay(5000).fadeOut();
+                $jqz("span[id$=zSyncCorrectMessage] DIV.messageText").html(message);
+            }else{
+                $jqz("span[id$=zSyncCorrectMessage]").hide("fast", function(){});
+                $jqz("span[id$=zSyncErrorMessage]").show("fast", function(){});
+                $jqz("span[id$=zSyncErrorMessage] DIV.messageText").html(message);
+            }
+        }
+    }    
+    function showNonAccessibleProperties(result){
+        if( result.json_hidden_fields ){
+            var obj = $jqz('#zAuxDiv');
+            obj.html( result.json_hidden_fields );
+            var hiddenFields = $jqz.parseJSON( obj.text() );
+            console.log(hiddenFields);
+            
+            var warnMessage = "The following properties, may have been removed or hidden. These properties weren't considered in last sync process.";
+            warnMessage += "<br />";
+            warnMessage += "<ul>";
+            var showMessage = false;
+            for( var key in hiddenFields ){
+                var fieldsByKey = hiddenFields[ key ];
+                if( fieldsByKey && fieldsByKey.length > 0 ){
+                    warnMessage += "<li>";
+                    warnMessage += key + ": ";
+                    for( var i = 0 ; i < fieldsByKey.length ; ++i ){
+                        if( i > 0 )
+                            warnMessage += ", ";
+                        warnMessage += fieldsByKey[ i ];
+                        showMessage = true;
+                    }
+                    warnMessage += "</li>"                        
+                }
+            }
+            warnMessage += "</ul>";
+            if( showMessage ){
+                $jqz("span[id$=zSyncWarnMessage]").show("fast", function(){});
+                $jqz("span[id$=zSyncWarnMessage] DIV.messageText").html(warnMessage);
+            }
+        }
+    }
+    function overridePageMessages() {
+        $jqz('.warningM4').addClass('slds-notify slds-notify--alert slds-theme--warning customMessage ');
+        $jqz('.confirmM4').addClass('slds-notify slds-notify--alert slds-theme--success  customMessage ')
+        $jqz('.errorM4').addClass('slds-notify slds-notify--alert slds-theme--error customMessage ');    
+        $jqz('.infoM4').addClass('slds-notify slds-notify--alert customMessage ');    
+        
+        $jqz('.errorM4').removeClass('errorM4'); 
+        $jqz('.confirmM4').removeClass('confirmM4'); 
+        $jqz('.infoM4').removeClass('infoM4');   
+        $jqz('.warningM4').removeClass('warningM4');  
+    }
+    function returnToMainSettings(){
+        var settingsPage ='/apex/zsfjira__zAgile_Settings';
+        if (typeof sforce != 'undefined' && sforce && sforce.one) {
+            sforce.one.back(false);
+        }else{
+            window.location.replace(settingsPage);
+        }
+    }
+    </script>
+</apex:page>

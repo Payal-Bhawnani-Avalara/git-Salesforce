@@ -1,0 +1,377 @@
+<!--
+ * Name: TasksProComponent
+ * Last Modified: 09-23-2017
+ * Modified By: FB
+ * Description: 
+ * This is a Component body  for Task Component. This is used for data binding and ui.
+ * Display all the data and action
+ * 
+ *
+-->
+<aura:component controller="webider_taskslt.tasksController" implements="flexipage:availableForAllPageTypes,force:appHostable,forceCommunity:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" access="global">
+    
+    <!--Task object the task list display on the compopnent !--> 
+    <aura:attribute name="Tasks" type="Task[]" />     
+    
+    <!--these 3 attributes used for pagination !-->        
+    <aura:attribute name="page" default="1" type="integer" description="using for store page Number"/>
+    <aura:attribute name="pages" default="2"  type="integer" description="using for store All Pages page Number"/>
+    <aura:attribute name="total" default="0" type="integer" description="total records count store "/>
+    
+    <!--this attribute used to keep the filtertype value on the component and call in controller, helper !-->  
+    <aura:attribute name="filterType" type="String" default="AllOpen"  description="Variable contain filter value" />
+    <aura:attribute name="filtersLabel" type="String" default="All Open Tasks"  description="Variable contain filter Label" />
+    
+    <!--these attributes used to keep the configuration set by the administrator on the page and component !-->  
+    <aura:attribute name="heading" 		type="String" 	required="false" default="Tasks" access="global"/>
+    <aura:attribute name="isNullFirst" 	type="String" 	required="false" default="No" 	access="global"/>
+    <aura:attribute name="SortBy" 		type="String" 	required="false" default="ASC" 	access="global"/>
+    <aura:attribute name="maxLim" 		type="integer" 	required="false" default="5" 	access="global"/>
+    <aura:attribute name="HideRelated" 	type="String" 	required="false" default="No" 	access="global"/>
+    <aura:attribute name="HideLabel" 	type="String" 	required="false" default="No" 	access="global"/>
+    
+	
+	
+    
+    <!--these attributes used to keep the record types related information !-->  
+    <aura:attribute name="task_selectedRecordType" type="String"/>
+    <aura:attribute name="recordTypeList" type="Object[]"/>
+    <aura:attribute name="totalRecordType" type="Integer" default="2"  description="Variable contain Total Record Types of Tasks" />
+    
+    <!--these attributes used to keep the active action value for component display !-->  
+    <aura:attribute name="overDue" type="Integer" default="0"  description="Variable contain Total overDue Tasks" />
+    <aura:attribute name="Today" type="Integer" default="0"  description="Variable contain Total Today Tasks" />
+    <aura:attribute name="thisMonth" type="Integer" default="0"  description="Variable contain Total This Month Tasks" />
+    <aura:attribute name="allOpen" type="Integer" default="0"  description="Variable contain Total All Open Tasks" />
+    
+    <!--these attributes used to keep the currentDate and yearLastDate for conditional used on the component !-->  
+    <aura:attribute name="currentDate" type="date"  />
+    <aura:attribute name="yearLastDate" type="date"  />
+    <aura:attribute name="yearFirstDate" type="date"  /> 
+    <aura:attribute name="tomorrowDate" type="date"  />
+    <aura:attribute name="yesterdayDate" type="date"  /> 
+    
+    <aura:attribute name="FilterLabelsMap" type="Map" default="{ 
+                                                               'Today' : 'Today’s Tasks',
+                                                               'MyTask' : 'My Tasks',
+                                                               'Overdue' : 'All Overdue Tasks',
+                                                               'Completed' : 'Completed Tasks',
+                                                               'Delegated' : 'Delegated Tasks',
+                                                               'TodayOverdue' : 'Today + Overdue',
+                                                               'Tomorrow' : 'Tomorrow Tasks',	
+                                                               'NextSevenDays' : 'Next 7 Days',
+                                                               'NextSevenDaysOverdue' : 'Next 7 Days + Overdue',
+                                                               'ThisMonth' : 'This Month Tasks',
+                                                               'AllOpen' : 'All Open Tasks' }" />
+    
+    <!--these call the init handelr to load the data from controller !-->  
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <div class="c" >
+        
+        
+        <div class="Taskpage" > 
+            <!---Task-Top-Start-->
+            <div class="header " >
+                <!---Task-left-Panel-Start-->
+                <div class="filterMenu leftMenu" >                    
+                    <div class="filterMenuDiv" >
+                        <h3 class="entityName" >
+                            <aura:if isTrue="{!equals('No',v.HideLabel)}">
+                                
+                                <span class="uiOutputText">{!v.heading}</span>
+                            </aura:if>
+                        </h3>
+                        <p class='custom-heading' > {!v.filtersLabel} ({!v.total})</p>                                       
+                    </div>                    
+                </div>
+                <!---Task-left-Panel-End-->
+                <!---Task-Right-Panel-Start-->
+                <div class="TaskNewButton">
+                    <div class="slds-button-group" role="group">
+                        
+                        <ui:inputSelect aura:id="selection" class="filter-select sf1-button" change="{!c.changeFilter}">
+                            
+                            <ui:inputSelectOption text="Today" label="Today"/>
+                            <ui:inputSelectOption text="MyTask" label="My Tasks"/>
+                            <ui:inputSelectOption text="Overdue" label="All Overdue"/>
+                            <ui:inputSelectOption text="Completed" label="Completed Within Last 7 Days" />
+                            <ui:inputSelectOption text="Delegated" label="Delegated"/>
+                            <ui:inputSelectOption text="TodayOverdue" label="Today + Overdue"/>
+                            <ui:inputSelectOption text="Tomorrow" label="Tomorrow"/>
+                            <ui:inputSelectOption text="NextSevenDays" label="Next 7 Days"/>
+                            <ui:inputSelectOption text="NextSevenDaysOverdue" label="Next 7 Days + Overdue"/>
+                            <ui:inputSelectOption text="ThisMonth" label="This Month"/>
+                            <ui:inputSelectOption text="AllOpen" label="All Open" value="true"/>
+                        </ui:inputSelect>    
+                        
+                        
+                        <lightning:buttonIcon iconName="utility:refresh" class="sf1-button" variant="border-filled" onclick="{!c.doInit}" alternativeText="Refresh Component" />
+                        
+                        <lightning:buttonIcon iconName="utility:add" class="sf1-button" variant="border-filled" onclick="{!c.newTask}" alternativeText="Add new Task" />
+                        
+                    </div>
+                </div>
+                <!---Task-Right-Panel-End-->
+            </div>
+            <!---Task-Top-End-->
+            <!---Task-Statistics-Panel-Start--> 
+            <div class="statics">
+                <div class="col4">
+                    <div class="col3 metro " data-operationid="Overdue"  aura:id="Overdue"  onclick="{!c.switchStatics}">
+                        <h2 class="h2_statics">Overdue</h2>
+                        <div class="TotalValue">{!v.overDue}</div>
+                    </div>                  
+                    <div class="col3 metro" data-operationid="Today" aura:id="Today"   onclick="{!c.switchStatics}">
+                        <h2 class="h2_statics">Today</h2>
+                        <div class="TotalValue">{!v.Today}</div>
+                    </div>
+                    <div class="col3 metro" data-operationid="ThisMonth"  aura:id="ThisMonth" onclick="{!c.switchStatics}">
+                        <h2 class="h2_statics">This Month</h2>
+                        <div class="TotalValue">{!v.thisMonth}</div>
+                    </div>
+                    <div class="col3 metro metro-active" data-operationid="AllOpen"  aura:id="AllOpen" onclick="{!c.switchStatics}">
+                        <h2 class="h2_statics">All Open</h2>
+                        <div class="TotalValue">{!v.allOpen}</div>
+                    </div>
+                </div>                
+            </div>
+            <!---Task-Statistics-Panel-End-->             
+            <!---Task-display-tasks-details-start-->  
+            <div style="position:relative;width:100%;">
+                <aura:if isTrue="{!(!v.Tasks.length)}">
+                    
+                   <div class=" slds-m-top_medium slds-text-align_center">You don’t have any tasks in this list. Look in a different list, or create a task.</div>
+                          
+                    
+                    <aura:set attribute="else"> 
+                        
+                        
+                        <aura:iteration items="{!v.Tasks}" var="task">
+                            <div class="row">
+                                <div class="Close-Box leftCheck">                                                 
+                                    <ui:inputCheckbox labelClass="check" value="{!task.IsClosed}"  text="{!task.Id}"  change="{!c.updateTask}"/>
+                                </div>
+                                <div class="col-9">
+                                    <div class="col-8">
+                                        <div class="itemTitle truncate " >
+                                            <div  style="width:70%;display:inline;"  class="{!task.IsClosed ? 'uiOutputText subTitle strikethrough' : 'uiOutputText subTitle'}">
+                                                <a href="{!'/'+task.Id}" data-taskid="{!task.Id}"  >{!task.Subject}    
+                                                    <aura:if isTrue="{!task.Priority=='High'}"> 
+                                                        <lightning:icon iconName="utility:priority" size="xx-small" class="slds-m-left_xx-small" variant="error"/> </aura:if></a>
+                                            </div>
+                                              <div style="display:inline;float:right;padding-right:3%;">
+                                                <!--first check is date eqal to yesterday-->                   
+                                                <aura:if isTrue="{!equals(task.ActivityDate,v.yesterdayDate)}">
+                                                    <span class="label recordCell truncate red"  >Yesterday</span> 
+                                                    <aura:set attribute="else">
+                                                        <!--check is date eqal to tomorrow-->      
+                                                        <aura:if isTrue="{!equals(task.ActivityDate,v.tomorrowDate)}">
+                                                            <span class="label recordCell truncate"  >Tomorrow</span> 
+                                                            <aura:set attribute="else">
+                                                                
+                                                                
+                                                                
+                                                                <aura:if isTrue="{!greaterthan(task.ActivityDate,v.currentDate)}">
+                                                                    <!-- Todo: check if the year is next year and then display MM DD YYYY else the following line --> 
+                                                                    <aura:if isTrue="{!greaterthan(task.ActivityDate,v.yearLastDate)}">
+                                                                        <lightning:formattedDateTime class="label recordCell truncate" value="{!task.ActivityDate}"  year="2-digit" month="short" day="numeric" />
+                                                                        
+                                                                        <aura:set attribute="else"> 
+                                                                            <lightning:formattedDateTime class="label recordCell truncate" value="{!task.ActivityDate}"   month="short" day="numeric" />
+                                                                            
+                                                                        </aura:set>
+                                                                    </aura:if>
+                                                                    <aura:set attribute="else">   
+                                                                        <aura:if isTrue="{!equals(task.ActivityDate,v.currentDate)}">
+                                                                            <span class="label recordCell truncate"  >Today</span> 
+                                                                            <aura:set attribute="else">
+                                                                                <aura:if isTrue="{!greaterthan(task.ActivityDate,v.yearFirstDate)}">
+                                                                                    <lightning:formattedDateTime class="label recordCell truncate red" value="{!task.ActivityDate}"   month="short" day="numeric" />
+                                                                                    
+                                                                                    <aura:set attribute="else"> 
+                                                                                        <lightning:formattedDateTime class="label recordCell truncate red" value="{!task.ActivityDate}"  year="2-digit" month="short" day="numeric" />
+                                                                                        
+                                                                                    </aura:set>
+                                                                                </aura:if>
+                                                                            </aura:set>
+                                                                        </aura:if>
+                                                                    </aura:set>
+                                                                </aura:if>
+                                                            </aura:set>
+                                                        </aura:if>
+                                                        
+                                                    </aura:set>
+                                                </aura:if>
+                                            </div>
+                                           
+                                        </div>
+                                        <div class="itemRows truncate" >
+                                            <ui:outputText value="{!task.Priority}"/> - <ui:outputText value="{!task.Status}"/>
+                                        </div>    
+                                        <aura:if isTrue="{!equals('No',v.HideRelated)}">
+                                            
+                                            <div class="itemRows truncate" >
+                                                <aura:if isTrue="{!!empty (task.Who.Name)}"><a href="{!'/'+task.WhoId}" class="itemRows-subvalue" > 
+                                                    {!task.Who.Name}</a>
+                                                </aura:if>
+                                                <aura:if isTrue="{!!empty (and (task.Who.Name,task.What.Name))}">  
+                                                    <i class="fa fa-minus" aria-hidden="true" style="margin-left: 5px;margin-right: 5px;"></i>  
+                                                </aura:if>
+                                                <aura:if isTrue="{!!empty(task.What.Name)}"> 
+                                                    <a href="{!'/'+task.WhatId}" data-taskid="{!task.WhatId}" class="itemRows-subvalue">{!task.What.Name}</a>
+                                                </aura:if>
+                                                <p>                                    
+                                                    
+                                                </p>
+                                            </div> 
+                                        </aura:if>
+                                    </div> <!-- div end col 8 -->
+                                    
+                                </div> <!-- div end col 9 -->
+                            </div>                
+                        </aura:iteration>
+                        <!---Task-display-tasks-details-End-->
+                        
+                        
+                        <!---Task-pagination-start-->
+                        <div class="pagination slds-button-group slds-align--absolute-center" role="group">
+                            <lightning:buttonIcon class="rotate-180 icon_xlg" size="large" disabled="{!if((v.page == 1  || v.total==0),TRUE,FALSE)}" iconName="utility:breadcrumbs"  variant="bare" onclick="{!c.firstPage}" alternativeText="First Page" />
+                            
+                            <lightning:buttonIcon size="large" disabled="{!if((v.page == 1  || v.total==0),TRUE,FALSE)}" iconName="utility:left"  variant="bare" onclick="{!c.previousPage}" alternativeText="Previous Page" />
+                            <p style="margin-left: 3px;">
+                                Page {!v.page} of {!v.pages}
+                            </p>
+                            <lightning:buttonIcon size="large" class="icon_xlg" aura:id="nextbtn"  disabled="{!if((v.page == v.pages || v.total==0 ),TRUE, FALSE)}"  iconName="utility:right" variant="bare" onclick="{!c.nextPage}" alternativeText="Next Page" />
+                            <lightning:buttonIcon size="large"  class="icon_xlg" aura:id="lastbtn"  disabled="{!if((v.page == v.pages || v.total==0 ),TRUE, FALSE)}"  iconName="utility:breadcrumbs" variant="bare" onclick="{!c.lastPage}" alternativeText="Last Page" />
+                            
+                        </div>
+                        <!---Task-pagination-End-->
+                    </aura:set>
+                </aura:if>
+                
+             </div>
+            <div style="position:relative;width:100%;display:block;">
+             
+                    <div class='footer_link'>
+                        <a href="/one/one.app#/sObject/Task/home" >View All</a>
+                    </div>
+                </div>
+                
+            
+            <!---Task-display-Add-Start-->
+            
+            
+            <div class="slideshow-container " >
+                <a href="javascript:void(0);" onclick="{!c.showModal_tasks}"><img src="{!$Resource.webider_taskslt__webiderResources + '/img/webider_add.png'}" alt="Webider Apps on App Exchange" title="Webider Apps on App Exchange" /></a>
+            </div>
+            <!--Task-display-Add-End-->         
+            
+            
+            
+        </div>        
+        
+        <!--About-Modal-window-Start-->
+        
+        <div role="dialog"  id="modaldialog_tasks" tabindex="-1" class="slds-modal slds-fade-in-open" style="display:none;">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <lightning:buttonIcon class="slds-modal__close" iconName="utility:close" size="large" 
+                                          variant="bare-inverse" alternativeText="Close" onclick="{!c.hideModal_tasks}" /> 
+                    <h2 id="header43" class="slds-text-heading--medium">About Activity Lightning Components</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <div class="slds-align--absolute-center">
+                        <div class="slds-p-top--small slds-p-bottom--small" >
+                            <fieldset class="slds-form-element">
+                                <div class="slds-form-element__control">
+                                    <h2 class="slds-text-heading--small" > Activity Lighting Components are built with love by <a href="http://webider.com" target="_blank"> Webider Corp </a> and are available for FREE. It offers the following KEY features: </h2>
+                                    <br/>
+                                    <ul class="slds-list_dotted">
+                                        <li>Custom Tasks and Event Components ready to use in LXP, SF1 Mobile, and Community</li>
+                                        <li>Features: Pagination, Custom Setting for sorting and number of records, and Record Type Support etc.  </li>
+                                        <li>Summary level info on Open Tasks and Events </li>
+                                    </ul>
+                                    <br/>                         
+                                    <h3 class="slds-text-heading--small" > 
+                                        Want to upgrade? Contact us to learn more about Activity Lightning Component Pro Paid version. 
+                                    </h3>
+                                    
+                                    <center>
+                                        <a href= "https://www.webider.com/activitypackpro" target="_blank">
+                                            <img src="https://www.dropbox.com/s/xe5a1hdp6zqbsov/activity_ltc_pro_final_logo_web.png?dl=1"  title="Activity Lightning Components Pro" />
+                                        </a>
+                                    </center>                               <br></br>
+                                    <div class="slds-text-heading_small">Check out our other Apps on <a href= "https://appexchange.salesforce.com/results?keywords=webider" target="_blank">AppExchange</a> and download the <strong> FREE Trial </strong></div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slds-modal__footer">
+                    <lightning:button label="Close" variant="neutral"  onclick="{!c.hideModal_tasks}"/>
+                    
+                </div>
+            </div>
+        </div>
+        <div id="dialogbackdrop_tasks" class="slds-backdrop slds-backdrop--open" style="display:none;"></div>   
+        <!--About-Modal-window-End-->
+        
+        
+        <!--record-type-modal-start-->
+        <div role="dialog" id="record_type_dialog"  tabindex="-1" class="slds-modal slds-fade-in-open" style="display:none;">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <lightning:buttonIcon aura:id="top_close" class="slds-modal__close" iconName="utility:close" size="large" 
+                                          variant="bare-inverse" alternativeText="Close" onclick="{!c.defaultCloseAction}" /> 
+                    <h2 id="header43" class="slds-text-heading--medium">New Task</h2>
+                    
+                </div>
+                
+                <div class="slds-modal__content slds-p-around--medium">
+                    <p><center>Select a record type</center></p>
+                    
+                    <div class="slds-align--absolute-center">
+                        <div class="slds-p-top--small slds-p-bottom--small" >
+                            <fieldset class="slds-form-element">
+                                <div class="slds-form-element__control">
+                                    <aura:iteration items="{!v.recordTypeList}" var="item">
+                                        <label class="slds-radio slds-p-top--small">
+                                            <tr>
+                                                <td>
+                                                    <aura:if isTrue="{!equals(item.recordTypeId,v.task_selectedRecordType)}">
+                                                        <ui:inputRadio change="{!c.onChange}" text="{!item.recordTypeId}" value="true"/>
+                                                        <span class="slds-radio--faux"></span>
+                                                        
+                                                        <aura:set attribute="else"> 
+                                                            <ui:inputRadio change="{!c.onChange}" text="{!item.recordTypeId}" />
+                                                            <span class="slds-radio--faux"></span>
+                                                            
+                                                        </aura:set>
+                                                    </aura:if>           
+                                                    
+                                                    
+                                                </td>
+                                                <td>
+                                                    <span class="slds-form-element__label">{!item.recordTypeLabel}</span>
+                                                </td>
+                                            </tr>
+                                        </label>
+                                        
+                                    </aura:iteration>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-modal__footer">
+                    <lightning:button label="Cancel"  aura:id="bottom_close" variant="neutral"  onclick="{!c.defaultCloseAction}"/>
+                    <lightning:button label="Next" variant="brand"  onclick="{!c.onconfirm}"/>
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"  id="record_type_dialogbackdrop" style="display:none;"></div>
+        <!--record-type-modal-end-->
+    </div>  
+</aura:component>

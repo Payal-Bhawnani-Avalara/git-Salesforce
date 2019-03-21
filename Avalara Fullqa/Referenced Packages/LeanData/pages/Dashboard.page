@@ -1,0 +1,2389 @@
+<apex:page sideBar="false" standardStylesheets="false" docType="html-5.0" controller="LeanData.DashboardBaseController">
+    <!-- Bootstrap Core CSS -->
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__bootstrap_v3_3_4, 'css/bootstrap.css')}" />
+    <!-- Custom CSS -->
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__bootstrap_v3_3_4, 'css/bootstrap-multiselect.css')}" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+    <!-- Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:100,200,300,400,500,600' rel='stylesheet' type='text/css' />
+    <apex:stylesheet value="{!$Resource.LeanData__loading_spinner}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__DataTables, 'DataTables/1.10.4-jquery.dataTables.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__DataTables, 'DataTables/datatables.min.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__DataTables, 'DataTables/dataTables.checkboxes.css')}"/>
+    <style>
+        /* Because SFDC does weird things. */
+
+        .noSidebarCell {
+            padding: 0;
+        }
+        
+        .clearfix:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+        /* Begin CSS used on Template Only 
+        ----------------------------------
+        */
+        .bs {
+            line-height: 1;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 200;
+            font-size: 16px;
+            display: table;
+            width: 100%;
+        }
+        
+        .bs .loadingOverlay {    
+            width: calc(100% - 200px);
+            position: absolute;
+            margin-left: -37.5px;
+            margin-top: -37.5px;
+            height: calc(100% - 75px);
+            z-index: 2;
+            background: rgba(140, 142, 143, 0.8);
+        }
+        
+        .bs .loadingParent {
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 150px;
+        }
+        
+        .bs .page-content {
+            width: 100%;
+            min-height: 800px;
+            padding: 0px 0px;
+            float: left;
+            position: relative;
+        }
+        
+        .bs .header {
+            font-size: 19px;
+            background-color: white;
+            height: 55px;
+            width: 100%;
+        }
+        
+        .bs .fix-header {
+            position: fixed;
+            top: 0;
+            opacity: 0.9;
+            z-index: 9999;
+        }
+        
+        .bs .header-title {
+            font-size: 21.5px;
+            font-family: 'Open Sans';
+            line-height: 55px;
+            margin-left: 265px;
+            float: left;
+            position: absolute;
+            color: #555555;
+        }
+        
+        .bs .logo {
+            display: block;
+            float: left;
+            margin-left: 40px;
+            margin-top: 15.5px;
+            cursor: pointer;
+        }
+        
+        .bs .left-sidebar {
+            position: absolute;
+            width: 230px;
+            background: #70797b;
+            padding-top: 25px;
+            overflow: scroll;
+            height: calc(100% - 35px);
+
+        }
+        
+        .bs .left-sidebar-title {
+            color: #65d2bd;
+            padding: 0 0 9px 35px;
+            font-size: 15px;
+            border-bottom: 1px white solid;
+            margin-bottom: 20px;
+        }
+        
+        .bs .left-sidebar-goprevious {
+            
+            background: url("{!URLFOR($Resource.LeanData__DashboardImages, 'Double_Arrow_Icon.png')}") no-repeat 99%;
+            background-position: 64px 6px;
+            background-size: 10px;
+            font-size: 12px;
+            color: white;
+            cursor: pointer;
+            padding: 5px 25px 5px 80px;
+            margin: 5px 0 5px -35px;
+        }
+        
+        .bs .left-sidebar-goprevious:hover {
+            background: #828a8c url("{!URLFOR($Resource.LeanData__DashboardImages, 'Double_Arrow_Icon.png')}") no-repeat 99%;
+            background-position: 64px 6px;
+            background-size: 10px;
+        }
+
+        .bs .left-sidebar-button {
+            text-decoration: none !important;
+            display:block;
+            width: 100%;
+            color: white;
+            height: 37.5px;
+            font-size: 13px;
+            padding-left: 20px;
+            background: #70797b;
+            cursor: pointer;
+        }
+        
+        .bs .left-sidebar-button:hover, .bs .left-sidebar-button:focus {
+            background: #828a8c;
+            color: white;
+        }
+        
+        .bs .left-sidebar-button-active {
+            background: url("{!URLFOR($Resource.LeanData__Reporting_Images, 'Navigation_Icon.png')}") #70797b no-repeat right center !important;
+            background-size: 8px 9px !important;
+        }
+
+        .bs .left-sidebar-button-active:hover {
+            background: url("{!URLFOR($Resource.LeanData__Reporting_Images, 'Navigation_Icon.png')}") #828a8c no-repeat right center !important;
+            background-size: 8px 9px !important;
+        }
+
+        .bs .left-sidebar-button-title {    
+            padding-left: 35px;
+            display: block;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            -webkit-transform: translateY(-50%);
+            line-height: 17px;
+        }
+
+        .bs .left-sidebar-button-img {
+            float:left;
+            height:inherit;
+        }
+
+        .bs .left-sidebar-button-img .icon{
+            float:left;
+            margin-top:5px;
+            width: 25px;
+            height: 25px;
+        }
+
+        .bs .left-sidebar-subnav-section {
+            line-height: 1.2;
+        }
+
+        .bs .left-sidebar-subnav-item {
+            text-decoration: none !important;
+            display:block;
+            color: white;
+            font-size: 12px;
+            padding: 5px 15px 5px 60px;
+            cursor: pointer;
+        }
+
+        .bs .left-sidebar-subnav-item .left-sidebar-subnav-item-title {
+            display:block;
+            padding: 0px;
+        }
+
+        .bs .left-sidebar-subnav-item:last-child {
+        }
+
+        .bs .left-sidebar-subnav-item:hover, .bs .left-sidebar-subnav-item:focus {
+            background: #828a8c;
+            color: white;
+        }
+        
+        .bs .left-sidebar-subnav-item-active .left-sidebar-subnav-item-title {
+            color: #65d2bd;
+        }
+        
+        .bs .left-sidebar-subnav-item-active:hover .left-sidebar-subnav-item-title {
+            background: #828a8c;
+        }
+
+        .bs .left-sidebar-subsubnav-section {
+            line-height: 1.2;
+        }
+
+        .bs .left-sidebar-subsubnav-item {
+            text-decoration: none !important;
+            display:block;
+            color: white;
+            font-size: 12px;
+            padding: 5px 0px 5px 65px;
+            cursor: pointer;
+        }
+
+        .bs .left-sidebar-subsubnav-item .left-sidebar-subsubnav-item-title {
+            display:block;
+            padding: 0px;
+        }
+
+        .bs .left-sidebar-subsubnav-item:hover, .bs .left-sidebar-subsubnav-item:focus {
+            background: #828a8c;
+            color: white;
+        }
+        
+        .bs .left-sidebar-subsubnav-item-active .left-sidebar-subsubnav-item-title  {
+            color: #65d2bd;
+        }
+        
+        .bs .left-sidebar-subsubnav-item-active:hover .left-sidebar-subsubnav-item-title  {
+            background: #828a8c;
+        }
+
+        .bs .left-sidebar-subsubsubnav-item {
+            text-decoration: none !important;
+            display:block;
+            color: white;
+            font-size: 12px;
+            padding: 5px 0px 5px 70px;
+            cursor: pointer;
+        }
+
+        .bs .left-sidebar-subsubsubnav-item:hover, .bs .left-sidebar-subsubsubnav-item:focus {
+            background: #828a8c;
+            color: white;
+        }
+        
+        .bs .left-sidebar-subsubsubnav-item-active {
+            color: #65d2bd;
+        }
+        
+        .bs .left-sidebar-subsubsubnav-item-active:hover, .bs .left-sidebar-subsubsubnav-item-active:focus {
+            background: #828a8c;
+            color: #65d2bd;
+        }
+
+        .bs .disabledLink {
+            cursor: not-allowed !important;
+            color: #9a9a9a !important;
+        }
+        
+        .bs .main-content {
+            background: #eeefef;
+            padding: 37.5px 37.5px 0 267.5px;
+            float: left;
+            height: 100%;
+            min-height: 800px;
+            width: 100%;
+        }
+        
+        .bs .dg_sidebar-expand-arrow{
+            margin-left: 10px;
+            margin-bottom: 2px;
+            width: 4.5px;
+            height: 9.5px;
+        }
+
+        .bs .dg_outer-wrapper {
+            background: white;
+            border: 1px solid #8da8bf;
+            border-radius: 7.5px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .bs .dg_outer-wrapper:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+        
+        .bs .dg_outer-wrapper-header {
+            width: 100%;
+            height: 50px;
+            font-size: 19px;
+            color: #000000;
+            text-align: center;
+            line-height: 50px;
+            border-bottom: 1px solid #9da8bf;
+            display: inline-block;
+        }
+        
+        .bs .dg_outer-wrapper-content {
+            padding: 20px 20px 0 20px;
+        }
+        
+        .bs .dg_inner-wrapper {
+            width: 100%;
+            min-width: 1005px;
+            background: white;
+            border: 1px solid #8da8bf;
+            border-radius: 7.5px;
+            margin: 0 20px 20px 0;
+        }
+
+        .bs .dg-inner-wrapper-content .dg_inner-wrapper {
+            margin-left: 20px;
+        }
+        
+        .bs .dg_outer-wrapper .dg_inner-wrapper {
+        }
+        
+        .bs .dg_inner-wrapper:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+        
+        .bs .dg_inner-wrapper-header {
+            width: 100%;
+            height: 50px;
+            font-size: 19px;
+            color: #000000;
+            text-align: center;
+            line-height: 50px;
+            border-bottom: 1px solid #8da8bf;
+        }
+
+        .bs .dg_inner-wrapper-header-right {
+            float: right;
+            font-size: 11px;
+            padding-right: 17.5px;
+            cursor: pointer;
+        }
+
+        .bs .dg_inner-wrapper-subheader {
+            font-size: 16px;
+            font-weight: 200;
+        }
+
+        .dg_inner-wrapper-secondaryheader {
+            line-height: 50px;
+            text-align: center;
+            border-bottom: 1px solid #9da8bf;
+            font-size: 12px;
+        }
+
+        .bs .dg_upperright-absolute {     
+            margin-top: -75px;
+            float: right;
+            margin-right: 30px;
+            position: relative;
+            font-size: 11px;
+        }
+        
+        .bs .dg_inner-wrapper-content {
+            width: 100%;
+            padding: 20px;
+        }
+        
+        .bs .dg_inner-wrapper-content:not(:last-child) {
+            border-bottom: 1px solid #8da8bf;
+        }
+        
+        .bs .dg_inner-wrapper-content:after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+        
+        .bs .dg_floated-item {
+            float: left;
+            margin-right: 20px
+        }
+        
+        .bs .dg_item-title {
+            font-size: 16px;
+            color: #555555;
+            margin-bottom: 20px;
+        }
+        
+        .bs .dg_status-column {
+            width: 33%;
+            height: 150px;
+            float:left;
+            padding: 5px;
+        }
+        
+        .bs .dg_status-column-title {
+            font-size: 16px;
+            margin: 15px 0;
+            color: #555;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        .bs .dg_status-column-info {
+            margin-top: 22.5px;
+            width: 310px;
+            height: 90px;
+            margin-left:auto;
+            margin-right:auto;
+            color: #555;
+            font-size:12.5px;
+            line-height: 18px;
+            text-align: justify;
+            text-justify: inter-word;
+        }
+
+        .bs .dg_status-column:not(:first-child) {
+            border-left: 1px solid #8da8bf;
+        }
+        
+        .bs .dg_status-column-sub {
+            height: 50%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .bs .dg_status-column-sub:not(:first-child) {
+            border-top: 1px solid #8da8bf;
+        }
+        
+        .bs .dg_products-enabled {
+            width: max-content; 
+            width: intrinsic;
+            width: -moz-max-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .bs .dg_products-enabled-item {
+            margin-bottom: 10px;
+        }
+        
+        .bs .dg_products-enabled-item-child {
+            margin-top: -10px;
+            margin-left: 28px;
+        }
+
+        .bs .dg_products-enabled-item-checkbox {
+            margin-bottom: 5px;
+        }
+
+        .bs .dg_products-enabled-item-title {
+            color: #555;
+            font-size: 16px;
+            margin-left: 5px;
+        }
+        
+        .bs .dg_products-info {
+            margin-top:  30px;
+            text-align: center;
+        }
+        
+        .bs .dg_products-info-item {
+            display: inline-block;
+            width: 200px;
+            margin: 0 auto;
+        }
+        
+        .bs .dg_products-info-item-title {
+            color: #555;
+            font-size: 12.5px;
+            margin-bottom: 3px;
+        }
+        
+        .bs .dg_products-info-item-content {
+            font-size: 30px;
+            color: #555;
+            margin-bottom: 3px;
+        }
+
+        .bs .dg_section {
+            float: left;
+            margin-left: 65px;
+            height: max-content; 
+            height: intrinsic;
+            height: -moz-max-content;
+
+            width: 160px;
+            margin-top: 57.5px;
+        }
+
+        .bs .dg_section-nav {
+            width: 185px;
+            height: 135px;
+            cursor: pointer;
+        }
+        
+        .bs .dg_section-nav-title {
+            margin-top: 22.5px;
+            color: #1abc9c;
+            text-align: center;
+            font-weight: 400;
+            font-size: 13px;
+            
+        }
+        
+        .bs .dg_section-nav-image {
+            margin-left:auto;
+            margin-right:auto;
+            display:block;
+        }
+
+        .bs .dg_section-subbox {
+            margin-left: auto;
+            margin-right: auto;
+            width: max-content;
+            width: intrinsic;
+            width: -moz-max-content;
+        }
+
+        .bs .dg_section-subbox-item {    
+            font-size: 12.5px;
+            margin-bottom: 5px;
+            color: #555;
+            display: block;
+        }
+
+        a.dg_section-subbox-item:focus {
+            text-decoration: none;
+            color: #555;
+        }
+
+        .bs .dg_section-subbox-item:hover {
+            color: #1abc9c;
+            cursor: pointer;
+            text-decoration: none
+        }
+        
+        .dg_inner-wrapper-content h5 {
+            font-size: 16px;
+            line-height:45px;
+        }
+        
+        .dg_inner-wrapper-content h6 {
+            font-size: 12px;
+            font-weight: 400;
+            line-height:25px;
+        }
+        
+        .dg_inner-wrapper-content p {
+            font-size: 12px;
+            margin-bottom: 27.5px;
+            color: #5e7178;
+            line-height:20px;
+        }
+        
+        .bs .dg_date-input {
+            width: 90px;
+            text-align: center;
+            color: #555;
+            height: 24px;
+            line-height: 0px;
+            font-size: 13px;
+            font-weight: 200;
+            margin-right: 5px;
+        }
+        
+        .bs .dg_date-text {
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .bs .dg_date-label {
+            background-size: 16.5px 20px;
+            background-repeat: no-repeat;
+            width: 20px;
+            height: 29px;
+            cursor: pointer;
+            position: absolute;
+            margin-top: 18px;
+            background-image: url("{!URLFOR($Resource.LeanData__DashboardImages, 'Calendar_Icon.png')}");
+        }
+
+        .bs .dg_date-label:hover {
+            background-image: url("{!URLFOR($Resource.LeanData__DashboardImages, 'Calendar_Icon_hover.png')}");
+        }
+
+
+        .bs .btn {
+            font-weight: 200;
+        }
+
+        .bs .dg_centeredfooter {
+            margin: 35px auto;
+            display: table;
+        }
+
+        .bs .dg_main-button, 
+        .bs .dg_cancel-button {
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 200;
+            font-family: 'Open Sans';
+            width: max-content;
+            width: intrinsic;
+            width: -moz-max-content;
+            min-width:150px;
+            padding: 0px 20px;
+            line-height: 37.5px;
+            border-radius: 3px;
+            text-align:center;
+        }
+        
+        .bs .dg_main-button {
+            color: white;
+            background: #1b527f;
+        }
+        
+        .bs .dg_main-button:hover,
+        .bs .dg_cancel-button:hover {
+            opacity: .5;
+        }
+
+        .bs .dg_cancel-button{
+            color: #555555;
+            border:1px solid #8da8bf;
+            background: white;
+        }
+
+        .bs .dg_button {
+            margin-left:20px;
+            display:block;
+            float:left;
+        }
+
+        .bs a.dg_main-button:hover,
+        .bs a.dg_main-button:active,
+        .bs a.dg_main-button:visited,
+        .bs a.dg_main-button:focus {
+            color: white;
+            text-decoration: none;
+        }
+
+        .bs .dg_sub-button {
+            width:190px;
+            color: #1b527f;
+            background: white;
+            border:1px solid #1b527f;
+            border-bottom-color:#1b527f;
+        }
+
+        .bs .dg_sub-button:hover {
+            color:white;
+            background:#1b527f;
+            border:1px solid #b5b5b5;
+            border-bottom-color:#7f7f7f;
+        }
+        
+        .bs .headerSortUp {
+            background: #f0f8ff url("{!URLFOR($Resource.LeanData__Reporting_Images, 'Up_Arrow_Icon.png')}") no-repeat 99%;
+            background-size: 9.5px 5.5px;
+        }
+        
+        .bs .headerSortDown {
+            background: #f0f8ff url("{!URLFOR($Resource.LeanData__Reporting_Images, 'Down_Arrow_Icon.png')}") no-repeat 99%;
+            background-size: 9.5px 5.5px;
+        }
+        
+        .bs .dg_inner-wrapper-content::-webkit-scrollbar {
+            -webkit-appearance: none;
+            width: 7px;
+        }
+        
+        .bs .dg_inner-wrapper-content::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, .5);
+            -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+        }
+        
+        /* Table Styling */
+        .bs .dg_details-table-div {
+            width: 930px;
+            margin: 0 auto;
+        }
+        
+        .bs .dg_details-table-innerdiv {
+            max-height: 230px;
+            height: 230px;
+            overflow: auto;
+        }
+        
+        
+        .bs .dg_details-table-innerdiv::-webkit-scrollbar {
+            -webkit-appearance: none;
+            width: 7px;
+        }
+        
+        .bs .dg_details-table-innerdiv::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, .5);
+            -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+        }
+        
+        .bs .dg_details-table-div table {
+            font-family: 'Open Sans', sans-serif;
+            width: 100%;
+            table-layout: fixed;
+            font-size: 11px;
+        }
+        
+        .bs .dg_details-table-div th {
+            background-color: #F0F8FF;
+            font-weight: 600;
+            vertical-align: middle !important;
+            border-bottom: none !important;
+            padding: 5px 5px 5px 25px !important;
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        .bs .dg_details-table-div th a {
+            cursor: pointer !important;
+        }
+        
+        .bs .dg_details-table-div th a:hover {
+            text-decoration: none !important;
+        }
+        
+        .bs .dg_details-table-div td {
+            border-top: 1px solid #ddd;
+            padding: 5px 5px 5px 25px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .bs .dg_details-table-div tr {
+            height: 37.5px;
+        }
+
+        .bs .dg_details-table-div tr:nth-child(even) {
+            background-color: #F9F9F9;
+        }
+
+        .bs .dg_details-table-div tr:nth-child(odd) {
+            background-color: #FFFFFF;
+        }
+
+        .bs .dg_details-table-pagination {
+            float: right;
+            margin-top: 20px;
+            font-size: 12.5px;
+            font-weight: 200;
+            color: #555555;
+        }
+        
+        .bs .dg_details-table-pagination-page {
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .bs .dg_details-table-pagination-page:hover {
+            color: #65d2bd;
+        }
+        
+        .bs .dg_details-table-pagination-page-active {
+            color: black;
+            font-weight: 400;
+        }
+        /* End of table styling. */
+        
+        .dg_axis-choices-div {
+            position: absolute;
+            margin-left: 270px;
+        }
+        
+        .bs .dg_y-axis-choice {
+            z-index: 100;
+        }
+        
+        .bs .dg_x-axis-choice {
+            z-index: 100;
+        }
+        
+        .bs .bs .dg_highchart {
+            width: 850px;
+            height: 530px;
+            margin: 35px auto 20px auto;
+        }
+        
+        .bs .dg_saveclose-nav {
+            margin: 12.5px 20px 37.5px 0;
+            clear: both;
+            float: right;
+        }
+        
+        .bs .customHeaderContent-right {
+            float: right;
+            margin: 12.5px 37.5px 0 0;
+        }
+        
+        .bs .customHeaderContent-right-information {
+            height: 18px;
+            width: 18px;
+        }
+        
+        .bs .customHeaderContent-right-wizard {
+            height: 28.5px;
+            width: 165px;
+            margin-right: 37.5px;
+        }
+        
+        .bs .settingsLink {
+            display: block;
+            margin-bottom: 5px;
+            cursor: pointer;
+            width: intrinsic;
+        }
+        
+        .bs .settingsLinkIcon {
+            position: relative;
+            top: -2px;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .bs .settingsLinkLabel {
+            margin-left: 5px;
+            font-size: 11px;
+            color: #5e7178;
+            font-weight: 400;
+        }
+        
+        .bs .settingsLinkLabel:hover {
+            text-decoration: underline;
+        }
+        
+        .bs .settingsLinkStatus {
+            margin-left: 5px;
+            display: block;
+        }
+        
+        .bs .selectList {
+            border-radius: 0px !important;
+            background: white !important;
+            padding: 5px 10px !important;
+            color: #5e7178 !important;
+        }
+        
+        .bs .settings-nav {
+            margin-top: 55px;
+        }
+        
+        .bs select {
+            border-radius: 0px;
+            padding: 5px 8px;
+            box-shadow: none;
+            -webkit-appearance: menulist;
+        }
+        
+        .bs .dg_picklist,
+        .multiselect {
+            font-size: 12px !important;
+            width: 250px;
+            height: 30px !important;
+            border-radius: 0px;
+        }
+        
+        .bs .darkBlueBG {
+            background: #1b527f;
+        }
+        
+        .bs .yellowBG {
+            background: #ffc708;
+        }
+        
+        .bs .blueBG {
+            background: #45b7e6;
+        }
+        
+        .bs .open-sans-light {
+            font-family: open-sans-light;
+        }
+        
+        @font-face {
+            font-family: open-sans-light;
+            src: url("{!URLFOR($Resource.LeanData__OpenSansLight)}");
+        }
+        
+        .funnelBG {
+            background: url("{!URLFOR($Resource.LeanData__Reporting_Images, 'Funnel_1.png')}") no-repeat;
+            background-size: 100%;
+        }
+        
+        .bs .dg_styled-select select {
+            background: transparent;
+            width: 100%;
+            padding: 0px 25px 0px 5px;
+            line-height: 14px;
+            font-size: 13px;
+            border: 0;
+            border-radius: 0;
+            height: 44px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+        
+        .bs .dg_styled-select {
+            width: 280px;
+            background: url("{!URLFOR($Resource.LeanData__Reporting_Images, 'Down_Arrow_Icon.png')}") no-repeat right #fff;
+            background-size: 9.5px 5.5px;
+            border: 1px solid #8da8bf;
+            background-position: right 10px top 12px;
+            line-height: 12px;
+        }
+        
+        .bs .dropdown-toggle {
+            width: 100%;
+            border: none;
+            background: transparent;
+            text-align: left;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+        }
+        
+        .bs .dropdown-toggle:hover {
+            background: transparent;
+        }
+        
+        .bs .dropdown-toggle:focus {
+            background: transparent;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+        }
+        
+        .bs .btn-group {
+            width: 100%;
+        }
+        
+        .bs .btn-group > .btn:first-child:active {
+            background: transparent;
+        }
+        
+        .bs .dropdown-menu {
+            width: 100%;
+        }
+        
+        .dropdown-toggle .caret {
+            display: none;
+        }
+        
+        .bs .multiselect-container>li>a>label {
+            padding-left: 20px;
+        }   
+
+        .bs .dropdown-menu > .active > a, .bs .dropdown-menu > .active > a:hover, .bs .dropdown-menu > .active > a:focus {
+            background-color: #ffffff;
+            color:black;
+        }
+
+        .bs .dg_wordbreak {
+            word-wrap: break-word;
+        }
+
+        .bs .dg-button-blue {
+            float:left;
+            width:75px;
+            height:27.5px;
+            cursor: pointer;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 200;
+            font-family: 'Open Sans';
+            text-align: center;
+            line-height: 25px;
+            border-radius: 5px;
+            background: #1b527f;
+            border: 1px solid #9da8bf;
+        }
+        
+        .bs .fileName{
+            align-content: left;
+            font-size:13px;
+            font-weight:400;
+            font-family: "Open Sans";
+            color: #555555;
+            margin-top:8px;
+            margin-right:20px;
+            float:left;
+        }
+        .bs .SubHeader {
+            justify-content:center;
+            align-items:center;
+            font-size: 12px;
+            font-weight: 200;
+            font-family: 'Open Sans';
+            color: #000000;
+            line-height: 2px;
+        }
+
+        #importGraphDiv span:hover {
+            background-image: url("{!URLFOR($Resource.LeanData__DashboardImages, 'Download_Icon_hover.png')}");
+            color: #65d2bd;
+        }
+        #importGraphDiv span {
+            padding: 3px 0 3px 30px;
+            background-size: 20.5px 18px;
+            background-repeat: no-repeat;
+            background-position: 0px 1px;
+            font-size: 11px;
+            font-weight: 400;
+            padding-left: 30px;
+            cursor: pointer;
+            background-image: url("{!URLFOR($Resource.LeanData__DashboardImages, 'Download_Icon.png')}");
+        }
+        /* BS Multiselect Dropdown margin. */
+        ul li, ol li {
+            margin-left: 0;
+        }
+        
+        /* Loading Animation CSS 
+            --------------------
+            --------------------
+        */
+        /*  ----------------------------
+            End of Loading animation CSS
+        */
+        
+        /* CUSTOM RADIO BUTTON AND CHECKBOX STYLING. */
+        /* Hide real checkbox and radio buttons. */
+        input.styledInput[type=checkbox]:not(old),
+        input.styledInput[type=radio   ]:not(old){
+            display:none;
+        }
+
+        input.styledInput[type=radio]:not(old) + label,
+        input.styledInput[type=checkbox]:not(old) + label {
+            padding-left: 28px;
+            cursor: pointer;
+            font-weight: 200;
+            font-size: 12.5px;
+            color: #555;
+        }
+
+        /* Radio button styling. */
+        input.styledInput[type=radio]:not(old) + label {
+            height: 15px;
+        }
+
+        input.styledInput[type=radio]:not(old) + label{
+            background   : url("{!URLFOR($Resource.LeanData__DashboardImages, 'Radial_Button_unselected.png')}") no-repeat 0 0;
+            background-size: 15px;
+        }
+
+        input.styledInput[type=radio]:not(old):checked + label{
+            background   : url("{!URLFOR($Resource.LeanData__DashboardImages, 'Radial_Button_selected.png')}") no-repeat 0 0;
+            background-size: 15px;
+        }
+
+        /* Checkbox styling. */
+        input.styledInput[type=checkbox]:not(old) + label {
+            height: 20px;
+            line-height: 20px;
+        }
+
+        input.styledInput[type=checkbox]:not(old) + label, label + input.styledInput[type=checkbox]:not(old) {
+            background   : url("{!URLFOR($Resource.LeanData__DashboardImages, 'Checkmark_Icon_unselected.png')}") no-repeat 0 0;
+            background-size: 20px;
+        }
+        
+        input.styledInput[type=checkbox]:not(old):checked + label, label + input.styledInput[type=checkbox]:not(old):checked {
+            background   : url("{!URLFOR($Resource.LeanData__DashboardImages, 'Checkmark_Icon_selected.png')}") no-repeat 0 0;
+            background-size: 20px;
+        }
+
+        /* Calendar style changes. */
+        .ui-datepicker-header {
+            background: #EEEFEF;
+        }
+
+        .ui-widget {
+            font-family: open-sans-light !important;
+            font-weight: 200 !important;
+        }
+
+        .ui-state-default {
+            text-align: center;
+        }
+
+        .ui-state-active {
+            background: #65d2bd;
+        }
+
+        .ui-icon {
+            background-image: url("{!URLFOR($Resource.LeanData__DashboardImages, 'ui-icons_222222_256x240.png')}") !important;
+        }
+
+        .bs .pagination-item {
+            width: 40px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .bs .selected-page {
+            font-weight: bold;
+        }
+
+        .bs .pagination-back {
+            width: 80px;
+            text-align: center;
+            background-repeat: no-repeat;
+            background-image: url("/resource/1504032208000/DashboardImages/Logs/pagination_arrow_unselected_icon_L.png");
+            padding-left: 10px;
+            background-position: 10px;
+        }
+
+        .bs .pagination-back:hover {
+            background-image: url("/resource/1504032208000/DashboardImages/Logs/pagination_arrow_selected_icon_L.png");
+        }
+
+        .bs .pagination-next {
+            width: 60px;
+            text-align: center;
+            background-repeat: no-repeat;
+            background-image: url("/resource/1504032208000/DashboardImages/Logs/pagination_arrow_unselected_icon_R.png");
+            background-position: 44px;
+        }
+
+        .bs .pagination-next:hover {
+            background-image: url("/resource/1504032208000/DashboardImages/Logs/pagination_arrow_selected_icon_R.png");
+        }
+    </style>
+
+    <div class="bs">
+        <apex:form >
+            <apex:pageMessages id="pm" />
+
+            <!-- AF to change the active component/page. Triggers Loading status.-->
+            <apex:actionFunction action="{!setActivePage}" name="setActivePageAF" rerender="mainContent" status="loadingComponent" oncomplete="clearModalDiv();initComponent();">
+                <apex:param name="activePage" assignTo="{!activePage}" value=""/>
+
+                <!-- used for segment-->
+                <apex:param name="parameters" assignTo="{!parameters}" value=""/>
+            </apex:actionFunction>
+
+            <!-- AF to set Edge settings. Triggered by the View and Merge duplicates pages. -->
+            <apex:actionFunction action="{!setEdgeSettingsAndReturn}" name="setEdgeSettingsAndReturnAF" rerender="x" status="loadingComponent" oncomplete="j$('#settingsSavedModal').modal('show');">
+                <apex:param name="edgeSettings" assignTo="{!edgeSettings}" value=""/>
+            </apex:actionFunction>
+            
+            <!-- AF to update email list. Triggered by the Admin page. -->
+            <apex:actionFunction action="{!saveEmailList}" name="saveEmailListAF" rerender="x" status="loadingComponent" oncomplete="j$('#settingsSavedModal').modal('show');">
+                <apex:param name="monitoringEmailAddress" assignTo="{!monitoringEmailAddress}" value=""/>
+                <apex:param name="isLeanDataEmailChecked" assignTo="{!isLeanDataEmailChecked}" value=""/>
+            </apex:actionFunction>
+
+            <div class="page-content">
+                <!-- .header -->
+                <div class="header">
+                    <div class="logo" onclick="changePage('home');">
+                        <img width="119.5" height="24" src="{!URLFOR($Resource.Reporting_Images, 'LD_logo.png')}" alt="Logo" />
+                    </div>
+                    <div class="header-title open-sans-light"/>
+                </div>
+                <div class="left-sidebar"/>
+                
+                <apex:outputPanel id="mainContent" layout="block" styleClass="main-content">
+                
+                    <!-- Loading action status. -->
+                    <apex:actionStatus id="loadingComponent">
+                        <apex:facet name="start">
+                            <div class="loadingOverlay">
+                                <div class="loadingParent">
+                                    <div class="sk-circle">
+                                      <div class="sk-circle1 sk-child"></div>
+                                      <div class="sk-circle2 sk-child"></div>
+                                      <div class="sk-circle3 sk-child"></div>
+                                      <div class="sk-circle4 sk-child"></div>
+                                      <div class="sk-circle5 sk-child"></div>
+                                      <div class="sk-circle6 sk-child"></div>
+                                      <div class="sk-circle7 sk-child"></div>
+                                      <div class="sk-circle8 sk-child"></div>
+                                      <div class="sk-circle9 sk-child"></div>
+                                      <div class="sk-circle10 sk-child"></div>
+                                      <div class="sk-circle11 sk-child"></div>
+                                      <div class="sk-circle12 sk-child"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </apex:facet>
+                    </apex:actionStatus>
+                    
+                    <!-- Dynamic component. Each tab has its own component. -->
+                    <apex:dynamicComponent componentValue="{!pageComponent}"/>
+
+                    <!-- Settings page. Defined statically, because we want to preserve the state of the fields after navigating away. The page also makes use of rerender, which would not work inside a dynamic component. -->
+
+                    <!-- <c:DashboardClaritySettings rendered="{!(activePage == 'attribution' || activePage == 'attribution-general')}" /> -->
+
+                    <!-- All the ones below make use of rerender. To refactor.-->
+                    <!-- <c:DashboardClarityCustomFields rendered="{!activePage == 'attribution-AS-CFM'}" />
+                    <c:DashboardClarityOpportunityStages rendered="{!activePage == 'attribution-AS-OSM'}" />
+                    <c:DashboardClarityCampaignWeighting rendered="{!(activePage == 'attribution-CW' || activePage == 'attribution-CW-CTW')}" />
+                    <c:DashboardClarityCMSW rendered="{!activePage == 'attribution-CW-CMSW'}" /> -->
+                    <!-- <c:DashboardClarityCustomFilters rendered="{!(activePage == 'attribution-AS' || activePage == 'attribution-AS-CF')}" /> -->
+                </apex:outputPanel>
+            </div>
+        </apex:form>
+
+        <div id="defaultModalDiv"></div>
+        <div id="modalDiv"></div>
+        
+    </div> <!-- .bs -->
+    
+    <c:UtilJS />
+    <c:ModalJS />
+    <script type="text/javascript">
+    Visualforce.remoting.timeout = 120000; // Set timeout at page level
+    </script>
+    <!-- jQuery Version 1.11.1 -->
+    <apex:includeScript value="{!URLFOR($Resource.LeanData__bootstrap_v3_3_4, 'js/jquery.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.LeanData__JqueryUI, 'jquery-ui-1.11.4.custom/jquery-ui.min.js')}" />
+    <!-- Bootstrap Core JavaScript -->
+    <apex:includeScript value="{!URLFOR($Resource.LeanData__bootstrap_v3_3_4, 'js/bootstrap.js')}" />
+    <!-- JavaScript -->
+    <apex:includeScript value="{!URLFOR($Resource.LeanData__bootstrap_v3_3_4, 'js/bootstrap-multiselect.js')}" />
+    
+    <!-- download -->
+    <apex:includeScript value="{!$Resource.LeanData__download}"/>
+ 
+    <!-- JQuery Rotate - used for sidebar arrows -->
+    <apex:includeScript value="{!$Resource.LeanData__jQueryRotate}"/>
+    
+    <!-- Highcharts -->
+    <apex:includeScript value="{!URLFOR($Resource.LeanData__highcharts, 'js/highcharts.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.LeanData__highcharts, 'js/highcharts-more.js')}" />
+
+    <!-- Autonumeric -->
+    <apex:includeScript value="{!$Resource.LeanData__autonumeric_min}"/>
+    <apex:includeScript value="{!$Resource.LeanData__viewJSResource}"/>
+    
+    <apex:includeScript value="{!URLFOR($Resource.LeanData__DataTables, 'DataTables/1.10.4-jquery.dataTables.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.LeanData__DataTables, 'DataTables/datatables.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.LeanData__DataTables, 'DataTables/2.17.0-moment.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.LeanData__DataTables, 'DataTables/1.10.12-sorting-datetime-moment.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.LeanData__DataTables, 'DataTables/dataTables.checkboxes.min.js')}"/>
+    <!-- included while developing, removing this later -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+
+    <script>
+        if ('{!isGaDisabled}'!='true') {
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-50205525-1', 'auto');
+        }
+    </script>
+
+    <!-- This paginator component is used exclusively in the logs pages in order to render the logs tables. It has to be included here. -->
+    <c:javascriptPaginator /> 
+    <script>
+        /*
+            The following JS is used across all components. It therefore
+            needs to be declared first.
+        */
+
+        // jQuery
+        j$ = jQuery.noConflict();
+        
+        // Namespace
+        ns = '{!nameSpace}';
+
+        // User TimeZone
+        userTimeZone = '{!userTimeZone}';
+        userTimeZoneOffset = '{!userTimeZoneOffset}';
+
+        /*
+            Dashboard specific
+            ------------------
+        */
+
+        DashboardController = function () { 
+            /* View object retrieved through interpolation. It contains data used throughout all the components. Data is retrieved as part of the original page request, with no additional AJAX calls be required. */
+            this.viewObject = JSON.parse('{!JSENCODE((viewObject))}');
+
+            this.originalLatestDate = new Date();
+            this.originalEarliestDate = new Date(new Date().setDate(this.originalLatestDate.getDate() - 90));
+
+            this.latestDate = this.originalLatestDate;
+            this.earliestDate = this.originalEarliestDate;
+        };
+        
+        /* This method gets called every time a new page is loaded, in order to set its dynamic content. */
+        DashboardController.prototype.populateVariableDomElements = function () {
+
+            this.initDateIntervals();
+            this.populateStatuses();
+            this.populateOrgDefaultStatuses();
+        };
+
+
+        /* Initiates DatePickers based on this.earliestDate and this.latestDate. */
+        DashboardController.prototype.initDateIntervals = function () {
+            j$('#dailywrapper-initial-date').datepicker('destroy');
+            j$( "#dailywrapper-initial-date" ).datepicker({minDate: this.originalEarliestDate, maxDate: this.latestDate});
+            j$( "#dailywrapper-initial-date" ).datepicker("setDate", this.earliestDate);
+
+
+            j$('#dailywrapper-end-date').datepicker('destroy');
+            j$( "#dailywrapper-end-date" ).datepicker({minDate: this.earliestDate, maxDate: this.originalLatestDate});
+            j$( "#dailywrapper-end-date" ).datepicker("setDate", this.latestDate);
+
+            j$('.dailywrapper-date-interval').text(this.earliestDate.toLocaleDateString() + ' - ' + this.latestDate.toLocaleDateString());
+        }
+
+        /* Change the value of earliestDate and latestDate based on datePicker values, and reevaluate dynamic content of the page. */
+        DashboardController.prototype.renewDateInterval = function () {
+
+            this.earliestDate = j$( "#dailywrapper-initial-date" ).datepicker("getDate");
+            this.latestDate = j$( "#dailywrapper-end-date" ).datepicker("getDate");
+
+            this.populateVariableDomElements();
+        }
+
+        DashboardController.prototype.populateOrgDefaultStatuses = function () {
+            j$('.enableOpenLinksInNewTab').prop('checked', this.viewObject.orgDefaultStatuses['enableOpenLinksInNewTab']);
+            j$('.enableAllowUserColumnCustomizations').prop('checked', this.viewObject.orgDefaultStatuses['enableAllowUserColumnCustomizations']);
+            j$('.enableDisableActions').prop('checked', this.viewObject.orgDefaultStatuses['enableDisableActions']);
+
+            j$('.enableDuplicateLeadsContacts').prop('checked', this.viewObject.orgDefaultStatuses['enableDuplicateLeadsContacts']);
+            j$('.enableRelatedLeads').prop('checked', this.viewObject.orgDefaultStatuses['enableRelatedLeads']);
+            j$('.enableRelatedLeadsNewAccountButton').prop('checked', this.viewObject.orgDefaultStatuses['enableRelatedLeadsNewAccountButton']);
+            j$('.enableMatchedAccounts').prop('checked', this.viewObject.orgDefaultStatuses['enableMatchedAccounts']);
+            j$('.disenableStatusEditing').prop('checked', this.viewObject.orgDefaultStatuses['disenableStatusEditing']);
+            j$('.enableDuplicateLeadsContactView').prop('checked', this.viewObject.orgDefaultStatuses['enableDuplicateLeadsContactView']);
+            j$('.enableDuplicateAccounts').prop('checked', this.viewObject.orgDefaultStatuses['enableDuplicateAccounts']);
+            j$('.enableRelatedAccounts').prop('checked', this.viewObject.orgDefaultStatuses['enableRelatedAccounts']);
+            j$('.enableMatchedLeads').prop('checked', this.viewObject.orgDefaultStatuses['enableMatchedLeads']);
+            j$('.enableMassConvert').prop('checked', this.viewObject.orgDefaultStatuses['enableMassConvert']);
+
+            j$('.enableCustomConvertLink').prop('checked', this.viewObject.orgDefaultStatuses['enableCustomConvertLink']);
+            j$('.customConvertLink').val(this.viewObject.orgDefaultStatuses['customConvertLink']);
+        }
+
+        DashboardController.prototype.populateStatuses = function () {
+            /* Flowbuilder On
+            ----------------
+            */
+            if(!this.viewObject['flowbuilderOn']) {
+                j$('.flowbuilderOn').hide();
+            } else {
+                j$('.flowbuilderOff').hide();
+            }
+            /*  --------------------
+                End of Flowbuilder On
+            */
+
+            /* View Settings 
+            ----------------
+            */
+            if(!this.viewObject.statuses['hasView']) {
+                disableGivenClass('.hasView');
+            }
+
+            j$('.enableOpenLinksInNewTab').attr('checked', this.viewObject.statuses['enableOpenLinksInNewTab']);
+            j$('.enableAllowUserColumnCustomizations').attr('checked', this.viewObject.statuses['enableAllowUserColumnCustomizations']);
+            j$('.enableDisableActions').attr('checked', this.viewObject.statuses['enableDisableActions']);
+
+            j$('.enableDuplicateLeadsContacts').attr('checked', this.viewObject.statuses['enableDuplicateLeadsContacts']);
+            j$('.enableRelatedLeads').attr('checked', this.viewObject.statuses['enableRelatedLeads']);
+            j$('.enableRelatedLeadsNewAccountButton').attr('checked', this.viewObject.statuses['enableRelatedLeadsNewAccountButton']);
+            j$('.enableMatchedAccounts').attr('checked', this.viewObject.statuses['enableMatchedAccounts']);
+            j$('.disenableStatusEditing').attr('checked', this.viewObject.statuses['disenableStatusEditing']);
+            j$('.enableDuplicateLeadsContactView').attr('checked', this.viewObject.statuses['enableDuplicateLeadsContactView']);
+            j$('.enableDuplicateAccounts').attr('checked', this.viewObject.statuses['enableDuplicateAccounts']);
+            j$('.enableRelatedAccounts').attr('checked', this.viewObject.statuses['enableRelatedAccounts']);
+            j$('.enableMatchedLeads').attr('checked', this.viewObject.statuses['enableMatchedLeads']);
+            j$('.enableMassConvert').attr('checked', this.viewObject.statuses['enableMassConvert']);
+
+            j$('.enableCustomConvertLink').attr('checked', this.viewObject.statuses['enableCustomConvertLink']);
+            j$('.customConvertLink').val(this.viewObject.settings['customConvertLink']);
+
+            /*  --------------------
+                End of View Settings
+            */
+
+
+            /* Merge Duplicates Settings
+            ----------------------------
+            */
+            j$('.dedupeNewLeads').attr('checked', this.viewObject.statuses['dedupeNewLeads']);
+            j$('.dedupeExistingLeads').attr('checked', this.viewObject.statuses['dedupeExistingLeads']);
+            j$('.lcDedupeOn').attr('checked', this.viewObject.statuses['lcDedupeOn']);
+            j$('.llDedupeOn').attr('checked', this.viewObject.statuses['llDedupeOn']);
+            j$('[name=isEmailMatchDupes]').val(this.viewObject.statuses['isEmailMatchDupes']? '1':'0');
+            j$('[name=emailMergePreference]').val(this.viewObject.statuses['emailMergePreference']? '1' : '0');
+            j$('[name=prioritizeDupeContacts]').val(this.viewObject.statuses['prioritizeDupeContacts']? '1' : '0');
+            if(this.viewObject.settings['dedupeMasterFieldLL']) j$('[name=dedupeMasterFieldLL]').val(this.viewObject.settings['dedupeMasterFieldLL']);
+            if(this.viewObject.settings['dedupePreferenceFieldLL']) j$('[name=dedupePreferenceFieldLL]').val(this.viewObject.settings['dedupePreferenceFieldLL']);
+            if(this.viewObject.settings['dedupeMasterOperatorLL']) j$('[name=dedupeMasterOperatorLL]').val(this.viewObject.settings['dedupeMasterOperatorLL']);
+            if(this.viewObject.settings['dedupePreferenceOperatorLL']) j$('[name=dedupePreferenceOperatorLL]').val(this.viewObject.settings['dedupePreferenceOperatorLL']);
+            if(this.viewObject.settings['dedupeMasterFieldLC']) j$('[name=dedupeMasterFieldLC]').val(this.viewObject.settings['dedupeMasterFieldLC']);
+            if(this.viewObject.settings['dedupePreferenceFieldLC']) j$('[name=dedupePreferenceFieldLC]').val(this.viewObject.settings['dedupePreferenceFieldLC']);
+            if(this.viewObject.settings['dedupeMasterOperatorLC']) j$('[name=dedupeMasterOperatorLC]').val(this.viewObject.settings['dedupeMasterOperatorLC']);
+            if(this.viewObject.settings['dedupePreferenceOperatorLC']) j$('[name=dedupePreferenceOperatorLC]').val(this.viewObject.settings['dedupePreferenceOperatorLC']);
+            if(this.viewObject.settings['overwriteCondition']) j$('[name=overwriteCondition]').val(this.viewObject.settings['overwriteCondition']);
+            
+            /*  --------------------
+                End of Merge Duplicates Settings
+            */
+
+            /* Router Settings
+            ----------------------------
+            */
+            if(!this.viewObject.statuses['hasRouter']) {
+                disableGivenClass('.hasRouter');
+            }
+            if(!this.viewObject.statuses['hasContactRouting']){
+                j$('.hasContactRouting').hide();
+            }
+
+            if(!this.viewObject.statuses['isAccountRoutingActive'])
+                j$('.isAccountRoutingActive').hide();
+            /*  --------------------
+                End of Router Settings
+            */
+           
+           /* Attribution Settings
+            ----------------------------
+            */
+            if(!this.viewObject.statuses['hasAttribution']) {
+                disableGivenClass('.hasAttribution');
+            }
+            if(!this.viewObject.statuses['hasClarityFrontend']) {
+                j$('.clarityFrontendOn').hide();
+            }
+            if(!this.viewObject.statuses['hasOppAnalyzer']) {
+                j$('.hasOppAnalyzer').hide();
+            }
+
+            if(!this.viewObject.statuses['hasCampaignInfluenceReporting']) {
+                j$('.hasCampaignInfluenceReporting').hide();
+            }
+            /*  --------------------
+                End of Attribution Settings
+            */
+
+            /* Matching Settings
+            ----------------------------
+            */
+            if(!this.viewObject.statuses['hasMatching']) {
+                disableGivenClass('.hasMatching');
+            }
+
+            if(!this.viewObject.statuses['hasListAnalyzer']){
+                j$('.listAnalyzerPage').hide();
+            }
+
+            if(!this.viewObject.statuses['hasCCIOManagement']){
+                j$('.hasCCIOManagement').hide();
+            }
+            /*  --------------------
+                End of Matching Settings
+            */
+
+            /* Admin Settings
+               --------------
+            */
+            j$('.isLeanDataEmailChecked').attr('checked', this.viewObject.statuses['isLeanDataEmailChecked']);
+            j$('.monitoringEmailAddress').val(this.viewObject.settings['monitoringEmailAddress']);
+
+            /*  --------------------
+                End of Admin Settings
+            */
+
+            j$('.main').attr('checked', this.viewObject.statuses['isGlobalChecked']);
+            if(!this.viewObject.statuses['isGlobalChecked'])
+                j$('.options').hide();
+            else {
+              j$('#alwaysON').attr('checked', this.viewObject.statuses['alwaysON']);
+              j$('#fallbackON').attr('checked', this.viewObject.statuses['fallbackON']);
+            }
+        }
+
+        // DashboardBase Remote Methods
+        DashboardController.prototype.retrieveSObjectFields = function(objectType, updatableFields, callback) {
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.DashboardBaseController.retrieveSObjectFields}', objectType, updatableFields,
+                callback, 
+                { escape: false }
+            );
+        }
+
+        // DashboardBase Remote Methods
+        DashboardController.prototype.setLongTextSetting = function(key, value) {
+            j$('.loadingOverlay').parent().css('display', 'block');
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.DashboardBaseController.setLongTextSetting}', key, value,
+                function() {
+                    j$('.loadingOverlay').parent().css('display', 'none');
+                    j$('#settingsSavedModal').modal('show');
+                }
+            );
+        }
+
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // Instantiate dashboard
+        dashboardController = new DashboardController();
+
+        /*  -------------------------
+            End of Dashboard specific
+        */
+
+        /* JS BELOW IS GENERIC. IT IS NOT TIED PARTICULARLY TO THE DASHBOARD. 
+            Features:
+                - Historic state preservation
+                - URL driven navigation
+                - AJAX driven component updates
+                - FIXED header
+        */
+       
+       //Global Variables used for building the nav's CSS values. They should be the same as the styles used above.
+       var IMG = '-img';
+       var ACTIVE = '-active';
+       var TITLE = '-title';
+       var ACTIVE_ICON = 'icon_active';
+       var INACTIVE_ICON = 'icon_inactive';
+       var ARROW = 'dg_sidebar-expand-arrow';
+       var ARROW_SPECIFIC = '-expandarrow';
+       var LEFT_SIDEBAR = 'left-sidebar';
+       var SECTION = '-section';
+       var ITEM = '-item';
+       var BUTTON = '-button';
+       var NAV = '-nav';
+       var SUBNAV = '-subnav';
+       var SUBSUBNAV = '-subsubnav';
+       var SUBSUBSUBNAV = '-subsubsubnav';
+
+       //Global Variables used for building the navbar and sidebar object accessing
+       var LEFT_SIDEBAR_BUTTON = LEFT_SIDEBAR + BUTTON;
+       var LEFT_SIDEBAR_SUBNAV = LEFT_SIDEBAR + SUBNAV;
+       var LEFT_SIDEBAR_SUBSUBNAV = LEFT_SIDEBAR + SUBSUBNAV;
+       var LEFT_SIDEBAR_SUBSUBSUBNAV = LEFT_SIDEBAR + SUBSUBSUBNAV;
+       var NAVS = 'navs';
+       var CHILD = 'subnavs';
+       var SUBCHILD = 'subsubnavs';
+       var SUBSUBCHILD = 'subsubsubnavs';
+
+        //Set Authorization Link for All Dashboard Components
+        var globalAuthorizationLink = dashboardController.viewObject['isSandbox'] ? 'https://edge.leandatainc.com/auth/salesforcesandbox?instance_url=' + dashboardController.viewObject['sfInstance'] : 'https://edge.leandatainc.com/auth/salesforce';
+
+        /* Sidebar Objects 
+            - Every nav and subnav have its own key, which needs to be unique locally
+            - Multi-word keys follow camelCase format 
+            - Abbreviated keys are all uppercase e.g. ATRR
+            - Nested Page/Component key are separated by dashes e.g. router-lead-logs
+            - When adding/editing a page, change the respective key string in DashboardBaseController.cls
+            - For pages that are not in dashboard buttons (only accessible from certain pages), insert them into 
+                DashboardBaseController.cls and respective component pages.
+        */
+        dashboardSidebar = {
+            instance: 'dashboardSidebar', title: 'Main' , navs: {
+                home: {name: 'Home', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Home_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Home_Icon_selected.png')}'},
+                matching: {name: 'Matching', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Account_Scoring_Icon_Unselected.png')}', activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Account_Scoring_Icon_Selected.png')}', subnavs: {
+                    logs: {name: 'Logs', classes: 'hasMatching flowbuilderOff'},
+                    CM: {name: 'Tagging Finder', classes: 'workflowConfigurator hasMatching flowbuilderOn'},
+                    MTB: {name: 'Tagging Tie-Breakers', classes: 'hasMatching workflowConfigurator requiresReadWrite'},
+                    accountScoring: {name: 'Account Scoring', classes: 'hasMatching', subsubnavs: { 
+                        FM: {name: 'Field Selection', classes: 'hasMatching requiresReadWriteOrCustom'},
+                        SM: {name: 'Score Modifiers', classes: 'hasMatching requiresReadWriteOrCustom'}
+                    }},
+                    LA: {name: 'List Analyzer', classes: 'hasMatching requiresReadWrite listAnalyzerPage', subsubnavs:{
+                        AL: {name: 'Analyze Leads', classes: 'hasMatching requiresReadWrite listAnalyzerPage'},
+                        MAF: {name: 'Matched Account Fields', classes: 'hasMatching requiresReadWrite listAnalyzerPage'},
+                    }},
+                    BP: {name: 'Buyer Persona', classes: 'hasMatching requiresReadWrite'}, 
+                    AS: {name: 'Advanced Settings', classes: 'hasMatching', subsubnavs: {
+                        MO: {name: 'Domain Matching', classes: 'hasMatching requiresReadWrite'},
+                        MAF: {name: 'Mapped Account Fields', classes: 'hasMatching requiresReadWrite'},
+                        PMU: {name: 'Preserve Manual Tagging Updates', classes: 'hasMatching requiresReadWrite'},
+                        OTM: {name: 'One-Time Tagging', classes: 'hasMatching requiresReadWrite'}
+                    }},
+                    }
+                },
+                router: {name: 'Routing', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'RC_Icon.png')}', activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'RC_Icon_selected.png')}', subnavs: {
+                    lead: { name: 'Leads', classes: 'hasRouter', subsubnavs: {
+                        FB: {name: 'FlowBuilder', classes: 'hasRouter workflowConfigurator requiresReadWrite'},
+                        DM: {name: 'Routing Insights', classes: 'hasRouter workflowConfigurator requiresReadWrite'},
+                        logs: {name: 'Audit Logs', classes: 'hasRouter'},
+                        DH: {name: 'Deployment History', classes: 'hasRouter workflowConfigurator requiresReadWrite'},
+                        RR: {name: 'Round Robin', classes: 'hasRouter', subsubsubnavs: {
+                            RRM: {name: 'Pool Management', classes: 'hasRouter requiresReadWrite'},
+                            RRV: {name: 'Vacation Settings', classes: 'hasRouter requiresReadWrite'}
+                        }},
+                        OTR: {name: 'One-Time Routing', classes: 'hasRouter workflowConfigurator requiresReadWrite'},
+                        AS: {name: 'Advanced Settings', classes: 'hasRouter', subsubsubnavs: {
+                            MD: {name: 'Merge Duplicates', classes: 'requiresReadWrite hasRouter'},
+                            ATM: {name: 'Account Teams', classes: 'requiresReadWrite hasRouter'},
+                            OM: {name: 'Owner Mappings', classes: 'requiresReadWrite hasRouter'},
+                            NAC: {name: 'Account Creation', classes: 'requiresReadWrite hasRouter'}
+                        }}
+                    }},
+                    contact: { name: 'Contacts', classes: 'hasRouter hasContactRouting flowbuilderOn', subsubnavs: {
+                        FBC: {name: 'FlowBuilder', classes: 'workflowConfigurator requiresReadWrite hasRouter'},
+                        DM: {name: 'Routing Insights', classes: 'workflowConfigurator requiresReadWrite hasRouter'},
+                        logs: {name: 'Audit Logs', classes: 'hasRouter '},
+                        DH: {name: 'Deployment History', classes: 'workflowConfigurator requiresReadWrite hasRouter'},
+                        RR: {name: 'Round Robin', classes: 'hasRouter', subsubsubnavs: {
+                            RRM: {name: 'Pool Management', classes: 'requiresReadWrite hasRouter'},
+                            RRV: {name: 'Vacation Settings', classes: 'requiresReadWrite hasRouter'}
+                        }},
+                        OTR: {name: 'One-Time Routing', classes: 'workflowConfigurator requiresReadWrite hasRouter'},
+                        AS: {name: 'Advanced Settings', classes: 'hasRouter', subsubsubnavs: {
+                            ATM: {name: 'Account Teams', classes: 'requiresReadWrite hasRouter'},
+                            OM: {name: 'Owner Mappings', classes: 'requiresReadWrite hasRouter'}
+                        }}
+                    }},
+                    account: { name: 'Accounts', classes: 'hasRouter isAccountRoutingActive', subsubnavs: {
+                        FB: { name: 'FlowBuilder', classes: 'workflowConfigurator requiresReadWrite' },
+                        DM: {name: 'Routing Insights', classes: 'workflowConfigurator requiresReadWrite hasRouter'},
+                        logs: { name : 'Audit Logs' },
+                        DH: { name: 'Deployment History', classes: 'workflowConfigurator requiresReadWrite' },
+                        RR: {name: 'Round Robin', classes: 'hasRouter', subsubsubnavs: {
+                            RRM: { name: 'Pool Management', classes: 'requiresReadWrite' },
+                            RRV: {name: 'Vacation Settings', classes: 'requiresReadWrite hasRouter'}
+                        }},
+                        OTR: { name: 'One-Time Routing', classes:'requiresReadWrite' },
+                        AS: {name: 'Advanced Settings', classes: 'hasRouter', subsubsubnavs: {
+                            ATM: { name: 'Account Teams', classes: 'requiresReadWrite' },
+                            OM: { name: 'Owner Mapping', classes: 'requiresReadWrite' }
+                        }}
+                    }}}
+                },
+                attribution: {name: 'Attribution', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Reporting_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Reporting_Icon_selected.png')}', subnavs: {
+                    general: {name: 'General Settings', classes: 'hasAttribution requiresReadWrite', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Set_Up_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Set_Up_Icon_selected.png')}'},
+                    wizard: {name: 'Wizard', classes: 'hasAttribution requiresReadWrite', href: '/apex/Reporting_Wizard', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'AN_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'AN_Icon_selected.png')}'},
+                    CW: {name: 'Campaign Weighting', classes: 'hasAttribution requiresReadWrite', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Reporting_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Reporting_Icon_selected.png')}', subsubnavs: {
+                        CTW: {name: 'Campaign Types', classes: 'hasAttribution requiresReadWrite'},
+                        CMSW: {name: 'Campaign Member Statuses', classes: 'hasAttribution requiresReadWrite'}
+                    }},
+                    oppAnalyzer: {name: 'Opportunity Analyzer', classes: 'hasAttribution hasOppAnalyzer'},
+                    clarity: {name: 'Clarity', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Clarity_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Clarity_Icon_selected.png')}', classes: 'hasAttribution clarityFrontendOn', subsubnavs: {
+                        overview: {name: 'Overview', classes: 'hasAttribution clarityFrontendOn requiresReadWrite'},
+                        bookings: {name: 'Bookings', classes: 'hasAttribution clarityFrontendOn requiresReadWrite', subsubsubnavs: {
+                            main: {name: 'Main', classes: 'hasAttribution clarityFrontendOnnrequiresReadWrite'},
+                            segment: {name: 'Segment', classes: 'requiresReadWrite hasAttribution clarityFrontendOn'}
+                        }},
+                        pipeline: {name: 'Pipeline'}
+                    }},
+                    TA: {name: 'Target Accounts', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Target_Account_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Target_Accounts_Icon_Selected.png')}', classes: 'hasAttribution clarityFrontendOn', subsubnavs: {
+                        main: {name: 'Main', classes: 'clarityFrontendOn hasAttribution requiresReadWrite'},
+                        segment: {name: 'Segment', classes: 'clarityFrontendOn hasAttribution requiresReadWrite'}
+                    }},
+                    CIR: {name: 'Campaign Influence Reporting', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Reporting_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Reporting_Icon_selected.png')}', classes: 'hasCampaignInfluenceReporting', subsubnavs: {
+                        CIS: {name: 'Campaign Influence Summary', href: '/apex/CampaignInfluenceReport', classes: 'requiresReadWrite hasCampaignInfluenceReporting'},
+                        wizard: {name: 'Wizard', href: '/apex/CampaignToOpportunity', classes: 'requiresReadWrite hasCampaignInfluenceReporting'},
+                        CTW: {name: 'Campaign Type Weighting', href: '/apex/campaignInfluenceAdvancedSettings?mode=CampaignTypeWeighting', classes: 'requiresReadWrite hasCampaignInfluenceReporting'},
+                        RAF: {name: 'Revenue Attribution Field', href: '/apex/campaignInfluenceAdvancedSettings?mode=CustomAttributionValue', classes: 'requiresReadWrite hasCampaignInfluenceReporting'}
+                    }},
+                    AS: {name: 'Advanced Settings', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Settings_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Settings_Icon_Selected.png')}', classes: 'hasAttribution', subsubnavs: { 
+                        CF: {name: 'Custom Filters', classes: 'hasAttribution requiresReadWrite'},
+                        CC: {name: 'Campaign Costs', classes: 'hasAttribution requiresReadWrite'},
+                        OSM: {name: 'Opportunity Stage Mappings', classes: 'hasAttribution requiresReadWrite'},
+                        CFM: {name: 'Custom Field Mappings', classes: 'hasAttribution requiresReadWrite'},
+                        OCA: {name: 'Opportunity Cohort Analysis', classes: 'clarityFrontendOn hasAttribution requiresReadWrite'}
+                    }}
+                }},
+                view: {name: 'View', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'View_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'View_Icon_selected.png')}', subnavs: {
+                    general: {name: 'General', classes: 'hasView requiresReadWriteOrCustom'}, 
+                    layout: {name: 'Layout', classes: 'hasView', subsubnavs: {
+                        leads: {name: 'Leads', classes: 'requiresReadWriteOrCustom hasView'}, 
+                        contacts: {name: 'Contacts', classes: 'requiresReadWriteOrCustom hasView'}, 
+                        accounts: {name: 'Accounts', classes: 'requiresReadWriteOrCustom hasView'}, 
+                        RL: {name: 'Related Leads', classes: 'requiresReadWriteOrCustom hasView'}, 
+                        MC: {name: 'Mass Convert', classes: 'requiresReadWriteOrCustom hasView'} 
+                    }}
+                }},
+                admin: {name: 'Admin', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Settings_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Settings_Icon_Selected.png')}', subnavs: {
+                    general: {name: 'General', classes: 'requiresReadWrite'}, 
+                    MA: {name: 'CCIO Management', classes: 'hasMatching requiresReadWrite hasCCIOManagement'},
+                    MP: {name: 'Manage Permissions', classes: 'requiresReadWrite'}
+                }},
+                help: {name: 'Help', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Help_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Help_Icon_selected.png')}'}
+            }
+        };
+
+        var main_intervalFunction;
+        var modalDirtyFlag;
+        var modalDirtyConfirmed;
+        var modalDestination;
+        var modalParameters;
+        /**
+         * Changes Component based on input page id and parameters
+         * @param  {String} page        Current page ID
+         * @param  {Object} parameters 
+         */
+        function changePage(page, parameters) {
+            if (typeof Magellan !== "undefined" && Magellan.Controllers && typeof Magellan.Controllers.GUI !== "undefined" && typeof chosenGraphIdMap !== "undefined" && (chosenGraphIdMap.lead !== null || chosenGraphIdMap.contact !== null) && Magellan.Controllers.GUI.graphHasChanged() && magellanAppState == APP_STATE.IN_GRAPH && modalDirtyConfirmed == true) {
+                    modalDestination = page;
+                    modalParameters = parameters;
+                    j$('#unsavedGraphModal').modal('show');
+            } else if(modalDirtyFlag && modalDirtyConfirmed) {
+                modalDestination = page;
+                modalParameters = parameters;
+                j$('#dirtyModal').modal('show');
+            } else {
+                // clear interval jobs
+                clearInterval(main_intervalFunction);
+
+                if(parameters == undefined) {
+                    parameters = {};
+                    location.search.substr(1).split("&").forEach(function(item) {
+                        var param = item.split("=");
+                        if(param[0] != 'page') {  
+                            parameters[param[0]] = param[1];
+                        }
+                    });
+                }
+
+                // Set active page/component.
+                setActivePageAF(page, JSON.stringify(parameters));
+
+                // Add current page to history.
+                StoreState(page, parameters);
+            }
+        }
+
+        /**
+         * Retrieves/Constructs the page name based on the sidebar nav object names. Different tiers are concatenated by spaces.
+         * @param  {String} page            Current page ID
+         * @param  {Boolean} lastPageOnly   If true, returns only last Tab Name instead of Full Name
+         * @return {String}                 Page Name
+         */
+        function retrievePageName(page, lastPageOnly, returnArray){
+            var breadcrumb = page.split('-');
+
+            var fullName = "";
+            var pageName = "";
+            var pageNames = [];
+
+            if(dashboardSidebar[NAVS].hasOwnProperty(breadcrumb[0])){
+                pageName = dashboardSidebar[NAVS][breadcrumb[0]].name;
+                fullName = pageName;
+                pageNames.push(pageName);
+                if(breadcrumb.length > 1 && hasKey(breadcrumb[0]) &&
+                    dashboardSidebar[NAVS][breadcrumb[0]][CHILD].hasOwnProperty(breadcrumb[1])){
+                    pageName = dashboardSidebar[NAVS][breadcrumb[0]][CHILD][breadcrumb[1]].name;
+                    fullName += " " + pageName;
+                    pageNames.push(pageName);
+                    if(breadcrumb.length > 2 && hasKey(breadcrumb[0], breadcrumb[1]) &&
+                        dashboardSidebar[NAVS][breadcrumb[0]][CHILD][breadcrumb[1]][SUBCHILD].hasOwnProperty(breadcrumb[2])){
+                        pageName = dashboardSidebar[NAVS][breadcrumb[0]][CHILD][breadcrumb[1]][SUBCHILD][breadcrumb[2]].name;
+                        fullName += " " + pageName;
+                        pageNames.push(pageName);
+                        if(breadcrumb.length === 4 && hasKey(breadcrumb[0], breadcrumb[1], breadcrumb[2]) &&
+                            dashboardSidebar[NAVS][breadcrumb[0]][CHILD][breadcrumb[1]][SUBCHILD][breadcrumb[2]][SUBSUBCHILD].hasOwnProperty(breadcrumb[3])){
+                            pageName = dashboardSidebar[NAVS][breadcrumb[0]][CHILD][breadcrumb[1]][SUBCHILD][breadcrumb[2]][SUBSUBCHILD][breadcrumb[3]].name;
+                            fullName += " " + pageName;
+                            pageNames.push(pageName);
+                        }
+                    }
+                }
+            }
+
+            if(returnArray) return (lastPageOnly?[pageName]:pageNames);
+            return (lastPageOnly?pageName:fullName.trim());
+        }
+        
+        /**
+         * Use history.pushstate to add current page to history.
+         * @param {String} page       Current page ID
+         * @param {Object} parameters Page Params
+         */
+        function StoreState(page, parameters) {
+            if(page == 'matching-BP' && dashboardController.viewObject.statuses['hasBuyerPersona']) {
+                return;
+            } else if ((page == 'attribution-CIR-CTW' || page == 'attribution-CIR-RAF') && dashboardController.viewObject.statuses['hasCampaignInfluenceReporting'] && dashboardController.viewObject.statuses['hasAttribution']) {
+                return;
+            } else if (page == 'attribution-wizard' && dashboardController.viewObject.statuses['hasAttribution']) {
+                return;
+            }
+
+            var sObj = {page: page, parameters: parameters};
+                title = "",
+                url = "?page=" + page;
+
+                for (var key in parameters) {
+                    if(parameters.hasOwnProperty(key)) { 
+                        url += '&' + key + '=' + parameters[key];
+                    }
+                }
+                
+                if (page === 'router-lead-DH' && window.location.hash) url += window.location.hash;
+
+                // push new state
+                history.pushState(sObj, title, url);
+        }
+        
+        // Constructs and initializes the sidebar
+        function initializeSidebar() {
+            //First Tier Menus
+            if(dashboardSidebar.hasOwnProperty(NAVS)) {
+                var $navSection = j$('.' + LEFT_SIDEBAR);
+                for(var key in dashboardSidebar[NAVS]) {
+                    var navObj = dashboardSidebar[NAVS][key];
+                    $navSection.append(buildButtonDiv(navObj, key, CHILD, NAV, LEFT_SIDEBAR_BUTTON, true));
+                    if(navObj.hasOwnProperty(CHILD)) {
+                        var $subnavSection = j$("<div>", {class: LEFT_SIDEBAR_SUBNAV + SECTION + ' ' + key + SUBNAV + SECTION, style: "display:none"});
+                        //Second Tier Menus
+                        for(var subkey in navObj[CHILD]) {
+                            var subnavObject = navObj[CHILD][subkey];
+                            var subKeyString = constructKeyString(key, subkey);
+
+                            $subnavSection.append(buildButtonDiv(subnavObject, subKeyString, SUBCHILD, SUBNAV, LEFT_SIDEBAR_SUBNAV + ITEM, false));
+                            if(subnavObject.hasOwnProperty(SUBCHILD)){
+                                var $subsubnavSection = j$("<div>", {class: LEFT_SIDEBAR_SUBSUBNAV + SECTION + ' ' + subKeyString + SUBSUBNAV + SECTION, style: "display:none"});
+                                //Third Tier Menus
+                                for(var subsubkey in subnavObject[SUBCHILD]) {
+                                    var subsubnavObject = subnavObject[SUBCHILD][subsubkey];
+                                    var subsubKeyString = constructKeyString(subKeyString, subsubkey);
+                                    $subsubnavSection.append(buildButtonDiv(subsubnavObject, subsubKeyString, SUBSUBCHILD, SUBSUBNAV, LEFT_SIDEBAR_SUBSUBNAV + ITEM, false));
+                                    if(subsubnavObject.hasOwnProperty(SUBSUBCHILD)){
+                                        var $subsubsubnavSection = j$("<div>", {class: LEFT_SIDEBAR_SUBSUBSUBNAV + SECTION + ' ' + subsubKeyString + SUBSUBSUBNAV + SECTION, style: "display:none"});
+                                        //Fourth Tier Menus
+                                        for(var subsubsubkey in subsubnavObject[SUBSUBCHILD]){
+                                            $subsubsubnavSection.append(buildButton(subsubnavObject[SUBSUBCHILD][subsubsubkey], constructKeyString(subsubKeyString, subsubsubkey), SUBSUBSUBNAV + ' ' + LEFT_SIDEBAR_SUBSUBSUBNAV + ITEM, subsubnavObject[SUBSUBCHILD][subsubsubkey].name));
+                                        }
+                                        $subsubnavSection.append($subsubsubnavSection);
+                                    }
+                                }
+                                $subnavSection.append($subsubnavSection);
+                            }
+                            $navSection.append($subnavSection);
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * Constructs and returns keys and subkeys joined by dashes
+         * @param  {String} key             Required
+         * @param  {String} subkey          Optional
+         * @param  {String} subsubkey       Optional
+         * @param  {String} subsubsubkey    Optional
+         * @return {String}                 Concatenated key string
+         */
+        function constructKeyString(key, subkey, subsubkey, subsubsubkey){
+            if(subkey === undefined && subsubkey === undefined && subsubsubkey === undefined) return key;
+            if(subsubkey === undefined && subsubsubkey === undefined) return (key + '-' + subkey);
+            if(subsubsubkey === undefined) return (key + '-' + subkey + '-' + subsubkey);
+            
+            return (key + '-' + subkey + '-' + subsubkey + '-' + subsubsubkey);
+        }
+
+        /**
+         * Builds a nav button div with onclick event, classes, text, icons, expand arrows
+         * @param  {Object} nav         Nav object
+         * @param  {String} key         Dash separated page ID
+         * @param  {String} child       Child nav name
+         * @param  {String} navClass    Class for current nav
+         * @param  {Stirng} buttonClass Class for button object
+         * @param  {Boolean} withIcon   If icons should be included
+         * @return {jQuery Object}             
+         */
+        function buildButtonDiv(nav, key, child, navClass, buttonClass, withIcon){
+            var $buttonDiv = buildButton(nav, key, navClass + " " + buttonClass);
+            var $buttonSpan = j$("<span>", {class: buttonClass + TITLE, text: nav.name});
+            if(withIcon){
+                var $imgParent = j$("<div>", {class: buttonClass + IMG}); 
+                var $imgInactive = j$("<img>", {src: nav.inactiveSrc, class: "icon " + INACTIVE_ICON});
+                var $imgActive = j$("<img>", {src: nav.activeSrc, class: "icon " + ACTIVE_ICON, style:"display:none"});
+                $imgParent.append($imgInactive);
+                $imgParent.append($imgActive);
+                $buttonDiv.append($imgParent);
+            }
+            if(nav.hasOwnProperty(child)) {
+                $buttonDiv.addClass('noOpenPage');
+                var $expandArrowAnchor = j$("<a>", {href:'#', target:"_blank", class:  'expandMenu', text: ('')});
+
+                var $expandArrow = j$("<img>", {class: ARROW + ' ' + key + ARROW_SPECIFIC, src: "{!URLFOR($Resource.LeanData__DashboardImages, 'Subnav_Arrow.png')}"});
+                
+                $expandArrowAnchor.append($expandArrow);
+                $buttonSpan.append($expandArrowAnchor);
+            }
+            $buttonDiv.append($buttonSpan);
+            return $buttonDiv;
+        }
+
+        /**
+         * Builds a nav button with onclick event, classes and text
+         * Example of built object: <div onclick="changePage('home') class='home-nav'> Home </div>"
+         * @param  {Object} nav       Nav object to be parsed
+         * @param  {String} keyString Page link ID for link to new page and class purposes
+         * @param  {String} navclass  Extra classes
+         * @param  {String} label     Text for nav page
+         * @return {jQuery Object}    
+         */
+        function buildButton(nav, keyString, navclass, label){
+            if(nav.hasOwnProperty('href'))
+                return j$("<a>", {href:nav.href, target:"_blank", class: keyString + navclass + " " + (nav.classes || ''), text: (label || '')});
+            return j$("<a>", {href:"#", name: keyString, class: keyString + navclass + " nav-click " + (nav.classes || ''), text: (label || '')});
+        }
+
+        function arrowClickHandler(event, element){
+            event.stopPropagation();
+            event.preventDefault();
+            
+            if(j$(element).parent().parent().next().hasClass('expanded')){
+                j$(element).parent().parent().next().removeClass('expanded');
+                j$(element).parent().parent().next().slideUp();
+                j$(element).children().removeClass('rotatedArrow');
+                j$(element).children().rotate({angle: 90, animateTo: 0});    
+            } else {
+                j$(element).parent().parent().next().addClass('expanded');
+                j$(element).parent().parent().next().slideDown();
+                j$(element).children().addClass('rotatedArrow');
+                j$(element).children().rotate({angle: 0, animateTo: 90});    
+            }
+        }
+
+        function navClickHandler(event, element){
+            event.preventDefault(); //for opening dashboard with tab
+            if(event.metaKey){ //for opening tab with cmd + left click
+                window.open('?page='+element.name, "", "_blank");
+            } else {
+                changePage(element.name);
+            }
+        }
+
+        /**
+         * Uses keyChildExists to do condition checking if key exists
+         * @param  {String}  key       Required
+         * @param  {String}  subkey    Optional
+         * @param  {String}  subsubkey Optional 
+         * @return {Boolean}           
+         */
+        function hasKey(key, subkey, subsubkey){
+            if(subkey === undefined && subsubkey === undefined) 
+                return keyChildExists(dashboardSidebar[NAVS], key, CHILD);
+            if(subsubkey === undefined) 
+                return keyChildExists(dashboardSidebar[NAVS], key, CHILD) && keyChildExists(dashboardSidebar[NAVS][key][CHILD], subkey, SUBCHILD);
+            return keyChildExists(dashboardSidebar[NAVS], key, CHILD) && keyChildExists(dashboardSidebar[NAVS][key][CHILD], subkey, SUBCHILD) && keyChildExists(dashboardSidebar[NAVS][key][CHILD][subkey][SUBCHILD], subsubkey, SUBSUBCHILD);
+        }
+
+        /**
+         * Checks if input object has property of navKey and if navKey has property of child
+         * @param  {Object} obj    Required
+         * @param  {String} navKey Required
+         * @param  {String} child  Optional
+         * @return {Boolean}        
+         */
+        function keyChildExists(obj, navKey, child){
+            return obj.hasOwnProperty(navKey) && obj[navKey].hasOwnProperty(child);
+        }
+
+        var $rotatedArrow;
+        var $subRotatedArrow;
+        var $subsubRotatedArrow;
+        var leandataDebuggerOn = false;
+        /**
+         * Master method for setting active class on current pages/nav, 
+         * rotating arrows and hiding/showing of subnavs
+         * @param {String} navString   Required
+         * @param {String} titleString Optional
+         */
+        function setActiveNav(navString, titleString) {
+            // GA Tracker
+            clearActive();
+            gaTrack(retrievePageName(navString, false, true), 'Page Change');
+
+            if(leandataDebuggerOn) {
+                debugger;
+            }
+
+            j$(".header-title").text(titleString || retrievePageName(navString, true));
+
+            navString = navString.split("-");
+            var navitem = navString[0] + "-nav";
+            var subnav = navString[0] + SUBNAV + SECTION;
+            j$('.' + ACTIVE_ICON).css('display','none');
+            j$('.' + INACTIVE_ICON).css('display','');
+                
+            j$('.' + LEFT_SIDEBAR_BUTTON).removeClass(LEFT_SIDEBAR_BUTTON + ACTIVE);
+
+            j$('.' + navitem).find('.' + ACTIVE_ICON).css('display', '');
+            j$('.' + navitem).find('.' + INACTIVE_ICON).css('display', 'none');
+            
+            j$('.' + navitem).addClass(LEFT_SIDEBAR_BUTTON + ACTIVE);
+            $rotatedArrow = subnavHandler(subnav, $rotatedArrow, LEFT_SIDEBAR_SUBNAV + SECTION, hasKey(navString[0]), navString[0]);
+            var keyString;
+            if(navString.length > 1){
+                keyString = constructKeyString(navString[0], navString[1]);
+                j$('.' + LEFT_SIDEBAR_SUBNAV + ITEM).removeClass(LEFT_SIDEBAR_SUBNAV + ITEM + ACTIVE);
+                var subnavitem = keyString + SUBNAV;
+                var subsubnav = keyString + SUBSUBNAV + SECTION;
+                j$('.' + subnavitem).addClass(LEFT_SIDEBAR_SUBNAV + ITEM + ACTIVE);
+                $subRotatedArrow = subnavHandler(subsubnav, $subRotatedArrow, LEFT_SIDEBAR_SUBSUBNAV + SECTION, hasKey(navString[0], navString[1]), keyString);
+            }
+            if(navString.length > 2){
+                keyString = constructKeyString(keyString, navString[2]);
+                j$('.' + LEFT_SIDEBAR_SUBSUBNAV + ITEM).removeClass(LEFT_SIDEBAR_SUBSUBNAV + ITEM + ACTIVE);
+                var subsubnavitem = keyString + SUBSUBNAV;
+                var subsubsubnav = keyString + SUBSUBSUBNAV + SECTION;
+                j$('.' + subsubnavitem).addClass(LEFT_SIDEBAR_SUBSUBNAV + ITEM + ACTIVE);
+                $subsubRotatedArrow = subnavHandler(subsubsubnav, $subsubRotatedArrow, LEFT_SIDEBAR_SUBSUBSUBNAV + SECTION, hasKey(navString[0], navString[1], navString[2]), keyString);
+            }
+            if(navString.length === 4){
+                j$('.' + LEFT_SIDEBAR_SUBSUBSUBNAV + ITEM).removeClass(LEFT_SIDEBAR_SUBSUBSUBNAV + ITEM + ACTIVE);
+                var subsubsubnavitem = constructKeyString(keyString, navString[3]) + SUBSUBSUBNAV;
+                j$('.' + subsubsubnavitem).addClass(LEFT_SIDEBAR_SUBSUBSUBNAV + ITEM + ACTIVE);
+            }
+
+            // Populate variable dom elements.
+            dashboardController.populateVariableDomElements();
+            
+            j$("html, body").animate({ scrollTop: headerOffset }, "slow");
+
+            // Disabled ReadWrite permission links
+            if(!dashboardController.viewObject.statuses['hasReadWriteAccess']) {
+                disableGivenClass('.requiresReadWrite');
+
+                if(!dashboardController.viewObject.statuses['enableAllowUserColumnCustomizations']) {
+                    disableGivenClass('.requiresReadWriteOrCustom');
+                }
+            }
+
+            /**
+             * If the current nav has a subnav that is not visible
+             * (user came from diferent nav), rotate previous arrow anti-clockwise,
+             * show current subnav section and return new rotated arrow.
+             * @param  {String} subnavString 
+             * @param  {jQuery Object} $arrowObj    
+             * @param  {String} subnavClass  
+             * @param  {Boolean} hasChildren    
+             * @param  {String} arrowClass   
+             * @return {jQuery Object}              
+             */
+            function subnavHandler(subnavString, $arrowObj, subnavClass, hasChildren, arrowClass){
+                if(!j$('.' + subnavString).is(":visible") || (!j$('.' + subnavClass).hasClass('expanded') && j$('.' + subnavString).is(":visible")) ) {
+                    //if visible but no expanded class, means it's supposed to be open but the close all method had removed the expanded class already.
+                    if(subnavClass == 'left-sidebar-subnav-section'){
+                        if($arrowObj != null) {
+                            // Using jQuery rotate.
+                            $arrowObj.rotate({angle: 90, animateTo: 0});
+                            $arrowObj = null;
+                        }
+                        j$('.' + subnavClass).slideUp();
+                    }
+
+                    // If sidebar has subnavs.
+                    if(hasChildren) {
+                        // Slide down the div.
+                        j$('.' + subnavString).slideDown();
+                        j$('.' + subnavString).addClass('expanded');
+                        // Store arrow object for future anti-clockwise rotation. Use jQuery rotate.
+                        $arrowObj = j$('.' + arrowClass + '-expandarrow');
+                        $arrowObj.rotate({angle: 0, animateTo: 90});
+                        $arrowObj.addClass('rotatedArrow');
+                    }
+                }
+                return $arrowObj;
+            }
+        }
+
+        function disableGivenClass(givenClass) {
+            j$(givenClass).addClass('disabledLink');
+            j$(givenClass).attr('disabled', 'disabled');
+            j$(givenClass).attr('for','');
+            j$(givenClass).attr('onClick','');
+            j$(givenClass).attr('href','#/');
+            j$(givenClass).removeAttr('target');
+        }
+
+        // For Magellan
+        function dirtyFlowBuilderUnloadEventHandler(event) {
+            if (typeof Magellan !== "undefined" && typeof Magellan.Controllers !== "undefined" && typeof Magellan.Controllers.GUI !== "undefined" && Magellan.Controllers.GUI.graphHasChanged()) {
+                if (event) {
+                    event.returnValue = "randomString";
+                }
+                return "randomString";
+            } else {
+                return null;
+            } 
+        }
+   
+        /* 
+            Called when user hits the back button. Pops state of the history
+            stack, and sets the current page to the previous page.
+        */
+        window.addEventListener("popstate", function(e) {
+            if (typeof Magellan !== "undefined" && typeof Magellan.Controllers !== "undefined" && typeof Magellan.Controllers.GUI !== "undefined" && typeof chosenGraphId !== "undefined" && chosenGraphId !== null && Magellan.Controllers.GUI.graphHasChanged()) {
+                var clickAway = confirm("Are you sure you want to leave this graph?", "You have unsaved changes that will be lost. Press OK to leave or Cancel to stay on the page.");
+                if (!clickAway) {
+                    // Stay on the current page.
+                    history.pushState(history.state, "", window.location.href);
+                    return;
+                } else {
+                    // This probably needs a tighter check
+                    chosenGraphId = null;
+                }
+            }
+            if ('scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+            }
+            
+            if (e.state) setActivePageAF(e.state.page, JSON.stringify(e.state.parameters));
+        });
+
+        /* Make header sticky. */
+        header = j$(".header");
+        headerOffset = header.offset().top;
+        j$(document).on("scroll", function(e) {
+            var wrap = j$(".bs");
+            var scrollTop = j$(window).scrollTop();
+
+            header.css('left', -j$(document).scrollLeft() + 10);
+            var scrollTopVal = j$(document).scrollTop();
+            if (scrollTopVal > headerOffset) {
+                var width = header.width();
+                var height = header.height();
+                header.css("width", width);
+                header.addClass("fix-header");
+                wrap.css("margin-top", height);
+                j$('.left-sidebar').css('height', '100%');
+            } else if (scrollTopVal <= headerOffset) {
+                header.removeClass("fix-header");
+                header.css("width", "100%");
+                wrap.css("margin-top", 0);
+                j$('.left-sidebar').css('height', 'calc(100% - 35px)');
+            }
+        });
+
+        /* Used to resize fixed header when user changes browser width. */
+        j$(window).resize(function() {
+            header.css("width", j$("#contentWrapper").width());
+        });
+
+        j$('#settingsSavedModal').on('hidden.bs.modal', function (e) {
+            window.history.back();
+        });
+
+        j$(document).ready(function() {
+
+            if(getParameterByName('leandatadebugger') == '1') {
+                leandataDebuggerOn = true;
+            }
+            
+            // Display loading animation.
+            j$('.loadingOverlay').parent().css('display', 'block');
+
+            // Preload all assets.
+            preloadImages(imagesSrc);
+
+            postLoadInitialization();
+            initializeDefaultModals();
+        });
+
+        function initializeDefaultModals(){
+            j$('#defaultModalDiv').append(createModal('settingsSaved', 'Settings Saved', '<div class="modal-body"><p>Your settings have been successfully saved.</p><p class="lean">The LeanData Team</p></div>', null, null, null, null, null, 40));
+            j$('#defaultModalDiv').append(createModal('error', 'Error Occurred', '', null, null, null, null));
+        }
+
+        function clearModalDiv(){
+            j$('#modalDiv').empty();
+        }
+
+        function showErrorModal(msg){
+            j$('#errorModalText').text(msg);
+            j$('#errorModal').modal('show');
+        }
+
+        function showLoadingOverlay(){
+            j$('.loadingOverlay').parent().css('display', 'block');
+        }
+
+        function hideLoadingOverlay(){
+            j$('.loadingOverlay').parent().css('display', 'none');
+        }
+
+        var imagesLoaded = 0;
+        function preloadImages(srcArray) {
+          for (var i = 0, len = srcArray.length; i < len; i++) {
+              var img = new Image(); 
+              img.src = srcArray[i];
+
+              // Add a handler to each image onload. Once all images are loaded. Proceed with page load.
+
+              img.style.display = 'none';
+              document.body.appendChild(img);
+          } 
+        }
+
+
+        function postLoadInitialization() {
+            
+            /* Set page to parameter provided, or default to Home. */
+            var page = getParameterByName('page') || 'home';
+            initializeSidebar();
+
+            j$('.nav-click').click(function(event){
+                //check for noOpenPage class
+                window.location.hash = '';
+                if(j$(this).hasClass('noOpenPage')){
+                    event.preventDefault();
+                    event.stopPropagation();
+                    arrowClickHandler(event, j$(this).find('.expandMenu'));
+                }else{
+                    closeAll(event,this);    
+                    navClickHandler(event,this);  
+                }
+            });
+            
+            // support tab click open in new tab on salesforce classic
+            // and prevent the new tab from opening in lightning experience
+            j$('.nav-click').mousedown(function(event){
+                if(typeof sforce == 'undefined'){
+                      switch (event.which){
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            j$(this).attr('href', '?page=' + j$(this).attr('name'));
+                            break;
+                        default:
+                            console.log('click type not supported');
+                    }
+                }
+            })
+
+            j$('.expandMenu').click(function(event){
+                window.location.hash = '';
+                arrowClickHandler(event,this);
+            });
+
+            changePage(page);
+        }
+
+        function clearActive(){
+            j$('.' + LEFT_SIDEBAR_BUTTON).removeClass(LEFT_SIDEBAR_BUTTON + ACTIVE);
+            j$('.' + LEFT_SIDEBAR_SUBNAV + ITEM).removeClass(LEFT_SIDEBAR_SUBNAV + ITEM + ACTIVE);
+            j$('.' + LEFT_SIDEBAR_SUBSUBNAV + ITEM).removeClass(LEFT_SIDEBAR_SUBSUBNAV + ITEM + ACTIVE);
+            j$('.' + LEFT_SIDEBAR_SUBSUBSUBNAV + ITEM).removeClass(LEFT_SIDEBAR_SUBSUBSUBNAV + ITEM + ACTIVE);
+        }
+
+        function closeAll(event, element){
+            var fullElementName = element.name;
+            var elementNames = fullElementName.split('-');
+
+            var classesToIgnore = '';
+            var elementName = '';
+            for(let i=0; i<elementNames.length; i++){
+                elementName += elementNames[i];
+                if(i > 0) classesToIgnore +=',';
+                classesToIgnore += '.' + elementName  + SUBNAV + SECTION + ',' + '.' + elementName  + SUBSUBNAV + SECTION + ',' + '.' + elementName  + SUBSUBSUBNAV + SECTION + ',.' + elementName + ARROW_SPECIFIC;        
+                elementName += '-';
+            }
+            j$('.expanded').not(classesToIgnore).slideUp().removeClass('expanded');
+            j$('.rotatedArrow').not(classesToIgnore).removeClass('rotatedArrow').rotate({angle: 90, animateTo: 0});
+            
+            //remove all active css
+            clearActive();
+        }
+
+        // Images to preload.
+        var imagesSrc = [
+            //'{!URLFOR($Resource.LeanData__Upsell_View)}', 
+            //'{!URLFOR($Resource.LeanData__Upsell_BP)}',
+            //'{!URLFOR($Resource.LeanData__Upsell_RC)}', 
+            //'{!URLFOR($Resource.LeanData__Upsell_AN)}', 
+            //'{!URLFOR($Resource.LeanData__Upsell_Clarity)}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'AA_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'ABN_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'AN_150x200_hover.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'AN_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'AN_Icon_selected.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'AN_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Bookings_Icon_Selected.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Bookings_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'BP_150x200_hover.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'BP_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'BP_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'BP_Icon_selected.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'CA_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Calendar_Icon_hover.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Calendar_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Checkmark_Icon_selected.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Checkmark_Icon_unselected.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'CIP_150x200_hover.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'CIP_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'CIS_150x200_hover.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'CIS_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Clarity_150x200_hover.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Clarity_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Clarity_Icon_selected.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Clarity_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Complete_Button.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Contact_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'CTW_150x200_hover.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'CTW_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Double_Arrow_Icon_right.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Double_Arrow_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Down_Arrow_Nav.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Download_Icon_hover.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Download_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Filter_Unselected_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Help_150x200_hover.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Help_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Help_Icon_selected.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Help_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Hide_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Home_Icon_selected.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Home_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Incomplete_Button.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'LA_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'LD_logo.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Link_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Lock_Red_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Navigation_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Pipeline_Icon_Selected.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Pipeline_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Radial_Button_selected.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Radial_Button_unselected.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'RAF_150x200_hover.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'RAF_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'RC_150x200_hover.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'RC_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'RC_Icon_selected.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'RC_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Reporting_150x200_hover.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Reporting_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Reporting_Icon_selected.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Reporting_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'SA_150x200_hover.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'SA_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'SA_Icon_selected.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'SA_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Set_Up_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Set_Up_Icon_selected.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Set_Up_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Settings_150x200_hover.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Settings_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Settings_Icon_Selected.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Settings_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Subnav_Arrow.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Target_Account_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Target_Accounts_Icon_Selected.png')}', 
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Toggle_ON.png')}', 
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Toggle_OFF.png')}', 
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'ui-icons_222222_256x240.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'Update_Settings_Button.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'View_150x200_hover.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'View_150x200_Icon.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'View_Icon_selected.png')}',
+            '{!URLFOR($Resource.LeanData__DashboardImages, 'View_Icon.png')}'];
+
+        function gaTrack(title, action) {
+            if ('{!isGaDisabled}'!='true') {
+                var len = title.length;
+                ga('set', 'dimension1', '{!JSENCODE(orgName)}' + ' - ' + '{!orgId}');
+                ga('set', 'dimension2', '{!JSENCODE(userName)}' + ' - ' + '{!userId}');
+                ga('set', 'dimension3', title[0]);
+                ga('set', 'dimension4', len>1?title[1]:"");
+                ga('set', 'dimension5', len>2?(len===4?title[2] + ' | ' + title[3]:title[2]):"");
+                ga('set', 'dimension6', (dashboardController.viewObject['isSandbox']?'Yes':'No'));
+                ga('send', {
+                    hitType: 'event',
+                    eventCategory: 'Dashboard',
+                    eventAction: action      
+                });
+            }
+        }
+    </script>
+</apex:page>

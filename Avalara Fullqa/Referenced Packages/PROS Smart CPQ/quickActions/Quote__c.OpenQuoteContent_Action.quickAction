@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QuickAction xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Opens Quote Content</description>
+    <height>250</height>
+    <icon>CPQIcon_newQuote</icon>
+    <label>Quote Content (modal)</label>
+    <optionsCreateFeedItem>false</optionsCreateFeedItem>
+    <page>PA_QuoteContent</page>
+    <type>VisualforcePage</type>
+    <width>-100</width>
+</QuickAction>

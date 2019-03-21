@@ -52,7 +52,7 @@ function gp_initJSObjects(){
 
 		gp_infoWindow.originalOpen = gp_infoWindow.open;
 		gp_infoWindow.open = function(){
-			if(gp_mapMode === 'search' || !gp_mapMode) gp_infoWindow.originalOpen.apply(gp_infoWindow, arguments);
+			if(gp_mapMode === 'search' || gp_mapMode === 'thematicEdit' || !gp_mapMode) gp_infoWindow.originalOpen.apply(gp_infoWindow, arguments);
 			var gmiwParent = jQuery('.gm-style-iw').parent();	// suppress flicker when repositioning infoWindow
 			gmiwParent.css('visibility', 'hidden');
 		}
@@ -399,10 +399,13 @@ function gp_mapConstructor(jsAction){
             	position: google.maps.ControlPosition.RIGHT_TOP
             },
             zoomControlOptions: {
-            	position: google.maps.ControlPosition.RIGHT_TOP
+            	position: google.maps.ControlPosition.RIGHT_BOTTOM
             },
             streetViewControlOptions: {
-            	position: google.maps.ControlPosition.RIGHT_TOP
+            	position: google.maps.ControlPosition.RIGHT_BOTTOM
+            },
+            fullscreenControlOptions: {
+            	position: google.maps.ControlPosition.TOP_RIGHT
             },
             clickableIcons: false,
             scaleControl: true,
@@ -640,11 +643,11 @@ function gp_mapConstructor(jsAction){
 		// My Location Control
 		if (navigator.geolocation != null){
 			var mlControl = jQuery('<div class="locationArrowWrapper"><i class="fa fa-location-arrow"></i></div>').css({
-														"margin": "1px 11px 0px 0px",
+														"margin": "0px 10px 0px 0px",
 														"cursor": "pointer",
 														"position": "relative",
-														"height": "26px",
-														"width": "27px",
+														"height": "40px",
+														"width": "40px",
 														"background-color":"white",
 														"color": "#666666",
 														"text-align": "center",
@@ -689,7 +692,6 @@ function gp_mapConstructor(jsAction){
 													})
 													.attr('title', 'Add Geo Library Shape');
 		google.maps.event.addDomListener(dControl[0], 'click', function() {
-			// jQuery('#openDataSetShapeLibrary').click();
 			openVisualGeoshapeEditorApply();
 		});
 		drawingControls.append(dControl, divider.clone());
@@ -910,7 +912,7 @@ function gp_poiCollections(jsAction){
 					}
 				}
 
-				if ('centerPin' != useIconImgUrl && useIconImgUrl.indexOf('://api.geopointe.io/') == -1) {
+				if ('centerPin' != useIconImgUrl && useIconImgUrl.indexOf(GEOPOINTE_API) == -1) {
 					// set up failover image in case custom icon URL doesn't load
 					var bindUpdate = function(colName, dsName, imgUrl, fallbackColor) {
 						// this function creates a closure which preserves passed-in loop variables after loop has exited
@@ -923,7 +925,7 @@ function gp_poiCollections(jsAction){
 							for (key in gp_markers) {
 								if (gp_markers[key].collectionName == colName) {
 									var mkr = gp_markers[key];
-									mkr.icon.url = 'https://api.geopointe.io/v1/markers/pin-l+' + fallbackColor + '.png';
+									mkr.icon.url = GEOPOINTE_API + '/v1/markers/pin-l+' + fallbackColor + '.png';
 									mkr.icon.scaledSize.height += 12;
 									mkr.icon.anchor.y += 12;
 								}
@@ -1070,16 +1072,16 @@ function gp_handlePOI(thisPOIC, thisPOI){
 		// Build the InfoContentHTML
 		var tmpInfoContentHTML = '<div class="poiActions"></div>';
 			
-		var hoverText = thisPOI.title;
+		var hoverText = gp_escapeHtml(thisPOI.title);
 		if (thisPOI.title2 != ''){
-			hoverText = '<strong>'+ thisPOI.title + '</strong><br/>' + thisPOI.title2;
+			hoverText = '<strong>'+ gp_escapeHtml(thisPOI.title) + '</strong><br/>' + gp_escapeHtml(thisPOI.title2);
 		}
 		
 		// Create this GMarker
 		var imgWidth = 20;
 		var imgHeight = 32;
 		var imgFloat = -2;
-		if (!thisPOI.mapIconURL.startsWith('https://api.geopointe.io')) {
+		if (!thisPOI.mapIconURL.startsWith(GEOPOINTE_API)) {
 			// Custom icons are considered to be square, vs. the taller standard pin icons.
 			// Also, std. pins have a 'shadow' at the bottom which touches the label,
 			// while custom icons look too crowded if they touch where the shadow would.
@@ -1110,7 +1112,6 @@ function gp_handlePOI(thisPOIC, thisPOI){
 		g_marker.gp_title = thisPOI.title;
 		g_marker.gp_title2 = thisPOI.title2;
 		g_marker.gp_distanceInfo = thisPOI.distanceInfo;
-		g_marker.gp_formattedAddr = thisPOI.formattedAddr;
 		g_marker.gp_additionalFields = thisPOI.additionalFields;
 		g_marker.gp_sfdcObject = thisPOI.sfdcObject;
 		g_marker.gp_geocodeQuality = thisPOI.geocodeQuality;
@@ -1162,8 +1163,7 @@ function gp_handlePOI(thisPOIC, thisPOI){
 					var coordArrays = null;
 					if(shape.coordinates && shape.coordinates.search(/^\s*\[\s*\[\s*\[/) == 0){ //Stored in GeoJSON format
 						coordArrays = JSON.parse(shape.coordinates);
-						var lngLatArray = coordArrays[0];	// assume polygon data is old-school - no holes or extra pieces
-														 	// so first array of lng lats is the shape, full stop
+						var lngLatArray = coordArrays[0];	// first array of lng lats is the outer ring of the main shape
 						for(var j = 0; j < lngLatArray.length; j++){
 							latLngs.push(new google.maps.LatLng(lngLatArray[j][1],lngLatArray[j][0]));
 						}
@@ -1232,7 +1232,7 @@ function gp_handlePOI(thisPOIC, thisPOI){
 					shapeOverlay.gpProperties.centerLabel = shape.centerLabel;
 					shapeOverlay.gpProperties.range = shape.radius;
 				} else if (isGeoshape) { //This are currently only geoshape fields
-
+					var suppressToastAndZoom = true;
 					gp_addShapeIdToMap(shape.sfdcId, function(result){
 
 						//Loop through all the polygons on the map and update the properties
@@ -1255,7 +1255,7 @@ function gp_handlePOI(thisPOIC, thisPOI){
 							shapeOverlay.gpProperties.recordLng =  thisPOI.lng;
 							shapeOverlay.gpProperties.gpPoiId = thisPOI.uniqueId;
 						}
-					});
+					}, suppressToastAndZoom);
 
 
 				}
@@ -1320,7 +1320,7 @@ function gp_createMarker(latlng,title,html,image,uid,place,maplabel) {
 												gp_dataSetSearches.centerPOI.qo.moNew.DefaultMarkerIcon,
 												gp_dataSetSearches.centerPOI.qo.moNew.DefaultMarkerText);
 				if (gp_dataSetSearches.centerPOI.qo.moNew.DefaultMarkerIcon.startsWith('http') &&
-					!gp_dataSetSearches.centerPOI.qo.moNew.DefaultMarkerIcon.startsWith('https://api.geopointe.io/')) {
+				!gp_dataSetSearches.centerPOI.qo.moNew.DefaultMarkerIcon.startsWith(GEOPOINTE_API)) {
 					upscaleWidth = upscaleHeight = 48;
 				}
 			}
@@ -1522,7 +1522,7 @@ function gp_createSameLocationMarkers(){
 
 function gp_createSameLocationMarker(lat,lng,count){
 	
-	var imgUrl = 'https://api.geopointe.io/v1/markers/circle-l+007AA5.png?text=' + count;
+	var imgUrl = GEOPOINTE_API + '/v1/markers/circle-l+007AA5.png?text=' + count;
 	
 	//If org setting is default off use the transparent img
 	if(gp_orgSettings.settings.sameLocationMarkers == 'Default Off'){
@@ -1532,7 +1532,7 @@ function gp_createSameLocationMarker(lat,lng,count){
 	//If user as overriden the same location marker option use this
 	if(typeof gp_userSettings.settings__c[nameSpacePrefix + 'Same_Location_Markers__c'] != 'undefined'){
 		if(gp_userSettings.settings__c[nameSpacePrefix + 'Same_Location_Markers__c'] == 'on'){
-			imgUrl = 'https://api.geopointe.io/v1/markers/circle-l+007AA5.png?text=' + count;
+			imgUrl = GEOPOINTE_API + '/v1/markers/circle-l+007AA5.png?text=' + count;
 		}else{	
 			imgUrl = gpImg.onepxtransparent;
 		}
@@ -1618,7 +1618,7 @@ function gp_showSameLocationMarkerInfoWindow(marker){
 							                '{ gp_toggleRecordSelection(\''+row[gp_ColumnInfo.uniqueId]+'\'); }'+
 							                'else{gp_openPoiInfoMarker(\''+row[gp_ColumnInfo.uniqueId]+'\',false); return false;}">';
 					if ('label' == marker.type) {
-						infoWindowHTML += '<img src="https://api.geopointe.io/v1/markers/pin-m+' + dsController.baseColorPalette[0] + '.png" height="32px"/>';
+						infoWindowHTML += '<img src="' + GEOPOINTE_API + '/v1/markers/pin-m+' + dsController.baseColorPalette[0] + '.png" height="32px"/>';
 					}
 					else {
 						infoWindowHTML += '<img src="'+row[gp_ColumnInfo.mapIconURL]+'" height="32px" ' +
@@ -1659,7 +1659,7 @@ function gp_showSameLocationMarkerInfoWindow(marker){
 				'{ gp_toggleRecordSelection(\'' + key + '\'); }' +
 				'else{gp_openPoiInfoMarker(\'' + key + '\',false); return false;}">';
 		if (dataLayerMarker.type === 'label') {
-			infoWindowHTML += '<img src="https://api.geopointe.io/v1/markers/pin-l+' + angular.element('#dataLayerDirective').injector().get('dataLayerService').dataLayerDefaults[dataLayerMarker.dataType].defaultColorRule.color + '.png" height="32px"/>';
+			infoWindowHTML += '<img src="' + GEOPOINTE_API + '/v1/markers/pin-l+' + angular.element('#dataLayerDirective').injector().get('dataLayerService').dataLayerDefaults[dataLayerMarker.dataType].defaultColorRule.color + '.png" height="32px"/>';
 		} else {
 			infoWindowHTML += '<img src="' + dataLayerMarker.markerUrl + '" height="32px" />';
 		}
@@ -2312,20 +2312,31 @@ function gp_buildPoiHtml(marker){
 			url = '/' + marker.recordId;
 		}
 
-		tmpInfoContentHTML += '<div class="poiTitle" notranslate><a href="' + url + '" target="_blank">' + marker.gp_title + '</a></div><span notranslate>';
+		tmpInfoContentHTML += '<div class="poiTitle" notranslate><a href="' + url + '" target="_blank">' + gp_escapeHtml(marker.gp_title) + '</a></div><span notranslate>';
 	}else{
-		tmpInfoContentHTML += '<div class="poiTitle" notranslate>' + marker.gp_title + '</div><span notranslate>';
+		tmpInfoContentHTML += '<div class="poiTitle" notranslate>' + gp_escapeHtml(marker.gp_title) + '</div><span notranslate>';
 	}
 	
 	if(marker.gp_title2 != ''){
-		tmpInfoContentHTML += '<b style="font-size: 9pt;">' + marker.gp_title2 + '</b><br/>';
+		tmpInfoContentHTML += '<b style="font-size: 9pt;">' + gp_escapeHtml(marker.gp_title2) + '</b><br/>';
 	}
-	tmpInfoContentHTML += marker.gp_formattedAddr + '</span>';
+
+	var moNew = gp_dataSetSearches[marker.collectionName].qo.moNew;
+
+	if (getDescendantProp(marker.sObject, moNew.ReadStreetField)){ tmpInfoContentHTML += gp_escapeHtml(getDescendantProp(marker.sObject, moNew.ReadStreetField)) + '<br/>'; }
+	if (getDescendantProp(marker.sObject, moNew.ReadCityField)){ tmpInfoContentHTML +=  gp_escapeHtml(getDescendantProp(marker.sObject, moNew.ReadCityField)); }
+	if (getDescendantProp(marker.sObject, moNew.ReadCityField) && getDescendantProp(marker.sObject, moNew.ReadStateField)){ tmpInfoContentHTML += ', '; }
+	if (getDescendantProp(marker.sObject, moNew.ReadStateField)){ tmpInfoContentHTML += ' ' +  gp_escapeHtml(getDescendantProp(marker.sObject, moNew.ReadStateField)); } 
+	if (getDescendantProp(marker.sObject, moNew.ReadPostalField)){ tmpInfoContentHTML += ' ' +  gp_escapeHtml(getDescendantProp(marker.sObject, moNew.ReadPostalField)); }
+	if (getDescendantProp(marker.sObject, moNew.ReadCountryField)){ tmpInfoContentHTML += '<br/>' +  gp_escapeHtml(getDescendantProp(marker.sObject, moNew.ReadCountryField)); }
+
+	tmpInfoContentHTML += '</span>';
+
 	if (marker.gp_distanceInfo){
 		tmpInfoContentHTML += marker.gp_distanceInfo;
 	}
 	if (marker.gp_geocodeQuality){
-		tmpInfoContentHTML += '<br/><b>'+gp_translations.Geocode_Quality+'</b>: ' + marker.gp_geocodeQuality;
+		tmpInfoContentHTML += '<br/><b>'+gp_translations.Geocode_Quality+'</b>: ' + gp_escapeHtml(marker.gp_geocodeQuality);
 	}
 
 	if(marker.gp_additionalFields){
@@ -2362,10 +2373,11 @@ function gp_buildPoiHtml(marker){
 						fieldType: value.datatype,
 						fieldValue: fieldValue,
 						recordName: marker.gp_title,
-						precision: value.precision,
+						scale: value.scale,
 						apiName: value.name,
 						objectApiName: marker.gp_sfdcObject,
 						isUpdateable: value.isUpdateable,
+						isCalculated: value.isCalculated,
 						referenceName: referenceName,
 						isInfoWindow: true,
 						tableData: marker.gp_tableData,
@@ -3290,16 +3302,16 @@ function buildShapeInfoWindowHTML(overlay){
 	var html = '<div style="max-width:240px; min-width: 80px;" id="'+overlay.gpProperties.uniqueId+'">'+
 				'<div id="shapeBubbleTitle" notranslate>';
 				if(overlay.gpProperties.usageType == 'Shape Field' && overlay.gpProperties.gpPoiId){
-	html+=			'<a href="#" onclick="gp_openPoiInfoMarker(\''+overlay.gpProperties.gpPoiId+'\',false); return false;">'+overlay.gpProperties.sfdcName+'</a>';    
+	html+=			'<a href="#" onclick="gp_openPoiInfoMarker(\''+overlay.gpProperties.gpPoiId+'\',false); return false;">'+gp_escapeHtml(overlay.gpProperties.sfdcName)+'</a>';    
 				}else{
-	html+=			'<div style="width: 200px;">'+overlay.gpProperties.sfdcName+'</div>';
+	html+=			'<div style="width: 200px;">'+gp_escapeHtml(overlay.gpProperties.sfdcName)+'</div>';
 				}
 	html+=		'</div>';
 	if (overlay.gpProperties.sfdcDescription) {
-		html += '<div id="shapeBubbleDescription" notranslate>'+overlay.gpProperties.sfdcDescription.replace(/(?:\r\n|\r|\n)/g, '<br />')+'</div>';
+		html += '<div id="shapeBubbleDescription" notranslate>'+gp_escapeHtml(overlay.gpProperties.sfdcDescription).replace(/(?:\r\n|\r|\n)/g, '<br />')+'</div>';
 	}
 	if (overlay.gpProperties.subshapeName) {
-		html += '<div id="shapeBubbleSubshape" notranslate>'+overlay.gpProperties.subshapeName.replace(/(?:\r\n|\r|\n)/g, '<br />')+'</div>';
+		html += '<div id="shapeBubbleSubshape" notranslate>'+gp_escapeHtml(overlay.gpProperties.subshapeName).replace(/(?:\r\n|\r|\n)/g, '<br />')+'</div>';
 	}
 	html +=		'<div id="shapeRecordCountWrapper">';
 				
@@ -3400,7 +3412,7 @@ function showShapeActions(shapeId){
 	                        '</span>'+   
 	                    '</div>';
 	                    if(shape.gpProperties.usageType != 'Shape Field'){
-							if(shape.gpProperties.usageType != 'GeoShape' && (isGeopointeAdmin || shape.gpProperties.folderId == 'personal' || !shape.gpProperties.sfdcId || (shape.gpProperties.sfdcId && shape.gpProperties.folderAccessLevel == 'edit'))) {
+							if(shape.gpProperties.usageType != 'GeoShape' && (isGeopointeAdmin || shape.gpProperties.folderId == 'personal' || !shape.gpProperties.sfdcId || (shape.gpProperties.sfdcId && shape.gpProperties.accessLevel == 'edit'))) {
 	htmlString+=        		'<div class="multiButtonOption" onclick="'+ saveMethod +'(\''+shape.gpProperties.uniqueId+'\'); return false;">'+
 		                        	'<span class="multiButtonOptionText">'+
 		                            	gp_translations.Save+
@@ -3423,7 +3435,7 @@ function showShapeActions(shapeId){
 		                	}*/
 						}
 
-						if(shape.gpProperties.usageType != 'GeoShape' && (isGeopointeAdmin || shape.gpProperties.folderId == 'personal' || !shape.gpProperties.sfdcId || (shape.gpProperties.sfdcId && shape.gpProperties.folderAccessLevel == 'edit'))){	
+						if(shape.gpProperties.usageType != 'GeoShape' && (isGeopointeAdmin || shape.gpProperties.folderId == 'personal' || !shape.gpProperties.sfdcId || (shape.gpProperties.sfdcId && shape.gpProperties.accessLevel == 'edit'))){	
 	htmlString+=        	'<div class="multiButtonOption" onclick="gp_deleteShapeConfirm(\''+shape.gpProperties.uniqueId+'\'); return false;" style="display: '+deleteDisplay+';" >'+
 		                        '<span class="multiButtonOptionText">'+
 		                            gp_translations.Delete+
@@ -3597,7 +3609,9 @@ function gp_editShape(uniqueId){
 		controller.layerDescription = overlay.gpProperties.sfdcDescription;
 		controller.layerNameBeforeSave = overlay.gpProperties.sfdcName;
 		controller.folderId = overlay.gpProperties.folderId;
-		controller.folderAccessLevel = overlay.gpProperties.folderAccessLevel;
+		var shapeFromList = _.find(angular.element('.dataSetController').scope().shapes, ['id', overlay.gpProperties.sfdcId]);
+
+		controller.accessLevel = shapeFromList && shapeFromList.accessLevel;
 		controller.folderName = overlay.gpProperties.folderName;
 		controller.color = ('polyline' == overlay.gpProperties.gpType)? overlay.strokeColor : overlay.fillColor;
 		controller.dissolve = overlay.gpProperties.dissolve;
@@ -3625,12 +3639,6 @@ function gp_editShape(uniqueId){
 					};
 
 					controller.addShapeById(shape, true);
-
-					// controller.selectedGeoShapes[thisOverlay.gpProperties.geoShapeId] = {
-					// 	id: thisOverlay.gpProperties.geoShapeId,
-					// 	name: thisOverlay.gpProperties.geoShapeName,
-					// 	type: thisOverlay.gpProperties.geoShapeType
-					// }
 				}
 			}
 		}
@@ -3642,39 +3650,10 @@ function gp_editShape(uniqueId){
 				var subShape = overlay.gpProperties.subShapes[i];
 
 				controller.addShapeById(subShape, true);
-
-				// controller.selectedGeoShapes[subShape.id] = {
-				// 	id: subShape.id,
-				// 	name: subShape.name,
-				// 	type: subShape.type
-				// }
 			}
 		}
 
-		// controller.originalShapes = _.cloneDeep(controller.selectedGeoShapes);
-
-		//Execute apply on the controller so UI updates as this is outsite scope of angular
-		// setTimeout(function(){
-		// 	controller.$apply();
-		// },0);
-		
 		openAddLayer('GeoShape');
-		// var title = 'Edit Shape - ' + overlay.gpProperties.sfdcName;
-		// var height = overlay.gpProperties.usedInAssignments ? 638 : 600; 
-
-		// jQuery( "#geoShapeModal" ).dialog({
-		// 	height: height,
-		// 	width: 800,
-		// 	modal: true,
-		// 	title: title,
-		// 	resizable: false,
-		// 	draggable: false,
-		// 	dialogClass: 'dataSetEditModalWrapper gp-modal',
-		// 	open: function( event, ui ) {
-		// 		//Set height of modal content
-		// 		setGPmodalContentHeight(jQuery(this));
-		// 	}
-		// });
 	
 	}else if(overlay.gpProperties.usageType == 'Shape Field'){
 
@@ -3791,7 +3770,7 @@ function gp_editGeoShape(shape){
 	controller.layerDescription = shape.description;
 	controller.layerNameBeforeSave = shape.name;
 	controller.folderId = shape.folderId;
-	controller.folderAccessLevel = shape.folderAccessLevel;
+	controller.accessLevel = shape.accessLevel;
 	controller.folderName = shape.folderName;
 	controller.color = shape.color;
 	controller.dissolve = shape.dissolve;
@@ -3829,43 +3808,30 @@ function gp_saveShape(uniqueId,isSaveAs){
 		title = 'Save As';
 	}
 	if(polygon.gpProperties.sfdcName){
-		title += ' - <span notranslate>' + polygon.gpProperties.sfdcName + '</span>';
+		title += ' - <span notranslate>' + gp_escapeHtml(polygon.gpProperties.sfdcName) + '</span>';
 	}
 
 	//Get access to the Folder Service
 	var folderService = angular.element('.dataSetController').injector().get('folderService');
 	
 	folderService.getFolders(function(folders){
-	
-		//Build folder picklist html
-		var foldersHtml = '<select id="gp_saveShapeFolderId">';
-		for(var i = 0; i < folders.length; i++){
-			var folder = folders[i];
+		var saveFolderId = polygon.gpProperties.folderId;
 
-			if(folder.id === 'nofolder'){
-				continue;
-			}
-
-			if(folder.accessLevel == 'edit'){
-				foldersHtml += '<option value="'+folder.id+'"'; 
-
-				if(polygon.gpProperties.folderId == folder.id){
-					foldersHtml += ' selected ';
-				}
-
-				foldersHtml += '>'+folder.name+'</option>';
-			}
+		if (!polygon.gpProperties.folderId || polygon.gpProperties.accessLevel === 'read') {
+			saveFolderId = folderService.getPersonalFolder().id;
 		}
+
+		var foldersHtml = '<a class="modal-style" id="gp_saveShapeFolderId" data-id="' + saveFolderId + '">' + folderService.getFolderNameById(saveFolderId) + '</a>';
 
 		var buttonText = 'Save';
 		if(isSaveAs) buttonText = 'Save As';
 
 		var body = gp_translations.Enter_a_Name_and_Short_Description_for_the_shape +'<br/>'+
 					'<table>'+
-					'<tr><td class="saveShapeLabel">'+gp_translations.Name+'</td><td><input type="text" value="'+polygon.gpProperties.sfdcName+'" id="gp_saveShapeName"/></td></tr>'+
+					'<tr><td class="saveShapeLabel">'+gp_translations.Name+'</td><td><input type="text" value="'+gp_escapeHtml(polygon.gpProperties.sfdcName)+'" id="gp_saveShapeName"/></td></tr>'+
 					'<tr><td class="saveShapeLabel">Folder</td><td>'+foldersHtml+'</td></tr>'+
 					'<tr><td class="saveShapeLabel">Show Label</td><td><input type="checkbox" id="gp_saveShapeShowLabel"/></td></tr>' +
-					'<tr><td class="saveShapeLabel alignTop">'+gp_translations.Description+'</td><td><textarea maxlength="255" style="height: 50px; width: 200px;" id="gp_saveShapeDescription">'+polygon.gpProperties.sfdcDescription+'</textarea></td></tr>'+
+					'<tr><td class="saveShapeLabel alignTop">'+gp_translations.Description+'</td><td><textarea maxlength="255" style="height: 50px; width: 200px;" id="gp_saveShapeDescription">'+gp_escapeHtml(polygon.gpProperties.sfdcDescription)+'</textarea></td></tr>'+
 					'</table>';
 
 		//Remove any existing save dialogs
@@ -3900,7 +3866,7 @@ function gp_saveShape(uniqueId,isSaveAs){
 			    			click: function(){ 
 			    		   		var name = jQuery("#gp_saveShapeName").val();	
 			    		   		var description = jQuery("#gp_saveShapeDescription").val();		
-			    		   		var folderId = jQuery("#gp_saveShapeFolderId").val();	
+			    		   		var folderId = jQuery("#gp_saveShapeFolderId").attr('data-id');	
 								var showLabel = jQuery("#gp_saveShapeShowLabel").is(':checked');
 
 								if(folderId === 'nofolder'){
@@ -4012,7 +3978,6 @@ function gp_saveShape(uniqueId,isSaveAs){
 											polygon.gpProperties.folderId = folderId;
 											polygon.gpProperties.sfdcDescription = description;
 											polygon.gpProperties.sfdcId = result.sfdcId;
-											polygon.gpProperties.folderAccessLevel = result.folderAccessLevel;
 											polygon.gpProperties.showLabel = result.showLabel;
 
 											polygon.centroid = { lat: result.labelPointLat, lng: result.labelPointLng };
@@ -4082,6 +4047,15 @@ function gp_saveShape(uniqueId,isSaveAs){
 			    			} 
 			    		}] 
 		});
+
+		jQuery('#gp_saveShapeFolderId').on('click', function () {
+			angular.element('#main-folder-list').scope().openFolderSelect()
+				.then(function (parentFolder) {
+					jQuery('#gp_saveShapeFolderId').text(parentFolder.name);
+
+					jQuery('#gp_saveShapeFolderId').attr('data-id', parentFolder.id);
+				});
+		});
 	});//End get folders from folder services
 }
 
@@ -4126,9 +4100,7 @@ function gp_addShapeIdToMap(sfdcShapeId,callback,isFolderAddShapesToMap){
 			if(result.usageType == 'GeoShape' || (result.usageType == 'Shape Field' && result.type == 'MultiPolygon')){
 				
 				//Set user the Angular geoShapeService to add shapes to the map
-				var geoShapeControllerElement = angular.element('.geoShapeController');
-				var injector = geoShapeControllerElement.injector();
-				var geoShapeService = injector.get('geoShapeService');
+				var geoShapeService = angular.element('.dataSetController').injector().get('geoShapeService');
 
 				//Build a list of Geo Shape URLs that should be used to add shapes to the map
 				var geoShapeIds = JSON.parse(result.coordinates);
@@ -4142,7 +4114,6 @@ function gp_addShapeIdToMap(sfdcShapeId,callback,isFolderAddShapesToMap){
 					layerDescription: result.description,
 					sfdcId: result.sfdcId,
 					folderId: result.folderId,
-					folderAccessLevel: result.folderAccessLevel,
 					folderName: result.folderName,
 					usedInAssignments: result.usedInAssignments,
 					shapeIds: geoShapeIds,
@@ -4172,8 +4143,6 @@ function gp_addShapeIdToMap(sfdcShapeId,callback,isFolderAddShapesToMap){
 						//Readjust the map
 						if(!isFolderAddShapesToMap) gp_centerZoom();
 
-						//geoShapeControllerElement.scope().$apply();
-
 						//Call the supplied callback
 						if(callback){
 							callback(result);
@@ -4197,8 +4166,7 @@ function gp_addShapeIdToMap(sfdcShapeId,callback,isFolderAddShapesToMap){
 					var latLngs = [];
 					if (result.coordinates && result.coordinates.search(/^\s*\[\s*\[\s*\[/) == 0){ //Stored in GeoJSON format
 						coordArrays = JSON.parse(result.coordinates);
-						var lngLatArray = coordArrays[0];	// assume polygon data is old-school - no holes or extra pieces
-														 	// so first array of lng lats is the shape, full stop
+						var lngLatArray = coordArrays[0];	// first array of lng lats is the outer ring of the main shape
 						for(var j = 0; j < lngLatArray.length; j++){
 							latLngs.push(new google.maps.LatLng(lngLatArray[j][1],lngLatArray[j][0]));
 						}
@@ -4333,7 +4301,9 @@ function gp_addShapeIdToMap(sfdcShapeId,callback,isFolderAddShapesToMap){
 				shape.gpProperties.sfdcDescription = result.description;
 				shape.gpProperties.folderId = result.folderId;
 				shape.gpProperties.folderName = result.folderName;
-				shape.gpProperties.folderAccessLevel = result.folderAccessLevel;
+				var shapeFromList = _.find(angular.element('.dataSetController').scope().shapes, ['id', sfdcShapeId]);
+
+				shape.gpProperties.accessLevel = shapeFromList && shapeFromList.accessLevel;
 				shape.gpProperties.usedInAssignments = result.usedInAssignments;
 				shape.gpProperties.originalOpacity = parseFloat(result.opacity);
 				shape.gpProperties.originalColor = result.color;
@@ -4403,14 +4373,14 @@ function gp_deleteShapeConfirm(uniqueId){
 	}
 
 	//Set the dialog title and body
-	var title = gp_translations.Delete_Shape + '<var> - ' + polygon.gpProperties.sfdcName + '</var>';
+	var title = gp_translations.Delete_Shape + '<var> - ' + gp_escapeHtml(polygon.gpProperties.sfdcName) + '</var>';
 	
 	var body = '<div class="gp-modal-content">';
 
 	if(polygon.gpProperties.usageType == 'Shape Field'){
 		body+= gp_translations.This_will_DELETE_the_selected_shape_and_clear_the_Shape_field_on_the_record + ':<br/><br/>';
-		body+= '<b>'+gp_translations.Record_Name + '</b>: <var>' + polygon.gpProperties.relatedRecordName + '</var><br/>';
-		body+= '<b>'+gp_translations.Shape_Field + '</b>: <var>' + polygon.gpProperties.relatedRecordFieldLabel + '</var>';
+		body+= '<b>'+gp_translations.Record_Name + '</b>: <var>' + gp_escapeHtml(polygon.gpProperties.relatedRecordName) + '</var><br/>';
+		body+= '<b>'+gp_translations.Shape_Field + '</b>: <var>' + gp_escapeHtml(polygon.gpProperties.relatedRecordFieldLabel) + '</var>';
 	}else{
 		body+= gp_translations.This_will_DELETE_the_selected_Shape_and_remove_it_from_your_list;
 	}
@@ -4793,7 +4763,7 @@ function doCalcRecordsInShapes(){
 								aggkey: objectName + columnDetail.gpAPIname,
 								columnNumber: columnNumber,
 								label: columnDetail.sTitle,
-								precision: columnDetail.gpPrecision
+								scale: columnDetail.gpScale
 							};
 						}
 					}
@@ -4820,7 +4790,7 @@ function doCalcRecordsInShapes(){
 								continue;
 
 							if (typeof gp_dataSetSearches[collectionName].aggregations[agg.aggkey] == 'undefined'){
-								gp_dataSetSearches[collectionName].aggregations[agg.aggkey] = {label: agg.label, amount: 0, precision: agg.precision};
+								gp_dataSetSearches[collectionName].aggregations[agg.aggkey] = {label: agg.label, amount: 0, scale: agg.scale};
 							}
 
 							gp_dataSetSearches[collectionName].aggregations[agg.aggkey].amount += value;
@@ -4863,7 +4833,7 @@ function doCalcRecordsInShapes(){
 								_.forEach(aggregates, function (agg, key) {
 									if (typeof point.properties.values[key] === 'undefined') return;
 									if (typeof shape.gpProperties.aggregations[agg.aggkey] === 'undefined') {
-										shape.gpProperties.aggregations[agg.aggkey] = {label: agg.label, amount: 0, precision: agg.precision};
+										shape.gpProperties.aggregations[agg.aggkey] = {label: agg.label, amount: 0, scale: agg.scale};
 									}
 
 									shape.gpProperties.aggregations[agg.aggkey].amount += point.properties.values[key];
@@ -4998,7 +4968,7 @@ function gp_correctLocation(poiId, name, customLatLng, latField, lngField) {
 	if (mkr.uniqueID !== poiId) {
 		console.log('poiId mismatch: ', poiId, mkr.uniqueID);
 	}
-	gp_map.setCenter(mkr.position);
+
 	gp_mapMode = 'correctLocation';
 	jQuery('#mapContextMenu').hide();
 	jQuery('.drawingControls').hide();
@@ -5476,7 +5446,7 @@ function gp_setCurrentPositionMarker(callback) {
 		var curLoc = gp_markers['gp_currentLocation'];
 		if (curLoc) { curLoc.setMap(null); }
 		curLoc = gp_createMarker(new google.maps.LatLng(position.coords.latitude, position.coords.longitude),
-									'<b>Current Location</b>', '<div class="poiTitle"><b>Current Location</b></div>',
+									'Current Location', '<div class="poiTitle">Current Location</div>',
 									gpImg.currentLocation, 'gp_currentLocation');
 		curLoc.setMap(gp_map);
 		google.maps.event.addListener(curLoc, 'click', function() {
@@ -5702,23 +5672,3 @@ PolyLineFill.prototype.onRemove = function () {
 	this.div_ = null;
 }
 ///end poly fill code
-
-/**
- * promisified salesforce remoting function
- * @param  {String} gpRemoteAction remote action class and function
- * @param  {String} method         class and function to call
- * @param  {Object} options        json object that contains parameters to apply to the called function
- * @param  {Object} configuration  remoting config (escape/timeout)
- * @return {Promise}               promise that resolves with the string result from calling the apex function or rejects with the event.message error
- */
-Visualforce.remoting.Manager.invokeActionAsync = function (gpRemoteAction, method, options, configuration) {
-	return new Promise(function (resolve, reject) {
-		Visualforce.remoting.Manager.invokeAction(gpRemoteAction, method, options, function(result, event){ 
-			if (event.status) {
-				resolve(result);
-				return;
-			}
-			reject(event.message);
-		}, configuration);
-	});
-};

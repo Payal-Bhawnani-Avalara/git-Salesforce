@@ -20,18 +20,19 @@ public class ProsQuoteTriggerHandlerTest {
        o = TestUtil.createOpportunity(a.id,defaultOppRecTypeId,1,true)[0];
        //create pros quote
        cpq = TestUtil.createProsQuote(a.id,o.id,c.id,1,false)[0];
-       cpq.OPStatus__c = 'Complete';
+       cpq.OPStatus__c = Constants.PROS_QUOTE_STATUS_COMPLETE;
        insert cpq;
        //delete cpq
        try{
             Delete cpq;
         }
         catch(Exception e){
-       	   Boolean expectedExceptionThrown =  e.getMessage().contains('You cannot delete the Pros Quote if Order Status is Complete.') ? true : false;
+       	   Boolean expectedExceptionThrown =  e.getMessage().contains(Constants.PROS_QUOTE_CANNOT_DELETE_STATUS_COMPLETE_CANCELED) ? true : false;
            System.AssertEquals(expectedExceptionThrown, true);
         }
       Test.stopTest();
     }  
+   
     //Testing for item type one-Time
     static testMethod void testUpdatePorsQuoteEOBOneTime() {
     	Test.startTest();

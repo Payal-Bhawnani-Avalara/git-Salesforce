@@ -1,0 +1,970 @@
+<apex:page standardcontroller="Case" extensions="zsfjira.ZCaseJiraController" lightningStylesheets="true" docType="html-5.0" >
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Javascript function to open Tabs in Console Mode -->
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}"  />
+    <apex:includeScript value="/soap/ajax/42.0/connection.js"/>
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zAgileResources, '/js/zConnectNavigationHelper.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zAgileResources, '/js/svg4everybody.js')}" />
+
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__jQuery, '/css/slds-theme/jquery-ui-1.10.4.custom.min.css')}" />
+
+    <apex:slds />
+    <script type="text/javascript">
+    if (!window.console) window.console = {};
+    if (!window.console.log) window.console.log = function () {};
+
+    </script>
+    <script type="text/javascript">
+        svg4everybody();
+
+        zConnectNavigationHelper.setState(zConnectNavigationHelper.State.START_STATE, {"entityId": "{!Case.Id}"});
+
+        function goToIssueDetails(tabUrl , tabName){
+            return zConnectNavigationHelper.handleAction(
+                zConnectNavigationHelper.ActionType.SELECT_LINK,
+                {'tabUrl' : tabUrl, 'tabName' : tabName});
+        }
+
+        function goToEditIssue(tabUrl , tabName){
+            return zConnectNavigationHelper.handleAction(
+                zConnectNavigationHelper.ActionType.SELECT_LINK,
+                {'tabUrl' : tabUrl, 'tabName' : tabName});
+        }
+
+        function goToIssueCreator(tabUrl, tabName){
+            return zConnectNavigationHelper.handleAction(
+                zConnectNavigationHelper.ActionType.SELECT_LINK,
+                {'tabUrl' : tabUrl, 'tabName' : tabName});
+        }
+
+        function goToSearchIssues(tabUrl , tabName){
+            return zConnectNavigationHelper.handleAction(
+                zConnectNavigationHelper.ActionType.SELECT_LINK,
+                {'tabUrl' : tabUrl, 'tabName' : tabName});
+        }
+        window.issueSearchText = '';
+        function goToSearchIssuesByKeyword(fromTextInput){
+            var searchKeyword = window.issueSearchText;
+
+            var url = '{!JSENCODE(findIssuesUrl)}&searchText=' + encodeURI(searchKeyword);
+            jQuery('a[id="searchByKeywordLink"]').attr('href',url);
+
+            var classicCallback = function(){};
+            if(fromTextInput){
+                if(!searchKeyword || searchKeyword.length == 0){
+                    return false;
+                }
+                classicCallback = function () {
+                    window.top.location = url;
+                };
+            }
+
+            return zConnectNavigationHelper.handleAction(
+                zConnectNavigationHelper.ActionType.SELECT_LINK,
+                {'tabUrl' : url, 'tabName' : 'Find Issues: ' + searchKeyword},
+                zConnectNavigationHelper.createCallbacks(classicCallback, null, null, null)
+            );
+        }
+
+        function goToSendAttachment(issueKey){
+
+            var classicConsoleCallback = function(){
+                funcSendAttachmentsSingleIssue(issueKey);
+            };
+
+            return zConnectNavigationHelper.handleAction(
+                zConnectNavigationHelper.ActionType.SELECT_LINK,
+                {'tabUrl' : '/apex/zsfjira__ZSendAttachments?id={!Case.Id}&issueKeys=' + issueKey + (sforce.one ? '' : '&inline=1'),
+                    'tabName' : issueKey + ': Send Attachment',
+                    'initiator' : 'goToSendAttachment'
+                },
+                zConnectNavigationHelper.createCallbacks(null, classicConsoleCallback, null, null)
+                );
+        }
+
+    </script>
+    <!-- Javascript function to check all rows in the table -->
+    <script>
+    function setFocusOnLoad() {}
+    function uncheckAll(cb){
+        if (cb.checked == false){
+            jQuery("[id*='checkedAll']").prop( "checked", false );
+        }
+    }
+    function checkAll(cb) {
+        var inputElem = document.getElementsByTagName("input");
+        for ( var i = 0; i < inputElem.length; i++) {
+            if (inputElem[i].id.indexOf("selectLine1") != -1)
+                inputElem[i].checked = cb.checked;
+        }
+        onChecked(cb);
+    }
+    function updateSearchText(value) {
+        window.issueSearchText = value;
+    }
+
+    function upadteEditingIssueKey(issueKey) {
+        var inputElem = document.getElementsByTagName("input");
+        for ( var i = 0; i < inputElem.length; i++) {
+            if (inputElem[i].id.indexOf("editingIssueKey") != -1
+                && inputElem[i].type == 'hidden')
+                inputElem[i].value = issueKey;
+        }
+    }
+    function onChecked(cb) {
+        if (getSelectedIssueKeys().length > 0) {
+            jQuery("#btnRemoveSelectedIssues").removeClass("btnDisabled");
+            jQuery("#btnUnlinkSelectedIssues").removeClass("btnDisabled");
+
+            jQuery("#btnRemoveSelectedIssues").removeAttr("disabled");
+            jQuery("#btnUnlinkSelectedIssues").removeAttr("disabled");
+
+        } else {
+            jQuery("#btnRemoveSelectedIssues").addClass("btnDisabled");
+            jQuery("#btnUnlinkSelectedIssues").addClass("btnDisabled");
+
+            jQuery("#btnRemoveSelectedIssues").attr("disabled", "");
+            jQuery("#btnUnlinkSelectedIssues").attr("disabled", "");
+        }
+    }
+
+    function changeValue(input, textid) {
+        document.getElementById(textid).value = input.value;
+    }
+
+    function getSelectedIssueKeys() {
+        var issueKeys = [];
+        var inputElem = document.getElementsByTagName("input");
+        for ( var i = 0; i < inputElem.length; i++) {
+            if (inputElem[i].checked && inputElem[i].attributes["issuekey"])
+                issueKeys.push(inputElem[i].attributes["issuekey"].value);
+        }
+
+        return issueKeys;
+    }
+
+    function checkUnlinkedOrRemovedAll() {
+        var caseWithoutIssues = {!IF(totalRelatedIssues==0,true,false)};
+        if (caseWithoutIssues) {
+            funcRefreshPage();
+        }
+    }
+
+    function checkLinkedFirst() {
+        funcCreateJiraIdsListIfNotExists();
+        var caseWithoutIssues = {!IF(totalRelatedIssues==0,true,false)};
+        if (caseWithoutIssues) {
+            funcRefreshPage();
+        }
+    }
+
+    function linkSelectedIssues(issueKey){
+        jQuery("span[id$='msgPanel']").hide();
+        jQuery("span[id$='zPreviousResultsErrorMessage']").hide();
+        jQuery("span[id$='zPreviousResultsInfoMessage']").hide();
+
+        jQuery("#btnLinkSelectedIssues").removeClass("btn").addClass("btnDisabled");
+        jQuery("#btnLinkSelectedIssues").attr("disabled", "");
+        jQuery("#btnLinkSelectedIssues").val("Linking...");
+        jQuery("input[id='issueText']").attr("disabled","");
+
+        window.console.log('Linking issue '+issueKey+'...');
+        issueKey = issueKey.trim();
+        funcLinkSelectedIssues(issueKey);
+    }
+    function unlinkSelectedIssues(){
+        jQuery("span[id$='msgPanel']").hide();
+        jQuery("span[id$='zPreviousResultsErrorMessage']").hide();
+        jQuery("span[id$='zPreviousResultsInfoMessage']").hide();
+
+        jQuery("#btnUnlinkSelectedIssues").addClass("btnDisabled");
+        jQuery("#btnUnlinkSelectedIssues").attr("disabled", "");
+        jQuery("#btnUnlinkSelectedIssues").val("Unlinking...");
+        funcUnlinkSelectedIssues();
+    }
+    function removeSelectedIssues(loadder){
+        jQuery("span[id$='msgPanel']").hide();
+        jQuery("span[id$='zPreviousResultsErrorMessage']").hide();
+        jQuery("span[id$='zPreviousResultsInfoMessage']").hide();
+
+        var message = 'This action will delete the selected issue(s) in JIRA.  Are you sure you want continue?';
+        if(confirm(message)){
+            if(loadder){
+                loader();
+            }
+            jQuery("#btnRemoveSelectedIssues").addClass("btnDisabled");
+            jQuery("#btnRemoveSelectedIssues").attr("disabled", "");
+            jQuery("#btnRemoveSelectedIssues").val("Deleting...");
+            funcRemoveSelectedIssues();
+        }
+    }
+    function reloadPrompt(){
+        jQuery("[id*='checkedAll']").prop( "checked", false );
+        jQuery('#loader').css('display','none');
+        jQuery('#slds-loader').addClass('zc-hide');
+    }
+    </script>
+    <style>
+        .dialog-background{
+        display: none;
+        background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+        height: 100%;
+        left: 0;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 100;
+        }
+        .dialog-loading-wrapper {
+        background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+        border: 0 none;
+        height: 100px;
+        left: 50%;
+        margin-left: -50px;
+        margin-top: -50px;
+        position: fixed;
+        top: 50%;
+        width: 100px;
+        z-index: 9999999;
+        }
+        .dialog-loading-icon {
+        background-color: #FFFFFF !important;
+        background: url({!$Resource.loader})no-repeat center;
+        position: absolute;
+        display: block;
+        border-radius: 13px;
+        height: 100px;
+        line-height: 100px;
+        margin: 0;
+        padding: 1px;
+        text-align: center;
+        width: 100px;
+        }
+    </style>
+    <style>
+        .pageMessageContainer {
+        display: none;
+        }
+        .refreshButton{
+        background: url(/img/alohaSkin/sync.png) top left no-repeat;
+        width: 22px;
+        height: 23px;
+        background-position: 2px 3px;
+        float: right;
+        vertical-align: bottom;
+        }
+        .staleIssue{
+        opacity: 0.5;
+        }
+        .nowrap{
+            white-space: nowrap!important;
+        }
+        .zc-hide{
+            display: none !important;
+        }
+        .pbBody{
+            overflow: unset!important;
+        }
+        a[name=skiplink] {
+            display: none !important;
+        }
+    </style>
+    <div id="relatedIssuesPanel"  ondrop="drop(event);" ondragover="allowDrop(event)">
+        <apex:pageMessage id="mgsPanel" summary="{!settingsMessage}" severity="warning" strength="3" rendered="{!NOT(isJiraConfigured)}"/>
+        <apex:outputPanel rendered="{!newSettingsNeeded}">
+            <div class="message warningM3" role="alert">
+                <img style="vertical-align: middle;" alt="warning" class="msgIcon" src="/s.gif" title="warning"/>&nbsp;
+                It seems zAgileConnect has been recently updated, this version needs some settings to perform please go to
+                <a href="/apex/zsfjira__zAgile_settings" target="_blank">zAgile settings</a> for further details.
+            </div>
+        </apex:outputPanel>
+
+        <apex:variable var="isLightning"
+                       value="{!IF($User.UIThemeDisplayed=='Theme4d'||$User.UIThemeDisplayed=='Theme4u',true,false)}"/>
+        <apex:variable var="deletionAllowed"
+                       value="{!IF(zPermissions.deleteIssuesEnabled,true, $Permission.zsfjira__ZC_Delete_Issues)}"/>
+        <apex:variable var="unlinkAllowed"
+                       value="{!IF(zPermissions.unlinkIssuesEnabled, true,$Permission.zsfjira__ZC_Unlink_Issues)}"/>
+        <apex:variable var="linkAllowed"
+                       value="{!IF(zPermissions.linkIssuesEnabled, true,$Permission.zsfjira__ZC_Link_Issues)}"/>
+        <apex:variable var="createAllowed"
+                       value="{!IF(zPermissions.createIssuesEnabled,true, $Permission.zsfjira__ZC_Create_Issues)}"/>
+        <apex:variable var="editAllowed"
+                       value="{!IF(zPermissions.editIssuesEnabled, true,$Permission.zsfjira__ZC_Edit_Issues)}"/>
+        <apex:form rendered="{!isJiraConfigured}" id="frmRelatedIssues">
+            <apex:actionFunction rendered="{!linkAllowed}" name="funcLinkSelectedIssues"
+                                 action="{!linkSelectedIssues}" reRender="msgPanel"
+                                 oncomplete="funcReloadRelatedIssues();">
+                <apex:param name="pSelectedIssue" assignTo="{!selectedIssueKey}" value="" />
+            </apex:actionFunction>
+            <apex:actionFunction name="funcReloadRelatedIssues" action="{!reloadRelatedIssues}" reRender="blockIssueList" oncomplete="reloadPrompt();lightningNavBar(false);" />
+            <apex:actionFunction name="funcReloadMessages" reRender="msgPanel"/>
+
+            <apex:actionFunction name="funcReloadRelatedIssuesAndMessages" action="{!reloadRelatedIssues}" reRender="blockIssueList" oncomplete="reloadPrompt();lightningNavBar(false);funcReloadMessages()" />
+
+            <apex:actionFunction name="funcRemoveSelectedIssues" rendered="{!deletionAllowed}" action="{!removeSelectedIssues}"  oncomplete="funcReloadRelatedIssues();" reRender="msgPanel" />
+            <apex:actionFunction name="funcUnlinkSelectedIssues" rendered="{!unlinkAllowed}" action="{!unlinkSelectedIssues}" oncomplete="funcReloadRelatedIssues();" reRender="msgPanel" />
+            <apex:actionFunction name="funcSyncCaseIssuesWithJira" action="{!syncCaseIssuesWithJira}" oncomplete="funcReloadRelatedIssues();" reRender="msgPanel" />
+
+            <apex:actionFunction name="funcRefreshPage" action="{!refreshPage}" reRender="blockIssueList" />
+            <apex:actionFunction oncomplete="" name="funcSendAttachmentsSingleIssue" action="{!sendAttachmentsSingleIssue}">
+                <apex:param name="pSelectedIssue" assignTo="{!selectedIssueKey}" value="" />
+            </apex:actionFunction>
+            <apex:actionFunction name="funcClearMessages" action="{!clearCaseErrors}" reRender="caseErrors"/>
+            <apex:actionPoller action="{!reloadCaseErrors}" reRender="caseErrors"
+                               oncomplete="fillErrorMessages();" interval="20"
+                               rendered="{!caseErrorPullAttempts<3}"/>
+            <apex:actionFunction oncomplete="fillErrorMessages()" reRender="caseErrors" name="funcDeleteOperationError"
+                                 action="{!deleteOperationErrorId}">
+                <apex:param name="pErrorId" assignTo="{!operationErrorId}" value="" />
+            </apex:actionFunction>
+            <apex:sectionHeader title="Case" subtitle="{!Case.CaseNumber}" rendered="{!$CurrentPage.parameters.renderHeader=='true'}"/>
+            <apex:outputPanel id="caseErrors">
+                <apex:outputPanel rendered="{!caseErrorMessages.size>0}">
+                    <span>
+                        <div class="message errorM4" role="alert">
+                            <table border="0" cellpadding="0" cellspacing="0" class="messageTable"
+                                   style="padding:0px;margin:0px;width: 100%;">
+                                <tbody>
+                                    <tr valign="top" >
+                                        <td class="messageCell" style="width: 100%;vertical-align:middle;">
+                                            <img style="display: inline;vertical-align:middle;" alt="Error" class="msgIcon" src="/s.gif" title="Error"/>
+                                            <div style="display: inline;vertical-align:middle;" class="messageText">
+                                                <span>
+                                                    <h4 style="display: inline;">Errors</h4>
+                                                    <a href="#" onclick="funcClearMessages();" style="display: inline;float: right;">Close</a>
+                                                </span>
+                                                <br/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <ul>
+                                                <apex:repeat value="{!caseErrorMessages}" var="caseErrorMessage">
+                                                    <li errorid="{!caseErrorMessage.Id}">
+                                                        <span errorHolder='true'/>
+                                                        <input hiddenError='true' type="hidden" value="{!caseErrorMessage.Message__c}"/>
+
+                                                        <div style='display:none;'>
+                                                            <apex:outputField value="{!caseErrorMessage.CreatedDate}" id="FillDate"/>
+                                                        </div>
+                                                    </li>
+                                                </apex:repeat>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </span>
+                </apex:outputPanel>
+            </apex:outputPanel>
+            <!-- Display search results -->
+            <apex:pageBlock id="blockIssueList" title="{!IF($CurrentPage.parameters.renderHeader=='true','Related JIRA Issues','')}">
+                <!--<apex:pageBlock id="selectedIssues" rendered="{!ShowIssueList}">-->
+                <apex:outputpanel rendered="{!AND(NOT(hasReadOnlyAccessCurrentUser),$CurrentPage.parameters.viewMode!='true')}">
+
+                    <apex:outputPanel rendered="{!isLightning}">
+                        <div class="slds-scope">
+                            <div id="navbar" class="slds-grid slds-grid_align-end slds-nowrap">
+                                <apex:variable value="" var="sldsCreate" rendered="{!createAllowed}">
+                                    <div class="slds-button-group slds-col" role="group" zc-name="New"
+                                         zc-type="button" zc-size="65">
+                                        <button class="slds-button slds-button_neutral"
+                                                onclick="return goToIssueCreator('{!JSENCODE(NewJiraIssueUrl)}' , 'Create Issue');">New</button>
+                                    </div>
+                                </apex:variable>
+                                <apex:variable value="" var="sldsLink" rendered="{!linkAllowed}">
+                                    <div class="slds-button-group slds-col" role="group" zc-name="Find Issues"
+                                         zc-type="text" zc-size="205">
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                <svg class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default" aria-hidden="true">
+                                                    <use xlink:href="{!URLFOR($Asset.SLDS,
+                                                            '/assets/icons/utility-sprite/svg/symbols.svg#link')}"  xmlns:xlink="http://www.w3.org/1999/xlink" />
+                                                </svg>
+                                                <input id ='issueText' class="slds-input" placeholder="Link with Issue Key"
+                                                       onkeydown='if (event.keyCode == 13) {loader();linkSelectedIssues(this.value);return false;}'
+                                                       type="text" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </apex:variable>
+
+                                <div class="slds-button-group slds-col" role="group" zc-name="View Suggested"
+                                     zc-type="button"
+                                     zc-size="170">
+                                    <button class="slds-button slds-button_neutral"
+                                            onClick="return goToSearchIssues('{!JSENCODE(SuggestedIssuesUrl)}' , 'Suggested Issues for Case');">
+                                        <span class="nowrap">View Suggested</span>
+                                    </button>
+                                </div>
+
+                                <div class="slds-button-group slds-col" role="group"
+                                     zc-size="205"
+                                     zc-name="Find Issues" zc-type="text">
+                                    <div class="slds-form-element">
+                                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                            <svg class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default" aria-hidden="true">
+                                                <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#search')}"  xmlns:xlink="http://www.w3.org/1999/xlink" />
+                                            </svg>
+                                            <input id="text-input-id-1" class="slds-input" placeholder="Find Issues"
+                                                   autocomplete="off"
+                                                   onkeyup="updateSearchText(this.value)" rendered="{!isJiraConfigured}"
+                                                   onkeydown='if (event.keyCode == 13) {goToSearchIssuesByKeyword(true);event.preventDefault();}'
+                                                   type="text" />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="slds-button-group slds-col" role="group" zc-name="Refresh" zc-type="button"
+                                     title="Refresh related Issues of entity"
+                                     zc-size="35">
+                                    <button class="slds-button slds-button_icon slds-button_icon-border-filled"
+                                            onclick='refreshIssues();return false;'>
+                                        <svg class="slds-button__icon" aria-hidden="true">
+                                            <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#refresh')}"  xmlns:xlink="http://www.w3.org/1999/xlink" />
+                                        </svg>
+                                        <span class="slds-assistive-text">Refresh related Issues of entity</span>
+                                    </button>
+                                </div>
+
+                                <div class="slds-col" role="group"  zc-type="more" >
+                                    <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open slds-button_last">
+                                        <button class="slds-button slds-button_icon slds-button_icon-border-filled" aria-haspopup="true"
+                                                onclick="event.stopPropagation();jQuery('#menuItems').toggleClass('zc-hide');return false;"
+                                                title="Show More">
+                                            <svg class="slds-button__icon" aria-hidden="true">
+                                                <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#down')}" xmlns:xlink="http://www.w3.org/1999/xlink" />
+                                            </svg>
+                                            <span class="slds-assistive-text">Show More</span>
+                                        </button>
+                                    </div>
+                                    <div class="slds-dropdown slds-dropdown_right zc-hide" id="menuItems">
+                                        <ul class="slds-dropdown__list slds-m-horizontal_xx-small" role="menu">
+                                            <apex:variable value="" var="sldsUnink" rendered="{!AND(unlinkAllowed,totalRelatedIssues>0)}">
+                                                <li class="slds-dropdown__item" role="presentation">
+                                                    <a href="#" role="menuitem" tabindex="0" onclick="loader();unlinkSelectedIssues(); return false;" >
+                                                        <span class="slds-truncate" title="Unlink">Unlink</span>
+                                                    </a>
+                                                </li>
+                                            </apex:variable>
+                                            <apex:variable value="" var="sldsDelete" rendered="{!AND(deletionAllowed,totalRelatedIssues>0)}">
+                                                <li class="slds-dropdown__item" role="presentation">
+                                                    <a href="#" role="menuitem" tabindex="0" onclick="removeSelectedIssues(true); return false;">
+                                                        <span class="slds-truncate" title="Delete">Delete</span>
+                                                    </a>
+                                                </li>
+                                            </apex:variable>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </apex:outputPanel>
+
+                    <apex:outputPanel rendered="{!NOT(isLightning)}">
+                        <center>
+                            <div id="topButtonBar">
+                                <apex:outputPanel rendered="{!createAllowed}">
+                                    <a class="btn z-create-issue-btn" style="text-decoration:none; !important; padding: 3.4px 5px; color:#333333" href="{!JSENCODE(NewJiraIssueUrl)}" onClick='return goToIssueCreator("{!JSENCODE(NewJiraIssueUrl)}" , "Create Issue");' target="_top">
+                                        <apex:outputText >New</apex:outputText>
+                                    </a>
+                                    <apex:outputText style="border-left: 2px solid gray; width: 2px; margin: 0px 5px 0px 5px !important" rendered="{!isJiraConfigured}" />
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!linkAllowed}">
+                                    <input type="button" id="btnLinkSelectedIssues" class="btn" onclick="linkSelectedIssues(jQuery('[name=classicKey]').val()); return false;" value="Link Existing" />
+                                    <input type="text" id ='issueText' style="height:14px; width: 60px; font-size: 11px;" name="classicKey"
+                                           placeholder="Issue Key"
+                                           onkeydown="if (event.keyCode == 13) {linkSelectedIssues(this.value);return false;}"/>
+                                    <apex:outputText style="border-left: 2px solid gray; width: 2px; margin: 0px 5px 0px 5px !important" rendered="{!isJiraConfigured}" />
+                                </apex:outputPanel>
+                                <a class="btn z-search-suggest-btn"
+                                   style="text-decoration:none; !important; padding: 3.4px 5px; color: #333333" href="{!JSENCODE(SuggestedIssuesUrl)}" onClick='return goToSearchIssues("{!JSENCODE(SuggestedIssuesUrl)}" , "Suggested Issues for Case");' target="_top">
+                                    <apex:outputText >View Suggested Issues</apex:outputText>
+                                </a>
+                                &nbsp; or &nbsp;
+                                <apex:inputText id="searchKeywordInput" style="width: 228px; font-size: 12px;" value="{!issueToFind}"
+                                                styleClass="z-search-input"
+                                                onkeyup="updateSearchText(this.value)" rendered="{!isJiraConfigured}"
+                                                onkeydown="if (event.keyCode == 13) {goToSearchIssuesByKeyword(true);}"/>
+                                <a id="searchByKeywordLink" class="btn" style="text-decoration:none; !important; padding: 3.4px 5px; color: #333333"
+                                   href="{!JSENCODE(FindIssuesUrl)}" onClick='return goToSearchIssuesByKeyword(false);' target="_top">
+                                    <apex:outputText >Find Issues</apex:outputText>
+                                </a>
+                                <a class="refreshButton" href="#" onclick="refreshIssues();return false;" title="Refresh"></a>
+                            </div>
+                        </center>
+                    </apex:outputPanel>
+
+                    <br />
+                </apex:outputpanel>
+                <apex:variable var="staleMessage" value="It seems that this issue is outdated with JIRA, click on refresh icon to refresh it."/>
+                <div style="overflow:auto; width:100%;">
+                    <apex:pageBlockTable id="tblIssueSelection" value="{!RelatedIssues}" var="issueSelection" rendered="{!totalRelatedIssues > 0}">
+                        <apex:column width="20px" rendered="{!AND(NOT(hasReadOnlyAccessCurrentUser),$CurrentPage.parameters.viewMode!='true',(deletionAllowed||unlinkAllowed))}"
+                                     styleClass="{!IF(issueSelection.stale,'staleIssue','')}">
+                            <apex:facet name="header">
+                                <apex:inputCheckbox onclick="checkAll(this)" id="checkedAll" />
+                            </apex:facet>
+                            <apex:inputCheckbox html-issuekey="{!issueSelection.issue.key}" id="selectLine1" onclick="onChecked(this)" onchange="uncheckAll(this)"
+                                                value="{!issueSelection.selected}" rendered="{!NOT(ISNULL(issueSelection.issue.key))}" />
+                        </apex:column>
+                        <apex:column headervalue="" rendered="{!IF(ShowButtons && ((editAllowed && !hasReadOnlyAccessCurrentUser) || $CurrentPage.parameters.viewMode!='true'),true,false)}"
+                                     style="white-space: nowrap!important;" width="10px"
+                                     styleClass="{!IF(issueSelection.stale,'staleIssue','')}">
+                            <apex:outputPanel rendered="{!NOT(isLightning)}">
+                                <apex:outputPanel rendered="{!IF(editAllowed && !hasReadOnlyAccessCurrentUser,true,false)}" >
+                                    <a style="text-decoration: none;" title="Edit Issue" href="{!JSENCODE(issueSelection.jiraIssueEditUrl)}&retUrl=/{!JSENCODE(Case.Id)}" onClick='return goToEditIssue("{!JSENCODE(issueSelection.jiraIssueEditUrl)}&retUrl=/{!JSENCODE(Case.Id)}" , "Edit Issue");' target="_top">
+                                        <img src="{!URLFOR($Resource.zAgileResources,'/images/pen.png')}"/>
+                                    </a>
+                                    &nbsp;
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!AND($CurrentPage.parameters.viewMode!='true')}">
+                                    <a style="text-decoration: none;" title="Send Attachments" href="#" onclick="goToSendAttachment('{!JSENCODE(issueSelection.issue.key)}');">
+                                        <img src="{!URLFOR($Resource.zAgileResources,'/images/clip.png')}"/>
+                                    </a>
+                                </apex:outputPanel>
+                            </apex:outputPanel>
+
+
+                            <apex:outputPanel rendered="{!isLightning}">
+                                <apex:outputPanel rendered="{!IF(editAllowed && !hasReadOnlyAccessCurrentUser,true,false)}" >
+                                    <a href="#" class="slds-button slds-button_icon" onClick='return goToEditIssue("{!JSENCODE(issueSelection.jiraIssueEditUrl)}&retUrl=/{!JSENCODE(Case.Id)}" , "{!JSENCODE(issueSelection.issue.key)}");' title="Edit Issue">
+                                        <svg class="slds-button__icon" aria-hidden="true">
+                                            <use xlink:href="{!URLFOR($Asset.SLDS,
+                                                    '/assets/icons/utility-sprite/svg/symbols.svg#edit')}" xmlns:xlink="http://www.w3.org/1999/xlink" />
+                                        </svg>
+                                        <span class="slds-assistive-text">Edit Issue</span>
+                                    </a>
+                                    &nbsp;
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!AND($CurrentPage.parameters.viewMode!='true')}">
+                                    <a href="#" class="slds-button slds-button_icon" onclick="goToSendAttachment('{!JSENCODE(issueSelection.issue.key)}');" title="Send Attachments">
+                                        <svg class="slds-button__icon" aria-hidden="true">
+                                            <use xlink:href="{!URLFOR($Asset.SLDS,
+                                                    '/assets/icons/utility-sprite/svg/symbols.svg#attach')}" xmlns:xlink="http://www.w3.org/1999/xlink" />
+                                        </svg>
+                                        <span class="slds-assistive-text">Send Attachments</span>
+                                    </a>
+
+                                </apex:outputPanel>
+                            </apex:outputPanel>
+
+                        </apex:column>
+                        <apex:column headervalue="Key"
+                                     styleClass="{!IF(issueSelection.stale,'staleIssue','')}">
+                            <div style="white-space: nowrap!important;">
+                                <apex:variable rendered="{!issueSelection.stale}" var="hasStaleStatus" value="">
+                                    <apex:outputPanel rendered="{!NOT(isLightning)}">
+                                        <img height="16" width="16"
+                                             src="/img/msg_icons/warning16.png"
+                                             onerror="jQuery(this).hide();" title="{!staleMessage}"
+                                             style="vertical-align: middle;"/>
+                                    </apex:outputPanel>
+
+                                    <apex:outputPanel rendered="{!isLightning}">
+                                        <span class="slds-icon_container slds-icon-utility-announcement" title="{!staleMessage}">
+                                            <svg class="slds-icon slds-icon-text-default slds-icon slds-icon_x-small" aria-hidden="true">
+                                            <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#warning')}" xmlns:xlink="http://www.w3.org/1999/xlink" />
+                                            </svg>
+                                            <span class="slds-assistive-text">{!staleMessage}</span>
+                                        </span>
+                                    </apex:outputPanel>
+
+                                </apex:variable>
+                                <a type='popTrigger' key='{!issueSelection.issue.key}'
+                                   href="{!issueSelection.issueDetailsUrl}"
+                                   onClick='return goToIssueDetails("{!JSENCODE(issueSelection.issueDetailsUrl)}" , "{!JSENCODE(issueSelection.issue.key)}");'
+                                   target="_top">
+                                    <apex:outputText >{!issueSelection.issue.key}</apex:outputText>
+                                </a>
+                            </div>
+                        </apex:column>
+                        <apex:repeat value="{!gridTitles}" var="field">
+                            <apex:column styleClass="{!IF(issueSelection.stale,'staleIssue','')}">
+                                <apex:facet name="header">
+                                    <apex:outputText >{!field}</apex:outputText>
+                                </apex:facet>
+                                <apex:outputText >{!gridTitlesValues[issueSelection.issue.key][field]}</apex:outputText>
+                            </apex:column>
+                        </apex:repeat>
+                    </apex:pageBlockTable>
+                </div>
+                <apex:variable var="hasFullAccess" value="" rendered="{!AND(NOT(hasReadOnlyAccessCurrentUser),$CurrentPage.parameters.viewMode!='true',NOT(isLightning))}">
+                    <br />
+                    <div>
+                        <apex:outputPanel rendered="{!unlinkAllowed}">
+                            <input type="button" id="btnUnlinkSelectedIssues" class="btn btnDisabled" disabled="true" onclick="unlinkSelectedIssues(); return false;" value="Unlink" style="display: {!IF(ShowButtons, 'inline', 'none')};" />
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{!deletionAllowed}">
+                            <input type="button" id="btnRemoveSelectedIssues" class="btn btnDisabled" disabled="true" onclick="removeSelectedIssues(false); return false;" value="Delete" style="display: {!IF(ShowButtons, 'inline', 'none')};" />
+                        </apex:outputPanel>
+                    </div>
+                </apex:variable>
+
+            </apex:pageBlock>
+            <!-- End of search results -->
+
+            <apex:inputhidden id="editingIssueKey" value="{!editingIssueKey}" />
+            <input type="hidden" id="consoleAsync" value="false" />
+
+            <apex:outputPanel id="msgPanel">
+                <apex:pageMessages escape="false" />
+            </apex:outputPanel>
+            <div class='pageMessageContainer'>
+                <apex:pageMessage strength="1" severity="info"
+                                  id="zPreviousResultsInfoMessage" />
+            </div>
+            <div class='pageMessageContainer'>
+                <apex:pageMessage strength="1" severity="error"
+                                  id="zPreviousResultsErrorMessage" />
+            </div>
+            <!-- End of message -->
+            <div id="relatedJiraIssuesForm" style="display:none;"></div>
+        </apex:form>
+        <apex:pageMessage rendered="{!NOT(isJiraAccessible)}" summary="{!jiraNotAccessibleMessage}" severity="warning" strength="3" id="jiraAccessMessage"/>
+    </div>
+    <div id="loader" class="dialog-background">
+        <div class="dialog-loading-wrapper">
+            <span class="dialog-loading-icon">
+                <center style="padding-top:32%;"><b>Loading...</b></center>
+            </span>
+        </div>
+    </div>
+    <div id="slds-loader" class="slds-spinner_container slds-is-fixed zc-hide" >
+        <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand" >
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+        </div>
+    </div>
+
+    <!--Console Mode and Iframe Problems -->
+    <script type="text/javascript">
+    $j = jQuery.noConflict();
+    if( sforce && sforce.console && sforce.console.isInConsole() ){
+        var newUrl = $j("#relatedJiraIssuesForm").parent().closest('form').attr("action" );
+        var requiredConsoleParam = "&isdtp=vw";
+        if( !endsWith(newUrl , requiredConsoleParam))
+            newUrl += requiredConsoleParam;
+        $j("#relatedJiraIssuesForm").parent().closest('form').attr("action" , newUrl );
+    }
+    function endsWith(str, suffix) {
+        if( str.length - suffix.length >= 0 )
+            return str.indexOf(suffix, str.length - suffix.length) !== -1;
+        return false;
+    }
+
+    if({!NOT(isJiraAccessible)}){
+        $j("#relatedIssuesPanel").css("display" , "none");
+    }
+
+    </script>
+    <script>
+    var processMessage = function (result) {
+        window.console.log('Message Received: '+ result.message);
+        var objResult = JSON.parse(result.message);
+        if(objResult.source=='suggestedIssues'){
+            if('{!Case.Id}'.indexOf(objResult.caseId)==0){
+                if(objResult.action == 'refresh'){
+                    loader();
+                    funcReloadRelatedIssuesAndMessages();
+                }
+            }
+        }
+        window.console.log('{!Case.Id}');
+        if(objResult.action=='renderIssueResults'){
+            if('{!Case.Id}'.indexOf(objResult.caseId)==0){
+                var render = function(){
+                    loader();
+                    renderLinkResults(objResult.msgError,objResult.msgSuccess);
+                    funcReloadRelatedIssuesAndMessages();
+                };
+                setTimeout(render, 500);
+            }
+        }
+    };
+
+    var setConsoleListener = function (){
+        var MAX_NUMBER_OF_TRIES= 20;
+        var INTERVAL_BETWEEN_TRIES = 1000;
+        var tryNumber = 0;
+
+        var setConsoleListenerInternal = function (){
+            tryNumber++;
+            sforce.console.getEnclosingPrimaryTabId(function (result) {
+                if(result && result.success){
+                    sforce.console.addEventListener('messageFromComponent',processMessage);
+                    window.console.log('Listener settled at try '+tryNumber);
+                }
+                else{
+                    if(tryNumber<=MAX_NUMBER_OF_TRIES){
+                        setTimeout(setConsoleListenerInternal,INTERVAL_BETWEEN_TRIES);
+                    }
+                }
+            });
+        };
+        setTimeout(setConsoleListenerInternal,INTERVAL_BETWEEN_TRIES);
+    };
+    var isLinkAllowed = {!IF(linkAllowed,true,false)};
+    jQuery(document).ready(function() {
+        fillErrorMessages();
+
+        jQuery("span[id$='zPreviousResultsErrorMessage']").hide();
+        jQuery("span[id$='zPreviousResultsInfoMessage']").hide();
+
+        jQuery("div.pageMessageContainer").each(function(i){
+            jQuery(this).removeAttr("class");
+        });
+
+        if (sforce && sforce.console && sforce.console.isInConsole()) {
+            setConsoleListener();
+            var message = {
+                caseId : "{!Case.Id}",
+                caseNumber : "{!JSENCODE(Case.CaseNumber)}",
+                caseSubject : "{!JSENCODE(Case.Subject)}",
+                action : "send"
+            };
+            sforce.console.fireEvent(
+                'messageFromCase',JSON.stringify(message), function(result){}
+            );
+            jQuery('#relatedIssuesPanel').on('dragenter', function(event) {
+                var color = '';
+                if(isLinkAllowed){
+                    color = 'green';
+                }else{
+                    color = 'red';
+                }
+                jQuery("div[id*='blockIssueList']").css('border-color',color);
+            });
+            jQuery('#relatedIssuesPanel').on('dragleave', function(event) {
+                var rect = this.getBoundingClientRect();
+                var getXY = function getCursorPosition(event) {
+                    var x, y;
+                    if (typeof event.clientX === 'undefined') {
+                        // try touch screen
+                        x = event.pageX + document.documentElement.scrollLeft;
+                        y = event.pageY + document.documentElement.scrollTop;
+                    } else {
+                        x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+                        y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+                    }
+                    return { x: x, y : y };
+                };
+                var e = getXY(event.originalEvent);
+                // Check the mouseEvent coordinates are outside of the rectangle
+                if (e.x > rect.left + rect.width - 1 || e.x < rect.left || e.y > rect.top + rect.height - 1 || e.y < rect.top) {
+                    unpaintArea();
+                }
+            });
+        }else if(sforce && !sforce.one){
+            if(top!=self){
+                if(supports_html5_storage()){
+                    var storageKey = "LINK_RESULT_{!Case.Id}";
+                    if(storageKey in sessionStorage){
+                        var jsonResult = JSON.parse(sessionStorage[storageKey]);
+                        sessionStorage.removeItem(storageKey);
+                        renderLinkResults(jsonResult.linkError,jsonResult.linkSuccess);
+                    }
+                    storageKey = "ATTACHMENT_RESULT_{!Case.Id}";
+                    if(storageKey in sessionStorage){
+                        var jsonResult = JSON.parse(sessionStorage[storageKey]);
+                        sessionStorage.removeItem(storageKey);
+                        renderLinkResults('',jsonResult.result);
+                    }
+                }
+            }
+        }
+        lightningNavBar(true);
+    });
+    var elemSizes = null;
+    function lightningNavBar(initializeEvents){
+        var isLightning = {!IF(isLightning,true,false)};
+        if(!isLightning){
+            return;
+        }
+        elemSizes = [];
+        if(initializeEvents){
+            jQuery(document).click(function() {
+                jQuery('#menuItems').addClass('zc-hide');
+            });
+        }
+
+        var menuElements = jQuery('#navbar').children();
+        var menuMore = jQuery('#navbar').find('div[zc-type="more"]').find('ul');
+
+        for(var i = menuElements.length-1;i>=0;i--){
+            if(jQuery(menuElements[i]).attr('zc-type')!='more'){
+                elemSizes.push(parseInt(jQuery(menuElements[i]).attr('zc-size')));
+
+                if(jQuery(menuElements[i]).attr('zc-type')=='button'){
+                    var onClick = jQuery(menuElements[i]).find('button').attr('onclick');
+                    var label = jQuery(menuElements[i]).attr('zc-name');
+
+                    var li = '<li class="slds-dropdown__item" role="presentation">';
+                    li += '<a href="#" role="menuitem" tabindex="0" onclick="'+onClick+'">';
+                    li += '<span class="slds-truncate" title="Overflow Item One">'+label+'</span>';
+                    li += '</a></li>';
+
+                    jQuery(menuMore).prepend(li);
+                }
+                if(jQuery(menuElements[i]).attr('zc-type')=='text'){
+                    var inputElement = jQuery(menuElements[i]).find('.slds-form-element')[0].outerHTML;
+
+                    var li = '<li class="slds-dropdown__item" role="presentation">';
+                    li += inputElement;
+                    li += '</li>';
+
+                    jQuery(menuMore).prepend(li);
+                }
+            }
+        }
+        var listElements = jQuery('#navbar').find('div[zc-type="more"]').find('li').slice(0, elemSizes.length);
+        jQuery(listElements).find('input').click(function(event) {
+            event.stopPropagation();
+        });
+
+
+        var analyze = function(){
+            var showElement = function(element){
+                jQuery(element).removeClass('zc-hide');
+            };
+            var hideElement = function(element){
+                jQuery(element).addClass('zc-hide');
+            };
+
+            var divElements = jQuery('#navbar').children();
+            showElement(divElements);
+
+            var width = jQuery(window).width();
+
+            var necessarySpace = 0;
+            var index;
+            for(index=0;index<elemSizes.length;index++){
+                necessarySpace+=elemSizes[index];
+                if(necessarySpace>width){
+                    break;
+                }
+            }
+
+            var moreButton = jQuery('#navbar').find('div[zc-type="more"]');
+            var listElements = jQuery(moreButton).find('li');
+
+            hideElement(listElements.slice(0, elemSizes.length));
+            for(index;index<elemSizes.length;index++){
+                hideElement(divElements[index]);
+                showElement(listElements[index]);
+            }
+
+            hideElement(moreButton);
+            for(var i=0;i<listElements.length;i++){
+                if(!jQuery(listElements[i]).hasClass('zc-hide')){
+                    showElement(moreButton);
+                    break;
+                }
+            }
+        }
+        if(initializeEvents){
+            jQuery(window).resize(function() {
+                analyze();
+            });
+        }
+        analyze();
+
+    }
+    function supports_html5_storage() {
+        try {
+            return 'sessionStorage' in window && window['sessionStorage'] !== null;
+        } catch (e) {
+            return false;
+        }
+    }
+    function renderLinkResults(errorMsg,successMsg){
+        jQuery("span[id$='msgPanel']").hide();
+
+        jQuery("span[id$='zPreviousResultsErrorMessage']").hide();
+        jQuery("span[id$='zPreviousResultsInfoMessage']").hide();
+        if(errorMsg!=''){
+            jQuery("span[id$='zPreviousResultsErrorMessage'] DIV.messageText").html(errorMsg);
+            jQuery("span[id$='zPreviousResultsErrorMessage']").show();
+        }
+        if(successMsg!=''){
+            jQuery("span[id$='zPreviousResultsInfoMessage'] DIV.messageText").html(successMsg);
+            jQuery("span[id$='zPreviousResultsInfoMessage']").show();
+        }
+    }
+    function unpaintArea(){
+        jQuery("div[id$='frmRelatedIssues:blockIssueList']").css('border-color','#b7a752');
+        jQuery("div[id$='frmRelatedIssues:blockIssueList']").css('border-bottom','1px solid #eaeaea');
+        jQuery("div[id$='frmRelatedIssues:blockIssueList']").css('border-left','1px solid #eaeaea');
+        jQuery("div[id$='frmRelatedIssues:blockIssueList']").css('border-right','1px solid #eaeaea');
+
+    }
+    function drop(ev) {
+        unpaintArea();
+        ev.preventDefault();
+        if(!isLinkAllowed){
+            window.console.log('link not allowed');
+            return;
+        }
+        var jsonText =ev.dataTransfer.getData("text");
+        var jsonObject = null;
+        try {
+            jsonObject = JSON.parse(jsonText);
+        }catch(err) {
+            window.console.log('Invalid object dropped, '+err.message);
+            return;
+        }
+        if(!jsonObject.issueKey){
+            window.console.log('Invalid json object dropped, '+jsonText);
+            return;
+        }
+        var issueKey = jsonObject.issueKey+"";
+        issueKey = issueKey.trim();
+        jQuery("#loader").css('display','block');
+        funcLinkSelectedIssues(issueKey);
+    }
+    function allowDrop(ev) {
+        ev.preventDefault();
+        ev.dataTransfer.dropEffect = 'copy' ;
+    }
+    </script>
+    <script>
+    function loader(){
+        var slds = {!IF(isLightning,true,false)};
+        if(!slds){
+            jQuery("#loader").css('display','block');
+        }else{
+            jQuery("#slds-loader").removeClass('zc-hide');
+        }
+    }
+    function refreshIssues(){
+        jQuery("span[id$='msgPanel']").hide();
+        jQuery("span[id$='zPreviousResultsErrorMessage']").hide();
+        jQuery("span[id$='zPreviousResultsInfoMessage']").hide();
+        loader();
+        funcSyncCaseIssuesWithJira();
+    }
+    function fillErrorMessages(){
+        jQuery("input[hiddenError='true']").each(function( index ) {
+            var errorMessage=jQuery(this).val();
+            var createdDate = jQuery(this).parent().find("div>span").html();
+
+			errorMessage+=' ('+createdDate+')';
+            jQuery(this).parent().find("span[errorHolder='true']").html(errorMessage);
+        });
+    }
+    function removeError(hyperlink){
+        var caseErrorId = jQuery(hyperlink).parent().parent().attr('errorid');
+        funcDeleteOperationError(caseErrorId);
+    }
+    </script>
+    </html>
+</apex:page>

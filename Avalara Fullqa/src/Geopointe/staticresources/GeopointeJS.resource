@@ -136,7 +136,7 @@ function gp_newDataTableStructure(div, poiCollection){
 
 	var tabLabel = '<li class="dataSetResultTableTab" data-collectionName="'+poiCollection.collectionName+'">'+
 						'<a href="#tabs-'+poiCollection.collectionName+'">'+
-							'<span class="poiCollectionTabLabel" data-collectionName="'+poiCollection.collectionName+'" notranslate>'+poiCollection.dataSetName+'</span>&nbsp;&nbsp;'+
+							'<span class="poiCollectionTabLabel" data-collectionName="'+poiCollection.collectionName+'" notranslate>'+gp_escapeHtml(poiCollection.dataSetName)+'</span>&nbsp;&nbsp;'+
 							'<span id="countBubble-'+poiCollection.collectionName+'" class="countBubble countBubbleTab" style="background-color:#'+countColor+';">' + poiCollection.POIs.length + '</span>'+
 							'<img class="tabShowHideIcon tabHideIcon removeDataSetSearchIcon" src="'+blackXiconURL+'" data-collectionName="'+ poiCollection.collectionName +'" title="Remove Data Set Search from map"/>'+
 							'<img class="tabShowHideIcon tabShowIcon showDataSetSearchIcon" src="'+blackPlusIconURL+'" data-collectionName="'+ poiCollection.collectionName +'" title="Show Data Set Search on map"/>'+
@@ -198,7 +198,7 @@ function gp_defineDataTableColumns(thisPOIC){
 			markerHeight = '30px';	
 		} 
 		var labelOnlySrcURL = (thisPOIC.POIs[0].markerType && ('label' == thisPOIC.POIs[0].markerType))? 
-							'https://api.geopointe.io/v1/markers/pin-m+' + dsController.baseColorPalette[0] + '.png'
+							GEOPOINTE_API + '/v1/markers/pin-m+' + dsController.baseColorPalette[0] + '.png'
 							: '';
 
 		/* 11 */ tableCols.push({"sTitle" : "Actions", "bSearchable": false, "bSortable": false, "sClass": "dataCell", "sWidth": actionColWidth, "bUseRendered": false, "gpName" : "actions",
@@ -229,7 +229,7 @@ function gp_defineDataTableColumns(thisPOIC){
 		// Used to display the # column when map pins are numbered
 		/* 12 */ tableCols.push({"sTitle" : "#", "bSearchable": false, "bSortable": false, "bVisible": false, "sWidth": "0px", "sClass": "dataCell notranslate", "gpName" : "rowNum"});
 		
-		/* 13 */ tableCols.push({"sTitle" : thisPOIC.columnLabels.titleLabel, "sClass": "dataCell notranslate", "sType": "html", "sWidth": "120px", "bUseRendered": false, "gpName" : "title", 
+		/* 13 */ tableCols.push({"sTitle" : gp_escapeHtml(thisPOIC.columnLabels.titleLabel), "sClass": "dataCell notranslate", "sType": "html", "sWidth": "120px", "bUseRendered": false, "gpName" : "title", 
 						"fnRender": function(obj) {
 							var url = '';
 
@@ -240,13 +240,13 @@ function gp_defineDataTableColumns(thisPOIC){
 								url = '/' + obj.aData[gp_ColumnInfo.recordId];
 							}
 
-							var sReturn = "<a href=\'" + url + "\' target=\'_blank\' openConsoleTab='true'>" + obj.aData[ obj.iDataColumn ] + "</a>";
+							var sReturn = '<a href="' + url + '" target="_blank" openConsoleTab="true">' + obj.aData[ obj.iDataColumn ] + '</a>';
 							return sReturn;
 						}
 						});
 		
 		if (thisPOIC.hasTitle2) {
-			/* 14 */ tableCols.push({"sTitle" : thisPOIC.columnLabels.title2Label, "sClass": "dataCell notranslate", "sType": "string", "sWidth": "120px", "gpName" : "title2"});
+			/* 14 */ tableCols.push({"sTitle" : gp_escapeHtml(thisPOIC.columnLabels.title2Label), "sClass": "dataCell notranslate", "sType": "string", "sWidth": "120px", "gpName" : "title2"});
 		} else {
 			/* 14 */ tableCols.push({"sTitle" : "Title 2", "bSearchable": false, "bSortable": false, "bVisible": false, "sWidth": "0px", "sClass": "dataCell notranslate", "gpName" : "title2"});
 		}
@@ -300,7 +300,21 @@ function gp_defineDataTableColumns(thisPOIC){
 					pathLabel = actualField.pathLabel.join(' ');
 				}
 				
-				var dataTableFieldOpts = {"sTitle" : additionalField.label, "sPathLabel": pathLabel, "sClass": "dataCell notranslate", "bUseRendered": false, "bVisible": isVisible, "isAdditionalHiddenField": isAdditionalHiddenField, "gpObjectApiName": thisPOIC.ds.mapObjectSobjectName , "gpName" : "col"+i+"Value", "gpAPIname": additionalField.name,"gpFieldType": additionalField.datatype, "gpPrecision": additionalField.precision, "isUpdateable": additionalField.isUpdateable, "fnRender": function(obj) { return gp_renderInDataTable(obj, thisPOIC); } };
+				var dataTableFieldOpts = {"sTitle" : additionalField.label, 
+										"sPathLabel": pathLabel, 
+										"sClass": "dataCell notranslate", 
+										"bUseRendered": false, 
+										"bVisible": isVisible, 
+										"isAdditionalHiddenField": isAdditionalHiddenField, 
+										"gpObjectApiName": thisPOIC.ds.mapObjectSobjectName , 
+										"gpName" : "col"+i+"Value", 
+										"gpAPIname": additionalField.name,
+										"gpFieldType": additionalField.datatype, 
+										"gpScale": additionalField.scale, 
+										"isUpdateable": additionalField.isUpdateable, 
+										"isCalculated": additionalField.isCalculated, 
+										"fnRender": function(obj) { return gp_renderInDataTable(obj, thisPOIC); } };
+				
 				if(additionalField.datatype === 'REFERENCE'){
 					dataTableFieldOpts.sType = 'label';
 					dataTableFieldOpts.bSortable = true;
@@ -439,21 +453,21 @@ function gp_defineDataTableRow(thisPOIC, thisPOI){
 		
 		/* 11 */ tableRow.push	('actions'); //Actions
 		/* 12 */ tableRow.push	(thisPOI.mapIconText);
-		/* 13 */ tableRow.push(thisPOI.title);
+		/* 13 */ tableRow.push(gp_escapeHtml(thisPOI.title));
 		
 		if (thisPOIC.hasTitle2) {
-			/* 14 */ tableRow.push(thisPOI.title2);
+			/* 14 */ tableRow.push(gp_escapeHtml(thisPOI.title2));
 		} else {
 			/* 14 */ tableRow.push('');
 		}
 		
 		/* 15 */ tableRow.push(thisPOI.formattedAddr);
-		/* 16 */ tableRow.push(thisPOI.street);
-		/* 17 */ tableRow.push(thisPOI.city);
-		/* 18 */ tableRow.push(thisPOI.state);
-		/* 19 */ tableRow.push(thisPOI.postalCode);
-		/* 20 */ tableRow.push(thisPOI.country);
-		/* 21 */ tableRow.push(thisPOI.countryISO);
+		/* 16 */ tableRow.push(gp_escapeHtml(thisPOI.street));
+		/* 17 */ tableRow.push(gp_escapeHtml(thisPOI.city));
+		/* 18 */ tableRow.push(gp_escapeHtml(thisPOI.state));
+		/* 19 */ tableRow.push(gp_escapeHtml(thisPOI.postalCode));
+		/* 20 */ tableRow.push(gp_escapeHtml(thisPOI.country));
+		/* 21 */ tableRow.push(gp_escapeHtml(thisPOI.countryISO));
 		
 		//Create dynamic columns based on additional fields selected in the dataset
 		if (thisPOIC.dataSetObject) {
@@ -485,8 +499,12 @@ function gp_defineDataTableRow(thisPOIC, thisPOI){
 					//Use moment.js to format the date
 					label = dataValue ? momentDate.tz(gp_userSettings.userInfo.timeZone).format('l') + ' ' + momentDate.tz(gp_userSettings.userInfo.timeZone).format('LT') : '';
 					tableRow.push({label: label, value: dataValue});
-				}else{
+				
+				}else if(typeValue === 'CURRENCY' || typeValue === 'DOUBLE' ||  typeValue === 'INTEGER'){
 					tableRow.push(dataValue);
+					
+				}else{
+					tableRow.push(gp_escapeHtml(dataValue));
 				}
 			}
 		}
@@ -500,7 +518,7 @@ function gp_defineDataTableRow(thisPOIC, thisPOI){
 		/* 33 */ //tableRow.push('<img src="' + gpImg.loading + '"/>'); // Loading image
 		/* 33 */ tableRow.push('-'); 
 		
-		/* 34 */ tableRow.push(thisPOI.geocodeQuality);
+		/* 34 */ tableRow.push(gp_escapeHtml(thisPOI.geocodeQuality));
 		
 		/* 35 */ tableRow.push(thisPOI.baseInfoContentHTML);
 
@@ -513,7 +531,7 @@ function gp_defineDataTableRow(thisPOIC, thisPOI){
 
 		/* 37 */ 
 		if(thisPOI.colorByFieldValue){
-			tableRow.push(thisPOI.colorByFieldValue);
+			tableRow.push(gp_escapeHtml(thisPOI.colorByFieldValue));
 		}else{
 			tableRow.push('');
 		}
@@ -532,10 +550,10 @@ function gp_defineDataTableRow(thisPOIC, thisPOI){
 // Is Passed in "obj" from the fnRender function at http://www.datatables.net/usage/columns
 function gp_renderInDataTable(obj, thisPOIC){
 
-	//Attempt to find the precision value
-	var precision;
+	//Attempt to find the scale value
+	var scale;
 	try{
-		precision = obj.oSettings.aoColumns[ obj.iDataColumn  ].gpPrecision;
+		scale = obj.oSettings.aoColumns[ obj.iDataColumn  ].gpScale;
 	}catch(e){
 		console.log(e);
 	}
@@ -557,10 +575,11 @@ function gp_renderInDataTable(obj, thisPOIC){
 		fieldType: obj.aData[obj.iDataColumn-1],
 		fieldValue: obj.aData[obj.iDataColumn],
 		recordName: obj.aData[gp_ColumnInfo.title],
-		precision: precision,
+		scale: scale,
 		apiName: obj.oSettings.aoColumns[obj.iDataColumn].gpAPIname,
 		objectApiName: obj.oSettings.aoColumns[obj.iDataColumn].gpObjectApiName,
 		isUpdateable: obj.oSettings.aoColumns[obj.iDataColumn].isUpdateable,
+		isCalculated: obj.oSettings.aoColumns[obj.iDataColumn].isCalculated,
 		referenceName: referenceName,
 		isInfoWindow: false,
 		tableData: (thisPOI && thisPOI.tableData)? thisPOI.tableData : null,
@@ -568,7 +587,8 @@ function gp_renderInDataTable(obj, thisPOIC){
 		collectionName: thisPOIC.collectionName,
 		additionalFieldsObj: additionalFieldsObj,
 		thisPOI: thisPOI,
-		thisPOIC: thisPOIC
+		thisPOIC: thisPOIC,
+		inDataTable: true
 	}); 
 }
 
@@ -587,7 +607,7 @@ function gp_formatOutputField(opts){
 			if(typeof opts.fieldValue != 'number' && (opts.fieldValue == null || typeof opts.fieldValue == 'undefined' || opts.fieldValue == '')){
 				sReturn = '';
 			}else{
-				var decimalPlaces = opts.precision;
+				var decimalPlaces = opts.scale;
 				if(typeof decimalPlaces == 'undefined' || decimalPlaces == null || decimalPlaces == ''){
 					sReturn = angular.injector(["ng"]).get("numberFilter")(opts.fieldValue);
 				}else{
@@ -667,17 +687,58 @@ function gp_formatOutputField(opts){
 			}
 			break;
 		default:
-			//Render formula field URLs as html, unescape them
-			if(opts.fieldValue && typeof opts.fieldValue == 'string' && opts.fieldValue.startsWith('&lt;')){
-				sReturn = jQuery('<span>').html(opts.fieldValue).text();
+			var sReturn = '';
+
+			if(opts.isCalculated){//Formula fields
+				var val = opts.fieldValue ? opts.fieldValue : '';
+				if(opts.inDataTable){
+					val = jQuery('<span>').html(opts.fieldValue).text();
+				}
+
+				var xssMatches = ['<script>','javascript','ipt:','FSCommand','onAbort','onActivate','onAfterPrint','onAfterUpdate','onBeforeActivate','onBeforeCopy','onBeforeCut','onBeforeDeactivate',
+									'onBeforeEditFocus','onBeforePaste','onBeforePrint','onBeforeUnload','onBeforeUpdate','onBegin','onBlur','onBounce','onCellChange',
+									'onChange','onClick','onContextMenu','onControlSelect','onCopy','onCut','onDataAvailable','onDataSetChanged','onDataSetComplete',
+									'onDblClick','onDeactivate','onDrag','onDragEnd','onDragLeave','onDragEnter','onDragOver','onDragDrop','onDragStart','onDrop',
+									'onEnd','onError','onErrorUpdate','onFilterChange','onFinish','onFocus','onFocusIn','onFocusOut','onHashChange','onHelp','onInput',
+									'onKeyDown','onKeyPress','onKeyUp','onLayoutComplete','onLoad','onLoseCapture','onMediaComplete',
+									'onMediaError','onMessage','onMouseDown','onMouseEnter','onMouseLeave','onMouseMove','onMouseOut','onMouseOver','onMouseUp','onMouseWheel',
+									'onMove','onMoveEnd','onMoveStart','onOffline','onOnline','onOutOfSync','onPaste','onPause','onPopState','onProgress','onPropertyChange',
+									'onReadyStateChange','onRedo','onRepeat','onReset','onResize','onResizeEnd','onResizeStart','onResume','onReverse','onRowsEnter','onRowExit',
+									'onRowDelete','onRowInserted','onScroll','onSeek','onSelect','onSelectionChange','onSelectStart','onStart','onStop','onStorage','onSyncRestored',
+									'onSubmit','onTimeError','onTrackChange','onUndo','onUnload','onURLFlip','seekSegmentTime'];
+
+				//If &lt; //Salesforce already escaped, do nothing.
+				if(val.indexOf('&lt;') > -1){
+					//Salesforce already escaped, do nothing.
+
+				}else if(val.indexOf('<a') > -1 || val.indexOf('<img') > -1){ //There are <a or <img tags. Allow, but look for malicious scripts and escape
+
+					//Check for potential script matches
+					for(var i = 0; i < xssMatches.length; i++){
+						if(val.toLowerCase().indexOf(xssMatches[i].toLowerCase()) > -1){
+							val = gp_escapeHtml(val);
+							break;
+						}
+					}
+
+				}else{ //escape it all others
+					val = gp_escapeHtml(val);
+				}
+
+				sReturn = val;
+
 			}else{
-				sReturn = (null == opts.fieldValue)? '' : opts.fieldValue;
+				if(opts.inDataTable){// Fields in datatable are already escaped
+					sReturn = (null == opts.fieldValue) ? '' : opts.fieldValue;
+				}else{
+					sReturn = (null == opts.fieldValue) ? '' : gp_escapeHtml(opts.fieldValue); //Escape all other fields
+				}
 			}
-			
+
 			break;
 	}
 	if (null == sReturn || typeof sReturn == 'undefined') {
-		console.log('sReturn null or undef: opts = { fieldType: '+opts.fieldType+', fieldValue: '+opts.fieldValue+', precision: '+opts.precision+' }');
+		console.log('sReturn null or undef: opts = { fieldType: '+opts.fieldType+', fieldValue: '+opts.fieldValue+', scale: '+opts.scale+' }');
 		sReturn = '';
 	}
 	
@@ -688,20 +749,32 @@ function gp_formatOutputField(opts){
 //Returns formatted value for the Geocode Quality column
 //Is Passed in "obj" from the fnRender function at http://www.datatables.net/usage/columns
 function gp_renderGeocodeQuality(obj){
-	var theValue = obj.aData[ obj.iDataColumn ];
-	return gp_renderGeocodeQualityFromValue(theValue);
+	var theValue = obj.aData[ obj.iDataColumn ] || 'CUSTOM';
+
+	var poorGCImage = '<img src="' + gpImg.error12 + '" alt="Poor Geocode Quality" />';
+	var medGCImage =  '<img src="' + gpImg.warning12 + '" alt="Medium Geocode Quality" />';
+	var goodGCImage = '<img src="' + gpImg.confirm12 + '" alt="High Geocode Quality" />';
+
+	var qual = gp_getGeocodeQualityCategory(theValue);
+
+	return (qual=='high' ? goodGCImage : qual=='medium' ? medGCImage : poorGCImage) + " " + theValue;
 }
-function gp_renderGeocodeQualityFromValue(theValue){
-	if (theValue == ''){ theValue = 'CUSTOM' };
-	var preImage = '';
-	if (theValue == 'POINT' || theValue == 'ADDRESS' || theValue == 'STREET' || theValue == 'INTERSECTION' || theValue == 'ROOFTOP' || theValue == 'CUSTOM'){
-		preImage = "<img src=\"" + gpImg.confirm12 + "\"  title=\"Good Geocode Quality!\" />";
-	} else if (theValue == 'CITY' || theValue == 'ZIP' || theValue == 'ZIP_EXTENDED' || theValue == 'RANGE_INTERPOLATED'){
-		preImage = "<img src=\"" + gpImg.warning12 + "\"  title=\"Average Geocode Quality!\"  />";
-	} else if (theValue == 'COUNTY' || theValue == 'STATE' || theValue == 'COUNTRY' || theValue == 'GEOMETRIC_CENTER' || theValue == 'APPROXIMATE'){
-		preImage = "<img src=\"" + gpImg.error12 + "\"  title=\"Poor Geocode Quality!\"  />";
-	}
-	return preImage + " " + theValue;
+
+// Should match the definitions in MapObject
+function gp_getGeocodeQualityCategory(quality) {
+	if (!quality) return '';
+	
+	var q = quality.toLowerCase();
+	if (['rooftop', 'custom', 'address'].indexOf(q) > -1)
+		return 'high';
+
+	if (['range_interpolated', 'nearaddress', 'block', 'street'].indexOf(q) > -1)
+		return 'medium';
+
+	if (['geometric_center', 'approximate', 'extendedzip', 'zip', 'neighborhood', 'city', 'county', 'state', 'unknown'].indexOf(q) > -1)
+		return 'low';
+
+	return '';
 }
 
 // Remove Marker from a Table
@@ -852,7 +925,8 @@ function gp_initDataTable(thisPOIC, tableCols, tableData){
 
 // Read table data, create CSV and send to server
 function gp_writeCSV(applyToIds){
-	
+	gp_trackExportCSV();
+
 	gp_clearHiddenFields();
 	
 	var csv = '';
@@ -1044,18 +1118,29 @@ function gp_writeCSV(applyToIds){
 	
 	/* Remove the last new line */
 	csv.slice( 0, -1 );
-	
-	/* Write CSV data to hidden form field and submit the form to the export CSV page */
-	jQuery("#gp_csvData").val(csv);
-	document.forms.gp_getCSV.submit();
-	
+
+	// Check whether (modern) browser supports client-side download using FileSaver.js
+	var supportFileSaver = typeof new Blob != 'undefined';
+	if (supportFileSaver) {
+		var today = new Date();
+		var fileName = 'MapExport_' + today.getFullYear() + (today.getMonth()+1) + today.getDate() + '.csv';
+		var data = new Blob([csv]);
+		saveAs(data, fileName);	// as defined in filesaver.min.js
+	}
+	else {	// browser won't help us, do the download server-side
+		/* Write CSV data to hidden form field and submit the form to the export CSV page */
+		jQuery("#gp_csvData").val(csv);
+		document.forms.gp_getCSV.submit();
+	}
+
 	return true;
 	
 }
 
 //Read table data, create KML and send to server
 function gp_writeKML(applyToIds){
-	
+	gp_trackExportKML();
+
 	gp_clearHiddenFields();
 	
 	var kml = '';
@@ -1193,6 +1278,10 @@ function gp_writeKML(applyToIds){
 				continue;
 			}
 
+			// Don't export library shapes
+			if (polygon.gpProperties.usageType != 'Standard')
+				continue;
+
 			//Save this shape so we can create a style for it, only need one shape per grouping so we use the group id
 			shapesForStyles[polygon.gpProperties.groupLayerId] = polygon;
 
@@ -1254,6 +1343,13 @@ function gp_writeKML(applyToIds){
 				paths = paths.getArray();
 			}
 
+			//If type is line build the path array
+			if(polygon.gpProperties.gpType == 'polyline'){
+				paths = new google.maps.MVCArray();
+				paths.push(polygon.getPath());
+				paths = paths.getArray();
+			}
+
 			var polygonKMLStrings = [];
 			
 			for(var i = 0; i < paths.length; i++){
@@ -1264,7 +1360,21 @@ function gp_writeKML(applyToIds){
 				if(polygon.gpProperties.innerRings && polygon.gpProperties.innerRings[i] == true){
 					continue;
 
-				}else{
+				} else if (polygon.gpProperties.gpType == 'polyline') {
+					polygonKML += '	<LineString>';
+					polygonKML += '		<extrude>1</extrude>';
+					polygonKML += '		<tessellate>1</tessellate>';
+					polygonKML += '		<coordinates>';
+					var pathArray = path.getArray();
+					for(var j = 0; j < pathArray.length; j++){
+						var point = pathArray[j];
+						polygonKML += point.lng().toFixed(6) + ',' + point.lat().toFixed(6) + ',0 ';
+					}
+					polygonKML += '		</coordinates>';
+					polygonKML += '</LineString>';
+					polygonKMLStrings.push(polygonKML);
+					
+				} else {
 					polygonKML += '	<Polygon>';
 					polygonKML += '		<tessellate>1</tessellate>';
 					polygonKML += '		<outerBoundaryIs>';
@@ -1341,23 +1451,36 @@ function gp_writeKML(applyToIds){
 			var polygon = shapesForStyles[key];
 
 			//Google kml is stupid with colors as does alpha (transparence in hex) aabbggrr instead of common web of rrggbb
-			var color = polygon.fillColor;
+			var color = polygon.fillColor || "99ccff";
 			if(color.indexOf('#') == 0) color = color.substring(1,7);
 			var colorParts = color.match(/.{1,2}/g);
-			var aabbggrr = colorParts[2] + colorParts[1] + colorParts[0];
+			var poly_aabbggrr = colorParts[2] + colorParts[1] + colorParts[0];
 
 			//Calculate and set opacity
-			var decimal = parseInt(parseFloat(polygon.fillOpacity) * 255);
+			var opacity = polygon.fillOpacity || 0.5
+			var decimal = parseInt(parseFloat(opacity) * 255);
 			var hex = decimal.toString(16);
-			aabbggrr = hex + '' + aabbggrr;
+			poly_aabbggrr = hex + '' + poly_aabbggrr;
+
+			// Get vals for the line
+			color = polygon.strokeColor || "000000";
+			if(color.indexOf('#') == 0) color = color.substring(1,7);
+			colorParts = color.match(/.{1,2}/g);
+			var line_aabbggrr = colorParts[2] + colorParts[1] + colorParts[0];
+
+			//Calculate and set opacity
+			opacity = polygon.strokeOpacity || 0.9
+			decimal = parseInt(parseFloat(opacity) * 255);
+			hex = decimal.toString(16);
+			line_aabbggrr = hex + '' + line_aabbggrr;
 
 			kml += '<Style id="'+key+'">';
 			kml += '	<LineStyle>';
-			kml += '		<width>1</width>';
-			kml += '		<color>ff000000</color>';
+			kml += '		<width>'+polygon.strokeWeight+'</width>';
+			kml += '		<color>'+line_aabbggrr+'</color>';
 			kml += '	</LineStyle>';
 			kml += '	<PolyStyle>';
-			kml += '		<color>'+aabbggrr+'</color>';
+			kml += '		<color>'+poly_aabbggrr+'</color>';
 			kml += '	</PolyStyle>';
 			kml += '</Style>';
 		}
@@ -1528,44 +1651,36 @@ function gp_removeRouteTab(){
 }
 
 // Add to Route from the Data Table
-function gp_addToRouteFromDataTable(markerId, tableId){
+function gp_addToRouteFromDataTable(markerId, dataSetSearchId){
 	
-	// Find the data table row
-	var aoData = jQuery('#' + tableId).dataTable().fnGetData();
-	var gp_ColumnInfo = jQuery('#' + tableId).data('columnInfo');
-	var thisRow;
-	for(var i = 0, iLen = aoData.length; i < iLen; i++) {
-		if (aoData[i][gp_ColumnInfo.uniqueId] == markerId){
-			thisRow = aoData[i];
-			break;
-		}
-	}
+	var marker = gp_markers[markerId];
+	var qo = gp_dataSetSearches[marker.collectionName].qo;
 
 	var routeStop = {
 		id: guid(),
 		source: 'sfdc',
-		sourceId: thisRow[gp_ColumnInfo.recordId],
+		sourceId: marker.sObject.id,
 		name: '', //set below
-		street: thisRow[gp_ColumnInfo.street],
-		city: thisRow[gp_ColumnInfo.city],
-		state: thisRow[gp_ColumnInfo.state],
-		postalCode: thisRow[gp_ColumnInfo.postalCode],
-		country: thisRow[gp_ColumnInfo.country],
-		countryISO: thisRow[gp_ColumnInfo.countryISO],
-		lat: thisRow[gp_ColumnInfo.latitude],
-		lng: thisRow[gp_ColumnInfo.longitude],
-		geocodeQuality: thisRow[gp_ColumnInfo.geocodeQuality],
+		street: getDescendantProp(marker.sObject, qo.moNew.ReadStreetField),
+		city: getDescendantProp(marker.sObject, qo.moNew.ReadCityField),
+		state: getDescendantProp(marker.sObject, qo.moNew.ReadStateField),
+		postalCode: getDescendantProp(marker.sObject, qo.moNew.ReadPostalField),
+		country: getDescendantProp(marker.sObject, qo.moNew.ReadCountryField),
+		countryISO: getDescendantProp(marker.sObject, qo.moNew.GpCountryIsoField),
+		lat: getDescendantProp(marker.sObject, qo.moNew.GpLatitudeField),
+		lng: getDescendantProp(marker.sObject, qo.moNew.GpLongitudeField),
+		geocodeQuality: getDescendantProp(marker.sObject, qo.moNew.GeocodeQualityField),  
 	    typeOfRecord: 'routeStop',
-	    sfdcId: thisRow[gp_ColumnInfo.recordId],
-	    recordTypeId: thisRow[gp_ColumnInfo.recordTypeId],
-	    mapObjectName: gp_dataSetSearches[tableId].qo.moNew.Name,
-	    mapObjectSobjectName: (typeof(gp_objNameByKeyPref) != "undefined" && typeof(gp_objNameByKeyPref[thisRow[gp_ColumnInfo.recordId].substring(0,3)]) != "undefined") ? gp_objNameByKeyPref[thisRow[gp_ColumnInfo.recordId].substring(0,3)].toLowerCase() : '', 
+	    sfdcId: marker.sObject.id,
+	    recordTypeId: marker.recordTypeId,
+	    mapObjectName: qo.moNew.Name,
+	    mapObjectSobjectName: qo.moNew.SobjectName, 
 	}
 
 	//Populate list of fields
 	try{
 		routeStop.fieldNames = [];
-		var qoFields = gp_dataSetSearches[gp_markers[markerId].collectionName].qo.dataSetFields;
+		var qoFields = qo.dataSetFields;
 		qoFields.forEach(function(field){
 			routeStop.fieldNames.push(field.field);
 		});
@@ -1574,11 +1689,11 @@ function gp_addToRouteFromDataTable(markerId, tableId){
 	}
 
 	//Set name value on the routeStop
-	if (thisRow[gp_ColumnInfo.title2] == ''){
-		routeStop.name = gp_htmlDecode(thisRow[gp_ColumnInfo.title]);
+	if (!marker.gp_title2){
+		routeStop.name = marker.gp_title;
 
 	} else {
-		routeStop.name = gp_htmlDecode(thisRow[gp_ColumnInfo.title]) + ' | ' + gp_htmlDecode(thisRow[gp_ColumnInfo.title2]);
+		routeStop.name = marker.gp_title + ' | ' + marker.gp_title2;
 	}
 
 	//Add an item to the route in our angular routecontroller
@@ -1586,7 +1701,7 @@ function gp_addToRouteFromDataTable(markerId, tableId){
 	if (!error) {
 		//Show success growl message
 		jQuery.extend(toastr.options,{ timeOut: 3000 });
-		toastr.success("<i ignore>" + routeStop.name + '</i> '+ gp_translations.was_succesfully_added_to_Route);
+		toastr.success("<i ignore>" + gp_escapeHtml(routeStop.name) + '</i> '+ gp_translations.was_succesfully_added_to_Route);
 
 		// update route panel
 		var rScope = angular.element(jQuery('#routePanel')).scope();
@@ -1687,7 +1802,7 @@ function gp_addToRouteSearchOrCenterPOI(poi,type){
 			}else{
 				//Center point message
 				jQuery.extend(toastr.options,{ timeOut: 3000 });
-				toastr.success("<i ignore>" + gp_htmlEncode(poi.title) + '</i> ' + 'was successfully added to the Current Route list.');
+				toastr.success("<i ignore>" + gp_escapeHtml(poi.title) + '</i> ' + 'was successfully added to the Current Route list.');
 			}
 		} else {
 			jQuery.extend(toastr.options,{ timeOut: 60000 });
@@ -1904,7 +2019,7 @@ function gp_addToRouteExternalPOI(name,street,city,state,zip,country,lat,lng,src
 		}
 		else {
 			jQuery.extend(toastr.options,{ timeOut: 3000 });
-			toastr.success("<i ignore>" + routeStop.name + '</i> '+ gp_translations.was_succesfully_added_to_Route);
+			toastr.success("<i ignore>" + gp_escapeHtml(routeStop.name) + '</i> '+ gp_translations.was_succesfully_added_to_Route);
 		}
 	}
 	else {
@@ -2054,12 +2169,12 @@ function gp_finishPOIObject(iPOI){
 	}
 	
 	oPOI.formattedAddr = '';
-		if (oPOI.street != ''){ oPOI.formattedAddr += oPOI.street + '<br/>'; }
-		if (oPOI.city != ''){ oPOI.formattedAddr += oPOI.city; }
+		if (oPOI.street != ''){ oPOI.formattedAddr += gp_escapeHtml(oPOI.street) + '<br/>'; }
+		if (oPOI.city != ''){ oPOI.formattedAddr += gp_escapeHtml(oPOI.city); }
 		if (oPOI.city != '' && oPOI.state != ''){ oPOI.formattedAddr += ', '; }
-		if (oPOI.state != ''){ oPOI.formattedAddr += ' ' + oPOI.state; } 
-		if (oPOI.postalCode != ''){ oPOI.formattedAddr += ' ' + oPOI.postalCode; }
-		if (oPOI.country != ''){ oPOI.formattedAddr += '<br/>' + oPOI.country; }
+		if (oPOI.state != ''){ oPOI.formattedAddr += ' ' + gp_escapeHtml(oPOI.state); } 
+		if (oPOI.postalCode != ''){ oPOI.formattedAddr += ' ' + gp_escapeHtml(oPOI.postalCode); }
+		if (oPOI.country != ''){ oPOI.formattedAddr += '<br/>' + gp_escapeHtml(oPOI.country); }
 	
 	if (oPOI.mapIconURL == '') { oPOI.isBlankMapIconURL = true; }
 	if (oPOI.mapIconWidth == '' || oPOI.mapIconHeight == ''){ oPOI.isBlankMapIconSize = true; }
@@ -2085,16 +2200,23 @@ function gp_finishPOIObject(iPOI){
 	
 }
 
-// Stored in Data Table for use in things like KML export
+// Stored in Data Table for use in things like KML export, TODO performance this is really bad, it's building a crap ton of xml that is only used on export of KML
 function gp_buildBaseInfoContent(thisPOI){
 	
 	var tmpInfoContentHTML = '';
 	if(thisPOI.title2 != ''){
-		tmpInfoContentHTML += '<b style="font-size: 1.1em;">' + thisPOI.title2 + '</b><br/>';
+		tmpInfoContentHTML += '<b style="font-size: 1.1em;">' + gp_escapeHtml(thisPOI.title2) + '</b><br/>';
 	}
-	tmpInfoContentHTML += thisPOI.formattedAddr;
+
+	if (thisPOI.street != ''){ tmpInfoContentHTML += gp_escapeHtml(thisPOI.street) + '<br/>'; }
+	if (thisPOI.city != ''){ tmpInfoContentHTML += gp_escapeHtml(thisPOI.city); }
+	if (thisPOI.city != '' && thisPOI.state != ''){ tmpInfoContentHTML += ', '; }
+	if (thisPOI.state != ''){ tmpInfoContentHTML += ' ' + gp_escapeHtml(thisPOI.state); } 
+	if (thisPOI.postalCode != ''){ tmpInfoContentHTML += ' ' + gp_escapeHtml(thisPOI.postalCode); }
+	if (thisPOI.country != ''){ tmpInfoContentHTML += '<br/>' + gp_escapeHtml(thisPOI.country); }
+
 	if (thisPOI.distanceInfo != ''){
-		tmpInfoContentHTML += thisPOI.distanceInfo;
+		tmpInfoContentHTML += gp_escapeHtml(thisPOI.distanceInfo);
 	}
 	if (thisPOI.geocodeQuality != ''){
 		tmpInfoContentHTML += '<br/><b>'+gp_translations.Geocode_Quality+'</b>: ' + thisPOI.geocodeQuality;
@@ -2103,7 +2225,7 @@ function gp_buildBaseInfoContent(thisPOI){
 		if(thisPOI.additionalFields != null){
 			tmpInfoContentHTML += '<hr/>';
 			jQuery.each(thisPOI.additionalFields, function(key, value) { 
-				tmpInfoContentHTML += '<b>' + value.label + '</b>: ' + value.value + '<br/>';
+				tmpInfoContentHTML += '<b>' + value.label + '</b>: ' + gp_escapeHtml(value.value) + '<br/>';
 			});
 		}
 	}
@@ -2468,6 +2590,7 @@ function gp_displayRelatedRecords(recordId, sfdcObject, recordTypeId){
 					if (key > 0){ soql+=','}
 					//__c. replacement is for describe bug http://success.salesforce.com/issues_view?id=a1p30000000SYkZAAW	
 					soql += value.name.replace('__c.','__r.');
+					fields.push(value.name);
 				});
 				if(jQuery.inArray("Id",fields)==-1){ soql += ',Id'; }
 				if(rl.sobject=="AccountContactRelation"){soql += ',ContactId,AccountId'; }
@@ -3007,6 +3130,9 @@ function gp_trackExportKML(){
 function gp_trackChangeOwner(){
 	gp_track('Change Owner', {"Selection": jQuery("#applyActionTo").val() });
 }
+function gp_trackPardotEngage(){
+	gp_track('Pardot Engage', {"Selection": jQuery("#applyActionTo").val() });
+}
 function gp_trackAddToCampaign(){
 	gp_track('Add To Campaign', {"Selection": jQuery("#applyActionTo").val() });
 }
@@ -3190,6 +3316,18 @@ function gp_track(evt, eventData){
 	//Stop if mixpanel object is not defined, some browser extensions will block it
 	if(typeof mixpanel == 'undefined' || !mixpanel){return;}
 
+	for (var i = 0; i < mixpanelDoNotTrackOrgs.length; i++) {
+		if (mixpanelDoNotTrackOrgs[i].startsWith('00D')) {
+			if (mixpanelDoNotTrackOrgs[i] === gp_userSettings.userInfo.orgId)
+				return;
+			else
+				continue; // don't compare IDs to orgName
+		}
+		if (gp_orgSettings.settings.organizationName.toLowerCase().includes(mixpanelDoNotTrackOrgs[i])) {
+			return;
+		}
+	}
+
 	var userAgent = 'Unknown';
 	if(navigator){
 		userAgent = navigator.userAgent;
@@ -3307,9 +3445,6 @@ function gp_addCommasToNumber(nStr){
 }
 
 // Encode and Decode HTML functions TODO perf, really slow
-function gp_htmlEncode(value){ 
-	return jQuery('<div/>').text(gp_htmlDecode(value)).html(); 
-}
 function gp_htmlDecode(value){ 
 	return jQuery('<div/>').html(value).text(); 
 }
@@ -3455,8 +3590,8 @@ function gp_sortlistbox(selElem, starterOption) {
 
 // functions to compress and decompress shapepoints
 // obtained from http://www.mapquestapi.com/common/encodedecode.html
-function gp_decompressShapes (encoded, precision) {
-	precision = Math.pow(10, -precision);
+function gp_decompressShapes (encoded, scale) {
+	scale = Math.pow(10, -scale);
 	var len = encoded.length, index=0, lat=0, lng = 0, array = [];
 	while (index < len) {
 		var b, shift = 0, result = 0;
@@ -3476,20 +3611,20 @@ function gp_decompressShapes (encoded, precision) {
 		} while (b >= 0x20);
 		var dlng = ((result & 1) ? ~(result >> 1) : (result >> 1));
 		lng += dlng;
-		array.push(lat * precision);
-		array.push(lng * precision);
+		array.push(lat * scale);
+		array.push(lng * scale);
 	}
 	return array;
 }
 
-function gp_compressShapes(points, precision) {
+function gp_compressShapes(points, scale) {
 	var oldLat = 0, oldLng = 0, len = points.length, index = 0;
 	var encoded = '';
-	precision = Math.pow(10, precision);
+	scale = Math.pow(10, scale);
 	while (index < len) {
 		//  Round to N decimal places
-		var lat = Math.round(points[index++] * precision);
-		var lng = Math.round(points[index++] * precision);
+		var lat = Math.round(points[index++] * scale);
+		var lng = Math.round(points[index++] * scale);
 		
 		//  Encode the differences between the points
 		encoded += gp_encodeNumber(lat - oldLat);
@@ -3569,33 +3704,14 @@ function geopointeAjaxStart(selector,title,verticalOffset){
 	$modalImg = jQuery('<div class="geopointeAjaxStatus"><div class="geopointeAjaxTitle">'+title+'</div><div class="geopointeAjaxImg"></div><div class="geopointeAjaxImgPercent"><div></div>').prependTo($container);
 
 	//If this modal is for the entire body of the document center the status image in the middle of the screen
+	var css = {position:'absolute',top: '50%', left: '50%', marginLeft:  ($modalImg.outerWidth(true)/2)*-1}
+
 	if(selector == 'body'){
-		
-		jQuery( $modalImg ).position({
-			my: "center bottom",
-			at: "center",
-			of: jQuery(window)
-		});
-			
-	}else{
-		//This modal is within a div, set the vertical offset based on argument if provided
-		var atOffset = "top+" + verticalOffset;
-		if(verticalOffset == undefined || verticalOffset == ''){
-			atOffset = "center";
-		}
-		
-		//If container width is less than 1280px center the loading icon in center of the screen, there is a slight offset for very large containers as this looks more natural
-		var myPosition = "right";
-		if(containerWidth <= 1280){
-			myPosition = "center";
-		}
-		
-		jQuery( $modalImg ).position({
-			my: myPosition,
-			at: atOffset,
-			of: $modalDiv
-		});
+		css.position = 'fixed';
+		css.top = '44%';
 	}
+	$modalImg.css(css);
+
 	return true;
 }
 
@@ -3884,12 +4000,12 @@ function gp_doPlaceSearch() {
 // Combines color, icon and text strings into a marker URL
 function gp_composeMarkerUrl(markerColor, markerIcon, markerText) {
     var markerUrl;
-    if (markerIcon && markerIcon.startsWith('http') && !markerIcon.startsWith('https://api.geopointe.io/')) {
+    if (markerIcon && markerIcon.startsWith('http') && !markerIcon.startsWith(GEOPOINTE_API)) {
         // custom icon URL - no further decoration
         markerUrl = markerIcon;
     }
     else {
-        markerUrl = 'https://api.geopointe.io/v1/markers/pin-l';
+        markerUrl = GEOPOINTE_API + '/v1/markers/pin-l';
         if (markerIcon) {
             markerUrl += '-' + markerIcon;
         }

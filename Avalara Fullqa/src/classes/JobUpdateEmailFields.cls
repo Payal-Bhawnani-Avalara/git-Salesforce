@@ -33,7 +33,6 @@ global class JobUpdateEmailFields implements Database.Batchable<sObject>, Schedu
     //Batch Start method
     global Database.QueryLocator start(Database.BatchableContext BC) {
     		System.debug('query==='+query);
-        
         return Database.getQueryLocator(query);
     }
   
@@ -47,9 +46,7 @@ global class JobUpdateEmailFields implements Database.Batchable<sObject>, Schedu
 	    			}
     			}
     			List<String> emailFieldEndsWithList=new List<String>();
-    			//emailFieldEndsWithList.add('.'+sandboxName);
-    			
-    			emailFieldEndsWithList.add('@example.com');
+    			emailFieldEndsWithList.add('.'+sandboxName);
     			if(String.isNotBlank(objOEF.Exclude_Email_Ends_With__c)){
 	    			for(String endsWith:objOEF.Exclude_Email_Ends_With__c.split(',')){
 	    				emailFieldEndsWithList.add(endsWith);
@@ -74,10 +71,8 @@ global class JobUpdateEmailFields implements Database.Batchable<sObject>, Schedu
 		    						}
 		    					}
 		    					if(updateField){
+                                    fieldValue=fieldValue.replace('@', '=')+'@example.com';
 		    						//fieldValue+='.'+sandboxName;
-		    						//String email='abc@xyz.com';
-								fieldValue=fieldValue.replace('@','-')+'@example.com';
-								//system.debug('====='+email);
 		    						obj.put(fieldName,fieldValue);
 		    					}	    					
 	    					}
@@ -117,7 +112,6 @@ global class JobUpdateEmailFields implements Database.Batchable<sObject>, Schedu
 		    			}
 		    			String query='Select Id,'+String.join(emailFieldList,',')+' from '+o.Object_API_Name__c;
 		    			system.debug('query===='+query);
-                        query+= ' where email!=null AND (NOT(email like \'%@example%\'))';
 			         JobUpdateEmailFields job = new JobUpdateEmailFields(query,o,setIDs);
 			         ID batchprocessid = Database.executeBatch(job,Integer.valueOf(o.Batch_Size__c)); 
 	    			}    			

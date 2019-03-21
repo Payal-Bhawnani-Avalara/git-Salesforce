@@ -67,9 +67,11 @@ public class ProsQuoteTriggerHandler extends TriggerHandler  {
     //IBST-6181
     //Disable Delete on ProsQuote when Order is Complete
     protected override void beforeDelete(){
-      for( CameleonCPQ__Quote__c cpq : (List<CameleonCPQ__Quote__c>)Trigger.old){
-      	if(cpq.OPStatus__c == 'Complete'){
-      		cpq.addError(' You cannot delete the Pros Quote if Order Status is Complete.');
+    	 // Trigger.old[0].addError('You cannot delete the Pros Quote Order.');
+        for( CameleonCPQ__Quote__c cpq : (List<CameleonCPQ__Quote__c>)Trigger.old){
+      	if(cpq.SentToZBillingDate__c != null || cpq.OPStatus__c==Constants.PROS_QUOTE_STATUS_CANCELED ||cpq.OPStatus__c ==Constants.PROS_QUOTE_STATUS_COMPLETE){
+            System.debug('Delete >>'+Constants.DO_NOT_DELETE_STATUS.contains(cpq.OPStatus__c));
+      		cpq.addError(Constants.PROS_QUOTE_CANNOT_DELETE_STATUS_COMPLETE_CANCELED);
       	}
       }
     }

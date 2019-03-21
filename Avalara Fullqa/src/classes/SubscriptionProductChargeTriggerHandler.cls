@@ -34,11 +34,17 @@ public with sharing class SubscriptionProductChargeTriggerHandler extends Trigge
     //SELECT Zuora__ExtendedAmount__c , Zuora__Subscription__c FROM Zuora__SubscriptionProductCharge__c WHERE isDeleted = false AND (NOT name LIKE '%Avalara Returns Service%') AND (NOT name LIKE '%Margin%') ORDER BY Id DESC NULLS LAST
     
     //opportunity, account,Zuora__Subscription__c
+    //Custom Setting NonConnectorFees
+    public static String  NonConnectorFees =KeyPairValue__c.getInstance('NonConnectorFees').Values__c; 
     
     //Trigger Handler Methods
-  	//protected override void beforeInsert(){}
+  	protected override void beforeInsert(){
+  	  beforeInsertUpdate();
+  	}
 
-  	//protected override void beforeUpdate(){}
+  	protected override void beforeUpdate(){
+  	  beforeInsertUpdate();
+  	}
     
     //protected override void beforeDelete(){}
 
@@ -57,6 +63,16 @@ public with sharing class SubscriptionProductChargeTriggerHandler extends Trigge
   	protected override void afterUndelete(){
   		updateRollups((List<Zuora__SubscriptionProductCharge__c>) Trigger.new);
   	}
+     public void beforeInsertUpdate(){
+       
+         for(Zuora__SubscriptionProductCharge__c zspc : (List<Zuora__SubscriptionProductCharge__c>)Trigger.new ){
+             //logic of "Populate Connector Lookup on Subscription Charge" workflow, flow 
+             if( String.isBlank(zspc.ConnectorLookup__c) && String.isNotBlank(zspc.Connector__c) && 
+                zspc.Connector__c.startsWithIgnoreCase('a0n') && NonConnectorFees != zspc.Connector__c){
+                  zspc.ConnectorLookup__c = zspc.Connector__c;
+             }
+         }   
+    }
     public static void updateRollups(List<Zuora__SubscriptionProductCharge__c> listZSPC){
     		if(listZSPC!=null && listZSPC.size()>0){
     			if(!System.isBatch() && !System.isFuture() && !System.isScheduled()){
@@ -165,7 +181,7 @@ public with sharing class SubscriptionProductChargeTriggerHandler extends Trigge
 				TriggerHandler.bypass('OpportunityTriggerHandler');
 				Database.SaveResult[] dsrList=Database.update(listOpportunities,false);
 				Utility.createApexLog('SubscriptionProductChargeTriggerHandler', dsrList,true);
-				TriggerHandler.clearBypass('OpportunityTriggerHandler');	    				    				
+				TriggerHandler.clearBypass('OpportunityTriggerHandler');	  			    				
     			}
     			if(zuoraSubscriptionIDs.size()>0){
     				List<Zuora__Subscription__c> listZuoraSubscription=[Select Id,Name,Subscription_Primary_Connector__c,Total_Returns_Estimate__c,Primary_Connector__c,
@@ -183,7 +199,7 @@ public with sharing class SubscriptionProductChargeTriggerHandler extends Trigge
     					for(Zuora__SubscriptionProductCharge__c zspc:s.Zuora__Subscription_Product_Charges__r){
     						if(
     							String.isNotBlank(zspc.ConnectorLookup__c) && 
-    							zspc.ConnectorLookup__c != 'a0n3300000FTiWlAAL' && 
+    						    !NonConnectorFees.contains(zspc.ConnectorLookup__c)&& 
     							String.isNotBlank(zspc.Zuora__Type__c) && zspc.Zuora__Type__c.equalsIgnoreCase('Recurring')  
     						){
     							s.Subscription_Primary_Connector__c=zspc.ConnectorLookup__c;

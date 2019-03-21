@@ -1,0 +1,276 @@
+<apex:page controller="zsfjira.ZCSVImportController"  setup="true"
+           action="{!if(!isSysAdmin,urlFor('/apex/zsfjira__ZInsufficientPriv'), null)}">
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" /> 
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__SLDS103, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+    <style>
+        div.loader:after{
+        background-image: url({!$Resource.zsfjira__loader});
+        background-size: 24px 24px;
+        display: inline-block;
+        width: 24px; 
+        height: 24px;
+        content:"";
+        }
+        
+        .progressBar{
+        background-color: #FFFFFF;
+        border:1px solid #DDDDDD;
+        height: 19px;
+        width: 100%;
+        -moz-border-radius: 5px; 
+        -webkit-border-radius: 5px;
+        }
+        .progress{
+        background-color: {!colour};
+        border:1px solid {!colour};
+        height: 100%;
+        margin: -1px;
+        
+        -moz-border-radius: 5px; 
+        -webkit-border-radius: 5px;
+        line-height: 18px;
+        }        
+        .pageMessageContainer {
+        display: none;
+        }
+        .divline{
+        height: 1px;
+        background: #CFD7E6;
+        margin-top:1%;                  
+        }
+        .messageText {
+        color: white !important;
+        }
+        .messageText>span>h4 {
+        color: white !important;
+        }
+        .slds .slds-input {
+        width: auto;
+        }
+        div.pageMessageContainer>span{
+        width:100%;
+        }
+    </style>           
+    <div class="slds">
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <p class="slds-text-body--small">Salesforce Data Import</p>
+                    <div class="slds-grid">
+                        <div class="slds-grid slds-type-focus slds-no-space">
+                            <h1 class="slds-text-heading--medium slds-truncate">
+                                Import Issue data from CSV file in Salesforce
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-text-body--regular slds-m-vertical--medium">
+        This section allows you to import Case-Issue relationships into Salesforce from a CSV file. The CSV must contain CaseNumber and IssueKey. 
+        </div>
+        
+        <apex:form >
+            <apex:outputPanel id="uploadsec" rendered="{!step1}">
+                <div class="slds-grid">
+                    <div class="slds-card slds-m-around--large slds-col" style="margin-top: 5px;">
+                        <div class="slds-card__header slds-grid grid--flex-spread">
+                            <h2 class="slds-text-heading--small slds-truncate">File Upload</h2>
+                        </div>
+                        <div class="divline"> </div>
+                        <div class="slds-card__body slds-p-horizontal--small">                                
+                            <apex:inputFile value="{!contentFile}"   id="file"  contentType="text/csv"/>
+                            <br/><br/>
+                            <apex:outputLabel value="The maximum file size is 500Kb" for="file"/> 
+                            <br/><br/>
+                            <apex:outputPanel rendered="{!AND(showDownload,NOT(ISNULL(DocId)))}">                            
+                                <a href="/servlet/servlet.FileDownload?file={!DocId}" target="_blank"
+                                   rel="nofollow=/servlet/servlet.FileDownload?file={!DocId}" id="theLink">Download</a>
+                                the CSV generated from the last completed import: {!lastImport}
+                            </apex:outputPanel>
+                            <apex:outputText rendered="{!AND(showDownload,ISNULL(DocId))}">
+                                Report with results is still being generated, refresh the page in a moment.
+                            </apex:outputText>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-text-align--center">
+                    <apex:commandButton id="btnUpload" action="{!upload2}"  value="Next"
+                                        styleClass="slds-button slds-button--brand"/>
+                    <apex:commandButton action="{!backToSettings}"  value="Return"
+                                        styleClass="slds-button slds-button--brand"/>
+                </div>
+            </apex:outputPanel>
+            <div class='pageMessageContainer'>
+                <apex:pagemessages escape="false" id="msgchart"  > </apex:pagemessages>
+            </div>
+        </apex:form>
+        
+        <apex:form id="verifying" >
+            <apex:sectionHeader rendered="{!verifying}">
+                <div class="loader" rendered = "{!verifying}" style="text-align: center;" ></div>        
+            </apex:sectionHeader>
+            <apex:actionPoller action="{!verifyingCSV}" rerender="verifying,msgchart,spinning" enabled="{!verifying}"
+                               status="counterStatus" interval="5" oncomplete="overridePageMessages();"/>            
+            <apex:outputPanel rendered="{!step15}">
+                <div class="slds-grid">
+                    <div class="slds-card slds-m-around--large slds-col" style="margin-top: 5px;">
+                        <div class="slds-card__header slds-grid grid--flex-spread">
+                            <h2 class="slds-text-heading--small slds-truncate">CSV Content</h2>
+                        </div>
+                        <div class="divline"> </div>
+                        <div class="slds-card__body slds-p-horizontal--small"> 
+                            <apex:outputPanel rendered="{!csvCorrect}">
+                                <table id='csvContentTable' >
+                                    <tr>
+                                        <td>                        
+                                            <label>Type of Header</label>                    
+                                        </td>
+                                        <td align="right">                    
+                                            {!header}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>                        
+                                            <label>Number of columns:</label>                    
+                                        </td>
+                                        <td align="right">                    
+                                            {!numberColumns}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td >                        
+                                            <label >Number of rows to be proccessed:</label>                    
+                                        </td>
+                                        <td align="right">                    
+                                            {!csvLines}
+                                        </td>
+                                    </tr>
+                                </table> 
+                            </apex:outputPanel>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="slds-text-align--center">
+                    <apex:commandButton id="back" rendered="{!!verifying}"
+                                        action="{!backSwitch}" value="Back"
+                                        styleClass="slds-button slds-button--brand"/>
+                    <apex:commandButton id="import" rendered="{!!verifying}"
+                                        disabled="{!!csvCorrect}" action="{!confirming}"
+                                        value="Import"
+                                        styleClass="slds-button slds-button--brand"/>
+                </div>
+            </apex:outputPanel>
+        </apex:form>
+        <apex:form id="confirming" rendered="{!step16}">
+            <br/>
+            <div style="text-align: center;">
+                <apex:commandButton id="back" action="{!backSwitch}" value="Cancel"
+                                    styleClass="slds-button slds-button--brand"/>
+                <apex:commandButton id="import" action="{!upload}" value="Confirm"
+                                    styleClass="slds-button slds-button--brand"/>
+                <br/> 
+            </div>
+        </apex:form>                
+        <apex:form id="batchsec" >
+            <apex:actionPoller action="{!monitoringJob}" rerender="batchsec" enabled="{!monitoring}"
+                               status="counterStatus" interval="5"/>            
+            <apex:outputPanel rendered="{!step2}">
+                <div class="slds-grid">
+                    <div class="slds-card slds-m-around--large slds-col" style="margin-top: 5px;">
+                        <div class="slds-card__header slds-grid grid--flex-spread">
+                            <h2 class="slds-text-heading--small slds-truncate">Import monitoring</h2>
+                        </div>
+                        <div class="divline"> </div>
+                        <div class="slds-card__body slds-p-horizontal--small"> 
+                            <div >
+                                {!jobInfo}<span style="float:right">{!percentage}%</span>
+                            </div>
+                            <div class="progressBar">
+                                <div class="progress" style="width: {!percentage}%;">
+                                </div>
+                            </div>
+                            <table id='resultsTable'>
+                                <tr>
+                                    <td>                        
+                                        <label>Status:</label>                    
+                                    </td>
+                                    <td align="right">                    
+                                        <b><font color = "{!statusColour}">{!status}</font> </b>
+                                    </td>
+                                </tr>    
+                                <tr>
+                                    <td >                        
+                                        <label >Number of lines proccessed:</label>                    
+                                    </td>
+                                    <td align="right">                    
+                                        {!processed}/{!totalcsvLines}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>                        
+                                        <label>Proccessing Batch:</label>                    
+                                    </td>
+                                    <td align="right">                    
+                                        {!jobsProcc}/{!totalJobs}
+                                    </td>
+                                </tr>                                
+                                <tr>
+                                    <td>                        
+                                        <label>Success Import:</label>                    
+                                    </td>
+                                    <td align="right">                    
+                                        {!totalSuccess}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>                        
+                                        <label>Failed Import:</label>                    
+                                    </td>
+                                    <td align="right">                    
+                                        {!totalFailed}
+                                    </td>
+                                </tr>
+                            </table>   
+                            <br/>
+                            <apex:outputPanel rendered="{!AND(showDownloadCompleted,NOT(ISNULL(DocId)))}">                            
+                                <a href="/servlet/servlet.FileDownload?file={!DocId}" target="_blank"
+                                   rel="nofollow=/servlet/servlet.FileDownload?file={!DocId}" id="theLink">Download</a>
+                                the CSV generated as result
+                            </apex:outputPanel>
+                            <apex:outputText rendered="{!AND(showDownloadCompleted,ISNULL(DocId))}">
+                                Report with results is still being generated, refresh the page in a moment.
+                            </apex:outputText>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-text-align--center">
+                    <apex:commandButton id="back" rendered="{!staticState}"
+                                        action="{!backSwitch}" value="Done"
+                                        styleClass="slds-button slds-button--brand"/>                                
+                </div>
+            </apex:outputPanel>
+        </apex:form>
+    </div>
+    <script>
+    $jqz(function() {
+        overridePageMessages();
+        
+        $jqz("div.pageMessageContainer").each(function(i){
+            $jqz(this).css("display","block");
+        });
+    });   
+    function overridePageMessages() {
+        $jqz('.warningM3').addClass('slds-notify slds-notify--alert slds-theme--warning customMessage ');
+        $jqz('.confirmM3').addClass('slds-notify slds-notify--alert slds-theme--success  customMessage ')
+        $jqz('.errorM3').addClass('slds-notify slds-notify--alert slds-theme--error customMessage ');    
+        $jqz('.infoM3').addClass('slds-notify slds-notify--alert customMessage ');    
+        
+        $jqz('.errorM3').removeClass('errorM3'); 
+        $jqz('.confirmM3').removeClass('confirmM3'); 
+        $jqz('.infoM3').removeClass('infoM3');   
+        $jqz('.warningM3').removeClass('warningM3');  
+    }
+    </script>
+</apex:page>

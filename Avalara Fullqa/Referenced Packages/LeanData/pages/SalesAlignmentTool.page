@@ -1,0 +1,1569 @@
+<apex:page controller="LeanData.SalesAlignmentToolController" readOnly="true" sidebar="false" standardStylesheets="false" docType="html-5.0" showHeader="false">
+  <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"/> 
+  <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"/> 
+  <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"/>
+  <apex:includeScript value="{!URLFOR($Resource.LeanData__bootstrap_v3_3_4, 'js/bootstrap.js')}"/>
+  <apex:stylesheet value="{!URLFOR($Resource.LeanData__bootstrap_v3_3_4, 'css/bootstrap.css')}"/>
+  <apex:includeScript value="{!URLFOR($Resource.LeanData__JqueryUI, 'jquery-ui-1.11.4.custom/jquery-ui.min.js')}"/>
+  <script src="../../soap/ajax/33.0/connection.js" type="text/javascript"></script>
+
+
+  <style>
+    html {
+      font-family: sans-serif ;
+      -webkit-text-size-adjust: 100% ;
+          -ms-text-size-adjust: 100% ;
+    }
+
+    .bs {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      margin: 0;
+      height: 100%;
+    }
+
+    .bs h1, .bs h2, .bs h3, .bs h4, .bs h5, .bs h6, .bs .h1, .bs .h2, .bs .h3, .bs .h4, .bs .h5, .bs .h6 {
+      font-weight: 600;
+    }
+
+    .page-content {
+      display: block;
+      float: left;
+    }
+
+    /***** HEADER *****/
+    .bs .header {
+      background-color: #6ab4c9;
+      height: 60px;
+      width: 100%;
+      position: relative;
+      z-index: 1001
+    }
+
+    .bs .logo {
+      display: block;
+      float: left;
+      margin-top: 15px;
+      margin-left: -35px;
+    }
+
+    .bs .navbar-default {
+      background-color: transparent;
+      border-color: transparent;
+      z-index: 1001;
+      margin-top: 3px;
+    }
+
+    .bs .navbar-default .navbar-toggle {
+      border-color: transparent;
+    }
+
+    .bs .navbar-default .navbar-toggle .icon-bar {
+      background-color: #ffffff;
+    }
+
+    .bs .navbar-default .navbar-toggle:hover, .bs .navbar-default .navbar-toggle:focus {
+        background-color: transparent;
+    }
+
+    .bs .navbar-default {
+      background-color: transparent;
+      border-color: transparent;
+      margin-left: 10px;
+      z-index: 1001;
+      display: none;
+      float: right;
+      width: 111px;
+    }
+
+    .bs .text-menu {
+      left: 38px;
+      position: relative;
+      top: 14px;
+      color: #ffffff;
+      cursor: pointer;
+      float: left;
+    }
+
+    .bs .navbar-toggle {
+      float: left;
+      margin-right: -40px;
+    }
+
+    /*** SIDEBAR ****/
+
+    .bs .left-sidebar {
+      background-color: #70797b;
+      color: #ffffff;
+      padding: 100px 20px 20px;
+      position: absolute;
+      width: 240px;
+    }
+
+    .bs .left-sidebar:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      z-index: -1;
+      background-color: #70797b;
+    }
+
+    .bs .left-sidebar h3 {
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .bs .left-sidebar h4 {
+      margin-bottom: 20px;
+      margin-top: 60px;
+      font-size: 12px;
+    }
+
+    .bs .form-control {
+      background-color: #e7eaeb;
+      color: #000;
+    }
+
+    .bs .filter-button {
+      background-color: #043e57;
+      margin-top: 60px;
+      border-color: #043e57;
+      margin-bottom: 20px;
+    }
+
+    .bs .filter-button:hover {
+      background-color: #055070;
+    }
+
+    .bs .input-lg {
+      font-size: 13px;
+      font-weight: 500;
+      padding: 10px 8px 10px 10px;
+    }
+
+    .bs select.input-lg {
+      height: 40px;
+    }
+
+
+    /*** MAIN CONTENT ***/
+    .bs .main-content {
+      padding: 0 0 0 240px;
+      width: 100%;
+      float: left;
+    }
+
+    .bs .header-title {
+      background-color: #ffffff;
+      padding: 40px 0;
+    }
+
+    .bs .header-title h2 {
+      color: #043e57;
+      text-align: center;
+      font-size: 27px;
+      line-height: 32px;
+    }
+
+    .bs .content {
+      background-color: #f5f5f5;
+      padding: 54px 0px;
+      color: #666666;
+      border-bottom: 1px solid #e6e6e6;
+      border-top: 1px solid #e6e6e6;
+      float: left;
+      width: 100%;
+      min-width: 1170px;
+    }
+
+    .bs .content h4 {
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+
+    .bs .details {
+      display: inline-block;
+      max-width: 774px;
+      text-align: left;
+    }
+
+    .bs .box {
+      color: #FFFFFF;
+      height: 275px;
+      padding: 33px 12%;
+    }
+
+    .bs .box .title{
+      font-size: 40px;
+    }
+
+    .bs .sub-title {
+      font-size: 12px;
+    }
+
+    .bs .first-box {
+      padding-left: 0px !important;
+    }
+
+    .bs .last-box {
+      padding-right: 0px !important;
+    }
+
+    .bs .total {
+      background-color: #6ab4c9;    
+    }
+
+    .bs .opportunity {
+      background-color: #b0dd08;
+    }
+
+    .bs .campaigns {
+      background-color: #5e7178;
+    }
+
+    .bs .cost {
+      background-color: #fad000;
+    }
+
+    .bs .data-shown {
+      background-color: #ffffff;
+      margin-top: 8px;
+      padding: 20px;
+    }
+
+    .bs .data-shown h5 {
+      color: #043e57;
+      margin-bottom: 20px;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    .bs .data-shown p {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      color: #737373;
+    }
+
+    .bs .data-shown span {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .bs .charts {
+      background-color: #ffffff;
+      border-bottom: 2px solid #e7e7e7;
+      float: left;
+      padding: 54px 0;
+      width: 100%;
+      min-width: 1170px;
+      margin-bottom: 40px;
+    }
+
+    .bs .chart-title {
+      text-align: center;
+      color: #666666;
+      font-size: 20px;
+    }
+
+    .bs .chart-content {
+      margin-top: 25px;
+      text-align: center;
+      background-color: #f2f2f2;
+    }
+
+    .bs .tables-view {
+      background-color: #ffffff;
+      padding: 40px 0;
+    }
+
+    .bs .table-view-title h2 {
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 40px;
+      letter-spacing: 3px;
+      color: #666666;
+    }
+
+    .bs .header-table {
+      background-color: #f2f2f2;
+      color: #005980;
+      border: solid 1px #e6e6e6;
+    }
+
+    .bs .header-table td { 
+      border-top: none !important;
+    }
+
+    .bs .header-table td span {
+      display: block;
+      font-size: 26px;
+      padding-top: 20px;
+      line-height: 28px;
+    }
+
+    .bs .header-table td small {
+      color: #999999;
+      display: block;
+      padding-bottom: 20px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .bs .glyphicon {
+      color: #4eaacc;
+      border: 2px solid #4eaacc;
+      border-radius: 50%;
+      text-align: center;
+      padding-top: 0px !Important;
+      padding-bottom: 0px !important;
+      width: 32px;
+      display: block;
+      margin-top: 28px;
+      float: left;
+      cursor: pointer;
+      font-size: 20px !important;
+      font-weight: bold;
+    }
+
+    .bs .glyphicon:hover {
+      color: #3d819a;
+      border: 2px solid #3d819a;
+    }
+
+    .bs .first-cell {
+      border-right: 1px solid #ddd;
+      width: 140px;
+    }
+
+    .bs .first-cell span {
+      color: #4eaacc;
+      display: block !important;
+      float: left;
+      text-align: center;
+    }
+
+    .bs .first-cell small {
+      color: #4eaacc !important;
+      font-size: 18px !important;
+    }
+
+    .bs .table-bottom {
+      margin-top: -20px;
+      display: none;
+      margin-bottom: 20px;
+    }
+
+    .bs .table-info thead, .bs .table-info tbody, .bs .table-info tr, .bs .table-info td, .bs .table-info th { display: block; }
+
+    .bs .table-info tr:after {
+      content: ' ';
+      display: block;
+      visibility: hidden;
+      clear: both;
+    }
+
+    .bs .table-info thead th {
+      font-size: 11px;
+      line-height: 14px !important
+    }
+
+    .bs .table-info tbody {
+      max-height: 190px;
+      overflow-y: auto;
+    }
+
+    .bs .table-info thead {
+      /* fallback */
+    }
+
+
+    .bs .table-info tbody td, .bs thead th {
+      float: left;
+    }
+
+    .bs .table > thead > tr > th {
+      border-bottom: medium none;
+      color: #85c4da;
+    }
+
+    .bs .table > thead {
+      background-color: #386578;
+    }
+
+    .bs .table-responsive > .table > thead > tr > th, .bs .table-responsive > .table > tbody > tr > th, .bs .table-responsive > .table > tfoot > tr > th, .bs .table-responsive > .table > thead > tr > td, .bs .table-responsive > .table > tbody > tr > td, .bs .table-responsive > .table > tfoot > tr > td {
+      white-space: normal;
+    }
+
+    @media (min-width: 320px) and (max-width: 991px) {
+      .bs aside {
+        display: none;
+      }
+      
+      .bs .box {
+      padding: 30px 12%;
+      }
+      
+      .bs .box .title {
+      font-size: 40px;
+      }
+      
+      .bs .main-content {
+      padding-left: 0px !important;
+      }
+      
+      .bs .content {
+      padding: 20px 0;
+      min-width: 100% !important;
+      }
+      
+      .bs .charts {
+      min-width: 100% !important;
+      }
+      
+      .bs .content h4 {
+      text-align: center;
+      }
+      
+      .bs .left-sidebar {
+      padding-top: 1px;
+      position: relative !important;
+      }
+      
+      .bs .navbar-default {
+      display: block !important;
+      }
+      
+      .bs .col-xs-6 {
+      padding: 5px;
+      }
+      
+      .bs .left-sidebar {
+      width: 100%;
+      }
+      
+      .bs .first-chart {
+      padding-left: 15px !important;
+      }
+
+      .bs .second-chart {
+        padding-right: 15px !important;
+      }
+      
+      .bs .container {
+      margin-left: 0px !important;
+      }
+      
+      .mob-padding-l {
+        padding-left: 0px !important;
+      }
+      
+      .mob-padding-r {
+        padding-right: 0px !important;
+      }
+      
+      .bs .header-title h2 {
+        padding: 0 20px;
+      }
+      
+      #left-sidebar {
+        height: auto !important;
+      }
+      
+      .bs .table-responsive {
+        margin-bottom: 5px;
+      }  
+      
+      .logo {
+        margin-left: 10px;
+      }
+      
+      .page-content {
+        display: block;
+        float: left;
+        width: 100%;
+      }
+      
+      .bs .container {
+        width: 100%;
+      }
+      
+      .bs .btn-default {
+        padding: 10px 21px 10px 12px !important;
+      }
+      
+      .bs .date-select {
+        background-position: 95% !important;
+      }
+      
+      .bs .select-1 {
+        background-position: 95% !important;
+      }
+    }
+
+    .bs .table-info tbody {
+      font-size: 12px;
+      color: #737373;
+      line-height: 16px;
+    }
+
+    .bs .table > thead > tr > th, .bs .table > tbody > tr > th, .bs .table > tfoot > tr > th, .bs .table > thead > tr > td, .bs .table > tbody > tr > td, .bs .table > tfoot > tr > td {
+      padding-left: 24px;
+    }
+
+    .bs .q-text {
+      margin-left: 10px;
+      font-size: 30px !important;
+    }
+
+    .bs .first-chart {
+      padding-left: 0px;
+    }
+
+    .bs .second-chart {
+      padding-right: 0px;
+    }
+
+    .bs .container {
+      margin-left: 72px;
+    }
+
+    .bs select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      text-overflow: ""; 
+      cursor: pointer;  
+    }
+
+    .bs .secect-1 {
+      /*background: #e7eaeb url(../images/arrow.png) no-repeat 95% center;*/
+    }
+
+
+    .bs .btn-default {
+      background-color: #e7eaeb;
+      border-color: #ccc;
+      color: #000;
+      font-size: 13px;
+      font-weight: 500;
+      height: 40px;
+      text-align: left;
+      width: 100%;
+      padding: 10px 8px 10px 12px;
+    }
+
+    .bs .btn-group, .bs .btn-group-vertical {
+      width: 100%;
+    }
+
+    .bs .caret {
+      /*background: #e7eaeb url(../images/arrow.png) no-repeat 90% center !important;*/
+      display: inline-block;
+      height: 9px;
+      margin-left: 2px;
+      vertical-align: middle;
+      width: 19px;
+      border-left: medium none;
+      border-right: medium none;
+      border-top: medium none;
+      margin-top: -13px;
+      float: right;
+    }
+
+    @media screen and (-webkit-min-device-pixel-ratio:0) { 
+     .bs .caret {
+      margin-top: 5px;
+     }
+    }
+
+    .bs .multiselect-container {
+      background-color: #e7eaeb;
+      color: #000;
+      font-size: 13px;
+      font-weight: 500;
+      width: 100%;
+    }
+
+    .bs .col-md-3 {
+      padding: 0;
+    }
+
+    .bs .col-md-6 {
+      padding: 0;
+    }
+
+    .bs .date-select {
+        /*background: url("../images/arrow.png") no-repeat scroll 90% center #e7eaeb;*/
+    }
+
+    .bs h4 span {
+      font-size: 12px;
+      font-weight: 500;
+      padding-left: 5px;
+    }
+
+    .bs .table {
+      max-width: 1170px;
+      width: 1170px;
+      min-width: 1170px;
+    }
+
+    .bs .row {
+      overflow: auto;
+    }
+
+    .bs .table {
+      margin-bottom: 5px;
+    }
+
+    .bs .table > thead > tr > th, .bs .table > tbody > tr > th, .bs .table > tfoot > tr > th, .bs .table > thead > tr > td, .bs .table > tbody > tr > td, .bs .table > tfoot > tr > td {
+      border-top: 1px solid #ededed;
+    }
+
+    .bs .table-info > thead > tr > th, .bs .table-info > tbody > tr > th, .bs .table-info > tfoot > tr > th, .bs .table-info > thead > tr > td, .bs .table-info > tbody > tr > td, .bs .table-info > tfoot > tr > td {
+      padding-bottom: 20px;
+      padding-top: 20px;
+    }
+
+    .charts-inner {
+      padding: 0 !important;
+      overflow: auto;
+    }
+
+    .across {
+      display: inline-block;
+      text-align: center;
+    }
+
+    /***** ACCOUNTS *****/
+    .bs .left-sidebar {
+      padding-top: 85px;
+    }
+
+    .bs .checkbox-inline {
+      font-size: 14px;
+      color: #ebebeb;
+    }
+
+    .bs .checkbox input[type="checkbox"], .bs .checkbox-inline input[type="checkbox"] {
+      margin-top: 3px;
+    }
+
+    .bs .header-title h2 {
+      text-align: left !important;
+      padding: 0 15px;
+    }
+
+    .bs .header-title h2 span {
+      color: #005980;
+      font-weight: 400;
+    }
+
+    .bs .content {
+      background: #ffffff !important;
+    }
+
+    .bs .details {
+      max-width: 1050px;
+    }
+
+    .bs .content h4 {
+      color: #043e57;
+      font-size: 24px;
+    }
+
+    .bs .statistic {
+      background-color: #eef5f5;
+      border: 1px solid #cad5d7;
+    }
+
+    .bs .col-md-3 {
+      padding: 0;
+    }
+
+    .bs .box {
+      border-right: 1px solid #c8d3d5;
+      color: #043e57;
+      text-align: center;
+      line-height: 24px;
+      height: 275;
+      /*padding: 55px 15%;*/
+    } 
+
+    .bs .box .title {
+      font-size: 50px;
+      border-bottom: 2px solid #043e57;
+      padding-bottom: 15px;
+    }
+
+    .bs .box .title small {
+      font-size: 18px;
+    }
+
+    .bs .sub-title {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 18px;
+      padding-top: 15px;
+    }
+
+    .bs .box p {
+      text-align: left;
+      color: #5e7178;
+      font-size: 20px;
+    }
+
+    .bs .box span {
+      color: #00accf;
+      font-weight: 600;
+    }
+
+    .bs .highest {
+      margin-top: 35px;
+    }
+
+    .legend {
+      text-align: left; 
+    }
+
+    .bs .legend span {
+      color: #005980 !important;
+      margin-left: 10px;
+      font-weight: 400;
+    }
+
+    .median-v {
+      margin-bottom: 20px;
+      margin-top: 20px;
+    }
+
+    .bs .filter-button {
+      margin-top: 44px;
+    }
+
+    .key-box {
+      padding-top: 43px !important;
+    }
+
+    .bs .last-box-1 {
+      border-right: medium none !important;
+    }
+
+    .bs .charts {
+      border-bottom: medium none;
+    }
+
+    .bs .chart-title {
+      text-align: left;
+    }
+
+    .chart-title {
+      color: #043e57 !important;
+      float: left;
+      margin-right: 85px;
+      font-size: 24px !important;
+    }
+
+    .chart-title span {
+      color: #366579;
+    }
+
+    .chart-content {
+      float: left;
+    }
+
+    @media (min-width: 320px) and (max-width: 991px) {
+      .bs .logo {
+        margin-left: 10px;
+      }
+      
+      .bs .first-box {
+        border-bottom: 1px solid #c8d3d5;
+      }
+      
+      .bs .mob-padding-r {
+        border-bottom: 1px solid #c8d3d5;   
+      }
+      
+      .bs .mobile-box {
+        border-right: none;
+      }
+      
+      .bs .left-sidebar {
+        padding-top: 15px !important;
+      }
+    }
+
+
+    /***** ACCOUNTS 2 *****/
+    .bs .charts h4 {
+      color: #043e57;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .bs .table {
+      max-width: 1130px;
+      min-width: 1130px;
+      width: 1130px;
+    }
+
+    .bs .first-cell {
+      border-right: medium none;
+      padding-right: 0 !important;
+      width: 70px;
+    }
+
+    .bs .header-table td span {
+      color: #333333;
+      display: inline-block;
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 28px;
+      padding-top: 15px;
+    }
+
+    .bs .header-table {
+      color: #00accf;
+      font-size: 19px;
+    }
+
+    .bs .glyphicon {
+      color: #00accf !important;
+      width: 40px !important;
+      height: 40px !important;
+      padding-top: 5px !important;
+      margin-top: 10px !important;
+      margin-left: 15px;
+    }
+
+    .bs .table > thead > tr > th, .bs .table > tbody > tr > th, .bs .table > tfoot > tr > th, .bs .table > thead > tr > td, .bs .table > tbody > tr > td, .bs .table > tfoot > tr > td {
+      padding-left: 0px !important;
+    }
+
+    .bs .table > thead > tr > th, .bs .table > tbody > tr > th, .bs .table > tfoot > tr > th, .bs .table > thead > tr > td, .bs .table > tbody > tr > td, .bs .table > tfoot > tr > td {
+      line-height: 3.429;
+    }
+
+    .bs .marketo-details {
+      float: left; 
+      margin-top: 30px;
+      display: none;
+      margin-bottom: 20px;
+    }
+
+    .bs .left-sidebar-1 {
+      position:fixed;
+      margin-top: -60px;
+      padding-top: 140px;
+    }
+
+    .bs .table-responsive {
+      float: left;
+      position: relative;
+    }
+
+    @media (min-width: 320px) and (max-width: 991px) {  
+      .bs .left-sidebar {
+        padding-top: 75px !important;
+      }
+    }
+
+
+    /***** ACCOUNTS 3 *****/
+    .stat-2 .box {
+      padding: 55px 28px;
+    }
+
+    .key-box {
+      float: left;
+      display: block;
+      padding-top: 0 !important;
+    }
+
+    .key-box-r {
+      display: block;
+      float: left;
+      margin-left: 100px;
+      margin-top: 43px;
+    }
+
+    .scenario {
+      margin-bottom: 10px;
+    }
+
+    .scenario span {
+      color: #333333 !important;
+      font-weight: 400 !Important;
+    }
+
+    .scenario img {
+      margin-right: 10px;
+    }
+
+    .scenario svg {
+      margin-right: 10px;
+    }
+
+    @media (min-width: 992px) { 
+      .stat-2 .first-box {
+        width: 20% !important;
+      }
+      .stat-2  .mob-padding-r {
+        width: 17% !important;
+      }
+      .stat-2 .mob-padding-l {
+        width: 38% !important;
+      }
+    }
+
+    .noSidebarCell{
+      padding: 0 !important;
+    }
+
+
+/* Absolute Center CSS Spinner */
+.loading {
+  position: fixed;
+  z-index: 999;
+  height: 2em;
+  width: 2em;
+  overflow: show;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* Transparent Overlay */
+.loading:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+}
+
+/* :not(:required) hides these rules from IE9 and below */
+.loading:not(:required) {
+  /* hide "loading..." text */
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+
+.loading:not(:required):after {
+  content: '';
+  display: block;
+  font-size: 10px;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  -webkit-animation: spinner 1500ms infinite linear;
+  -moz-animation: spinner 1500ms infinite linear;
+  -ms-animation: spinner 1500ms infinite linear;
+  -o-animation: spinner 1500ms infinite linear;
+  animation: spinner 1500ms infinite linear;
+  border-radius: 0.5em;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+  box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+}
+
+/* Animation */
+
+@-webkit-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+  </style>
+  <div class="bs">
+    <!-- Page Content -->
+
+  <div class="page-content">
+    <div class="loading" style="display:none">Loading&#8230;</div>
+  
+  <!-- .header -->
+    <section class="header">
+      <div class="container">
+        <div class="logo">
+          <apex:image url="{!URLFOR($Resource.LeanData__images, 'logo_white_large.png')}" alt="Logo" height="27px"/>
+          <!-- <img src="images/logo.png" alt="Logo"/> -->
+        </div>
+        <div id="mobile-menu" class="navbar navbar-default">
+          <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target="#myNavmenu" data-canvas="body">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          </button>
+          <span class="text-menu">FILTERS</span>
+        </div>
+      </div>
+    </section>
+    <!-- / .header -->
+
+  <aside id="filters">
+    <div id="left-sidebar" class="left-sidebar">    
+      <h3>Filter data by:</h3>
+      <div class="form-group">
+        <select size="1" class="form-control input-lg secect-1" name="select" id="profile-id">
+          <option value="All">All Profiles</option>
+          <apex:repeat var="profile" value="{! profiles}">
+            <option value="{! profile.Id}">{! profile.Name} ({! userCountByProfileId[profile.Id]} Users)</option>
+          </apex:repeat>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <select size="1" class="form-control input-lg secect-1" name="select" id="user-id">
+          <option value="All">All Users</option>
+          <apex:repeat var="user" value="{! users}">
+            <option value="{! user.Id}">{! user.Name} ({! profileIdNameMap[user.ProfileId] })</option>
+          </apex:repeat>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <select size="1" class="form-control input-lg secect-1" name="select" id="filter-id">
+          <option value="none">No Filter Criteria</option>
+          <apex:repeat var="filterRule" value="{! filterWrappers}">
+            <option value="{! filterRule.whereClauseBody }">{! filterRule.name }</option>
+          </apex:repeat>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="inline-checkbox1" class="checkbox-inline">
+          <input type="checkbox" value="false" name="inline-checkbox1" id="exclude-inactive-user">Exclude Inactive Users</input>
+        </label>
+      </div>
+
+      <button class="btn btn-primary btn-block filter-button" id="show-results" type="button">Show Results</button>
+    </div>
+    <!-- /.left-sidebar -->
+  </aside>
+  
+  <main>
+
+    <div id="main-content" class="main-content">
+
+      <section class="header-title container">
+        <h2>Ownership of Account: <span>Distribution by Sales Rep</span></h2>
+      </section>
+      <!-- /.header-title -->
+      <section class="content">
+        <div class="container across">
+        <div class="details col-md-12">
+          <div class="row">
+            <h4>Overall Statistics</h4>
+          </div>            
+        <div class="row statistic">
+          <div class="col-sm-6 col-xs-6 col-md-3 first-box">
+            <div class="box">
+              <div class="title"><span class='data_average'></span><br /><small>ACCOUNTS</small></div>
+              <div class="sub-title">Average # across<br /><span class='data_owner_num'></span> sales reps</div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xs-6 col-md-3 mob-padding-r">
+            <div class="box mobile-box">
+              <p class="highest">HIGHEST: <span class="data_highest"></span></p>
+              <p>LOWEST: <span class="data_lowest"></span></p>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xs-6 col-md-6 mob-padding-l">
+            <div class="box">
+              <div class="key-box">
+                <p>KEY</p>
+                <div class="legend">
+                  <div class="median-v"><svg width="32" height="32"><line x1="15" y1="0" x2="15" y2="32" stroke-width="2" stroke="#D3D3D3"></line></svg> <span>Median Value</span></div>
+                  <div class="median-v">
+                    <svg width="32" height="32">
+                      <rect width="32" height="32" style="fill:#4DAACB;fill-opacity:0.3" />
+                    </svg> <span>Inactive Value</span>
+                    <!-- <img width="32" src="images/inactive.jpg" alt="media" /> <span>Inactive Value</span> -->
+                  </div>
+                  <div class="median-v">
+                    <svg width="32" height="32">
+                      <rect width="32" height="32" style="fill:#D1DDDA" />
+                    </svg> <span>Current Value</span>
+                    <!-- <img width="32" src="images/inactive.jpg" alt="media" /> <span>Inactive Value</span> -->
+                  </div>
+                  
+                </div>
+
+              </div>
+              <div class="key-box-r">
+                <div class="scenario"><svg width="32" height="32"><rect width="32" height="32" style="fill:#4DAACB"/></svg> <span>Scenario 1</span></div>
+                <div class="scenario"><svg width="32" height="32"><rect width="32" height="32" style="fill:#B1DE09"/></svg> <span>Scenario 2</span></div>
+                <div class="scenario"><svg width="32" height="32"><rect width="32" height="32" style="fill:#FAD000"/></svg> <span>Scenario 3</span></div>
+                <div class="scenario"><svg width="32" height="32"><rect width="32" height="32" style="fill:#36F1CD"/></svg><span>Scenario 4</span></div>
+              </div>
+            </div>
+          </div>
+<!--           <div class="col-sm-6 col-xs-6 col-md-3 last-box">
+            <div class="box last-box-1">
+              <button class="btn btn-primary btn-lg btn-block filter-button" type="button">Export to CSV</button>
+            </div>
+          </div> -->
+        </div>
+        <!-- /.row -->
+        </div>
+        </div>
+      </section>
+      <!-- /.content -->
+      
+      <section class="charts">
+        <div class="charts-inner container">
+          <div class="col-md-12">
+            <div class="chart-title">Sales Reps (<span class='data_owner_num'></span>)</div>
+            <div class="chart-title">Total Accounts</div>
+            <div class="chart-content">
+              <div class='img-responsive' id="graph"></div>
+            </div>
+          </div>            
+        </div>
+      </section>
+      <!-- /.charts -->
+    </div>
+    <!-- /.main-content --> 
+  </main>
+  </div>
+  <!-- /.page-content -->
+  <div class="account-table-wrapper">
+    <table class="account-view-table">
+    </table>
+  </div>
+</div>
+
+
+<script type='text/javascript'>
+  var ns;
+  try {
+      sforce.connection.query("SELECT Id FROM CC_Inserted_Object__c LIMIT 1");
+      ns = "";
+  } catch (e) {
+      ns = "LeanData__";
+  }
+
+
+  sforce.connection.sessionId = '{!$Api.Session_ID}';
+  j$ = jQuery.noConflict();
+
+  j$.fn.digits = function(){ 
+    return this.each(function(){ 
+        j$(this).text( j$(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") ); 
+    })
+  };
+
+  var formatNum = function(num){
+    return (num).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+  };
+
+  j$(document).ready(function() { 
+    j$(".left-sidebar").css({'height':(j$(".page-content").height() - 40 +'px')});
+    j$("#show-results").mousedown(function(event) {
+      event.preventDefault();
+      j$('.loading').css("display", "block");
+      var condition = {};
+      condition.scenarioFilterClause = j$('#filter-id :selected')[0].value;
+      if (condition.scenarioFilterClause === "none") {
+        condition.scenarioFilterClause = null;
+      }
+      var profileId = j$("#profile-id")[0].value;
+      if (profileId != null && profileId != 'All') {
+        condition.profileId = profileId;
+      };
+
+      var userId = j$("#user-id")[0].value;
+      if (userId != null && userId != 'All') {
+        condition.userId = userId;
+      };
+
+      var excludeInactiveUser = j$(j$("#exclude-inactive-user")[0]).is(":checked");
+      if (excludeInactiveUser == true) {
+        condition.excludeInactiveUser = true;
+      };
+
+      // This is a workaround. Read this:
+      // http://stackoverflow.com/questions/779379/why-is-settimeoutfn-0-sometimes-useful
+
+
+
+
+      setTimeout(function(){ fetchData(condition, populateData) }, 0);
+    });
+  });
+
+  var mockData = [
+    {ownerId: "005j000000BdQkkAAF", ownerName: "Tester", current: 200, scenarios: [15, 96, 50, 23], inactive: false},
+    {ownerId: "005j000000BdQFtAAN", ownerName: "Ted", current: 100, scenarios: [56, 17, 29, 68], inactive: true}
+  ];
+
+  var populateData = function(data,condition) {
+    j$(".data_owner_num").html("");
+    j$(".data_average").html("");
+    j$(".data_highest").html("");
+    j$(".data_lowest").html("");
+    j$("#graph").html("");
+    if (data.length == 0){
+      j$("#graph").html("<h3>No records found.</h3>");
+      j$(".left-sidebar").css({'height':(j$(".page-content").height() - 40 +'px')});
+      j$('.loading').css("display", "none");
+      return null;
+    }
+    var scenarioSize = data[0].scenarios.length;
+    var ownerNum = data.length;
+    var scenarios = _.flatten(_.pluck(data, "scenarios"));
+    var current = _.pluck(data, "current");
+    var highest = _.max(current);
+    var lowest = _.min(current);
+    var average = Math.round(_.reduce(current, function(memo, num){ return memo + num; }, 0)/data.length);
+    var barHeight = 35;
+    var width = 800;
+    var padding = 100;
+    var barGap = 10;
+    var sectionGap = 20;
+    var sectionHeight = (barHeight * (scenarioSize + 1) + barGap * (data[0].scenarios.length - 1 + 1)) + sectionGap;
+    var height = sectionHeight * data.length;
+    var barStart = 200;
+
+    // var x = d3.scale.linear().domain([0, data.length]).range([0, width]);
+    var widthScale = d3.scale.linear().domain([0, highest]).range([0, width - barStart - padding]);
+    var yScale = function(ownerNum, scenarioNum, subHeight) {
+      return ownerNum * subHeight + (barGap + scenarioNum * (barHeight + barGap)) + barGap + barHeight; // Add current bar height/gap
+    };
+
+    var currentBarScale = function(ownerNum, subHeight) {
+      return ownerNum * subHeight + barGap;
+    };
+
+    var colorize = function(scenarioNum) {
+      var colors = ["#4DAACB", "#B1DE09", "#FAD000", "#36F1CD"];
+      return colors[scenarioNum];
+    }
+
+    var distributionGraph = d3.select("#graph").
+      append("svg:svg").
+      attr("width", width).
+      attr("height", height);
+
+    distributionGraph.append("line").
+      attr("x1", widthScale(average) + barStart).
+      attr("y1", 0).
+      attr("x2", widthScale(average) + barStart).
+      attr("y2", height).
+      attr("stroke-width", 2).
+      attr("stroke", "#D3D3D3");
+
+    distributionGraph.selectAll("rect.current").
+      data(data).
+      enter().
+      append("svg:rect").
+      attr("x", barStart).
+      attr("y", function(datum, index) { return currentBarScale(index, sectionHeight); }).
+      attr("height", barHeight).
+      attr("width", function(datum) {return widthScale(datum.current); }).
+      attr("class", function(datum, index) { return "current" + index + " " + datum.ownerName;}).
+      attr("fill", "#D1DDDA").
+      // on("click", function(datum){ return viewAccounts.bind(this, datum, "current");}).
+      attr("onclick", function(datum, index) { return "viewAccounts('" + datum.ownerId + "', null)";}).// return viewAccounts.bind(this, datum, "current");}).
+      attr("fill-opacity", function(datum) { return (datum.inactive ? 0.3 : 1); }).
+      on("click", function(datum){ return viewAccounts.bind(this, datum, "current");});
+
+    distributionGraph.selectAll("text.current").
+      data(data).
+      enter().
+      append("svg:text").
+      attr("x", function(datum) {return barStart + widthScale(datum.current); }).
+      attr("y", function(datum, index) { return currentBarScale(index, sectionHeight); }).
+      attr("dx", 15).
+      attr("dy", 23).
+      attr("text-anchor", "start").
+      attr("style", "font-size: 18; font-family: Helvetica, sans-serif; fill: #000000").
+      text(function(datum) { return formatNum(datum.current);}).
+      // attr("transform", "translate(-20, 23)").
+      attr("class", "current");
+
+    _(scenarioSize).times(function(idx) { 
+
+      distributionGraph.selectAll("rect.scenario" + idx).
+        data(data).
+        enter().
+        append("svg:rect").
+        attr("x", barStart).
+        attr("y", function(datum, index) { return yScale(index, idx, sectionHeight); }).
+        attr("height", barHeight).
+        attr("width", function(datum) {return widthScale(datum.scenarios[idx]); }).
+        attr("class", function(datum, idx) { return "scenario" + idx + " " + datum.ownerName;}).
+        attr("fill", colorize(idx)).
+        // on("click",  function(datum, idx) {return viewAccounts.bind(this, datum, idx);})
+        attr("onclick", function(datum, index) { return "viewAccounts('" + datum.ownerId + "'," + index + ")";}).
+        attr("fill-opacity", function(datum) { return (datum.inactive ? 0.3 : 1); }).
+        on("click",  function(datum, idx) {return viewAccounts.bind(this, datum, idx);});
+
+      distributionGraph.selectAll("text.scenario" + idx).
+        data(data).
+        enter().
+        append("svg:text").
+        attr("x", function(datum) {return barStart + widthScale(datum.scenarios[idx]); }).
+        attr("y", function(datum, index) { return yScale(index, idx, sectionHeight); }).
+        attr("dx", 15).
+        attr("dy", 23).
+        attr("text-anchor", "start").
+        attr("style", "font-size: 18; font-family: Helvetica, sans-serif; fill: #000000").
+        text(function(datum) { return formatNum(datum.scenarios[idx]);}).
+        // attr("transform", "translate(-20, 23)").
+        attr("class", "scenario" + idx);
+    });
+
+    distributionGraph.selectAll("text.name").
+      data(data).
+      enter().
+      append("svg:text").
+      attr("x", function(datum) {return barStart; }).
+      attr("y", function(datum, index) { return currentBarScale(index, sectionHeight); }).
+      attr("dx", -40).
+      attr("dy", 23).
+      attr("text-anchor", "end").
+      attr("style", "font-size: 18; font-family: Helvetica, sans-serif; fill: #000000").
+      text(function(datum) { return datum.ownerName;}).
+      // attr("transform", "translate(-20, 23)").
+      attr("class", "name");
+      j$(j$(".data_owner_num").html(ownerNum)).digits();
+      j$(j$(".data_average").html(average)).digits();
+      j$(j$(".data_highest").html(highest)).digits();
+      j$(j$(".data_lowest").html(lowest)).digits();
+      j$(".left-sidebar").css({'height':(j$(".page-content").height() - 40 +'px')});
+
+    j$('.loading').css("display", "none");
+  };
+
+  function viewAccounts (ownerId, scenarioIdx) {
+    Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.SalesAlignmentToolController.fetchAccountsForScenarioAndOwner}',
+      ownerId,
+      scenarioIdx, 
+    function(result, event) {
+      buildAccountTable(result);
+    })
+  
+  };
+
+  function buildAccountTable(sObjects) {
+    var table = j$(".account-view-table")[0];
+    var htmlString = "";
+    for (var i = 0; i < sObjects.length; i++) {
+      var sObject = sObjects[i];
+      htmlString += ['<tr>',
+      '<td>' + sObject.Id + '</td>',
+      '<td>' + sObject.Name + '</td>',
+      '</tr>'
+      ].join('');
+    }
+    table.innerHTML = htmlString;
+  }
+
+
+  var fetchData = function(condition, callback){
+    // Add condition to query here
+
+    var scenarioResults = [];
+    _.each([1, 2, 3, 4], function(n){
+      var ownerField__c = ns + "Scenario_" + n +"_Owner__c";
+      var ownerField__r = ns + "Scenario_" + n +"_Owner__r";
+      var scenarioQuery = "Select Count(Id), " + ownerField__c + " FROM Account ";
+      
+      var whereClause = "";
+      if (condition.profileId != null && condition.profileId != 'All') {
+        whereClause += ("WHERE " + ownerField__r + ".ProfileId = '" + condition.profileId + "'");
+      }
+      
+      if (condition.userId != null && condition.userId != 'All') {
+        if (whereClause.length > 0) {
+          whereClause += " AND ";
+        } else {
+          whereClause += " WHERE "
+        }
+        whereClause += (ownerField__c + " = '" + condition.userId + "'");
+      }
+
+      if (condition.excludeInactiveUser == true) {
+        if (whereClause.length > 0) {
+          whereClause += " AND ";
+        } else {
+          whereClause += " WHERE "
+        }
+        whereClause += (ownerField__r + ".IsActive = true");
+      }
+
+    if (condition.scenarioFilterClause && condition.scenarioFilterClause.length > 0) {
+      if (whereClause.length > 0) {
+        whereClause += " AND ";
+      } else {
+        whereClause += " WHERE ";
+      }
+      whereClause += condition.scenarioFilterClause;
+    }
+
+      condition["scenario" + n + "WhereCondition"] = whereClause;
+      scenarioQuery += (whereClause + " GROUP BY " + ownerField__c);
+      var result = sforce.connection.query(scenarioQuery).getArray("records");
+      scenarioResults.push(result);
+    });
+    
+    // Add current
+    var currentWhereClause = '';
+    if (condition.profileId != null && condition.profileId != 'All') {
+      currentWhereClause += ("WHERE Owner.ProfileId = '" + condition.profileId + "'");
+    }
+    
+    if (condition.userId != null && condition.userId != 'All') {
+      if (currentWhereClause.length > 0) {
+        currentWhereClause += " AND ";
+      } else {
+        currentWhereClause += " WHERE "
+      }
+      currentWhereClause += ("OwnerId = '" + condition.userId + "'");
+    }
+
+    if (condition.excludeInactiveUser == true) {
+      if (currentWhereClause.length > 0) {
+        currentWhereClause += " AND ";
+      } else {
+        currentWhereClause += " WHERE "
+      }
+      currentWhereClause += ("Owner.IsActive = true");
+    }
+
+    if (condition.scenarioFilterClause && condition.scenarioFilterClause.length > 0) {
+      if (currentWhereClause.length > 0) {
+        currentWhereClause += " AND ";
+      } else {
+        currentWhereClause += " WHERE ";
+      }
+      currentWhereClause += condition.scenarioFilterClause;
+    }
+
+    var currentQuery = "Select Count(Id), OwnerId FROM Account ";
+    currentQuery += (currentWhereClause + " GROUP BY OwnerId");
+    var currentResult = sforce.connection.query(currentQuery).getArray("records");
+
+    var allResults = [];
+    allResults = scenarioResults.push(currentResult);
+
+    j$.when(allResults).done(function(){
+      var counts = {};
+      _.each(scenarioResults, function(scenario, scenarioIndex){
+        _.each(scenario, function(el){
+          var idx = scenarioIndex + 1;
+          var ownerField = ns + "Scenario_" + idx + "_Owner__c";
+          if (el[ownerField] != null) {
+            if (counts[el[ownerField]] == null) counts[el[ownerField]] = {};
+            counts[el[ownerField]]["Scenario" + idx] = el.expr0;
+          };
+        });
+      });
+
+      _.each(currentResult, function(el){
+        if (el.OwnerId != null) {
+          if (counts[el.OwnerId] == null) counts[el.OwnerId] = {};
+          counts[el.OwnerId]['Current'] = el.expr0;
+        };
+      });
+
+      var q = "Select Id, Name, IsActive FROM User WHERE Id IN ('" + _.keys(counts).join("','") + "')";
+      var data = [];
+      sforce.connection.query(q, function(result){
+        var users = result.getArray("records");
+        _.each(users, function(userRecord) {
+          var count = counts[userRecord.Id];
+
+      // {ownerId: "005j000000BdQFtAAN", ownerName: "Ted", scenarios: [56, 17, 29, 68], inactive: true}
+          var scenarios = [];
+          scenarios.push(parseInt(count.Scenario1) || 0);
+          scenarios.push(parseInt(count.Scenario2) || 0);
+          scenarios.push(parseInt(count.Scenario3) || 0);
+          scenarios.push(parseInt(count.Scenario4) || 0);
+          var user = {ownerId: userRecord.Id, ownerName: userRecord.Name, scenarios: scenarios, current: parseInt(count.Current) || 0, inactive: !(userRecord.IsActive === 'true')};
+          data.push(user);
+        });
+
+        if (typeof callback === 'function') {
+          callback(data,condition)
+        } else {
+          return data;
+        }
+      });
+    });
+  };
+
+</script>
+</apex:page>

@@ -1,0 +1,1143 @@
+<apex:page controller="zsfjira.ZCreateOrEditIssueController"
+           lightningStylesheets="true" docType="html-5.0" >
+<apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}"  />
+
+<apex:includeScript value="{!URLFOR($Resource.zsfjira__selectize_0_12_1, '/js/sifter.min.js')}"  />
+<apex:includeScript value="{!URLFOR($Resource.zsfjira__selectize_0_12_1, '/js/microplugin.min.js')}"  />
+<apex:includeScript value="{!URLFOR($Resource.zsfjira__selectize_0_12_1, '/js/selectize.js')}"  />
+<apex:stylesheet value="{!URLFOR($Resource.zsfjira__selectize_0_12_1, '/css/selectize.css')}" />
+
+<apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+<apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-ui-1.10.3.custom.min.js')}"  />
+<apex:stylesheet value="{!URLFOR($Resource.zsfjira__jQuery, '/css/redmond/jquery-ui-1.10.3.custom.min.css')}" />
+<apex:includeScript value="{!URLFOR($Resource.zsfjira__select2, '/select2-3.5.2/select2.min.js')}"  />
+<apex:stylesheet value="{!URLFOR($Resource.zsfjira__select2, '/select2-3.5.2/select2.css')}" />
+
+<apex:includeScript value="{!URLFOR($Resource.zsfjira__datetimepicker, '/jquery.datetimepicker.js')}"  />
+<apex:stylesheet value="{!URLFOR($Resource.zsfjira__datetimepicker, '/jquery.datetimepicker.css')}" />
+<apex:includeScript value="/soap/ajax/42.0/connection.js"/>
+<apex:includeScript value="/support/console/42.0/integration.js"/>
+<apex:includeScript value="{!URLFOR($Resource.zsfjira__zAgileResources, '/js/zConnectNavigationHelper.js')}" />
+<apex:includeScript value="{!URLFOR($Resource.zsfjira__hogan)}" />
+<apex:variable var="createAllowed"
+               value="{!IF(zPermissions.createIssuesEnabled, true, $Permission.zsfjira__ZC_Create_Issues)}"/>
+<apex:variable var="editAllowed"
+               value="{!IF(zPermissions.editIssuesEnabled, true,$Permission.zsfjira__ZC_Edit_Issues)}"/> 
+<apex:variable var="renderVF"
+               value="{!IF(((JSENCODE(issueKey)=='' && createAllowed)||(JSENCODE(issueKey)!='' && editAllowed)),true,false)}"/>
+<input type="hidden" value="{!$CurrentPage.parameters.fromRelatedList}" name="fromRelatedList"/>
+<apex:variable var="isLightning"
+              value="{!IF($User.UIThemeDisplayed=='Theme4d'||$User.UIThemeDisplayed=='Theme4u',true,false)}"/>
+<apex:slds rendered="{!isLightning}"/>
+
+<script type="text/javascript">
+    if (!window.console) window.console = {};
+    if (!window.console.log) window.console.log = function () {};
+</script>
+
+<script type="text/javascript">
+Visualforce.remoting.timeout = 120000;
+    
+zConnectNavigationHelper.setState(zConnectNavigationHelper.State.ISSUE_EDIT_ON_UPDATE);
+if('{!JSENCODE(issueKey)}'.indexOf('-') === -1){
+    zConnectNavigationHelper.setState(zConnectNavigationHelper.State.ISSUE_EDIT_ON_CREATE);
+}
+else if('{!JSENCODE(returnUrl)}'.indexOf('issueKey') !== -1){
+    zConnectNavigationHelper.setState(zConnectNavigationHelper.State.ISSUE_EDIT_FROM_DETAILS);
+}
+
+function handleCancel(){
+    return zConnectNavigationHelper.handleAction(
+        zConnectNavigationHelper.ActionType.SELECT_CANCEL,
+        {
+            'tabUrl' : '{!JSENCODE(returnUrl)}',
+            'tabName' : '{!JSENCODE(IssueKey)}',
+            'cancelUrl' : '{!JSENCODE(cancelUrl)}',
+            'issueDetailsUrl': '{!JSENCODE(issueDetailsUrl)}',
+            'issueKey': '{!JSENCODE(issueKey)}'
+        });
+}
+
+function handleOnSaveEnded(){
+    return zConnectNavigationHelper.handleAction(
+        zConnectNavigationHelper.ActionType.SELECT_SAVE,
+        {
+            'tabUrl' : '{!JSENCODE(returnUrl)}',
+            'tabName' : '{!JSENCODE(IssueKey)}',
+            'issueDetailsUrl': '{!JSENCODE(issueDetailsUrl)}',
+            'issueKey': '{!JSENCODE(issueKey)}'
+        });
+}
+
+function handleOnCreateEnded(issueKey, hasLinkError, linkResult){
+    var msgLinkSuccess = hasLinkError? '': linkResult;
+    var msgLinkError = hasLinkError? linkResult : '';
+
+    function consoleCallback() {
+        var message = {
+            source : "linkCreateIssue",
+            caseId : currentInstanceId,
+            action : "renderIssueResults",
+            msgError : msgLinkError,
+            msgSuccess :msgLinkSuccess
+        };
+        if(fromRelatedList){
+            if( msgLinkError !== '' ){
+                alert(msgLinkError);
+            }
+        }
+        sforce.console.fireEvent(
+            'messageFromComponent', JSON.stringify(message), function(result){}
+        );
+    }
+
+    function noConsoleCallback(){
+        $jqz("input[id$='issue-key']").val(issueKey);
+        $jqz("input[id$='linkError']").val(msgLinkError);
+        $jqz("input[id$='linkResult']").val(msgLinkSuccess);
+
+        if(supports_html5_storage()){
+            var jsonResult = {
+                linkError : msgLinkError,
+                linkSuccess : msgLinkSuccess
+            };
+            sessionStorage["LINK_RESULT_" + currentInstanceId] = JSON.stringify(jsonResult);
+        }
+    }
+
+    return zConnectNavigationHelper.handleAction(
+        zConnectNavigationHelper.ActionType.SELECT_SAVE,
+        {
+            'tabUrl' : '{!JSENCODE(returnUrl)}',
+            'tabName' : '{!JSENCODE(IssueKey)}',
+            'fromRelatedList': fromRelatedList,
+            'cancelUrl' : '{!JSENCODE(cancelUrl)}',
+            'msgError' : msgLinkError,
+            'msgSuccess': msgLinkSuccess
+        },
+        zConnectNavigationHelper.createCallbacks(noConsoleCallback, consoleCallback,
+            noConsoleCallback, consoleCallback)
+    );
+}
+
+
+</script>
+<apex:outputPanel rendered="{!renderVF}">
+    <!--TODO If need to take away the redundant fields here set new loadtemplates and loadtemplate functions that
+        only compile the following hogan templates. These functions are in the zissuefields component-->
+<script id="issue-editor-mu" type="text/html">
+<table class="detailList" id="tbl-issue-editor" cellspacing="0" cellpadding="0" border="0">
+    <tbody id="tbody-issue-editor-project">
+    </tbody>
+    <tbody id="tbody-issue-editor-issuetype">
+    </tbody>
+    <tbody id="tbody-issue-editor-required-fields">
+    </tbody>
+    <tbody id="tbody-issue-editor-additional-fields">
+    </tbody>
+</table>
+</script>
+
+<script id="quick-create-issue-issuetypes-mu" type="text/html">
+<tr>
+    <td class="labelCol">Issue Type <span class="requiredField"></span></td>
+    <td class="valueCol">
+        <select fieldid="issuetype" id="issueTypeId" onchange="issueTypeSelectionChanged()" style="width: 40%;">
+            {{#issuetypes}}<option iconurl="{{iconUrl}}" value="{{id}}" {{#selected}}selected="true"{{/selected}}>{{name}}</option>{{/issuetypes}}
+        </select>
+    </td>
+</tr>
+</script>
+
+
+<script id="create-issue-fields-mu" type="text/html">
+{{#fields}}
+{{#schema.editorSupported}}
+<tr id="tr-{{id}}">
+    <td class="labelCol">{{#required}}<span class="requiredFieldLightning"></span>{{/required}}{{& name}}{{#required}}<span class="requiredField"></span>{{/required}}</td>
+    <td  id="td-{{id}}" class="valueCol" editortype="{{schema.editorType}}" datatype="{{schema.type}}" datatypeitem="{{schema.items}}">
+    </td>
+</tr>
+{{/schema.editorSupported}}
+{{^schema.editorSupported}}
+<tr style="display: none;"><td colspan="2" style="color: gray">{{name}} - Editor is not supported for "{{schema.editorType}}"</td></tr>
+{{/schema.editorSupported}}
+{{/fields}}
+</script>
+
+<script id="list-box-items-mu" type="text/html">
+{{#items}}
+    <option value="{{id}}">{{name}}</option>
+{{/items}}
+</script>
+
+<script type="text/javascript">
+Selectize.define('dropdown_loading', function(options) {
+	var self = this;
+
+	options = $jqz.extend({
+		html: function(data) {
+			return (
+				'<div class="selectize-loading-title" style="display: none;">' +
+					'<div style="margin-left: 10px;">' +
+						'<i>Loading...</i>' +
+					'</div>' +
+				'</div>'
+			);
+		}
+	}, options);
+
+	self.setup = (function() {
+		var original = self.setup;
+		return function() {
+			original.apply(self, arguments);
+			self.$dropdown_header = $jqz(options.html(options));
+			self.$dropdown.prepend(self.$dropdown_header);
+		};
+	})();
+
+});
+</script>
+
+<script type="application/javascript">
+
+var fieldsView = null;//TODO
+var resultMappedFields = null;
+
+var zagile = {};
+zagile.issueEditor = {};
+
+zagile.issueEditor.ApplicationController = function() {
+	this.presenter = null;
+	this.bind();
+};
+
+zagile.issueEditor.ApplicationController.prototype = {
+  bind : function() {
+	  var that = this;
+	  $jqz(window).on("hashchange", function(event) {
+		  that.onValueChange(that.getHistoryToken());
+	  });
+
+	  $jqz(window).bind("quickCreateIssueEvent", function(event) {
+		  that.doQuickCreateIssue();
+	  });
+
+	  $jqz(window).bind("editIssueEvent", function(event) {
+		  that.doEditContact(event.userId);
+	  });
+
+	  $jqz(window).bind("cancelEditIssueEvent", function(event) {
+	  	that.doEditContactCancelled();
+	  });
+
+	  $jqz(window).bind("issueUpdatedEvent", function(event) {
+	  	that.doContactUpdated();
+	  });
+  },
+
+  decodeFragment : function(encodedFragment) {
+	  // decodeURI() does *not* decode the '#' character.
+	  return decodeURI(encodedFragment.replace("%23", "#"));
+  },
+
+  encodeFragment : function(fragment) {
+	  // encodeURI() does *not* encode the '#' character.
+	  return encodeURI(fragment).replace("#", "%23");
+  },
+
+  getHistoryToken : function() {
+	  return this.decodeFragment(location.hash.replace("#", ""));
+  },
+
+  setHistoryToken : function(token, issueEvent) {
+	  location.hash = this.encodeFragment(token);
+  },
+
+
+	go : function(container) {
+		this.container = container;
+
+//testGetFocusedPrimaryTabId();		
+		if ("" == this.getHistoryToken()) {
+			this.setHistoryToken(issueKey ? "edit" : "create");
+		} else {
+			$jqz(window).trigger("hashchange");
+		}
+	},
+
+  onValueChange : function(token) {
+	  if (token != null) {
+		  var presenter = null;
+		  if (token == "create") {
+			  presenter = new zagile.issueEditor.EditIssuePresenter(new zagile.issueEditor.EditIssueView());
+		  } else if (token.indexOf("edit") == 0) {
+				var issueKey = window.issueKey; //token.substring(token.indexOf("/")+1);
+			  presenter = new zagile.issueEditor.EditIssuePresenter(new zagile.issueEditor.EditIssueView(issueKey), issueKey);
+		  }
+
+		  if (presenter != null) {
+		  		this.presenter = presenter;
+			  presenter.go(this.container);
+		  }
+	  }
+  },
+
+  doQuickCreateIssue : function() {
+	  this.setHistoryToken("quickCreate");
+  },
+
+  doEditIssue : function(issueKey) {
+	  this.setHistoryToken("edit/" + issueKey, false);
+  },
+
+  doCancelEditIssue : function(issueKey) {
+  	return this.presenter.doCancelEditIssue(issueKey);
+	  //this.setHistoryToken("list");
+  },
+
+  doIssueUpdated : function() {
+  	alert('Issue Updated successfully');
+	  //this.setHistoryToken("list");
+  },
+
+  saveCreateIssue: function() {
+  	this.presenter.doSaveCreate();
+  },
+
+  saveUpdateIssue: function() {
+  	this.presenter.doSaveUpdate();
+  },
+
+  showAdditionalFields: function() {
+  	this.presenter.showAdditionalFields();
+  	$jqz('#aditional-fields-button').hide();
+  }
+};
+
+////// EDIT ISSSUE PRESENTER
+
+/**
+ * 
+ * @param display
+ * @returns {zagile.issueEditor.EditIssuePresenter}
+ */
+zagile.issueEditor.EditIssuePresenter = function (display, issueKey) {
+  this.display = display;
+  this.issueKey = issueKey;
+  this.bind();
+  if (issueKey) {
+    $jqz("button.aditional-fields-button").hide();
+    $jqz("[bid='create-issue-button']").hide();
+    this.fetchIssueDataWithEditMeta(issueKey);
+  } else {
+    this.fetchCreateMetaInitial();
+  }
+  $jqz("[bid='update-issue-button']").hide();
+};
+
+zagile.issueEditor.EditIssuePresenter.prototype = {
+  bind : function() {
+    var that = this;
+    $jqz(this.display.getSaveButton()).bind("click", function() {   
+        that.doSave();
+    });
+
+    $jqz(this.display.getCancelButton()).bind("click", function() {
+      var event = $jqz.Event("cancelEditIssueEvent");
+      $jqz(window).trigger(event);
+    });
+  },
+
+  go : function(container) {
+    $jqz(container).empty();
+    $jqz(container).append($jqz(this.display.asWidget()));
+  },
+
+  fetchCreateMetaInitial: function() {
+  	var that = this;
+      $jqz("[bid='create-issue-button']").attr("disabled","true");
+      $jqz("[bid='create-issue-button']").addClass("btnDisabled");
+      
+      $jqz(".aditional-fields-button").attr("disabled","true");
+      $jqz(".aditional-fields-button").addClass("btnDisabled"); 
+      Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ZCreateOrEditIssueController.createMetaInitial}', function(result, event) {
+          if (event.status) {
+              if(result.status=='success'){
+                  var lenMeta = result.object.projects.length;
+                  if(lenMeta!=0){
+                      that.display.renderProjectField(result.object);
+                  }
+                  else{
+                      that.display.showErrors({}, ['Unable to display fields. It seems like you don\'t have permission '+
+                                                   'to create issues.']);
+                      $jqz("#issue-editor-loading").hide();
+                  }                  
+              }
+              else{
+                  that.display.showErrors({}, [result.messageStatus]);                
+                  $jqz("#issue-editor-loading").hide();
+              }              
+          } else {
+              that.display.showErrors({}, [event.message]);
+              $jqz("#issue-editor-loading").hide();
+          }
+    });
+  },
+/*
+  checkIfIssueIsEditable : function(result) {
+  	if (result.operations && result.operations.linkGroups) {
+  		var linkGroups = result.operations.linkGroups;
+  		for (var i in linkGroups) {
+  			for (var j in linkGroups[i].groups) {
+  				for (var k in linkGroups[i].groups[j].links) {
+  					var link = linkGroups[i].groups[j].links[k];
+		  			if(link.id == "edit-issue") {
+		  				return true;
+		  			}
+  				}
+  			}
+  		}
+  	}
+  	return false;
+  },
+*/
+  fetchIssueDataWithEditMeta : function(issueKey) {
+      var that = this;
+      Visualforce.remoting.Manager.invokeAction(
+          '{!$RemoteAction.ZCreateOrEditIssueController.issueDataWithEditMeta}',issueKey,
+          function(result, event) {
+              if (event.status) {
+                  if(result.status=='success'){
+                      $jqz("h2.pageDescription").html(result.object.fields.project.name + " / " + issueKey);
+                      var lenMeta = Object.keys(result.object.editmeta.fields).length;
+                      if(lenMeta==0){
+                          that.display.showErrors({}, ['Unable to display fields. It seems like you don\'t have permission '+
+                                                       'to edit this issue.' ]);
+                      }
+                      else{
+//                          that.display.renderIssueFields(result.object.editmeta.fields);
+//                          that.display.setIssueData(result.object.fields);
+//                          that.display.postRenderFields();
+                          fieldsView.setMetadata(result.object.editmeta.fields);
+                          fieldsView.setMappedfields(result.object.fields);
+                          fieldsView.renderFieldsNFillData();
+                          fieldsView.attachContent();
+                          $jqz("[bid='update-issue-button']").show();
+                      }
+                  }
+                  else{
+                      that.display.showErrors({}, [result.messageStatus]);
+                  }
+              }else{
+                  //add error handling
+              }
+              $jqz("#issue-editor-loading").hide();
+          }
+      );
+  },
+  redirectToCaseAfterCreate: function(issueKey,hasLinkError,linkResult) {
+      handleOnCreateEnded(issueKey, hasLinkError, linkResult);
+  },
+  redirectAfterCreateOrEdit: function(issueKey,linkError,linkResult) {
+	sforce.console.setTabTitle(issueKey);
+    if (sforce && sforce.one && sforce.console && !sforce.console.isInConsole()) {
+        sforce.one.back(true);
+        return;
+    }
+	$jqz("input[id$='issue-key']").val(issueKey);
+    $jqz("input[id$='linkError']").val(linkError);
+    $jqz("input[id$='linkResult']").val(linkResult);
+    $jqz("input[id$='btn-redirect-to-issue-details']").click();
+  },
+
+  doSaveUpdate : function() {
+  	var that = this;
+  	var issueDataAsJsonString = JSON.stringify(fieldsView.getIssueData());
+    $jqz("[bid='update-issue-button']").attr("disabled","true");
+    $jqz("[bid='update-issue-button']").addClass("btnDisabled");
+    $jqz("[bid='update-issue-button']").html("Saving...");
+	Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ZCreateOrEditIssueController.updateIssue}', issueDataAsJsonString, currentInstanceId, issueKey, function(result, event) {
+		if (event.status) {
+            if (result["errors"] || result["errorMesssages"]) {
+            	fieldsView.showErrors(result["errors"], result["errorMessages"]);
+            } else {
+                handleOnSaveEnded();
+            }
+        }else{
+            that.display.showErrors({},[event.message]);
+        }
+        $jqz("[bid='update-issue-button']").removeAttr("disabled");
+        $jqz("[bid='update-issue-button']").removeClass("btnDisabled");
+        $jqz("[bid='update-issue-button']").html("Save");
+	});
+  },
+
+  doCreateIssueInternal: function() {
+  	var that = this;
+  	var jsondata = fieldsView.getIssueData();
+  	var test = fieldsView.getIssueData();
+  	jsondata.fields['project'] = this.display.getIssueData().fields['project'];
+  	jsondata.fields['issuetype'] = this.display.getIssueData().fields['issuetype'];
+  	var issueDataAsJsonString = JSON.stringify(jsondata);
+	$jqz("div.aui-message-context > ul").hide();
+	Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ZCreateOrEditIssueController.createIssue}', issueDataAsJsonString, currentInstanceId, function(result, event) {
+        if (event.status) {
+            if (result["errors"] || result["errorMesssages"]) {
+                that.display.showErrors(result["errors"], result["errorMessages"]);
+                $jqz("[bid='create-issue-button']").removeAttr("disabled");
+                $jqz("[bid='create-issue-button']").removeClass("btnDisabled");
+                $jqz("[bid='create-issue-button']").html("Create");
+            } else {
+                var linkError = false;
+                var linkResult = '';
+                if('linkError' in result){
+                    linkError = result['linkError'];
+                    linkResult = result['linkMessage'];
+                }
+                that.redirectToCaseAfterCreate(result["key"],linkError,linkResult);
+            }            
+        }else{
+            that.display.showErrors({},[event.message]);
+            $jqz("[bid='create-issue-button']").removeAttr("disabled");
+            $jqz("[bid='create-issue-button']").removeClass("btnDisabled");
+            $jqz("[bid='create-issue-button']").html("Create");
+        }
+	});
+  },
+
+  doSaveCreate : function() {      
+    $jqz("[bid='create-issue-button']").attr("disabled","true");
+    $jqz("[bid='create-issue-button']").addClass("btnDisabled");
+    $jqz("[bid='create-issue-button']").html("Creating...");
+  	var that = this;
+  	if (window.instanceAlreadyCaptured == 'true') {
+  		this.doCreateIssueInternal();
+  	} else {
+		Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ZCreateOrEditIssueController.syncCurrentObjectWithJira}', currentInstanceId, function(result, event) {
+            if (event.status) {
+                window.instanceAlreadyCaptured = '' + result;
+                that.doCreateIssueInternal();
+            }else{
+                fieldsView.showErrors({},[event.message]);
+                
+                $jqz("[bid='create-issue-button']").removeAttr("disabled");
+                $jqz("[bid='create-issue-button']").removeClass("btnDisabled");
+                $jqz("[bid='create-issue-button']").html("Create");
+            }
+		});
+  	}
+  },
+
+  showAdditionalFields: function() {
+  	this.display.renderAdditionalFields(true);
+  }
+
+};
+
+
+//// EDIT ISSUE VIEW
+
+zagile.issueEditor.EditIssueView = function(issueKey) {
+	this.issueKey = issueKey;
+	this.mainPanel = null;
+	this.saveButton = null;
+	this.cancelButton = null;
+	this.moreDetailsButton = null;
+	this.metaFields = {};
+	this.dataFields = {};
+	this.projectsById = {};
+	this.issuetypesById = {};
+	this.temporalIssueData = { fields: {} };
+
+	this.init();
+};
+
+zagile.issueEditor.EditIssueView.prototype = {
+	init: function() {
+	    var html = hoganTemplates["issue-editor-mu"].render();
+	    $jqz(window.document.body).append(html);
+	    this.mainPanel = $jqz("#tbl-issue-editor")[0];
+	},
+    showErrors: function(errors, errorMessages) {
+        this.showErrorsInternal(errors,errorMessages,true);
+    },
+    showErrorsNoScroll: function(errors, errorMessages) {
+        this.showErrorsInternal(errors,errorMessages,false);
+    },
+	showErrorsInternal: function(errors, errorMessages, scroll) {
+		$jqz("td > div.fieldError").html("");
+        var firstFieldError = '';
+		for (var key in errors) {            
+            var fieldError = $jqz("#tr-" + key + " > td > div.fieldError");
+            if(fieldError.length>0){
+                $jqz(fieldError).html(errors[key]);
+                firstFieldError=firstFieldError==''?"#tr-"+key:firstFieldError;
+            }else{
+                errorMessages.push('Error with field '+key+': '+errors[key]);
+            }
+		}
+		var htmlErrors = "";
+		for (var i=0; i < errorMessages.length; i++) {
+		    htmlErrors += "<li>" + errorMessages[i] + "</li>";
+		}
+		var isGeneral = false;
+		if (htmlErrors != "") {
+		    $jqz("div.aui-message-context > ul").show();
+		    $jqz("div.aui-message-context > ul").html(htmlErrors); 
+            firstFieldError = 'div.aui-message-context';
+            isGeneral = true;
+		} else {
+		    $jqz("div.aui-message-context > ul").hide();
+		}
+        if(scroll){
+            var position = 0;
+            if(!isGeneral){
+                position = $jqz(firstFieldError).offset().top - $jqz(firstFieldError).outerHeight();
+            }
+
+            $jqz('html, body').animate({
+                scrollTop: position
+            }, 500);
+        }
+	},
+    getIssueData : function() {
+	  var issueFields = {};
+	  for (var fieldName in this.metaFields) {
+			var editorType = $jqz("#td-" + fieldName).attr("editortype");
+			if (issueFieldEditors[editorType]) {
+                issueFields[fieldName] = issueFieldEditors[editorType].getValue(fieldName);
+                // default reporter just for create issue, it means when issueKey is undefined.
+                if (!this.issueKey && fieldName == "reporter" && issueFields[fieldName] == null) {
+                    issueFields[fieldName] = undefined;
+                }
+            }
+	  }
+	  var issueUpdate = {fields: issueFields};
+	  if (issueFields.comment) {
+	  	issueUpdate.update = { comment : issueFields.comment };
+	  	issueFields.comment = undefined;
+	  }
+	  return issueUpdate;
+	},
+
+	renderProjectField: function(createmeta) {
+        $jqz("#tbody-issue-editor-project").hide();
+        $jqz("#tbody-issue-editor-issuetype").hide();
+        
+        errorResolvingProject = false;
+		this.metaFields = {
+			project: { name: "Project", operations: [], schema: {type: 'project', system: 'project'}, required: true }
+		};
+		var preselectedProject = null;
+        if(mappedProjectNameKeyOrId!=''){
+            for (var i=0; i<createmeta.projects.length; i++) {
+                var project = createmeta.projects[i];
+                if (project.key == mappedProjectNameKeyOrId || project.id == mappedProjectNameKeyOrId || project.name == mappedProjectNameKeyOrId) {
+                    project["selected"] = true;
+                    preselectedProject = project;
+                }
+                this.projectsById[project.id] = project;
+            }
+            if(preselectedProject == null){
+                this.showErrorsNoScroll({},['Could not resolve Issue Project from value: '+mappedProjectNameKeyOrId],
+                               false);
+                errorResolvingProject = true;
+            }
+        }else{
+            for (var i=0; i<createmeta.projects.length; i++) {
+                var project = createmeta.projects[i];
+                if (project.key == defaultProjectKey) {
+                    project["selected"] = true;
+                    preselectedProject = project;                                        
+                }
+                this.projectsById[project.id] = project;
+            }
+        }
+	    if (preselectedProject == null && createmeta.projects.length > 0) {
+	    	preselectedProject = createmeta.projects[0];
+	    }
+	    this.metaFields.project.allowedValues = createmeta.projects;
+	    console.log("this.metafields");
+	    console.log(this.metaFields)
+
+	    this.prepareField(this.metaFields.project, 'project');
+	    var html = hoganTemplates["create-issue-fields-mu"].render({fields: [this.metaFields.project]});
+	    $jqz("#tbody-issue-editor-project").html(html);
+		$jqz("td[editortype='project']#td-" + this.metaFields.project.id).html(issueFieldEditors.project.render(this.metaFields.project));
+
+		//this.projectSelectionChanged();
+		var that = this;
+		$jqz("#tbody-issue-editor-project select").on("change", function(event) {
+			that.testprojectChanged();
+		});
+//		$jqz("#tbody-issue-editor-project select").trigger("change");
+//TODO when changing project after initial rendering, components from previous option remain rendered
+		that.projectSelectionChanged();
+	},
+
+	renderIssuetypeField: function(issuetypes, first) {
+		this.metaFields = this.metaFields || {};
+		this.metaFields.issuetype = { name: "Issue Type", operations: [], schema: {type: 'issuetype', system: 'issuetype'}, required: true };
+	    this.metaFields.issuetype.allowedValues = issuetypes;
+        
+        if(!errorResolvingProject){
+            if(mappedIssueTypeNameOrId!=''){
+                var found = false;
+                for (var i=0; i<issuetypes.length; i++) {
+                    var issuetype = issuetypes[i];
+                    if (issuetype.id == mappedIssueTypeNameOrId || issuetype.name == mappedIssueTypeNameOrId) {
+                        issuetype["selected"] = true;
+                        found = true;
+                    }
+                    this.issuetypesById[issuetype.id] = issuetype;
+                }
+                if(!found){
+                    this.showErrorsNoScroll({},['Could not resolve Issue Type from value: '+mappedIssueTypeNameOrId],
+                                    false);
+                }
+            }else{
+                for (var i=0; i<issuetypes.length; i++) {
+                    var issuetype = issuetypes[i];
+                    if (issuetype.id == defaultIssueTypeId) {
+                        issuetype["selected"] = true;                        
+                    }
+                    this.issuetypesById[issuetype.id] = issuetype;
+                }
+            }
+        }
+	    this.prepareField(this.metaFields.issuetype, 'issuetype');
+	    var html = hoganTemplates["create-issue-fields-mu"].render({fields: [this.metaFields.issuetype]});
+	    $jqz("#tbody-issue-editor-issuetype").html(html);
+		$jqz("td[editortype='issuetype']#td-" + this.metaFields.issuetype.id).html(issueFieldEditors.issuetype.render(this.metaFields.issuetype));
+		fieldsView.postRenderFields();
+		var that = this;
+		$jqz("#tbody-issue-editor-issuetype select").on("change", function(event) {
+			that.testissueChanged();
+		});
+        if(first){
+            that.issueTypeSelectionChanged();
+        }else{
+            that.testissueChanged();
+        }
+	},
+    testissueChanged: function(){
+        $jqz("div.aui-message-context > ul").hide();
+        
+        $jqz("[bid='create-issue-button']").attr("disabled","true");
+        $jqz("[bid='create-issue-button']").addClass("btnDisabled");
+        
+        $jqz(".aditional-fields-button").attr("disabled","true");
+        $jqz(".aditional-fields-button").addClass("btnDisabled"); 
+        
+        $jqz("#tbody-issue-editor-required-fields").hide();
+        $jqz("#tbody-issue-editor-additional-fields").hide();
+        
+        $jqz("#issue-editor-loading").show();
+        
+        var projectId = $jqz("#tbody-issue-editor-project select").val();
+        var issueTypeId = $jqz("#tbody-issue-editor-issuetype select").val();
+        var that = this;
+        
+        Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ZCreateOrEditIssueController.createMetaWithId}',currentInstanceId, [projectId], [issueTypeId], function(result, event) {
+            if (event.status) {
+                if('projects' in result){
+                    $jqz("[bid='create-issue-button']").removeAttr("disabled");
+                    $jqz("[bid='create-issue-button']").removeClass("btnDisabled");
+                    
+                    $jqz(".aditional-fields-button").removeAttr("disabled");
+                    $jqz(".aditional-fields-button").removeClass("btnDisabled");
+                    
+                    $jqz("#tbody-issue-editor-required-fields").show();
+                    $jqz("#tbody-issue-editor-additional-fields").show();
+                    
+                    var project = that.metaFields.project;
+                    var metadata = null;
+                    var issuetype = that.metaFields.issuetype;
+                    metadata = result.projects[0].issuetypes[0].fields;
+                    delete metadata['issuetype'];
+                    fieldsView.setMetadata(metadata);
+                    that.metaFields.issuetype = issuetype;
+                    if ($jqz(".aditional-fields-button").is(":visible")) {
+                        fieldsView.hideAdditionalFields(true);
+                    } else {
+                        fieldsView.hideAdditionalFields(false);
+                    }
+                    var temp = fieldsView.getIssueData();
+                    fieldsView.renderIssueFields();
+                    
+                    fieldsView.setIssueData(result.mappedFieldValues);
+                    fieldsView.setIssueData(temp.fields);
+                    fieldsView.postRenderFields();
+                }
+                else{
+                    that.showErrorsNoScroll({}, ['Error getting issue create meta.']);
+                }              
+            } else {
+                that.showErrorsNoScroll({}, [event.message]);
+            }
+            $jqz("#issue-editor-loading").hide();
+        });
+    },
+
+    testprojectChanged: function() {
+        var projectId = $jqz("#tbody-issue-editor-project select").val();
+	    var selectedProject = this.projectsById[projectId];
+	    var issuetypes = selectedProject ? selectedProject.issuetypes : [];
+	    this.renderIssuetypeField(issuetypes, false)
+    },
+
+	projectSelectionChanged: function() {
+	    this.temporalIssueData = fieldsView.getIssueData();
+	    var that = this;
+	    var projectId = $jqz("#tbody-issue-editor-project select").val();
+	    var selectedProject = this.projectsById[projectId];
+	    var issuetypes = selectedProject ? selectedProject.issuetypes : [];
+	    this.renderIssuetypeField(issuetypes, true);
+//	    this.setIssueData(this.temporalIssueData.fields);
+	},
+
+	issueTypeSelectionChanged: function() {
+        this.temporalIssueData = fieldsView.getIssueData();
+        var projectId = $jqz("#tbody-issue-editor-project select").val();
+        var issueTypeId = $jqz("#tbody-issue-editor-issuetype select").val();
+        var that = this;
+        
+        Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ZCreateOrEditIssueController.createMetaWithId}',currentInstanceId, [projectId], [issueTypeId], function(result, event) {
+            if (event.status) {
+                if('projects' in result){
+                    $jqz("#tbody-issue-editor-project").show();
+                    $jqz("#tbody-issue-editor-issuetype").show();
+                    
+                    $jqz("[bid='create-issue-button']").removeAttr("disabled");
+                    $jqz("[bid='create-issue-button']").removeClass("btnDisabled");
+                    
+                    $jqz(".aditional-fields-button").removeAttr("disabled");
+                    $jqz(".aditional-fields-button").removeClass("btnDisabled"); 
+                    
+                    var project = that.metaFields.project;
+                    
+                    var metadata = null;
+                    var issuetype = that.metaFields.issuetype;
+                    that.metaFields = result.projects[0].issuetypes[0].fields;
+                    metadata = result.projects[0].issuetypes[0].fields;
+                    delete metadata['issuetype'];
+                    resultMappedFields = result.mappedFields;
+                    that.mappedFields = result.mappedFields;
+                    if(!result.mappedFields['assignee']){
+                        result.mappedFields['assignee']={'name':'-1'};
+                    }
+                    fieldsView.setMetadata(metadata);
+                    fieldsView.setMappedfields(result.mappedFields);
+                    
+                    console.log('gonna hide additional fields');
+                    fieldsView.hideAdditionalFields(true);
+                    fieldsView.renderIssueFields();
+                    fieldsView.attachContent();
+                    
+                    that.metaFields.issuetype = issuetype;
+                    fieldsView.setIssueData(that.temporalIssueData.fields);
+                    
+                    fieldsView.setIssueData(result.mappedFieldValues);
+                    fieldsView.setIssueData(that.temporalIssueData.fields);
+                    fieldsView.postRenderFields();
+                    
+                }
+                else{
+                    that.showErrorsNoScroll({}, ['Error getting issue create meta.']);
+                }              
+            } else {
+                that.showErrorsNoScroll({}, [event.message]);
+            }
+            $jqz("#issue-editor-loading").hide();
+        });
+    },
+
+  fetchMappedFieldValues: function(projectId,issueTypeId, callback) {
+      var that = this;
+      Visualforce.remoting.Manager.invokeAction(
+          '{!$RemoteAction.ZCreateOrEditIssueController.getMappedFieldValues}', currentInstanceId, projectId, issueTypeId,
+          function(result, event) {
+			if (event.status) {
+				fieldsView.setIssueData(result);
+			}else{
+			    //add error handling
+			}
+			if (callback && typeof(callback) == "function"){
+                    callback();
+            }
+          }
+      );
+  },
+
+
+	prepareField: function(field, fieldName) {
+		if (!field) {
+			console.log('Field can not be null: ' + fieldName);
+			return;
+		}
+        field.fieldId = field.id = fieldName;
+        field.multiple = field.operations.length > 1;
+        field.schema[field.schema.type] = true;
+        if (field.schema.system) {
+            field.schema.editorType = field.schema.system;
+        }
+        else if (field.schema.custom) {
+            field.schema.editorType = field.schema.custom;
+        }
+
+        if (field.schema.system) {
+            field.schema[field.schema.system] = true;
+        }
+        if (field.schema.custom) {
+            field.schema[field.schema.system] = true;
+        }
+        field.schema.editorSupported = !!issueFieldEditors[field.schema.editorType];
+	},
+
+  getSaveButton : function() {
+    return this.saveButton;
+  },
+  
+  getCancelButton : function() {
+    return this.cancelButton;
+  },
+
+  getFilterTextBox : function() {
+	  return this.filterTextBox;
+  },
+
+  asWidget : function() {
+    return this.mainPanel;
+  }
+};
+
+
+/////// GLOBAL VARIABLES
+
+var hoganTemplates = {};
+var projectsById = {};
+var issuetypesById = {};
+var prioritiesById = {};
+var availableVersions = [];
+var availableComponents = [];
+
+var pfromRelatedList = $jqz('input[name=fromRelatedList]').val();
+var fromRelatedList = (pfromRelatedList=='true');
+
+var issueKey = '{!JSENCODE(issueKey)}';
+var isCreatingIssue = issueKey.indexOf('-') == -1;
+var currentInstanceId = '{!JSENCODE(individualId)}';
+var defaultProjectKey = '{!JSENCODE(DefaultProject)}';
+var defaultIssueTypeId = '{!JSENCODE(DefaultIssueType)}';
+var defaultPriorityId = '{!JSENCODE(DefaultPriority)}';
+
+var mappedProjectNameKeyOrId = "{!MappedProjectAndIssueType['project']}";
+var mappedIssueTypeNameOrId = "{!MappedProjectAndIssueType['issuetype']}";
+    
+var errorResolvingProject = false;
+    
+var ignoredFields = {"issuetype" : true, "project" : true, "attachment": true, "timetracking": true, worklog: true};
+var requiredFields = {};
+window.instanceAlreadyCaptured = '{!IF(instanceAlreadyCaptured,true,false)}';
+
+
+function saveCreateIssue() {
+	zagile.issueEditor.applicationController.saveCreateIssue();
+}
+
+function saveUpdateIssue() {
+	zagile.issueEditor.applicationController.saveUpdateIssue();
+}
+
+function cancelCreateOrEditIssue() {
+	return zagile.issueEditor.applicationController.doCancelEditIssue('{!JSENCODE(IssueKey)}');
+}
+
+function showAdditionalFields2() {
+//	zagile.issueEditor.applicationController.showAdditionalFields();
+    fieldsView.showAdditionalFields();
+    $jqz('.aditional-fields-button').hide();
+}
+
+function supports_html5_storage() {
+    try {
+        return 'sessionStorage' in window && window['sessionStorage'] !== null;
+    } catch (e) {
+        return false;
+    }
+}
+</script>
+
+<script type="application/javascript">
+$jqz(document).ready(function() {
+    loadTemplates();
+    zagile.issueEditor.applicationController = new zagile.issueEditor.ApplicationController();
+	zagile.issueEditor.applicationController.go($jqz("#issue-editor"));
+	fieldsView = new IssueFieldsView();
+});
+</script>
+
+<style type="text/css">
+
+.select2-container .select2-search--inline, .select2-container--default .select2-selection--multiple .select2-selection__choice {
+	margin-left: 2px;
+}
+
+.requiredField {
+    background-color: #c00;
+    width: 3px;
+    height: 22px;
+    position: absolute;
+    margin-left: 6px;
+}
+.fieldError {
+    color: red;
+}
+.aui-message.error, .aui-message-error {
+    background: none repeat scroll 0 0 #d04437;
+    border-color: #d04437;
+    color: #ffffff;
+}
+
+.aui-message {
+    border-radius: 5px;
+    position: relative;
+    padding-left: 10px !important;
+}
+
+.aui-message > li {
+    margin-left: 10px !important;
+}
+.labelCol, .valueCol {
+    border: none !important;
+    vertical-align: middle;
+    margin: 10px;
+    padding-bottom: 3px;
+    padding-top: 3px;
+}
+
+.valueCol input {
+    height: 20px;
+    font-family: "Arial",?"Helvetica",?sans-serif !important;
+    font-size: 12px !important;
+}
+
+.entity-icon, .entity-icon-selection {
+    background-repeat: no-repeat;
+    background-size: 16px auto;
+    box-sizing: border-box;
+    margin-right: 5px;
+    height: 16px;
+    left: 6px;
+    position: absolute;
+    width: 16px;
+}
+.entity-icon-selection {
+    margin-top: -8px;
+    top: 50%;
+}
+div.issue-editor-classic-loader:after{
+    background-image: url({!URLFOR($Resource.zAgileResources,'/images/loader.gif')});
+    background-size: 24px 24px;
+    display: inline-block;
+    width: 24px; 
+    height: 24px;
+    content:"";
+}
+div.issue-editor-classic-loader{
+    display: inline-block;
+    margin-left: 15%;
+}
+div.bPageTitle{
+    display: inline-block;
+    width: 80%;
+}
+
+</style>
+    <apex:form styleClass="slds-p-left_medium slds-p-right_medium">
+    <apex:inputHidden id="issue-key" value="{!issueKey}" />
+    <apex:inputHidden id="linkError" value="{!linkError}" />
+	<apex:inputHidden id="linkResult" value="{!linkResult}" />
+	<apex:sectionHeader title="Edit Issue" subtitle="{!issueKey}" id="issueHeaderEditIssue" rendered="{!NOT(ISBLANK(issueKey))}"/>
+	<apex:sectionHeader title="JIRA" subtitle="Create Issue" id="issueHeaderCreateIssue" rendered="{!ISBLANK(issueKey)}"/>
+
+        <apex:variable value="" rendered="{!NOT(isLightning)}" var="classicLoader">
+            <div id="issue-editor-loading" class="issue-editor-classic-loader"></div>
+        </apex:variable>
+
+        <apex:variable value="" rendered="{!isLightning}" var="lexLoader">
+            <style>
+                body .pbBody, .slds-scope .pbBody{
+                    overflow: visible;
+                }
+
+                body td.pbTitle{
+                    display: none;
+                }
+
+                table.detailList{
+                    table-layout: auto !important;
+                }
+
+                div.bPageTitle{
+                    display: block;
+                    width: auto;
+                }
+            </style>
+
+            <div class="slds-scope" id="issue-editor-loading">
+                <div id="slds-loader" class="slds-spinner_container slds-is-fixed zc-hide" >
+                    <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand" >
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </div>
+        </apex:variable>
+
+    <apex:pageBlock >
+        <div id="issue-editor"/>
+        <div class="slds-scope">
+            <c:ZIssueFields ></c:ZIssueFields>
+        </div>
+
+        <apex:pageBlockButtons styleClass="slds-align_absolute-center">
+            <button class="slds-button slds-button_brand" bid="create-issue-button" onclick="saveCreateIssue(); return false;">Create</button>
+            <button class="slds-button slds-button_brand" bid="update-issue-button" onclick="saveUpdateIssue(); return false;">Save</button>
+            <button class="aditional-fields-button slds-button slds-button_neutral" onclick="showAdditionalFields2(); return false;">Additional Fields...</button>
+            <button class="slds-button slds-button_neutral" name="cancel-create-issue" onclick="return handleCancel();">Cancel</button>
+			<apex:commandButton id="btn-redirect-to-issue-details" value="ViewIssueDetails" action="{!issueDetails}" style="display: none;"/>
+            <apex:commandButton id="btn-redirect-to-case" value="CaseDetails" action="{!cancelCreate}" style="display: none;"/>           
+        </apex:pageBlockButtons>
+        <script>
+
+        </script>
+    </apex:pageBlock>
+    </apex:form>
+</apex:outputPanel>
+<apex:outputPanel rendered="{!NOT(renderVF)}">
+    <apex:sectionHeader subtitle="Insufficient Privileges"/>
+    <apex:form >
+        <apex:actionFunction name="functionIssueDetails" action="{!issueDetails}"/>
+        <apex:outputText rendered="{!JSENCODE(issueKey)==''}">
+            You do not have permissions to create Issues.
+            <a href="/{!individualId}" onclick="return handleCancel();">Return</a>
+        </apex:outputText>
+        <apex:outputText rendered="{!JSENCODE(issueKey)!=''}">
+            You do not have permissions to edit Issues.        
+            <a href="#" onclick = "return redirectToEditIssues();">Return</a>
+        </apex:outputText>
+    </apex:form>
+    <script>
+    function redirectToEditIssues(){
+        if(sforce && sforce.console && sforce.console.isInConsole()){
+            sforce.console.setTabTitle('{!JSENCODE(issueKey)}');
+        }
+        functionIssueDetails();
+        return false;
+    }
+    </script>
+</apex:outputPanel>
+</apex:page>

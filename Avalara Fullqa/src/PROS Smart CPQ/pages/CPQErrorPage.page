@@ -34,7 +34,7 @@
                   event: 'CameleonCPQ:navigateToURL',
                   handler: function(event) {
                       if((typeof sforce != 'undefined') && (sforce != null)) {
-                         sforce.one.navigateToURL(event.getParam('url'));
+                         sforce.one.navigateToURL(event.getParam('url'), true); // Works better with redirect set to true. 
                       } 
                       else {
                          top.location.href = event.getParam('url');

@@ -112,29 +112,33 @@ global with sharing class CC_AVA_BizTech_API {
        } 
     }
   }
-  public static void sendCPUUserChanged(Set<Id> accId){ 
+ public static void sendCPUUserChanged(Set<Id> accId){ 
         if(accId != null && !accId.isEmpty()){
-        List<Account> lstAcc = [select Id from Account where Id In: accId];
-       String strTemplate='{';
+       // List<Account> lstAcc = [select Id from Account where Id In: accId];
+        //system.debug('===lstAcc'+lstAcc);
+         system.debug('===accId'+accId);
+         String strTemplate='{';
          strTemplate+='"topic":"customer",';
          strTemplate+='"event":"customer_account_state_change",';
          strTemplate+='"context":{';
-     strTemplate+='PLACEHOLDER';
+         strTemplate+='"customerAccountIds":[';
+         strTemplate+='PLACEHOLDER';
+         strTemplate+=']';
          strTemplate+='}';
-         strTemplate+='}';   
-       List<String> listAccountJSON=new List<String>();
-       
-       for (Account acc : lstAcc){
-          String accountJSON='"customerAccountId":"'+acc.id+'"';
+         strTemplate+='}'; 
+         List<String> listAccountJSON=new List<String>();
+       for (Id acc : accId){
+           String accountJSON='"'+acc+'"';
            listAccountJSON.add(accountJSON);
-           
-         if(math.mod(listAccountJSON.size(),49)==0 || listAccountJSON.size()==lstAcc.size()){                      
+       }   
+        system.debug('listAccountJSON : '+ listAccountJSON);
+        // if(math.mod(listAccountJSON.size(),49)==0 || listAccountJSON.size()==lstAcc.size()){                      
           String finalJSON=strTemplate.replace('PLACEHOLDER',String.join(listAccountJSON,','));                     
-         
+           system.debug('finalJSON : '+ finalJSON);
           HTTPRequest req = new HTTPRequest();
           req.setTimeout(120000);
-	       req.setEndpoint('callout:'+getNamedCredentialName()+'/event-notifications-publisher/events');
-	       req.setHeader('Authorization', '{!$Credential.Username} '+'{!$Credential.Password}');       
+	      req.setEndpoint('callout:'+getNamedCredentialName()+'/event-notifications-publisher/events');
+	      req.setHeader('Authorization', '{!$Credential.Username} '+'{!$Credential.Password}');       
           req.setHeader('Content-Type','application/json;chartset=UTF-8');
           req.setMethod('POST');
           req.setBody(finalJSON);
@@ -145,7 +149,6 @@ global with sharing class CC_AVA_BizTech_API {
 	        res.setHeader('Content-type', 'application/json');
 	        res.setBody('{"test"}:"test"}');
 	        res.setStatusCode(200);           	
-          	
           }
           else
           {
@@ -154,9 +157,9 @@ global with sharing class CC_AVA_BizTech_API {
           system.debug('Response Code :'+res.getStatusCode());
           system.debug('Status : '+res.getStatus());
           System.debug('Response Body is :'+res.getBody());      
-      }
-       } 
-    }
+      
+    //} 
+   }
   }
 			
 	private static String getNamedCredentialName(){

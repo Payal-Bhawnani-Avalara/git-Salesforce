@@ -38,29 +38,37 @@ public class ZuoraCustomerAccountTriggerHandler  extends TriggerHandler{
   	 	// zCA.Zuora__Account__r.BillingAccountNumber_s__c = zCA.Zuora__Account__r.BillingAccountNumber_s__c +';' +zCA.Zuora__AccountNumber__c;
   	  }
   	  
-  	  if(accountIDs.size()>0){
-        List<Account> listAccounts=[Select Id,BillingAccountNumber_s__c,(Select Id,Zuora__AccountNumber__c From Zuora__R00N40000001kyLcEAI__r where id in : zuoraCustomerAccountIDSet) 
-    											From Account Where Id=:accountIDs AND ActiveCustomer__c=true];
-  	    for(Account acc : listAccounts){
-  	    	  for(Zuora__CustomerAccount__c zCA:acc.Zuora__R00N40000001kyLcEAI__r){
-  	    	  	if(String.isBlank(acc.BillingAccountNumber_s__c)){
-  	    	  		acc.BillingAccountNumber_s__c='';
-  	    	  	}
-  	    	  	if(String.isNotBlank(zCA.Zuora__AccountNumber__c) &&!acc.BillingAccountNumber_s__c.containsIgnoreCase(zCA.Zuora__AccountNumber__c))
-  	 	     {
-  	 	     	if(String.isNotBlank(acc.BillingAccountNumber_s__c)){
-  	 	     		acc.BillingAccountNumber_s__c+=';';
-  	 	     	}
-  	            acc.BillingAccountNumber_s__c += zCA.Zuora__AccountNumber__c;
-  	          }
-  	      }
-       }
-        //by pass account trigger 
-		TriggerHandler.bypass('AccountTriggerHandler');
-		TriggerHandler.bypass('ZuoraCustomerAccountTriggerHandler');
-		Database.SaveResult[] dsrList=Database.update(listAccounts,false);
-		Utility.createApexLog('ZuoraCustomerAccountTriggerHandler', dsrList,true);
+  	  if(accountIDs.size()>0 && zuoraCustomerAccountIDSet.size()>0 && !System.isBatch() && !System.isFuture() && !System.isScheduled() && !System.isQueueable()){
+         updateBillingAccount(accountIDs,zuoraCustomerAccountIDSet);
+        
 		//TriggerHandler.clearBypass('AccountTriggerHandler');	
   	  }
   	 }
+  	 @future(callout=true)
+      public static void updateBillingAccount(Set<Id> accId, Set<ID> zuoraCustomerAccountIDSet){
+       List<Account> listAccounts=[Select Id,BillingAccountNumber_s__c,(Select Id,Zuora__AccountNumber__c From Zuora__R00N40000001kyLcEAI__r where id in : zuoraCustomerAccountIDSet) 
+    											From Account Where Id=:accId AND ActiveCustomer__c=true];
+    	  system.debug('listAccounts======='+listAccounts);
+  	   for(Account acc : listAccounts){
+  	    	 for(Zuora__CustomerAccount__c zCA:acc.Zuora__R00N40000001kyLcEAI__r){
+  	    	  if(String.isBlank(acc.BillingAccountNumber_s__c)){
+  	    	  		acc.BillingAccountNumber_s__c='';
+  	    	  }
+  	    	  if(String.isNotBlank(zCA.Zuora__AccountNumber__c) &&!acc.BillingAccountNumber_s__c.containsIgnoreCase(zCA.Zuora__AccountNumber__c))
+  	 	  {
+  	 	     if(String.isNotBlank(acc.BillingAccountNumber_s__c)){
+  	 	     		acc.BillingAccountNumber_s__c+=';';
+  	 	     }
+  	         acc.BillingAccountNumber_s__c += zCA.Zuora__AccountNumber__c;
+  	      }
+  	     }
+       }
+          //by pass account trigger 
+        if(!Test.isRunningTest()){
+		TriggerHandler.bypass('AccountTriggerHandler');
+		TriggerHandler.bypass('ZuoraCustomerAccountTriggerHandler');	
+        } 
+        Database.SaveResult[] dsrList=Database.update(listAccounts,false);
+		Utility.createApexLog('ZuoraCustomerAccountTriggerHandler', dsrList,true);
+      }
 }

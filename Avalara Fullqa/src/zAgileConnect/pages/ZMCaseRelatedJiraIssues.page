@@ -1,0 +1,198 @@
+<apex:page docType="html-5.0" showHeader="false" sidebar="false" standardStylesheets="false"
+           standardcontroller="Case" extensions="zsfjira.ZCaseJiraController" >
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__bootstrap, 'bootstrap-3.2.0-dist/css/bootstrap.min.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__bootstrap, 'bootstrap-3.2.0-dist/css/bootstrap-theme.min.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__bootstrap, 'bootstrap-3.2.0-dist/js/bootstrap.min.js')}"/>    
+    <body onresize = "postSize();">
+        <div style="" id='content'>
+            <apex:form >
+                <apex:outputPanel rendered="{!NOT(hasReadOnlyAccessCurrentUser)}">
+                    <div class= "container"  align="center" >
+                        <div class="input-group">
+                            <input id ='issueText' class="form-control" 
+                                   placeholder="Enter JIRA Issue Key"
+                                   onkeydown="if (event.keyCode == 13) {linkSelectedIssues();return false;}"/>		
+                            <div class="input-group-btn">                            
+                                <input type="button" class="btn btn-primary dropdown-toggle" value="Link Existing"
+                                       onclick="linkSelectedIssues();" />
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                </apex:outputPanel>                    
+                <apex:outputPanel id="related-entity-issues">
+                    <div id="relatedIssuesPanel" class= "container" >                    
+                        <apex:repeat value="{!RelatedIssues}" var="issueSelection">
+                            <div class="col-md-4" id ="{!issueSelection.issue.key}" >
+                                <div class="well well-sm">
+                                    <apex:outputPanel >
+                                        <h4>
+                                            <apex:outputPanel rendered="{!isPossibleRenderTypeIcon}">
+                                                <img height="16" width="16" type="typeIcon" src="{!issueSelection.typeUrl}"
+                                                     onerror="jQuery(this).hide();"/>
+                                            </apex:outputPanel> 
+                                            <apex:outputPanel rendered="{!NOT(isPossibleRenderTypeIcon)}">
+                                                <span class="glyphicon glyphicon-align-justify" style=""></span>
+                                            </apex:outputPanel>
+                                            <a style="color:#000000" onclick="redirectToIssueDetails('{!JSENCODE(issueSelection.issue.key)}');">
+                                                {!issueSelection.issue.key}
+                                            </a>
+                                        </h4>
+                                        <apex:repeat value="{!gridTitles}" var="field">
+                                            <apex:outputPanel rendered="{!field=='Summary'}">
+                                                <h6>
+                                                    <b>{!field}:</b><br/>
+                                                    <p style="display: inline;font-size:12px;" type='summary'>
+                                                        {!gridTitlesValues[issueSelection.issue.key][field]}
+                                                    </p>
+                                                </h6>
+                                            </apex:outputPanel>
+                                            <apex:outputPanel rendered="{!field!='Summary'}">
+                                                <h6>
+                                                    <b>{!field}:</b>
+                                                    {!gridTitlesValues[issueSelection.issue.key][field]}
+                                                    <br/>
+                                                </h6>
+                                            </apex:outputPanel>
+                                        </apex:repeat>
+                                    </apex:outputPanel>    
+                                    <apex:outputPanel rendered="{!NOT(hasReadOnlyAccessCurrentUser)}">
+                                        <a class="btn-primary btn-sm"
+                                           onclick="redirectToEditIssue('{!JSENCODE(issueSelection.issue.key)}');"
+                                           role="button">Edit</a>                                    
+                                        <a class="btn-primary btn-sm"
+                                           href=""
+                                           id="unlink_{!issueSelection.issue.key}"
+                                           onclick="showLoading('{!JSENCODE(issueSelection.issue.key)}');funcUnlinkSelectedIssues('{!JSENCODE(issueSelection.issue.key)}');"
+                                           role="button">Unlink</a>
+                                        <a class="btn-primary btn-sm"
+                                           href=""
+                                           onclick="if(confirm('This action will delete the selected issue in JIRA.  Are you sure you want continue?')){showLoading('{!JSENCODE(issueSelection.issue.key)}');funcRemoveSelectedIssues('{!JSENCODE(issueSelection.issue.key)}');}"
+                                           role="button">Delete</a>
+                                    </apex:outputPanel>
+                                </div>
+                                <div id= "load_{!issueSelection.issue.key}"/>
+                            </div>
+                        </apex:repeat>                                        
+                    </div>
+                </apex:outputPanel>
+                <apex:actionFunction name="funcUnlinkSelectedIssues" action="{!unlinkSelectedIssuesM}" oncomplete="fadeOut('{!JSENCODE(mobileMessage)}','{!JSENCODE(selectedIssueKey)}');" reRender="">
+                    <apex:param name="pIssueToUnlink" assignTo="{!selectedIssueKey}" value="" />
+                </apex:actionFunction>
+                <apex:actionFunction name="funcRemoveSelectedIssues" action="{!removeSelectedIssuesM}" oncomplete="fadeOut('{!JSENCODE(mobileMessage)}','{!JSENCODE(selectedIssueKey)}');" reRender="">
+                    <apex:param name="pIssueToRemove" assignTo="{!selectedIssueKey}" value="" />
+                </apex:actionFunction>
+                <apex:actionFunction name="funcLinkSelectedIssues" 
+                                     action="{!linkSelectedIssues}"
+                                     oncomplete="analyzeResult('{!mobileMessage}');funcReloadRelatedIssues();">
+                    <apex:param name="pIssueToLink" assignTo="{!selectedIssueKey}" value="" />
+                </apex:actionFunction>
+                
+                <apex:actionFunction name="funcReloadRelatedIssues" action="{!reloadRelatedIssues}"
+                                     reRender="related-entity-issues"
+                                     oncomplete="postSize();adjustTextWidth();" />
+            </apex:form>
+        </div>
+    </body>
+
+    <script>
+    $j = jQuery.noConflict();    
+    $j(document).ready(
+        function() {            
+            adjustTextWidth();
+            postSize();
+        }        
+    );    
+    function adjustTextWidth(){
+        var count=1;
+        var summary;
+        if (count > 0){
+            //var mxLen = Math.round(prom/count)-8;
+            var mxLen = 50;
+            $j("p[type='summary']").each(function(i){
+                if($j(this).is(":visible")){
+                    summary = $j(this).text();
+                    summary = summary.trim();
+                    if (summary.length>mxLen){
+                        summary = summary.substr(0,(mxLen-3))+'...';
+                        $j(this).text(summary);
+                    }
+                }
+            });
+        }
+    }
+    function linkSelectedIssues(){        
+        var issueKey= $j('#issueText').val();
+        issueKey = issueKey.trim();
+        postToParent("LOADING");
+        postToParent("FADE");
+        funcLinkSelectedIssues(issueKey);
+    }    
+    function analyzeResult(message){
+        postToParent("NOFADE");
+        postToParent("FINISH");
+        var title = 'ERROR';
+        if (message == ''){
+            title = 'SUCCESS';
+            message = 'JIRA Issue linked successfully';
+        }
+        postToParent("MODAL_"+title+"_"+message);        
+    }
+    
+    function showLoading(issueToHide){
+        $j('#load_'+issueToHide).attr('style','background: url({!$Resource.zsfjira__loader}) no-repeat center;width: 100%;height: 100%;position: absolute;top: 0;left: 0;z-index: 10;');
+    }
+    function fadeOut(message,issueToHide){
+        if (message == ''){
+            $j('#'+issueToHide).hide("fast", function(){});
+            postSize();
+        }
+        else{
+            $j('#load_'+issueToHide).attr('style','');
+            postModal('ERROR',message);
+        }
+    }
+    //UNUSED FUNCTION
+    function redirectToIssueDetails(issueKey){
+        postLoading();
+        $j('#content').hide("fast", function(){});
+        var vf = 'ZIssueDetailsM'
+        //var prefix = 'zsfjira';
+        var source = '/apex/' + vf + '?issueKey=' + issueKey;
+        window.location.replace(source);
+    }
+    //UNUSED FUNCTION
+    function redirectToEditIssue(issueKey){
+        $j('#content').hide("fast", function(){});
+        //postToParent("IFRAME_SIZE_"+200);
+        postLoading();
+        var vf = 'ZCreateOrEditIssueM'
+        //var prefix = 'zsfjira';
+        var source = '/apex/' + vf + '?issueKey=' + issueKey;
+        window.location.replace(source);
+    }    
+    function postSize(){
+        height = document.getElementById('content').clientHeight;
+        postToParent("IFRAME_SIZE_"+height);
+    }
+    function postLoading(){
+        postToParent("LOADING");
+    }
+    function postModal(title,message){
+        postToParent("MODAL_"+title+"_"+message);
+    }
+    function postToParent(message){        
+        var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
+        if(typeof target != "undefined"){
+            target.postMessage(message, "*");            
+        }
+    }
+    function postListener(e){
+        if(e.data.indexOf("REMOVE_CONTENT") == 0){
+            $j('#content').hide("fast", function(){});
+        }
+    }
+    window.addEventListener("message", postListener, false);
+    </script>
+</apex:page>

@@ -1,0 +1,6 @@
+<apex:page setup="true">
+    <apex:sectionHeader subtitle="Insufficient Privileges"/>
+    <p>
+        Only users with “Modify All Data” permission can access this zAgileConnect Administration Page. 
+    </p>
+</apex:page>

@@ -12,10 +12,18 @@
         .rolodex a.listItemPad { padding: 0 5px; }
         div.message { margin-bottom: 20px; }
     </style>
-	
+
+    <!-- isolate Lightning CSS adjustments -->
+    <apex:outputPanel layout="none" rendered="{!$User.UITheme == 'Theme4d'}">
+        <style>
+            .helpButton .helpOrb { background-image: url("/img/help/helpOrbs.gif"); background-repeat: no-repeat; height: 15px; width: 15px; background-position: 0 0; margin-right: -7px; }
+            .helpButtonOn .helpOrb { background-image: url("/img/help/helpOrbs.gif"); background-repeat: no-repeat; height: 15px; width: 15px; background-position: -21px 0; margin-right: -7px; }
+        </style>
+    </apex:outputPanel>
+
 	<!-- jQuery -->
-	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/jquery-1.8.3.min.js')}" /> <!-- core jQuery -->
-	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/ui/js/jquery-ui-1.9.2.custom.min.js')}" /> <!-- jQuery UI -->
+	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/jquery-3.3.1.min.js')}" /> <!-- core jQuery -->
+	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/ui/js/jquery-ui-1.12.1.min.js')}" /> <!-- jQuery UI -->
 		
 	<!-- Include the Geopointe functions -->
 	<apex:includeScript value="{!$Resource.geopointe__GeopointeJS}" />
@@ -62,7 +70,7 @@
                 <!-- Organization Preferences -->
                 <apex:outputPanel >
                 <apex:pageBlock title="Organization Settings" helpTitle="Learn more about Organization Settings" helpUrl="http://help.geopointe.com/customer/portal/articles/1811025-organization-settings">
-                    <apex:pageBlockButtons location="top">
+                    <apex:pageBlockButtons location="top" id="OrgSettingTopButtons" styleClass="pbButtonWalkme">
                         <apex:commandButton action="{!goToEditOrgSettings}" value="Edit"/>
                         
                         <apex:commandButton action="{!updatePermissions}" value="Get License Information" rerender="pageMessages" 
@@ -159,6 +167,15 @@
                             <apex:outputLabel value="Pulse Reference Timezone"/>
                             <apex:outputLabel value="{!orgSettings.settings2.geopointe__Pulse_Timezone__c}"/>
                         </apex:pageBlockSectionItem>
+						<apex:pageBlockSectionItem rendered="{!orgSettings.settings2.geopointe__Perm_HiPer_Assignment_Plans__c}">
+							<apex:outputLabel value="High Performance Assignment Plans"/>
+							<apex:outputPanel id="hiPerAssignmentPlanButtons">
+								<apex:outputField value="{!orgSettings.settings2.geopointe__HiPer_Assignment_Plans_Enabled__c}"/>
+								&nbsp;&nbsp;&nbsp;
+								<apex:commandButton action="{!goToEnableHiPerAssignmentPlans}" value="Enable High Performance Assignment Plans" rendered="{!NOT(orgSettings.settings2.geopointe__HiPer_Assignment_Plans_Enabled__c)}"/>
+								<apex:commandButton action="{!disableHiPerAssignmentPlans}" value="Disable High Performance Assignment Plans" rendered="{!orgSettings.settings2.geopointe__HiPer_Assignment_Plans_Enabled__c}" reRender="hiPerAssignmentPlanButtons, batchjob_schedules"/>
+							</apex:outputPanel>
+						</apex:pageBlockSectionItem>
                     </apex:pageBlockSection>
                     <apex:pageBlockSection title="Check-In / Check-Out Preferences">
                         <apex:outputField value="{!orgSettings.settings.geopointe__Check_In_Creates_Task__c}"/>
@@ -330,7 +347,7 @@
         <!-- Map Objects -->
         <apex:pageBlock title="Map Objects" id="MapObjects" helpTitle="Learn more about Map Objects" helpUrl="http://help.geopointe.com/customer/portal/articles/1811024-map-objects">
             
-            <apex:pageBlockButtons location="top">
+            <apex:pageBlockButtons location="top" id="MapObjectTopButtons">
                 <apex:commandButton value="New Map Object" action="{!object_new}"/>
             </apex:pageBlockButtons>
 
@@ -424,7 +441,7 @@
                 
                 <apex:column headerValue="Last Geocode" value=" {!umo.mo.LastGeocodeBatchRun}" rendered="{!NOT(umo.mo.IsReferenceMapObject)}"/>
                                 
-                <apex:column headerValue="Batch Geocode" rendered="{!AND(NOT(umo.mo.IsReferenceMapObject), NOT(umo.mo.isExternalObject))}">
+                <apex:column headerValue="Batch Geocode" rendered="{!AND(AND(NOT(umo.mo.IsReferenceMapObject), NOT(umo.mo.isExternalObject)), NOT(umo.mo.UsesSalesforceGeocodes))}">
                     <apex:outputPanel rendered="{!umo.mo.isActive}">
                         <apex:commandLink value="All" action="{!runBatchGeocode}">
                             <apex:param name="sobj_batchGeo_All_MO" value="{!umo.mo.Name}" assignTo="{!mapObjectForGeocoding}"/>
@@ -864,6 +881,10 @@
                     <apex:image url="{!URLFOR($Resource.geopointe__images, '/checkbox_checked.gif')}" rendered="{! ap.ReassignOwner }" />
                     <apex:image url="{!URLFOR($Resource.geopointe__images, '/checkbox_unchecked.gif')}" rendered="{! NOT(ap.ReassignOwner) }" />
                 </apex:column>
+                <apex:column headerValue="High Performance" rendered="{!orgSettings.settings2.geopointe__HiPer_Assignment_Plans_Enabled__c}">
+                    <apex:image url="{!URLFOR($Resource.geopointe__images, '/checkbox_checked.gif')}" rendered="{! ap.HighPerformance }" />
+                    <apex:image url="{!URLFOR($Resource.geopointe__images, '/checkbox_unchecked.gif')}" rendered="{! NOT(ap.HighPerformance) }" />
+                </apex:column>
                 <apex:column headerValue="Custom Assignment Field" value="{!ap.CustomAssignmentFieldLabel}"/>
                 <apex:column headerValue="Custom Assignment Object" value="{!ap.CustomAssignmentObjectLabel}"/>
                 <apex:column headerValue="Description" value="{!ap.Description}"/>
@@ -897,7 +918,7 @@
                 <apex:pageblockTable value="{!schedules}" var="s" rowClasses="odd,even" styleClass="sortable">
                     <apex:column headerValue="Action" style="font-weight:bold;" width="270px">
                         
-                        <apex:commandLink rendered="{!NOT(s.isScheduled) && s.scheduleName != 'Geopointe Thematic Map Sync' && s.scheduleName != 'Geopointe Assignment Plans'}" 
+                        <apex:commandLink rendered="{!NOT(s.isScheduled) && s.scheduleName != 'Geopointe Thematic Map Sync' && s.scheduleName != 'Geopointe Assignment Plans' && s.scheduleName != 'Geopointe High Performance Assignment Plans' && s.scheduleName != 'Geopointe Route Planner'}" 
                         value="Schedule {!s.scheduleShortName}" action="{!rescheduleApexJob}" rerender="scheduledJobsPageBlock, pageMessages" 
                         onclick="geopointeAjaxStart('body','Scheduling Job...');" oncomplete="geopointeAjaxEnd();">
                             <apex:param value="{!s.scheduleName}" assignTo="{!jobName}" name="jobName"/> 
@@ -916,6 +937,17 @@
                                 <apex:param value="h" assignTo="{!jobFreq}" name="jobFreqWeekly"/> 
                             </apex:commandLink>
                         </apex:outputPanel>
+
+						<apex:outputPanel rendered="{!s.scheduleName == 'Geopointe High Performance Assignment Plans' && NOT(s.isScheduled)}">
+							<apex:commandLink value="Schedule High Performance AP" action="{!rescheduleApexJob}" rerender="scheduledJobsPageBlock, pageMessages" 
+							onclick="geopointeAjaxStart('body','Scheduling Job...');" oncomplete="geopointeAjaxEnd();">
+								<apex:param value="{!s.scheduleName}" assignTo="{!jobName}" name="jobName"/> 
+							</apex:commandLink>
+							&nbsp;&nbsp;
+							<apex:selectList value="{!jobFreqSelect}" size="1">
+								<apex:selectOptions value="{!scheduleOptions}" />
+							</apex:selectList>
+						</apex:outputPanel>
 
                         <apex:outputPanel rendered="{!s.scheduleName == 'Geopointe Thematic Map Sync' && orgSettings.settings.geopointe__Thematic_Maps_Enabled__c && NOT(s.isScheduled)}">
                             <apex:commandLink value="Schedule Sync Weekly" action="{!rescheduleApexJob}" rerender="scheduledJobsPageBlock, pageMessages" 
@@ -949,6 +981,13 @@
                         </apex:commandLink>
                         </apex:outputPanel>
                             
+                        <apex:outputPanel rendered="{!s.scheduleName == 'Geopointe Route Planner'}">
+                            <apex:commandLink value="Run Cleanup" action="{!runCleanupJob}" rerender="scheduledJobsPageBlock" 
+                            onclick="geopointeAjaxStart('body','Starting Cleanup...');" oncomplete="geopointeAjaxEnd();">
+                                <apex:param value="{!s.scheduleName}" assignTo="{!jobName}" name="jobName"/> 
+                            </apex:commandLink>
+                        </apex:outputPanel>
+
                     </apex:column>
                     <apex:column headerValue="Job Name" value="{!s.scheduleName}"/>
                     <apex:column headerValue="Job Description" width="37%" value="{!s.scheduleDescription}"/>
@@ -1188,9 +1227,7 @@
 <apex:outputPanel id="dummyPanel"/>
 
 <apex:form >
-    <!--Action function that gets called on page load to assign admin perm set to user view this page-->
-    <apex:actionFunction name="assignAdminPermSet" action="{!assignAdminPermSet}" rerender="dummyPanel"/>
-
+  
     <!--Action function that updates acton order -->
     <apex:actionFunction name="updateActionOrder" action="{!updateActionOrder}" rerender="dummyPanel">
         <apex:param name="actionJSON" assignTo="{!actionJSON}" value=""/>
@@ -1246,7 +1283,6 @@
         jQuery("table[id$='listActionsTable'] tr.last").removeClass('last');
 
         //Assign Geopointe Admin Permission set
-        assignAdminPermSet();
         updateOrgSettings();
 	});
 

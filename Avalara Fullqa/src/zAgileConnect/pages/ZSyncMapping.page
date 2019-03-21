@@ -1,0 +1,578 @@
+<apex:page action="{!if(!isSysAdmin,urlFor('/apex/zsfjira__ZInsufficientPriv'), null)}"
+           controller="zsfjira.ZSyncMappingController" setup="true" >
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__SLDS103, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-ui-1.10.3.custom.min.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__jQuery, '/css/redmond/jquery-ui-1.10.3.custom.min.css')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'scripts/vendor.js')}" /> 
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'scripts/app.js')}" />                 
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'styles/vendor.css')}"/> 
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'styles/app.css')}"/>
+    <script>
+    Visualforce.remoting.timeout = 120000;
+    </script>    
+    <style type="text/css">        
+        @-moz-document url-prefix() {
+        select, select:-moz-focusring, select::-moz-focus-inner {
+        color: transparent !important;
+        text-shadow: 0 0 0 #000 !important;
+        background-image: none !important;
+        border:0;
+        }
+        }        
+        .divline{        
+        height: 1px;
+        background: #CFD7E6;
+        margin-top:1%;                  
+        }        
+        .aRow {
+        margin: 1% 1% 1% 1%;
+        }
+        .select2-choices {
+        position: relative;
+        }
+        .ui-select-multiple input.ui-select-search {
+        width: 100% !important;
+        position: absolute;
+        }
+        .slds-select{
+        min-width: 100px;
+        }
+        
+        div.loader:after{
+        background-image: url({!$Resource.loader});
+        background-size: 24px 24px;
+        display: inline-block;
+        width: 24px; 
+        height: 24px;
+        content:"";
+        }
+        div.loader{
+        display: inline-block;
+        }
+    </style>    
+    <div class ="slds" ng-app="src">
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <p class="slds-text-body--small">Sync Mapped Fields</p>
+                    <div class="slds-grid">
+                        <div class="slds-grid slds-type-focus slds-no-space">
+                            <h1 class="slds-text-heading--medium slds-truncate" title="Settings">Refresh mapped Salesforce fields in related JIRA issues</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-text-body--regular slds-m-vertical--medium">
+        This section synchronizes Issue fields in JIRA with Salesforce Case properties for Issues created from the Case.
+        </div>
+        <div ng-controller="ZSyncMappingController as vm">            
+            <div ng-show="vm.isShowing.step1" class="ng-hide">                
+                <div class="slds-grid slds-wrap slds-col--padded-large slds-size--5-of-6">                                                            
+                    <div class="slds-card slds-m-around--large slds-col" style="margin-top: 5px;">
+                        <div class="slds-card__header slds-grid grid--flex-spread">
+                            <h2 class="slds-text-heading--small slds-truncate">Selection Criteria</h2>
+                        </div>
+                        <div class="divline"> </div>
+                        <div class="slds-card__body slds-p-horizontal--small">                                                
+
+                        </div>                        
+                        <table border="0" cellspacing="0" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th class="slds-text-align--center">Field</th>
+                                    <th class="slds-text-align--center">Operator</th>
+                                    <th class="slds-text-align--center">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>                                
+                                <tr ng-repeat="field in vm.criteriaFieldsSelected track by $index">
+                                    <td>
+                                        <div class="slds-form-element__control slds-m-around--x-small">
+                                            <div class="slds-select_container">
+                                                <select id="col{{$index}}"
+                                                        class="slds-select"
+                                                        ng-options="option.label for option in vm.fieldOptions | orderBy:'label'"
+                                                        ng-model="field.fieldObj"
+                                                        ng-change="vm.updateOperator(field)">
+                                                </select>
+                                            </div>
+                                        </div>                                                                                                                                
+                                    </td>
+                                    <td>
+                                        <div class="slds-form-element__control slds-m-around--x-small">
+                                            <div class="slds-select_container">
+                                                <select id="op{{$index}}" class="slds-select"
+                                                        ng-options="operator.op as operator.label for operator in field.operatorOptions" ng-model="field.op">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-form-element__control slds-m-around--x-small">
+                                            <input type="text" class="slds-input" ng-model="field.value"/>
+                                        </div>                                                                
+                                    </td>
+                                    <td ng-hide="$last || vm.hideAutoCreate($first)">
+                                        <div class="slds-form-element__label slds-m-around--medium">AND</div>
+                                    </td>
+                                </tr>                                                                                                                
+                            </tbody>
+                        </table>
+                        <span class="filterHint">Filter By Additional Fields (Optional):</span>
+                        <ul class="slds-list--dotted">                                                                                        
+                            <li>You can use "or" filters by entering multiple items in the ‘Value’ column, separated by commas.</li>
+                        </ul>                        
+                    </div>
+                </div>
+                <div class="slds-text-align--center">
+                    <input class="slds-button slds-button--brand"
+                           ng-disabled="vm.btnQuickCountDisabled"
+                           ng-click="vm.initialCount()" id="quickButton"
+                           type="button" value="Next"/>
+                    <input type="button" ng-click="vm.returnClicked()" value="Return"
+                           class="slds-button slds-button--brand"/>
+                </div>
+            </div>
+            <div ng-show="vm.isShowing.step2" class="ng-hide">                    
+                <div class="slds-grid slds-wrap slds-col--padded-large slds-size--5-of-6">
+                    <div class="slds-card slds-m-around--large slds-col" style="margin-top: 5px;">
+                        <div class="slds-card__header slds-grid grid--flex-spread">
+                            <h2 class="slds-text-heading--small slds-truncate">Confirmation</h2>
+                        </div>
+                        <div class="divline"> </div>
+                        <div class="slds-card__body slds-p-horizontal--small">  
+                            <div ng-style="vm.st2ResultStyle"
+                                 ng-bind-html="vm.st2Result"></div>                                                        
+                        </div>
+                    </div>                    
+                </div>
+                <div class="slds-text-align--center">
+                    <input ng-click="vm.previous()" id="prevButton" 
+                           type="button" value="Previous" class="slds-button slds-button--brand"/>
+                    <input ng-disabled="vm.disabledSync" ng-click="vm.sync()" id="syncButton" 
+                           type="button" value="Confirm" class="slds-button slds-button--brand"/>
+                    <input ng-click="vm.returnClicked()" value="Return"
+                           type="button" class="slds-button slds-button--brand"/>
+                </div>
+            </div>
+            <br/>
+            <div class="slds-grid ng-hide" ng-show="vm.isShowing.alert">
+                <div class="slds-col slds-box slds-box--small slds-theme--info">
+                    <p ng-bind-html="vm.alertMessage" style="display: inline;"> </p>
+                    <div ng-show="vm.isShowing.percentage" ng-bind-html="vm.percentage" style="display: inline;float: right;">0%</div>
+                    <div ng-show="vm.isShowing.statusProgress" id="zUpStatusProgress"></div>
+                    <div ng-show="vm.isShowing.progressDetails" ng-bind-html="vm.progressDetails"></div>
+                </div>
+            </div>            
+            <div class="slds-grid ng-hide"  ng-show="vm.isShowing.warning">
+                <div class="slds-col slds-box slds-box--small slds-theme--warning">
+                    <p ng-bind-html="vm.warningMessage"></p>
+                </div> 
+            </div>
+            <div class="slds-grid ng-hide"  ng-show="vm.isShowing.error">
+                <div class="slds-col slds-box slds-box--small slds-theme--error">
+                    <p ng-bind-html="vm.errorMessage"></p>
+                </div> 
+            </div>
+            <div style="width: 100%;" align='center' class="loader ng-hide" ng-show="vm.isShowing.loader"></div>
+            <br/><br/>
+            <div align='center' class="ng-hide" ng-show="vm.isShowing.btnReturnAux">
+                <input type="button" ng-click="vm.returnClicked()" value="Return"
+                       class="slds-button slds-button--brand"/>
+            </div>
+        </div>
+    </div>    
+    <script type="text/javascript">
+    var srcApp =  angular.module("src");    
+    srcApp.constant("resourceRoot","{!URLFOR($Resource.SLDS103,'')}");    
+    srcApp.controller("ZSyncMappingController",ZSyncMappingController);    
+    ZSyncMappingController.$inject = ["dataService","$filter","$timeout","$window","$scope"];    
+    function ZSyncMappingController(dataService,$filter,$timeout,$window,$scope) {
+        var vm = this;
+        
+        vm.initialCountMeta = null;          
+        vm.disabledFields = ["IsDeleted"];
+        
+        vm.createCaseAdmisibleTypes = ["DATETIME","DATE","STRING","PICKLIST","EMAIL",
+                                       "TEXTAREA","URL","PHONE","BOOLEAN","DOUBLE"];
+        vm.createCaseMeta = {};
+        
+        vm.fieldOptions = [{name:"",label:"--None--",type:""}];
+        vm.criteriaFieldsSelected = [
+            {fieldObj:vm.fieldOptions[0], operatorOptions:[{op:"",label: "--None--"}],op:"", value:""},
+            {fieldObj:vm.fieldOptions[0], operatorOptions:[{op:"",label: "--None--"}],op:"", value:""},
+            {fieldObj:vm.fieldOptions[0], operatorOptions:[{op:"",label: "--None--"}] ,op:"", value:""},
+            {fieldObj:vm.fieldOptions[0], operatorOptions:[{op:"",label: "--None--"}],op:"", value:""},
+            {fieldObj:vm.fieldOptions[0], operatorOptions:[{op:"",label: "--None--"}],op:"", value:""}            
+        ];        
+        vm.isShowing = {
+            warning: false,
+            error: false,
+            step1: false,
+            step2: false,
+            alert: true,
+            loader: false,
+            btnReturnAux: false,
+            percentage: false,
+            statusProgress: false,
+            progressDetails: false
+        };                       
+        
+        vm.warningMessage = "";
+        vm.errorMessage = "";
+        vm.alertMessage = "Retrieving Information...";
+        
+        vm.getProcessInfo = getProcessInfo;
+        vm.returnClicked = returnClicked;
+        vm.updateOperator = updateOperator;
+        vm.initialCount = initialCount;
+        vm.previous = previous;
+        vm.sync = sync;
+        
+        jQuery("#zUpStatusProgress").progressbar({
+            value: 0
+        });        
+        jQuery("#zUpStatusProgress").height(15);
+        
+        activate();       
+        function activate() {
+            return getCaseCreateMeta().then(getProcessInfo(false,true));
+        }        
+        function getCaseCreateMeta() {
+            return dataService.getCaseCreateMeta().then(function(data) {
+                vm.createCaseMeta = data;
+                $window.console.log('vm.createCaseMeta',vm.createCaseMeta);                
+                var fieldList = data.fields;
+                var admisibleFields = fieldList.filter(function(field){
+                    return vm.disabledFields.indexOf(field.name)==-1 &&
+                        vm.createCaseAdmisibleTypes.indexOf(field.type) != -1;
+                });
+                if(data.hasRecordType){
+                    admisibleFields.push(
+                        {
+                            "label":"Record Type",
+                            "name":"RecordTypeId",
+                            "type":"RECORDTYPE"
+                        }
+                    );
+                }
+                vm.fieldOptions = vm.fieldOptions.concat(admisibleFields);
+                vm.fieldOptions.forEach(function (element, index) {
+                    if(element.label){
+                        vm.fieldOptions[index].label =htmlDecode(element.label);
+                    }
+                });
+            }).catch(function(data){
+                
+            });
+        }
+        function getProcessInfo(showLoading,renderStep1) {
+            if(showLoading){
+                noMessage();                
+                vm.alertMessage = "Retrieving Information...";
+                vm.isShowing.alert = true;
+            }             
+            return dataService.getProcessInfo().then(function(result){
+                $window.console.log('getProcessInfo',result);                
+                
+                noMessage();
+                var resultMessage = result.message;
+                resultMessage = resultMessage.replace(/\n/g,'<br/>');
+                if(result.typeMessage == 'W'){
+                    vm.warningMessage = resultMessage;
+                    vm.isShowing.warning = true;
+                }else if(result.typeMessage == 'E'){
+                    vm.errorMessage = resultMessage;
+                    vm.isShowing.error = true;
+                }else if(result.typeMessage == 'I'){
+                    vm.alertMessage = resultMessage;
+                    vm.isShowing.alert = true;
+                }
+                if(result.allowSync){
+                    vm.btnQuickCountDisabled = false;
+                    if(renderStep1){
+                        vm.isShowing.step1 = true;
+                    }
+                }                    
+                if(result.inProgress){
+                    vm.isShowing.loader = true;
+                    vm.isShowing.btnReturnAux = true;
+                    if(result.progressResult){
+                        vm.isShowing.statusProgress = true;
+                        vm.isShowing.percentage = true;
+                        vm.isShowing.progressDetails= true;
+                        
+                        jQuery("#zUpStatusProgress").progressbar({
+                            value: (result.progressResult.jobItemsProcessed*100)/result.progressResult.totalJobItems
+                        });
+                        vm.percentage = Math.round((result.progressResult.jobItemsProcessed*100)/result.progressResult.totalJobItems)+'%';
+                        vm.progressDetails = 'Processing Batch...'+result.progressResult.jobItemsProcessed+'/'+
+                            result.progressResult.totalJobItems;
+                        vm.progressDetails += '<br/>Processing Issue...'+result.progressResult.totalProcessed+
+                            '/'+result.progressResult.total;
+                    }else{
+                        vm.isShowing.statusProgress = false;
+                        vm.percentage = '';
+                        vm.progressDetails = '';
+                    }
+                    $timeout(function() {vm.getProcessInfo(false,true);}, 5000); 
+                }else{
+                    vm.isShowing.loader = false;
+                    vm.isShowing.btnReturnAux = false;
+                    vm.isShowing.statusProgress = false;                    
+                    vm.isShowing.percentage= false;
+                    vm.isShowing.progressDetails= false;
+                }
+            }).catch(function(data){
+                noMessage();
+            });
+        }    
+        function htmlDecode(value) {
+            return angular.element('<textarea />').html(value).text();
+        }        
+        function returnClicked() {
+            var settingsPage ='/apex/zsfjira__zAgile_Settings';
+            if (typeof sforce != 'undefined' && sforce && sforce.one) {
+                sforce.one.back(false);
+            }else{
+                $window.location.replace(settingsPage);
+            }
+        }        
+        function noMessage(){
+            vm.isShowing.warning= false;
+            vm.isShowing.error= false;
+            vm.isShowing.alert= false;
+        }
+        function updateOperator(fieldEntry) {                                       
+            function standardFieldOperators () {
+                var operators = [
+                    {op:"",label: "--None--"},
+                    {op:"e", label:'equals'},
+                    {op:"n", label:'not equal to'},
+                    {op:"l", label:'less than'},
+                    {op:"g", label:'greater than'},
+                    {op:"m", label:'less or equal'},
+                    {op:"h", label:'greater or equal'},
+                    {op:"c", label:'contains'},
+                    {op:"k", label:'does not contain'},
+                    {op:"s", label:'starts'}
+                ];
+                return operators;
+            }            
+            function binaryFieldOperators () {
+                var operators = [
+                    {op:"",label: "--None--"},
+                    {op:"e",label:'equals'},
+                    {op:"n",label:'not equal to'}
+                ];                
+                return operators;
+            }
+            function numericFieldOperators () {
+                var operators = [
+                    {op:"",label: "--None--"},
+                    {op:"e",label:'equals'},
+                    {op:"n",label:'not equal to'},
+                    {op:"l",label:'less than'},
+                    {op:"g",label:'greater than'},
+                    {op:"m",label:'less or equal'},
+                    {op:"h",label:'greater or equal'}
+                ];                
+                return operators;
+            }
+            function emptyOperators () {
+                var operators = [
+                    {op:"",label: "--None--"}
+                ];                
+                return operators;
+            }
+            var fieldTypes = {
+                "EMPTY":emptyOperators,
+                
+                "PICKLIST": standardFieldOperators,
+                "EMAIL": standardFieldOperators, 
+                "TEXTAREA": standardFieldOperators,
+                "URL": standardFieldOperators,                
+                "PHONE": standardFieldOperators,
+                "STRING": standardFieldOperators,
+                
+                "BOOLEAN": binaryFieldOperators,
+                
+                "RECORDTYPE": binaryFieldOperators,
+                
+                "DATE": numericFieldOperators,
+                "DATETIME": numericFieldOperators,
+                "DOUBLE": numericFieldOperators
+            };            
+            var fieldObj = fieldEntry.fieldObj;            
+            fieldEntry.operatorOptions = fieldTypes[fieldObj.type!=''?fieldObj.type:'EMPTY']();
+            
+            var containsSelectedElement = false;
+            fieldEntry.operatorOptions.forEach(function (element, index) {
+                if(element.op == fieldEntry.op){
+                    containsSelectedElement = true;
+                }
+            });
+            if(!containsSelectedElement){
+                fieldEntry.op='';
+            }
+        }
+        function previous(){
+            vm.isShowing.step2 = false;
+            vm.isShowing.step1 = true;
+            vm.btnQuickCountDisabled = false;
+        }
+        function initialCount(){
+            noMessage();
+            var selectedCriteria = vm.criteriaFieldsSelected.filter(function(element){
+                return element.fieldObj.name!='' && element.op!='' && element.value!='';
+            });            
+            var selectedCriteriaParsed =[];
+            selectedCriteria.forEach(function (element, index) {
+                if(element.fieldObj.name!='RecordTypeId'){
+                    selectedCriteriaParsed.push({
+                        name:element.fieldObj.name,
+                        type:element.fieldObj.type,
+                        op:element.op,
+                        value:element.value
+                    });
+                }else{
+                    var recTypesNames = element.value.split(',');
+                    var recTypesIds = [];
+                    for(var idx = 0;idx<recTypesNames.length;idx++){
+                        for(var jdx=0;jdx<vm.createCaseMeta.recordTypes.length;jdx++){
+                            if(recTypesNames[idx]==vm.createCaseMeta.recordTypes[jdx].name){
+                                recTypesIds.push(vm.createCaseMeta.recordTypes[jdx].id);
+                            }
+                        }
+                    }
+                    if(recTypesIds.length>0){
+                        var recTypesString = recTypesIds.reduce(
+                            function (previousValue, currentValue) {
+                                return previousValue + "," + currentValue;
+                            }
+                        );                    
+                        selectedCriteriaParsed.push({
+                            name:element.fieldObj.name,
+                            type:element.fieldObj.type,
+                            op:element.op,
+                            value:recTypesString
+                        });
+                    }
+                }
+            });
+            vm.isShowing.step1 = false;
+            vm.isShowing.alert = true;
+            vm.alertMessage = 'Calculating...';
+            vm.isShowing.loader = true;
+            vm.isShowing.btnReturnAux = true;
+            vm.disabledSync = true;
+            vm.btnQuickCountDisabled = false;
+            vm.st2ResultStyle = {"color":"black"};
+            
+            $window.console.log('selectedCriteriaParsed',selectedCriteriaParsed);
+            return dataService.initialCount(selectedCriteriaParsed).then(function(result) {                
+                vm.initialCountMeta = result;
+                vm.initialCountMeta.soql = htmlDecode(vm.initialCountMeta.soql);
+                vm.initialCountMeta.csoql = htmlDecode(vm.initialCountMeta.csoql);
+                vm.initialCountMeta.issueSoql = htmlDecode(vm.initialCountMeta.issueSoql);
+                
+                $window.console.log('vm.initialCount',vm.initialCountMeta);
+                vm.isShowing.alert = false;
+                vm.isShowing.loader = false;
+                vm.isShowing.btnReturnAux = false;
+                vm.isShowing.step2 = true;  
+                if(result.validQuery){
+                    if(result.numberOfRecords>0){
+                        vm.st2Result = result.numberOfRecords+
+                            ' JIRA Issues will be updated.';
+                        vm.disabledSync = false;
+                    }else{                                             
+                        vm.st2Result = 'The entered criteria did not match with any Case';
+                    }
+                }else{                    
+                    vm.st2ResultStyle = {"color":"red"};
+                    vm.st2Result = 'The entered criteria has invalid inputs, please retry.';
+                }
+            }).catch(function(data) {
+                
+            });
+        }
+        function sync(){
+            noMessage();
+            vm.alertMessage = 'Launching...';
+            vm.isShowing.alert = true;
+            vm.isShowing.step2 = false;
+            return dataService.beginSync(vm.initialCountMeta.soql,
+                                         vm.initialCountMeta.numberOfRecords).then(function(result) {                
+                $window.console.log('vm.sync',result);         
+                if(result.launchSync){
+                    vm.getProcessInfo(false,true);                  
+                }else{
+                    vm.isShowing.alert = false;
+                    vm.isShowing.step1 = true;
+                    vm.errorMessage = result.message;
+                    vm.isShowing.error = true;
+                }
+            }).catch(function(data) {
+                
+            });
+        }
+    }
+    
+    srcApp.factory("dataService",dataService);
+    dataService.$inject = ["$q"];
+    function dataService($q) {
+        var service = {
+            beginSync:function(soql,numberOfRecords){
+                var deferred = $q.defer();            
+                Visualforce.remoting.Manager.invokeAction("{!$RemoteAction.ZSyncMappingController.beginProcess}",
+                                                          soql,numberOfRecords,function(result,event) {
+                                                              if(event.status) {
+                                                                  deferred.resolve(result);
+                                                              } else {
+                                                                  deferred.reject(event);
+                                                              }                
+                                                          });
+                return deferred.promise;
+            },
+            initialCount:function(selectedCriteria){
+                var deferred = $q.defer();            
+                Visualforce.remoting.Manager.invokeAction("{!$RemoteAction.ZSyncMappingController.initialCount}",
+                                                          selectedCriteria,function(result,event) {
+                                                              if(event.status) {
+                                                                  deferred.resolve(result);
+                                                              } else {
+                                                                  deferred.reject(event);
+                                                              }                
+                                                          });
+                return deferred.promise;
+            },
+            getCaseCreateMeta: function(){
+                var deferred = $q.defer();            
+                Visualforce.remoting.Manager.invokeAction("{!$RemoteAction.ZSyncMappingController.getCaseMeta}",function(result,event) {
+                    if(event.status) {
+                        deferred.resolve(result);
+                    } else {
+                        deferred.reject(event);
+                    }                
+                });
+                return deferred.promise;
+            },
+            getProcessInfo: function() {
+                var deferred = $q.defer();            
+                Visualforce.remoting.Manager.invokeAction("{!$RemoteAction.ZSyncMappingController.getInformation}",function(result,event) {
+                    if(event.status) {
+                        deferred.resolve(result);
+                    } else {
+                        deferred.reject(event);
+                    }                
+                });
+                return deferred.promise;            
+            }                       
+        };
+        return service;                                       
+    }        
+    </script>
+</apex:page>

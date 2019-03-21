@@ -30,7 +30,15 @@ global class JobProcessSObject implements Database.Batchable<sObject>, Schedulab
             for(String accId:mapAcc.keySet()){
                 listA.add(new Account(Id=accId,ActiveSubscriptionCount__c=mapAcc.get(accId)));
             }
-            update listA;            
+            for(String accId:masterObjectIDs){
+                if(!mapAcc.containsKey(accId)){
+                    listA.add(new Account(Id=accId,ActiveSubscriptionCount__c=0));
+                }
+            } 
+           // update listA; 
+            Database.SaveResult[] dsrList=Database.update(listA,false);
+			Utility.createApexLog('JobProcessSObject Reset Active Flag', 'Failed', listA.size(), listA.size(),'Error', 1,' '+masterObjectIDs,true);            
+           // Utility.createApexLog('JobProcessSObject Reset Active Flag '+objRollup.Id, dsrList,true);             
             /*Map<Id,Integer> mapAcc=new Map<Id,Integer>();
             for(Zuora__Subscription__c s:[Select Id,Zuora__Account__c,Opportunity__c, Opportunity__r.Type,Zuora__Status__c,Zuora__SubscriptionEndDate__c From Zuora__Subscription__c Where Zuora__Account__c=:masterObjectIDs]){
                 if(!mapAcc.containsKey(s.Zuora__Account__c)){

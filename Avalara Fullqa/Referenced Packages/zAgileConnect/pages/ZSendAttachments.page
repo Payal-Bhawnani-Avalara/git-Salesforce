@@ -1,0 +1,653 @@
+<apex:page standardController="Case" extensions="zsfjira.ZSendAttachmentsController"
+           lightningStylesheets="true" docType="html-5.0"
+           showHeader="false" sidebar="false">
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zAgileResources, '/js/zConnectNavigationHelper.js')}" />
+    <!-- Javascript function to check all rows in the table -->
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}"  />        
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/js/bootstrap.min.js')}" />    
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/css/bootstrap.css')}"/>    
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/jform/jformplugin.js')}"  />
+
+    <apex:variable var="isLightning"
+                   value="{!IF($User.UIThemeDisplayed=='Theme4d'||$User.UIThemeDisplayed=='Theme4u',true,false)}"/>
+
+    <apex:slds rendered="{!isLightning}"/>
+
+    <script>
+    var is_ie_lt9 = false;
+    </script>
+    <!--[if lte IE 9]>
+<script>
+is_ie_lt9 = true;
+</script>
+<![endif]-->           
+    <style>
+        .pageMessageContainer {
+        display: none;
+        }
+        div.loader:after{
+        background-image: url({!$Resource.zsfjira__loader});
+        background-size: 16px 16px;
+        display: inline-block;
+        width: 16px; 
+        height: 16px;
+        content:"";
+        }
+        div.loader{
+        display: inline-block;
+        }
+        button.sfBtn{
+        color: #333;
+        margin: 1px;
+        padding: 2px 3px;
+        border: 1px solid #b5b5b5;
+        border-bottom-color: #7f7f7f;
+        background: #e8e8e9 url('/img/alohaSkin/btn_sprite.png') repeat-x right top;
+        font-weight: bold;
+        font-size: .9em;
+        border-radius: 3px;
+        }
+        button.sfBtn[disabled]{
+        background-position: 0 -90px;
+        border-color: #c4c4c4;
+        color: #909090;       
+        }
+        input.sfBtn{
+        color: #333;
+        margin: 1px;
+        padding: 2px 3px;
+        border: 1px solid #b5b5b5;
+        border-bottom-color: #7f7f7f;
+        background: #e8e8e9 url('/img/alohaSkin/btn_sprite.png') repeat-x right top;
+        font-weight: bold;
+        font-size: .9em;
+        border-radius: 3px;
+        }
+        input.sfBtn[disabled]{
+        background-position: 0 -90px;
+        border-color: #c4c4c4;
+        color: #909090;       
+        }
+        .bs .table tbody>tr>td{
+        padding:0px;
+        }
+        #form_0>form>input[type=file]{
+        border: 1px solid #ccc;
+        display: inline-block;
+        padding: 2px 20px;
+        cursor: pointer;
+        font-weight: bold;
+        width: 400px;
+        }
+        .bs .modal-dialog{
+        width: 700px;
+        }
+        .bs td[tt=name]{
+        word-wrap: break-word;
+        max-width: 400px;
+        }
+    </style>
+    <script>
+    Visualforce.remoting.timeout = 120000;
+    
+    if (!window.console) window.console = {};
+    if (!window.console.log) window.console.log = function () {};    
+    $j = jQuery.noConflict();
+    //https://success.salesforce.com/answers?id=90630000000haQbAAI Requests are restricted to 3MB for everyone.
+    //        var MAX_FILE_SIZE = 2097152; // 2MB
+    try {
+        var MAX_FILE_SIZE = Limits.getRequestSize();
+    } catch (e) {
+        MAX_FILE_SIZE = 2097152;
+    }
+    var attachmentsToSend = {};
+    var totalRequestSent = 0;
+    var totalResponseReceived = 0;
+    var isOnDemand = {!IF(onDemand,true,false)};
+    var attachmentsSent = {};
+    function setFocusOnLoad() {} 
+    
+    function upadteEditingIssueKey(issueKey) {
+        var inputElem = document.getElementsByTagName("input");
+        for ( var i = 0; i < inputElem.length; i++) {
+            if (inputElem[i].id.indexOf("editingIssueKey") != -1
+                && inputElem[i].type == 'hidden')
+                inputElem[i].value = issueKey;
+        }
+    }
+    function checkAll(cb) {
+        var cbs = $j("input[id*='selectLine']");
+        $j(cbs).prop( "checked", cb.checked );
+        for(var i = 0;i<cbs.length;i++){
+            onChecked(cbs[i]) ;
+        }
+    }
+    function onChecked(cb) {
+        var attachmentId = cb.attributes.attachmentid.nodeValue;
+        var issueKey = cb.attributes.issue.nodeValue;
+        if (attachmentsToSend[attachmentId] == undefined) {
+            attachmentsToSend[attachmentId] = {};
+        }
+        attachmentsToSend[attachmentId][issueKey]  =  cb.checked;
+        if (!cb.checked){
+            $j("[id*='checkedAll']").prop("checked", false );
+        }
+    }        
+    function sendAttachments(btn) {
+        $j("span[id$=zErrorMessage]").hide("fast", function(){});
+        var attachmentList = [];
+        for (var attachmentId in attachmentsToSend) {                    
+            var attachName = $j('a[objId="'+attachmentId+'"]').parent().find('input[name="name"]').val();
+            var contentType = $j('a[objId="'+attachmentId+'"]').parent().find('input[name="contentType"]').val();
+            var blobPath = $j('a[objId="'+attachmentId+'"]').parent().find('input[name="blobPath"]').val();
+            var formattedSize = $j('a[objId="'+attachmentId+'"]').parent().find('input[name="formattedSize"]').val();
+            var strOriginalSize = $j('a[objId="'+attachmentId+'"]').parent().find('input[name="originalSize"]').val();
+            var originalSize = parseInt(strOriginalSize);
+            
+            var issueKeys = [];
+            for (var issueKey in attachmentsToSend[attachmentId]) {                    
+                if (attachmentsToSend[attachmentId][issueKey]) {                      
+                    issueKeys.push(issueKey);
+                }
+            }
+            if(issueKeys.length!=0){
+                attachmentList.push({
+                    "id":attachmentId,
+                    "name":attachName,
+                    "contentType":contentType,
+                    "blobPath":blobPath,
+                    "formattedSize":formattedSize,
+                    "originalSize":originalSize,
+                    "issueKeys":issueKeys,
+                });
+            }
+        }
+        if(attachmentList.length>0){
+            $j("input[sendBtn=true]").attr("disabled", true);
+            $j("input[sendBtn=true]").addClass("btnDisabled");
+            $j("input[sendBtn=true]").val("Sending attachments...");
+            shareAttachmentsWithJIRA(attachmentList);
+        }
+        else{
+            $j("span[id$=zErrorMessage] DIV.messageText").html("Please select files to send to JIRA");
+            $j("span[id$=zErrorMessage]").show().delay(5000).fadeOut();
+        }
+    }
+    function shareAttachmentsWithJIRA(attachmentList){
+        var strAttachmentList = JSON.stringify(attachmentList);
+        var caseId = '{!Case.Id}';
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSendAttachmentsController.shareAttachmentsWithJIRA}', strAttachmentList,caseId,
+            function(result, event){
+                var message = '';
+                if(event.status){
+                    message = result;
+                }else{
+                    message = 'Problems during notifying JIRA, '+event.message;                        
+                }
+                handleOnSaveEnded(message);
+            }
+        );
+    }
+
+    zConnectNavigationHelper.setState(zConnectNavigationHelper.State.ISSUE_SEND_ATTACHMENT);
+    function handleCancel(){
+        classicConsoleCallback = function() {
+            funcRedirectToRelatedIssues();
+        };
+
+        return zConnectNavigationHelper.handleAction(
+            zConnectNavigationHelper.ActionType.SELECT_CANCEL,
+            {
+                'tabUrl' : '{!JSENCODE(returnUrl)}&inline=1',
+                'tabName' : '{!JSENCODE(IssueKey)}',
+                'cancelUrl' : '{!JSENCODE(returnUrl)}&inline=1',
+                'entityId': '{!JSENCODE(Case.Id)}'
+            },
+            zConnectNavigationHelper.createCallbacks(null, classicConsoleCallback, null, null)
+        );
+    }
+
+    function handleOnSaveEnded(message){
+
+        var classicCallback = function(){
+            $j("input[id$=messageInput]").val(message);
+        };
+
+        var consoleClassic = function() {
+            if (message){
+                if (supports_html5_storage()) {
+                    sessionStorage["ATTACHMENT_RESULT_{!Case.Id}"] = JSON.stringify({'result': message});
+                }
+                $j("input[id$=messageInput]").val(message);
+            }
+            funcRedirectToRelatedIssues();
+        };
+
+        var lightningCallback = function(){
+            if (message && supports_html5_storage()) {
+                sessionStorage["ATTACHMENT_RESULT_{!Case.Id}"] = JSON.stringify({'result': message});
+            }
+        };
+
+        var lightningConsoleCallback = function(){
+            if(!message){
+                return;
+            }
+
+            var messageObject = {
+                source : "sendAttachments",
+                caseId : "{!Case.Id}",
+                action : "renderIssueResults",
+                msgError : "",
+                msgSuccess :message
+            };
+            sforce.console.fireEvent(
+                'messageFromComponent',JSON.stringify(messageObject), function(result){}
+            );
+        };
+
+        var messageParam = '';
+        if(message){
+            messageParam = '&message=' + message;
+        }
+
+        return zConnectNavigationHelper.handleAction(
+            zConnectNavigationHelper.ActionType.SELECT_SAVE,
+            {
+                'tabUrl' : '{!JSENCODE(returnUrl)}&inline=1' + messageParam,
+                'tabName' : '{!JSENCODE(IssueKey)}',
+                'cancelUrl' : '{!JSENCODE(returnUrl)}&inline=1' + messageParam,
+                'entityId': '{!JSENCODE(Case.Id)}'
+            },
+            zConnectNavigationHelper.createCallbacks(classicCallback, consoleClassic, lightningCallback, lightningConsoleCallback)
+        );
+    }
+
+    function goToEntity(tabUrl, tabName){
+        return zConnectNavigationHelper.handleAction(
+                zConnectNavigationHelper.ActionType.SELECT_LINK,
+                {
+                    'tabUrl' : tabUrl,
+                    'tabName' : tabName
+                });
+    }
+
+     </script>
+    <apex:pageMessage rendered="{!NOT(isJiraAccessible)}" summary="{!jiraNotAccessibleMessage}" severity="warning" strength="3"/>
+    <apex:form rendered="{!isJiraAccessible}" id="frmSendAttachments" styleClass="slds-p-left_medium slds-p-right_medium">
+        <apex:pageblock >
+            <div style="{!IF(NOT(isLightning),'border-radius: 5px 5px 5px 5px; box-shadow: 1px 1px 3px 3px #A0A6AB;','')}">
+                <div style="font-size: 13px; padding: 10px;font-weight: bold; height: 12px;">
+                    Send Attachments
+                    <apex:outputText rendered="{!issueKeys.size==1}">
+                        to {!issueKeys[0]}
+                    </apex:outputText>
+                </div>
+                <div style="padding: 12px;">
+                    Select the attachments you want to send to JIRA. If a file with the same filename is found in JIRA, the JIRA file size is shown.
+                    <br />
+                    An (*) means multiple files were found with the same filename in JIRA.
+                </div>
+                <div align = "center">
+                    <input type="button" class="btn" value="Cancel" onclick="handleCancel();" />
+                    <input type="button" class="btn btnDisabled z-send-attach-btn" sendBtn="true" disabled="true"  onclick="sendAttachments(this); return false;" value="Send Attachments" />
+                    <input type="button" class="btn z-send-local-attach-btn" onclick="uploadDialogue(); return false;" value="Send from local" />
+                </div>
+                <br />
+                <apex:actionFunction name="funcRedirectToRelatedIssues" action="{!redirectToRelatedIssues}" />
+                <apex:inputHidden value="{!message}" id="messageInput"/>
+                <apex:outputpanel id="selectedAttachments">
+                    <apex:variable value="{!AttachmentsSelection}" var="selection"/>
+                    <apex:pageBlockTable value="{!selection}" var="attachSelection"
+                                         rendered="{!hasSources}">                        
+                        <apex:column rendered="{!issueKeys.size==1}" width="10px">
+                            <apex:facet name="header">
+                                <apex:inputCheckbox onclick="checkAll(this)" id="checkedAll" />
+                            </apex:facet>
+                            <apex:inputCheckbox id="selectLine" disabled="{!attachSelection.isTooLarge}" html-attachmentid="{!attachSelection.id}"
+                                                html-issue="{!issueKeys[0]}" html-bodylength="{!attachSelection.bodyLength}" onclick="onChecked(this)"
+                                                value="{!attachSelection.issues[issueKeys[0]]}" rendered="{!NOT(ISNULL(attachSelection.id))}" />                            
+                        </apex:column>                                                 
+                        <apex:column headervalue="File Name" width="400px">
+                            <a title ="{!attachSelection.fullname}" href="{!attachSelection.url}" objId="{!attachSelection.id}"
+                               onclick="return goToEntity('{!JSENCODE(attachSelection.url)}', '{!JSENCODE(attachSelection.fullname)}')" target="_blank">
+                                <apex:outputText >{!attachSelection.name}</apex:outputText>                                
+                            </a>
+                            <input type="hidden" name="name" value="{!attachSelection.name}"/>
+                            <input type="hidden" name="contentType" value="{!attachSelection.contentType}"/>
+                            <input type="hidden" name="blobPath" value="{!attachSelection.blobPath}"/>
+                            <input type="hidden" name="formattedSize" value="{!attachSelection.size}"/>
+                            <input type="hidden" name="originalSize" value="{!attachSelection.bodyLength}"/>
+                        </apex:column>
+                        <apex:column headervalue="Original Size" width="100px">
+                            <apex:outputText style="white-space:nowrap;">{!attachSelection.size}</apex:outputText>
+                        </apex:column>
+                        <apex:column headervalue="JIRA Size" rendered="{!issueKeys.size==1}" width="100px">                           
+                            <apex:outputText title="Size in JIRA">{!attachSelection.jiraSizes[issueKeys[0]]}</apex:outputText>
+                        </apex:column>  
+                        <apex:repeat value="{!issueKeys}" var="key" >
+                            <apex:column width="100px" rendered="{!issueKeys.size>1}">
+                                <apex:facet name="header">
+                                    <apex:outputText >{!key}</apex:outputText>
+                                </apex:facet>
+                                <apex:inputCheckbox id="selectLine" disabled="{!attachSelection.isTooLarge}" html-attachmentid="{!attachSelection.id}"
+                                                    html-issue="{!key}" html-bodylength="{!attachSelection.bodyLength}" onclick="onChecked(this)"
+                                                    value="{!attachSelection.issues[key]}" rendered="{!NOT(ISNULL(attachSelection.id))}" />
+                                <apex:outputText title="Size in JIRA">{!attachSelection.jiraSizes[key]}</apex:outputText>
+                            </apex:column>
+                        </apex:repeat>
+                        
+                        <apex:column headervalue="Source" width="80px">
+                            <apex:outputText style="white-space:nowrap;">{!attachSelection.source}</apex:outputText>
+                        </apex:column>
+                    </apex:pageBlockTable>
+                </apex:outputpanel>
+                <!-- Commandbutton to proceed to next screen -->
+                <apex:outputpanel rendered="{!hasSources}">
+                    <div align = "center">
+                        <br />
+                        <input type="button" class="btn" value="Cancel" onclick="handleCancel();" />
+                        <input type="button" sendBtn="true" class="btn btnDisabled z-send-attach-btn"  disabled="true" onclick="sendAttachments(this); return false;" value="Send Attachments" />
+                        <input type="button" class="btn z-send-local-attach-btn" onclick="uploadDialogue(); return false;" value="Send from local" />
+                    </div>
+                    <br/> 
+                </apex:outputpanel>
+            </div>
+        </apex:pageblock>
+    </apex:form> 
+    <div class='pageMessageContainer'>
+        <apex:pageMessage strength="1" severity="error" id="zErrorMessage" />
+    </div>
+    <!-- Modal -->
+    <div class="bs" align="left">
+        <div style="background-color: rgba(0,0,0,0.6);" class="modal fade" id="file-dialog" data-keyboard="false" data-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body" id="upload-editor">                        
+                        <div class="uploadBox">
+                            <div id="mainlink" align = "center"> 
+                                <a href="" style="cursor: pointer;" id="upload_link">Select file(s)</a> to send to JIRA (You may select up to 5 files to send at a time)
+                            </div>
+                            <br/>
+                            <div id="uploadForms" style="display: none;">
+                                <div id="form_0" index='0' align="center">
+                                    <apex:form enctype="multipart/form-data" >
+                                        <apex:inputFile value="{!documentToSendContent}"
+                                                        filename="{!documentToSendName}"></apex:inputFile>
+                                        <br/><br/>
+                                        <apex:commandButton action="{!upload}" value="Send to JIRA"/>
+                                        <apex:inputHidden value="{!redirectToCase}" id="redirection"/>
+                                        <button id="closeButtonAux" type="button" onclick="closeDialogue(); return false" class="sfBtn">Close</button>
+                                        <div id="mainFormLoader" style="display:none;" class="loader"></div>
+                                    </apex:form>
+                                </div>
+                                <div id="form_1" index='1'>
+                                    <apex:form enctype="multipart/form-data" >
+                                        <apex:inputFile value="{!documentToSendContent}" filename="{!documentToSendName}"></apex:inputFile>                   
+                                        <apex:commandButton action="{!upload}" value="Upload"/>
+                                    </apex:form>
+                                </div>
+                                <div id="form_2" index='2'>
+                                    <apex:form enctype="multipart/form-data" >
+                                        <apex:inputFile value="{!documentToSendContent}" filename="{!documentToSendName}"></apex:inputFile>                   
+                                        <apex:commandButton action="{!upload}" value="Upload"/>
+                                    </apex:form>
+                                </div>
+                                <div index='3' id='form_3'>
+                                    <apex:form enctype="multipart/form-data" >
+                                        <apex:inputFile value="{!documentToSendContent}" filename="{!documentToSendName}"></apex:inputFile>                   
+                                        <apex:commandButton action="{!upload}" value="Upload"/>
+                                    </apex:form>
+                                </div>
+                                <div index='4' id='form_4'>
+                                    <apex:form enctype="multipart/form-data" >
+                                        <apex:inputFile value="{!documentToSendContent}" filename="{!documentToSendName}"></apex:inputFile>                   
+                                        <apex:commandButton action="{!upload}" value="Upload"/>
+                                    </apex:form>
+                                </div>                                
+                            </div>
+                            <table class="table"/>
+                            <div class="alert alert-danger" id="uploadError" style="display:none;padding: 5px;margin-bottom: 5px;" role="alert"></div>
+                            <div class="alert alert-success" id="uploadSuccess" style="display:none;padding: 5px;margin-bottom: 5px;" role="alert"></div>
+                            <div align="right">
+                                <button id="uploadButton" type="button" class="{!IF(isLightning,'slds-button slds-button_neutral','sfBtn')}" onclick="sendToJIRA(); return false">Send to JIRA</button>
+                                <button id="clearButton" type="button" onclick="clearFiles(); return false" class="{!IF(isLightning,'slds-button slds-button_neutral','sfBtn')}" >Clear</button>
+                                <button id="closeButton" type="button" onclick="closeDialogue(); return false" class="{!IF(isLightning,'slds-button slds-button_neutral','sfBtn')}">Close</button>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    var reloadDialogue = false;
+    function closeDialogue(){
+        reloadDialogue = true;
+        $j('#file-dialog').modal('hide');
+    }
+    function clearFiles(){
+        $j('#uploadError').hide();
+        $j('#uploadSuccess').hide();
+        $j('#uploadForms').find('form>input[type=file]').each(function(){
+            $j(this).val('');
+            $j(this).replaceWith($j(this).clone(true));            
+        });
+        $j('.uploadBox>table>tbody>tr').hide('fast', function(){ $j(this).remove(); });
+    }
+    var debugData =null;
+    function uploadDialogue(){
+        $j('#file-dialog').modal('show');
+        
+        if(reloadDialogue){
+            reloadDialogue = false;
+            clearFiles();
+        }
+        if(!workedForms){
+            workedForms = true;
+            if(!is_ie_lt9){
+                $j("#uploadForms>div>form").ajaxForm({ 
+                    beforeSubmit : function(arr, form, options){
+                        $j('#uploadError').hide();
+                        $j('#uploadSuccess').hide();
+                        return true;
+                    },
+                    success : function(body,result,data,form){
+                        debugData =data;
+                        var idx = $j(form).parent().attr('index');                            
+                        var responseBody = data.responseText+'';
+                        var theError = null;
+                        var successIssues = null;
+                        if(data.getResponseHeader('msgError')!=null){
+                            theError = data.getResponseHeader('msgError');
+                            if(data.getResponseHeader('successIssues')!=null){
+                                successIssues = data.getResponseHeader('successIssues');
+                            }
+                        }else{               
+                            var re = /<span\b[^>]*id="theErrorPage:theError" \b[^>]*>([\s\S]*?)<\/span>/gm;
+                            var match;
+                            while (match = re.exec(responseBody)) {
+                                theError = match[1];
+                            }
+                        }
+                        window.console.log('theError: '+theError);
+                        window.console.log('successIssues: '+successIssues);                        
+                        if(theError==null){
+                            $j("tr[index='"+idx+"']").find("td[tt='status']").html(
+                                '<div style="color: green;"><b>File sent successfully!</b></div>');
+                        }else{
+                            $j("tr[index='"+idx+"']").find("td[tt='status']").html('<div style="color: red;"><b>'+theError+'</b></div>');
+                            if(successIssues!=null){
+                                $j("tr[index='"+idx+"']").find("td[tt='status']").append(
+                                    '<div style="color: green;"><b>File sent successfully to: </b>'+
+                                    successIssues+'</div>');
+                            }
+                            totalJiraError++;
+                        }
+                        
+                        totalJiraSent++;
+                        if(totalJiraFiles==totalJiraSent){
+                            $j("#uploadButton").removeAttr('disabled');
+                            $j("#uploadButton").html('Done');
+                            return;
+                        }
+                    }
+                });
+            }else{
+                $j("input[id$='redirection']").val('true');
+                $j("#form_0").find('input[type=submit]').on('click', function(e){
+                    $j('#uploadError').hide();
+                    $j('#uploadSuccess').hide();                    
+                    if($j('#form_0>form>input[type=file]').val()==''){
+                        $j('#uploadError').show();
+                        $j('#uploadError').html('Please select file to send.');
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }else{
+                        $j("#closeButtonAux").hide();
+                        $j("#mainFormLoader").show();
+                    }
+                });
+            }
+        }
+    }
+    var totalJiraFiles = 0;
+    var totalJiraSent = 0;
+    var totalJiraError = 0;
+    function sendToJIRA(){
+        if($j("#uploadButton").html()=='Done'){
+            handleOnSaveEnded();
+            return;
+        }
+        
+        totalJiraFiles = 0;
+        totalJiraSent = 0;
+        totalJiraError = 0;
+        $j('#uploadError').hide();
+        $j("#uploadForms>div").each(function(){
+            var fileName = $j(this).find("input[type='file']").val();
+            if(fileName!=''){
+                totalJiraFiles++;
+                var idx = $j(this).attr('index');
+                $j("tr[index='"+idx+"']").find("td[tt='status']").html('<div class="loader"></div>');
+            }
+        });
+        if(totalJiraFiles==0){
+            $j('#uploadError').show();
+            $j('#uploadError').html('Please select file(s) to send.');
+            return;
+        }
+        $j("td[tt=remove]").hide();
+        $j("#uploadButton").attr('disabled','true');
+        $j("#uploadButton").html('Sending to JIRA...');
+        $j("#clearButton").hide();
+        $j("#closeButton").hide();
+        $j("#mainlink").hide();
+        
+        $j('#file-dialog').modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+        
+        $j("#uploadForms>div").each(function(){
+            var fileName = $j(this).find("input[type='file']").val();
+            if(fileName!=''){
+                $j(this).find('input[type="submit"]').trigger( "click" );
+            }
+        });    
+    }    
+    function removeFile(idx){
+        var inputFile = $j('#form_'+idx+'>form>input[type=file]');        
+        $j(inputFile).val('');
+        $j(inputFile).replaceWith($j(inputFile).clone(true));        
+        $j('tr[index='+idx+']').hide('fast', function(){ $j(this).remove(); });
+    }
+    var workedForms = false;   
+    function htmlDecode(value){
+        return $j('<div/>').html(value).text();
+    }
+    $j(document).ready(function() {
+        var lHasSources = {!IF(hasSources,true,false)};
+        if(lHasSources){
+            $j("input[sendBtn=true]").removeClass('btnDisabled');
+            $j("input[sendBtn=true]").removeAttr('disabled');
+        }
+        if(is_ie_lt9){
+            $j("#mainlink").hide();
+            $j("#uploadForms").show();            
+            $j("#form_1").hide();
+            $j("#form_2").hide();
+            $j("#form_3").hide();
+            $j("#form_4").hide(); 
+            
+            $j("#form_0").find('input[type=submit]').attr('class','sfBtn');
+            $j("#uploadButton").hide();
+            $j("#clearButton").hide();
+            $j("#closeButton").hide();
+            
+        }
+        
+        $j("span[id$=zErrorMessage]").hide("fast", function(){});
+        $j("div.pageMessageContainer").each(function(i){
+            $j(this).removeAttr("class");
+        });
+        
+        $j("#upload_link").on('click', function(e){
+            e.preventDefault();        
+            var idx = -1;
+            var countForms = $j("#uploadForms>div").length;
+            $j("#uploadForms>div").each(function(){
+                if(idx==-1){
+                    var fileName = $j(this).find("input[type='file']").val();
+                    if(fileName==''){
+                        idx =  parseInt($j(this).attr('index'));
+                    }
+                }
+            });
+            if(idx!=-1){
+                $j("#form_"+idx).find("input[type='file']").trigger( "click" );
+            }else{
+                $j('#uploadError').show();
+                $j('#uploadError').html('You cannot upload more than '+countForms+' files!');
+            }
+        });
+        $j("#uploadForms").find("input[type='file']").on('change', function(e) {
+            $j('#uploadError').hide();
+            $j('#uploadSuccess').hide();
+            if(!is_ie_lt9){
+                var indx= $j(this).parent().parent().attr('index');
+                var fileName = $j(this).val().replace(/C:\\fakepath\\/i, '');
+                
+                var uploadDivs = $j("#uploadForms>div");
+                for(var i = 0 ;i<uploadDivs.length;i++){
+                    var jdx =  parseInt($j(uploadDivs[i]).attr('index'));
+                    if(indx!=jdx){
+                        var tmpFileName = $j(uploadDivs[i]).find("input[type='file']").val().replace(/C:\\fakepath\\/i, '');
+                        if(tmpFileName==fileName){
+                            $j(this).val('');
+                            $j(this).replaceWith($j(this).clone(true));
+                            return;
+                        }
+                    }
+                }
+                $j('.uploadBox>table').append('<tr index="'+indx+'"><td><span class="glyphicon glyphicon-file" aria-hidden="true"></span></td><td tt="name">'+
+                                              fileName+'</td><td tt="status"></td>'+
+                                              '<td tt="remove"><span style="cursor:pointer;" onclick="removeFile('+indx+');" '+
+                                              'class="glyphicon glyphicon-remove" aria-hidden="true"></span></td></tr>');
+            }
+        });
+        
+        
+    });
+
+    function supports_html5_storage() {
+        try {
+            return 'sessionStorage' in window && window['sessionStorage'] !== null;
+        } catch (e) {
+            return false;
+        }
+    }
+    </script>
+</apex:page>

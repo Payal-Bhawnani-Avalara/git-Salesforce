@@ -13,6 +13,15 @@ public with sharing class SubscriptionTriggerHandler extends TriggerHandler {
     
     ///Zuora__Subscription__c > Zuora__ContractEffectiveDate__c  minimum into Account.First_Purchase_Date__c
     //SELECT Zuora__ContractEffectiveDate__c , Zuora__Account__c FROM Zuora__Subscription__c WHERE isDeleted = false ORDER BY Zuora__ContractEffectiveDate__c ASC NULLS LAST LIMIT 1
+    
+    	protected override void beforeInsert(){
+  	  beforeInsertUpdate();
+  	}
+
+  	protected override void beforeUpdate(){
+  	  beforeInsertUpdate();
+  	}
+  	
   	protected override void afterInsert(){
   		updateRollups((List<Zuora__Subscription__c>) Trigger.new);
   	} 
@@ -28,6 +37,17 @@ public with sharing class SubscriptionTriggerHandler extends TriggerHandler {
   	protected override void afterUndelete(){
   		updateRollups((List<Zuora__Subscription__c>) Trigger.new);
   	}
+  	
+  	 public void beforeInsertUpdate(){
+         for(Zuora__Subscription__c zs : (List<Zuora__Subscription__c>)Trigger.new ){
+             //logic of "Populate Connector Lookup on Subscription Charge" workflow, flow 
+             if( String.isBlank(zs.Opportunity__c) && String.isNotBlank(zs.OpportunityID__c) && 
+                zs.OpportunityID__c.startsWithIgnoreCase('006')){
+                  zs.Opportunity__c = zs.OpportunityID__c;
+             }
+         }   
+    }
+    
     public static void updateRollups(List<Zuora__Subscription__c> listZSPC){
     		if(listZSPC!=null && listZSPC.size()>0){
     			if(!System.isBatch() && !System.isFuture() && !System.isScheduled()){
@@ -36,12 +56,13 @@ public with sharing class SubscriptionTriggerHandler extends TriggerHandler {
     			}
     		}	
     }
-    @future    	
+    @future(callout=true)    	
     public static void updateRollupsFuture(Set<Id> setZSPC){
     		if(setZSPC!=null && setZSPC.size()>0){
     			List<Zuora__Subscription__c> listZSPC=[select Id,Zuora__Account__c,Opportunity__c From Zuora__Subscription__c Where Id=:setZSPC ALL ROWS];
     			System.debug('listZSPC====='+listZSPC);
     			Set<Id> accountIDs=new Set<Id>();
+    			Set<Id> accountFirstPurchaseIDs=new Set<Id>();
     			Set<Id> opportunityIDs=new Set<Id>();
     			Set<Id> zuoraSubscriptionIDs=new Set<Id>();
     			for(Zuora__Subscription__c zspc:listZSPC){
@@ -57,6 +78,7 @@ public with sharing class SubscriptionTriggerHandler extends TriggerHandler {
     					a.ActiveSubscriptionCount__c=0;
     					if(a.First_Purchase_Date__c==null && a.Zuora__Subscriptions__r.size()>0){
     						a.First_Purchase_Date__c=a.Zuora__Subscriptions__r[0].Zuora__ContractEffectiveDate__c;
+    						accountFirstPurchaseIDs.add(a.Id);
     					}
     					for(Zuora__Subscription__c s:a.Zuora__Subscriptions__r){
     						//&& s.Opportunity__r.SubType__c != 'Included' Aaron asekd to remove
@@ -71,10 +93,10 @@ public with sharing class SubscriptionTriggerHandler extends TriggerHandler {
     					}
     				}
 				//by pass account trigger 
-				TriggerHandler.bypass('AccountTriggerHandler');
+				//TriggerHandler.bypass('AccountTriggerHandler');
 				Database.SaveResult[] dsrList=Database.update(listAccounts,false);
 				Utility.createApexLog('SubscriptionTriggerHandler', dsrList,true);
-				//update listAccounts;
+				//CC_AVA_BizTech_API.sendCPUUserChanged(accountFirstPurchaseIDs);
 				TriggerHandler.clearBypass('AccountTriggerHandler');	    				
     			}
     			if(opportunityIDs.size()>0){

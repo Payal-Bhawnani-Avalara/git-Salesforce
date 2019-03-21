@@ -3,8 +3,13 @@
     <apiVersion>38.0</apiVersion>
     <packageVersions>
         <majorNumber>8</majorNumber>
-        <minorNumber>22</minorNumber>
+        <minorNumber>26</minorNumber>
         <namespace>CameleonCPQ</namespace>
+    </packageVersions>
+    <packageVersions>
+        <majorNumber>2018</majorNumber>
+        <minorNumber>616</minorNumber>
+        <namespace>Sertifi2_0</namespace>
     </packageVersions>
     <packageVersions>
         <majorNumber>2</majorNumber>

@@ -2,7 +2,11 @@
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <applicationVisibilities>
         <application>PS_Rollup_Helper</application>
-        <visible>false</visible>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <applicationVisibilities>
+        <application>Rollup_Helper_Lightning</application>
+        <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
         <apexClass>Advanced_Currency_Helper</apexClass>
@@ -37,6 +41,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Describe_Helper_Default_Behaviour</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Describe_Utility</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -54,7 +62,7 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Force_Test_Utility</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>FormatPageMessage</apexClass>
@@ -81,7 +89,19 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>HS_Query_Builder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>HS_referAFriendHelper</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>HelperUtility</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>HelperUtility_Behavior</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -201,6 +221,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PS_FreeEdition_Behavior</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PS_ImportDataController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -262,6 +286,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PS_Parent_Record_WrapperClassBehavior</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PS_Queue_Controller</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PS_Queue_Controller_Behavior</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -349,6 +381,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PS_Run_Utility</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PS_SOQL_AggregateFunction_Behavior</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -371,6 +407,10 @@
     <classAccesses>
         <apexClass>PS_ScheduledDispatcher</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PS_Schema_Helper</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>PS_SelectMasterController_TEST</apexClass>
@@ -441,6 +481,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PS_rollupCreation_Utility</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PS_scheduleHealthCheck</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -450,6 +494,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>PS_scheduledRollupMonitor</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PS_selectRollupTarget_Controller</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -486,11 +534,11 @@
     </classAccesses>
     <classAccesses>
         <apexClass>ToolingAPI</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>ToolingAPITest</apexClass>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>superSort</apexClass>
@@ -525,7 +573,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Filter__c.Field__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -543,19 +591,29 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Filter__c.Newline_Formula__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Filter__c.PS_Exception__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Filter__c.Test_Account__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Filter__c.Test_Contact__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Filter__c.Test_Describe__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -623,9 +681,9 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>PS_Describe__c.Data_Type__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -650,7 +708,7 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>PS_Describe__c.Label__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -713,9 +771,9 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>PS_Describe__c.Rollup_1__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -1043,9 +1101,9 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>PS_Describe__c.Test_Formula__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -1058,9 +1116,9 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>PS_Describe__c.Test_Long_Text__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -1073,9 +1131,9 @@
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>PS_Describe__c.Test_Picklist__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -1189,6 +1247,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>PS_Queue__c.Max_Record_Scope__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>PS_Queue__c.Params__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1286,6 +1349,11 @@
         <editable>true</editable>
         <field>RH_Job__c.NextFireTime__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>RH_Job__c.Parent_Condition_Name__c</field>
+        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -1427,6 +1495,10 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>PS_RollupQueue</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>PS_RollupType</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
@@ -1492,6 +1564,10 @@
     </tabSettings>
     <tabSettings>
         <tab>PS_Rollup_Helper</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
+    <tabSettings>
+        <tab>PS_Rollup_Queue</tab>
         <visibility>Visible</visibility>
     </tabSettings>
     <tabSettings>

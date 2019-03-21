@@ -1,0 +1,49 @@
+<apex:page controller="LeanData.AssignmentToolsController" showHeader="true" id="AssignmentToolsTopPage" >  
+       <style>
+            .inputText{border-radius:5px}
+            .blockLength{
+                width:50%;
+            }
+            .leandata_logo_header {
+                float: right;
+                margin: 10px;
+                height: 30px;
+            }
+            .paddingSize10{padding: 10px 0px 10px 0px}
+            .table_title{
+                left: 0;
+                font-size: 1.2em;
+                padding-left: 10px;
+                font-weight: bold;
+            }
+            .leandata_logo_header {
+                float: right;
+                margin: 10px;
+                height: 30px;
+            }
+            .link{color:blue;text-decoration:underline;}
+            .right{width:auto; float:right; margin-left:auto; height: 28px; padding-top: 5px;right:0; text-align: right; padding-right: 10px;}
+            .wrapper{position:relative;height: 21px;}
+            .left{width:70%;float:left; height: 28px; padding-top: 5px; }
+        </style>
+    
+    <img src="{!$Resource.leandata_logo}" class="leandata_logo_header"/>
+    <div class="bPageTitle">
+      <div class="ptBody secondaryPalette brandSecondaryBrd">
+          <div class="content">
+              <h2 style="margin-left : 0" class="pageDescription">Lean Data Assignment Tool</h2>
+          </div>
+      </div>
+    </div>
+    <apex:form >
+      <apex:pageBlock id="pageBlock" mode="maindetail">
+         <apex:pageBlockSection columns="1" id="blockSection">
+              <apex:commandLink style="color:blue; " value="Lead Data    Lead Reassign Tool" action="{!goToLeadReassignTool}"/>         
+              <apex:commandLink style="color:blue; " value="Lead Data    Lead To Account Router" action="{!goToOneTimeRouting}" />
+              <apex:commandLink style="color:blue; " value="Lead Data    Round Robin Reassign Tool" action="{!goToRoundRobin}" />
+              <apex:commandLink style="color:blue; " value="Lead Data    Account And Contact Reassign Tool" action="{!goToAccountContactTool}" />
+              <apex:commandLink style="color:blue; " value="Lead Data    Account And Contact Alignment Tool" action="{!goToAlignContactAccount}" />                 
+         </apex:pageBlockSection>
+      </apex:pageBlock> 
+    </apex:form>
+</apex:page>

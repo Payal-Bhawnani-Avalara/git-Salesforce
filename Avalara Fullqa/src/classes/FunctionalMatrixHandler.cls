@@ -1,5 +1,5 @@
 public class FunctionalMatrixHandler{
-
+	public static Boolean doNotExecuteTrigger=false;
     public static void enforceSingleFM(List<Functional_Matrix__c> triggerNew){
         Map<String,Set<Id>> matrixMap = matrixMap(triggerNew);
         Map<String,String> recordTypeMap = recordTypeMap();

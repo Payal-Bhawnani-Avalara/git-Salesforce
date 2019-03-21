@@ -55,4 +55,51 @@ public class Utility {
 	   	 }	 */       
 	  return vatStatus;
 	}
+    public static String getSObjectFields(String sObjectName)
+    {
+        String sObjectFields='';
+        SObjectType objToken = Schema.getGlobalDescribe().get(sObjectName);
+        DescribeSObjectResult objDef = objToken.getDescribe();
+        Map<String, SObjectField> fields = objDef.fields.getMap(); 
+        Set<String> fieldSet = fields.keySet();
+        for(String s:fieldSet)
+        {
+            SObjectField fieldToken = fields.get(s);
+            DescribeFieldResult selectedField = fieldToken.getDescribe();
+           // if(selectedField.isCreateable() && selectedField.isAccessible() && String.isNotBlank(selectedField.getLabel()) && !selectedField.getName().contains('Preferences'))
+            {
+                //System.debug(selectedField.getName());
+                if(String.isNotBlank(sObjectFields))
+                {
+                    sObjectFields+=',';
+                }
+                sObjectFields+=selectedField.getName();
+            }
+        }
+        return sObjectFields;
+    } 
+    public static Map<String,String> getSObjectFieldsAndLabels(String sObjectName)
+    {
+        Map<String,String> sObjectFields=new Map<String,String>();
+        SObjectType objToken = Schema.getGlobalDescribe().get(sObjectName);
+        DescribeSObjectResult objDef = objToken.getDescribe();
+        Map<String, SObjectField> fields = objDef.fields.getMap(); 
+        Set<String> fieldSet = fields.keySet();
+        for(String s:fieldSet)
+        {
+            SObjectField fieldToken = fields.get(s);
+            DescribeFieldResult selectedField = fieldToken.getDescribe();
+            sObjectFields.put(selectedField.getName(),selectedField.getLabel());
+           // if(selectedField.isCreateable() && selectedField.isAccessible() && String.isNotBlank(selectedField.getLabel()) && !selectedField.getName().contains('Preferences'))
+            /*{
+                //System.debug(selectedField.getName());
+                if(String.isNotBlank(sObjectFields))
+                {
+                    sObjectFields+=',';
+                }
+                sObjectFields+=selectedField.getName();
+            }*/
+        }
+        return sObjectFields;
+    }     
 }

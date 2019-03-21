@@ -1,0 +1,388 @@
+<apex:page docType="html-5.0" showHeader="false" sidebar="false" controller="zsfjira.ZJiraIssueDetailsController"
+           standardStylesheets="false"><!-- cache="true" expires="600">-->
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__bootstrap, 'bootstrap-3.2.0-dist/css/bootstrap.min.css')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}"  />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__bootstrap, 'bootstrap-3.2.0-dist/js/bootstrap.min.js')}"/>          
+    <body onresize = "postSize();">
+        <apex:form >
+            <apex:actionFunction name="funcReloadIssueDetails" action="{!loadIssueDetails}"
+                                 oncomplete="funcHideDialog();renderTextAreaFields();"
+                                 reRender="issue-details-panel"/>
+            <div style="" id='content'>
+                <div class= "container" >
+                    <div style="text-align:center" class="jumbotron">                
+                        <h4>
+                            <span class="glyphicon glyphicon-bookmark " style="font-size:75%"></span>
+                            {!ProjectName.value} / {!IssueKey}
+                        </h4>
+                        <apex:outputPanel rendered="{!RenderRelatedEntities}">
+                            <a href="#" class="btn btn-primary btn-xs" role="button"
+                               onclick="redirectToEditIssue('{!JSENCODE(IssueKey)}');return false;">Edit »</a>                        
+                            <c:ZIssueTransitions key="{!JSENCODE(IssueKey)}" mode="mobile"/>
+                        </apex:outputPanel>
+                    </div>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#"
+                                              onclick="openTab('sdetails');return false;">Details</a></li>
+                        <li><a data-toggle="tab" href="#"
+                               onclick="openTab('scomment');return false;">Comments</a></li>
+                        <li><a data-toggle="tab" href="#"
+                               onclick="openTab('sactivity');return false;">Activity</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="sdetails" class="tab-pane fade in active" type="section">
+                            <br/>
+                            <apex:outputPanel id="issue-details-panel">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-3">
+                                            <label class="control-label">{!Summary.label}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">
+                                            {!Summary.value}
+                                        </div>
+                                        <div class="clearfix visible-xs-block"></div>
+                                        <div class="col-xs-6 col-sm-3" >
+                                            <label class="control-label">{!IssueTypeName.label}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">
+                                            <apex:image height="16" width="16" value="{!IssueTypeName.iconUrl}" style="vertical-align: text-bottom;" rendered="{!IssueTypeName.RenderIconUrl}"/>
+                                            {!IssueTypeName.value}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-3">
+                                            <label class="control-label">{!StatusName.label}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">
+                                            <apex:image height="16" width="16" value="{!StatusName.iconUrl}" style="vertical-align: text-bottom;" rendered="{!StatusName.RenderIconUrl}"/>
+                                            {!StatusName.value}
+                                        </div>
+                                        <div class="clearfix visible-xs-block"></div>
+                                        <div class="col-xs-6 col-sm-3" >
+                                            <label class="control-label">{!PriorityName.label}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">
+                                            <apex:image height="16" width="16" value="{!PriorityName.iconUrl}" style="vertical-align: text-bottom;" rendered="{!PriorityName.RenderIconUrl}"/>
+                                            {!PriorityName.value}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-3" >
+                                            <label class="control-label">{!ResolutionName.label}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">
+                                            {!ResolutionName.value}
+                                        </div>
+                                        <div class="clearfix visible-xs-block"></div>
+                                        <div class="col-xs-6 col-sm-3" >
+                                            <label class="control-label">{!ResolutionDate.label}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">
+                                            {!ResolutionDate.value}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-3" >
+                                            <label class="control-label">{!CreatedDate.label}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">
+                                            {!CreatedDate.value}
+                                        </div>
+                                        <div class="clearfix visible-xs-block"></div>
+                                        <div class="col-xs-6 col-sm-3" >
+                                            <label class="control-label"> {!UpdatedDate.label}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">
+                                            {!UpdatedDate.value}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-3" >
+                                            <label class="control-label">{!DueDate.label}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">
+                                            {!DueDate.value}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-3" >
+                                            <label class="control-label">{!AssigneeName.label}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">
+                                            <apex:image height="16" width="16" value="{!AssigneeName.iconUrl}" style="vertical-align: text-bottom;" rendered="{!AssigneeName.RenderIconUrl}"/>
+                                            {!AssigneeName.value}
+                                        </div>
+                                        <div class="clearfix visible-xs-block"></div>
+                                        <div class="col-xs-6 col-sm-3">                    
+                                            <label class="control-label"> {!ReporterName.label}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">
+                                            <apex:image height="16" width="16" value="{!ReporterName.iconUrl}" style="vertical-align: text-bottom;" rendered="{!ReporterName.RenderIconUrl}"/>
+                                            {!ReporterName.value}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-3">
+                                            <label class="control-label">{!Votes.label}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">                    
+                                            {!Votes.value}
+                                        </div>
+                                        <div class="clearfix visible-xs-block"></div>
+                                        <div class="col-xs-6 col-sm-3">                    
+                                            <label class="control-label"> {!Watches.label}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">                    
+                                            {!Watches.value}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-3">
+                                            <label class="control-label">{!Labels.label}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">                    
+                                            {!Labels.value}
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-3">
+                                            <label class="control-label">{!AffectedVersions.label}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">                    
+                                            {!AffectedVersions.value}
+                                        </div>
+                                        <div class="clearfix visible-xs-block"></div>
+                                        <div class="col-xs-6 col-sm-3">                    
+                                            <label class="control-label"> {!FixVersions.label}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">                    
+                                            {!FixVersions.value}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-3">
+                                            <label class="control-label">{!Components.label}</label>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-3">                    
+                                            {!Components.value}
+                                        </div>
+                                    </div>                        
+                                    <hr style="border-top: 1px solid #aaa;"/>                    
+                                    <div class="row">
+                                        <div class="col-xs-12"> 
+                                            <label class="control-label">{!Environment.label}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12"> 
+                                            <div id="issueEnvironment"></div>
+                                        </div>
+                                    </div>
+                                    <hr style="border-top: 1px solid #aaa;"/>
+                                    <div class="row">
+                                        <div class="col-xs-12"> 
+                                            <label class="control-label">{!Description.label}</label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12"> 
+                                            <div id="issueDescription"></div>
+                                        </div>
+                                    </div>
+                                    <hr style="border-top: 1px solid #aaa;"/>
+                                    
+                                    <apex:repeat value="{!CustomFields}" var="customField"> 
+                                        <div class="row" type="custom" label="{!customField.label}">
+                                            <div class="col-xs-6 col-sm-3">
+                                                <label class="control-label">{!customField.label}</label>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-3">
+                                                <div id="{!JSENCODE(customField.id)}" style="display:none"/> 
+                                                <apex:outputText value="{!customField.value}" rendered="{!NOT(customField.htmlSecure)}"/> 
+                                            </div>
+                                        </div>
+                                        <script>
+                                        var isHtmlSecure = '{!customField.htmlSecure}';
+                                        if( isHtmlSecure == "true" ){
+                                            $jqz("div[id='{!JSENCODE(customField.id)}']").css("display" , "inline");
+                                            $jqz("div[id='{!JSENCODE(customField.id)}']").html('{!JSENCODE(customField.value)}');
+                                        }
+                                        </script>
+                                    </apex:repeat>
+                                    <br/>  
+                                    <!-- Related SF Entities -->
+                                    <apex:outputPanel rendered="{!RenderRelatedEntities}">
+                                        <h3>Related SalesForce Entities</h3><br/>  
+                                        <div class= "container" >
+                                            <apex:repeat value="{!relatedSFEntities}" var="entity"> 
+                                                <div class="col-md-4"  >
+                                                    <div class="well">
+                                                        <h3>
+                                                            <a onclick="goToEntity('{!entity.id}');"><span class="glyphicon glyphicon-align-justify" style=""></span> 
+                                                            {!entity.label} </a>                               
+                                                        </h3>
+                                                        <div class="intro">
+                                                            {!entity.summary}<br/>
+                                                            <h6>({!entity.status})</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </apex:repeat>
+                                        </div>
+                                    </apex:outputPanel>
+                                    <br/>  
+                                    <!-- Subtasks -->
+                                    <apex:outputPanel rendered="{!RenderSubtasks}">
+                                        <h3>Sub-Tasks</h3><br/>  
+                                        <div class= "container" >
+                                            <apex:repeat value="{!Subtasks}" var="issue"> 
+                                                <div class="col-md-4"  >
+                                                    <div class="well">
+                                                        <h3>
+                                                            <span class="glyphicon glyphicon-align-justify" style=""></span> 
+                                                            {!issue.key}                                
+                                                        </h3>
+                                                        <div class="intro">
+                                                            {!issue.summary}<br/>
+                                                            <h6>({!issue.status.value})</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </apex:repeat>
+                                        </div>
+                                    </apex:outputPanel>
+                                    <br/>  
+                                    <!--Issue Links-->
+                                    <apex:repeat value="{!IssueLinks}" var="issueLink" id="theRepeat">
+                                        <apex:outputPanel rendered="{!RenderIssueLinks}">
+                                            <h3>{!issueLink.typeName}</h3><br/>  
+                                            <div class= "container" >
+                                                <apex:repeat value="{!issueLink.issueLinks}" var="issue"> 
+                                                    <div class="col-md-4"  >
+                                                        <div class="well">
+                                                            <h3>
+                                                                <span class="glyphicon glyphicon-align-justify" style=""></span> 
+                                                                {!issue.key}                                
+                                                            </h3>
+                                                            <div class="intro">
+                                                                {!issue.summary}<br/>
+                                                                <h6>({!issue.status.value})</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </apex:repeat>
+                                            </div>
+                                        </apex:outputPanel>
+                                    </apex:repeat> 
+                                </div>
+                            </apex:outputPanel>
+                        </div>
+                        <div id="scomment" class="tab-pane fade" type="section"/>
+                        <div id="sactivity" class="tab-pane fade" type="section"/>
+                    </div>
+                </div>
+            </div>            
+        </apex:form>
+        <c:ZIssueActivity />
+    </body>
+    <script>
+    renderTextAreaFields();
+    function renderTextAreaFields(){
+        $jqz("#issueDescription").html("{!JSENCODE(Description.value)}");
+        $jqz("#issueEnvironment").html("{!JSENCODE(Environment.value)}");
+    }
+    
+    postSize();
+    function postSize(){
+        height = document.getElementById('content').clientHeight;
+        var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
+        if(typeof target != "undefined"){
+            target.postMessage("IFRAME_SIZE_"+height, "*");
+        }
+    }    
+    function postListener(e){
+        if(e.data.indexOf("REMOVE_CONTENT") == 0){
+           $jqz('#content').hide("fast", function(){});
+        }
+    }
+    
+    function redirectToEditIssue(issueKey){
+        postToParent("LOADING");
+        $jqz('#content').hide("fast", function(){});
+        var vf      = 'ZCreateOrEditIssueM'
+        var prefix  = 'zsfjira';
+        var source  = '/apex/' + prefix + '__' + vf + '?issueKey=' + issueKey;  
+        window.location.replace(source);
+    }
+    function postToParent(message){
+        var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
+        if(typeof target != "undefined"){
+            target.postMessage(message, "*");
+        }
+    }
+    function goToEntity(caseId){
+        postToParent('ENTITY_'+caseId);
+    }
+    if({!ErrorRequest}){
+        $jqz('#content').hide("fast", function(){});
+        var errorMessage = '{!JSENCODE(ErrorMessage)}';
+        postToParent('MODAL_ERROR_'+errorMessage);
+    }
+    if({!linkError}){
+        var errorMessage = '{!JSENCODE(linkResult)}';
+        postToParent('MODAL_ERROR_'+errorMessage);
+    }
+    window.addEventListener("message", postListener, false);
+    
+    function htmlDecode(value){
+        return $jqz('<div/>').html(value).text();
+    }
+    $jqz(document).on(
+        "transitionError",
+        function(event,errorMessage){            
+            postToParent('MODAL_ERROR_'+htmlDecode(errorMessage));
+        }
+    );
+    $jqz(document).on(
+        "transitionFinish",
+        function(event){
+            funcReloadIssueDetails();
+            openComment  = false;
+            openWorkLog  = false;
+            openHistory  = false;
+            openActivity = false;
+        }
+    ); 
+    </script>
+    <script>
+    var openComment  = false;
+    var openWorkLog  = false;
+    var openHistory  = false;
+    var openActivity = false;
+    function openTab(tabId){
+        $jqz("div[type='section']").attr('class','tab-pane fade');
+        $jqz("#"+tabId).attr('class','tab-pane fade in active'); 
+        if(tabId=='scomment' && !openComment){
+            openComment = true;
+            buildCommentSection('{!JSENCODE(IssueKey)}');
+        }
+        if(tabId=='sactivity' && !openActivity){
+            openActivity = true;
+            buildActivitySection('["{!JSENCODE(IssueKey)}"]',false);
+        }
+        postSize();
+    }
+    $jqz(document).on(
+        "postSize",
+        function(event){            
+            postSize();
+        }
+    ); 
+    </script>
+</apex:page>

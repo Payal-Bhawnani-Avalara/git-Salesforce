@@ -1,6 +1,6 @@
 @isTest
 public class testNewTaskUpdateParentCaseLastActivity {
-    
+    /*
     static testMethod void NewTaskUpdateParentCaseLastActivityTrg() {
 
            Account a = new Account();
@@ -46,6 +46,6 @@ public class testNewTaskUpdateParentCaseLastActivity {
         
      
         
-    }
+    }*/
 
     }

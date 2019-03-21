@@ -1,0 +1,263 @@
+<apex:page docType="html-5.0" showHeader="false" sidebar="false"
+           standardController="Case" extensions="zsfjira.ZCaseCommentController" standardStylesheets="false">
+    <!-- cache="true" expires="600">-->
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__bootstrap, 'bootstrap-3.2.0-dist/css/bootstrap.min.css')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__bootstrap, 'bootstrap-3.2.0-dist/js/bootstrap.min.js')}" />
+    <script src="../../soap/ajax/28.0/connection.js" type="text/javascript"></script>
+    <script src="../../soap/ajax/28.0/apex.js" type="text/javascript"></script>
+    <style>
+        textarea:focus {
+        outline: 0 none !important
+        }
+    </style>
+    <body onresize="postSize();">
+        <div style="" id='content'>
+            <div class="container">                
+                <h4>
+                    Comments for Case {!Case.CaseNumber}
+                </h4>
+                <apex:outputPanel id="tableComments">
+                    <table class="table">
+                        <caption>
+                            <a href="#" class="btn btn-primary btn-sm" role="button"
+                               onclick="newComment();return false;">New</a>
+                            <a href="#" class="btn btn-primary btn-sm" role="button"
+                               onclick="redirectToRelatedIssues();return false;">Cancel</a> 
+                        </caption>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Action</th>
+                                <th>Comment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <apex:repeat value="{!caseComments}" var="comment">                            
+                                <tr id='tr_{!comment.caseCommentId}'>
+                                    <th>{!comment.ordinal}</th>
+                                    <td>
+                                        <a href="#" class="btn btn-primary btn-xs" 
+                                           onclick="editComment('{!JSENCODE(comment.caseCommentId)}');return false;">
+                                            Edit
+                                        </a>
+                                        <a href="#" class="btn btn-primary btn-xs" 
+                                           onclick="deleteComment('{!JSENCODE(comment.caseCommentId)}');return false;"
+                                           style = 'display:none'>
+                                            Del
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <b>{!comment.header}</b><br/>
+                                        <input ordinal = '{!comment.ordinal}' type="hidden"
+                                               value="{!comment.body}"/>
+                                        <div id= 'comm_{!comment.ordinal}'/>
+                                    </td>
+                                </tr>                            
+                            </apex:repeat>
+                        </tbody>
+                    </table>
+                </apex:outputPanel>
+                <apex:form >
+                    <apex:actionFunction name="funcRemoveCaseComment" action="{!removeCaseComment}"
+                                         oncomplete="completeEvent({!resultEvent},'{!resultMessage}');renderTextAreaFields();"
+                                         reRender="tableComments">
+                        <apex:param name="pIdToRemove" assignTo="{!caseCommentToUpdate}" value="" />
+                    </apex:actionFunction>
+                    <apex:actionFunction name="funcUpsertCaseComment" action="{!upsertCaseComment}"
+                                         oncomplete="completeEvent({!resultEvent},'{!resultMessage}');renderTextAreaFields();"
+                                         reRender="tableComments">
+                        <apex:param name="pBody" assignTo="{!caseCommentBody}" value="" />
+                        <apex:param name="pCommentFooter" assignTo="{!commentFooter}" value="" />
+                        <apex:param name="pMode" assignTo="{!mode}" value="" />
+                        <apex:param name="pCaseCommentToUpdate" assignTo="{!caseCommentToUpdate}" value="" />
+                    </apex:actionFunction>
+                </apex:form>
+            </div>
+            
+            <div id="modalComments" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="titleModal"/>
+                        </div>
+                        <div class="modal-body">
+                            <textarea class="form-control" style="border-radius: 0px;border-bottom-width: 0px;resize:none;" rows="5" id="textComment"/>
+                            <textarea id="footComment" readonly="true" class="form-control" style="border-radius: 0px;border-top-width: 0px;resize:none;" rows="1">
+                            </textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <div id='checkIssues' align='left'/>
+                            <button type="button" class="btn btn-primary" id ='submitComment'
+                                    onclick='submit();'>Submit</button>
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </body>
+    <script>
+    $j = jQuery.noConflict();   
+    var mode ='';
+    var updatedId ='';
+    
+    $j(document).ready(
+        function() {
+            postSize();
+            renderTextAreaFields();
+        }        
+    );
+    function renderTextAreaFields(){                
+        $j("input[type='hidden']").each(
+            function(){
+                var ordinal =$j(this).attr('ordinal');
+                if(ordinal){
+                    var value= $j(this).val();                    
+                    $j("#comm_"+ordinal).html(value);
+                }
+            }
+        );
+    }
+    function completeEvent(result,resultMessage){
+        if(!result){
+            postToParent("MODAL_ERROR_"+resultMessage);
+        }
+        postToParent('FINISH');
+        postSize();        
+        postToParent('NOFADE');
+    }
+    function postSize() {
+        height = document.getElementById('content').clientHeight;
+        height = height<500?500:height;
+        var target = parent.postMessage ? parent:(parent.document.postMessage ? parent.document:undefined);
+        if (typeof target != "undefined") {
+            target.postMessage("IFRAME_SIZE_" + height, "*");
+        }
+    }
+    function editComment(caseCommentId){
+        mode = 'update';
+        updatedId = caseCommentId;
+        $j("#textComment").val('Loading...');
+        $j("#titleModal").html('Update Comment');
+        $j("#textComment").attr('disabled','true');
+        $j("#submitComment").attr('disabled','true');
+        $j('#footComment').hide();
+        var checkIss = document.getElementById('checkIssues');
+        checkIss.innerHTML = '';
+        $j("#modalComments").modal('show');
+        
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZCaseCommentController.getCommentBody}', caseCommentId,
+            function(result, event) {
+                if(event.status){
+                    if(result.success){
+                        $j("#textComment").val(result.message);
+                        $j("#submitComment").removeAttr('disabled');
+                        $j("#textComment").removeAttr('disabled');
+                    }
+                    else{
+                        $j("#modalComments").modal('hide');
+                        postToParent("MODAL_ERROR_"+result.message);
+                    }
+                }
+                else{
+                    $j("#modalComments").modal('hide');
+                    postToParent("MODAL_ERROR_Internal server error");
+                }
+            }, {escape:false}
+        );      
+    }
+    function deleteComment(caseCommentId){
+        if(confirm('Are you Sure?')){
+            postToParent('LOADING');
+            postToParent('FADE');
+            funcRemoveCaseComment(caseCommentId);
+        }
+    }
+    function newComment(){
+        mode = 'new';
+        $j("#titleModal").html('New Comment');
+        $j("#textComment").val('');
+        $j('#footComment').val('#JIRA');
+        $j('#footComment').show();
+        $j("#submitComment").attr('disabled','true');               
+        
+        var checkIss = document.getElementById('checkIssues');
+        checkIss.innerHTML = 'Send comment to the following JIRA issues: <br/>';
+        var lstIssues = JSON.parse('{!JSENCODE(RelatedIssues)}');
+        window.console.log('lstIssues',lstIssues);
+        if(lstIssues.length==0){
+            $j('#footComment').val('');
+        }
+        for(var i=0;i<lstIssues.length;i++){
+            var newLabel = document.createElement('label');
+            var newCheck = document.createElement('input');
+            newCheck.setAttribute('type','checkbox');
+            newCheck.setAttribute('value',lstIssues[i]);
+            newCheck.setAttribute('checked',true);
+            newCheck.setAttribute('id','check_'+lstIssues[i]);
+            newCheck.setAttribute('onclick','refreshFooter();');
+            
+            newLabel.appendChild(newCheck);
+            newLabel.innerHTML+=lstIssues[i];
+            
+            checkIss.appendChild(newLabel);
+            newLabel.innerHTML+='&nbsp;&nbsp;';
+        }
+        $j("#submitComment").removeAttr('disabled'); 
+        $j("#textComment").removeAttr('disabled'); 
+        $j("#modalComments").modal('show');
+    }
+    function refreshFooter(){
+        var footerTxt = '';
+        var selectAll = true;
+        var issues =[];
+        $j("input[type='checkbox']").each(
+            function(){
+                if($j(this).is(':checked')){
+                    issues.push($j(this).attr('value'));
+                    footerTxt = '#JIRA';
+                }
+                else{
+                    selectAll = false;
+                }
+            }
+        );
+        if(!selectAll){
+            for(var i=0;i<issues.length;i++){
+                footerTxt+=' #'+issues[i];
+            }
+        }
+        $j('#footComment').val(footerTxt);
+    }
+    function submit(){
+        $j("#modalComments").modal('hide');
+        var commentBody = $j("#textComment").val();
+        if(commentBody!=''){
+            postToParent('LOADING');
+            postToParent('FADE');            
+            var commentFooter = $j('#footComment').val();
+            funcUpsertCaseComment(commentBody,commentFooter,mode,updatedId);
+        }
+        else{
+            postToParent("MODAL_ERROR_You must enter a value");
+        }
+    }
+    
+    function postToParent(message){
+        var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
+        if(typeof target != "undefined"){
+            target.postMessage(message, "*");
+        }
+    }
+    function redirectToRelatedIssues(){
+        postToParent("LOADING");
+        $j('#content').hide("fast", function(){});
+        var vf      = 'ZMCaseRelatedJIRAIssues'
+        var source  = '/apex/' + vf + '?id={!Case.Id}';  
+        window.location.replace(source);
+    }
+    </script>
+</apex:page>

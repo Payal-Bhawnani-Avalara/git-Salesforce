@@ -16,7 +16,7 @@ global with sharing class VersionBadgeCtrl {
             SELECT Id, Name, Status__c, Type__c, Date_Achieved__c
             FROM Badge__c
             WHERE Version__c =:vId AND Type__c <> NULL AND Status__c <> NULL
-            ORDER BY Type__c DESC, Status__c DESC
+            ORDER BY Sort_Order__c ASC,Type__c DESC, Status__c DESC
         ];
     }
 

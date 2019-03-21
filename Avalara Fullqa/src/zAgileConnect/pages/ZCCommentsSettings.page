@@ -1,0 +1,112 @@
+<apex:page action="{!if(!isSysAdmin,urlFor('/apex/zsfjira__ZInsufficientPriv'), null)}"
+           controller="zsfjira.ZCCommentsSettingsController" setup="true">    
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-ui-1.10.3.custom.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__dynatree_1_2_4_js)}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__jQuery, '/css/redmond/jquery-ui-1.10.3.custom.min.css')}" />    
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__SLDS103, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+    <style>      
+        .divline{
+        height: 1px;
+        background: #CFD7E6;
+        margin-top:1%;                  
+        }
+        .messageText {
+        color: white !important;
+        }
+        .slds .slds-input {
+        width: auto;
+        }
+        div.pageMessageContainer>span{
+        width:100%;
+        }
+    </style>
+    <div class="slds">
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <p class="slds-text-body--small">General Settings</p>
+                    <div class="slds-grid">
+                        <div class="slds-grid slds-type-focus slds-no-space">
+                            <h1 class="slds-text-heading--medium slds-truncate" title="Settings">
+                                zAgileConnect Comment Settings 
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <apex:form >
+            <div class="slds-grid slds-wrap slds-col--padded-large slds-size--5-of-6">
+                <div class="slds-card slds-m-around--large slds-col">
+                    <div class="slds-card__body slds-p-horizontal--small">
+                        <p>
+                            In this section you can define whether a JIRA comment sent with #salesforce will be posted to Chatter Feed or Case Comment.
+                        </p>
+                        <br/>
+                        <div>
+                            <b>Case</b>
+                        </div>
+                        <div style="padding-left: 30px;">
+                            <apex:selectRadio value="{!selectedJiraCommentTarget}"
+                                              layout="pageDirection"
+                                              label="Delete Issues">
+                                <apex:selectOptions value="{!issueCommentTargets}"/>
+                            </apex:selectRadio>
+                        </div>
+                    </div>                    
+                </div>                
+            </div>
+            <apex:outputPanel id="messagesSection" style="display:none;">
+                <apex:pageMessage summary="{!message}" strength="1" severity="error"
+                                  rendered="{!error}" id="merr"/>
+                <apex:pageMessage summary="{!message}" strength="1" severity="info"
+                                  rendered="{!success}" id="msuc"/>
+                <apex:pageMessage summary="{!message}" strength="1" severity="warning"
+                                  rendered="{!warning}" id="mwar"/>
+            </apex:outputPanel>
+            <div class="slds-text-align--center slds-m-vertical--medium">
+                <input id="saveButton" type="button" class="slds-button slds-button--brand" value="Save"/>
+                <input id="returnButton" type="button" class="slds-button slds-button--brand" value="Return"/>    
+            </div>            
+            <apex:actionFunction name="funcSave" action="{!save}" reRender="messagesSection"
+                                 oncomplete="overridePageMessages();saveCallBack({!IF(success,true,false)});"/>
+            <apex:actionFunction name="funcCancel" action="{!cancel}"/>
+        </apex:form>
+    </div>    
+    <script>
+    $jqz(function() {
+        overridePageMessages();
+        
+        $jqz("#saveButton").click(function(e){
+            $jqz("#saveButton").attr('disabled','true');
+            $jqz("#saveButton").val('Saving..');
+            funcSave();
+        });
+        $jqz("#returnButton").click(function(e){
+            funcCancel();
+        });             
+    });
+    function saveCallBack(success){
+        $jqz("#saveButton").removeAttr('disabled');
+        $jqz("#saveButton").val('Save');
+        $jqz("span[id$=messagesSection]").show();  
+        if(success){
+            $jqz("span[id$=msuc]").show().delay(5000).fadeOut();    
+        }
+    }
+    function overridePageMessages() {
+        $jqz('.warningM4').addClass('slds-notify slds-notify--alert slds-theme--warning customMessage ');
+        $jqz('.confirmM4').addClass('slds-notify slds-notify--alert slds-theme--success  customMessage ')
+        $jqz('.errorM4').addClass('slds-notify slds-notify--alert slds-theme--error customMessage ');    
+        $jqz('.infoM4').addClass('slds-notify slds-notify--alert customMessage ');    
+        
+        $jqz('.errorM4').removeClass('errorM4'); 
+        $jqz('.confirmM4').removeClass('confirmM4'); 
+        $jqz('.infoM4').removeClass('infoM4');   
+        $jqz('.warningM4').removeClass('warningM4');  
+    }
+    </script>
+    
+</apex:page>

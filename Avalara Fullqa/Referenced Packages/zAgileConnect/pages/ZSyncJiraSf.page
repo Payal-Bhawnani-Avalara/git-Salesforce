@@ -1,0 +1,710 @@
+<apex:page action="{!if(!isSysAdmin,urlFor('/apex/zsfjira__ZInsufficientPriv'), null)}"
+           controller="zsfjira.ZSyncJiraSfController" setup="true">
+    <apex:includeScript value="/soap/ajax/30.0/connection.js"/> 
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-ui-1.10.3.custom.min.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__jQuery, '/css/redmond/jquery-ui-1.10.3.custom.min.css')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__datetimepicker, '/jquery.datetimepicker.js')}"  />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__datetimepicker, '/jquery.datetimepicker.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__SLDS103, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+    
+    <script type="text/javascript">
+    if (!window.console) window.console = {};
+    if (!window.console.log) window.console.log = function () {};
+    </script>
+    <script>
+    Visualforce.remoting.timeout = 120000;
+    </script>
+    <style>
+        .hiddenContainer {
+        display: none;
+        }
+        div.loader:after{
+        background-image: url({!$Resource.zsfjira__loader});
+        background-size: 24px 24px;
+        display: inline-block;
+        width: 24px; 
+        height: 24px;
+        content:"";
+        }
+        div.loader{
+        display: inline-block;
+        }
+        div#zUpStatusBody{
+        display: inline;
+        }
+        .divline{
+        height: 1px;
+        background: #CFD7E6;
+        margin-top:1%;                  
+        }
+        .messageText {
+        color: white !important;
+        }
+        .slds .slds-input {
+        width: auto;
+        }
+    </style>
+    
+    <div class="slds">
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <p class="slds-text-body--small">Salesforce Data Synchronization</p>
+                    <div class="slds-grid">
+                        <div class="slds-grid slds-type-focus slds-no-space">
+                            <h1 class="slds-text-heading--medium slds-truncate" title="Settings">Refresh JIRA Issue data in Salesforce</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <apex:form > 
+            <div id="step1" style="display:none;">
+                <div class="slds-grid">
+                    <div class="slds-card slds-m-around--large slds-col">
+                        <div class="slds-card__header slds-grid grid--flex-spread">
+                            <h2 class="slds-text-heading--small slds-truncate">Selection Critera</h2>
+                        </div>
+                        <div class="divline"> </div>
+                        <div class="slds-card__body slds-p-horizontal--small">
+                            <p>
+                                This option allows you to refresh JIRA issue data in Salesforce.
+                                You will want to refresh this information if you reconfigure the
+                                JIRA issue fields to be shared with Salesforce, or if this data is out of sync due to
+                                network problems or problems related to Salesforce accessibility from JIRA.
+                                <a style="float: right;" onclick="return toogleSearch(this);">
+                                    Custom Selection Criteria
+                                </a>
+                            </p>
+                            <table style="display: none;" class = 'slds-m-vertical--medium' id='jqlTable'>                        
+                                <tr>
+                                    <td style="color:#16325c;">                        
+                                        <label>JQL:</label>                    
+                                    </td>
+                                    <td style="color:#16325c;">                    
+                                        <input style="width:100%;" id ="jql" class="slds-input" type="text"/>
+                                    </td>
+                                </tr>                                
+                            </table>
+                            <table style="display: table;" class = 'slds-m-vertical--medium' id='filtersTable'>
+                                <tr>
+                                    <td>
+                                        <input class="slds-input" type="text" style="width: 0; height: 0; top: -1000px; position: absolute;"/>
+                                    </td>
+                                </tr>                
+                                <tr>
+                                    <td style="color:#16325c; width:250px;">                        
+                                        <label>Only refresh issues updated after</label>                    
+                                    </td>
+                                    <td style="color:#16325c;">                    
+                                        <input class="slds-input" type ="text" id="updated-after-date"/>
+                                        <span style="padding-left:2%; padding-right: 2%;">and before</span>
+                                        <input class="slds-input" type ="text" id="updated-before-date"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="color:#16325c; width:250px;">                        
+                                        <label>Only refresh issues created after</label>                    
+                                    </td>
+                                    <td style="color:#16325c;">                    
+                                        <input class="slds-input" type ="text" id="created-after-date"/>
+                                        <span style="padding-left:2%; padding-right: 2%;">and before</span>
+                                        <input class="slds-input" type ="text" id="created-before-date"/>
+                                    </td>
+                                </tr>
+                            </table>                                                                               
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-text-align--center">
+                    <input onclick="quickCount();return false;" id="quickButton" type="button" 
+                           value="Next" class="slds-button slds-button--brand"/>
+                    <apex:commandButton action="{!redirectZagileSettings}" value="Return"
+                                        styleClass="slds-button slds-button--brand"/>
+                </div> 
+            </div>
+            <div id="step2" style="display:none;">
+                <div class="slds-grid">
+                    <div class="slds-card slds-m-around--large slds-col">
+                        <div class="slds-card__header slds-grid grid--flex-spread">
+                            <h2 class="slds-text-heading--small slds-truncate">Confirmation</h2>
+                        </div>
+                        <div class="divline"> </div>
+                        <div class="slds-card__body slds-p-horizontal--small">
+                            <p id="st2_result"></p>                            
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-text-align--center">
+                    <input onclick="previous();return false;" id="prevButton" type="button" 
+                           value="Previous" class="slds-button slds-button--brand"/>
+                    <input onclick="sync();return false;" id="syncButton" type="button" 
+                           value="Confirm" class="slds-button slds-button--brand"/>
+                    <apex:commandButton action="{!redirectZagileSettings}" value="Return"
+                                        styleClass="slds-button slds-button--brand"/>
+                </div>
+            </div>
+            <div >
+                <div id="zUpError" class='hiddenContainer'>
+                    <apex:pageMessage strength="1" severity="error"
+                                      id="zUpErrorMessage" />
+                </div>
+                <div id="zUpCorrect" class='hiddenContainer'>
+                    <apex:pageMessage strength="1" severity="info"
+                                      id="zUpCorrectMessage" />
+                </div>
+                <div id="zUpStatus" class='hiddenContainer'>
+                    <apex:pageMessage strength="1" severity="info"
+                                      id="zUpStatusMessage" />
+                </div>
+                <div id='deletedIssues' style="display:none;">
+                    <apex:pageMessage strength="1" severity="warning"/>
+                </div>
+            </div>
+            <div style="width: 100%;display:none;" align='center' class='loader'></div>
+            <br/><br/>
+            <div style="display:none;" align='center' id="auxBtnReturn">
+                <apex:commandButton action="{!redirectZagileSettings}" value="Return"
+                                    styleClass="slds-button slds-button--brand"/>
+            </div>
+        </apex:form>
+    </div>    
+    <script>    
+    var lastSync = null;
+    $jqz(function() {
+        $jqz('#jql').on('keydown', function(e) {            
+            if (e.which == 13) {
+                e.preventDefault();
+                quickCount();
+            }
+        });
+        
+        overridePageMessages();
+        noMessage();
+        $jqz("div.hiddenContainer").each(function(i){
+            $jqz(this).removeAttr("class");
+        });        
+        $jqz("#zUpStatus").find("div.messageText").html('<div id="zUpStatusBody"></div>');
+        $jqz("#zUpStatus").find("div.messageText").append('<div id="percentage" style="display: inline;float: right;">0%</div>');
+        $jqz("#zUpStatus").find("div.messageText").append('<div id="zUpStatusProgress"></div>');
+        $jqz("#zUpStatus").find("div.messageText").append('<div id="zProgressDetails"></div>');
+        $jqz("#zUpStatus").find("td.messageCell").css('width','100%');
+        $jqz("#zUpStatusProgress").css('display','none');  
+        $jqz("#zUpStatusProgress").progressbar({
+            value: 0
+        });        
+        $jqz("#zUpStatusProgress").height(15);
+        
+        loadStatus(true,true);               
+        $jqz("#updated-after-date").datetimepicker({format: "m/d/Y g:i A", 
+                                                    closeOnDateSelect: true,
+                                                    autoOpen: true});
+        $jqz("#updated-before-date").datetimepicker({format: "m/d/Y g:i A", 
+                                                     closeOnDateSelect: true,
+                                                     autoOpen: true});
+        $jqz("#created-after-date").datetimepicker({format: "m/d/Y g:i A", 
+                                                    closeOnDateSelect: true,
+                                                    autoOpen: true});
+        $jqz("#created-before-date").datetimepicker({format: "m/d/Y g:i A", 
+                                                     closeOnDateSelect: true,
+                                                     autoOpen: true});
+    });
+    
+    var basicSearch = true;
+    function toogleSearch(link){
+        var currValue= link.innerHTML;
+        currValue = currValue.trim();
+        if(currValue=='Custom Selection Criteria'){
+            link.innerHTML = 'Basic Selection Criteria';
+            $jqz('#filtersTable').hide();
+            $jqz('#jqlTable').show();
+            $jqz('#setFilters').hide();
+            basicSearch = false;            
+        }else{
+            link.innerHTML = 'Custom Selection Criteria';
+            $jqz('#filtersTable').show();
+            $jqz('#jqlTable').hide();
+            $jqz('#setFilters').show();
+            basicSearch = true;
+        }
+    }
+    function previous(){
+        noMessage();
+        $jqz("#step1").slideDown("slow");
+        $jqz("#step2").css('display','none');
+    }
+    var strIssueIds = '';
+    var lstIssueIds = [];
+    var sfIssueIds=[];
+    var startAt = 0;
+    var total = 50;
+    var maxResults = 50;
+    function quickIssueCountBasic(longAfterUpdate,longBeforeUpdate,longAfterCreate,longBeforerCreate){
+        quickIssueCount(false,'',longAfterUpdate,longBeforeUpdate,longAfterCreate,longBeforerCreate);
+    }
+    function quickIssueCountJql(jql){
+        quickIssueCount(true,jql,0,0,0,0);        
+    }
+    function quickIssueCount(customJql,jql,longAfterUpdate,longBeforeUpdate,longAfterCreate,longBeforerCreate){          
+        window.console.log('startAt= '+startAt);
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSyncJiraSfController.quickCount}',customJql,jql,startAt,maxResults,longAfterUpdate,longBeforeUpdate,longAfterCreate,longBeforerCreate,
+            function(result, event) {
+                if(event.status){
+                    window.console.log('response: '+result.responseCode);
+                    if(result.responseCode==200){
+                        total = result.responseBody['total'];
+                        for(var i=0;i<result.responseBody['issues'].length;i++){
+                            var jiraId = result.responseBody['issues'][i]['id'];
+                            lstIssueIds.push(jiraId);
+                            strIssueIds+=jiraId+',';
+                        }
+                        startAt += maxResults;                                              
+                        if(startAt < total){
+                            $jqz("#percentage").html(Math.round((startAt*100)/total)+'%');
+                            $jqz("#zUpStatusProgress").css('display','block');
+                            $jqz("#zUpStatusProgress").progressbar({
+                                value: (startAt*100)/total
+                            });  
+                            quickIssueCount(customJql,jql,longAfterUpdate,longBeforeUpdate,longAfterCreate,longBeforerCreate);
+                        }else{
+                            if(lstIssueIds.length!=0){                                
+                                strIssueIds = strIssueIds.substr(0,strIssueIds.length-1);
+                                var soql ="SELECT Id FROM zsfjira__ZIssue__c "+
+                                    "WHERE zsfjira__IssueId__c IN("+strIssueIds+")";
+                                sforce.connection.sessionId = '{!$Api.Session_ID}';
+                                sforce.connection.query(soql,{                
+                                    onSuccess : function(resulSet) {                    
+                                        var records = resulSet.getArray("records");
+                                        var n = records.length;
+                                        numIssues = n;
+                                        
+                                        sfIssueIds=[];
+                                        for (var i=0;i<n;i++){
+                                            var sfId = records[i].get('Id');
+                                            sfIssueIds.push(sfId);
+                                        }
+                                        $jqz("#st2_result").html(sfIssueIds.length+
+                                                                 ' JIRA issues will be refreshed in Salesforce');
+                                        if(sfIssueIds.length>0){                                    
+                                            $jqz("#syncButton").removeAttr("disabled");
+                                        }
+                                        $jqz("#step2").slideDown("slow");
+                                        $jqz("#zUpStatus").css('display','none');
+                                        $jqz(".loader").hide();
+                                        $jqz("#auxBtnReturn").hide();
+                                    },
+                                    onFailure : function(error) {
+                                        $jqz(".loader").hide();
+                                        $jqz("#auxBtnReturn").hide();
+                                    }
+                                });
+                            }else{
+                                $jqz(".loader").hide();
+                                $jqz("#auxBtnReturn").hide();
+                                $jqz("#step2").slideDown("slow");
+                                $jqz("#zUpStatus").css('display','none');
+                                $jqz("#st2_result").html('There are no JIRA issues stored in Salesforce'+
+                                                         ' matching the entered criteria.');
+                            }
+                        }
+                    }else if(result.responseCode==400){
+                        $jqz(".loader").hide();
+                        $jqz("#auxBtnReturn").hide();
+                        $jqz("#step2").slideDown("slow");
+                        $jqz("#zUpStatus").css('display','none');
+                        window.console.log('result.responseBody',result.responseBody);
+                        if(result.responseBody.errorMessages){
+                            var respHtml = '<div style="color:red;">';
+                            for(var inx = 0;inx<result.responseBody.errorMessages.length;inx++){
+                                respHtml+=result.responseBody.errorMessages[inx]+'<br>';
+                            }
+                            respHtml+='</div>';
+                            $jqz("#st2_result").html(respHtml);
+                        }else{
+                            $jqz("#st2_result").html('<div style="color:red;">'+
+                                                     'Error during retrieving Issues, check JIRA connectivity and '+
+                                                     'try again later.</div>');
+                        }                 
+                    }else{
+                        $jqz(".loader").hide();
+                        $jqz("#auxBtnReturn").hide();
+                        $jqz("#step2").slideDown("slow");
+                        $jqz("#zUpStatus").css('display','none');
+                        $jqz("#st2_result").html('<div style="color:red;">'+
+                                                 'Error during retrieving Issues, '+result.responseBody+
+                                                 '</div>');
+                    }
+                }
+                else{
+                    $jqz("#step2").slideDown("slow");
+                    $jqz("#zUpStatus").css('display','none');
+                    $jqz(".loader").hide();
+                    $jqz("#auxBtnReturn").hide();
+                    $jqz("#st2_result").html('<div style="color:red;">'+
+                                             'Error, check JIRA connectivity and '+
+                                             'try again later.</div>');
+                }
+            }
+        );
+    }
+    var numIssues = 0;
+    function quickCount(){
+        numIssues = 0;
+        noMessage();
+        $jqz("#percentage").html('');
+        $jqz("#deletedIssues").css('display','none');                
+        
+        var longAfterUpdate = null;
+        var longBeforeUpdate = null;
+        var longAfterCreate = null;
+        var longBeforerCreate = null;
+        var strJql = null;
+        
+        if(basicSearch){
+            var strAfterUpdate = $jqz("#updated-after-date").val().trim();
+            var strBeforeUpdate = $jqz("#updated-before-date").val().trim();
+            var strAfterCreate = $jqz("#created-after-date").val().trim();
+            var strBeforerCreate = $jqz("#created-before-date").val().trim();
+            
+            longAfterUpdate = strAfterUpdate!=''?new Date(strAfterUpdate).getTime():0;
+            longBeforeUpdate = strBeforeUpdate!=''?new Date(strBeforeUpdate).getTime():0;
+            longAfterCreate = strAfterCreate!=''?new Date(strAfterCreate).getTime():0;
+            longBeforerCreate = strBeforerCreate!=''?new Date(strBeforerCreate).getTime():0;
+            
+            if(longAfterUpdate!=0 && longBeforeUpdate!=0){
+                if(longBeforeUpdate<longAfterUpdate){
+                    $jqz("#zUpError").css('display','block');
+                    $jqz("#zUpError").find('div.messageText').html(
+                        "Error, Updated before date must be greater than after Date");
+                    return;
+                }
+            }
+            if(longAfterCreate!=0 && longBeforerCreate!=0){
+                if(longBeforerCreate<longAfterCreate){
+                    $jqz("#zUpError").css('display','block');
+                    $jqz("#zUpError").find('div.messageText').html(
+                        "Error, Created before date must be greater than after Date");
+                    return;
+                }
+            }
+        }else{
+            strJql = $jqz("#jql").val().trim();
+            if(strJql==''){
+                $jqz("#zUpError").css('display','block');
+                $jqz("#zUpError").find('div.messageText').html(
+                    "Error, You must enter a JQL query");
+                return;
+            }
+        }
+        $jqz(".loader").show();
+        $jqz("#auxBtnReturn").show();
+        
+        $jqz("#syncButton").attr("disabled", "disabled");
+        
+        $jqz("#zUpStatus").css('display','block');
+        $jqz("#zUpStatusBody").html('Calculating JIRA Issues to be refreshed...');
+        $jqz("#zUpStatusProgress").css('display','none');
+        $jqz("#zProgressDetails").html('');
+        $jqz("#step1").slideUp();
+        
+        sfIssueIds=[];
+        if(basicSearch && (longAfterUpdate!=0 || longBeforeUpdate!=0 || longAfterCreate!=0 || longBeforerCreate!= 0)){
+            strIssueIds = '';
+            lstIssueIds = [];
+            startAt = 0;
+            total = 50;
+            maxResults = 50;
+            quickIssueCountBasic(longAfterUpdate,longBeforeUpdate,longAfterCreate,longBeforerCreate);
+        }else if(basicSearch){            
+            var soql ="SELECT Count() FROM zsfjira__ZIssue__c";
+            sforce.connection.sessionId = '{!$Api.Session_ID}';
+            sforce.connection.query(soql,{                
+                onSuccess : function(result) {       
+                    numIssues = parseInt(result.size);                    
+                    $jqz("#st2_result").html(numIssues+
+                                             ' JIRA issues will be refreshed in Salesforce');
+                    if(numIssues>0){                                    
+                        $jqz("#syncButton").removeAttr("disabled");
+                    }
+                    $jqz("#step2").slideDown("slow");
+                    $jqz("#zUpStatus").css('display','none');
+                    $jqz(".loader").hide();
+                    $jqz("#auxBtnReturn").hide();
+                },
+                onFailure : function(error) {
+                    $jqz(".loader").hide();
+                    $jqz("#auxBtnReturn").hide();
+                }
+            });
+        }else{
+            strIssueIds = '';
+            lstIssueIds = [];
+            startAt = 0;
+            total = 50;
+            maxResults = 50;            
+            quickIssueCountJql(strJql);            
+        }        
+        return;
+    }
+    function sync(){
+        noMessage();
+        var MAX_NUM_ISSUES = 50000;
+        if(sfIssueIds.length!=0 && numIssues>MAX_NUM_ISSUES){
+            $jqz("#zUpError").css('display','block');
+            $jqz("#zUpError").find('div.messageText').html(
+                "Error, You can't sync more than "+MAX_NUM_ISSUES+
+                " issues, change your selection criteria and retry.");
+            return;
+        }
+        $jqz("#percentage").html('');
+        $jqz("#zProgressDetails").html('');
+        $jqz("#step2").slideUp("slow");
+        $jqz("#deletedIssues").css('display','none');
+        $jqz("#zUpCorrect").css('display','block');
+        $jqz("#zUpCorrect").find('div.messageText').html("Launching sync...");
+        if(sfIssueIds.length==0){
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.ZSyncJiraSfController.beginSyncWithoutIds}',numIssues,
+                function(result, event) {
+                    if(event.status){
+                        if(!result.launchSync){
+                            $jqz("#zUpCorrect").css('display','none');
+                            $jqz("#zUpError").css('display','block');
+                            $jqz("#zUpError").find('div.messageText').html(result.message);
+                            $jqz("#step1").slideDown("slow");
+                        }
+                        else{
+                            loadStatus(false,true);
+                        }
+                    }
+                    else{
+                        $jqz("#zUpCorrect").css('display','none');
+                        $jqz("#zUpError").css('display','block');
+                        $jqz("#zUpError").find('div.messageText').html(
+                            "Problems during launching Job, contact your administrator");
+                        $jqz("#step1").slideDown("slow");
+                    }
+                }
+            );
+        }else{
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.ZSyncJiraSfController.beginSyncWithIds}',sfIssueIds,
+                function(result, event) {
+                    if(event.status){
+                        if(!result.launchSync){
+                            $jqz("#zUpCorrect").css('display','none');
+                            $jqz("#zUpError").css('display','block');
+                            $jqz("#zUpError").find('div.messageText').html(result.message);
+                            $jqz("#step1").slideDown("slow");
+                        }
+                        else{                            
+                            loadStatus(false,true);
+                        }
+                    }
+                    else{
+                        $jqz("#zUpCorrect").css('display','none');
+                        $jqz("#zUpError").css('display','block');
+                        $jqz("#zUpError").find('div.messageText').html(
+                            "Problems during launching Job, contact your administrator");
+                        $jqz("#step1").slideDown("slow");
+                    }
+                }
+            );
+        }
+    }
+    function noMessage(){
+        $jqz("#zUpError").css('display','none');
+        $jqz("#zUpCorrect").css('display','none');
+        $jqz("#zUpStatus").css('display','none');
+    }
+    function loadStatus(showLoading,renderStep_1){                    
+        if(showLoading){
+            noMessage();
+            $jqz("#zUpCorrect").css('display','block');
+            $jqz("#zUpCorrect").find('div.messageText').html("Retrieving Information...");
+        }              
+        $jqz("#deletedIssues").css('display','none');
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSyncJiraSfController.getInformation}',
+            function(result, event) {
+                noMessage();                
+                if (event.status) {
+                    window.console.log('result:');
+                    window.console.log(result);                    
+                    if(result.lastSync!=null){
+                        lastSync = result.lastSync;
+                        $jqz("#setFilters").remove();                        
+                        $jqz("#step1").find('div.slds-card__body').append('<span id="setFilters">'+
+                                                                 '<a style="cursor:pointer;text-decoration:underline;" onclick="setFilters();return false;">'+
+                                                                 'Set filters</a> to last successful sync '+
+                                                                          '('+formatDate(new Date(result.lastSync))+')</span>');
+                        if(!basicSearch){
+                            $jqz('#setFilters').hide();
+                        }
+                    }                                      
+                    var resultMessage = result.message;
+                    resultMessage = resultMessage.replace(/\n/g,'<br/>');
+                    if(result.typeMessage == 'W'){
+                        $jqz("#zUpStatus").css('display','block');
+                        $jqz("#zUpStatusBody").html(resultMessage);
+                    }else if(result.typeMessage == 'E'){
+                        $jqz("#zUpError").css('display','block');
+                        $jqz("#zUpError").find('div.messageText').html(resultMessage);
+                    }else if(result.typeMessage == 'I'){
+                        $jqz("#zUpCorrect").css('display','block');
+                        $jqz("#zUpCorrect").find('div.messageText').html(resultMessage);
+                    }
+                    if(result.allowSync){
+                        $jqz("#quickButton").removeAttr("disabled");
+                        if(renderStep_1){
+                            $jqz("#step1").slideDown("slow");
+                        }
+                    }
+                    $jqz("#deletedIssues").find('div.messageText').html('');
+                    if(result.issuesToDelete.length>0){
+                        var messageTxt='';
+                        if(result.isJiraOnDemand){
+                            messageTxt = 'The following JIRA issues'+
+                                ' appear to be deleted from JIRA.  Do you wish to delete them from Salesforce?';
+                        }
+                        else{
+                            messageTxt = 'The following JIRA issues'+
+                                ' appear to be deleted from JIRA or are not linked to any Salesforce entity.'+
+                                ' Do you wish to delete them from Salesforce?';
+                        }
+                        $jqz("#deletedIssues").css('display','block');
+                        $jqz("#deletedIssues").find('div.messageText').append('<div id="deleteIssuesDialog">'+messageTxt+
+                                                                              '&nbsp;<a href="#" onclick="deleteIssues();return false;">Delete</a>'+
+                                                                              '<br/><br/>'+result.issuesToDelete+'</div>');
+                    }
+                    if(result.wrongIssues.length>0){
+                        var messageTxt='The following issues are captured in Salesforce but seem to not '+
+                            'correspond to valid JIRA issues (captured before JIRA issue is created), this '+
+                            'may happen as a consequence of JIRA restore, these issues need to be removed '+
+                            'from Salesforce.';                        
+                        $jqz("#deletedIssues").css('display','block');
+                        $jqz("#deletedIssues").find('div.messageText').append('<br/><div id="wrongIssuesDialog">'+messageTxt+
+                                                                              '&nbsp;<a href="#" onclick="deleteWrongIssues();return false;">Delete</a>'+
+                                                                              '<br/><br/>'+result.wrongIssues+'</div>');
+                    }
+                    if(result.inProgress){
+                        $jqz(".loader").show();
+                        $jqz("#auxBtnReturn").show();
+                        if(result.progressResult){
+                            $jqz("#zUpStatusProgress").css('display','block');
+                            $jqz("#zUpStatusProgress").progressbar({
+                                value: (result.progressResult.jobItemsProcessed*100)/result.progressResult.totalJobItems
+                            });
+                            $jqz("#percentage").html(Math.round((result.progressResult.jobItemsProcessed*100)/result.progressResult.totalJobItems)+'%');
+                            $jqz("#zProgressDetails").html('Processing Batch...'+
+                                                           result.progressResult.jobItemsProcessed+'/'+
+                                                           result.progressResult.totalJobItems);
+                            $jqz("#zProgressDetails").append('<br/>Updated JIRA Issues...'+
+                                                             result.progressResult.updatedIssues+'/'+
+                                                             result.progressResult.totalIssues);
+                        }else{
+                            $jqz("#zUpStatusProgress").css('display','none');
+                            $jqz("#percentage").html('');
+                            $jqz("#zProgressDetails").html('');
+                        }
+                        setTimeout(function(){ loadStatus(false,true); }, 5000);
+                    }else{
+                        $jqz(".loader").hide();
+                        $jqz("#auxBtnReturn").hide();
+                    }
+                }
+                else{                    
+                    $jqz("#zUpError").css('display','block');
+                    $jqz("#zUpError").find('div.messageText').html(
+                        "Problems during getting Information, contact your administrator");
+                }
+            }            
+        );
+    }
+    function deleteWrongIssues(){
+        noMessage();
+        $jqz("#zUpCorrect").css('display','block');
+        $jqz("#zUpCorrect").find('div.messageText').html("Deleting Issues..."); 
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSyncJiraSfController.deleteWrongIssues}',
+            function(result, event) {
+                noMessage();
+                if (event.status) {
+                    $jqz("#zUpCorrect").css('display','block');
+                    $jqz('#wrongIssuesDialog').css('display','none');
+                    if($jqz('#deleteIssuesDialog').length==0){
+                        $jqz('#deletedIssues').css('display','none');
+                    }
+                    $jqz("#zUpCorrect").find('div.messageText').html('Issues removed successfully');
+                }
+                else{
+                    $jqz("#zUpError").css('display','block');
+                    $jqz("#zUpError").find('div.messageText').html(
+                        "Error during deletion, verify user privileges and try again");
+                }
+            }            
+        );
+    }
+    function deleteIssues(){
+        noMessage();
+        $jqz("#zUpCorrect").css('display','block');
+        $jqz("#zUpCorrect").find('div.messageText').html("Deleting Issues..."); 
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSyncJiraSfController.deleteIssues}',
+            function(result, event) {
+                noMessage();
+                if (event.status) {
+                    $jqz("#zUpCorrect").css('display','block');
+                    $jqz('#deleteIssuesDialog').css('display','none');
+                    if($jqz('#wrongIssuesDialog').length==0){
+                        $jqz('#deletedIssues').css('display','none');
+                    }
+                    $jqz("#zUpCorrect").find('div.messageText').html('Issues removed successfully');
+                }
+                else{
+                    $jqz("#zUpError").css('display','block');
+                    $jqz("#zUpError").find('div.messageText').html(event.message);
+                }
+            }            
+        );
+    }
+    function formatDate(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return formatNumber(date.getMonth()+1,2) + "/" + formatNumber(date.getDate(),2) + "/" + date.getFullYear() + " " + strTime;
+    }
+    function formatNumber(number,size){
+        var strNum = number+'';
+        while(strNum.length<size){
+            strNum = '0'+strNum;
+        }
+        return strNum;
+    }
+    function setFilters(){
+        var strDate = formatDate(new Date(lastSync));
+        $jqz("#updated-after-date").val(strDate);   
+        $jqz("#updated-before-date").val('');
+        $jqz("#created-after-date").val('');
+        $jqz("#created-before-date").val('');
+    }   
+    function overridePageMessages() {
+        $jqz('.warningM4').addClass('slds-notify slds-notify--alert slds-theme--warning customMessage ');
+        $jqz('.confirmM4').addClass('slds-notify slds-notify--alert slds-theme--success  customMessage ')
+        $jqz('.errorM4').addClass('slds-notify slds-notify--alert slds-theme--error customMessage ');    
+        $jqz('.infoM4').addClass('slds-notify slds-notify--alert customMessage ');    
+        
+        $jqz('.errorM4').removeClass('errorM4'); 
+        $jqz('.confirmM4').removeClass('confirmM4'); 
+        $jqz('.infoM4').removeClass('infoM4');   
+        $jqz('.warningM4').removeClass('warningM4');  
+    }
+    </script>
+</apex:page>

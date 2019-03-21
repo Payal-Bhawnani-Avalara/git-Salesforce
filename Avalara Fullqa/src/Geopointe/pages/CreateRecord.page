@@ -1,10 +1,8 @@
 <apex:page controller="geopointe.CreateRecord_Controller" extensions="geopointe.RemoteAction" standardStylesheets="false" showHeader="false" sidebar="false" action="{!initMain}" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0">
 	
-	<script src="{!URLFOR($Resource.jquery, '/jquery-1.8.3.min.js')}"></script> <!-- core jQuery -->
-	<script src="{!URLFOR($Resource.jquery, '/ui/js/jquery-ui-1.9.2.custom.min.js')}"></script>
+	<script src="{!URLFOR($Resource.jquery, '/jquery-3.3.1.min.js')}"></script> <!-- core jQuery -->
     <script src="{!URLFOR($Resource.jquery, '/js/common.js')}"></script> <!-- Generic JS use across entire app -->
     <script src="{!$Resource.GeopointeJS}"></script>
-    <apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/css/smoothness/jquery-ui-1.9.2.custom.min.css')}"/> <!--jQuery UI-->
     <apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/common/common.css')}"/> <!-- Common geopointe CSS --> 
     <apex:stylesheet value="{!URLFOR($Resource.geopointe__SLDS, '/0.8.0/assets/styles/salesforce-lightning-design-system-vf.min.css')}"/> <!-- Salesforce Lightning Design System -->
     <apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/common/common-lightning.css')}"/> <!-- Common geopointe CSS for lightning styled pages--> 
@@ -82,10 +80,10 @@
 				<apex:pageBlockButtons location="top">
 					<apex:actionStatus id="saveStatus1">
 						<apex:facet name="start">
-							<apex:commandButton styleClass="slds-button slds-button--neutral" value="Saving..." disabled="true"/>
+							<apex:commandButton styleClass="slds-button slds-button--neutral gpDisabledSaveBtn" value="Saving..." disabled="true"/>
 						</apex:facet>
 						<apex:facet name="stop">
-							<apex:commandButton id="saveButton" status="saveStatus1" styleClass="slds-button slds-button--neutral" value="Save" action="{!save}" reRender="pageBlocksWrapper" oncomplete="parent.gp_scrollActionIframeToTop(); resetIFrameHeight();"/>
+							<apex:commandButton id="saveButton" status="saveStatus1" styleClass="slds-button slds-button--neutral gpSaveBtn" value="Save" action="{!save}" reRender="pageBlocksWrapper" onClick="disableSaveButtons();" oncomplete="enableSaveButtons(); parent.gp_scrollActionIframeToTop(); resetIFrameHeight();"/>
 						</apex:facet>
 					</apex:actionStatus>	
 				</apex:pageBlockButtons>
@@ -93,10 +91,10 @@
 				<apex:pageBlockButtons location="bottom">
 					<apex:actionStatus id="saveStatus2">
 						<apex:facet name="start">
-							<apex:commandButton styleClass="slds-button slds-button--neutral" value="Saving..." disabled="true"/>
+							<apex:commandButton styleClass="slds-button slds-button--neutral gpDisabledSaveBtn" value="Saving..." disabled="true"/>
 						</apex:facet>
 						<apex:facet name="stop">
-							<apex:commandButton id="saveButton" status="saveStatus2" styleClass="slds-button slds-button--neutral" value="Save" action="{!save}" reRender="pageBlocksWrapper" oncomplete="parent.gp_scrollActionIframeToTop(); resetIFrameHeight();"/>
+							<apex:commandButton id="saveButton" status="saveStatus2" styleClass="slds-button slds-button--neutral gpSaveBtn" value="Save" action="{!save}" reRender="pageBlocksWrapper" onClick="disableSaveButtons();" oncomplete="enableSaveButtons(); parent.gp_scrollActionIframeToTop(); resetIFrameHeight();"/>
 						</apex:facet>
 					</apex:actionStatus>	
 				</apex:pageBlockButtons>
@@ -181,6 +179,24 @@
 	</div>
 
 	<script type="text/javascript">
+
+		function disableSaveButtons(){
+			//Set timeout as we need to wait for DOM changes that sfdc does first
+			setTimeout(function(){
+				//Check to see if the start facet is displayed anywhere, salesforces only shows this was form has actually been submitted after required fields are entered
+				var disabledSaveBtns = jQuery(".gpDisabledSaveBtn:visible");
+
+				//Ajax form as actually been submitted, disable other buttons.
+				if(disabledSaveBtns.length > 0){
+					jQuery(".gpSaveBtn").val('Saving...').prop('disabled',true);
+				}
+			},1);
+		}
+
+		function enableSaveButtons(){
+			jQuery(".gpSaveBtn").val('Save').prop('disabled',false);
+		}
+
 		function resetIFrameHeight(){
 			parent.gp_setActionIframeAutoHeight(jQuery("html").height());
 		}

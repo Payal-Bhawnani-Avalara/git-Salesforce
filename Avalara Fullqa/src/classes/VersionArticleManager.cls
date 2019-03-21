@@ -7,9 +7,11 @@ public class VersionArticleManager{
         List<Version__c> versions = getVersions(triggerNew);
 
         for(Version__c v : versions){
-            Connector_KB__kav ka = toArticle(v);
-            articles.add(ka);
-            //articles.add(toArticle(v));
+	        	if(v.Parent_Version__c==null){
+	            Connector_KB__kav ka = toArticle(v);
+	            articles.add(ka);
+	            //articles.add(toArticle(v));
+	        	}
         }
 
 
@@ -69,7 +71,7 @@ public class VersionArticleManager{
                Version_KB__r.Mapping__c,Version_KB__r.Exemptions__c,Version_KB__r.Timing_Process_for_Tax_Calc__c,Version_KB__r.Committing_Transactions__c,
                Version_KB__r.Warehouse_Ship_to_by_Line__c,Version_KB__r.Known_Issues__c,Version_KB__r.SDK_Platform__c,Version_KB__r.Implementation_Instructions__c,
                Version_KB__r.Customer_Support_Info__c,Version_KB__r.Support_Escalation_Info__c,Version_KB__r.Address_Validation_Batch_Utlity__c,Version_KB__r.Installation_Contact__c,
-               Connector__r.Connector_Description__c,Connector__r.Name, Connector__r.Connector_EcoSystem_Test__c
+               Connector__r.Connector_Description__c,Connector__r.Name, Connector__r.Connector_EcoSystem_Test__c,Parent_Version__c
             FROM Version__c
             WHERE Id IN :triggerNew];
     }

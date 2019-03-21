@@ -1,0 +1,23 @@
+<!--
+ * Name: TasksComponent.DESIGN
+ * Last Modified: 09-25-2017
+ * Modified By: FB
+ * Description: 
+ * This is a Component DESIGN pass attribute to the component for configuration use
+ * Display all the data and action
+ * 
+ *
+-->
+<design:component label="Tasks">
+     <!--these attributes used to keep the configuration set by the administrator on the lightning page and pass to the component as parameter !-->  
+   <design:attribute name="heading"	label="Header Label"   		 description="Component Header title" />   
+    <design:attribute name="isNullFirst" label="Show Null First"  	 description="Tasks with NULL (EMPTY) Activity Date will be displayed First" datasource="Yes,No"  />
+    <design:attribute name="SortBy" 	label="Sort By Activity Date" description="Task list will be displayed sorted by Activity Date" datasource="ASC,DESC"   />
+    <design:attribute name="maxLim" 	label="Task per page"   	 description="Max no. of tasks displayed per page" />
+    <design:attribute name="HideRelated" label="Hide Related"  		 description="Hide Related Objects links" datasource="Yes,No"  />
+    <design:attribute name="HideLabel" 	label="Hide Label"  		 description="Hide Component Header Label" datasource="Yes,No"  />
+
+    
+    
+     
+</design:component>

@@ -1,0 +1,1534 @@
+<apex:page controller="LeanData.AccountContactReassignRuleController" sidebar="false" standardStylesheets="false" docType="html-5.0" showHeader="false">
+  <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"/> 
+  <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"/> 
+  <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"/>
+  <apex:includeScript value="{!URLFOR($Resource.LeanData__bootstrap_v3_3_4, 'js/bootstrap.js')}"/>
+  <apex:stylesheet value="{!URLFOR($Resource.LeanData__bootstrap_v3_3_4, 'css/bootstrap.css')}"/>
+  <apex:includeScript value="{!URLFOR($Resource.LeanData__JqueryUI, 'jquery-ui-1.11.4.custom/jquery-ui.min.js')}"/>
+  <script src="../../soap/ajax/33.0/connection.js" type="text/javascript"></script>
+
+  <style>
+    html {
+      font-family: sans-serif ;
+      -webkit-text-size-adjust: 100% ;
+          -ms-text-size-adjust: 100% ;
+    }
+
+    .bs {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      margin: 0;
+      height: 100%;
+    }
+
+    .bs h1, .bs h2, .bs h3, .bs h4, .bs h5, .bs h6, .bs .h1, .bs .h2, .bs .h3, .bs .h4, .bs .h5, .bs .h6 {
+      font-weight: 600;
+    }
+
+    .page-content {
+      display: block;
+      float: left;
+    }
+
+    /***** HEADER *****/
+    .bs .header {
+      background-color: #6ab4c9;
+      height: 60px;
+      width: 100%;
+      position: relative;
+      z-index: 1001
+    }
+
+    .bs .logo {
+      display: block;
+      float: left;
+      margin-top: 15px;
+      margin-left: -35px;
+    }
+
+    .bs .navbar-default {
+      background-color: transparent;
+        border-color: transparent;
+      z-index: 1001;
+      margin-top: 3px;
+    }
+
+    .bs .navbar-default .navbar-toggle {
+      border-color: transparent;
+    }
+
+    .bs .navbar-default .navbar-toggle .icon-bar {
+      background-color: #ffffff;
+    }
+
+    .bs .navbar-default .navbar-toggle:hover, .bs .navbar-default .navbar-toggle:focus {
+        background-color: transparent;
+    }
+
+    .bs .navbar-default {
+      background-color: transparent;
+        border-color: transparent;
+        margin-left: 10px;
+      z-index: 1001;
+      display: none;
+      float: right;
+      width: 111px;
+    }
+
+    .bs .text-menu {
+      left: 38px;
+        position: relative;
+        top: 14px;
+      color: #ffffff;
+      cursor: pointer;
+      float: left;
+    }
+
+    .bs .navbar-toggle {
+      float: left;
+      margin-right: -40px;
+    }
+
+    /*** SIDEBAR ****/
+
+    .bs .left-sidebar {
+      background-color: #70797b;
+        color: #ffffff;
+        padding: 100px 20px 20px;
+        position: absolute;
+        width: 240px;
+    }
+
+    .bs .left-sidebar:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        z-index: -1;
+        background-color: #70797b;
+    }
+
+    .bs .left-sidebar h3 {
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .bs .left-sidebar h4 {
+      margin-bottom: 20px;
+      margin-top: 60px;
+      font-size: 12px;
+    }
+
+    .bs .form-control {
+      background-color: #e7eaeb;
+      color: #000;
+    }
+
+    .bs .filter-button {
+      background-color: #043e57;
+      margin-top: 60px;
+      border-color: #043e57;
+      margin-bottom: 20px;
+    }
+
+    .bs .filter-button:hover {
+      background-color: #055070;
+    }
+
+    .bs .input-lg {
+      font-size: 13px;
+      font-weight: 500;
+      padding: 10px 8px 10px 10px;
+    }
+
+    .bs select.input-lg {
+      height: 40px;
+    }
+
+    /*** MAIN CONTENT ***/
+    .bs .main-content {
+      padding: 0 0 0 240px;
+      width: 100%;
+      float: left;
+    }
+
+    .bs .header-title {
+      background-color: #ffffff;
+      padding: 40px 0;
+    }
+
+    .bs .header-title h2 {
+      color: #043e57;
+      text-align: center;
+      font-size: 27px;
+      line-height: 32px;
+    }
+
+    .bs .content {
+      background-color: #f5f5f5;
+      padding: 54px 0px;
+      color: #666666;
+      border-bottom: 1px solid #e6e6e6;
+      border-top: 1px solid #e6e6e6;
+      float: left;
+      width: 100%;
+    }
+
+    .bs .content h4 {
+      font-size: 18px;
+        margin-bottom: 16px;
+    }
+
+    .bs .details {
+      display: inline-block;
+        max-width: 774px;
+        text-align: left;
+    }
+
+    .bs .box {
+      color: #FFFFFF;
+      height: 164px;
+        padding: 33px 12%;
+    }
+
+    .bs .box .title{
+      font-size: 40px;
+    }
+
+    .bs .sub-title {
+      font-size: 12px;
+    }
+
+    .bs .first-box {
+      padding-left: 0px !important;
+    }
+
+    .bs .last-box {
+      padding-right: 0px !important;
+    }
+
+    .bs .total {
+      background-color: #6ab4c9;    
+    }
+
+    .bs .opportunity {
+      background-color: #b0dd08;
+    }
+
+    .bs .campaigns {
+      background-color: #5e7178;
+    }
+
+    .bs .cost {
+      background-color: #fad000;
+    }
+
+    .bs .data-shown {
+      background-color: #ffffff;
+      margin-top: 8px;
+      padding: 20px;
+    }
+
+    .bs .data-shown h5 {
+      color: #043e57;
+      margin-bottom: 20px;
+      font-size: 12px;
+        letter-spacing: 1px;
+    }
+
+    .bs .data-shown p {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      color: #737373;
+    }
+
+    .bs .data-shown span {
+      padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .bs .charts {
+      background-color: #ffffff;
+        border-bottom: 2px solid #e7e7e7;
+        float: left;
+        padding: 54px 0;
+        width: 100%;
+      min-width: 1170px;
+      margin-bottom: 40px;
+    }
+
+    .bs .chart-title {
+      text-align: center;
+      color: #666666;
+      font-size: 20px;
+    }
+
+    .bs .chart-content {
+      margin-top: 25px;
+      text-align: center;
+      background-color: #f2f2f2;
+    }
+
+    .bs .tables-view {
+      background-color: #ffffff;
+      padding: 40px 0;
+    }
+
+    .bs .table-view-title h2 {
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 40px;
+      letter-spacing: 3px;
+      color: #666666;
+    }
+
+    .bs .header-table {
+      background-color: #f2f2f2;
+      color: #005980;
+      border: solid 1px #e6e6e6;
+    }
+
+    .bs .header-table td { 
+         border-top: none !important;
+    }
+
+    .bs .header-table td span {
+      display: block;
+        font-size: 26px;
+        padding-top: 20px;
+      line-height: 28px;
+    }
+
+    .bs .header-table td small {
+      color: #999999;
+      display: block;
+      padding-bottom: 20px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .bs .glyphicon {
+      color: #4eaacc;
+      border: 2px solid #4eaacc;
+      border-radius: 50%;
+      text-align: center;
+      padding-top: 0px !Important;
+      padding-bottom: 0px !important;
+      width: 32px;
+      display: block;
+      margin-top: 28px;
+      float: left;
+      cursor: pointer;
+      font-size: 20px !important;
+      font-weight: bold;
+    }
+
+    .bs .glyphicon:hover {
+      color: #3d819a;
+      border: 2px solid #3d819a;
+    }
+
+    .bs .first-cell {
+      border-right: 1px solid #ddd;
+      width: 140px;
+    }
+
+    .bs .first-cell span {
+      color: #4eaacc;
+        display: block !important;
+        float: left;
+        text-align: center;
+    }
+
+    .bs .first-cell small {
+      color: #4eaacc !important;
+      font-size: 18px !important;
+    }
+
+    .bs .table-bottom {
+      margin-top: -20px;
+      margin-bottom: 20px;
+    }
+
+    .bs .table-info thead, .bs .table-info tbody, .bs .table-info tr, .bs .table-info td, .bs .table-info th { display: block; }
+
+    .bs .table-info tr:after {
+        content: ' ';
+        display: block;
+        /*visibility: hidden;*/
+        clear: both;
+    }
+
+    .bs .table-info thead th {
+      font-size: 11px;
+        line-height: 14px !important
+    }
+
+    .bs .table-info tbody {
+/*        max-height: 190px;*/
+        overflow-y: auto;
+    }
+
+    .bs .table-info thead {
+        /* fallback */
+    }
+
+
+    .bs .table-info tbody td, .bs thead th {
+        float: left;
+    }
+
+    .bs .table > thead > tr > th {
+      border-bottom: medium none;
+      color: #85c4da;
+    }
+
+    .bs .table > thead {
+      background-color: #386578;
+    }
+
+    .bs .table-responsive > .table > thead > tr > th, .bs .table-responsive > .table > tbody > tr > th, .bs .table-responsive > .table > tfoot > tr > th, .bs .table-responsive > .table > thead > tr > td, .bs .table-responsive > .table > tbody > tr > td, .bs .table-responsive > .table > tfoot > tr > td {
+      white-space: normal;
+    }
+
+    @media (min-width: 320px) and (max-width: 991px) {
+      .bs aside {
+        display: none;
+      }
+      
+      .bs .box {
+      padding: 30px 12%;
+      }
+      
+      .bs .box .title {
+      font-size: 40px;
+      }
+      
+      .bs .main-content {
+      padding-left: 0px !important;
+      }
+      
+      .bs .content {
+      padding: 20px 0;
+      min-width: 100% !important;
+      }
+      
+      .bs .charts {
+      min-width: 100% !important;
+      }
+      
+      .bs .content h4 {
+      text-align: center;
+      }
+      
+      .bs .left-sidebar {
+      padding-top: 1px;
+      position: relative !important;
+      }
+      
+      .bs .navbar-default {
+      display: block !important;
+      }
+      
+      .bs .col-xs-6 {
+      padding: 5px;
+      }
+      
+      .bs .left-sidebar {
+      width: 100%;
+      }
+      
+      .bs .first-chart {
+      padding-left: 15px !important;
+      }
+
+      .bs .second-chart {
+        padding-right: 15px !important;
+      }
+      
+      .bs .container {
+      margin-left: 0px !important;
+      }
+      
+      .mob-padding-l {
+        padding-left: 0px !important;
+      }
+      
+      .mob-padding-r {
+        padding-right: 0px !important;
+      }
+      
+      .bs .header-title h2 {
+        padding: 0 20px;
+      }
+      
+      #left-sidebar {
+        height: auto !important;
+      }
+      
+      .bs .table-responsive {
+        margin-bottom: 5px;
+      }  
+      
+      .logo {
+        margin-left: 10px;
+      }
+      
+      .page-content {
+        display: block;
+        float: left;
+        width: 100%;
+      }
+      
+      .bs .container {
+        width: 100%;
+      }
+      
+      .bs .btn-default {
+        padding: 10px 21px 10px 12px !important;
+      }
+      
+      .bs .date-select {
+        background-position: 95% !important;
+      }
+      
+      .bs .select-1 {
+        background-position: 95% !important;
+      }
+    }
+
+    .bs .table-info tbody {
+      font-size: 12px;
+      color: #737373;
+      line-height: 16px;
+    }
+
+    .bs .table > thead > tr > th, .bs .table > tbody > tr > th, .bs .table > tfoot > tr > th, .bs .table > thead > tr > td, .bs .table > tbody > tr > td, .bs .table > tfoot > tr > td {
+      padding-left: 24px;
+    }
+
+    .bs .q-text {
+      margin-left: 10px;
+      font-size: 30px !important;
+    }
+
+    .bs .first-chart {
+      padding-left: 0px;
+    }
+
+    .bs .second-chart {
+      padding-right: 0px;
+    }
+
+    .bs .container {
+      margin-left: 72px;
+    }
+
+    .bs select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      text-overflow: ""; 
+      cursor: pointer;  
+    }
+
+    .bs .secect-1 {
+      background: #e7eaeb url(../images/arrow.png) no-repeat 95% center;
+    }
+
+
+    .bs .btn-default {
+      background-color: #e7eaeb;
+        border-color: #ccc;
+        color: #000;
+        font-size: 13px;
+        font-weight: 500;
+        height: 40px;
+      text-align: left;
+      width: 100%;
+      padding: 10px 8px 10px 12px;
+    }
+
+    .bs .btn-group, .bs .btn-group-vertical {
+      width: 100%;
+    }
+
+    .bs .caret {
+        background: #e7eaeb url(../images/arrow.png) no-repeat 90% center !important;
+        display: inline-block;
+        height: 9px;
+        margin-left: 2px;
+        vertical-align: middle;
+        width: 19px;
+      border-left: medium none;
+        border-right: medium none;
+        border-top: medium none;
+        margin-top: -13px;
+      float: right;
+    }
+
+    @media screen and (-webkit-min-device-pixel-ratio:0) { 
+     .bs .caret {
+      margin-top: 5px;
+     }
+    }
+
+    .bs .multiselect-container {
+      background-color: #e7eaeb;
+      color: #000;
+        font-size: 13px;
+        font-weight: 500;
+      width: 100%;
+    }
+
+    .bs .col-md-3 {
+      padding: 8px;
+    }
+
+    .bs .date-select {
+        background: url("../images/arrow.png") no-repeat scroll 90% center #e7eaeb;
+    }
+
+    .bs h4 span {
+      font-size: 12px;
+      font-weight: 500;
+      padding-left: 5px;
+    }
+
+    .bs .table {
+      max-width: 1170px;
+      width: 1170px;
+      min-width: 1170px;
+    }
+
+    .bs .row {
+      overflow: auto;
+    }
+
+    .bs .table {
+      margin-bottom: 5px;
+    }
+
+    .bs .table > thead > tr > th, .bs .table > tbody > tr > th, .bs .table > tfoot > tr > th, .bs .table > thead > tr > td, .bs .table > tbody > tr > td, .bs .table > tfoot > tr > td {
+      border-top: 1px solid #ededed;
+    }
+
+    .bs .table-info > thead > tr > th, .bs .table-info > tbody > tr > th, .bs .table-info > tfoot > tr > th, .bs .table-info > thead > tr > td, .bs .table-info > tbody > tr > td, .bs .table-info > tfoot > tr > td {
+      padding-bottom: 20px;
+        padding-top: 20px;
+    }
+
+    .charts-inner {
+      padding: 0 !important;
+      overflow: auto;
+    }
+
+    .across {
+      display: inline-block;
+        text-align: center;
+    }
+
+    /***** ACCOUNTS *****/
+    .bs .left-sidebar {
+      padding-top: 85px;
+    }
+
+    .bs .checkbox-inline {
+      font-size: 14px;
+      color: #ebebeb;
+    }
+
+    .bs .checkbox input[type="checkbox"], .bs .checkbox-inline input[type="checkbox"] {
+      margin-top: 3px;
+    }
+
+    .bs .header-title h2 {
+      text-align: left !important;
+      padding: 0 15px;
+    }
+
+    .bs .header-title h2 span {
+      color: #005980;
+      font-weight: 400;
+    }
+
+    .bs .content {
+      background: #ffffff !important;
+    }
+
+    .bs .details {
+      max-width: 1050px;
+    }
+
+    .bs .content h4 {
+      color: #043e57;
+      font-size: 24px;
+    }
+
+    .bs .statistic {
+      background-color: #eef5f5;
+      border: 1px solid #cad5d7;
+    }
+
+    .bs .col-md-3 {
+      padding: 0;
+    }
+
+    .bs .box {
+      border-right: 1px solid #c8d3d5;
+      color: #043e57;
+      text-align: center;
+      line-height: 24px;
+      height: 240px;
+      padding: 55px 15%;
+    } 
+
+    .bs .box .title {
+      font-size: 50px;
+      border-bottom: 2px solid #043e57;
+      padding-bottom: 15px;
+    }
+
+    .bs .box .title small {
+      font-size: 18px;
+    }
+
+    .bs .sub-title {
+      font-size: 14px;
+        font-weight: 400;
+        line-height: 18px;
+        padding-top: 15px;
+    }
+
+    .bs .box p {
+      text-align: left;
+      color: #5e7178;
+      font-size: 20px;
+    }
+
+    .bs .box span {
+      color: #00accf;
+      font-weight: 600;
+    }
+
+    .bs .highest {
+      margin-top: 35px;
+    }
+
+    .legend {
+      text-align: left; 
+    }
+
+    .bs .legend span {
+      color: #005980 !important;
+      margin-left: 10px;
+      font-weight: 400;
+    }
+
+    .median-v {
+      margin-bottom: 10px;
+      margin-top: 20px;
+    }
+
+    .bs .filter-button {
+      margin-top: 44px;
+    }
+
+    .key-box {
+      padding-top: 43px !important;
+    }
+
+    .bs .last-box-1 {
+      border-right: medium none !important;
+    }
+
+    .bs .charts {
+      border-bottom: medium none;
+    }
+
+    .bs .chart-title {
+      text-align: left;
+    }
+
+    .chart-title {
+      color: #043e57 !important;
+      float: left;
+      margin-right: 85px;
+      font-size: 24px !important;
+    }
+
+    .chart-title span {
+      color: #366579;
+    }
+
+    .chart-content {
+      float: left;
+    }
+
+    @media (min-width: 320px) and (max-width: 991px) {
+      .bs .logo {
+        margin-left: 10px;
+      }
+      
+      .bs .first-box {
+        border-bottom: 1px solid #c8d3d5;
+      }
+      
+      .bs .mob-padding-r {
+        border-bottom: 1px solid #c8d3d5;   
+      }
+      
+      .bs .mobile-box {
+        border-right: none;
+      }
+      
+      .bs .left-sidebar {
+        padding-top: 15px !important;
+      }
+    }
+
+
+    /***** ACCOUNTS 2 *****/
+    .bs .charts h4 {
+      color: #043e57;
+        font-size: 24px;
+        margin-bottom: 16px;
+    }
+
+    .bs .table {
+      max-width: 1130px;
+        min-width: 1130px;
+        width: 1130px;
+    }
+
+    .bs .first-cell {
+      border-right: medium none;
+        padding-right: 0 !important;
+        width: 70px;
+    }
+
+    .bs .header-table td span {
+      color: #333333;
+        display: inline-block;
+        font-size: 24px;
+        font-weight: 400;
+        line-height: 28px;
+        padding-top: 15px;
+    }
+
+    .bs .header-table {
+      color: #00accf;
+        font-size: 19px;
+    }
+
+    .bs .glyphicon {
+      color: #00accf !important;
+      width: 40px !important;
+      height: 40px !important;
+      padding-top: 5px !important;
+      margin-top: 10px !important;
+      margin-left: 15px;
+    }
+
+    .bs .table > thead > tr > th, .bs .table > tbody > tr > th, .bs .table > tfoot > tr > th, .bs .table > thead > tr > td, .bs .table > tbody > tr > td, .bs .table > tfoot > tr > td {
+      padding-left: 0px !important;
+    }
+
+    .bs .table > thead > tr > th, .bs .table > tbody > tr > th, .bs .table > tfoot > tr > th, .bs .table > thead > tr > td, .bs .table > tbody > tr > td, .bs .table > tfoot > tr > td {
+      line-height: 3.429;
+    }
+
+    .bs .marketo-details {
+      float: left; 
+      margin-top: 30px;
+      display: none;
+      margin-bottom: 20px;
+    }
+
+    .bs .left-sidebar-1 {
+      position:fixed;
+      margin-top: -60px;
+      padding-top: 140px;
+    }
+
+    .bs .table-responsive {
+      float: left;
+      position: relative;
+    }
+
+    @media (min-width: 320px) and (max-width: 991px) {  
+      .bs .left-sidebar {
+        padding-top: 75px !important;
+      }
+    }
+
+
+    /***** ACCOUNTS 3 *****/
+    .stat-2 .box {
+      padding: 55px 28px;
+    }
+
+    .key-box {
+      float: left;
+      display: block;
+      padding-top: 0 !important;
+    }
+
+    .key-box-r {
+      display: block;
+        float: left;
+        margin-left: 50px;
+        margin-top: 43px;
+    }
+
+    .scenario {
+      margin-bottom: 10px;
+    }
+
+    .scenario span {
+      color: #333333 !important;
+      font-weight: 400 !Important;
+    }
+
+    .scenario img {
+      margin-right: 10px;
+    }
+
+    .scenario svg {
+      margin-right: 10px;
+    }
+
+    @media (min-width: 992px) { 
+      .stat-2 .first-box {
+        width: 20% !important;
+      }
+      .stat-2  .mob-padding-r {
+        width: 17% !important;
+      }
+      .stat-2 .mob-padding-l {
+        width: 38% !important;
+      }
+    }
+
+    .noSidebarCell{
+        padding: 0 !important;
+    }
+
+    /* Page specific style */
+ 
+    /***** ALIGNMENT TOOL *****/
+    .bs .label-title {
+      background-color: #fad000;
+      color: #ffffff;
+      font-size: 13px;
+      padding: 7px;
+      border-radius: 4px;
+      float: left;
+      margin-right: 10px;
+    }
+
+    .bs .steps {
+      background-color: #f8f8f8;
+      padding: 50px 0;
+      border-top: solid 1px #e6e6e6;
+      border-bottom: solid 1px #e6e6e6;
+      float: left;
+      width: 100%;
+      padding-left: 143px;
+    }
+
+    .bs .steps  h2 {  
+      font-size: 20px;
+      color: #043e57;
+      margin-bottom: 35px;
+    }
+
+    .bs .steps-list {
+      font-size: 18px;
+      color: #666666;
+    }
+
+    .bs ol {
+        list-style: none; 
+    }
+    .bs .steps-list li {
+        counter-increment: item;
+        margin-bottom: 20px;
+      font-size: 18px;
+    }
+    .bs .steps-list li:before {
+        border: 1px solid #77bacd;
+        border-radius: 100%;
+        color: #043e57;
+        content: counter(item, decimal);
+        display: inline-block;
+        margin-right: 10px;
+        padding: 5px;
+        text-align: center;
+        width: 29px;
+    }
+
+    .bs .reassignments {
+      background-color: #ffffff;
+      padding: 50px 0;
+      border-bottom: solid 1px #e6e6e6;
+      float: left;
+      width: 100%;
+      padding-left: 143px;
+    }
+
+    .bs .reassignments  h2 {  
+      font-size: 20px;
+      color: #043e57;
+      margin-bottom: 35px;
+    }
+
+    .bs .table {
+        max-width: 795px;
+        min-width: 795px;
+        width: 795px;
+    }
+
+    .table-info a {
+      color: #00accf;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    @media (min-width: 300px) and (max-width: 760px) {
+      .bs .steps {
+        padding: 0 15px;
+      }
+      
+      .bs .reassignments {
+        padding: 0 15px;
+      }
+    }
+
+    /***** Assignment Rules *****/
+    .sidebar-block {
+      margin-top: 35px;
+    }
+
+    .colored {
+      color: #00accf !important;
+    }
+
+    .date-p span {
+      display: block;
+      margin-left: 0px !important;
+    }
+
+    .first-span {
+      font-weight: 400 !important;
+      float: left;
+    }
+
+    .second-span {
+      float: left;
+    }
+
+    .bs .sidebar-block td {
+        color: #666666;
+        font-size: 15px;
+        font-weight: normal;
+        line-height: 20px;
+        padding-bottom: 15px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .table-padding {
+      padding-top: 30px !important;
+    }
+
+    .right-section {
+      padding-top: 50px;
+      padding-bottom: 50px;
+      width: 100%;
+    }
+
+    .top-right p {
+      font-size: 18px;
+      color: #666666;
+      line-height: 24px;
+      font-weight: normal;
+    }
+
+    .bs .filter-button {
+        background-color: #043e57;
+        border-color: #043e57;
+        margin-bottom: 20px;
+        margin-top: 30px;
+    }
+
+    .bs input[type="checkbox"] {
+        opacity:0;
+        height: 18px;
+        width: 18px;
+        position: relative;
+        top: 0;
+        left: 0;
+        z-index: 2;
+    }
+
+    .bs input[type="checkbox"] + label{
+        background-image: url("../images/check-1.png");
+        height: 18px;
+        width: 18px;
+        display:inline-block;
+        padding: 0 0 0 0px;
+        position: relative;
+        top: 0;
+        left: 0;
+        z-index: 1;
+      margin: -6px -6px -6px -18px;
+    }
+
+    .bs input[type="checkbox"]:checked + label{
+        background-image: url("../images/check-2.png");
+        height: 18px;
+        width: 18px;
+        display:inline-block;
+        padding: 0 0 0 0px;
+    }
+
+    .bs input[type="checkbox"]:disabled + label{
+        background-image: url("../images/check-3.png");
+        height: 18px;
+        width: 18px;
+        display:inline-block;
+        padding: 0 0 0 0px;
+    }
+
+    .bs .check-box {
+      margin-right: 15px;
+      float: left;
+      width: 18px;
+    }
+
+    .bs input[type="text"] {
+      border: 1px solid #abb4b6;
+        border-radius: 4px;
+        color: #000000;
+        font-size: 14px;
+        height: 35px;
+        margin-top: -7px;
+        text-align: center;
+        width: 35px;
+      font-weight: 600;
+    }
+
+    #select-all {
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    .trash {
+      float: left;
+      margin-top: 10px;
+      margin-left: 20px;
+    }
+
+    .trash .glyphicon-trash{
+      color: #0db0d1;
+      cursor: pointer;
+      font-size: 20px;  
+    }
+
+    .buttons-bottom {
+      float: left;
+      margin-top: 15px;
+    }
+
+    .bottom-btn {
+      background: transparent none repeat scroll 0 0 !important;
+      color: #00accf !important;
+      border-color: #c4cfd1 !important;
+      font-size: 15px !important;
+    }
+
+    .bottom-btn:hover{
+      background: #00accf !important;
+      color: #ffffff !important;
+      border-color: #00accf !important;
+    }
+
+    .glyphicon-plus {
+      background: #005980 none repeat scroll 0 0;
+        border-radius: 50%;
+        color: #ffffff;
+        font-size: 11px;
+        padding: 4px;
+    }
+
+    .titles span {
+      font-weight: 400;
+    }
+
+    .top-right p strong {
+      margin-right: 5px;
+      color: #043e57;
+    }
+
+    .top-right p span {
+      color: #00accf;
+    }
+
+    .sort-order p {
+      color: #808080;
+      font-size: 15px;
+      margin-left: 27px;
+      margin-top: 25px;
+    }
+
+    .bs .header-container {
+      width: 1135px;
+      float: left;
+    }
+
+    .bs .table-clear > thead > tr > th, .bs .table-clear > tbody > tr > th, .bs .table-clear > tfoot > tr > th, .bs .table-clear > thead > tr > td, .bs .table-clear > tbody > tr > td, .bs .table-clear > tfoot > tr > td {
+      border: none;
+    }
+
+    .bs .table-clear > thead > tr > th {
+      color: #005980;
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .bs .table-clear > thead {
+      background: transparent;
+    }
+
+    .bs .table-clear {
+      margin-top: 40px;
+    }
+
+    .bs .form-control {
+      width: 100%;
+    }
+
+    .bs .small-input {
+      width: 100% !important;
+      height: 33px !important;
+      margin-top: 0 !important;
+      text-align: left !important;
+      padding: 8px;
+      font-weight: 400 !important;
+      font-size: 13px !important;
+      background: transparent !important;
+    }
+
+    .bs .big-select {
+      background: #e7eaeb url("../images/arrow.png") no-repeat scroll 96% center / 15px auto !important;
+    }
+
+    .bs .small-select {
+      background: #e7eaeb url("../images/arrow.png") no-repeat scroll 94% center / 15px auto !important;
+    }
+
+    .bs .table-number {
+      font-size: 18px;
+      color: #d9d9d9;
+      padding-top: 5px;
+    }
+
+    .bs .table-clear > thead > tr > th, .bs .table-clear > tbody > tr > th, .bs .ttable-clear > tfoot > tr > th, .bs .table-clear > thead > tr > td, .bs .table-clear> tbody > tr > td, .bs .table-clear > tfoot > tr > td {
+      padding: 8px !important;
+      padding-left: 15px !important;
+    }
+
+    .filter-logic {
+      float: left;
+      margin-top: 35px;
+      width: 100%;
+      padding-left: 48px;
+    }
+
+    .title-filter {
+      color: #005980;
+      font-weight: 600;
+      font-size: 12px;
+      float: left;
+      display: block; 
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    .filter-input {
+      width: 284px;
+      float: left;
+      display: block;
+    }
+
+    .form-control-feedback img{
+      margin-top: -5px;
+      cursor: pointer;
+    }
+
+    .logic-button {
+      float: left;
+      margin-left: 250px;
+    }
+
+    .bs .logic-button-1 {
+      height: 36px !important;
+      font-size: 15px !important;
+      padding: 5px 16px !important;
+    }
+
+    .reassign {
+      float: left;
+      margin-top: 35px;
+      width: 100%;
+    }
+
+    .reassign label {
+      font-size: 15px;
+      color: #808080;
+      font-weight: 500;
+      float: left;
+      margin-right: 13px; 
+      margin-top: 8px;
+    }
+
+    .reassign-input {
+      background: transparent none repeat scroll 0 0 !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        height: 35px !important;
+        margin-top: 0 !important;
+        padding: 8px;
+        text-align: left !important;
+        width: 200px !important;
+      float: left;
+    }
+
+    .bs .brows-button {
+        background-color: #003c57;
+        border: 2px solid #003c57;
+        border-radius: 7px;
+        color: #ffffff !important;
+        cursor: pointer;
+        float: left;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        padding: 9px 28px;
+        text-decoration: none;
+      height: 35px !important;
+      margin-left: 10px;
+    }
+    .bs .brows-button:hover {
+        background-color: #005980 !important;
+        border: 2px solid #005980;
+        text-decoration: none;
+    }
+
+    .bs .back-button {
+        background-color: #ffffff;
+        border: 2px solid #c4cfd1;
+        border-radius: 7px;
+        color: #aeb8ba !important;
+        cursor: pointer;
+        float: right;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        margin-right: 10px !important;
+        padding: 12px 28px;
+        text-decoration: none;
+    }
+    .bs .back-button:hover {
+        border: 2px solid #a4daeb;
+        color: #6ab4c9 !important;
+        text-decoration: none;
+    }
+    .bs .next-button {
+        background-color: #003c57;
+        border: 2px solid #003c57;
+        border-radius: 7px;
+        color: #ffffff !important;
+        cursor: pointer;
+        float: right;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        padding: 12px 28px;
+        text-decoration: none;
+    }
+    .bs .next-button:hover {
+        background-color: #005980 !important;
+        border: 2px solid #005980;
+        text-decoration: none;
+    }
+  </style>
+
+
+  <div class="bs">
+      <!-- .page-content -->
+    <div class="page-content">
+      <!-- .header -->
+      <section class="header">
+        <div class="container">
+          <div class="logo">
+            <apex:image url="{!URLFOR($Resource.LeanData__images, 'logo_white_large.png')}" alt="Logo" height="27px"/>
+            <!-- <img src="images/logo.png" alt="Logo"/> -->
+          </div>
+          <div id="mobile-menu" class="navbar navbar-default">
+            <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target="#myNavmenu" data-canvas="body">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <span class="text-menu">FILTERS</span>
+          </div>
+        </div>
+      </section>
+      <!-- / .header -->
+
+      
+      <!-- .section-title -->
+<!--       <section class="section-title">
+        <div class="container">
+          <div class="sub-title">
+            <h2 class="titles"><label class="label-title">Tools ›</label> Account Assignment Rules: <span>Edit Rule Entry</span></h2>
+          </div>
+        </div>
+      </section> -->
+      <!-- / .section-title --> 
+      <aside id="filters">
+        <div id="left-sidebar" class="left-sidebar">
+        <h3>Rule Detail:</h3>
+        <p> {!scenarioName} :</p>
+        <p> {!description}</p>
+        <div class="sidebar-block"></div>
+        </div>
+        <!-- /.left-sidebar -->
+      </aside>
+
+      <!-- / .left-sidebar -->
+          
+      <main>
+        <div id="main-content" class="main-content">
+          <section class="header-title container">
+            <h2>Scenario {!currentAbmReassignRule.Scenario_Number__c} Assignment Rule: <span></span></h2>
+          </section>      
+
+          <section class="content">
+            <div class="container across">
+              <div class="details col-md-12">
+
+                <apex:outputText rendered="{!inputErrorMessage!='No_error'}" style="color:red" value="{!inputErrorMessage}" />
+                <apex:form >
+                <div class="top-right">
+                  <p><strong>1)</strong>  Set the order in which the rule entry will be processed.<span>*</span></p>
+                </div>
+                <div class="sort-order">
+                  <p>Sort Order: 
+                    <apex:inputText value="{! currentAbmReassignRule.Sort_Order__c}" />
+                  </p>
+                </div>
+
+                <div class="top-right">
+                  <p><strong>2)</strong>  Select the criteria for this rule entry.<span>*</span></p>
+                </div>
+                  
+                  <apex:outputPanel id="ruleCriteria" layout="block">
+                    <div class="table-bottom">
+                      <table class="table-clear table-info">
+                        <thead>
+                          <tr>
+                            <th width="35"></th>
+                            <th width="305">FIELD</th>
+                            <th width="205">OPERATOR</th>
+                            <th width="172">VALUE</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <apex:repeat value="{!criteriaIndexList}" var="repeatNum">
+
+                            <tr>            
+                              <td width="35" class="table-number">{! repeatNum + 1 }</td>
+                              <td width="305">
+                                <apex:selectList id="chooseField" styleClass="form-control input-lg date-select small-select" value="{!criteriaMap[repeatNum]['field']}" size="1">
+                                  <apex:selectOptions value="{!fieldSelectList}"/>
+                                </apex:selectList>
+                              </td>
+                              <td width="205">
+                                <apex:selectList id="chooseOperator" styleClass="form-control input-lg date-select small-select" value="{!criteriaMap[repeatNum]['operator']}" size="1">
+                                  <apex:selectOptions value="{!operatorSelectList}"/>                                                                         
+                                </apex:selectList>
+                              </td>
+                              <td width="172">
+                                <!-- <input class="small-input" value="{!criteriaMap[repeatNum]['value']}" type="text" /> -->
+                                <apex:inputText styleClass="small-input" value="{!criteriaMap[repeatNum]['value']}" />
+                              </td>
+                            </tr>
+                          </apex:repeat>
+                        </tbody>
+                      </table>
+                    </div>
+                  </apex:outputPanel>
+                
+
+                <div class="filter-logic">
+                  <div class="title-filter">
+                    FILTER LOGIC
+                  </div>
+                  <div class="filter-input">
+                    <div class="has-feedback">
+                      <apex:inputText styleClass="form-control small-input" value="{! logicStr}" />
+                      <!-- <span class="form-control-feedback"><img src="images/delete.png" alt="Delete" /></span> -->
+                    </div>
+                  </div>
+                  <div class="logic-button">
+                    <!-- <button class="btn btn-primary btn-lg bottom-btn logic-button-1" type="button"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Row</button> -->
+                    <apex:commandButton action="{!addCriteriaRow}" styleClass="btn btn-primary btn-lg bottom-btn logic-button-1" value="Add Row" rerender="ruleCriteria"/>
+<!--                     <button class="btn btn-primary btn-lg bottom-btn logic-button-1" type="button">Add Row</button> -->
+                  </div>
+                </div>
+
+                <div class="top-right">
+                  <p><strong>3)</strong>  Assign the Account to a user.</p>
+                </div>
+                <div class="reassign">
+                  <!-- <label for="text-input" class="control-label">Reassign to:</label> -->
+                  <!-- <input type="text" value="OwnerName" class="form-control reassign-input" name="text-input" id="text-input"/> -->
+                  <apex:pageBlock >
+                    <apex:pageBlockSection >
+                      <apex:inputField styleClass="form-control reassign-input lookup-button" value="{!currentAbmReassignRule.LeanData__Reassign_Owner__c}" />
+                    </apex:pageBlockSection>
+                  </apex:pageBlock>
+                  <!-- <a class="brows-button">Browse</a> -->
+                </div>
+                
+                <div class="col-md-offset-6">
+                  <div class="buttons-bottom">
+                    <apex:commandButton action="{!saveRule}" styleClass="next-button" value="Save Edits"/>
+                    <a class="back-button" href="{!$Page.LeanData__SalesAlignmentRules}?scenarioNumber={!scenarioNumber}">Cancel</a>
+                  </div>
+                </div>
+                </apex:form>
+              </div>
+
+            </div>
+          </section>              
+
+
+        </div>
+        <!-- /.main-content --> 
+      </main>
+    </div>
+    <!-- / .page-content -->
+  </div>
+  <!-- / .bs -->
+  <script type='text/javascript'>
+    j$ = jQuery.noConflict();
+    j$(document).ready(function() {
+      j$(".left-sidebar").css({'height':(j$(".page-content").height() - 60 +'px')});
+      j$("a.lookup-button").html("<button class='btn btn-primary btn-lg bottom-btn logic-button-1' type='button'>Lookup User</button>");
+      j$("a.lookup-button").toggleClass("form-control reassign-input");
+    });
+  </script>
+</apex:page>

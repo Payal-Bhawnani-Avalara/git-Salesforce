@@ -1,0 +1,47 @@
+<aura:component controller="fullstory.FS_SessionsCtrl" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName,forceCommunity:availableForAllPageTypes" access="global">
+	<aura:handler name="init" value="{!this}" action="{!c.getSessions}" />
+    <aura:attribute name="userSessions" type="List" default="[]" />
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="userEmail" type="String" />
+    <aura:attribute name="hasError" type="Boolean" default="false" />
+    <aura:attribute name="errorMsg" type="String" />
+
+
+    
+    <div class="fullstory-sessions-container slds-card">
+        <div class="fullstory-logo">
+            <img src="{!$Resource.fullstory__fullstorysessions + '/fullstory-logo.png'}" alt="Full Story"/>
+        </div>
+        <aura:if isTrue="{!v.hasError}">
+            <div class="error-message">
+                <h2>FullStory Notification: </h2>
+                <p>{!v.errorMsg}</p>
+            </div>
+            <aura:set attribute="else">
+                <div class="profile-info">
+                    <div class="user-avatar">
+                        <img class="avatar-icon" src="{!$Resource.fullstory__fullstorysessions + '/fullstory-avatar-icon.png'}" alt=""/>
+                    </div>
+                    <div class="sessions-for">
+                        <div class="title">Sessions For</div>
+                        <div class="email">{!v.userEmail}</div>
+                    </div>
+                </div>
+                <div class="session-listing">
+                    <aura:iteration items="{!v.userSessions}" var="userSession">
+                        <div class="session">
+                            <a href= "{!userSession.FsUrl}" target="_blank">
+                                <div class="play-icon"></div>
+                                <div class="session-date-time">
+                                    {!userSession.SessionTime}
+                                </div>
+                            </a>
+                        </div>
+                    </aura:iteration>
+                </div>  
+            </aura:set>
+        </aura:if>
+       
+              
+    </div>
+</aura:component>

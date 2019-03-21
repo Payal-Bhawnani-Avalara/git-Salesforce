@@ -3,7 +3,7 @@ public virtual class TriggerHandler {
   // static map of handlername, times run() was invoked
   private static Map<String, LoopCount> loopCountMap;
   private static Set<String> bypassedHandlers;
- 
+
   // the current context of the trigger, overridable in tests
   @TestVisible
   private TriggerContext context;
@@ -29,7 +29,7 @@ public virtual class TriggerHandler {
 
   // main method that will be called during execution
   public void run() {
-	return;
+
     if(!validateRun()) return;
 
     addToLoopCount();
@@ -45,6 +45,7 @@ public virtual class TriggerHandler {
       this.afterInsert();
     } else if(this.context == TriggerContext.AFTER_UPDATE) {
       this.afterUpdate();
+      APIValidateRecordLock.validateRecordLock(Trigger.new,Trigger.oldMap);
     } else if(this.context == TriggerContext.AFTER_DELETE) {
       this.afterDelete();
     } else if(this.context == TriggerContext.AFTER_UNDELETE) {
@@ -170,54 +171,18 @@ public virtual class TriggerHandler {
   @TestVisible
   protected virtual void beforeDelete(){}
   @TestVisible
-  protected virtual void afterInsert(){
-  	updateRollups(Trigger.new);
-  }
+  protected virtual void afterInsert(){}
   @TestVisible
-  protected virtual void afterUpdate(){
-  	updateRollups(Trigger.new);
-  }
+  protected virtual void afterUpdate(){}
   @TestVisible
-  protected virtual void afterDelete(){
-  	updateRollups(Trigger.old);}
+  protected virtual void afterDelete(){}
   @TestVisible
-  protected virtual void afterUndelete(){
-  	updateRollups(Trigger.new);
-  }
+  protected virtual void afterUndelete(){}
 
   /***************************************
    * inner classes
    ***************************************/
-  public static void updateRollups(List<sObject> sObjectList){
-  	/*if(sObjectList!=null && sObjectList.size()>0 && !System.isBatch() && !System.isFuture() && !System.isScheduled()){
-  		Id objId=sObjectList[0].Id;
-		String sobjectType = objId.getSObjectType().getDescribe().getName();
-		if(String.isNotBlank(sobjectType)){
-			Map<Id,List<Id>> mapRollupParentIDs=new Map<Id,List<Id>>(); 
-			Map<Id,Rollup__c> mapRollups=new Map<Id,Rollup__c>([Select Id,Object_API_Name__c,Relationship_Id_Field__c,Destination_Field_API_Name__c,Aggregate_Field_Alias__c,Batch_Size__c,SOQL_Query__c,	Has_Limit__c,Limit__c 
-				    		From Rollup__c 
-				    		Where Active__c=true AND Child_Object_API_Name__c=:sobjectType]);
-			if(mapRollups.size()>0){
-				for(sObject o:sObjectList){
-					for(Rollup__c r:mapRollups.values()){
-						String parentId=String.valueOf(o.get(r.Relationship_Id_Field__c));
-						if(String.isNotBlank(parentId)){
-							if(!mapRollupParentIDs.containsKey(r.Id)){
-								mapRollupParentIDs.put(r.Id,new List<Id>());
-							}
-							mapRollupParentIDs.get(r.Id).add(parentId);
-						}
-					}
-				}
-				for(Id key:mapRollupParentIDs.keySet()){
-					List<Id> listIDs=mapRollupParentIDs.get(key);
-			         JobProcessRollup job = new JobProcessRollup('Select Name,count(id) cc from User group by Name limit 0',null,null,listIDs,sobjectType,key);
-			         ID batchprocessid = Database.executeBatch(job,100); 						
-				}
-			}
-		}  		
-  	}*/
-  }
+
   // inner class for managing the loop count per handler
   @TestVisible
   private class LoopCount {

@@ -1,0 +1,221 @@
+<apex:page controller="zsfjira.ZConsoleCompSettings">
+    <apex:includeScript value="/soap/ajax/30.0/connection.js"/> 
+    <apex:includeScript value="/support/console/31.0/integration.js"/>
+    <apex:includeScript value="/canvas/sdk/js/publisher.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/js/bootstrap.min.js')}" />    
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/css/bootstrap.css')}"/>
+    <style>
+        .consoleMruWidget {
+        position: absolute;
+        bottom: 5px;
+        top: 5px;
+        left: 5px;
+        right: 5px;
+        border-radius: 8px;
+        background-color: #fbffff;
+        border: 1px solid #dedede;
+        overflow-y: auto;
+        overflow-x: hidden;
+        }
+        .consoleMruWidget .mruWidgetHeader {
+        border-bottom: 1px solid #dedede;
+        display: inline-block;
+        width: 100%;        
+        background-color: #f5f7f7;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        text-indent: 10px;
+        line-height: 27px;
+        font-weight: 700;
+        }
+        .refreshButton{
+        background: url(/img/alohaSkin/sync.png) top left no-repeat;
+        width: 22px;
+        height: 23px;
+        background-position: 2px 3px;
+        float: right;
+        vertical-align: bottom;
+        }
+        .settingsButton{
+        background-image: url(/img/icon/custom51_100/gears16.png);
+        background-position: 0 0;
+        width: 16px;
+        height: 16px;
+        float: right;
+        }
+    </style>
+    <body>    
+        <div class="consoleMruWidget">            
+            <div class="mruWidgetHeader" >
+                <TABLE >
+                    <TR>
+                        <TD align ="center">
+                            JIRA Activity 
+                        </TD>
+                        <TD>
+                            <select id ="issueSelector" onchange="loadSelectedIssue();">
+                                <option value="All">All</option>
+                            </select>
+                        </TD>
+                        <TD>                            
+                            <a href="#" onclick="loadSelectedIssue();" title="Refresh" class="refreshButton"/>
+                        </TD>
+                        <TD>
+                            <a href="/apex/zsfjira__ZConsoleCompSettings" 
+                               title="Settings" target="_blank" class="settingsButton"/>
+                        </TD>
+                    </TR>
+                </TABLE>               
+            </div>
+            <div id="cnumber" style="display:none;"/>
+            <div id="sactivity" class="bs" style="display:inline;"/>
+        </div>       
+    </body>
+    <c:ZIssueActivity />
+    <script>
+    var floatableConsoleComp = false;
+    var firstListen = true;
+    var externalCaseId = 'unsupported';
+    var externalCaseNumber = '';
+    var customSettings = parseInt('{!JSENCODE(activityStreamAtLoad)}');
+    
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+    $jqz(document).ready(function() {        
+        sforce.console.isInCustomConsoleComponent(
+            function (result){                
+                floatableConsoleComp = result.inCustomConsoleComponent;                                
+                if(floatableConsoleComp){
+                    sforce.console.addEventListener('messageFromCase',processMessageCase);
+                    sforce.console.onFocusedPrimaryTab(processFocusObject);
+                }
+                else{
+                    sforce.console.onEnclosingTabRefresh(onEtRefresh);
+                    externalCaseId = getParameterByName('id');
+                    reloadActivityPanel(customSettings!=2);
+                }                      
+            }
+        );
+    });
+    var onEtRefresh = function eventHandler(result) {        
+        window.console.log('Enclosing tab has refreshed:' + result.id+ 'and the object Id is:' + result.objectId);        
+    };
+
+    var processFocusObject = function (result) {
+        firstListen = false;
+        if(!floatableConsoleComp){
+            return;
+        }
+        externalCaseId = 'unsupported';
+        if(result.objectId=='null'){
+            return;
+        }
+        externalCaseId = result.objectId;
+        externalCaseNumber = '';
+        reloadActivityPanel(customSettings!=2);    
+    };
+    var processMessageCase = function (result) {
+        window.console.log('Message Received: '+ result.message);
+        if(firstListen){
+            var objResult = JSON.parse(result.message);        
+            if(objResult.action=='send'){
+                externalCaseId = objResult.caseId;
+                externalCaseNumber = objResult.caseNumber;
+            }
+            firstListen = false;
+            reloadActivityPanel(customSettings!=2);
+        }
+    }; 
+    
+    function reloadIssuesRelatedToUser(){        
+        var soql ="SELECT zsfjira__ZIssue__r.zsfjira__IssueKey__c FROM zsfjira__ZIssue_SF__c "+
+            "WHERE zsfjira__Case__c IN(SELECT Id FROM Case WHERE OwnerId='{!$User.Id}' "+
+            "AND IsClosed=false) Group By zsfjira__ZIssue__r.zsfjira__IssueKey__c HAVING "+
+            "COUNT(zsfjira__ZIssue__r.zsfjira__IssueKey__c)>0";
+        window.console.log(soql);
+        sforce.connection.sessionId = '{!$Api.Session_ID}';
+        var resulSet = sforce.connection.query(soql) ;        
+        var records = resulSet.getArray("records");
+        var n = records.length;
+        
+        var relatedIssues=[];
+        for (var i=0;i<n;i++){
+            var currIssueKey = records[i].get('zsfjira__IssueKey__c');
+            relatedIssues.push(currIssueKey);
+            $jqz('#issueSelector').append('<option value="'+currIssueKey+'">'+
+                                                  currIssueKey+'</option>');
+        }
+        if(relatedIssues.length>0){
+            buildActivitySection(JSON.stringify(relatedIssues),false);
+        }
+        else{
+            $jqz('#sactivity').html('');
+        }
+    }
+    function reloadIssuesRelatedToCase(load){        
+        if(externalCaseId=='unsupported'){
+            return;
+        }
+        sforce.connection.sessionId = '{!$Api.Session_ID}';
+        var soql = "SELECT CaseNumber,(SELECT Id,zsfjira__ZIssue__r.zsfjira__IssueKey__c "+
+            "FROM zsfjira__ZIssue_SF__r) FROM Case WHERE ID = '"+externalCaseId+"'";
+        var resulSet = sforce.connection.query(soql) ;        
+        var records = resulSet.getArray("records");
+        var n = records.length;
+        
+        var relatedIssues=[];
+        for (var i=0;i<n;i++){
+            externalCaseNumber = records[i].get('CaseNumber');
+            if(records[i].get('zsfjira__ZIssue_SF__r')!=null){
+                var issues = records[i].get('zsfjira__ZIssue_SF__r').getArray("records");
+                var issuesLength = issues.length;            
+                for (var j=0;j<issuesLength;j++){                
+                    var currIssueKey = issues[j].get('zsfjira__ZIssue__r').get('zsfjira__IssueKey__c');
+                    relatedIssues.push(currIssueKey);
+                    $jqz('#issueSelector').append('<option value="'+currIssueKey+'">'+
+                                                  currIssueKey+'</option>');
+                }
+            }     
+        }
+        if(externalCaseNumber==''){
+            return;
+        }
+        else{
+            if(floatableConsoleComp){
+                $jqz('#cnumber').css('display','inline');
+                $jqz('#cnumber').css('float','right');
+                $jqz('#cnumber').html('Case Number: '+externalCaseNumber);
+            }
+        }
+        if(relatedIssues.length>0 && load){
+            buildActivitySection(JSON.stringify(relatedIssues),false);
+        }
+        else{
+            $jqz('#sactivity').html('');
+        }
+    }
+    function reloadActivityPanel(load){
+        $jqz('#sactivity').html('');
+        document.getElementById("issueSelector").options.length = 1;
+        reloadIssuesRelatedToCase(load);
+    }
+    function loadSelectedIssue(){
+        var i = document.getElementById("issueSelector").selectedIndex;
+        var issues = document.getElementById("issueSelector");
+        var issueKey = issues.options[i].text;
+        if(issueKey!='All'){
+            var unique_issue=[];
+            unique_issue.push(issueKey);
+            buildActivitySection(JSON.stringify(unique_issue),false);
+        }
+        else{            
+            reloadActivityPanel(true);
+        }
+    }
+    </script>
+</apex:page>

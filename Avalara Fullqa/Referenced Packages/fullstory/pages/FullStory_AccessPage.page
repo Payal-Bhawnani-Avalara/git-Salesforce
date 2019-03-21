@@ -1,0 +1,60 @@
+<apex:page standardStylesheets="false" sidebar="false" docType="html-5.0" applyBodyTag="False" applyHtmlTag="true" controller="fullstory.FS_AccessPageCtrlController">
+<head>
+    <title>{!$Label.Access_Page_Title}</title>
+    <apex:slds />
+    <apex:stylesheet value="{!URLFOR($Resource.fullstory__fullstorysessions, '/main.css')}"/>
+  </head>
+   <div class="fullstory-settings-container slds-scope">
+    <div class="settings-header">
+      <div class="pent"><apex:image url="{!URLFOR($Resource.fullstory__fullstorysessions, '/pent.png')}"/></div>
+      <div class="fullstory-logo">
+        <apex:image url="{!URLFOR($Resource.fullstory__fullstorysessions, '/fullstory-logo-white.png')}"/>
+      </div>
+    </div>
+    <div class="api-info-container">
+      <div class="slds-text-heading--medium">
+        API Settings
+      </div>
+      <div class="slds-text-body--regular slds-m-vertical--medium">
+        You can change the API Endpoint here.
+      </div>
+      <div class="api-input-field slds-form-element">
+        <div class="slds-form-element__control">
+
+          <!-- Populated API Input Field --> 
+            <div>
+              <apex:form >
+                <apex:selectList value="{!selectApiHost}" multiselect="false" size="1" rendered="{!successSave==false}">
+                    <apex:SelectOption itemValue="Production" itemLabel="Production"/>
+                    <apex:SelectOption itemValue="Staging" itemLabel="Staging"/>
+                </apex:selectList>
+                &nbsp;&nbsp;
+                <apex:commandButton styleClass="slds-m-vertical--medium slds-button slds-button--brand" value="{!$Label.fullstory__button_save}" action="{!saveApiHost}" rendered="{!successSave==false}"/>
+                &nbsp;&nbsp;
+                <apex:outputPanel styleClass="slds-badge slds-theme_success" rendered="{!successSave}">
+                    <apex:outputText value="{!$Label.fullstory__success_info_api_key_successfully_saved}"/>
+                    <apex:commandLink value="Edit Key" action="{!editAPIHost}" />
+                </apex:outputPanel>
+    <apex:pageMessages /> 
+                  <!-- Success Message -->
+               <!--  End of Success Message -->
+              </apex:form>
+            </div>
+          <!-- End of Populated API Input Field -->
+        </div>
+
+        <!-- Error Message -->
+         <apex:outputPanel id="apiMessage">
+            <apex:pageMessages /> 
+
+                <apex:outputPanel styleClass="error-message slds-m-top--medium" rendered="{!error}">
+                  <apex:outputText value="{!errorMessage}"/>
+                </apex:outputPanel>
+         
+         </apex:outputPanel>
+        <!-- End of Error Message -->
+
+      </div>
+    </div>
+  </div>
+</apex:page>

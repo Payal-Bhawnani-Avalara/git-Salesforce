@@ -41,20 +41,40 @@ public class OpportunityTriggerHandler extends TriggerHandler {
      Set<ID> channelPartnerNameSet = new Set<Id>();
      Map<Id,Connector__c> mapConnector=new Map<Id,Connector__c>();
      Map<Id,Account> mapChannelPartner=new Map<Id,Account>();
-     List<Opportunity_SAM_Split2__c> oppSAMSplitList = new  List<Opportunity_SAM_Split2__c>();
-     List<Opportunity_PPM_Split__c> oppPPMSplitList = new  List<Opportunity_PPM_Split__c>();
+     List<Opportunity_Role_Split__c> oppSAMSplitList = new  List<Opportunity_Role_Split__c>();
+     List<Opportunity_Role_Split__c> oppPPMSplitList = new  List<Opportunity_Role_Split__c>();
+     /* String OpportunityRecordTypeExclude='';
+      try{
+      	OpportunityRecordTypeExclude =KeyPairValue__c.getInstance('OpportunityRecordTypeExclude').Values__c;     
+      }
+      catch(Exception ex){} */ 
+      Set<Date> oppBookDates=new Set<Date>();
      for(Opportunity opp: (List<Opportunity>) Trigger.new){
+     	/*
+     	if(opp.PriceBook2Id==null && !OpportunityRecordTypeExclude.contains(opp.RecordTypeId)){
+     		opp.PriceBook2Id='01s33000000VfLP';
+     	}*/
+     	if(opp.Booked_Date__c != null){
+     		oppBookDates.add(opp.Booked_Date__c);
+     	 Integer monthsBetween = opp.Booked_Date__c.monthsBetween(system.today());
+     	
       	//Connector Deal DSP
-      	if(String.isNotBlank(opp.Type) && String.isNotBlank(opp.SubType__c) && !opp.SubType__c.equalsIgnoreCase('SOHO') && opp.Type.equalsIgnoreCase('New') && opp.Connector__c!= null 
-         && opp.Booked_Date__c != null && !opp.SubType__c.equalsIgnoreCase('EMEA')  )
+      	// && !opp.SubType__c.equalsIgnoreCase('SOHO')
+      	if(String.isNotBlank(opp.Type) && String.isNotBlank(opp.SubType__c) && opp.Type.equalsIgnoreCase('New') && opp.Connector__c!= null 
+         && (opp.Booked_Date__c != null && monthsBetween<=1) && !opp.SubType__c.equalsIgnoreCase('EMEA')  )
       	{
       		connectorIdSet.add(opp.Connector__c);
       	}
         //Has Channel Partner MSP
         if(!String.isBlank(opp.PartnerNumber__c) && !opp.PartnerNumber__c.equals('000-000-000')&& String.isNotBlank(opp.PartnerName__c) 
-        && String.isNotBlank(opp.Channel_Partner_Category__c) && opp.Booked_Date__c != null && opp.Channel_Partner_Category__c.equalsIgnoreCase('Marketing & Sales Partner')){
+        && String.isNotBlank(opp.Channel_Partner_Category__c) && (opp.Booked_Date__c != null && monthsBetween<=1) && opp.Channel_Partner_Category__c.equalsIgnoreCase('Marketing & Sales Partner')){
             channelPartnerNameSet.add(opp.PartnerName__c);    
         }
+      }
+     }
+     List<Finance_Operations_Close_Event__c> listFOCE;
+     if(oppBookDates!=null && oppBookDates.size()>0){
+     	listFOCE=[Select Id,Booking_Period_Start_Date__c,Booking_Period_End_Date__c,EDW_Booking_Freeze_Date__c From Finance_Operations_Close_Event__c Where Booking_Period_Start_Date__c<=:oppBookDates AND Booking_Period_End_Date__c>=:oppBookDates];
      }
     //channel Parnter MSP
     if(channelPartnerNameSet.size()>0){
@@ -65,13 +85,25 @@ public class OpportunityTriggerHandler extends TriggerHandler {
    		mapConnector=new Map<Id,Connector__c>([Select id,SAM__c,Suppress_Partner_Split__c,PPM__c from Connector__c where id =:connectorIdSet AND Suppress_Partner_Split__c = false]);
     }
    for(Opportunity opp: (List<Opportunity>) Trigger.new){
+   	if(opp.Booked_Date__c==null){
+   		opp.Finance_Operations_Close_Event__c=null;
+   	}
+   	else if(listFOCE!=null && listFOCE.size()>0){
+   		for(Finance_Operations_Close_Event__c foce:listFOCE){
+   			if(opp.Booked_Date__c>=foce.Booking_Period_Start_Date__c && opp.Booked_Date__c<=foce.Booking_Period_End_Date__c){
+   				opp.Finance_Operations_Close_Event__c=foce.Id;
+   				opp.EDW_Booking_Freeze_Date__c=foce.EDW_Booking_Freeze_Date__c;
+   				break;
+   			}
+   		}
+   	}
    	//Stamp DSP SAM/PPM
     if(mapConnector.size()>0 && mapConnector.containsKey(opp.Connector__c)){
       if(!opp.Initial_DSP_SAM_Split_Complete__c && mapConnector.get(opp.Connector__c).SAM__c!=null&& !opp.Initial_DSP_SAM_Split_Complete__c){
          opp.DSP_SAM__c =  mapConnector.get(opp.Connector__c).SAM__c;
          opp.Initial_DSP_SAM_Split_Complete__c = true;
          if(opp.id != null){
-         Opportunity_SAM_Split2__c oppDSPSAMSplit = new Opportunity_SAM_Split2__c(Opportunity__c = opp.id,Percent__c=100,SAM_Type__c = 'DSP',Team_Member__c =  opp.DSP_SAM__c,Note__c='--');
+         Opportunity_Role_Split__c oppDSPSAMSplit = new Opportunity_Role_Split__c(Opportunity__c = opp.id,Percent__c=100,Role__c='SAM',Role_Type__c = 'DSP',Team_Member__c =  opp.DSP_SAM__c,Note__c='--');
 	     oppSAMSplitList.add(oppDSPSAMSplit); 
          }
         }      
@@ -79,18 +111,18 @@ public class OpportunityTriggerHandler extends TriggerHandler {
          opp.DSP_PPM__c = mapConnector.get(opp.Connector__c).PPM__c;
          opp.Initial_DSP_PPM_Split_Complete__c = true;
          if(opp.id != null){
-         Opportunity_PPM_Split__c oppDSPPPMSplit = new Opportunity_PPM_Split__c(Opportunity__c = opp.id,Percent__c=100,PMM_Type__c = 'DSP',Team_Member__c =opp.DSP_PPM__c);
+         Opportunity_Role_Split__c oppDSPPPMSplit = new Opportunity_Role_Split__c(Opportunity__c = opp.id,Percent__c=100,Role__c='PMM',Role_Type__c = 'DSP',Team_Member__c =opp.DSP_PPM__c);
 	     oppPPMSplitList.add(oppDSPPPMSplit);
          }
-        }
-      }	  	  
+        } 
+     }
   	  //Stamp MSP SAM/PPM
-      if(mapChannelPartner.containsKey(opp.PartnerName__c)){
+      if(mapChannelPartner.size()>0 && mapChannelPartner.containsKey(opp.PartnerName__c)){
        if(mapChannelPartner.get(opp.PartnerName__c).Secondary_CDM__c!=null && !opp.Initial_MSP_PPM_Split_Complete__c){
          opp.MSP_PPM__c = mapChannelPartner.get(opp.PartnerName__c).Secondary_CDM__c;
          opp.Initial_MSP_PPM_Split_Complete__c = true;
            if(opp.id != null){
-          Opportunity_PPM_Split__c oppMSPPMSplit = new Opportunity_PPM_Split__c(Opportunity__c = opp.id,Percent__c=100,PMM_Type__c = 'MSP',Team_Member__c = opp.MSP_PPM__c);
+          Opportunity_Role_Split__c oppMSPPMSplit = new Opportunity_Role_Split__c(Opportunity__c = opp.id,Percent__c=100,Role__c='PMM',Role_Type__c = 'MSP',Team_Member__c = opp.MSP_PPM__c);
           oppPPMSplitList.add(oppMSPPMSplit);
            }
        }
@@ -98,7 +130,7 @@ public class OpportunityTriggerHandler extends TriggerHandler {
          opp.SAM__c =  mapChannelPartner.get(opp.PartnerName__c).CDM__c;
          opp.Initial_MSP_SAM_Split_Complete__c = true;
         if(opp.id != null){
-         Opportunity_SAM_Split2__c oppDSPSAMSplit = new Opportunity_SAM_Split2__c(Opportunity__c = opp.id,Percent__c=100,SAM_Type__c = 'MSP',Team_Member__c = opp.SAM__c,Note__c='--');
+         Opportunity_Role_Split__c oppDSPSAMSplit = new Opportunity_Role_Split__c(Opportunity__c = opp.id,Percent__c=100,Role__c='SAM',Role_Type__c = 'MSP',Team_Member__c = opp.SAM__c,Note__c='--');
          oppSAMSplitList.add(oppDSPSAMSplit);
         }
        }
@@ -136,22 +168,43 @@ public class OpportunityTriggerHandler extends TriggerHandler {
         if(Trigger.oldMap!=null && Trigger.oldMap.size()>0){
         		mapOldMap=(Map<Id,Opportunity>)Trigger.oldMap;
         }
-        if(oppList!=null && oppList.size()>0){
+        List<Opportunity_Role_Split__c> orsList = new  List<Opportunity_Role_Split__c>();
+        for(Opportunity o:[Select Id,OwnerId,Owner.ManagerId,(Select Id,Team_Member__c,Percent__c From Opportunity_Role_Splits__r Where Role__c=:'Manager') From Opportunity Where isClosed=false AND Id=:oppList]){
+        		if(o.OwnerId!=null && o.Owner.ManagerId!=null){
+        			Boolean createORS=true;
+	        		for(Opportunity_Role_Split__c ors:o.Opportunity_Role_Splits__r){
+	        			if(o.Owner.ManagerId==ors.Team_Member__c){
+	        				createORS=false;
+	        			}
+	        			else{
+	        				ors.Percent__c=0;
+	        				orsList.add(ors);
+	        			}
+	        		}
+	        		if(createORS){
+			         Opportunity_Role_Split__c ors = new Opportunity_Role_Split__c(Opportunity__c = o.id,Percent__c=100,Role__c='Manager',Team_Member__c = o.Owner.ManagerId,Note__c='');
+			         orsList.add(ors);	        			
+	        		}
+        		}
+        }
+        upsert orsList;
+       /* if(oppList!=null && oppList.size()>0){
             Set<Id> oppIDs=new Set<Id>();
             for(Opportunity o:oppList){
                 if(mapOldMap!=null && mapOldMap.containsKey(o.Id) && o.Booked_Date__c!=mapOldMap.get(o.Id).Booked_Date__c){
                     oppIDs.add(o.Id);
                 }
             }
-            if(oppIDs.size()>0){
-                List<OpportunityLineItem> listOLI=[Select Id,OpportunityId,Opportunity.Booked_Date__c,CX911_Opportunity_Line_Item_Booked_Date__c From OpportunityLineItem Where OpportunityId=:oppIDs];
-                for(OpportunityLineItem oli:listOLI){
-                    oli.CX911_Opportunity_Line_Item_Booked_Date__c=oli.Opportunity.Booked_Date__c;
-                }
-                TriggerHandler.bypass('OpportunityTriggerHandler');
-                update listOLI;
+            //You can only have 100 scheduled Apex jobs at one time.
+            if(oppIDs.size()>0 && !System.isFuture() && !System.isBatch() && !System.isScheduled()){
+            	    //IBST-10879 Update line item booked date stamping routing to be called 10 min after condition met
+            	    //Schedule Class JobProcessOpportunityLineItem
+                Datetime executeTime = (System.now()).addSeconds(10);
+                String cronExpression = Utility.GetCRONExpression(executeTime);
+                JobProcessOpportunityLineItem job = new JobProcessOpportunityLineItem(oppIDs);
+                System.schedule('ScheduledJob ' + executeTime.getTime(),cronExpression,job);
             }
-        }
+        }*/
 	}
 	
     public static void updateRollups(List<Opportunity> listOpportunity){
@@ -207,18 +260,21 @@ public class OpportunityTriggerHandler extends TriggerHandler {
     //IBST-6181
     //Disable Delete on Opportunities when Order is Complete
     protected override void beforeDelete(){
+            //Trigger.old[0].addError('You cannot delete the Opportunity.');
     Set<Id> oppIDSet = new Set<Id>();
     for( Opportunity opp : (List<Opportunity>)Trigger.old){
        oppIDSet.add(opp.id);
     }
-    List<CameleonCPQ__Quote__c> closedProsQuoteId = [Select Id,OpportunityId__c from CameleonCPQ__Quote__c where CameleonCPQ__Quote__c.OPStatus__c = 'Complete' AND OpportunityId__c IN :oppIDSet];
+     List<CameleonCPQ__Quote__c> closedProsQuoteId = [Select Id,OpportunityId__c,SentToZBillingDate__c,OPStatus__c from CameleonCPQ__Quote__c where OPStatus__c IN : Constants.DO_NOT_DELETE_STATUS AND OpportunityId__c IN :oppIDSet];
     Set<Id> prosQuoteID = new  Set<Id>();
     for (CameleonCPQ__Quote__c cpq : closedProsQuoteId){
-       prosQuoteID.add(cpq.id);
+        //if(cpq.OPStatus__c==Constants.PROS_QUOTE_STATUS_CANCELED ||cpq.OPStatus__c ==Constants.PROS_QUOTE_STATUS_COMPLETE){
+            prosQuoteID.add(cpq.id); 
+      //}
     }
     for( Opportunity opp : (List<Opportunity>)Trigger.old){
-    	if(prosQuoteID.contains(opp.PROS_Order_Quote__c)){
-        opp.addError('You cannot delete the Opportunity if Pros Quote Order Status is Complete.');
+    	if(prosQuoteID.contains(opp.PROS_Order_Quote__c) || opp.IsClosed == true){
+        opp.addError(Constants.Opportunity_CANNOT_DELETE_CLOSED_OPPORTUNITY);
      	}
     }
  }

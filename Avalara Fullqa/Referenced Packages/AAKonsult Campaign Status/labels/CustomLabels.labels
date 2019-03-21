@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Campaign_Status_Defaults_Future_Error_Suppress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Campaign Status Defaults Future Error Suppress</shortDescription>
+        <value>No</value>
+    </labels>
+    <labels>
+        <fullName>Sobject_access_error</fullName>
+        <categories>SOBJECT,Error</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sobject access error</shortDescription>
+        <value>You do not have {0} access to object {1}. Please contact your companies Salesforce administrator to obtain access.</value>
+    </labels>
+</CustomLabels>

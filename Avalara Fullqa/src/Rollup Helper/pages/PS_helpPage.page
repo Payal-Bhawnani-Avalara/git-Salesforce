@@ -1,4 +1,4 @@
-<apex:page standardStylesheets="false"  sidebar="false" applyBodyTag="false" docType="html-5.0">
+<apex:page standardStylesheets="false"  sidebar="false" applyBodyTag="false" docType="html-5.0" showHeader="true">
      <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
      <head> 
      <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
@@ -7,7 +7,8 @@
      <apex:stylesheet value="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"/>
      <apex:includeScript value="//code.jquery.com/jquery-1.10.2.js"/>
      <apex:includeScript value="//code.jquery.com/ui/1.10.4/jquery-ui.js"/>
-     <apex:stylesheet value="{! URLFOR($Resource.SFStyleSheets, 'SFStyleSheets/assets/styles/salesforce-lightning-design-system-vf.min.css')}" />
+     <apex:stylesheet value="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"/>
+     <apex:includeScript value="{! URLFOR($Resource.PT_Resources_v1, '/js/hs_breadcrumbs.js')}" />
 
      <style type="text/css">
      	li>ul.faq-inner-list {
@@ -23,14 +24,20 @@
      
      <script>
 
+     	$(document).ready(function(){
+			var rootPage = sessionStorage.getItem('rootPage') || 'home';
+
+			selectBreadcrumb_HS();
+        });
+
      	function selectTab(tabIndex){
      		var selectTabName = 'tab' + tabIndex;
      		var selectTabContent = 'tab-default-' + tabIndex;
 
-     		document.getElementById(selectTabName).className = "slds-tabs__item slds-text-heading--label slds-active";
+     		document.getElementById(selectTabName).className = "slds-tabs__item slds-text-heading_label slds-active";
      		document.getElementById(selectTabContent).className="slds-tabs__content slds-show";
 
-     		for(i = 1; i < 6; i++){
+     		for(i = 1; i < 5; i++){
      			if(i === tabIndex){
      				continue;
      			}
@@ -38,27 +45,38 @@
      			var deselectTabName = 'tab' + i;
      			var deselectTabContent = 'tab-default-' + i;
 
-     			document.getElementById(deselectTabName).className = 'slds-tabs__item slds-text-heading--label';
+     			document.getElementById(deselectTabName).className = 'slds-tabs__item slds-text-heading_label';
      			document.getElementById(deselectTabContent).className = 'slds-tabs__content slds-hide';
      		}
 
      	}
 
      </script>
-     
-     <div class="slds slds-p-around--xx-large slds-container--large slds-container--center" role="main"> 
+     <apex:slds />
+     <div class="slds-scope" role="main"> 
+
+     	<div class="slds-card">
+  				<header class="slds-card__header">
+	       			<nav role="navigation">
+    					<ol class="slds-breadcrumb slds-list_horizontal">
+    						<li class="slds-list__item slds-text-heading_label home-crumb"><a href="{!URLFOR($Page.PS_landingPage)}">Home</a></li>
+   		   					<li class="slds-list__item slds-text-heading_label setting-crumb"><a href="{!URLFOR($Page.PS_Allsettings)}">All Rollup Settings</a></li>
+       					</ol>
+        			</nav>
+  				</header>
+  			</div>
+
     	<div class="slds-card">
-    		<header class="slds-card__header slds-grid grid--flex-spread slds-text-heading--small slds-truncate slds-theme--alt-inverse">
-    			<h1 class="slds-text-heading--large">Help &amp; FAQ</h1>
+    		<header class="slds-card__header slds-text-heading_small slds-theme_alt-inverse">
+    			<h1 class="slds-text-heading_large">Help &amp; FAQ</h1>
     		</header>
-    		<section class="slds-card__body slds-theme--default">
-	     	<div class="slds-tabs--default">
-			  <ul class="slds-tabs--default__nav" role="tablist">
-			    <li id="tab1" class="slds-tabs__item slds-text-heading--label slds-active" title="FAQ" role="presentation"><a href="#" onclick="selectTab(1);" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-default-1">FAQ</a></li>
-			    <li id="tab2" class="slds-tabs__item slds-text-heading--label" title="Troubleshooting Tips" role="presentation"><a href="#" onclick="selectTab(2);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-2">Troubleshooting Tips</a></li>
-			    <li id="tab3" class="slds-tabs__item slds-text-heading--label" title="Help Videos" role="presentation"><a href="#" role="tab" onclick="selectTab(3);" tabindex="-1" aria-selected="false" aria-controls="tab-default-3">Help Videos</a></li>
-			    <li id="tab4" class="slds-tabs__item slds-text-heading--label" title="Update Links" role="presentation"><a href="#" role="tab" onclick="selectTab(4);" tabindex="-1" aria-selected="false" aria-controls="tab-default-4">Update Links</a></li>
-			    <li id="tab5" class="slds-tabs__item slds-text-heading--label" title="Realtime Enablement" role="presentation"><a href="#" role="tab" onclick="selectTab(5);" tabindex="-1" aria-selected="false" aria-controls="tab-default-5">Realtime Enablement Help</a></li>
+    		<section class="slds-card__body slds-theme_default">
+	     	<div class="slds-tabs_default">
+			  <ul class="slds-tabs_default__nav" role="tablist">
+			    <li id="tab1" class="slds-tabs__item slds-text-heading_label slds-active" title="FAQ" role="presentation"><a href="#" onclick="selectTab(1);" role="tab" tabindex="0" aria-selected="true" aria-controls="tab-default-1">FAQ</a></li>
+			    <li id="tab2" class="slds-tabs__item slds-text-heading_label" title="Troubleshooting Tips" role="presentation"><a href="#" onclick="selectTab(2);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-2">Troubleshooting Tips</a></li>
+			    <li id="tab3" class="slds-tabs__item slds-text-heading_label" title="Help Videos" role="presentation"><a href="#" role="tab" onclick="selectTab(3);" tabindex="-1" aria-selected="false" aria-controls="tab-default-3">Help Videos</a></li>
+			    <li id="tab4" class="slds-tabs__item slds-text-heading_label" title="Update Links" role="presentation"><a href="#" role="tab" onclick="selectTab(4);" tabindex="-1" aria-selected="false" aria-controls="tab-default-4">Update Links</a></li>
 			  </ul>
 			  <div id="tab-default-1" class="slds-tabs__content slds-show" role="tabpanel">
 			  
@@ -77,10 +95,40 @@
 		               <div>
 		               <div id="faq" > 
 
+		               <h3>How do I enable realtime for my rollups?</h3>
+		               <div>
+		               		In most cases, you can use the <a href="{!URLFOR($Page.PS_Select_Object)}">Enable Realtime Tab</a>.<br/><br/>
+			               	<strong>If you are unable to enable realtime on a Salesforce standard object </strong> due to lack of access to the Metadata API, you can utilize one of our trigger extension packages: <br/><br/>
+							<ul class="slds-list_dotted">
+								<li>RHX PE Extensions: Contains trigger code for Attachment, Case, Case Comment, Lead, Opportunity, Note, Asset, Campaign, Campaign Member, Contract, Opportunity Line Item, Product, Quote, Quote Line Item, and Solution.
+									<ul class="slds-list_dotted"> 
+										<li><a href="http://rhx-pro.passagetech.com" target="_blank">Production</a></li>
+										<li><a href="http://rhx-pro-test.passagetech.com" target="_blank">Sandbox</a></li>
+									</ul>
+								</li>
+								<li>RHX PE Extensions, No Quotes: Contains trigger code for everything above minus Quotes and Quote Line Items. 
+									<ul class="slds-list_dotted">
+										<li><a href="http://rhx-pro-nq.passagetech.com" target="_blank">Production</a></li>
+										<li><a href="http://rhx-pro-nq-test.passagetech.com" target="_blank">Sandbox</a></li>
+									</ul>
+								</li>										
+							</ul><br/>
+							<strong>If you are unable to enable realtime on a Custom object</strong> due to lack of access to the Metadata API, you may contact <a href="mailto:support@passagetech.com">Passage Technology support</a> for assistance in implementing a workaround Visualforce page "trigger", or you may view our <a href="https://docs.google.com/document/d/1wJFq4FP6d3wz55J41j4YF8-wXNpIlX5Geh1cCwE92b4/view#heading=h.km36w3b2jste" target="_blank">developer guide</a> for instructions on how to implement one yourself.
+		               </div>
+
 		               <h3>How do I get visibility to exceptions that have occurred in my organization?</h3>
 		               <div>
 		               		You can view your Rollup Helper exceptions <a href="{!URLFOR($Page.PS_viewExceptions)}">here</a>.
 		               </div>	
+		               <h3>What should I do to ensure my rollups stay accurate when Salesforce has a read-only maintenance window?</h3>
+		               <div>
+		               		During a read-only maintenance window, Rollup Helper will not be able to modify any records in your organization. In order to ensure your rollup values will be accurate after the read-only maintenance completes, you can: <br/>
+		               		<ul class="slds-list_dotted">
+		               			<li>Modify any schedules that would normally process during the maintenance window to process after the maintenance has completed.</li>
+		               			<li>Restart any manual runs that may have been processing during the maintenance window.</li> 
+		               			<li>Contact <a href="mailto:support@passagetech.com">Passage Technology support</a> if you have any questions.</li>
+		               		</ul> 
+		               </div>
 
 		               <h3>I am receiving a pop-up telling me to schedule my rollup with a date filter.  Why?</h3>
 		               <div>
@@ -94,7 +142,7 @@
 		               		If you need assistance determining whether a schedule is necessary for your rollup, please feel free to contact our support team at support@passagetech.com.
 		               </div>
 		               
-		               <!-- Start of name and description -->
+		               
 		               <h3>My source object isn't appearing in the list.  Why?</h3>
 		               <div>
 		               		The list of source objects to choose from is populated based on the relationship fields on a particular object.  If the source 
@@ -102,7 +150,24 @@
 		               		not appearing in the list, double check to make sure the correct target object / field are selected, then make sure a relationship 
 		               		exists between the source and target objects.  If your field still does not appear in the list, please contact support@passagetech.com.
 		               </div>
+		               <h3>What do the symbols on the All Rollup Settings page mean?</h3>
+		               <div>
+		               		<ul>
+		               			<li><i class="fa fa-bolt"></i>:  The lightning bolt signals that the rollup is set to run in real-time (a source object trigger exists).</li>
+		               			<li><i class="fa fa-calendar"></i>:  The calendar signifies that the rollup is set to run on a scheduled basis.</li>
+		               			<li><i class="fa fa-info-circle"></i>:  This symbol signifies that the rollup is not set to run automatically currently (no trigger or schedule exists).</li>
+						<li><i class="fa fa-exclamation-triangle"></i>: This symbol signifies that the rollup is inactivated and will not run, manually or otherwise, until it is reactivated.</li>
+		               		</ul>
+		               		<br/>
+		               		Please note that any given rollup can both be scheduled and processing in real time.
+		               </div>
 		               
+		               <h3>Why isn't my rollup running in realtime when I use a formula field as the rollup source field?</h3>
+		               <div>
+		               		Formula fields are calculated automatically when a record detail page is viewed. In some situations an update on a record is not required in order for a formula field value to change. Because of this a realtime trigger may not run.<br/><br/>
+		               		However, if the formula field only references field values on the source object and does not perform calculations to the value using date functions (ex: TODAY(), NOW(), etc.), the rollup will process in realtime as long as an update occurred on the source record to cause the formula field value change.		               		
+		               </div>
+
 		               <h3>What is SOQL Selectivity?  Why does it matter?</h3>
 		               <div>
 		               		A "selective" SOQL query filter is one that filters on an indexed field.  Indexed fields can be compared to the classification
@@ -220,7 +285,6 @@
 		               <div>
 		               <div id="troubleshoot" > 
 		               
-		               <!-- Start of name and description -->
 		               
 		               <h3>My rollup isn't updating automatically.</h3>              
 		               <div>
@@ -269,10 +333,10 @@
 			  <div id="tab-default-3" class="slds-tabs__content slds-hide" role="tabpanel"> 
 			  		<apex:actionRegion > 		                
 		                <div style="padding-left:15px;">
-		                	<h3 class="slds-text-heading--small">Rollup Helper Help Video Playlist</h3><br/>
+		                	<h3 class="slds-text-heading_small">Rollup Helper Help Video Playlist</h3><br/>
 		               		<div id="videos" > 		               
 				               <div>
-									<apex:iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLfryc3zXHX0rrITdFDrn-ONgswUCwzmTu" frameborder="0" />
+									<apex:iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PLfryc3zXHX0rrITdFDrn-ONgswUCwzmTu&rel=0" frameborder="0" />
 				               </div>
 		             		</div> 
 		             	</div>		             
@@ -281,13 +345,13 @@
 			  <div id="tab-default-4" class="slds-tabs__content slds-hide" role="tabpanel"> 
 			  		<apex:actionRegion > 		                
 		                <div style="padding-left:15px;">
-		                	<h3 class="slds-text-heading--small">Rollup Helper Update Links</h3><br/>
+		                	<h3 class="slds-text-heading_small">Rollup Helper Update Links</h3><br/>
 		               		<div id="videos" > 		               
 				               <div>
 									The most recent version of Rollup Helper can always be found using the links below:
-									<ul class="slds-list--dotted">
-										<li>Beta Version:  <a href="http://rh-pre.passgetech.com" target="_blank">Production</a>, <a href="http://rh-pre-test.passagetech.com" target="_blank">Sandbox</a></li>
-										<li>Release Version:  <a href="http://rh.passgetech.com" target="_blank">Production</a>, <a href="http://rh-test.passagetech.com" target="_blank">Sandbox</a></li>
+									<ul class="slds-list_dotted">
+										<li>Beta Version:  <a href="http://rh-pre.passagetech.com" target="_blank">Production</a>, <a href="http://rh-pre-test.passagetech.com" target="_blank">Sandbox</a></li>
+										<li>Release Version:  <a href="http://rh.passagetech.com" target="_blank">Production</a>, <a href="http://rh-test.passagetech.com" target="_blank">Sandbox</a></li>
 										<li>To see what's in the latest version, view our <a href="https://www.passagetechnology.com/rollup-helper-release-notes" target="_blank">Release Notes</a>.</li>
 										<li>More information about our release process can be found <a href="https://www.passagetechnology.com/feature-release-process" target="_blank">here</a>.</li>
 									</ul>
@@ -296,36 +360,13 @@
 		             	</div>		             
 		            </apex:actionRegion>
 			  </div>
-			  <div id="tab-default-5" class="slds-tabs__content slds-hide" role="tabpanel"> 
-			  		<apex:actionRegion > 		                
-		                <div style="padding-left:15px;">
-		                	<h3 class="slds-text-heading--small">Realtime Enablement Help</h3><br/>
-		               		<div > 		               
-				               <div>
-									<strong>If you are unable to enable realtime on a Salesforce standard object </strong> due to lack of access to the Metadata API, you can utilize one of our trigger extension packages: <br/><br/>
-									<ul class="slds-list--dotted">
-										<li>RHX PE Extensions: Contains trigger code for Attachment, Case, Case Comment, Lead, Opportunity, Note, Asset, Campaign, Campaign Member, Contract, Opportunity Line Item, Product, Quote, Quote Line Item, and Solution.
-											<ul class="slds-list--dotted"> 
-												<li><a href="http://rhx-pro.passgetech.com" target="_blank">Production</a></li>
-												<li><a href="http://rhx-pro-test.passagetech.com" target="_blank">Sandbox</a></li>
-											</ul>
-										</li>
-										<li>RHX PE Extensions, No Quotes: Contains trigger code for everything above minus Quotes and Quote Line Items. 
-											<ul class="slds-list--dotted">
-												<li><a href="http://rhx-pro-nq.passgetech.com" target="_blank">Production</a></li>
-												<li><a href="http://rhx-pro-nq-test.passagetech.com" target="_blank">Sandbox</a></li>
-											</ul>
-										</li>										
-									</ul><br/>
-									<strong>If you are unable to enable realtime on a Custom object</strong> due to lack of access to the Metadata API, please contact <a href="mailto:support@passagetech.com">Passage Technology support</a> for assistance in implementing a workaround Visualforce page "trigger".
-				               </div>
-		             		</div> 
-		             	</div>		             
-		            </apex:actionRegion>
-			  </div>
+			  
 			</div>
 		</section>
 		</div>
      </div>
+
+     
+
     </html>  
 </apex:page>

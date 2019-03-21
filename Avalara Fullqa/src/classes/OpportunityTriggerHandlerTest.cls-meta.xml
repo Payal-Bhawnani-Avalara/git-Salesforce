@@ -3,7 +3,7 @@
     <apiVersion>38.0</apiVersion>
     <packageVersions>
         <majorNumber>8</majorNumber>
-        <minorNumber>22</minorNumber>
+        <minorNumber>25</minorNumber>
         <namespace>CameleonCPQ</namespace>
     </packageVersions>
     <status>Active</status>

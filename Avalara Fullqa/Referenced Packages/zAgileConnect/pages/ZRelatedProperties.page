@@ -1,0 +1,1518 @@
+<apex:page action="{!if(!isSysAdmin,urlFor('/apex/zsfjira__ZInsufficientPriv'), null)}"
+           controller="zsfjira.ZSettingsController" setup="true">    
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-ui-1.10.3.custom.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__dynatree_1_2_4_js)}" />
+
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__jQuery, '/css/slds-theme/jquery-ui-1.10.4.custom.min.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__SLDS103, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__hogan)}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/js/bootstrap.min.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/css/bootstrap.css')}" />
+    <script src="../../soap/ajax/28.0/connection.js" type="text/javascript"></script>
+    <script src="../../soap/ajax/28.0/apex.js" type="text/javascript"></script>
+    <style>
+        ul.sortable {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        
+        ul.sortable > li {
+            margin: 5px;
+            padding: 5px;
+            width: 550px;
+            border: 1px solid #D4DADC;
+            border-radius: 4px;
+            background-color: #F1F1F1;
+        }
+        
+        ul.sortable>li>ul>li {
+            width: 510px;
+            background-color: #FAFAFA;
+        }
+        
+        ul.sortable li>span.closeable {
+            cursor: pointer;
+            float: right;
+            height: 12px;
+            padding: 3px;
+            text-align: center;
+            width: 12px;
+            cursor: default;
+        }
+        .mandatoryField {
+        	color: gray;
+        }
+        .objElem{
+            border: 2px solid;
+            padding: 5px;
+            width: 150px;
+            height: 30px;
+         	text-align: center;
+        }
+
+        .messageText {
+            color: white !important;
+        }
+
+        .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+            font-weight: normal !important;
+        }
+
+        .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+            font-weight: normal !important;
+        }
+        
+    </style>
+    
+    <style>
+        .selectedProperty, .selectedSubProperty {
+            width: auto;
+            height: auto;
+            min-width: 300px;
+            min-height: 15px;
+            margin: 5px;
+            padding: 5px;
+            border: 1px solid #D4DADC;
+            border-radius: 4px;
+            background-color: #F1F1F1;
+        }
+        
+        .selectedSubProperty {
+            background-color: white !important;
+        }
+        
+        .selectedProperty span, .selectedSubProperty span {
+            cursor: pointer;
+            float: right;
+            width: 12px;
+            height: 12px;
+            text-align: center;
+            padding: 3px;
+        }
+        
+        .selectedProperty span : hover {
+        	background-color: white;
+        }
+        
+        .pageMessageContainer {
+        	display: none;
+        }
+    </style>
+    <script type="text/javascript">
+    if (!window.console) window.console = {};
+    if (!window.console.log) window.console.log = function () {};
+    </script>
+    <script>
+    var tmplJiraNotAccessible = '{{^jiraAccessible}}<img src="/img/msg_icons/warning16.png" title="Field is currently not accessible from JIRA, check field permissions and availability" style="display:none" />{{/jiraAccessible}}';
+    var tmplCloseButton = '{{^isMandatoryField}}<span class="closeable" title="Remove this item" onclick="removeProperty(this)" ><img src="/img/dismiss.gif" /></span>{{/isMandatoryField}}';
+    var tmplListBoxConceptProperties = '<select id="props" onchange="loadSubProperties()" class="slds-select" style="width: auto;">{{#fieldsGroup}}<optgroup label="{{label}}">{{#fields}} {{#enabled}}<option value="{{name}}" referenceto="{{referenceTo}}" >{{#relationshipName}}{{relationshipName}}{{/relationshipName}}{{^relationshipName}}{{label}}{{/relationshipName}}</option>{{/enabled}} {{/fields}}</optgroup>{{/fieldsGroup}}</select> <select id="subprops" class="slds-select" style="display: none;width: auto;"></select> <button class="slds-button slds-button--neutral" onclick="addCurrentProperty(); return false;">Add</button>';
+    var tmplListBoxConceptSubProperties = '{{#fields}} {{^referenceTo}}{{#enabled}}<option value="{{name}}">{{label}}</option>{{/enabled}}{{/referenceTo}} {{/fields}}';
+    var tmplConceptField = '<li id="{{name}}" class="ui-sortable-handle{{#isMandatoryField}} mandatoryField{{/isMandatoryField}}"> <div class="slds-form-element" style="display: inline-block;"><div class="slds-form-element__control"><label class="slds-checkbox">  <input title="Display in JIRA" type="checkbox" {{#jiraDisplay}}checked{{/jiraDisplay}} {{#isMandatoryField}}disabled{{/isMandatoryField}} /> <span class="slds-checkbox--faux"></span><span class="slds-form-element__label"> {{label}} ({{name}})</span></label></div></div>  '
+    + tmplJiraNotAccessible + tmplCloseButton + ' {{#hasChildren}} {{>subConceptItems}}{{/hasChildren}}</li>';
+        
+    var tmplConcept = '<ul class="sortable" id="conceptPropertyList" concept="{{name}}" style="color:#16325c;">{{#sharedFields}}' + tmplConceptField + '{{/sharedFields}}</ul>';
+    var tmplSubConceptField = '<li class="ui-sortable-handle{{#isMandatoryField}} mandatoryField{{/isMandatoryField}}" id="{{name}}">{{label}} ({{name}}) ' + tmplJiraNotAccessible + tmplCloseButton + '</li>';
+    var tmplSubConcept = '<ul concept="{{concept}}" class="sortable" id="{{name}}">{{#sharedSubFields}}' + tmplSubConceptField + '{{/sharedSubFields}}</ul>';
+    
+    var htConcept = Hogan.compile(tmplConcept);
+    var htSubConcept = Hogan.compile(tmplSubConcept);
+    var htConceptField = Hogan.compile(tmplConceptField);
+    var htSubConceptField = Hogan.compile(tmplSubConceptField);
+    var htListBoxConceptProperties = Hogan.compile(tmplListBoxConceptProperties);
+    var htListBoxConceptSubProperties = Hogan.compile(tmplListBoxConceptSubProperties);
+    </script>
+
+
+    <div class="slds">
+        <div class="slds-page-header">
+          <div class="slds-grid">
+            <div class="slds-col slds-has-flexi-truncate">
+              <p class="slds-text-body--small">Salesforce properties</p>
+              <div class="slds-grid">
+                <div class="slds-grid slds-type-focus slds-no-space">
+                  <h1 class="slds-text-heading--medium slds-truncate" title="Settings">Select Case-related properties and source for Attachments to send to JIRA</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slds-grid">
+             <apex:form id="ZFormConceptProperties">
+                <div class="slds-text-body--regular slds-m-vertical--medium">
+                    In this section, you may select properties of Case and related objects to send to JIRA to display in the context of Salesforce properties in JIRA.  You may also specify sources for attachments (Case, Case Feed, Email, etc.) to send to JIRA
+                </div>
+                 <apex:pageMessage severity="error" id="errorMessages"/>
+                <div class='pageMessageContainer'>
+                    <apex:pageMessage summary="{!jiraNotAccessibleMessage}"
+                                      severity="warning" strength="1" id="zPropertiesJiraAccess" />
+                </div>
+                <div class='pageMessageContainer'>
+                    <apex:pagemessage strength="1" severity="info"
+                                      id="zNotifyWarnMessage" />
+                </div>
+                <div id="tabs"></div>
+            </apex:form>
+        </div>
+        <div class='pageMessageContainer'>
+            <apex:pagemessage strength="1" severity="info"
+                              summary="{!conceptMessage}" id="zpagemessage" />
+        </div>
+        <br/>
+         <div class="slds-grid slds-grid--align-center">
+            <div style="text-align: center;">
+                <button onclick="saveSelectedProperties(); return false;"
+                        id="saveProperties" disabled="disabled" class="btnDisabled slds-button slds-button--brand">
+                    Save
+                </button>
+                <button onclick="returnToMainSettings();" class="slds-button slds-button--brand">
+                    Return
+                </button>
+            </div>
+        </div>
+
+        <div class="slds-grid">
+             <div class="bs">
+                <div id="modalSchema" class="modal fade bs-example-modal-lg">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>                        
+                                <h4 class="modal-title">
+                                    Schema
+                                </h4>
+                            </div>
+                            <div class="modal-body"/>
+                            <div class="modal-footer">                                                
+                                <button type="button" onclick="addSchema();" id='add' class="btn btn-primary" >Add</button>
+                                <button type="button" class="btn" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    console = console ? console : {"log" : function(){}};
+    
+    window.accessibleFields = [];
+    var selectedProperties = {};
+    var availableFieldsLoaded = false;
+    var configuredFieldsLoaded = false;
+
+    Visualforce.remoting.timeout = 120000;
+    $jqz(function() {
+
+        overridePageMessages();
+        $jqz("span[id$=zpagemessage] DIV.messageText").html("Loading ...");
+        $jqz("span[id$=zPropertiesJiraAccess]").hide();
+        $jqz("span[id$=zNotifyWarnMessage]").hide();
+        $jqz("span[id$=errorMessages]").hide();
+
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.saveDefaultValuesIfNotExists}',
+            function(result, event) {
+                if(event.status){
+
+                } else if(event.type === 'exception'){
+                    message_html = '<strong>'+event.message+' Cannot save default mapped fields.</strong>';
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                    $jqz('span[id$=errorMessages]').show();
+                } else {
+                    message_html = '<strong>'+event.message+' Cannot save default mapped fields.</strong>';
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                    $jqz('span[id$=errorMessages]').show();
+                }
+            }
+        );
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.getAvailableRelatedConceptsToCase}', 
+            function(result, event) {
+                if (event.status){
+                    window.relatedConcepts = result;
+                }else if(event.type === 'exception'){
+                    message_html = '<strong>'+event.message+' Cannot get available objects to relate to Case.</strong>';
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                    $jqz('span[id$=errorMessages]').show();
+                }else{
+                    message_html = '<strong>'+event.message+' Cannot get available objects to relate to Case.</strong>';
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                    $jqz('span[id$=errorMessages]').show();
+                }
+            }
+        );
+        loadAvailableConceptFields();
+        renderSyncJIRAMessage();
+
+        $jqz("div.pageMessageContainer").each(function(i){
+            $jqz(this).removeAttr("class");
+         });
+        initConceptProperties();
+    });
+    
+    function renderSyncJIRAMessage(){
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.getNeedToSync}', 
+            function(result, event) {
+                if (event.status) {
+                    if(result){                    
+                        $jqz("span[id$=zNotifyWarnMessage]").show("fast", function(){});
+                        if({!JiraIsOnDemand}){
+                            $jqz("span[id$=zNotifyWarnMessage] DIV.messageText").html("As new properties were configured to be sent to JIRA,"+
+                                                                                      " we recommend that you perform a <a href='/apex/zsfjira__ZSyncSfJiraOD'>Refresh "+
+                                                                                      "Salesforce properties in JIRA</a>"+
+                                                                                      ". This way existing case data in JIRA would be refreshed. "+
+                                                                                      "If you have other changes to make, complete them first so that "+
+                                                                                      "you don't perform multiple Sync operations.");
+                        }
+                        else{
+                            $jqz("span[id$=zNotifyWarnMessage] DIV.messageText").html("As new properties were configured to be sent to JIRA,"+
+                                                                                      " we recommend that you perform a <a href='/apex/zsfjira__ZSyncSfJiraOP'>Refresh "+
+                                                                                      "Salesforce properties in JIRA</a>"+
+                                                                                      ". This way existing case data in JIRA would be refreshed. "+
+                                                                                      "If you have other changes to make, complete them first so that "+
+                                                                                      "you don't perform multiple Sync operations.");
+                        }
+                    }                
+                } else if(event.type === 'exception'){
+                    message_html = '<strong>'+event.message+' Cannot determine if it is necessary to sync with JIRA.</strong>';
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                    $jqz('span[id$=errorMessages]').show();
+                } else {
+                    message_html = '<strong>'+event.message+' Cannot determine if it is necessary to sync with JIRA.</strong>';
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                    $jqz('span[id$=errorMessages]').show();
+                }
+            }
+        );
+    }
+    
+    function loadAvailableConceptFields() {
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.getConceptsFields}',
+            function(result, event){
+                if (event.status) {
+                    console.log(result);
+                    selectedProperties = result;
+                    createTabs(result);
+                    availableFieldsLoaded = true;
+                    verifyRemovedFields();
+                } else if (event.type === 'exception') {
+                    message_html = '<strong>'+event.message+' Cannot load the available tabs.</strong>';
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                    $jqz('span[id$=errorMessages]').show();
+                    $jqz("span[id$=zpagemessage]").parent().hide();
+                } else {
+                    message_html = '<strong>'+event.message+' Cannot load the available tabs.</strong>';
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                    $jqz('span[id$=errorMessages]').show();
+                    $jqz("span[id$=zpagemessage]").parent().hide();
+                }
+            },{escape: true}
+        );
+    }
+    function verifyRemovedFields() {
+        if (!availableFieldsLoaded || !configuredFieldsLoaded) {
+            return;
+        }
+    }
+    
+    function createTabs(concepts) {
+        if ($jqz("#tabs li").length > 0) {
+            $jqz("#tabs").destroy();
+        }
+        console.log(concepts);
+        var tabHeaders = "";
+        var tabBodies = "";
+        var conceptNames = [];
+        
+        tabHeaders += "<li><a href='#customRelations'>Salesforce Objects</a></li>";
+        tabBodies += buildTabBodyCustomRelations();
+        
+        for (var index = 0; index < concepts.length; index++) {
+            var item = concepts[index];
+            conceptNames.push(item.conceptName);
+            var title = item.conceptLabel ? item.conceptLabel.replace("'", "\\'") : item.conceptLabel;
+            tabHeaders += "<li><a href='#" + item.conceptName + "' title='" + title + "'>" + item.conceptLabel + " Properties</a></li>";
+            tabBodies += buildTabBody(item);
+        }
+        tabHeaders += "<li><a onclick='loadAttachments();' href='#attachments'>Attachment Sources</a></li>";
+        tabHeaders = "<ul>" + tabHeaders + "</ul>";
+        
+        tabBodies += '<table id="attachments" class="tabBody ui-tabs-panel ui-widget-content ui-corner-bottom"'+
+            'aria-labelledby="ui-id-3" role="tabpanel" aria-expanded="true" aria-hidden="false" '+
+            'style="display: block;"></table>';
+        
+        $jqz("#tabs").html(tabHeaders + tabBodies);
+        $jqz("#tabs").tabs();
+    }
+    
+    function buildTabBodyCustomRelations() {
+        var relatedConcepts = window.relatedConcepts;
+        var html = "";
+        html += "<table id='customRelations' class='tabBody'>";
+        for (var key in relatedConcepts) {
+            html += "<tr><td>"+ '<div class="slds-form-element"><div class="slds-form-element__control"><label class="slds-checkbox">'
+                    + "<input type='checkbox' onchange='changedCustomRelation(this);' id='related-concept-" + key + "' "
+            html += ((relatedConcepts[key] || key == "Case")? "checked" : "") + (key == "Case" ? " disabled" : "") + " />"+
+            '<span class="slds-checkbox--faux"></span><span class="slds-form-element__label">'+key+'</span></label></div></div>'
+            +"</td></tr>";
+        }
+        html += "</table>";
+        return html;
+    }
+    function buildTabBody(item) {
+        var html = "";
+        html += "<table id='" + item.conceptName + "' class='tabBody'>"+
+            "<tr><td><div class='bs slds-text-body--regular slds-m-vertical--small' style='color:#16325c;'><span class='glyphicon glyphicon-info-sign slds-m-around--x-small' aria-hidden='true'>"+
+            "</span>The checkboxes indicate fields which will be visible in JIRA Salesforce Properties Section.</div></td></tr>"+
+            "<tr><td><div id='selectProperties'></div></td></tr><tr><td id='" + item.conceptName + "_selectedFields'></td></tr></table>";
+        return html;
+    }
+    function htmlDecode(value){
+        return $jqz('<div/>').html(value).text();
+    }
+    function decodeLabels(result){
+        for(var concept in result){
+            for(var i = 0;i<result[concept].fields.length;i++){
+                var currLabel = result[concept].fields[i].label;
+                result[concept].fields[i].label = htmlDecode(currLabel);                
+            }            
+        }
+        return result;
+    }
+    function initConceptProperties() {
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.loadConceptsFields}',
+            function(result, event){
+                if (event.status){
+                    result = decodeLabels(result);
+                    window.sfmetadata = result;
+                    generateFieldsByName(result);
+                    loadAvailableConceptProperties(result);
+                    $jqz("span[id$=zpagemessage]").hide();
+
+                    $jqz("#saveProperties").removeAttr("disabled");
+                    //$jqz("#saveProperties").removeAttr("class");
+                    $jqz("#saveProperties").removeClass("btnDisabled");
+                } else if(event.type === 'exception'){
+                    message_html = '<strong>'+event.message+' Cannot load available case properties to select.</strong>';
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                    $jqz('span[id$=errorMessages]').show();
+                    $jqz("span[id$=zpagemessage]").parent().hide();
+                } else {
+                    message_html = '<strong>'+event.message+' Cannot load available case properties to select.</strong>';
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                    $jqz('span[id$=errorMessages]').show();
+                    $jqz("span[id$=zpagemessage]").parent().hide();
+                }
+            }
+        );
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.loadSelectedConceptFields}', function(result, event){
+                if (event.status) {
+                    generateFieldsByName(result);
+                    loadConceptProperties(result);
+                    if({!JiraIsOnDemand}){
+                        loadAccessibleFieldsODForEnabledConcepts();
+                    }
+                } else if(event.type === 'exception'){
+                    message_html = '<strong>'+event.message+' Cannot load selected case properties.</strong>';
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                    $jqz('span[id$=errorMessages]').show();
+                } else {
+                    message_html = '<strong>'+event.message+' Cannot load selected case properties.</strong>';
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                    $jqz('span[id$=errorMessages]').show();
+                }
+            }
+        );
+    }
+
+    function generateFieldsByName(sfmetadata) {
+        for ( var i in sfmetadata) {
+            var concept = sfmetadata[i];
+            concept.fieldsByName = {};
+            for ( var j in concept.fields) {
+                var conceptField = concept.fields[j];
+                concept.fieldsByName[conceptField.name] = conceptField;
+            }
+        }
+    }
+    
+    function loadAvailableConceptProperties(sfmetadata) {        
+        var enabledConcepts = getEnabledCustomRelations();
+        for (var conceptName in sfmetadata) {
+            var fields = sfmetadata[conceptName].fields;
+            var simpleFields = [];
+            var relationshipFields = [];
+            for (var i in fields) {
+                if (fields[i].referenceTo && fields[i].referenceTo.length > 0) {
+                    relationshipFields.push(fields[i]);
+                    fields[i].enabled = true;
+                    for (var j=0 ; j < fields[i].referenceTo.length; j++) {
+                        fields[i].enabled = fields[i].enabled && enabledConcepts[fields[i].referenceTo[j]];
+                    }
+                } else {
+                    simpleFields.push(fields[i]);
+                    fields[i].enabled = fields[i].name != 'Id';
+                }
+            }                        
+            simpleFields.sort(
+                function(a, b) {
+                    var a_aux = a.label + "";
+                    var b_aux = b.label + "";
+                    return a_aux.toLowerCase().localeCompare(b_aux.toLowerCase()); 
+                }
+            );
+            relationshipFields.sort(function(a, b) { return a.name.toLowerCase().localeCompare(b.name.toLowerCase()); });
+            sfmetadata[conceptName].fieldsGroup = [{label: 'Fields', fields: simpleFields}, {label: 'Relationships', fields: relationshipFields}];
+        }
+        $jqz("#Case  div#selectProperties").html(htListBoxConceptProperties.render(sfmetadata.Case));
+        $jqz("select#props").val($jqz("select#props option").val());
+        loadSubProperties();
+    }
+    
+    function getEnabledCustomRelations() {
+        var conceptNames = {};
+        $jqz("#customRelations input:checked").each(function(i, value) {
+            var conceptName = $jqz(value).attr("id");
+            conceptName = conceptName.substring(conceptName.lastIndexOf("-") + 1);
+            conceptNames[conceptName] = true;
+        });
+        return conceptNames;
+    }
+    function loadSubProperties() {
+        var referenceTo = $jqz("select#props option:selected").attr("referenceto");
+        var conceptPropertyName = $jqz("select#props option:selected").val();
+        if (referenceTo.length > 0) {
+            var refs = referenceTo.split(",");
+            var conceptName = refs[0];
+            var concept = sfmetadata[conceptName];
+            if (conceptPropertyName == "OwnerId") {
+                concept = {
+                    concept: "Group,User",
+                    name: concept.name,
+                    fields: {
+                        name: "Name",
+                        label: "Name",
+                        enabled: true
+                    }
+                }
+            }
+            $jqz("select#subprops").html(htListBoxConceptSubProperties.render(concept));
+            $jqz("select#subprops > option").sort(
+                function(a, b) {
+                    return ("" + $jqz(a).html()).toLowerCase().localeCompare(("" + $jqz(b).html()).toLowerCase());
+                }
+            ).appendTo("select#subprops");
+            $jqz("select#subprops").val($jqz("select#subprops > option").val());
+            $jqz("select#subprops").show();
+        } else {
+            $jqz("select#subprops").hide();
+        }
+    }
+    
+    function loadConceptProperties(sfmetadata) {
+        var relatedConcepts = [];
+        for ( var i in sfmetadata) {
+            var concept = sfmetadata[i];
+            for ( var j in concept.sharedFields) {
+                var item = concept.sharedFields[j];
+                item.isMandatoryField = concept.mandatoryField == item.name;
+                item.label = concept.fieldsByName[item.name] ? concept.fieldsByName[item.name].label : item.name;
+                item.hasChildren = !!(item.sharedFields && item.sharedFields.length > 0);
+                item.sharedSubFields = item.sharedFields;
+                if (item.sharedFields && item.sharedFields.length > 0) {
+                    relatedConcepts.push(item.name);
+                    item.concept = concept.fieldsByName[item.name].referenceTo.join(',');
+                    item.label = concept.fieldsByName[item.name].relationshipName;
+                    for ( var k in item.sharedFields) {
+                        var subConceptName = concept.fieldsByName[item.name].referenceTo[0];
+                        var subConcept = sfmetadata[subConceptName];
+                        var subItem = item.sharedFields[k];
+                        subItem.isMandatoryField = subConcept.mandatoryField == subItem.name;
+                        subItem.label = subConcept.fieldsByName[subItem.name] ? subConcept.fieldsByName[subItem.name].label : subItem.name;
+                        if(subItem.label!=undefined){
+                            subItem.label = htmlDecode(subItem.label);
+                        }
+                    }
+                }
+            }
+        }
+        $jqz("#Case_selectedFields").append(htConcept.render(sfmetadata.Case, { subConceptItems : tmplSubConcept }));
+        $jqz(".sortable").sortable({ revert : true , items: ">li:not(.mandatoryField)" });
+        $jqz("ul#conceptPropertyList, ul#conceptPropertyList li").disableSelection();
+        
+        if({!JiraIsOnDemand}){
+            for(var idx = 0;idx<=relatedConcepts.length;idx++){
+                $jqz("#" + relatedConcepts[idx]+" input").attr("disabled", "");                
+            }
+        } 
+    }
+    
+    function loadAccessibleFieldsODForEnabledConcepts() {
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.getAccessibleFieldsODForEnabledConcepts}',
+            function(result, event) {
+                if (event.status) {
+                    window.accessibleFields = result.accessibleFields;
+                    displayWarningIconForAccessibleFields();
+                }else if(event.type === 'exception'){
+                    console.log('Cannot display accesible fields');
+                }else{
+                    console.log('Error' + event.message);
+                }
+            });
+    }
+    
+    function displayWarningIconForAccessibleFields() {
+        for (var conceptName in window.accessibleFields) {
+            $jqz("ul[concept*='" + conceptName + "'] > li > img").show();
+            for (var i=0; i < window.accessibleFields[conceptName].length; i++) {
+                var fieldName = window.accessibleFields[conceptName][i];
+                $jqz("ul[concept*='" + conceptName + "'] > li#" + fieldName + " > img").hide();
+            }
+        }
+    }
+
+    function removeProperty(closeButton) {
+        var elementToRemove = $jqz($jqz(closeButton)[0]).parent();
+        $jqz(elementToRemove).hide("fast", function() {
+            $jqz(elementToRemove).remove();
+        });
+    }
+    function loadAccessibleFieldsOD(concepts) {
+        Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ZSettingsController.getAccessibleFieldsOD}', concepts, function(result, event) {
+            if (event.status) {
+                window.accessibleFields = result.accessibleFields;
+                displayWarningIconForAccessibleFields();
+            }else if(event.type === 'exception'){
+                message_html = '<strong>'+event.message+' Cannot add new object relationship.</strong>';
+                $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                $jqz('span[id$=errorMessages]').show();
+            }else{
+                message_html = '<strong>'+event.message+' Cannot add new object relationship.</strong>';
+                $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                $jqz('span[id$=errorMessages]').show();
+            }
+        });
+    }
+    function changedCustomRelation(checkBox) {
+        var checked = $jqz(checkBox).prop("checked");
+        if (!checked) {
+            var id = $jqz(checkBox).prop("id");
+            var conceptName = id.substring(id.lastIndexOf("-") + 1);
+            if ($jqz("ul[concept*=" + conceptName + "]").length > 0) {
+                if(confirm("It will remove also the configured properties related to '" + conceptName +  "'")) {
+                    $jqz("ul[concept*=" + conceptName + "]").parent().remove();
+                } else {
+                    $jqz(checkBox).prop("checked", true);
+                }
+            }
+        }
+        loadAvailableConceptProperties(sfmetadata);
+        if (checked) {
+            var conceptNames = [];
+            var enabledConcepts = getEnabledCustomRelations();
+            for (var item in enabledConcepts) {
+                if (enabledConcepts[item]) {
+                    conceptNames.push(item);
+                }
+            }
+            if({!IF(JiraIsOnDemand,true,false)}){
+                loadAccessibleFieldsOD(conceptNames);
+            }
+        }
+    }
+    function addCurrentProperty() {
+        var isSubConcept = $jqz("select#subprops").is(":visible");
+        var conceptName = 'Case';
+        if ($jqz("ul#conceptPropertyList>li").length == 0) {
+            var mandatoryFieldName = sfmetadata[conceptName].mandatoryField;
+            var mandatoryFieldLabel = sfmetadata[conceptName].fieldsByName[mandatoryFieldName].label;
+            $jqz("ul#conceptPropertyList").append(htConceptField.render({ jiraDisplay: true, isMandatoryField: true, name : mandatoryFieldName, label: mandatoryFieldLabel }));
+        }
+        if (isSubConcept) {
+            var referenceId = $jqz("select#props option:selected").val();
+            if ($jqz("ul#" + referenceId).length == 0) {
+                var subConceptNames = $jqz("select#props option:selected").attr("referenceto");
+                var subConceptName = subConceptNames.split(",")[0];
+                var subPropertyId = $jqz("select#subprops>option:selected").val();
+                var subMandatoryField = sfmetadata[subConceptName].mandatoryField;
+                var data = {
+                    name : referenceId,
+                    label : sfmetadata[conceptName].fieldsByName[referenceId].relationshipName,
+                    hasChildren : true,
+                    sharedSubFields : [
+                        {name : subMandatoryField, isMandatoryField: true, label: sfmetadata[subConceptName].fieldsByName[subMandatoryField].label}
+                    ],
+                    concept : subConceptNames,
+                    jiraDisplay: !({!JiraIsOnDemand})
+                };
+                $jqz("ul#conceptPropertyList").append(htConceptField.render(data, { subConceptItems : tmplSubConcept }));
+                $jqz("ul#" + referenceId).sortable({ revert : true, items: ">li:not(.mandatoryField)" });
+                
+                if({!JiraIsOnDemand}){
+                    $jqz("#" + referenceId+"input").attr("disabled", "");
+                }                
+            }
+            var subConceptPropertyName = $jqz("select#subprops").val();
+            var subConceptPropertyLabel = $jqz("select#subprops>option:selected").text();
+            if ($jqz("ul#" + referenceId + " > li#" + subConceptPropertyName).length == 0) {                
+                $jqz("ul#" + referenceId).append(htSubConceptField.render({name : subConceptPropertyName, label: subConceptPropertyLabel }));
+            }
+        } else {
+            var propertyName = $jqz("select#props option:selected").val();
+            var propertyLabel = $jqz("select#props option:selected").text();
+            if ($jqz("ul#conceptPropertyList > li#" + propertyName).length == 0) {
+                $jqz("ul#conceptPropertyList").append(htConceptField.render({ name : propertyName, label: propertyLabel ,jiraDisplay: true}));
+            }
+        }
+        displayWarningIconForAccessibleFields();
+    }
+    function saveConceptProperties() {
+        var jsonToSave = {};
+        for (var item in sfmetadata) {
+            jsonToSave[item] = {
+                mandatoryField: sfmetadata[item].mandatoryField,
+                sharedFields: [],
+                fields: [],
+                label: sfmetadata[item].label,
+                labelPlural: sfmetadata[item].labelPlural,
+                name: sfmetadata[item].name
+            };
+        }
+        
+        var conceptName = 'Case';
+        var conceptFieldsByName = {};
+        $jqz("ul#conceptPropertyList > li").each(function(i, value) {
+            var conceptField = sfmetadata[conceptName].fieldsByName[value.id];
+            if (!conceptField) {
+            	console.log('Concept field "' + value.id + '" not found in Metadata of ' + conceptName);
+            	return;
+            }
+            conceptField.enabled = undefined;
+            if (conceptFieldsByName[conceptName] == undefined) {
+                conceptFieldsByName[conceptName] = {};
+            }
+            if (conceptFieldsByName[conceptName][conceptField.name] == undefined) {
+                conceptFieldsByName[conceptName][conceptField.name] = conceptField;
+                jsonToSave[conceptName].fields.push(conceptField);
+            }
+            jsonToSave[conceptName].sharedFields[i] = {
+                jiraDisplay : $jqz("ul#conceptPropertyList > li#" + value.id + "  input").prop("checked"),
+                name : value.id,
+                sharedFields: []
+            };
+            $jqz("ul#conceptPropertyList > li#" + value.id + " > ul > li").each(function(j, subValue) {
+                var subConceptName = conceptField.referenceTo[0];
+                if (conceptFieldsByName[subConceptName] == undefined) {
+                    conceptFieldsByName[subConceptName] = {};
+                }
+                if (conceptFieldsByName[subConceptName][subValue.id] == undefined) {
+                    var subConceptField = sfmetadata[subConceptName].fieldsByName[subValue.id];
+                    if (!subConceptField) {
+		            	console.log('Sub Concept field "' + subValue.id + '" not found in Metadata of ' + subConceptName);
+		            	return;
+                    }
+                    conceptFieldsByName[subConceptName][subValue.id] = subConceptField;
+                    subConceptField.enabled = undefined;
+                    subConceptField.jiraAccessible = undefined;
+                    jsonToSave[subConceptName].fields.push(subConceptField);
+                }
+                jsonToSave[conceptName].sharedFields[i].sharedFields.push({ name : subValue.id });
+            });
+            if (jsonToSave[conceptName].sharedFields[i].sharedFields.length == 0) {
+                jsonToSave[conceptName].sharedFields[i].sharedFields = undefined;
+            }
+        });
+        for (var i in jsonToSave) {
+            var concept = jsonToSave[i];
+            if (!concept.fields || concept.fields == 0) {
+                jsonToSave[i] = undefined;
+            } else {
+                var conceptFieldId = sfmetadata[concept.name].fieldsByName['Id'];
+                conceptFieldId.enabled = undefined;
+                conceptFieldId.jiraAccessible = undefined;
+                jsonToSave[concept.name].fields.unshift(conceptFieldId);
+                for (var j=0; j<jsonToSave[concept.name].fields.length; j++) {
+                    jsonToSave[concept.name].fields[j].jiraAccessible = undefined;
+                }
+            }
+        }
+
+        console.log("bug1",jsonToSave);
+        
+        window.jsonToSave = jsonToSave;
+        return jsonToSave;
+    }
+    function saveSelectedProperties() {
+        $jqz("span[id$=zPropertiesJiraAccess]").hide();
+        $jqz("button#saveProperties").removeAttr("disabled");
+        var active = $jqz( "#tabs" ).tabs( "option", "active" );
+        $jqz("span[id$=zpagemessage]").show();
+        $jqz("span[id$=zpagemessage] DIV.messageText").html("Saving...");
+        var conceptsToEnable = [];
+        for (var item in getEnabledCustomRelations()) {
+            conceptsToEnable.push(item);
+        }
+        console.log("bug1",conceptsToEnable);
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.saveRelatedConceptsToCase}', conceptsToEnable,
+            function(result, event) {
+                if (event.status) {
+                    Visualforce.remoting.Manager.invokeAction(
+                        '{!$RemoteAction.ZSettingsController.saveConceptProperties}',
+                        saveConceptProperties(), '{!JiraIsOnDemand}'=='true', 
+                        function(result, event) {
+                            if(event.status){
+                                if (result && result.length > 0) {
+                                $jqz("span[id$=zpagemessage]").show();
+                                $jqz("span[id$=zpagemessage] DIV.messageText").html(result.join('. ') + ".");
+                                } else {
+                                   saveSchemas();
+                                   renderSyncJIRAMessage();
+                                }
+                                $jqz("button#saveProperties").removeAttr("disabled");
+                            }else if(event.type === 'exception'){
+                                var message_html = '<strong>'+event.message + ' Cannot save Salesforce objects related to Case.</strong>';
+                                $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                                $jqz('span[id$=errorMessages]').show();
+                                $jqz("button#saveProperties").removeAttr("disabled");
+                                $jqz("span[id$=zpagemessage]").hide();
+                            }else{
+                                var message_html = '<strong>'+event.message + ' Cannot save Salesforce objects related to Case.</strong>';
+                                $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                                $jqz('span[id$=errorMessages]').show();
+                                $jqz("button#saveProperties").removeAttr("disabled");
+                                $jqz("span[id$=zpagemessage]").hide();
+                            }
+
+                        }
+                        );
+                } else if(event.type === 'exception'){
+                    var message_html = '<strong>' + event.message + ' Cannot save case properties.</strong>';
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                    $jqz('span[id$=errorMessages]').show();
+                    $jqz("button#saveProperties").removeAttr("disabled");
+                    $jqz("span[id$=zpagemessage]").hide();
+                } else {
+                    var message_html = '<strong>' + event.message + ' Cannot save case properties.</strong>';
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(message_html);
+                    $jqz('span[id$=errorMessages]').show();
+                    $jqz("button#saveProperties").removeAttr("disabled");
+                    $jqz("span[id$=zpagemessage]").hide();
+                }
+            });
+    }
+    </script>
+    <script>
+    //Attachment Schema funcions
+    
+    var defaultSchemas = {};
+    
+    var schemasLabels ={
+        "Case":"Case", 
+        "CaseFeed":"Case Feed", 
+        "SalesforceFiles":"Salesforce Files",
+        "Account":"Account", 
+        "AccountFeed":"Account Feed",
+        "Contact":"Contact", 
+        "ContactFeed":"Contact Feed",
+        "UserOwnerFeed":"Case Owner Feed",
+        "CaseEmail":"Case Email", 
+        "Asset":"Asset", 
+        "AssetFeed":"Asset Feed"
+    };
+            
+    defaultSchemas["Case"]=
+        [{"object":"Attachment","type":"refto","field":"ParentId"},{"object":"Case","type":"","field":""}];
+	defaultSchemas["SalesforceFiles"] =
+        [];
+    defaultSchemas["CaseFeed"]=
+        [{"object":"FeedItem","type":"refto","field":"ParentId"},{"object":"Case","type":"","field":""}];
+    defaultSchemas["Account"]=
+        [{"object":"Attachment","type":"refto","field":"ParentId"},{"object":"Account","type":"refby","field":""},{"object":"Case","type":"","field":"AccountId"}];
+    defaultSchemas["AccountFeed"]=
+        [{"object":"FeedItem","type":"refto","field":"ParentId"},{"object":"Account","type":"refby","field":""},{"object":"Case","type":"","field":"AccountId"}];
+    defaultSchemas["Contact"]=
+        [{"object":"Attachment","type":"refto","field":"ParentId"},{"object":"Contact","type":"refby","field":""},{"object":"Case","type":"","field":"ContactId"}];
+    defaultSchemas["ContactFeed"]=
+        [{"object":"FeedItem","type":"refto","field":"ParentId"},{"object":"Contact","type":"refby","field":""},{"object":"Case","type":"","field":"ContactId"}];
+    defaultSchemas["UserOwnerFeed"]=
+        [{"object":"FeedItem","type":"refto","field":"ParentId"},{"object":"User","type":"refby","field":""},{"object":"Case","type":"","field":"OwnerId"}];
+    defaultSchemas["CaseEmail"]=
+        [{"object":"Attachment","type":"refto","field":"ParentId"},{"object":"EmailMessage","type":"refto","field":"ParentId"},{"object":"Case","type":"","field":""}];
+    defaultSchemas["Asset"]=
+        [{"object":"Attachment","type":"refto","field":"ParentId"},{"object":"Asset","type":"refby","field":""},{"object":"Case","type":"","field":"AssetId"}];
+    defaultSchemas["AssetFeed"]=
+        [{"object":"FeedItem","type":"refto","field":"ParentId"},{"object":"Asset","type":"refby","field":""},{"object":"Case","type":"","field":"AssetId"}];
+    
+    var isLoaded = false;
+    function loadAttachments(){
+        if(isLoaded){
+            return;
+        }
+        isLoaded = true;
+        var html='<tbody>';        
+        html+='<tr><td style="width: 700px;"><div class="bs">'
+        html+='<div id="loader" style="padding: 5px;" class="alert alert-info" role="alert"><b>Loading...</b></div>';
+        html+='</div></td></tr>';
+        html+='<tr id="ssection" style="display:none">';
+        html+='<td><b style="font-size: 15px; color:#16325c;">Standard Attachment Sources</b>';
+        html+='<div class="bs slds-m-vertical--small slds-text-body--regular" style="color:#16325c;"><span class="glyphicon glyphicon-info-sign slds-m-around--x-small" aria-hidden="true"></span>The checkboxes indicate standard sources for Attachments that can be sent to JIRA issues in the context of Case.</div>';
+        html+='<ul id="standardSources" style="list-style-type: none;"></ul>';        
+        html+='</td>';
+        html+='<td style="border-left: 1px solid;min-width: 572px;padding-left: 20px;"><b style="font-size: 15px; color:#16325c;">Custom Attachment Sources</b>';
+        html+='<div align="center"><button id="newschema" class="slds-button slds-button--neutral" style="display:none;" '+
+            'onclick="newSchema(true);return false;">Other</button></div>';
+        html+='<ul class="sortable ui-sortable" id="schemas"/>'
+        html+='</td></tr></tbody>';        
+        $jqz('#attachments').append(html);        
+        
+        buildStandardPaths();                
+    }
+    function loadExistent(){                
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.getObjectsMeta}',
+            function(result, event) {
+                if (event.status) {                                                                               
+                    if(result.isInserted){                        
+                        var callBack1 = function(){
+                            $jqz('#ssection').show();
+                            $jqz('#newschema').show();
+                            $jqz('#loader').hide();
+                            
+                            var html= '';
+                            var attachmentSchema = result.attachmentSchema;
+                            for(var idx=0;idx<attachmentSchema.length;idx++){
+                                if(attachmentSchema[idx].isStandard){
+                                    $jqz('li[item="'+attachmentSchema[idx].name+'"] input').prop( "checked", true );
+                                    continue;
+                                }
+                                
+                                var list = attachmentSchema[idx].lst;
+                                
+                                var add=true;
+                                for(var k = 0;k<list.length;k++){
+                                    if(!(list[k].object in objectsMeta)){
+                                        add=false;
+                                        break;
+                                    }
+                                }
+                                if(!add)continue;
+                                
+                                html+= '<li id="sch_'+idx+'" class="ui-sortable-handle">';
+                                var sourceItem = '<span style="display: inline;" class="closeable" title="Remove schema" onclick="removeSchema('+idx+')">'+
+                                    '<img src="/img/dismiss.gif"></span>';
+                                var sourceTitle = '<div class="bs" style="display: inline;">';
+                                sourceItem+='<ul class="sortable ui-sortable" style="display:none;">';
+                                
+                                for(var k = 0;k<list.length;k++){                                
+                                    var icon = '';
+                                    if(k>0){
+                                        if(list[k-1].type=='refby'){
+                                            icon='&nbsp;<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;';
+                                        }else{
+                                            icon='&nbsp;<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>&nbsp;';
+                                        }
+                                    }
+                                    sourceTitle+= icon+objectsMeta[list[k].object].label
+                                    var itemHtml ='<li class="ui-sortable-handle" ordtype="'+list[k].type+
+                                        '" ordfield="'+list[k].field+
+                                        '" ordobject="'+list[k].object+
+                                        '"><div class="bs" style="padding-left:'+(k*50)+'px;">'+
+                                        icon+objectsMeta[list[k].object].label+'</div></li>';                                
+                                    sourceItem += itemHtml;
+                                }
+                                html += sourceTitle+'</div>'+sourceItem+'</ul></li>';                            
+                            }  
+                            $jqz('#schemas').append(html);
+                        }
+                        
+                        var objMissingSchemas = {};
+                        for(var idx=0;idx<result.attachmentSchema.length;idx++){
+                            if(!result.attachmentSchema[idx].isStandard){
+                                var list = result.attachmentSchema[idx].lst;                            
+                                for(var k = 0;k<list.length;k++){
+                                    objMissingSchemas[list[k].object]={};
+                                }
+                            }
+                        }
+                        lstMissingObjects = [];
+                        for(var objName in objMissingSchemas){
+                            lstMissingObjects.push(objName);
+                        }                        
+                        var callBack2 = function myself(){              
+                            var chunkList = [];
+                            var jdx = 0;
+                            for(jdx = missingIdx;jdx<(missingIdx+10);jdx++){
+                                if(jdx<lstMissingObjects.length){
+                                    chunkList.push(lstMissingObjects[jdx]);
+                                }else{
+                                    break;
+                                }
+                            }
+                            missingIdx = jdx;
+                            window.console.log('chunkList->'+jdx);
+                            window.console.log(chunkList);
+                            if(chunkList.length==0){
+                                callBack1();
+                            }else{
+                                pullObjectsMeta(myself,chunkList);
+                            } 
+                        }
+                        missingIdx = 0;
+                        callBack2();
+                    }else{
+                        $jqz('#ssection').show();
+                        $jqz('#newschema').show();
+                        $jqz('#loader').hide();
+                    }
+                }else if(event.type === 'exception'){
+                    var errmessage = '<b>'+event.message+' '+'Cannot load existing sources.'+'</b>';
+                    $jqz('#loader').html(errmessage);
+                    $jqz('#loader').attr('class', 'alert alert-danger');
+                } else {
+                    var errmessage = '<b>'+event.message+' '+'Cannot load existing sources.'+'</b>';
+                    $jqz('#loader').html(errmessage);
+                    $jqz('#loader').attr('class', 'alert alert-danger');
+                }
+            }
+        );
+    }
+    function buildStandardPathsInternal(idx,dArray){
+        if(idx>=dArray.length){
+            loadExistent();
+            return;
+        }
+        var mapRequest = {};
+        var jdx = idx;
+        for(jdx;jdx<(idx+5);jdx++){
+            if(jdx>=dArray.length)break;
+            var defaultSchema = dArray[jdx];        
+            if(defaultSchema=='Case'){
+                var htmlSp ='<li item="'+defaultSchema+'"><div class="slds-form-element"><div class="slds-form-element__control"><label class="slds-checkbox"><input disabled="true" checked="true"'+
+                    ' type="checkbox"> <span class="slds-checkbox--faux"></span><span class="slds-form-element__label">'+schemasLabels[defaultSchema]+'</span></label></div></div>'+
+                    '</li>';
+                $jqz('#standardSources').append(htmlSp);               
+            }else if(defaultSchema=='SalesforceFiles'){
+                var htmlSp ='<li item="'+defaultSchema+'"><div class="slds-form-element"><div class="slds-form-element__control"><label class="slds-checkbox">'+
+                    '<input disabled="true" checked="true" type="checkbox"><span class="slds-checkbox--faux"></span><span class="slds-form-element__label">'+schemasLabels[defaultSchema]+'</span></label></div></div></li>';
+                $jqz('#standardSources').append(htmlSp); 
+            }else{
+                mapRequest[defaultSchema] = defaultSchemas[defaultSchema];
+            }
+        }
+        window.console.log('mapRequest');
+        window.console.log(mapRequest);
+        idx = jdx;                
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.validateSources}',mapRequest,
+            function(result, event){
+                if (event.status) {
+                    for(var currSource in result){
+                        window.console.log(currSource+'=>'+result[currSource].success);
+                        window.console.log(result[currSource].soql);  
+                        if(result[currSource].success){
+                            var htmlSp ='<li item="'+currSource+'"><div class="slds-form-element"><div class="slds-form-element__control"><label class="slds-checkbox"><input type="checkbox"> <span class="slds-checkbox--faux"></span><span class="slds-form-element__label">'+schemasLabels[currSource]+'</span></label></div></div>'
+                                +'</li>';
+                            $jqz('#standardSources').append(htmlSp); 
+                        }
+                    }
+                    buildStandardPathsInternal(idx,dArray);
+                }else if(event.type === 'exception'){
+                    var errmessage = '<b>'+event.message+' Cannot validate the attachment sources.</b>';
+                    $jqz('#loader').html(errmessage);
+                    $jqz('#loader').attr('class', 'alert alert-danger');
+                } else {
+                    var errmessage = '<b>'+event.message+' Cannot validate the attachment sources.</b>';
+                    $jqz('#loader').html(errmessage);
+                    $jqz('#loader').attr('class', 'alert alert-danger');
+                }
+            }
+        );        
+    }
+    function buildStandardPaths(){        
+        var dArray = [];
+        for(defaultSchema in defaultSchemas){
+            dArray.push(defaultSchema);
+        }
+        buildStandardPathsInternal(0,dArray);
+    }
+    function saveSchemas(){
+        if(!isLoaded){
+            $jqz("span[id$=zpagemessage] DIV.messageText").html("Saved successfully.");
+            $jqz("span[id$=zpagemessage]").show().delay(5000).fadeOut();
+            return;
+        }
+        var schemasUi = $jqz('#schemas>li');
+        var schemas = [];
+        for(var i = 0;i<schemasUi.length;i++){
+            var schema = [];
+            var ordinalsUi = $jqz(schemasUi[i]).find('ul>li');
+            for(var j = 0;j<ordinalsUi.length;j++){
+                schema.push({
+                    "object":$jqz(ordinalsUi[j]).attr('ordobject'),
+                    "type":$jqz(ordinalsUi[j]).attr('ordtype'),
+                    "field":$jqz(ordinalsUi[j]).attr('ordfield')
+                }); 
+            }
+            schemas.push({"lst":schema,"isStandard":false,"name":"Custom","label":"Custom"});
+        }
+        var standardSources = $jqz("#standardSources>li");
+        for(var i=0;i<standardSources.length;i++){
+            varCurrentItem = $jqz(standardSources[i]).attr('item');
+            if(varCurrentItem!='Case' && varCurrentItem!='SalesforceFiles' && $jqz(standardSources[i]).find('input').is(':checked')){
+                schemas.push({"lst":defaultSchemas[varCurrentItem],"isStandard":true,"name":varCurrentItem,
+                             "label":schemasLabels[varCurrentItem]});
+            }
+        }
+        window.console.log('schemas');
+        window.console.log(schemas);
+        var strSchemas = JSON.stringify(schemas);
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.saveAttachmentsSchemas}',strSchemas,
+            function(result, event) {
+                if(event.status){
+                    $jqz("span[id$=zpagemessage]").show().delay(5000).fadeOut();
+                    $jqz("span[id$=zpagemessage] DIV.messageText").html("Saved successfully.");
+                }else if(event.type === 'exception'){
+                    var errmessage = '<b>'+event.message+' '+'Cannot save modifications to attachment sources.'+' </b>';
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(errmessage);
+                    $jqz('span[id$=errorMessages]').show();
+                    $jqz("button#saveProperties").removeAttr("disabled");
+                    $jqz("span[id$=zpagemessage]").hide();
+                } else {
+                    var errmessage = '<b>'+event.message+' '+'Cannot save modifications to attachment sources.'+' </b>';
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(errmessage);
+                    $jqz('span[id$=errorMessages]').show();
+                    $jqz("button#saveProperties").removeAttr("disabled");
+                    $jqz("span[id$=zpagemessage]").hide();
+                }
+            }
+        );
+    }
+    var ordinal = 0;
+    function newSchema(prompt){                        
+        var callBack1 = function(){
+            $jqz("#newschema").html('Other');
+            $jqz("#newschema").removeAttr('disabled');
+            $jqz("#newschema").attr('class','btn slds-button slds-button--neutral');
+            if(prompt){
+                $jqz('#modalSchema').modal('show');
+                $jqz('.modal-title').html('New Attachment Source');
+            }
+            ordinal = 1;                
+            $jqz('.modal-body').html('<div style="display:none;" id="msg_err" class="alert alert-danger" role="alert"></div>');
+            $jqz('.modal-body').append(helpText());
+            $jqz('.modal-body').append('<table id="handlePath"><tbody></tbody></table>');
+            $jqz('.modal-body').append('<a href="#" onclick="nextOrdinal();return false;" id=\'next\'>'+
+                                       'Relate another object</a>');
+            $jqz('.modal-body').append('<i style="display:none;" id=\'loaderNext\'>Loading...</i>');
+            $jqz("#handlePath>tbody").append(buildOrdinal(ordinal));
+        };
+        
+        if(!('Attachment' in objectsMeta) || !('FeedItem' in objectsMeta)){
+            $jqz("#newschema").html('Loading...');
+            $jqz("#newschema").attr('disabled','true');
+            $jqz("#newschema").addClass('btnDisabled');
+
+            var lstChunk=[];
+            if(!('Attachment' in objectsMeta)){
+                lstChunk.push('Attachment');
+            }            
+            if(!('FeedItem' in objectsMeta)){
+                lstChunk.push('FeedItem');
+            }            
+            pullObjectsMeta(callBack1,lstChunk);
+        }else{
+            callBack1();
+        }
+    }
+    function helpText(){
+        return "<div>Here you can configure the path for other attachments. "+
+            "Select first the salesforce object that stores the attachment "+
+            "and add more related objects and configure the relationship "+
+            "fields that relate those objects. To finish add the Case object."+
+            " This way you tell zAgileConnect the path to follow  to access a"+
+            " source of attachments starting from Case. This is useful when"+
+            " you have a custom object where you store Attachments that are"+
+            " indirectly related to Cases.</div><br/>";
+    }
+    function addSchema(){
+        $jqz("#msg_err").hide();        
+        var object = $jqz("#obj_ord_"+ordinal).val();
+        
+        if(object!='Case'){
+            $jqz("#msg_err").html("<b>Attachment Source must finish with case object</b>");
+            $jqz("#msg_err").show();
+            return;
+        }
+        var lstSchema = [];
+        var prevType = '';
+        for(var o = 1;o <= ordinal;o++){
+            var tmp_object = '';
+            var tmp_type = '';
+            var tmp_field = '';
+            if(o==1){
+                tmp_object = $jqz("#obj_ord_1").attr('value');  
+                tmp_type = 'refto';
+                tmp_field = $jqz("#no_ord_2>div>select").val();  
+            }else{
+                if(o<ordinal){
+                    tmp_object = $jqz("#obj_ord_"+o).attr('value');
+                    if((o+1)==ordinal){
+                        tmp_type = $jqz('#obj_ord_'+(o+1)+'>option:selected').attr('type');                        
+                    }else{
+                        tmp_type = $jqz("#obj_ord_"+(o+1)).attr('type'); 
+                    }
+                    if(tmp_type=='refto'){
+                        tmp_field = $jqz("#no_ord_"+(o+1)+">div>select").val();
+                    }
+                }else{
+                    tmp_object = $jqz("#obj_ord_"+o).val();
+                    if(prevType == 'refby'){
+                        tmp_field = $jqz("#no_ord_"+o+">div>select").val();
+                    }
+                }
+            }
+            prevType = tmp_type;
+            lstSchema.push({
+                "object":tmp_object,
+                "type":tmp_type,
+                "field":tmp_field
+            });            
+        }
+        window.console.log(lstSchema);
+        
+        for(var defSchema in defaultSchemas){
+            var currSchemaArray = defaultSchemas[defSchema];
+            if(currSchemaArray.length==lstSchema.length){
+                var equalSchema = true;
+                for(var j = 0;j<lstSchema.length;j++){
+                    var object = currSchemaArray[j].object;
+                    var type = currSchemaArray[j].type;
+                    var field = currSchemaArray[j].field;
+                    
+                    var equalOrdinal = (lstSchema[j].object == object && 
+                                        lstSchema[j].type == type &&
+                                        lstSchema[j].field == field);
+                    equalSchema = (equalSchema && equalOrdinal)
+                    if(!equalOrdinal){
+                        break;
+                    }
+                }
+                if(equalSchema){
+                    $jqz("#msg_err").html("<b>Can't add because the custom attachment source you are trying to save is already available for selection on Standard Attachment Sources section as '"+defSchema+"'</b>");
+                    $jqz("#msg_err").show();
+                    return;
+                }
+            }
+        }
+        
+        var schemasUi = $jqz('#schemas>li');
+        for(var i = 0;i<schemasUi.length;i++){            
+            var ordinalsUi = $jqz(schemasUi[i]).find('ul>li');
+            if(ordinalsUi.length==lstSchema.length){
+                var equalSchema = true;
+                for(var j = 0;j<ordinalsUi.length;j++){
+                    var object = $jqz(ordinalsUi[j]).attr('ordobject');
+                    var type = $jqz(ordinalsUi[j]).attr('ordtype');
+                    var field = $jqz(ordinalsUi[j]).attr('ordfield');
+                    
+                    var equalOrdinal = (lstSchema[j].object == object && 
+                                        lstSchema[j].type == type &&
+                                        lstSchema[j].field == field);
+                    equalSchema = (equalSchema && equalOrdinal)
+                    if(!equalOrdinal){
+                        break;
+                    }
+                }
+                if(equalSchema){
+                    $jqz("#msg_err").html("<b>Can't add, Attachment Source is already defined.</b>");
+                    $jqz("#msg_err").show();
+                    return;
+                }
+            }
+        }
+        
+        $jqz('#modalSchema').modal('hide');
+        
+        var idx = $jqz('#schemas>li').length;
+        idx++;
+        var title = '<div class ="bs" style="display: inline;">';
+        var html= '<li id="sch_'+idx+'" class="ui-sortable-handle">';
+        var sourceHtml ='<span style="display: inline;" class="closeable" title="Remove schema" onclick="removeSchema('+idx+')">'+
+            '<img src="/img/dismiss.gif"></span>';
+        sourceHtml+='<ul class="sortable ui-sortable" style="display: none;">';
+        for(var k = 0;k<lstSchema.length;k++){
+            var icon = '';
+            if(k>0){
+                if(lstSchema[k-1].type=='refby'){
+                    icon='&nbsp;<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>&nbsp;';
+                }else{
+                    icon='&nbsp;<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>&nbsp;';
+                }
+            }
+            title+=icon+objectsMeta[lstSchema[k].object].label
+            var ordinalHtml ='<li class="ui-sortable-handle" ordtype="'+lstSchema[k].type+
+                '" ordfield="'+lstSchema[k].field+
+                '" ordobject="'+lstSchema[k].object+
+                '"><div class="bs" style="padding-left:'+(k*50)+'px;">'+
+                icon+objectsMeta[lstSchema[k].object].label+'</div></li>';            
+            sourceHtml += ordinalHtml;
+        }
+        html += title+'</div>'+sourceHtml+'</ul></li>';
+        $jqz('#schemas').append(html);
+    }
+    function removeOrdinal(pordinal){
+        if(pordinal>2){
+            $jqz('#no_ord_'+pordinal).remove();
+            $jqz('#ord_'+pordinal).remove();
+            
+            var prevOrdinal = pordinal-1;
+            tmp_object = $jqz("#obj_ord_"+prevOrdinal).attr('value');
+            tmp_field = $jqz("#no_ord_"+prevOrdinal+">div>select").val();
+            
+            $jqz('#no_ord_'+prevOrdinal).remove();
+            $jqz('#ord_'+prevOrdinal).remove();
+            
+            ordinal--;
+            $jqz("#handlePath>tbody").append(buildOrdinal(prevOrdinal));            
+            
+            $jqz("#obj_ord_"+prevOrdinal).val(tmp_object);
+            ichange(prevOrdinal);
+            $jqz("#no_ord_"+prevOrdinal+">div>select").val(tmp_field);
+        }else{
+            tmp_object = $jqz("#obj_ord_1").attr('value');
+            newSchema(false);
+            $jqz("#obj_ord_1").val(tmp_object);
+        }
+    }
+    function removeSchema(idx){
+        $jqz('#sch_'+idx).remove();
+    }
+    function nextOrdinal(){
+        var selObj = $jqz('#obj_ord_'+ordinal).val();
+        var selType = $jqz('#obj_ord_'+ordinal+'>option:selected').attr('type');
+        
+        var labelObjt = objectsMeta[selObj].label;
+        $jqz('#obj_ord_'+ordinal).remove();        
+        $jqz('#ord_'+ordinal+'>td>div').append('<div type="'+selType+'" id="obj_ord_'+ordinal+
+                                               '" value="'+selObj+'" class="objElem">'+labelObjt+'</div>');        
+        $jqz("#closer_"+ordinal).parent().remove()
+        
+        //-----------------
+        var callBack1 = function(){
+            $jqz("#next").show();
+            $jqz("#loaderNext").hide();
+            
+            ordinal++;
+            $jqz("#handlePath>tbody").append(buildOrdinal(ordinal));
+            ichange(ordinal);
+        }
+        //-----------------
+        var prevOrd = ordinal;            
+        var prevobject = $jqz("#obj_ord_"+prevOrd).attr('value');                                          
+        objMissingObjects = {};
+        for(var i = 0;i<objectsMeta[prevobject].fields.length;i++){                
+            for(var j =0;j<objectsMeta[prevobject].fields[i].references.length;j++){
+                var objName = objectsMeta[prevobject].fields[i].references[j];
+                if(!(objName in objectsMeta)){
+                    objMissingObjects[objName]=true;
+                }
+            }
+        }
+        lstMissingObjects = [];
+        for(var objName in objMissingObjects){
+            lstMissingObjects.push(objName);
+        }
+        window.console.log('lstMissingObjects');
+        window.console.log(lstMissingObjects);
+        var callBack2 = function myself(){            
+            var chunkList = [];
+            var jdx = 0;
+            for(jdx = missingIdx;jdx<(missingIdx+10);jdx++){
+                if(jdx<lstMissingObjects.length){
+                    chunkList.push(lstMissingObjects[jdx]);
+                }else{
+                    break;
+                }
+            }
+            missingIdx = jdx;
+            window.console.log('chunkList->'+jdx);
+            window.console.log(chunkList);
+            if(chunkList.length==0){
+                callBack1();
+            }else{
+                pullObjectsMeta(myself,chunkList);
+            }
+        }
+        missingIdx = 0;
+        $jqz("#next").hide();
+        $jqz("#loaderNext").show();
+        callBack2();
+    }
+    var missingIdx = 0;
+    var lstMissingObjects = [];
+    
+    function ichange(pordinal){
+        var selObj = $jqz('#obj_ord_'+pordinal).val();
+        if(selObj == 'Case' || pordinal>=3){
+            $jqz('#next').hide();
+        }else{
+            $jqz('#next').show();
+        }
+        var selType = $jqz('#obj_ord_'+pordinal+'>option:selected').attr('type');
+        
+        var selObj = $jqz('#obj_ord_'+pordinal).val();
+        var labelObjt = objectsMeta[selObj].label;
+        
+        var prevOrd = pordinal-1;            
+        var prevobject = $jqz("#obj_ord_"+prevOrd).attr('value');  
+        var html = '<div style="padding-left:'+(40*(pordinal-1))+
+            'px;" class="form-group">';
+        if(selType=='refto'){                    
+            html+='<span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>&nbsp;';
+            html+='<select>'                    
+            for(var i = 0;i<objectsMeta[prevobject].fields.length;i++){                
+                for(var j =0;j<objectsMeta[prevobject].fields[i].references.length;j++){
+                    if(objectsMeta[prevobject].fields[i].references[j] == selObj){
+                        html+='<option value="'+objectsMeta[prevobject].fields[i].name+'">'+
+                            objectsMeta[prevobject].fields[i].label+'</option>';
+                    }
+                }
+            }
+            html+='</select>'
+        }else{
+            html+='<span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>&nbsp;';
+            html+='<select>'                    
+            for(var i = 0;i<objectsMeta[selObj].fields.length;i++){                
+                for(var j =0;j<objectsMeta[selObj].fields[i].references.length;j++){
+                    if(objectsMeta[selObj].fields[i].references[j] == prevobject){
+                        html+='<option value="'+objectsMeta[selObj].fields[i].name+'">'+
+                            objectsMeta[selObj].fields[i].label+'</option>';
+                    }
+                }
+            }
+            html+='</select>'
+        }
+        html+='</div>';
+        $jqz('#no_ord_'+pordinal).html(html);
+    }
+    var objectsMeta = {};
+    function pullObjectsMeta(callBack,lstObjects){        
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.describeObjectsMeta}',lstObjects,
+            function(result, event){
+                if (event.status) {
+                    for(var objName in result){
+                        objectsMeta[objName]=result[objName];
+                        window.console.log(objName+'->');
+                        window.console.log(result[objName]);
+                    }                    
+                }else if(event.type === 'exception'){
+                    var errmessage = '<strong>'+event.message+' Cannot load custom attachment sources.</strong>'
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(errmessage);
+                    $jqz('span[id$=errorMessages]').show();
+                }else{
+                    var errmessage = '<strong>'+event.message+' Cannot load custom attachment sources.</strong>'
+                    $jqz('span[id$=errorMessages] DIV.messageText').html(errmessage);
+                    $jqz('span[id$=errorMessages]').show();
+                }
+                callBack();
+            }
+        );                        
+    }
+    function buildOrdinal(pordinal){
+        var html = '';
+        if(pordinal==1){
+            html = '<tr id="ord_'+pordinal+'">';
+            html+= '<td><div style="padding-left:'+(40*(pordinal-1))+
+                'px;" class="form-group"><label>Attachment Object</label><br/><select id="obj_ord_'+
+                pordinal+'" class="objElem slds-select">';
+            if(objectsMeta['Attachment']!=null){
+                html+= '<option type="refto" value="Attachment">'+objectsMeta['Attachment'].label+'</option>';
+            }
+            if(objectsMeta['FeedItem']!=null){            
+                html+= '<option type="refto" value="FeedItem">'+objectsMeta['FeedItem'].label+'</option>';
+            }            
+            html+= '</select></div></div></td>';            
+            html+= '</tr>';
+        }else{
+            var prevOrd = pordinal-1;            
+            var prevobject = $jqz("#obj_ord_"+prevOrd).attr('value');
+            
+            html = '<tr id="no_ord_'+pordinal+'"></tr>';
+            html += '<tr id="ord_'+pordinal+'">';
+            html += '<td><div style="padding-left:'+(40*(pordinal-1))+
+                'px;"class="form-group"><select  id="obj_ord_'+
+                pordinal+'" class="objElem slds-select" onclick="ichange('+pordinal+');">';  
+            
+            var metaObjects = {};            
+            for(var i = 0;i<objectsMeta[prevobject].fields.length;i++){                
+                for(var j =0;j<objectsMeta[prevobject].fields[i].references.length;j++){
+                    if(objectsMeta[prevobject].fields[i].references[j] in objectsMeta && 
+                       objectsMeta[objectsMeta[prevobject].fields[i].references[j]]!=null){
+                        metaObjects[objectsMeta[prevobject].fields[i].references[j]] = true;                        
+                    }
+                }
+            }
+            for(var metaObject in metaObjects){
+                html+= '<option type="refto" value="'+metaObject+'">'+
+                    objectsMeta[metaObject].label+'</option>';                                
+            }
+            if(!('Case' in metaObjects)){
+                var found = false;
+                for(var i = 0;i<objectsMeta['Case'].fields.length;i++){                
+                    for(var j =0;j<objectsMeta['Case'].fields[i].references.length;j++){
+                        if(objectsMeta['Case'].fields[i].references[j] in objectsMeta &&
+                           objectsMeta['Case'].fields[i].references[j]==prevobject){
+                            html+= '<option type="refby" value="Case">Case</option>'; 
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(found)break;
+                }
+            }
+            var closeHtml ='&nbsp;<span id="closer_'+pordinal+
+                '" class="closeable" style="cursor:pointer;" '+
+                'onclick="removeOrdinal('+pordinal+')">'+
+                '<img src="/img/dismiss.gif"></span>';            
+            html+= '</select></div></td><td>'+closeHtml+'</td>';            
+            html+= '</tr>';            
+        }
+        return html;
+    }
+
+    function overridePageMessages() {
+        $jqz('.warningM4').addClass('slds-notify slds-notify--alert slds-theme--warning customMessage ');          
+        $jqz('.confirmM4').addClass('slds-notify slds-notify--alert slds-theme--success  customMessage ');    
+        $jqz('.errorM4').addClass('slds-notify slds-notify--alert slds-theme--error customMessage ');                  
+        $jqz('.infoM4').addClass('slds-notify slds-notify--alert slds-theme--alert-texture customMessage ');    
+        						  
+        $jqz('.errorM4').removeClass('errorM4'); 
+        $jqz('.confirmM4').removeClass('confirmM4'); 
+        $jqz('.infoM4').removeClass('infoM4');   
+        $jqz('.warningM4').removeClass('warningM4');  
+    }
+    function returnToMainSettings(){
+        var settingsPage ='/apex/zsfjira__zAgile_Settings';
+        if (typeof sforce != 'undefined' && sforce && sforce.one) {
+            sforce.one.back();
+        }else{
+            window.location.replace(settingsPage);
+        }
+    }
+    </script>
+</apex:page>

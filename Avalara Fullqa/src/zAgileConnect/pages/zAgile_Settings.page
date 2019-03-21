@@ -1,0 +1,436 @@
+<apex:page action="{!if(!isSysAdmin,urlFor('/apex/zsfjira__ZInsufficientPriv'), null)}" controller="zsfjira.ZSettingsMenu" setup="true">
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />    
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__SLDS103, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+    <style>
+        .zen-numberedList.zen-listSmall>li>a{
+        cursor:pointer;
+        }
+        .divline{
+        height: 1px;
+        background: #CFD7E6;
+        margin-top:1%;                  
+        }
+        ol.settingsList{
+        margin-left: 30px;
+        list-style-type: decimal;
+        }
+    </style>
+    <div class="slds">
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <p class="slds-text-body--small">Configuration</p>
+                    <div class="slds-grid">
+                        <div class="slds-grid slds-type-focus slds-no-space">
+                            <h1 class="slds-text-heading--medium slds-truncate">
+                                zAgileConnect Settings
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <apex:form >
+            <apex:actionFunction name="funcSetNoNeedSettings" action="{!setNoNeedSettingsFor_1_7}" reRender="needSettings"/>
+            <apex:outputPanel id="needSettings">
+                <apex:outputPanel rendered="{!needSettingsFor_1_7}">                    
+                    <div class="slds-grid">
+                        <div class="slds-card slds-m-around--large slds-col" style="margin-top: 5px;">
+                            <a style="float: right;padding-right: 5px;"
+                               onclick ="funcSetNoNeedSettings();return false;" href="#">
+                                Do not show again
+                            </a>
+                            <div class="slds-card__header slds-grid grid--flex-spread">
+                                <h2 class="slds-text-heading--small slds-truncate">Steps to Complete Upgrade to zAgileConnect {!packageVersion}</h2>
+                            </div>
+                            <div class="divline"> </div>
+                            <div class="slds-card__body slds-p-horizontal--small"> 
+                                Please follow these required steps in order to complete the upgrade process: 
+                                <ol class="settingsList">
+                                    <li>
+                                        <strong>Select Salesforce fields to send to JIRA Issues</strong> <span style="color:red; font-size: 9px;"><strong>REQUIRED</strong></span> <br/>
+                                        With zAgileConnect {!packageVersion} you can now map Case fields to JIRA Issue fields directly from Salesforce 
+                                        <apex:outputLink styleClass="upgradeLink" value="ZCaseIssueFieldMapping" id="zCaseIssMappUpgrade"
+                                                         disabled="{!OR(NOT(isJiraConfigured),NOT(isContextConfigured),NOT(existsConnection))}">
+                                            in this section.
+                                        </apex:outputLink>
+                                        
+                                    </li> 
+                                    <li>
+                                        <strong>Select Issue fields to pull from JIRA</strong> <span style="color:red; font-size: 9px;"><strong>REQUIRED</strong></span> <br/>
+                                        The issue fields displayed and its order in the Related JIRA Issues section on Case layout now can be configured 
+                                        <apex:outputLink styleClass="upgradeLink" value="ZIssueMappingSettings" id="zIssueMappUpgrade"
+                                                         disabled="{!OR(NOT(isJiraConfigured),NOT(isContextConfigured),NOT(isRelatedConceptConfigured),NOT(existsConnection))}">
+                                            in this section.
+                                        </apex:outputLink>
+                                    </li>
+                                    <li>
+                                        <strong>Refresh JIRA Issue data in Salesforce</strong> <span style="color:red; font-size: 9px;"><strong>REQUIRED</strong></span> <br/>
+                                        After you complete previous steps, you need to 
+                                        <apex:outputLink styleClass="upgradeLink" value="ZSyncJiraSf" id="zSyncJiraSfUpgrade"
+                                                         disabled="{!OR(NOT(isJiraConfigured),NOT(isZIssueMappingConfigured),NOT(existsConnection))}">
+                                            synchronize issue data in Salesforce to complete the upgrade.
+                                        </apex:outputLink>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>                                            
+                </apex:outputPanel>
+            </apex:outputPanel>            
+            <div class="slds-grid" id="helpBannerWelcomeMessage" style="display:none">
+                <div class="slds-card slds-m-around--large slds-col" style="margin-top: 5px;">
+                    <a href="#" onclick="toggleBanner(false,true);" 
+                       title="Hide" style="float: right;padding-right: 5px;">
+                        Hide
+                    </a>
+                    <div class="slds-card__header slds-grid grid--flex-spread">                        
+                        <h2 class="slds-text-heading--small slds-truncate">Prerequisite Steps:  Allowing remote access between Salesforce and JIRA</h2>                        
+                    </div>                    
+                    <div class="divline"> </div>
+                    <div class="slds-card__body slds-p-horizontal--small"> 
+                        Please follow the steps below to allow data exchange between Salesforce and JIRA before configuring zAgileConnect.
+                        <ol class="settingsList"> 
+                            <li>
+                                <strong>Install JIRA Add-on</strong><br/>
+                                <a onclick="openHelpDialog(8);return false;" >Learn more.</a>
+                            </li>
+                            <li>
+                                <strong>Define JIRA as a Remote Site to the Salesforce instance</strong><br/>                                        
+                                <!--<a href="https://wikidsmart.zagile.org/confluence/display/CL/Defining+a+Remote+Site+in+Salesforce" target="_blank">Learn more.</a>-->
+                                <a onclick="openHelpDialog(1);return false;" >Learn more.</a>
+                            </li>
+                            <li>
+                                <strong>Create a Self-signed Certififcate for JIRA Application Linking</strong><br/>                                    
+                                <!--<a href="https://wikidsmart.zagile.org/confluence/display/CL/Creating+a+Self-signed+Certificate+for+JIRA+Application+Linking" target="_blank">Learn more.</a>-->
+                                <a onclick="openHelpDialog(2);return false;" >Learn more.</a>
+                            </li>
+                            <li>
+                                <strong>Add Salesforce to JIRA Application Links</strong><br/>                                    
+                                <!--<a href="https://wikidsmart.zagile.org/confluence/display/CL/Adding+Salesforce+to+JIRA+Application+Links" target="_blank">Learn more.</a>-->
+                                <a onclick="openHelpDialog(3);return false;" >Learn more.</a>
+                            </li>
+                            <li>
+                                <strong>Create a Connected App to enable JIRA OAuth - &nbsp; <div style="display:inline;color:red;">JIRA Server Only!</div></strong> <br/>
+                                <a onclick="openHelpDialog(6);return false;" >Learn more.</a>
+                            </li>                                                                      
+                        </ol>
+                    </div>
+                </div>
+            </div>            
+            <div class="slds-text-body--regular slds-m-vertical--medium" id="helpDesc" style="display:none">
+                <a class="configLinks zen-deemphasize" href="#" onclick="toggleBanner(true,true);" 
+                   style="font-weight: 300;font-size: 18px;"
+                   title="Show Prerequisites">Prerequisites</a>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-card slds-m-around--large slds-col" style="margin-top: 5px;">
+                    <div class="slds-card__header slds-grid grid--flex-spread">
+                        <h2 class="slds-text-heading--small slds-truncate">Configuring zAgileConnect</h2>
+                    </div>
+                    <div class="divline"> </div>
+                    <div class="slds-card__body slds-p-horizontal--small">                              
+                        Once the prerequisites are fulfilled, please follow the steps below to configure zAgileConnect.
+                        <!--<a href="https://wikidsmart.zagile.org/confluence/display/CL/Configuring+zAgileConnect+Salesforce+Package" target="_blank">Learn more.</a>-->
+                        <ol class='settingsList'>
+                            <li>
+                                <strong id='tdZJiraConn'>
+                                    <apex:outputLink value="/apex/zsfjira__ZJiraConnection" id="zJiraConn">
+                                        Sign in to JIRA
+                                    </apex:outputLink>
+                                </strong>
+                                <br/>
+                                In this section you will authenticate to JIRA using the JIRA integration user.
+                            </li>
+                            <li>
+                                <strong id='tdZSfConn'>
+                                    <apex:outputLink value="#" id="zSfConn"
+                                                     disabled="{!OR(NOT(isJiraConfigured),NOT(existsConnection))}">
+                                        Sign in to Salesforce
+                                    </apex:outputLink>
+                                </strong>
+                                <br/>
+                                In JIRA Addon Administration section via Salesforce Authentication option, authenticate Salesforce to JIRA using the Salesforce integration user.                                         
+                            </li>
+                            <li>
+                                <strong id='tdZJiraContext'>
+                                    <apex:outputLink value="/apex/zsfjira__ZContextSettings" id="zJiraContext"
+                                                     disabled="{!OR(NOT(isJiraConfigured),NOT(existsConnection))}">
+                                        Select JIRA projects and Issue types
+                                    </apex:outputLink>
+                                </strong>
+                                <br/>
+                                In this section you will select one or more projects and issue types that will be used within Salesforce to create issues, also the default values for creation.                                    
+                            </li>
+                            <li>
+                                <strong id='tdZRelatedProp'>
+                                    <apex:outputLink value="/apex/zsfjira__ZRelatedProperties" id="zRelatedProp"
+                                                     disabled="{!OR(NOT(isJiraConfigured),NOT(isContextConfigured),NOT(existsConnection))}">
+                                        Select Case-related properties and source for Attachments to send to JIRA
+                                    </apex:outputLink>
+                                </strong>
+                                <br/>
+                                In this section you may select properties of Case and related objects to send to JIRA to display in the context of Salesforce properties in JIRA.  You may also specify sources for attachments (Case, Case Feed, Email, etc.) to send to JIRA.
+                            </li>
+                            <li>
+                                <strong id='tdZIssueMapp'>
+                                    <apex:outputLink value="/apex/zsfjira__ZIssueMappingSettings" id="zIssueMapp"
+                                                     disabled="{!OR(NOT(isJiraConfigured),NOT(isContextConfigured),NOT(isRelatedConceptConfigured),NOT(existsConnection))}">
+                                        Select Issue fields to pull from JIRA
+                                    </apex:outputLink>
+                                </strong>
+                                <br/>
+                                In this section you may select JIRA fields to store in Salesforce and which of them will be displayed in the Related JIRA Issues section.                                                                   
+                            </li>
+                            <li>
+                                <strong id='tdZCaseIssMapp'>
+                                    <apex:outputLink value="/apex/zsfjira__ZCaseIssueFieldMapping" id="zCaseIssMapp"
+                                                     disabled="{!OR(NOT(isJiraConfigured),NOT(isContextConfigured),NOT(existsConnection))}">
+                                        Select Salesforce fields to send to JIRA Issues
+                                    </apex:outputLink>
+                                </strong>
+                                <br/>
+                                In this section you can map Salesforce Case fields to JIRA issue fields.                                    
+                            </li>
+                            <li>
+                                <strong id='tdZLayout'>
+                                    <apex:outputLink value="#" id="zLayout"
+                                                     disabled="{!OR(NOT(isJiraConfigured),NOT(existsConnection))}">
+                                        Add ‘Related JIRA Issues’ VF page to Case Layout
+                                    </apex:outputLink>
+                                </strong>
+                                <br/>
+                                Steps for adding Related JIRA Issues VF page to a Case page layout.                                 
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-card slds-m-around--large slds-col" style="margin-top: 5px;">
+                    <div class="slds-card__header slds-grid grid--flex-spread">
+                        <h2 class="slds-text-heading--small slds-truncate">General Settings</h2>
+                    </div>
+                    <div class="divline"> </div>
+                    <div class="slds-card__body slds-p-horizontal--small">                                                       
+                        <ol class="settingsList">
+                            <li style="list-style-type: square;">
+                                <strong id='tdZCaseIssMapp'>
+                                    <apex:outputLink value="/apex/zsfjira__ZCPermissionsSettings" id="ZCPermissions"
+                                                     disabled="{!NOT(isJiraConfigured)}">
+                                        Permission Settings
+                                    </apex:outputLink>
+                                </strong>
+                                <br/>
+                                In this section you can enable zAgileConnect permissions.
+                            </li>
+                            <li style="list-style-type: square;">
+                                <strong id='tdZCaseIssMapp'>
+                                    <apex:outputLink value="/apex/zsfjira__ZCCommentsSettings" id="ZCComments"
+                                                     disabled="{!NOT(isJiraConfigured)}">
+                                        Comment Settings
+                                    </apex:outputLink>
+                                </strong>
+                                <br/>
+                                In this section you can define whether a JIRA comment will be posted to a Feed entry or to Case Comment.
+                            </li>  
+                        </ol>
+                    </div>
+                </div>                    
+            </div>
+            <div class="slds-grid">
+                <div class="slds-card slds-m-around--large slds-col" style="margin-top: 5px;">
+                    <div class="slds-card__header slds-grid grid--flex-spread">
+                        <h2 class="slds-text-heading--small slds-truncate">Data Synchronization</h2>
+                    </div>
+                    <div class="divline"> </div>
+                    <div class="slds-card__body slds-p-horizontal--small">                                                       
+                        <ol class="settingsList">
+                            <li style="list-style-type: square;">
+                                <strong>
+                                    <apex:outputLink value="#" id="zSyncSfJira"
+                                                     disabled="{!OR(NOT(isJiraConfigured),NOT(isRelatedConceptConfigured),NOT(existsConnection))}">
+                                        Refresh Salesforce properties in JIRA
+                                    </apex:outputLink>
+                                </strong>
+                                <br/>
+                                Updates Salesforce data stored in JIRA. When properties are added or updated in Related properties, the sync action will refresh them in JIRA, as configured in Step 4 above.
+                            </li>
+                            <li style="list-style-type: square;">
+                                <strong>
+                                    <apex:outputLink value="/apex/zsfjira__ZSyncJiraSf" id="zSyncJiraSf"
+                                                     disabled="{!OR(NOT(isJiraConfigured),NOT(isZIssueMappingConfigured),NOT(existsConnection))}">
+                                        Refresh JIRA Issue data in Salesforce
+                                    </apex:outputLink>
+                                </strong>
+                                <br/>
+                                This section refreshes JIRA issue data in Salesforce (ZIssue), as configured in Step 5 above.
+                            </li>                                
+                            <li style="list-style-type: square;">
+                                <strong>
+                                    <apex:outputLink value="/apex/zsfjira__ZSyncMapping" id="zSyncMapping"
+                                                     disabled="{!OR(NOT(isJiraConfigured),NOT(existsConnection))}">
+                                        Refresh mapped Salesforce fields in related JIRA issues
+                                    </apex:outputLink>
+                                </strong>
+                                <br/>                                
+                                This section synchronizes Issue fields in JIRA with Salesforce Case properties, based on mapping configured in Step 6 above, for Issues created from the Case.
+                            </li>                                
+                        </ol>
+                    </div>
+                </div>                    
+            </div>
+            <div class="slds-grid">
+                <div class="slds-card slds-m-around--large slds-col" style="margin-top: 5px;">
+                    <div class="slds-card__header slds-grid grid--flex-spread">
+                        <h2 class="slds-text-heading--small slds-truncate">Data Import</h2>
+                    </div>
+                    <div class="divline"> </div>
+                    <div class="slds-card__body slds-p-horizontal--small">                                                  
+                        <ol class="settingsList">
+                            <li style="list-style-type: square;">
+                                <strong>
+                                    <apex:outputLink value="/apex/zsfjira__ZJIRAImport"
+                                                     disabled="{!OR(NOT(isJiraConfigured),NOT(isZIssueMappingConfigured),NOT(existsConnection))}">
+                                        Import data from JIRA
+                                    </apex:outputLink>
+                                </strong>
+                                <br/>
+                                This section allows you to import Case-Issue relationships from JIRA.
+                            </li>
+                            <li style="list-style-type: square;">
+                                <strong>
+                                    <apex:outputLink value="/apex/zsfjira__ZCSVImport"
+                                                     disabled="{!OR(NOT(isJiraConfigured),NOT(isRelatedConceptConfigured),NOT(isZIssueMappingConfigured),NOT(existsConnection))}">
+                                        Import data from CSV
+                                    </apex:outputLink>
+                                </strong>
+                                <br/>
+                                This section allows you to import Case-Issue relationships into Salesforce from a CSV file.
+                            </li>                               
+                        </ol>
+                    </div>
+                </div>     
+            </div>
+        </apex:form>
+    </div>
+    <c:ZSettingsHelp />
+    <script>
+    var zLayoutId = '';
+    $jqz(document).ready(                
+        function() {
+            $jqz('#tdZLayout>a').click(function() {
+                openHelpDialog(5);
+                return false;
+            });
+            $jqz('#tdZSfConn>a').click(function() {
+                openHelpDialog(4);
+                return false;
+            });
+            $jqz("strong > span").css("color","#aaaaaa"); 
+            $jqz("span.upgradeLink").css("color","#aaaaaa");                 
+            var refreshSfInJira = 'zsfjira__ZSyncSfJiraOP';
+            if({!isOnDemand}){
+                refreshSfInJira = 'zsfjira__ZSyncSfJiraOD';
+            }
+            if (typeof sforce != 'undefined' && sforce && sforce.one) {
+                $jqz("[id$='zSyncSfJira']").attr('onclick',"return navigateToPageIfPossible('/apex/"+
+                                                 refreshSfInJira+"');");
+            }else{
+                $jqz("[id$='zSyncSfJira']").attr('href',refreshSfInJira);
+            }            
+            
+            var missingSetup = 0;
+            if(!{!isJiraConfigured}){
+                missingSetup++;                
+                $jqz("#tdZJiraConn").append(buildMissingStep(1));
+            }else{
+                if(!{!existsConnection}){
+                    var connMessage = '{!messageConnection}';
+                    $jqz("#tdZJiraConn").append(buildWarningConnection(connMessage));
+                }
+            }
+            
+            if(!{!isContextConfigured}){
+                missingSetup++;                
+                $jqz("#tdZJiraContext").append(buildMissingStep(3));
+            }
+            if(!{!isRelatedConceptConfigured}){
+                missingSetup++;                
+                $jqz("#tdZRelatedProp").append(buildMissingStep(4));
+            }
+            if(!{!isZIssueMappingConfigured}){
+                missingSetup++;                
+                $jqz("#tdZIssueMapp").append(buildMissingStep(5));
+            }
+            if(!{!existsPluginConnection}&&({!isJiraConfigured} && {!existsConnection})){
+                missingSetup++;                
+                $jqz("#tdZSfConn").append(buildMissingStep(2));                                
+            }
+            
+            
+            if(missingSetup>0){
+                toggleBanner(true,true);                
+            }
+            else{
+                toggleBanner(false,false);
+            }
+            if({!isJiraConfigured} && {!existsConnection}){    
+                $jqz("#tdZJiraConn").append(buildCheck());
+            }
+            if({!isContextConfigured} && {!existsConnection}){       
+                $jqz("#tdZJiraContext").append(buildCheck());
+            }
+            if({!isRelatedConceptConfigured} && {!existsConnection}){             
+                $jqz("#tdZRelatedProp").append(buildCheck());
+            }
+            if({!isZIssueMappingConfigured} && {!existsConnection}){             
+                $jqz("#tdZIssueMapp").append(buildCheck());
+            }
+            if({!existsPluginConnection} && {!isJiraConfigured}){             
+                $jqz("#tdZSfConn").append(buildCheck());
+            }
+            
+            var refUrl = '/ui/setup/layout/PageLayouts?type=Case&setupid=CaseLayouts';
+            $jqz("#clayout").html('<a target="_blank" href="'+refUrl+'">Case page layout</a>');            
+        }
+    );
+    
+    function buildWarningConnection(message){
+        return "<img src='/img/msg_icons/warning16.png' title='"+message+"'/>";
+    }    
+    function buildCheck(){
+        return '<img src="/img/msg_icons/confirm24.png" width="15" '+
+            'height="15" class="msgIcon" title="Done">';
+    }
+    function buildMissingStep(step){
+        return "<img src='/img/msg_icons/error16.png' title='step "+step+" missing'/>";
+    }
+    function toggleBanner(showBanner,slide){
+        if(showBanner){
+            $jqz("#helpDesc").css("display","none");
+            if(slide){
+                $jqz("#helpBannerWelcomeMessage").slideDown();
+            }else{
+                $jqz("#helpBannerWelcomeMessage").css("display","block");
+            }
+        }
+        else{
+            $jqz("#helpDesc").css("display","block");
+            if(slide){
+                $jqz("#helpBannerWelcomeMessage").slideUp();
+            }else{
+                $jqz("#helpBannerWelcomeMessage").css("display","none");
+            }
+        }
+    }
+    function navigateToPageIfPossible(pageUrl){
+        if (typeof sforce != 'undefined' && sforce && sforce.one) {
+            sforce.one.navigateToURL(pageUrl);
+            return false;
+        }
+        return true;
+    }
+    </script>
+</apex:page>

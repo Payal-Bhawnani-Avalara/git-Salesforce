@@ -1,6 +1,5 @@
 <apex:page standardController="geopointe__GP_Assignment_Plan__c" extensions="geopointe.s_AssignmentPlan_Extension" tabStyle="Geopointe_Setup__tab" sidebar="false" title="Geopointe Assignment Plan">
 
-	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/css/smoothness/jquery-ui-1.9.2.custom.min.css')}"/> <!-- jQuery UI CSS -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/common/common.css')}"/> <!-- Common geopointe CSS -->
 
 	<style type="text/css">
@@ -12,8 +11,7 @@
 
 	<c:walkMeSnippet />
 
-	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/jquery-1.8.3.min.js')}" /> <!-- core jQuery -->
-	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/ui/js/jquery-ui-1.9.2.custom.min.js')}" /> <!-- jQuery UI -->
+	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/jquery-3.3.1.min.js')}" /> <!-- core jQuery -->
 
 	<apex:includeScript value="{!$Resource.geopointe__GeopointeJS}" /> <!-- Geopointe universal functions -->
 	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/json2.js')}" /> <!-- JSON.stringify support for IE -->
@@ -47,7 +45,7 @@
 					</apex:outputPanel>  
 				</apex:pageBlockSection>
 
-				<apex:pageBlockSection title="{!$Label.geopointe__assignment_plan_details}" rendered="{!selectedEntity!=''}" collapsible="false">
+				<apex:pageBlockSection title="{!$Label.geopointe__assignment_plan_details}" rendered="{!selectedEntity!=''}" collapsible="false" id="assignmentPlanDetails">
 
 					<apex:pageBlockSectionItem >
 						<apex:outputLabel value="{!$ObjectType.geopointe__GP_Assignment_Plan__c.fields.Name.label}"/>
@@ -92,7 +90,9 @@
 							</apex:selectList>
 						</apex:outputPanel>
 					</apex:pageBlockSectionItem>
-					<apex:pageBlockSectionItem helpText="{!$ObjectType.geopointe__GP_Assignment_Plan__c.fields.geopointe__Reassign_Owner__c.inlineHelpText}">
+					
+					<apex:pageBlockSectionItem rendered="{!hiPerEnabled && plan.HighPerformance}" />
+					<apex:pageBlockSectionItem helpText="{!$ObjectType.geopointe__GP_Assignment_Plan__c.fields.geopointe__Reassign_Owner__c.inlineHelpText}" rendered="{!NOT(plan.HighPerformance)}">
 						<apex:outputLabel value="{!$ObjectType.geopointe__GP_Assignment_Plan__c.fields.geopointe__Reassign_Owner__c.label}"/>
 						<apex:outputPanel >
 							<apex:inputCheckbox value="{!plan.ReassignOwner}" disabled="{!disableReassignOwner}" />
@@ -104,7 +104,7 @@
 						<apex:outputLabel value="{!$ObjectType.geopointe__GP_Assignment_Plan__c.fields.geopointe__SOQL_Filter__c.label}"/>
 						</apex:outputPanel>
 						<apex:outputPanel >
-							<apex:inputTextArea value="{!plan.SOQLFilter}" rows="1" cols="50"/><br />
+							<apex:inputTextArea value="{!plan.MapObjectSOQLFilter}" rows="1" cols="50"/><br />
 							<span class="assignmentlabel" style="width: auto">{!$ObjectType.GP_Assignment_Plan__c.fields.SOQL_Filter_Grandfather_Records__c.label}</span>
 							<span class="grandfatherHelpText">
 								<apex:outputLink value="javascript:return false;"><img src="/s.gif" alt="" class="helpOrb" />
@@ -121,6 +121,25 @@
 						<apex:outputLabel value="{!$ObjectType.geopointe__GP_Assignment_Plan__c.fields.geopointe__Run_Assignment_Rule__c.label}"/>
 						<apex:outputPanel >
 							<apex:inputCheckbox value="{!plan.RunAssignmentRule}" />
+						</apex:outputPanel>
+					</apex:pageBlockSectionItem>
+
+					<apex:pageBlockSectionItem helpText="{!$ObjectType.geopointe__GP_Assignment_Plan__c.fields.geopointe__High_Performance__c.inlineHelpText}" rendered="{!hiPerEnabled}">
+						<apex:outputLabel value="{!$ObjectType.geopointe__GP_Assignment_Plan__c.fields.geopointe__High_Performance__c.label}"/>
+						<apex:outputPanel >
+							<apex:inputCheckbox value="{!plan.HighPerformance}">
+								<apex:actionSupport event="onclick" action="{!doNothing}" reRender="assignmentPlanDetails"/>
+							</apex:inputCheckbox>
+						</apex:outputPanel>
+					</apex:pageBlockSectionItem>
+
+					<apex:pageBlockSectionItem / >
+
+					<apex:pageBlockSectionItem helpText="{!$ObjectType.geopointe__GP_Assignment_Plan__c.fields.geopointe__Batch_Size_HP_Records__c.inlineHelpText}" rendered="{!hiPerEnabled && plan.HighPerformance}">
+						<apex:outputLabel value="Batch Size"/>
+						<apex:outputPanel styleClass="requiredInput" layout="block">
+							<div class="requiredBlock"></div>
+							<apex:inputText value="{!plan.BatchSizeHPRecords}" />
 						</apex:outputPanel>
 					</apex:pageBlockSectionItem>
 

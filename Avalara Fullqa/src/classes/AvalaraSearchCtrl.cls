@@ -2,13 +2,14 @@ public class AvalaraSearchCtrl {
 
     @RemoteAction
     public static Object getConnectors(String searchText){
-        searchText = '%' + searchText + '%';
+        searchText ='%'+searchText+'%';
+        List<Connector__c> connectorsSearch = [FIND :searchText IN NAME FIELDS RETURNING Connector__c(Id)][0];
         List<Connector__c> connectors =  [
             SELECT Id,Name,Vibrancy__c, Platform_Cateogry__c, SAM__r.Name, Author__c,SAM__r.Email,PLT_Owner__c,PLT_Owner__r.Name,PLT_Owner__r.Email,
                 Early_Adopter_Sales_Owner__r.Name, Early_Adopter_Sales_Owner__c, SAM__c,Early_Adopter_Sales_Owner__r.Email,
-                (SELECT Id,Name FROM Versions__r WHERE Status__c != 'Revoked/Terminated')
+                (SELECT Id,Name,Parent_Version__c FROM Versions__r WHERE Status__c != 'Revoked/Terminated' Order By Sort_Order__c ASC NULLS FIRST)
             FROM Connector__c
-            WHERE Name LIKE : searchText
+            WHERE Id IN:connectorsSearch
                 AND Vibrancy__c != 'Error'
                 AND Vibrancy__c != 'Marketing'
         ];
@@ -86,7 +87,8 @@ public class AvalaraSearchCtrl {
                 X_Avalara_Client__c, X_Avalara_Client_Old__c,User_Guide_Documentation__c,User_Guide_URL__c,C_Notes__c,C_User_Implementation_Guide__c,C_Support_Path__c,
                 C_Implementation_Path__c,C_Company_Code__c,C_Configuration_Click_Path__c,C_Address_Validation_Click_Path__c,C_Product_Mapping_Click_Path__c,C_Timing_For_Tax_Calculation__c,
                 C_Client_Exemption_Click_Path__c,C_Timing_For_Recording_Committing_Tran__c,C_Location_Code_Click_Path__c,C_Line_Level_Addressing__c,C_API__c,Support_Support_Path__c,
-                Timing_for_recording_Committing_Transa__c
+                Timing_for_recording_Committing_Transa__c,
+                	SI_Documentation__c,Connector_Training__c,Connector_Demo__c,Connector_Communication__c,Connector_Endorsed_by_UX__c,Connector_Download_Location__c,Market_Ready_Notes__c
             FROM Connector_KB__kav
             WHERE Version__c <> NULL
                 AND Version__c =:vId LIMIT 1

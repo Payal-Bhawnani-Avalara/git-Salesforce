@@ -1,0 +1,360 @@
+<apex:page action="{!if(!isSysAdmin,urlFor('/apex/zsfjira__ZInsufficientPriv'), null)}"
+           controller="zsfjira.ZJIRAImportController" setup="true">
+    <apex:includeScript value="/soap/ajax/30.0/connection.js"/> 
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-ui-1.10.3.custom.min.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__jQuery, '/css/redmond/jquery-ui-1.10.3.custom.min.css')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__datetimepicker, '/jquery.datetimepicker.js')}"  />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__datetimepicker, '/jquery.datetimepicker.css')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__SLDS103, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+    <script type="text/javascript">
+    Visualforce.remoting.timeout = 120000; 
+    
+    if (!window.console) window.console = {};
+    if (!window.console.log) window.console.log = function () {};
+    </script>
+    <style>
+        .hiddenContainer {
+        display: none;
+        }
+        div.loader:after{
+        background-image: url({!$Resource.zsfjira__loader});
+        background-size: 24px 24px;
+        display: inline-block;
+        width: 24px; 
+        height: 24px;
+        content:"";
+        }
+        div.loader{
+        display: inline-block;
+        }
+        div#zUpStatusBody{
+        display: inline;
+        }
+        .divline{
+        height: 1px;
+        background: #CFD7E6;
+        margin-top:1%;                  
+        }
+        .messageText {
+        color: white !important;
+        }
+        .slds .slds-input {
+        width: auto;
+        }
+    </style>    
+    <div class="slds">
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <p class="slds-text-body--small">JIRA Data Import</p>
+                    <div class="slds-grid">
+                        <div class="slds-grid slds-type-focus slds-no-space">
+                            <h1 class="slds-text-heading--medium slds-truncate">
+                                Import Case-Issue Data from JIRA
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <apex:form >
+            <div class="slds-text-body--regular slds-m-vertical--medium">
+                This section allows you to import Case-Issue relationships from JIRA. This is useful after a Salesforce data restore or
+                if there is a need to import into Salesforce some missing Case-Issue relationships from JIRA.
+            </div>
+            <div id="step1" style="display:none;">
+                <div class="slds-grid">
+                    <div class="slds-card slds-m-around--large slds-col" style="margin-top: 5px;">
+                        <div class="slds-card__header slds-grid grid--flex-spread">
+                            <h2 class="slds-text-heading--small slds-truncate">JIRA Data Import</h2>
+                        </div>
+                        <div class="divline"> </div>
+                        <div class="slds-card__body slds-p-horizontal--small">                                                
+                            Click on next to continue.                           
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-text-align--center">
+                    <input class="slds-button slds-button--brand" 
+                           onclick="quickCount();return false;" id="quickButton"
+                           type="button" value="Next"/>
+                    <apex:commandButton styleClass="slds-button slds-button--brand"
+                                        action="{!redirectZagileSettings}" value="Return"/>
+                </div>
+            </div>
+            <div id="step2" style="display:none;">                    
+                <div class="slds-grid">
+                    <div class="slds-card slds-m-around--large slds-col" style="margin-top: 5px;">
+                        <div class="slds-card__header slds-grid grid--flex-spread">
+                            <h2 class="slds-text-heading--small slds-truncate">Confirmation</h2>
+                        </div>
+                        <div class="divline"> </div>
+                        <div class="slds-card__body slds-p-horizontal--small">  
+                            <div id="st2_result"></div>                                                        
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-text-align--center">
+                    <input onclick="previous();return false;" id="prevButton" 
+                           type="button" value="Previous" class="slds-button slds-button--brand"/>
+                    <input onclick="sync();return false;" id="syncButton" 
+                           type="button" value="Confirm" class="slds-button slds-button--brand"/>
+                    <apex:commandButton action="{!redirectZagileSettings}" value="Return"
+                                        styleClass="slds-button slds-button--brand"/>
+                </div>
+            </div>
+            <div id="zUpError" class='hiddenContainer'>
+                <apex:pageMessage strength="1" severity="error"
+                                  id="zUpErrorMessage" />
+            </div>
+            <div id="zUpCorrect" class='hiddenContainer'>
+                <apex:pageMessage strength="1" severity="info"
+                                  id="zUpCorrectMessage" />
+            </div>
+            <div id="zUpStatus" class='hiddenContainer'>
+                <apex:pageMessage strength="1" severity="info"
+                                  id="zUpStatusMessage" />
+            </div>
+            <div style="width: 100%;display:none;" align='center' class='loader'></div>
+            <br/><br/>
+            <div style="display:none;" align='center' id="auxBtnReturn">
+                <apex:commandButton action="{!redirectZagileSettings}" value="Return"
+                                    styleClass="slds-button slds-button--brand"/>
+            </div>
+        </apex:form>
+    </div>
+    <script>    
+    var lastSync = null;
+    $jqz(function(){
+        overridePageMessages();
+        noMessage();
+        $jqz("div.hiddenContainer").each(function(i){
+            $jqz(this).removeAttr("class");
+        });        
+        $jqz("#zUpStatus").find("div.messageText").html('<div id="zUpStatusBody"></div>');        
+        $jqz("#zUpStatus").find("div.messageText").append('<div id="percentage" style="display: inline;float: right;">0%</div>');
+        $jqz("#zUpStatus").find("div.messageText").append('<div id="zUpStatusProgress"></div>');
+        $jqz("#zUpStatus").find("div.messageText").append('<div id="zProgressDetails"></div>');
+        $jqz("#zUpStatus").find("td.messageCell").css('width','100%');
+        $jqz("#zUpStatusProgress").css('display','none');  
+        $jqz("#zUpStatusProgress").progressbar({
+            value: 0
+        });        
+        $jqz("#zUpStatusProgress").height(15);
+        
+        loadStatus(true,true);
+    });
+    function previous(){
+        noMessage();
+        $jqz("#step1").slideDown("slow");
+        $jqz("#step2").css('display','none');
+    }
+    var respTotal = 0;
+    function quickCount(){
+        noMessage();
+        $jqz("#percentage").html('');
+        $jqz(".loader").show();
+        $jqz("#auxBtnReturn").show();
+          
+        $jqz("#syncButton").attr("disabled", "disabled");        
+        $jqz("#zUpStatus").css('display','block');
+        $jqz("#zUpStatusBody").html('Calculating...');
+        $jqz("#zUpStatusProgress").css('display','none');
+        $jqz("#zProgressDetails").html('');
+        $jqz("#step1").slideUp();
+                
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZJIRAImportController.quickCount}',
+            function(result, event) {
+                $jqz(".loader").hide();
+                $jqz("#auxBtnReturn").hide();
+                if(event.status){
+                    if(result.success){
+                        if(result.total!=0){
+                            respTotal = result.total;
+                            if(result.isOnDemand){
+                                $jqz("#st2_result").html(result.total+
+                                                         ' JIRA Issues related to Cases will be imported into Salesforce. ' +
+                                                         'This operation will not remove existing Case-Issue ' + 
+                                                         'data in Salesforce.');
+                            }else{
+                                $jqz("#st2_result").html(result.total+
+                                                         ' Case-Issue relationships will be imported in Salesforce. '+
+                                                         'This operation will not remove existing Case-Issue ' + 
+                                                         'data in Salesforce.');
+                            }
+                            $jqz("#syncButton").removeAttr("disabled");                            
+                            $jqz("#step2").slideDown("slow");
+                            $jqz("#zUpStatus").css('display','none');
+                        }else{
+                            $jqz("#step2").slideDown("slow");
+                            $jqz("#zUpStatus").css('display','none');
+                            $jqz("#st2_result").html('There is no Case-Issue data in JIRA');
+                        }
+                    }else{
+                        $jqz("#step2").slideDown("slow");
+                        $jqz("#zUpStatus").css('display','none');
+                        $jqz("#st2_result").html('<div style="color:red;">'+
+                                                 'Error retrieving Case-Issue data, check JIRA connectivity and '+
+                                                 'try again.</div>');
+                    }
+                }
+                else{
+                    $jqz("#step2").slideDown("slow");
+                    $jqz("#zUpStatus").css('display','none');
+                    $jqz("#st2_result").html('<div style="color:red;">'+
+                                             'Error, check JIRA connectivity and '+
+                                             'try again.</div>');
+                }
+            }
+        );
+        
+        return;
+    }
+    function sync(){
+        noMessage();
+        $jqz("#percentage").html('');
+        $jqz("#zProgressDetails").html('');
+        $jqz("#step2").slideUp("slow");        
+        $jqz("#zUpCorrect").css('display','block');
+        $jqz("#zUpCorrect").find('div.messageText').html("Starting JIRA data import...");
+        
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZJIRAImportController.beginInitialImport}',respTotal,
+            function(result, event) {
+                if(event.status){
+                    if(!result.launchSync){
+                        $jqz("#zUpCorrect").css('display','none');
+                        $jqz("#zUpError").css('display','block');
+                        $jqz("#zUpError").find('div.messageText').html(result.message);
+                        $jqz("#step1").slideDown("slow");
+                    }
+                    else{                            
+                        loadStatus(false,true);
+                    }
+                }
+                else{
+                    $jqz("#zUpCorrect").css('display','none');
+                    $jqz("#zUpError").css('display','block');
+                    $jqz("#zUpError").find('div.messageText').html(
+                        "Problems starting JIRA data import Job.");
+                    $jqz("#step1").slideDown("slow");
+                }
+            }
+        );
+    }
+    function noMessage(){
+        $jqz("#zUpError").css('display','none');
+        $jqz("#zUpCorrect").css('display','none');
+        $jqz("#zUpStatus").css('display','none');
+    }
+    function loadStatus(showLoading,renderStep_1){                    
+        if(showLoading){
+            noMessage();
+            $jqz("#zUpCorrect").css('display','block');
+            $jqz("#zUpCorrect").find('div.messageText').html("Retrieving Information...");
+        }                      
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZJIRAImportController.getInformation}',
+            function(result, event) {
+                noMessage();                
+                if (event.status) {
+                    window.console.log('result:');
+                    window.console.log(result);                    
+                    if(result.lastSync!=null){
+                        lastSync = result.lastSync;
+                        $jqz("#setFilters").remove();
+                        $jqz("#step1").find('div.pbBody').append('<span id="setFilters">'+
+                                                                 '<a style="cursor:pointer;text-decoration:underline;" onclick="setFilters();return false;">'+
+                                                                 'Set filters</a> to last successful sync '+
+                                                                 '('+formatDate(new Date(result.lastSync))+')</span>');                                                 
+                    }                                      
+                    var resultMessage = result.message;
+                    resultMessage = resultMessage.replace(/\n/g,'<br/>');
+                    if(result.typeMessage == 'W'){
+                        $jqz("#zUpStatus").css('display','block');
+                        $jqz("#zUpStatusBody").html(resultMessage);
+                    }else if(result.typeMessage == 'E'){
+                        $jqz("#zUpError").css('display','block');
+                        $jqz("#zUpError").find('div.messageText').html(resultMessage);
+                    }else if(result.typeMessage == 'I'){
+                        $jqz("#zUpCorrect").css('display','block');
+                        $jqz("#zUpCorrect").find('div.messageText').html(resultMessage);
+                    }
+                    if(result.allowSync){
+                        $jqz("#quickButton").removeAttr("disabled");
+                        if(renderStep_1){
+                            $jqz("#step1").slideDown("slow");
+                        }
+                    }                    
+                   
+                    if(result.inProgress){
+                        $jqz(".loader").show();
+                        $jqz("#auxBtnReturn").show();
+                        if(result.progressResult){
+                            $jqz("#zUpStatusProgress").css('display','block');
+                            $jqz("#zUpStatusProgress").progressbar({
+                                value: (result.progressResult.jobItemsProcessed*100)/result.progressResult.totalJobItems
+                            });
+                            $jqz("#percentage").html(Math.round((result.progressResult.jobItemsProcessed*100)/result.progressResult.totalJobItems)+'%');
+                            $jqz("#zProgressDetails").html('Processing Batch...'+
+                                                           result.progressResult.jobItemsProcessed+'/'+
+                                                          result.progressResult.totalJobItems);
+                        }else{
+                            $jqz("#zUpStatusProgress").css('display','none');
+                            $jqz("#percentage").html('');
+                            $jqz("#zProgressDetails").html('');
+                        }
+                        setTimeout(function(){ loadStatus(false,true); }, 5000);
+                    }else{
+                        $jqz(".loader").hide();
+                        $jqz("#auxBtnReturn").hide();
+                    }
+                }
+                else{                    
+                    $jqz("#zUpError").css('display','block');
+                    $jqz("#zUpError").find('div.messageText').html(
+                        "Problems getting Information.");
+                }
+            }            
+        );
+    }    
+    function formatDate(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return formatNumber(date.getMonth()+1,2) + "/" + formatNumber(date.getDate(),2) + "/" + date.getFullYear() + " " + strTime;
+    }
+    function formatNumber(number,size){
+        var strNum = number+'';
+        while(strNum.length<size){
+            strNum = '0'+strNum;
+        }
+        return strNum;
+    }
+    function setFilters(){
+        var strDate = formatDate(new Date(lastSync));
+        $jqz("#updated-after-date").val(strDate);   
+        $jqz("#updated-before-date").val('');
+        $jqz("#created-after-date").val('');
+        $jqz("#created-before-date").val('');
+    }
+    function overridePageMessages() {
+        $jqz('.warningM4').addClass('slds-notify slds-notify--alert slds-theme--warning customMessage ');
+        $jqz('.confirmM4').addClass('slds-notify slds-notify--alert slds-theme--success  customMessage ')
+        $jqz('.errorM4').addClass('slds-notify slds-notify--alert slds-theme--error customMessage ');    
+        $jqz('.infoM4').addClass('slds-notify slds-notify--alert customMessage ');    
+        
+        $jqz('.errorM4').removeClass('errorM4'); 
+        $jqz('.confirmM4').removeClass('confirmM4'); 
+        $jqz('.infoM4').removeClass('infoM4');   
+        $jqz('.warningM4').removeClass('warningM4');  
+    }
+    </script>
+</apex:page>

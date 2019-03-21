@@ -105,7 +105,8 @@
             <a href="http://dashboard/" target="_blank">Avalara Dashboard</a><br />  
             <a href="https://cloud.skytap.com/vms/564af53a4a6d28b5d4788883d3b6b21d/desktop" target="_blank">Triage Skytap</a><br />  
             <a href="https://partners.avalara.com/cmsdesk" target="_blank">Emergency Service Notifications</a><br />
-            <a href="http://datacafe/Reports/Pages/Report.aspx?ItemPath=%2FTeams%2FAll%2FUserSearch" target="_blank">User Search</a><br />
+            <!--<a href="http://datacafe/Reports/Pages/Report.aspx?ItemPath=%2FTeams%2FAll%2FUserSearch" target="_blank">User Search</a><br />-->
+            <a href="http://data-warehouse/Reports/Pages/Report.aspx?ItemPath=%2fTeams%2fAll%2fUserSearch" target="_blank">User Search</a><br /> <!--IBST-9485-->
             <br />         
            
            <h3>Sharepoint Links</h3>

@@ -5,6 +5,7 @@
     <apex:includeScript value="{! URLFOR($Resource.PT_Resources_v1, '/js/jasmine.js') }"/>
     <apex:includeScript value="{! URLFOR($Resource.PT_Resources_v1, '/js/jasmine-html.js') }"/>
     <apex:includeScript value="{! URLFOR($Resource.PT_Resources_v1, '/js/boot.js') }"/>
+    <apex:includeScript value="{! URLFOR($Resource.PT_Resources_v1, '/js/sfdxJasmineReporter.js') }"/>
 
 	<!-- include source files here... -->
     <apex:includeScript value="{! URLFOR($Resource.PT_Resources_v1, '/js/RollupRun.js') }"/>

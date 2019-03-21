@@ -1,0 +1,35 @@
+<apex:page standardController="CameleonCPQ__QxQuote__c" extensions="CameleonCPQ.QxVFGenerateReportController" showHeader="false" sidebar="false" docType="html-5.0">
+    <apex:outputPanel rendered="{!AND(NOT($User.UIThemeDisplayed == 'Theme4d'),NOT($User.UIThemeDisplayed == 'Theme4t'))}">
+     <apex:form >
+         <apex:outputPanel id="timerPanel">
+        		<apex:actionPoller reRender="messagePanel" 
+                      interval="5" 
+                      enabled="{!timer}" 
+                      action="{!timerOff}"/> 
+        		</apex:outputPanel>
+         <apex:actionFunction name="clearMessage" 
+                action="{!timerOff}" 
+                reRender="messagePanel"/>
+         	<apex:outputPanel layout="block">
+                <apex:outputText value="Select an action for report generation"/>
+            </apex:outputPanel>
+            <apex:outputPanel layout="block" style="padding-top:5px">
+                <apex:selectList size="1" value="{!actionType}">
+          			<apex:selectOptions value="{!actionlist}"></apex:selectOptions>
+      			</apex:selectList>
+            </apex:outputPanel>
+            <apex:outputPanel styleClass="buttons" layout="block" style="padding-top:20px;margin:auto;width:100%;text-align:center;">
+                  <apex:commandButton value="Generate Report" action="{!generateSfdcDocument}" onclick="" oncomplete="" reRender="messagePanel,timerPanel"/>
+                  <apex:commandButton value="Close" onclick="goBackToQuote();"/>
+            </apex:outputPanel>
+             <apex:outputPanel id="messagePanel" onclick="clearMessage();">
+                <apex:pageMessages id="message"></apex:pageMessages>
+              </apex:outputPanel>
+    </apex:form>
+ </apex:outputPanel>
+ <script type="text/javascript">
+    function goBackToQuote() {
+    	top.location.href = '{!URLFOR($Action.QxQuote__c.View, QxQuote__c.Id)}';
+    }
+ </script>
+</apex:page>

@@ -219,6 +219,58 @@
             $scope.progressbar = ngProgressFactory.createInstance();
             $scope.progressbar.setHeight('5px');
 
+		    $scope.toggleSubVersion = function(parentId) {
+		    		var parentCSS=".versionid"+parentId;
+		    		var childCSS=".parentVersionId"+parentId;
+		    		var parentVersionIdSpan=".parentVersionIdSpan"+parentId;
+		    		var parentVersionIdSpanchevronright=".parentVersionIdSpanchevronright"+parentId;
+		    		var parentVersionIdSpanchevrondown=".parentVersionIdSpanchevrondown"+parentId;
+		    		var versionidspan=".versionidspan"+parentId;
+		        var clickedElement=$(document).find(parentCSS).find(versionidspan);
+		        var rightClass=$(parentVersionIdSpanchevronright).attr("class");
+		        var downClass=$(parentVersionIdSpanchevrondown).attr("class");
+		        //console.log("rightClass"+rightClass.indexOf("slds-hide"));
+		        //console.log("downClass"+downClass.indexOf("slds-hide"));
+		        if(rightClass.indexOf("slds-hide")==-1){
+		        		//console.log("11111111");
+		        		$(parentVersionIdSpanchevrondown).removeClass("slds-hide");
+		        		$(parentVersionIdSpanchevronright).addClass("slds-hide");	
+					$( childCSS ).each(function( index ) {
+                        $(this).removeClass("slds-hide");
+                        //$(this).css({ 'display': "none" });
+					});			        		
+		        		
+		        }
+		        else if(downClass.indexOf("slds-hide")==-1){
+					//console.log("222222222");
+		        		$(parentVersionIdSpanchevronright).removeClass("slds-hide");
+		        		$(parentVersionIdSpanchevrondown).addClass("slds-hide");	
+
+					
+					$( childCSS ).each(function( index ) {
+                        $(this).addClass("slds-hide");
+                        //$(this).css({ 'display': "auto" });
+					});							        			        		        
+		        }
+				$( parentVersionIdSpan ).each(function( index ) {
+				  $(this).addClass("slds-hide");
+				});			        
+		        /*var text=$(clickedElement).text();
+		        if(text=="+"){
+		        		$(clickedElement).html("-");
+					$( childCSS ).each(function( index ) {
+                        $(this).removeClass("slds-hide");
+                        //$(this).css({ 'display': "none" });
+					});		        		
+		        }
+		        else{
+		        		$(clickedElement).html("+");
+					$( childCSS ).each(function( index ) {
+                        $(this).addClass("slds-hide");
+                        //$(this).css({ 'display': "auto" });
+					});			        		
+		        }*/
+		    };
             $scope.openRequestModal = function(vId, ownerId, connector) {
                 var modalInstance = $uibModal.open({
                     templateUrl: 'requestBadge.html',
@@ -373,7 +425,7 @@
                             autoplaySpeed: 5000
                         });
                     },800 );
-                    $scope.progressbar.complete();
+                    $scope.progressbar.complete();                    
                 });
             }
 
@@ -589,6 +641,32 @@
                 $uibModalInstance.close();
             };
         }
+    function hideChildVersions(){
+    		
+        $( ".slds-hide1" ).each(function( index ) {
+            $(this).addClass("slds-hide");
+            //$(this).css({ 'display': "auto" });
+        });	
+        $( ".parentVersion" ).each(function( index ) {
+            //console.log('parentVersion classes===='+$(this).attr("class"));
+            var pId=$(this).attr("class");
+			pId=pId.substring(pId.indexOf("versionid"));
+			pId=pId.substring(0,pId.indexOf(" "));
+			pId=pId.replace("versionid","");
+			var childClass=".parentVersionId"+pId;
+			var pClass=".versionidspan"+pId;
+			var totalC=0;
+			$( childClass ).each(function( index ) {
+				totalC=totalC+1;
+			});
+			if(totalC<=0){
+				$( pClass ).each(function( index ) {
+					$(this).addClass("slds-hide");
+				});			
+				
+			}
+        });	                 
+    }
     </script>
     <div class="slds-box" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ng-app="app" ng-controller="ctrl" ng-cloak="true">
         <div class="slds-page-header slds-m-bottom_x-small">
@@ -678,7 +756,7 @@
                              <section class="slds-accordion__section" ng-class="{'slds-is-open' : ui.state[c.Id]}">
                                 <div class="slds-accordion__summary">
                                     <h3 class="slds-text-heading_small slds-accordion__summary-heading">
-                                        <a aria-controls="accordion-details" aria-expanded="true" class="slds-button slds-button_reset slds-accordion__summary-action" ng-click="ui.state[c.Id] = !ui.state[c.Id]">
+                                        <a aria-controls="accordion-details" aria-expanded="true" class="slds-button slds-button_reset slds-accordion__summary-action" ng-click="ui.state[c.Id] = !ui.state[c.Id]" onclick='hideChildVersions();'>
                                             <svg class="slds-accordion__summary-action-icon slds-button__icon slds-button__icon_left" aria-hidden="true">
                                                 <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#switch" />
                                             </svg>
@@ -686,7 +764,7 @@
                                     </h3>
 
                                     <div class="slds-grid slds-wrap full-width" >
-                                        <div style="cursor:pointer" class="slds-col slds-size_2-of-12 slds-p-horizontal_x-small" ng-click="ui.state[c.Id] = !ui.state[c.Id]">
+                                        <div style="cursor:pointer" class="slds-col slds-size_2-of-12 slds-p-horizontal_x-small" ng-click="ui.state[c.Id] = !ui.state[c.Id]"  onclick='hideChildVersions();'>
                                             {{c.Name}}
                                         </div>
                                         <div class="slds-col slds-size_2-of-12 slds-p-horizontal_x-small">
@@ -716,14 +794,29 @@
                                         <h2>No Version found</h2>
                                     </div>
                                     <div ng-repeat="v in c.Versions__r" style="margin-top:15px;">
-                                        <div class="slds-grid slds-wrap" >
+                                        <div class="slds-grid slds-wrap parentVersion versionid{{v.Id}} parentVersionId{{v.Parent_Version__c}} {{v.Parent_Version__c?'slds-hide1':''}}" ng-style="v.Parent_Version__c && {'background-color':'#f8f8f8'}">
                                             <div class="slds-col slds-size_1-of-1 slds-p-horizontal_x-large" style="padding-right:0px;">
+                                            
+                                        		<a class="slds-button slds-button_reset versionid{{v.Id}} parentVersionId{{v.Parent_Version__c}} parentVersionIdSpan{{v.Parent_Version__c}}" style="border-radius:0px;font-size: 150%;" ng-click="toggleSubVersion(v.Id)">
+                                        		
+                                        		<span class="versionidspan{{v.Id}} parentVersionIdSpanchevronright{{v.Id}}">
+	                                            <svg class="slds-button__icon slds-button__icon_chevronright" aria-hidden="true">
+	                                                <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#chevronright" />
+	                                            </svg>                                         		
+                                        		</span>
+                                        		<span class="versionidspan{{v.Id}} parentVersionIdSpanchevrondown{{v.Id}} slds-hide">
+	                                            <svg class="slds-button__icon slds-button__icon_chevrondown" aria-hidden="true">
+	                                                <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#chevrondown" />
+	                                            </svg>                                         		
+                                        		</span>                                        		
+                                        		</a>                                                                                     
+
                                                 <a target="_blank" href="/{{v.Id}}" class="slds-badge slds-badge_inverse" style="border-radius:0px;font-size: 90%;"><b>Version : {{v.Name}}</b></a>
                                                 <hr style="margin-top:2px;border-top: 2px solid #d8dde6;"/>
                                                 <br/>
                                             </div>
                                         </div>
-                                        <div class="slds-grid slds-wrap" >
+                                        <div class="slds-grid slds-wrap versionid{{v.Id}} parentVersionId{{v.Parent_Version__c}} {{v.Parent_Version__c?'slds-hide1':''}}"  ng-style="v.Parent_Version__c && {'background-color':'#f8f8f8'}">
                                             <div class="slds-col slds-size_9-of-12 slds-p-horizontal_x-small" style="padding-left:35px;">
                                                 <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning" role="alert" ng-if="v.Id && !ui.badges[v.Id]">
                                                     <span class="slds-assistive-text">error</span>
@@ -1049,6 +1142,84 @@
                                 </div>
                             </div>
                             <br/>
+
+                            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_offline" role="alert">
+                                <h2>Market Ready</a></h2>
+                            </div>
+                            <div class="slds-box">
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            SI Documentation 
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <a target="_blank" href="{{article.SI_Documentation__c}}">{{article.SI_Documentation__c}}</a>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Connector Training 
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+										<a target="_blank" href="{{article.Connector_Training__c}}">{{article.Connector_Training__c}}</a>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Connector Demo 
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+										<a target="_blank" href="{{article.Connector_Demo__c}}">{{article.Connector_Demo__c}}</a>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Connector Communication 
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+										<a target="_blank" href="{{article.Connector_Communication__c}}">{{article.Connector_Communication__c}}</a>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Connector Endorsed by UX 
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+										<input type="checkbox" disabled="true" value="{{article.Connector_Endorsed_by_UX__c}}" ng-checked="article.Connector_Endorsed_by_UX__c"/>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Connector Download Location 
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+										<a target="_blank" href="{{article.Connector_Download_Location__c}}">{{article.Connector_Download_Location__c}}</a>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Notes
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        {{article.Market_Ready_Notes__c}}
+                                    </div>
+                                </div>
+							</div>
+							<br/>
+
                             <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_offline" role="alert">
                                 <h2>Connector Notes</a></h2>
                             </div>

@@ -64,6 +64,10 @@
                 <field>Eloqua_Inactive__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Avalara_Account_User__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Primary_Invoice_Contact__c</field>
             </layoutItems>

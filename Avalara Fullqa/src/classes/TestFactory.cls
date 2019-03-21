@@ -1,6 +1,8 @@
 @isTest
 public class TestFactory {
-
+    static {
+        TestCreateMetadata tcm=new TestCreateMetadata();
+    }
   public static final Date DEFAULT_EFFECTIVE_START_DATE = Date.today(); 
   public static final Date DEFAULT_EFFECTIVE_END_DATE = Date.today().addYears(1);
   public static final String DEFAULT_CURRENCY = 'USD';

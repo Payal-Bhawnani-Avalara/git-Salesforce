@@ -1,0 +1,123 @@
+.THIS {
+    border: 1px solid #C1C1C1;
+    padding: 20px;
+    width: 100%;
+    position: relative;
+}
+
+.THIS:before {
+    content: '';
+    height: 8px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to right, #973999, #f8598b, #f7bf00);
+}
+
+.THIS .fullstory-logo {
+    float: right;
+    display: block;
+}
+
+.THIS .error-message {
+    display: block;
+    text-align: center;
+    clear: both;
+    width: 100%;
+    padding: 10px 0;
+}
+
+
+.THIS .error-message h2 {
+    font-size: 1rem;
+}
+
+.THIS .error-message p {
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+.THIS .profile-info {
+    border-bottom: 1px solid #A8B7C7;
+    padding: 10px 0;
+    display: block;
+    float: left;
+    clear: both;
+    width: 100%;
+}
+
+.THIS .user-avatar {
+    float: left;
+    background: #F8598B;
+    border-radius: 50%;
+    padding: 5px;
+    margin-right: 10px;
+    height: 45px;
+    width: 45px;
+    position: relative;
+}
+
+.THIS .avatar-icon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.THIS .sessions-for {
+    float: left;
+}
+
+.THIS .title {
+    font-size: 0.6rem;
+    color: #9B9B9B;
+    text-transform: uppercase;
+}
+
+.THIS .email {
+    font-size: 1.25rem;
+    color: #16325C;
+    font-weight: 100;
+}
+
+.THIS .session-listing {
+    display: block;
+    clear: both; 
+}
+
+.THIS .session {
+    padding: 13px 15px;
+    border-bottom: 1px solid #D8DDE6;
+}
+
+.THIS .session:last-child {
+    border-bottom: none;
+}
+
+.THIS .play-icon {
+    position: relative;
+    float: left;
+    margin-right: 10px;
+    margin-top: -2px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 17px solid #d8dde6;
+}
+
+.THIS .play-icon:hover:before {
+    border-left: 14px solid #1589EE;
+}
+
+.THIS .play-icon:before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -16px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 14px solid #ffffff;
+}

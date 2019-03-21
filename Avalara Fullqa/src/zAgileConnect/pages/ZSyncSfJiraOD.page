@@ -1,0 +1,100 @@
+<apex:page action="{!if(!isSysAdmin,urlFor('/apex/zsfjira__ZInsufficientPriv'), null)}"
+           controller="zsfjira.ZSyncSfJiraOD" setup="true">    
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-ui-1.10.3.custom.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__dynatree_1_2_4_js)}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__jQuery, '/css/redmond/jquery-ui-1.10.3.custom.min.css')}" />    
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__SLDS103, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+    <style>
+        .pageMessageContainer {
+        display: none;
+        }
+        
+        .divline{
+        height: 1px;
+        background: #CFD7E6;
+        margin-top:1%;                  
+        }
+        .messageText {
+        color: white !important;
+        }
+        .slds .slds-input {
+        width: auto;
+        }
+        div.pageMessageContainer>span{
+        width:100%;
+        }
+    </style>
+    <div class="slds">
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <p class="slds-text-body--small">Sync JIRA from Salesforce</p>
+                    <div class="slds-grid">
+                        <div class="slds-grid slds-type-focus slds-no-space">
+                            <h1 class="slds-text-heading--medium slds-truncate" title="Settings">
+                                Refresh Salesforce properties in JIRA
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='pageMessageContainer'>
+            <apex:pageMessage summary="{!message}" strength="1" severity="error"
+                              rendered="{!error}" id="merr"/>
+        </div>
+        <div class='pageMessageContainer'>
+            <apex:pageMessage summary="{!message}" strength="1" severity="info"
+                              rendered="{!success}" id="msuc"/>
+        </div>
+        <div class='pageMessageContainer'>
+            <apex:pageMessage summary="{!message}" strength="1" severity="warning"
+                              rendered="{!warning}" id="mwar"/>  
+        </div>
+        <apex:form >
+            <div class="slds-grid">
+                <div class="slds-card slds-m-around--large slds-col">
+                    <div class="slds-card__header slds-grid grid--flex-spread">
+                        <h2 class="slds-text-heading--small slds-truncate">Sync JIRA from Salesforce</h2>
+                    </div>
+                    <div class="divline"> </div>
+                    <div class="slds-card__body slds-p-horizontal--small">
+                        <p>
+                            This option refreshes Salesforce data in JIRA. When properties are added or updated in Salesforce
+                            settings, the sync action will tag them in JIRA for refresh. By clicking on the Refresh button, all
+                            Salesforce entities stored in JIRA will be refreshed.
+                            
+                        </p>            
+                    </div>                    
+                </div>                
+            </div>
+            <div class="slds-text-align--center slds-m-vertical--medium">
+                <apex:commandButton styleClass="slds-button slds-button--brand" action="{!sendToAddon}" value="Refresh"/>
+                <apex:commandButton styleClass="slds-button slds-button--brand" action="{!cancel}" value="Return"/>    
+            </div>
+        </apex:form>
+    </div>    
+    <script>
+    $jqz(function() {
+        overridePageMessages();
+        
+        $jqz("div.pageMessageContainer").each(function(i){
+            $jqz(this).css("display","block");
+        });
+    });   
+    function overridePageMessages() {
+        $jqz('.warningM4').addClass('slds-notify slds-notify--alert slds-theme--warning customMessage ');
+        $jqz('.confirmM4').addClass('slds-notify slds-notify--alert slds-theme--success  customMessage ')
+        $jqz('.errorM4').addClass('slds-notify slds-notify--alert slds-theme--error customMessage ');    
+        $jqz('.infoM4').addClass('slds-notify slds-notify--alert customMessage ');    
+        
+        $jqz('.errorM4').removeClass('errorM4'); 
+        $jqz('.confirmM4').removeClass('confirmM4'); 
+        $jqz('.infoM4').removeClass('infoM4');   
+        $jqz('.warningM4').removeClass('warningM4');  
+    }
+    </script>
+    
+</apex:page>

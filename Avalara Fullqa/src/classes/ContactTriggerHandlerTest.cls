@@ -13,8 +13,13 @@ private class ContactTriggerHandlerTest {
        listKeyPairValue.add(new KeyPairValue__c(Name='Boomi_API_URL_Sandbox',Values__c='http://api.salesforce.com/'));
        listKeyPairValue.add(new KeyPairValue__c(Name='Boomi_API_Key',Values__c='123456'));
        listKeyPairValue.add(new KeyPairValue__c(Name='Boomi_API_URL_Production',Values__c='http://api.salesforce.com/'));
-       listKeyPairValue.add(new KeyPairValue__c(Name='ZTBuyAPICaseSafeID ',Values__c='00533000003RbvNAAS '));
-       listKeyPairValue.add(new KeyPairValue__c(Name='EloquaAvalaraCaseSafeID ',Values__c='00540000000yXrwAAE '));
+       listKeyPairValue.add(new KeyPairValue__c(Name='ZTBuyAPICaseSafeID',Values__c='00533000003RbvNAAS'));
+       listKeyPairValue.add(new KeyPairValue__c(Name='EloquaAvalaraCaseSafeID',Values__c='00540000000yXrwAAE'));
+       listKeyPairValue.add(new KeyPairValue__c(Name='LeadResponseVelocityOwnerChange',Values__c='00533000003hat0AAA,00540000001eFBmAAM,00540000002fhW6AAI'));
+       listKeyPairValue.add(new KeyPairValue__c(Name='EContractActivityTriggerHandler',Values__c='False'));
+       listKeyPairValue.add(new KeyPairValue__c(Name='LogOpportunityProductHistory',Values__c='TRUE'));
+       listKeyPairValue.add(new KeyPairValue__c(Name='NonConnectorFees',Values__c='a0n3300000FTiWlAAL'));
+       listKeyPairValue.add(new KeyPairValue__c(Name='OpportunitySubType',Values__c='AvaTax@@BizDev@@SOHO'));
        insert listKeyPairValue;
      }
     static testMethod void testLinkPartnerWithContact() {
@@ -98,9 +103,9 @@ private class ContactTriggerHandlerTest {
     }    
     
     static testMethod void testLeadConversion() {
-    	Test.startTest();
-    	 LeadTriggerHandler.isLeadConverted = false;
-    	  //Create an account
+        Test.startTest();
+         LeadTriggerHandler.isLeadConverted = false;
+          //Create an account
        Id customerAccountTypeId=[Select Id from RecordType where DeveloperName='Customer_Account_Type' limit 1].Id;
        Account a =TestUtil.createAccount(customerAccountTypeId,1,true)[0];
        //create a contact 
@@ -116,10 +121,10 @@ private class ContactTriggerHandlerTest {
        //create user 
        Id ava2CAMProfileId = [Select Id from Profile where Name ='Ava2 CAM' limit 1].id;
        User u = TestUtil.createUSer(ava2CAMProfileId,null,1,true)[0];
-	   //Create an account
-    	   Id customerAccountTypeId=[Select Id from RecordType where DeveloperName='Customer_Account_Type' limit 1].Id;
+       //Create an account
+           Id customerAccountTypeId=[Select Id from RecordType where DeveloperName='Customer_Account_Type' limit 1].Id;
        Account a =TestUtil.createAccount(customerAccountTypeId,101,true)[0];
-    	   	 a.ActiveCustomer__c = true;
+             a.ActiveCustomer__c = true;
        update a;
        //create a contact 
        List<Contact> listCon =TestUtil.createContact(a.Id,50,true);
@@ -129,7 +134,7 @@ private class ContactTriggerHandlerTest {
        }
        /*}
        catch(Exception e){
-       	   Boolean expectedExceptionThrown =  e.getMessage().contains('More than 100 Contacts are updated') ? true : false;
+           Boolean expectedExceptionThrown =  e.getMessage().contains('More than 100 Contacts are updated') ? true : false;
            System.AssertEquals(expectedExceptionThrown, true);
        }*/
       Test.stopTest();
@@ -139,28 +144,28 @@ private class ContactTriggerHandlerTest {
        //create user 
        Id ava2CAMProfileId = [Select Id from Profile where Name ='Ava2 CAM' limit 1].id;
        User u = TestUtil.createUSer(ava2CAMProfileId,null,1,true)[0];
-	   //Create an account
-    	   Id customerAccountTypeId=[Select Id from RecordType where DeveloperName='Customer_Account_Type' limit 1].Id;
+       //Create an account
+           Id customerAccountTypeId=[Select Id from RecordType where DeveloperName='Customer_Account_Type' limit 1].Id;
        Account a =TestUtil.createAccount(customerAccountTypeId,101,true)[0];
-    	   	 a.ActiveCustomer__c = true;
+             a.ActiveCustomer__c = true;
              a.OwnerId = u.Id;
        update a;
        //create a contact 
        List<Contact> listCon =TestUtil.createContact(a.Id,50,true);
        /*}
        catch(Exception e){
-       	   Boolean expectedExceptionThrown =  e.getMessage().contains('More than 100 Contacts are updated') ? true : false;
+           Boolean expectedExceptionThrown =  e.getMessage().contains('More than 100 Contacts are updated') ? true : false;
            System.AssertEquals(expectedExceptionThrown, true);
        }*/
       Test.stopTest();
     }     
       //https://jira.avalara.com/browse/IBST-7371
     static testMethod void testPartnerContactUpdate6MonthsBefore() {
-    	    //Create partner account
-    		Id partnerAccountRecordTypeId=[select id From RecordType Where sObjectType='Account' and DeveloperName='Partner_Certification' limit 1].Id;
+            //Create partner account
+            Id partnerAccountRecordTypeId=[select id From RecordType Where sObjectType='Account' and DeveloperName='Partner_Certification' limit 1].Id;
         Account partnerAccount=TestUtil.createAccount(partnerAccountRecordTypeId,1,true)[0];
         //Create an account
-    	    Id customerAccountTypeId=[Select Id from RecordType where DeveloperName='Customer_Account_Type' limit 1].Id;
+            Id customerAccountTypeId=[Select Id from RecordType where DeveloperName='Customer_Account_Type' limit 1].Id;
         Account customerAccount =TestUtil.createAccount(customerAccountTypeId,1,true)[0];
         String EloquaAvalaraCaseSafeID='';
         EloquaAvalaraCaseSafeID =KeyPairValue__c.getInstance('EloquaAvalaraCaseSafeID').Values__c;  
@@ -180,10 +185,10 @@ private class ContactTriggerHandlerTest {
     
      //https://jira.avalara.com/browse/IBST-7371
     static testMethod void testPartnerContactUpdate6MonthsAfter() {
-    	   Id partnerAccountRecordTypeId=[select id From RecordType Where sObjectType='Account' and DeveloperName='Partner_Certification' limit 1].Id;
+           Id partnerAccountRecordTypeId=[select id From RecordType Where sObjectType='Account' and DeveloperName='Partner_Certification' limit 1].Id;
         Account partnerAccount=TestUtil.createAccount(partnerAccountRecordTypeId,1,true)[0];
         //Create an account
-    	    Id customerAccountTypeId=[Select Id from RecordType where DeveloperName='Customer_Account_Type' limit 1].Id;
+            Id customerAccountTypeId=[Select Id from RecordType where DeveloperName='Customer_Account_Type' limit 1].Id;
         Account customerAccount =TestUtil.createAccount(customerAccountTypeId,1,true)[0];
         String EloquaAvalaraCaseSafeID='';
         EloquaAvalaraCaseSafeID =KeyPairValue__c.getInstance('EloquaAvalaraCaseSafeID').Values__c;  
@@ -200,4 +205,69 @@ private class ContactTriggerHandlerTest {
         }
         Test.stopTest();   
     }
+    static testMethod void testResponseVelocity(){
+        //Create an account
+            Id customerAccountTypeId=[Select Id from RecordType where DeveloperName='Customer_Account_Type' limit 1].Id;
+        Account a =TestUtil.createAccount(customerAccountTypeId,1,true)[0];
+            a.ActiveCustomer__c = true;
+        update a;   
+            //create contact and setup initial fields
+            Contact c=TestUtil.createContact(a.Id,1,false)[0];
+            c.ContactStatus__c=Constants.CONTACT_STATUS_MQL;
+            c.Most_Recent_Conversion_Date__c=Date.today();
+            insert c;
+            
+            //validate that response velocit was cretead and MQL date time was populated
+            List<Response_Velocity__c> rvList=[Select Id,MQL_Date_Time__c,Assignment_Date_Time__c,Processing_Date_Time__c,Working_Date_Time__c From Response_Velocity__c Where Contact__c=:c.Id];
+            system.assertEquals(1,rvList.size());    
+            system.assertNotEquals(NULL,rvList[0].MQL_Date_Time__c);
+            system.assertEquals(NULL,rvList[0].Processing_Date_Time__c);
+            system.assertEquals(NULL,rvList[0].Working_Date_Time__c);
+            system.assertEquals(NULL,rvList[0].Assignment_Date_Time__c);
+            //change status to processing to populate processing date time
+            ContactTriggerHandler.afterInsertUpdateExecuted=false;
+            c.ContactStatus__c=Constants.CONTACT_STATUS_PROCESSING;
+            update c;
+            //change status to working to populate working date time
+            ContactTriggerHandler.afterInsertUpdateExecuted=false;
+            c.ContactStatus__c=Constants.CONTACT_STATUS_WORKING;
+            update c;   
+            /*//change owner to queue and then change it back to current user to populate assignment date time
+            ContactTriggerHandler.afterInsertUpdateExecuted=false;
+            c.OwnerId=[Select Id,Queue.Name,Queue.Id From QueueSObject Where sObjectType='Contact' limit 1].Queue.Id;
+            update c; 
+            ContactTriggerHandler.afterInsertUpdateExecuted=false;
+            c.OwnerId=Userinfo.getUserId();
+            update c;  */
+    
+        //validate all fields are populated
+        rvList=[Select Id,MQL_Date_Time__c,Processing_Date_Time__c,Assignment_Date_Time__c,Working_Date_Time__c,Lead__c,Contact__c From Response_Velocity__c Where Contact__c=:c.Id];
+            system.assertEquals(1,rvList.size());    
+            system.assertNotEquals(NULL,rvList[0].MQL_Date_Time__c);
+            system.assertNotEquals(NULL,rvList[0].Processing_Date_Time__c);
+            system.assertNotEquals(NULL,rvList[0].Working_Date_Time__c);    
+            //system.assertNotEquals(NULL,rvList[0].Assignment_Date_Time__c);
+            system.assertEquals(NULL,rvList[0].Lead__c);    
+            system.assertNotEquals(NULL,rvList[0].Contact__c);                                                      
+    }  
+    static testMethod void testGDPRProcess(){
+            try{
+                String email='testGDPR@example.com';
+            Individual inv=new Individual(Email__c=email,LastName='lastname',ShouldForget=true);
+            insert inv;     
+                //Create an account
+            Id customerAccountTypeId=[Select Id from RecordType where DeveloperName='Customer_Account_Type' limit 1].Id;
+                Account a =TestUtil.createAccount(customerAccountTypeId,1,true)[0];
+            a.ActiveCustomer__c = true;
+                update a;   
+            //create contact and setup initial fields
+            Contact c=TestUtil.createContact(a.Id,1,false)[0];
+            c.Email=email;
+            insert c;
+            }
+            catch(Exception e){
+            Boolean expectedExceptionThrown =  (e.getMessage().contains(Constants.CONTACT_CANNOT_INSERT_UPDATE_CONTACT_FOR_GDPR)) ? true : false;
+            System.AssertEquals(expectedExceptionThrown, true);             
+            }   
+    }       
 }

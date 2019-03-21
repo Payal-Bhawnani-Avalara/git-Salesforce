@@ -21,4 +21,8 @@
     <tab>Return_Code__c</tab>
     <tab>Excise_Product_Code1__c</tab>
     <tab>ccrz__E_StorefrontAssociation__c</tab>
+    <tab>LeanData__LD_Log__c</tab>
+    <tab>LeanData__LD_Long_Log__c</tab>
+    <tab>Functional_Matrix__c</tab>
+    <tab>Product_Service_of_Interest__c</tab>
 </CustomApplication>

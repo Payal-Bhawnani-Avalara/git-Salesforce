@@ -34,7 +34,6 @@
         }
     </style>
 
-    <apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/jquery-1.8.3.min.js')}" /> <!-- core jQuery -->
     <script src="{!URLFOR($Resource.jquery, '/js/lib/async.js')}"></script> <!-- async.js for help with asynchronous flow control -->
     <script src="{!URLFOR($Page.translations)}"></script> <!-- Geopointe translations -->
     <!-- localize.js -->
@@ -51,8 +50,7 @@
         Localize.setLanguage('{!userLanguage}');
     </script>
 
-    <apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/jquery-1.8.3.min.js')}" /> <!-- core jQuery -->
-    <apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/ui/js/jquery-ui-1.9.2.custom.min.js')}" /> <!-- jQuery UI -->
+    <apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/jquery-3.3.1.min.js')}" /> <!-- core jQuery -->
     <apex:includeScript value="{!$Resource.geopointe__GeopointeJS}" /> <!-- Geopointe universal functions -->
     <apex:includeScript value="{!$Page.geopointe__js_GA}" /> <!-- Google Analytics --> 
 
@@ -61,7 +59,7 @@
         <apex:outputPanel id="renderAll">
             <apex:inputTextarea id="recordIds" style="display:none"/>
             <apex:inputTextarea id="objectNameText" style="display:none"/>
-            <apex:outputPanel id="formattedInput" style="display:none" styleClass="inputValueFormatted">
+            <apex:outputPanel id="formattedInput" style="display:none" styleClass="inputValueFormatted notranslate">
                 {!formattedInput}
             </apex:outputPanel>
             <apex:outputPanel rendered="{!idArrayPresent=false}" layout="block" style="min-height:100px;">
@@ -77,16 +75,16 @@
                 <apex:outputPanel rendered="{!NOT(processingComplete)}" layout="block" style="min-height:100px;">
                     <apex:actionRegion id="ignoreFieldUpdateValueWhenDiscarding">
                     <apex:outputPanel rendered="{!AND(idArrayPresent, NOT(processingComplete))}" layout="block" style="min-height:3em;">
-                        <apex:outputLabel value="Object" styleClass="label inputLabel uiLabel-left form-element__label uiLabel notranslate" style="margin-right:10px"/>
+                        <apex:outputLabel value="Object" styleClass="label inputLabel uiLabel-left form-element__label uiLabel" style="margin-right:10px"/>
                         <apex:selectList id="selectObjectType" value="{!selectObjectType}" multiselect="false" size="1" style="width:60%" styleClass="input" title="Objects which are Accessible with your user permissions">
-                            <apex:actionSupport onsubmit="gpClearFieldSelect()" event="onchange" action="{!showFieldList}" rerender="updateFieldPanel"/>
+                            <apex:actionSupport onsubmit="gpClearFieldSelect()" event="onchange" action="{!showFieldList}" rerender="renderAll"/>
                             <apex:selectOptions value="{!selectObjectTypeOptions}"/>
                         </apex:selectList>
                     </apex:outputPanel>
                     <apex:outputPanel id="selectTargetField" rendered="{!AND(AND(fieldListPresent, ''==updateStatus), NOT(processingComplete))}" layout="block" style="min-height:3em;">
-                        <apex:outputLabel value="Field" styleClass="label inputLabel uiLabel-left form-element__label uiLabel notranslate" style="margin-right:10px"/>
+                        <apex:outputLabel value="Field" styleClass="label inputLabel uiLabel-left form-element__label uiLabel" style="margin-right:10px"/>
                         <apex:selectList id="selectTargetFieldName" value="{!selectTargetField}" multiselect="false" size="1" style="width:60%" styleClass="input" title="Fields which are Editable with your user permissions">
-                            <apex:actionSupport onsubmit="gpClearFieldValue();" event="onchange" action="{!showFieldUpdate}" rerender="updateFieldPanel" oncomplete="jQuery('#commitButton').prop('disabled',{!NOT(fieldUpdatePresent)});setTimeout(function(){rerenderInputStringValue();},10)"/>
+                            <apex:actionSupport onsubmit="gpClearFieldValue();" event="onchange" action="{!showFieldUpdate}" rerender="renderAll" oncomplete="jQuery('#commitButton').prop('disabled',{!NOT(fieldUpdatePresent)});setTimeout(function(){rerenderInputStringValue();},10)"/>
                             <apex:selectOptions value="{!selectTargetFieldOptions}"/>
                         </apex:selectList>
                     </apex:outputPanel>
@@ -97,7 +95,7 @@
                             <apex:outputLabel id="updateTargetControlName" value="{!targetFieldController}" styleClass="label inputLabel uiLabel-left form-element__label uiLabel notranslate" style="margin-right:10px"/>
                             <apex:inputField id="updateTargetControlValue" value="{!editObj[targetFieldController]}" style="width:60%"/><br/><br/>
                         </apex:outputPanel>
-                        <apex:outputPanel layout="block" style="min-height:3em;">
+                        <apex:outputPanel rendered="{!''==bulkUpdateStatus}" layout="block" style="min-height:3em;">
                             <apex:outputLabel value="Value" styleClass="label inputLabel uiLabel-left form-element__label uiLabel notranslate" style="margin-right:10px"/>
                             <apex:inputField id="updateTargetFieldValue" required="{!isTargetValueRequired}" value="{!editObj[selectTargetField]}" styleClass="gpUpdateValue" style="width:60%"/>
                         </apex:outputPanel>
@@ -105,20 +103,28 @@
                     <apex:outputPanel rendered="{!''!=updateStatus}">
                         <div><i class="fa fa-info-circle"></i> <var>{!updateStatus}</var><br/><br/></div>
                     </apex:outputPanel>
+                    <apex:outputPanel rendered="{!''!=bulkUpdateStatus}">
+                        <div><i class="fa fa-info-circle"></i> <var>{!bulkUpdateStatus}</var><br/><br/></div>
+                    </apex:outputPanel>
                 </apex:outputPanel>
                 <apex:outputPanel layout="block" rendered="{!NOT(processingComplete)}" styleClass="slds-card__body slds-text-body--small slds-p-horizontal--medium" style="text-align:center;">
-                    {!totalRecordCount} record(s) selected for update.
+                    {!totalRecordCount} <span>record(s) selected for update.</span>
                 </apex:outputPanel>
             </apex:outputPanel>
             <apex:outputPanel >
                 <apex:actionStatus id="updateButtonStatus">
                     <apex:facet name="start">
-                        Processing <var>{!totalRecordCount}</var> records...
+                        <span>Processing <var>{!totalRecordCount}</var> records...</span>
                     </apex:facet>
                     <apex:facet name="stop">
                         <apex:outputPanel id="resultsReportPanel">
-                            <apex:outputPanel rendered="{!NOT(processingComplete)}" layout="block" style="text-align:center">
+                            <apex:outputPanel rendered="{!AND(NOT(processingComplete),AND('' == updateStatus, '' == bulkUpdateStatus))}" layout="block" style="text-align:center">
                                 <button id="commitButton" class="slds-button slds-button--neutral" disabled="{!NOT(AND(fieldListPresent,fieldUpdatePresent))}" onclick="rerenderInputStringValueAndSave();return false;">
+                                    Update Field Values
+                                </button>
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!AND(NOT(processingComplete),OR('' != updateStatus, '' != bulkUpdateStatus))}" layout="block" style="text-align:center">
+                                <button id="nonCommitButton" class="slds-button slds-button--neutral" disabled="{!OR('' != updateStatus, '' != bulkUpdateStatus)}">
                                     Update Field Values
                                 </button>
                             </apex:outputPanel>
@@ -126,9 +132,9 @@
                                 <div class="slds-card slds-m-bottom--medium">
                                     <section class="slds-card__body slds-p-horizontal--medium">
                                         <div><i class="fa fa-check-circle"></i> <b>Update was successful!</b></div>
-                                        <apex:outputPanel >
-                                            <b><var>{!recCountSuccess}</var> of <var>{!recCountTotal}</var> record(s)</b> were updated.<br/>
-                                        </apex:outputPanel>
+                                        <div>
+                                            <var>{!recCountSuccess}</var> of <var>{!recCountTotal}</var> record(s) were updated.
+                                        </div>
                                     </section>
                                 </div>
                             </apex:outputPanel>
@@ -136,9 +142,9 @@
                                 <div class="slds-card slds-m-bottom--medium">
                                     <section class="slds-card__body slds-p-horizontal--medium">
                                         <div><i class="fa fa-warning"></i> <b>Update completed with errors.</b></div>
-                                        <apex:outputPanel >
-                                            <b><var>{!recCountSuccess}</var> of <var>{!recCountTotal}</var> record(s)</b> were updated.<br/>
-                                        </apex:outputPanel>
+                                        <div>
+                                            <var>{!recCountSuccess}</var> of <var>{!recCountTotal}</var> record(s) were updated.
+                                        </div>
                                     </section>
                                 </div>
                                 <div class="slds-card slds-m-bottom--medium">
@@ -177,7 +183,7 @@
     <apex:outputPanel id="hiddenRerenderPanel">
         <apex:outputPanel id="recordIdsJS">
             <script type="text/javascript">
-                var objectNameVar = '{!selectObjectName}';
+                var objectNameVar = '{!JSENCODE(selectObjectName)}';
                 jQuery("textarea[id$='objectNameText']").val(objectNameVar);
                 // this structure should be returned from the remote call as JSON in 'result'
                 // and batch results should be added to this accumulator for eventual reporting

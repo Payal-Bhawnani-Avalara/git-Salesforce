@@ -1,0 +1,51 @@
+<apex:page controller="OrgChartPlus.SM_OCPSettings" extensions="OrgChartPlus.SM_OCPHelp" docType="html-5.0" sidebar="false" tabStyle="SM_Config__tab">
+<head>
+    <script type="text/javascript">
+        function showTestHelpPage(helpurl)
+        {
+            win = window.open(helpurl, '_blank', 'width=800,height=800,resizable=yes,toolbar=yes,status=no,scrollbars=yes,menubar=yes,directories=no,location=no', false);
+            win.focus();
+        }
+    </script>
+</head>
+
+    <table style=" width:100%; padding:0;" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <c:SMConfigBanner Selection="he"/>
+            
+            <td style="padding:0 10px; vertical-align:top;'">
+                <apex:sectionHeader title="OrgChartPlus Help" help="{!zipName}/OCPMainFrame.html"/>
+
+                <apex:form >
+                    <apex:pageBlock mode="detail" title="">
+                        <apex:pageMessages />
+                
+                        <apex:pageBlockButtons >
+                            <apex:commandButton value="Save" action="{!save}"/>
+                        </apex:pageBlockButtons>
+                            
+                        <apex:pageBlockSection columns="2" title="Custom help" collapsible="false">
+                            <apex:pageBlockSectionItem >
+                                <apex:outputLabel value="Help Zip file" for="helpZip"/>
+                                <apex:inputText id="helpZip" value="{!helpZipFile}" size="40"/>
+                            </apex:pageBlockSectionItem>
+                            <apex:outputText value="The name of a custom help file resource include the namespace is required. If left blank the standard help will be used."/>
+                            
+                            <apex:pageBlockSectionItem >
+                                <apex:outputLabel value="Help Zip domain name" for="helpZipDN"/>
+                                <apex:inputText value="{!helpZipDomain}" id="helpZipDN" size="40"/>
+                            </apex:pageBlockSectionItem>
+                            <apex:outputText value="The domain name of the Salesforce org if not standard (ie. tapp0.salesforce.com)"/>
+            
+                            <apex:pageBlockSectionItem >
+                                <apex:outputLabel value="Help test link" for="helpZipDN"/>
+                                <a href="#" class="MSOHelpLink" onclick="showTestHelpPage('{!testHelpURL}'); return false;" >Click to test Custom help</a>
+                            </apex:pageBlockSectionItem>
+                            <apex:outputText value="After saving the settings click the test link to ensure the resource name and domain are correct."/>
+                        </apex:pageBlockSection>            
+                    </apex:pageBlock>
+                </apex:form>
+            </td>
+        </tr>
+    </table>    
+</apex:page>

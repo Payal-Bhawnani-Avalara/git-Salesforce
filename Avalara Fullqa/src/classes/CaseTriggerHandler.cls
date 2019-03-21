@@ -40,7 +40,6 @@ public class CaseTriggerHandler extends TriggerHandler {
 		   	       c.VAT_Number_Format_Status__c = Utility.vatNumberVerification(c.EMEA_Country__c,c.VAT_Number__c,c.VAT_Number_Format_Status__c);  
 	   	      }
         }*/
-       
         //TECHDEBT: NAVEES 9/14/2017
         //This code will link case with account. This code is not needed if we can make 
         //PROD_AvaTax_Account__c an external id. right now there are lots of duplicates and nulls 
@@ -57,7 +56,7 @@ public class CaseTriggerHandler extends TriggerHandler {
         if(setTreasuryAccountIDs.size()>0){
             Map<String,Account> mapAccountIDs=new Map<String,Account>();
             for(Account a:[Select Id,PROD_AvaTax_Account__c, 
-                                (Select Id From Contacts Where ComplianceContact__c=true Order By CreatedDate Desc limit 1) 
+                                (Select Id From Contacts Where ComplianceContact__c=true and LeftCompany__c=false Order By CreatedDate Desc limit 1) 
                                 From Account Where PROD_AvaTax_Account__c=:setTreasuryAccountIDs]){
                 mapAccountIDs.put(a.PROD_AvaTax_Account__c.toLowerCase(),a);
             }
@@ -111,9 +110,9 @@ public class CaseTriggerHandler extends TriggerHandler {
             }
             database.insert(listCaseTeamMembers,false);                         
         }
-		AggregateResult[] groupedResults= [select AccountId,count(Id) OpenCases From Case Where IsClosed=false AND AccountId=:caseAccountIDs group by AccountId]; 
+		//AggregateResult[] groupedResults= [select AccountId,count(Id) OpenCases From Case Where IsClosed=false AND AccountId=:caseAccountIDs group by AccountId]; 
 		
-		for (AggregateResult ar : groupedResults){
+		for (AggregateResult ar : [select AccountId,count(Id) OpenCases From Case Where IsClosed=false AND AccountId=:caseAccountIDs group by AccountId]){
 			mapAccounts.put(String.valueOf(ar.get('AccountId')),new Account(Id=String.ValueOf(ar.get('AccountId')),Open_Cases__c=Integer.valueOf(ar.get('OpenCases'))));
 		}
 		//by pass account trigger 
@@ -133,6 +132,7 @@ public class CaseTriggerHandler extends TriggerHandler {
       String ZTBuyAPICaseSafeID='';
       ZTBuyAPICaseSafeID =KeyPairValue__c.getInstance('ZTBuyAPICaseSafeID').Values__c;  
       Set<Id> caseId = new Set<Id>();
+      Set<Id> caseIdIIA = new Set<Id>();
           for( Case c : (List<Case>)Trigger.new)
       {
           Case oldCase = (Case)trigger.oldMap.get(c.Id);
@@ -141,6 +141,10 @@ public class CaseTriggerHandler extends TriggerHandler {
                     caseId.add(c.Id);
           //  }
           }
+          //BATS-499
+          if(String.isNotBlank(c.Invoice_Number__c) && String.isblank(oldCase.Invoice_Number__c)){
+               caseIdIIA.add(c.id);
+           }
           /*if(contactId.size() > 100){
            con.addError('More than 100 Contacts are updated');
            return;
@@ -151,11 +155,24 @@ public class CaseTriggerHandler extends TriggerHandler {
             sendFutureCaseStatusDeprovisioning(caseId);
             recursiveHelper(true);
         }
+        //add queable also // Create new field to error on Batch class Large text box 
+       if(caseIdIIA.size() > 0 && !System.isFuture() && !System.isBatch() && !System.isScheduled()){
+         // future method call change it to batch method in try catch 
+           // getInvoiceItems(caseIdIIA);
+            if(caseIdIIA.size() > 0  && !System.isBatch() && !System.isFuture() && !System.isQueueable() && !System.isScheduled()){
+		         JobCreateInvoiceItems job = new JobCreateInvoiceItems(caseIdIIA);
+		         ID batchprocessid = Database.executeBatch(job,10); 
+    			}
+        }
         afterInsertUpdate();
-   }
+    }
    
     @future(callout=true)
         public static void sendFutureCaseStatusDeprovisioning(Set<Id> caseId){
-          Boomi_API.sendCaseStatusDeprovisioning(caseId);
+          APIBoomi.sendCaseStatusDeprovisioning(caseId);
         }  
+     /*@future(callout=true)
+        public static void getInvoiceItems(Set<Id> caseIdIIA){
+          APIZuora.getInvoiceLineItem(caseIdIIA);
+        }  */
 }

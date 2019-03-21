@@ -18,7 +18,7 @@ private class SubscriptionProductChargeTriggerTest {
     get;
     set;
   }  	
-    static void createTestData(){
+  public static void createTestData(){
     //need to enable this in the Zuora Config
     //Enable_Summary_Reporting__c
         product = TestFactory.prepareProductCatalog(false);
@@ -38,7 +38,9 @@ private class SubscriptionProductChargeTriggerTest {
       prpIdList.add(prp.Id);
     }
 
-    Account acc = TestFactory.makeAccount();
+  //Create an account
+	Id customerAccountTypeId=[Select Id from RecordType where DeveloperName='Customer_Account_Type' limit 1].Id;
+	Account acc =TestUtil.createAccount(customerAccountTypeId,1,true)[0];
     acc.ActiveCustomer__c=true;
     update acc;
     Contact con = TestFactory.makeContact( acc );
@@ -88,8 +90,7 @@ private class SubscriptionProductChargeTriggerTest {
     
     
     }
-    static testMethod void testupdateRollupsFuture() {
-    	 	
+    static testMethod void testupdateRollupsFuture() {	
     		Test.startTest();
     		createTestData();
 	    Zuora__Subscription__c supTemp=[Select Id,Zuora__Status__c From Zuora__Subscription__c ];
@@ -106,6 +107,22 @@ private class SubscriptionProductChargeTriggerTest {
         undelete spcTemp;
 		List<Zuora__SubscriptionProductCharge__c> listZSPC=[select Id,Zuora__Account__c,Opportunity__c,Zuora__Subscription__c From Zuora__SubscriptionProductCharge__c Where Id=:sIDs];
     		System.debug('listZSPC====='+listZSPC);	        
+        Test.stopTest();
+        
+    }
+     static testMethod void testConnectorLookUpOnUpdate() {	
+    		Test.startTest();
+    		//Create an account
+	        Id customerAccountTypeId=[Select Id from RecordType where DeveloperName='Customer_Account_Type' limit 1].Id;
+	      Account a =TestUtil.createAccount(customerAccountTypeId,1,true)[0];
+		   //Create connector
+		   Connector__c con =TestUtil.createConnector(a.Id,a.Id,1,true)[0] ;    		 
+	    Zuora__Subscription__c sub=TestUtil.createZuoraSubscription(a.Id,1,true)[0];
+	    Zuora__SubscriptionProductCharge__c spc =TestUtil.createZuoraSubscriptionCharge(a.Id,sub.id,1,true)[0];
+	    spc.Connector__c=con.id;
+    	update spc;
+    	spc=[Select Id,ConnectorLookup__c,Connector__c From Zuora__SubscriptionProductCharge__c Where Id=:spc.Id];
+        System.assertEquals(spc.ConnectorLookup__c, spc.Connector__c);
         Test.stopTest();
         
     }

@@ -1,0 +1,851 @@
+<apex:page controller="zsfjira.ZJiraIssueDetailsController" title="{!IssueKey}"
+           lightningStylesheets="true" docType="html-5.0">
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}"  />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-ui-1.10.3.custom.min.js')}"  />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__hogan)}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__jQuery, '/css/redmond/jquery-ui-1.10.3.custom.min.css')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/js/bootstrap.min.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/css/bootstrap.css')}"/>
+    <apex:includeScript value="/soap/ajax/42.0/connection.js"/>
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zAgileResources, '/js/zConnectNavigationHelper.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zAgileResources, '/js/svg4everybody.js')}" />
+
+    <apex:variable var="editAllowed"
+                   value="{!IF(zPermissions.editIssuesEnabled, true,$Permission.zsfjira__ZC_Edit_Issues)}"/>
+
+    <apex:variable var="isLightning"
+                   value="{!IF($User.UIThemeDisplayed=='Theme4d'||$User.UIThemeDisplayed=='Theme4u',true,false)}"/>
+
+    <apex:slds rendered="{!isLightning}"/>
+
+    <input id="issueDetailsJSON" type="hidden" value="{!issueDetailsString}"/>
+    <script type="application/javascript">
+    console = console ? console : {"log" : function(){}};
+    svg4everybody();
+
+    function verifyIfCorrect(){
+        var existError = {!ErrorRequest};
+        if( existError ){
+            $jqz("#issueDetailsId").hide();
+        }else{
+            $jqz("#issueDetailsId").show();
+        }
+    }
+    $jqz(document).ready(function() {
+        $jqz("span[id$=zTransitionErrorMessage]").hide();
+        var issueKey = '{!JSENCODE(IssueKey)}';
+        $jqz("div.pageMessageContainer").removeAttr("class");
+        verifyIfCorrect();
+        renderTextAreaFields();
+    });
+    function htmlDecode(value){
+        return $jqz('<div/>').html(value).text();
+    }
+    $jqz(document).on(
+        "transitionError",
+        function(event,errorMessage){
+            $jqz("span[id$=zTransitionErrorMessage]").show().delay(7000).fadeOut();
+            $jqz("span[id$=zTransitionErrorMessage] DIV.messageText").html(htmlDecode(errorMessage));
+            funcReloadIssueDetails();
+        }
+    );
+    $jqz(document).on(
+        "transitionFinish",
+        function(event){
+            openComment  = false;
+            openWorkLog  = false;
+            openHistory  = false;
+            openActivity = false;
+            funcReloadIssueDetails();
+        }
+    );
+    zConnectNavigationHelper.setState(zConnectNavigationHelper.State.ISSUE_DETAILS);
+
+    function goToEditIssue( ){
+        return zConnectNavigationHelper.handleAction(
+            zConnectNavigationHelper.ActionType.SELECT_BUTTON,
+            {
+                'tabUrl' : '/apex/zsfjira__ZCreateOrEditIssue?issueKey={!JSENCODE(IssueKey)}',
+                'tabName' : '{!JSENCODE(IssueKey)}'
+            });
+    }
+
+    function goToEntity(tabUrl, tabName, objectId){
+        return zConnectNavigationHelper.handleAction(
+            zConnectNavigationHelper.ActionType.SELECT_LINK,
+            {
+                'tabUrl' : tabUrl,
+                'tabName' : tabName
+            });
+    }
+    </script>
+    <style>
+        .pageMessageContainer {
+        display: none;
+        }
+        .textbreakword, #issueDetailsId h2, td[fieldtype='string'] div{
+        word-wrap: break-word;
+        max-width: 830px;
+        }
+        .textbreakword250{
+        word-wrap: break-word;
+        max-width: 250px;
+        }
+        div.loader:after{
+        background-image: url({!$Resource.zsfjira__loader});
+        background-size: 20px 20px;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        content:"";
+        }
+        div.loader{
+        display: inline-block;
+        }
+        .slds-container{
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+            max-width: 1170px;
+        }
+        .slds-form-element_separator{
+            border-bottom: 1px solid rgb(221, 219, 218);
+        }
+        input[type="checkbox"] + label, input[type="radio"] + label {
+            margin-bottom: -4px;
+        }
+
+    </style>
+    <apex:pagemessage severity="warning" strength="3" summary="{!ErrorMessage}" id="zpagemessage" rendered="{!ErrorRequest}" />
+    <apex:pagemessage severity="error" strength="1" summary="{!linkResult}" rendered="{!linkError}" />
+
+
+    <div id="issueDetailsId" class="slds-p-left_medium slds-p-right_medium">
+
+        <apex:form >
+            <apex:actionFunction name="funcReloadIssueDetails" action="{!loadIssueDetails}" oncomplete="funcHideDialog();renderTextAreaFields();" reRender="issue-details-panel"/>
+        </apex:form>
+
+        <div class='pageMessageContainer'>
+            <apex:pagemessage strength="1" severity="warning" id="zTransitionErrorMessage" />
+        </div>
+
+        <apex:outputPanel rendered="{!NOT(isLightning)}">
+            <apex:sectionHeader title="{!ProjectName.value} / {!IssueKey}" subtitle="{!Summary.value}" id="issueDetailsHeader"/>
+
+            <apex:outputPanel rendered="{!AND(RenderRelatedEntities,NOT(hasReadOnlyAccessCurrentUser),editAllowed)}">
+                <center id="button-bar">
+                    <button onclick="return goToEditIssue();" class="sfbtn">Edit Issue</button>&nbsp;&nbsp;&nbsp;
+                    <c:ZIssueTransitions key="{!JSENCODE(IssueKey)}" mode="web"/>
+                </center>
+            </apex:outputPanel>
+
+            <br/>
+            <div class="links" style="float: right;">
+                <a class="configLinks" target="_blank" href="{!IssueUrl}" style="color:rgb(1, 91, 167);">Go to {!IssueKey}</a>
+            </div>
+        </apex:outputPanel>
+
+        <apex:outputPanel rendered="{!isLightning}">
+            <div class="slds-page-header">
+                <div class="slds-grid">
+                    <div class="slds-col slds-has-flexi-truncate">
+                        <div class="slds-media slds-no-space slds-grow">
+                            <div class="slds-media__figure">
+                              <span class="slds-icon_container slds-icon-custom-custom7">
+                                <svg class="slds-icon" aria-hidden="true">
+                                  <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/custom-sprite/svg/symbols.svg#custom7')}" xmlns:xlink="http://www.w3.org/1999/xlink" />
+                                </svg>
+                              </span>
+                            </div>
+                            <div class="slds-media__body">
+                                <nav>
+                                    <ol class="slds-breadcrumb slds-line-height_reset">
+                                        <li class="slds-breadcrumb__item">
+                                            <span>{!ProjectName.value} / {!IssueKey}</span>
+                                        </li>
+                                    </ol>
+                                </nav>
+                                <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" >{!Summary.value}</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-no-flex slds-grid slds-align-top">
+                        <apex:outputPanel rendered="{!AND(RenderRelatedEntities,NOT(hasReadOnlyAccessCurrentUser),editAllowed)}" layout="none">
+                            <button onclick="return goToEditIssue();"
+                                    class="slds-button slds-button_stateful slds-button_neutral slds-not-selected">Edit Issue</button>&nbsp;
+                            <c:ZIssueTransitions key="{!JSENCODE(IssueKey)}" mode="lex"/>
+                        </apex:outputPanel>
+                    </div>
+                </div>
+
+                <ul class="slds-grid slds-page-header__detail-row">
+                    <li class="slds-page-header__detail-block">
+                        <p class="slds-text-title slds-truncate slds-m-bottom_xx-small">{!IssueTypeName.label}</p>
+                        <p class="slds-text-body_regular slds-truncate">{!IssueTypeName.value}</p>
+                    </li>
+                    <li class="slds-page-header__detail-block">
+                        <p class="slds-text-title slds-truncate slds-m-bottom_xx-small">{!PriorityName.label}</p>
+                        <p class="slds-text-body_regular slds-truncate" >{!PriorityName.value}</p>
+                    </li>
+                    <li class="slds-page-header__detail-block">
+                        <p class="slds-text-title slds-truncate slds-m-bottom_xx-small">{!AssigneeName.label}</p>
+                        <p class="slds-text-body_regular slds-truncate" >{!AssigneeName.value}</p>
+                    </li>
+                    <li class="slds-page-header__detail-block">
+                        <p class="slds-text-title slds-truncate slds-m-bottom_xx-small">{!ReporterName.label}</p>
+                        <p class="slds-text-body_regular slds-truncate" >{!ReporterName.value}</p>
+                    </li>
+                </ul>
+            </div>
+        </apex:outputPanel>
+
+        <div class ="{!IF(isLightning,'slds-scope','bs')}">
+            <div class="{!IF(isLightning,'slds-tabs_default slds-container','container')}">
+                <br/>
+                <h5 id="summary"/>
+                <ul class="{!IF(isLightning,'slds-tabs_default__nav','nav nav-tabs')}" role="tablist" id="menuList">
+                    <li class="{!IF(isLightning,'slds-tabs_default__item slds-is-active','active')}">
+                        <a data-toggle="tab" href="#" class="{!IF(isLightning,'slds-tabs_default__link','')}"
+                           onclick="openTab('sdetails',this,event);return false;">Details</a>
+                    </li>
+                    <li class="{!IF(isLightning,'slds-tabs_default__item','')}">
+                        <a data-toggle="tab" href="#" class="{!IF(isLightning,'slds-tabs_default__link','')} z-issue-comments-tab"
+                           onclick="openTab('scomment',this,event);return false;">Comments</a>
+                    </li>
+                    <li class="{!IF(isLightning,'slds-tabs_default__item','')}">
+                        <a data-toggle="tab" href="#" class="{!IF(isLightning,'slds-tabs_default__link','')} z-issue-worklog-tab"
+                           onclick="openTab('sworklog',this,event);return false;">Work Log</a>
+                    </li>
+                    <li class="{!IF(isLightning,'slds-tabs_default__item','')}">
+                        <a data-toggle="tab" href="#" class="{!IF(isLightning,'slds-tabs_default__link','')}"
+                           onclick="openTab('shistory',this,event);return false;">History</a>
+                    </li>
+                    <li class="{!IF(isLightning,'slds-tabs_default__item','')}">
+                        <a data-toggle="tab" href="#" class="{!IF(isLightning,'slds-tabs_default__link','')} z-issue-activity-tab"
+                           onclick="openTab('sactivity',this,event);return false;">Activity</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="{!IF(isLightning,'slds-tabs_default__content slds-show','tab-pane fade in active')}" type="section">
+                        <span id="sdetails">
+                        <br style="{!IF(isLightning,'display:none;','')}"/>
+                        <div class="links slds-p-top_medium slds-p-right_medium slds-float_right" style="{!IF(NOT(isLightning),'display:none;','')}">
+                            <a class="configLinks" target="_blank" href="{!IssueUrl}" style="color:rgb(1, 91, 167);">Go to {!IssueKey}</a>
+                        </div>
+                        <apex:pageBlock title="Issue Details" mode="maindetail" id="issue-details-panel">
+                            <apex:outputPanel rendered="{!NOT(isLightning)}">
+                                <table class="detailList" cellspacing="0" cellpadding="0" border="0">
+                                    <tbody>
+                                    <tr>
+                                        <td class="labelCol"> {!Summary.label} </td>
+                                        <td class="dataCol" colspan="3">
+                                            <div class="textbreakword">
+                                                    {!Summary.value}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="labelCol"> {!IssueTypeName.label} </td>
+                                        <td class="dataCol" colspan="3">
+                                                {!IssueTypeName.value}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="labelCol"> {!StatusName.label} </td>
+                                        <td class="dataCol" >
+                                                {!StatusName.value}
+                                        </td>
+                                        <td class="labelCol"> {!PriorityName.label} </td>
+                                        <td class="dataCol" >
+                                                {!PriorityName.value}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="labelCol"> {!ResolutionName.label} </td>
+                                        <td class="dataCol"> {!ResolutionName.value} </td>
+                                        <td class="labelCol"> {!ResolutionDate.label} </td>
+                                        <td class="dataCol" fieldType="datetime"> {!ResolutionDate.value} </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="labelCol"> {!CreatedDate.label} </td>
+                                        <td class="dataCol" id ='createdDate' fieldType='datetime'> {!CreatedDate.value} </td>
+                                        <td class="labelCol"> {!UpdatedDate.label} </td>
+                                        <td class="dataCol" id ='updatedDate' fieldType='datetime'> {!UpdatedDate.value} </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="labelCol"> {!DueDate.label} </td>
+                                        <td class="dataCol" colspan="3" id = 'dueDate' fieldType='date'> {!DueDate.value} </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="labelCol"> {!AssigneeName.label} </td>
+                                        <td class="dataCol" >
+                                                {!AssigneeName.value}
+                                        </td>
+
+                                        <td class="labelCol"> {!ReporterName.label} </td>
+                                        <td class="dataCol" >
+                                                {!ReporterName.value}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="labelCol"> {!Votes.label} </td>
+                                        <td class="dataCol"> {!Votes.value} </td>
+                                        <td class="labelCol"> {!Watches.label} </td>
+                                        <td class="dataCol"> {!Watches.value} </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="labelCol"> {!Labels.label} </td>
+                                        <td class="dataCol" colspan="3"> {!Labels.value} </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="labelCol"> {!AffectedVersions.label} </td>
+                                        <td class="dataCol"> {!AffectedVersions.value} </td>
+                                        <td class="labelCol"> {!FixVersions.label} </td>
+                                        <td class="dataCol"> {!FixVersions.value} </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="labelCol"> {!Environment.label} </td>
+                                        <td class="dataCol" colspan="3">
+                                            <div id="issueEnvironment" class="textbreakword"></div>
+                                            <input id="hiddenEnvironment" type="hidden" value="{!Environment.value}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="labelCol"> {!Description.label} </td>
+                                        <td class="dataCol" colspan="3">
+                                            <div id="issueDescription" class="textbreakword"></div>
+                                            <input id="hiddenDescription" type="hidden" value="{!Description.value}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="labelCol"> {!Components.label} </td>
+                                        <td class="dataCol" colspan="3"> {!Components.value} </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="labelCol"> {!OriginalEstimate.label} </td>
+                                        <td class="dataCol"> {!OriginalEstimate.value} </td>
+                                        <td class="labelCol"> {!RemainingEstimate.label} </td>
+                                        <td class="dataCol"> {!RemainingEstimate.value} </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="labelCol"> {!TimeSpent.label} </td>
+                                        <td class="dataCol"  colspan="3"> {!TimeSpent.value} </td>
+                                    </tr>
+                                    <apex:repeat value="{!CustomFields}" var="customField">
+                                        <tr>
+                                            <td class="labelCol"> {!customField.label} </td>
+                                            <td colspan="3" class="dataCol" fieldType='{!customField.type}'>
+                                                <div id="{!JSENCODE(customField.id)}" style="display:none"/>
+                                                <apex:outputPanel rendered="{!customField.htmlSecure}">
+                                                    <input cfId = '{!customField.id}' type="hidden"
+                                                           value='{!customField.value}'
+                                                           cfHtmlSecure='true'/>
+                                                </apex:outputPanel>
+                                                <apex:outputText value="{!customField.value}" rendered="{!NOT(customField.htmlSecure)}"/>
+                                            </td>
+                                            <td class="labelCol"></td>
+                                            <td class="dataCol" ></td>
+                                        </tr>
+                                    </apex:repeat>
+                                    </tbody>
+                                </table>
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!isLightning}">
+                                <!--LEX-->
+                                <div class="slds-form " role="list">
+                                   <div class="slds-grid full forcePageBlockSectionRow">
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem" >
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <div class="test-id__field-label-container">
+                                               <span class="test-id__field-label slds-form-element__label" >
+                                                       {!Summary.label}
+                                               </span>
+                                            </div>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="slds-form-element__static slds-grow slds-form-element_separator">
+                                                   <span class="textbreakword uiOutputText">
+                                                           {!Summary.value}
+                                                   </span>
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+                                   <div class="slds-grid full forcePageBlockSectionRow">
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="slds-form-element__label">
+                                                    {!IssueTypeName.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="slds-form-element__static slds-grow slds-form-element_separator">
+                                                   <span class="uiOutputTextArea">
+                                                           {!IssueTypeName.value}
+                                                   </span>
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+
+
+                                   <div class="slds-grid full forcePageBlockSectionRow" >
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!StatusName.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!StatusName.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!PriorityName.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!PriorityName.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+
+                                    <div class="slds-grid full forcePageBlockSectionRow" >
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!ResolutionName.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!ResolutionName.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!ResolutionDate.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!ResolutionDate.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+
+
+
+                                    <div class="slds-grid full forcePageBlockSectionRow" >
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!CreatedDate.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span id ='createdDate' class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!CreatedDate.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!UpdatedDate.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span id ='updatedDate' class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!UpdatedDate.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+
+                                    <div class="slds-grid full forcePageBlockSectionRow" >
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!DueDate.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span id ='dueDate' class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!DueDate.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+
+                                    <div class="slds-grid full forcePageBlockSectionRow" >
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!AssigneeName.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!AssigneeName.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!ReporterName.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!ReporterName.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+
+                                    <div class="slds-grid full forcePageBlockSectionRow" >
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!Votes.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!Votes.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!Watches.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!Watches.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+
+                                    <div class="slds-grid full forcePageBlockSectionRow" >
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!Labels.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!Labels.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+
+
+                                    <div class="slds-grid full forcePageBlockSectionRow" >
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!AffectedVersions.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!AffectedVersions.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!FixVersions.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!FixVersions.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+
+
+                                    <div class="slds-grid full forcePageBlockSectionRow" >
+
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!Environment.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                   <div id="issueEnvironment" class="textbreakword"></div>
+                                                   <input id="hiddenEnvironment" type="hidden" value="{!Environment.value}"/>
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+
+                                    <div class="slds-grid full forcePageBlockSectionRow" >
+
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!Description.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                   <div id="issueDescription" class="textbreakword"></div>
+                                                   <input id="hiddenDescription" type="hidden" value="{!Description.value}"/>
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+
+
+                                    <div class="slds-grid full forcePageBlockSectionRow" >
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!Components.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!Components.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+
+
+                                    <div class="slds-grid full forcePageBlockSectionRow" >
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!OriginalEstimate.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!OriginalEstimate.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!RemainingEstimate.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!RemainingEstimate.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+
+                                    <div class="slds-grid full forcePageBlockSectionRow" >
+                                      <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                         <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                            <span class="test-id__field-label slds-form-element__label">
+                                                    {!TimeSpent.label}
+                                            </span>
+                                            <div class="slds-form-element__control slds-grid itemBody">
+                                               <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                       {!TimeSpent.value}
+                                               </span>
+                                            </div>
+                                         </div>
+                                      </div>
+                                   </div>
+
+                                     <apex:repeat value="{!CustomFields}" var="customField">
+                                         <div class="slds-grid full forcePageBlockSectionRow" >
+                                              <div class="slds-has-flexi-truncate slds-p-horizontal_x-small full forcePageBlockItem forcePageBlockItemView" role="listitem">
+                                                 <div class="slds-form-element slds-m-bottom_xx-small slds-form-element_edit slds-grow slds-hint-parent override--slds-form-element">
+                                                    <span class="test-id__field-label slds-form-element__label">
+                                                            {!customField.label}
+                                                    </span>
+                                                    <div class="slds-form-element__control slds-grid itemBody">
+                                                        <span class="test-id__field-value slds-form-element__static slds-grow slds-form-element_separator">
+                                                            <div id="{!JSENCODE(customField.id)}" style="display:none"/>
+                                                            <apex:outputPanel rendered="{!customField.htmlSecure}">
+                                                                <input cfId = '{!customField.id}' type="hidden"
+                                                                    value='{!customField.value}'
+                                                                    cfHtmlSecure='true'/>
+                                                            </apex:outputPanel>
+                                                            <apex:outputText value="{!customField.value}" rendered="{!NOT(customField.htmlSecure)}"/>
+                                                        </span>
+                                                    </div>
+                                                 </div>
+                                              </div>
+                                           </div>
+                                    </apex:repeat>
+                                </div>
+                            </apex:outputPanel>
+                        </apex:pageBlock>
+
+                        <!-- Related SF Entities -->
+                        <apex:pageBlock title="Related Salesforce Entities" mode="maindetail" rendered="{!RenderRelatedEntities}">
+                            <apex:pageBlockTable value="{!relatedSFEntities}" var="entity">
+                                <apex:column headerValue="Type" width="5%">
+                                    <center>
+                                            {!entity.type}
+                                    </center>
+                                </apex:column>
+                                <apex:column headervalue="Number" width="10%">
+                                    <a style="color:black" href="{!JSENCODE(entity.url)}" onClick='return goToEntity("{!JSENCODE(entity.url)}" , "{!JSENCODE(entity.label)}","{!JSENCODE(entity.id)}");' target="_top">
+                                        <apex:outputText >{!entity.label}</apex:outputText></a>
+                                </apex:column>
+                                <apex:column headervalue="Subject" width="40%">{!entity.summary}</apex:column>
+                                <apex:column headervalue="Priority" width="10%">{!entity.priority}</apex:column>
+                                <apex:column headervalue="Status" width="10%">{!entity.status}</apex:column>
+                                <apex:column headervalue="Owner" width="15%">
+                                    <a style="color:black" href="{!JSENCODE(entity.ownerUrl)}" onClick='return goToEntity("{!JSENCODE(entity.ownerUrl)}" , "{!JSENCODE(entity.ownerName)}");' target="_top">
+                                        <apex:outputText >{!entity.ownerName}</apex:outputText></a>
+                                </apex:column>
+                                <apex:column headervalue="Account" width="10%">{!entity.accountName}</apex:column>
+                            </apex:pageBlockTable>
+                        </apex:pageBlock>
+
+                        <!-- Subtasks -->
+                        <apex:pageBlock title="Sub-Tasks" mode="maindetail" rendered="{!RenderSubtasks}">
+                            <apex:pageBlockTable value="{!Subtasks}" var="issue">
+                                <apex:column headervalue="Type" width="5%">
+                                        {!issue.issueType.value}
+                                </apex:column>
+                                <apex:column headervalue="Key" width="15%">
+                                    <a style="color:black" href="{!issue.issueDetailsUrl}" onClick='return goToEntity("{!issue.issueDetailsUrl}" , "{!URLENCODE(issue.key)}");' target="_top">
+                                        <apex:outputText >{!issue.key}</apex:outputText></a>
+                                </apex:column>
+                                <apex:column headervalue="Summary" width="45%">{!issue.summary}</apex:column>
+                                <apex:column headervalue="Priority" width="15%">
+                                        {!issue.priority.value}
+                                </apex:column>
+                                <apex:column headervalue="Status" width="15%">
+                                        {!issue.status.value}
+                                </apex:column>
+                            </apex:pageBlockTable>
+                        </apex:pageBlock>
+                        <!--Issue Links-->
+                        <apex:repeat value="{!IssueLinks}" var="issueLink" id="theRepeat">
+                            <apex:pageBlock title="{!issueLink.typeName}" mode="maindetail" rendered="{!RenderIssueLinks}">
+                                <apex:pageBlockTable value="{!issueLink.issueLinks}" var="issue">
+                                    <apex:column headervalue="Type" width="5%">
+                                            {!issue.issueType.value}
+                                    </apex:column>
+                                    <apex:column headervalue="Key" width="15%">
+                                        <a style="color:black" href="{!issue.issueDetailsUrl}" onClick='return goToEntity("{!issue.issueDetailsUrl}" , "{!URLENCODE(issue.key)}");' target="_top">
+                                            <apex:outputText >{!issue.key}</apex:outputText></a>
+                                    </apex:column>
+                                    <apex:column headervalue="Summary" width="45%">{!issue.summary}</apex:column>
+                                    <apex:column headervalue="Priority" width="15%">
+                                            {!issue.priority.value}
+                                    </apex:column>
+                                    <apex:column headervalue="Status" width="15%">
+                                            {!issue.status.value}
+                                    </apex:column>
+                                </apex:pageBlockTable>
+                            </apex:pageBlock>
+                        </apex:repeat>
+                        </span>
+                    </div>
+                    <div class="{!IF(isLightning,'slds-tabs_default__content slds-hide','tab-pane fade')}" type="section">
+                        <span class="bs" id="scomment"/>
+                    </div>
+                    <div class="{!IF(isLightning,'slds-tabs_default__content slds-hide','tab-pane fade')}" type="section">
+                        <span class="bs" id="sworklog"/>
+                    </div>
+                    <div class="{!IF(isLightning,'slds-tabs_default__content slds-hide','tab-pane fade')}" type="section">
+                        <span class="bs" id="shistory"/>
+                    </div>
+                    <div class="{!IF(isLightning,'slds-tabs_default__content slds-hide','tab-pane fade')}" type="section">
+                        <span class="bs" id="sactivity"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <c:ZIssueActivity />
+
+    <script>
+    function renderTextAreaFields(){
+        var spanErrorRegex = new RegExp('<span class=\"error\">', 'g');
+
+        var descriptionHtml = $jqz("#hiddenDescription").val();
+        descriptionHtml= descriptionHtml.replace(spanErrorRegex, '');
+
+        var environmentHtml = $jqz("#hiddenEnvironment").val();
+        environmentHtml= environmentHtml.replace(spanErrorRegex, '');
+
+        $jqz("#issueDescription").html(descriptionHtml);
+        $jqz("#issueEnvironment").html(environmentHtml);
+
+        renderCustomFields();
+    }
+    function renderCustomFields(){
+        $jqz("input[cfHtmlSecure='true']").each(function(){
+            var cfId = $jqz(this).attr('cfId');
+            $jqz("div[id='"+cfId+"']").removeAttr("style");
+            $jqz("div[id='"+cfId+"']").html($jqz(this).val());
+        });
+    }
+    </script>
+    <script>
+    var openComment  = false;
+    var openWorkLog  = false;
+    var openHistory  = false;
+    var openActivity = false;
+    function openTab(tabId,element,event){
+        event.preventDefault();
+        var isLightning = {!IF(isLightning,true,false)};
+
+        $jqz("div[type='section']").attr('class',(isLightning?'slds-tabs_default__content slds-hide':'tab-pane fade'));
+        $jqz("#"+tabId).parent().attr('class',(isLightning?'slds-tabs_default__content slds-show':'tab-pane fade in active'));
+
+        $jqz("#menuList>li").attr('class',(isLightning?'slds-tabs_default__item':''));
+        $jqz(element).parent().attr('class',(isLightning?'slds-tabs_default__item slds-is-active':'active'));
+
+
+        if(tabId=='scomment' && !openComment){
+            openComment = true;
+            buildCommentSection('{!JSENCODE(IssueKey)}');
+        }
+        if(tabId=='sworklog' && !openWorkLog){
+            openWorkLog = true;
+            buildWorkLogSection('{!JSENCODE(IssueKey)}');
+        }
+        if(tabId=='shistory' && !openHistory){
+            openHistory = true;
+            buildHistorySection('{!JSENCODE(IssueKey)}');
+        }
+        if(tabId=='sactivity' && !openActivity){
+            openActivity = true;
+            buildActivitySection('["{!JSENCODE(IssueKey)}"]',true);
+        }       
+    }  
+    </script>
+</apex:page>

@@ -1,0 +1,563 @@
+<apex:page controller="zsfjira.ZCcIssueSearchController" extensions="zsfjira.ZConsoleCompSettings">
+    <apex:includeScript value="/soap/ajax/30.0/connection.js"/> 
+    <apex:includeScript value="/support/console/31.0/integration.js"/>
+    <apex:includeScript value="/canvas/sdk/js/publisher.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/js/bootstrap.min.js')}" />
+    <link rel="stylesheet" href="{!URLFOR($Resource.bootstrap4VF, 'bootstrap/css/bootstrap.css')}" media="all" />
+    <apex:variable var="linkAllowed"
+                   value="{!IF(zPermissions.linkIssuesEnabled, true,$Permission.zsfjira__ZC_Link_Issues)}"/>
+    <style>
+        .consoleMruWidget {
+        position: absolute;
+        bottom: 5px;
+        top: 5px;
+        left: 5px;
+        right: 5px;
+        border-radius: 8px;
+        background-color: #fbffff;
+        border: 1px solid #dedede;
+        overflow-y: auto;
+        overflow-x: hidden;
+        }
+        .consoleMruWidget .mruWidgetHeader {
+        border-bottom: 1px solid #dedede;
+        display: inline-block;
+        width: 100%;
+        height: 40px;
+        background-color: #f5f7f7;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        text-indent: 10px;
+        line-height: 27px;
+        font-weight: 700;
+        }
+        .consoleMruWidget .mruEntry {
+        background-color: #fff;
+        list-style: none;
+        margin-top: 0;
+        margin-left: 0;
+        padding-left: 0;
+        }
+        .consoleMruWidget .mruWidgetRowItem {
+        border-bottom: 1px solid #dedede;
+        margin-left: 0px;
+        padding: 10px;        
+        }
+                
+        .consoleMruEntry .entryLabel {
+        cursor: pointer;
+        }
+        .consoleMruEntry .tabText {
+        color: #015ba7;
+        font-size: 1.2em;
+        white-space: nowrap;
+        }
+        .consoleMruEntry .tabIcon {
+        padding-top: 2px;
+        }
+        .caseMru .mruIconD {
+        width: 16px;
+        height: 16px;
+        margin-left: 6px;
+        }
+        
+        .consoleMruEntry .status {
+        vertical-align: top;
+        display: inline-block;
+        float: right;        
+        padding-left: 10px;
+        text-decoration: none;
+        }
+        
+        .mruInput {
+        display: inline-block;
+        width: 14px;
+        height: 13px;
+        border-radius: 3px;
+        padding: 2px 0px 0px 2px;
+        position: relative;
+        }
+                
+        .issueDetPop {
+        display: none;
+        position: absolute;
+        width: 280px;
+        padding: 10px;
+        background: #eeeeee;
+        color: #000000;
+        border: 1px solid #1a1a1a;
+        font-size: 90%;
+        }
+        
+        .loading_modal{
+        display: none;
+        background: url({!$Resource.zsfjira__loader})
+        no-repeat center;
+        width: 100%;height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 1002;
+        }
+        .dropdown-menu {
+        font-family: Arial, Helvetica, sans-serif !important;
+        font-size: 11px !important;
+        font-weight: bold !important;
+        }
+        .settingsButton{
+        background-image: url(/img/icon/custom51_100/gears16.png);
+        background-position: 0 0;
+        width: 16px;
+        height: 16px;
+        float: right;
+        }
+    </style>
+    <style>
+        #triggered-cta-box-wrapper.triggered-cta-box-wrapper.triggered-cta-box-wrapper--bottom {
+        bottom: -999px;
+        right: 20%;
+        }
+        #triggered-cta-box-wrapper.triggered-cta-box-wrapper {        
+        display: none;
+        min-height: 40px;
+        position: fixed;
+        z-index: 2001;
+        }
+    </style>
+    <script type="text/javascript">
+    Visualforce.remoting.timeout = 120000;
+    
+    $j = jQuery.noConflict();
+    var externalCaseId = "";
+    var externalCaseNumber = "";
+    var externalCaseSubject = "";
+    var customSettings = parseInt('{!JSENCODE(suggestIssuesAtLoad)}');
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+    function deleteIssue(issuekey){
+        if(!confirm('This action will delete the selected issue in JIRA.  Are you sure you want continue?')){
+            return;
+        }
+        var spanIssue = '#span_'+issuekey;
+        var isLinked = $j('#link_'+issuekey).length==0;
+        $j(spanIssue).html('<img height="16" weight="16" src="{!$Resource.zsfjira__loader}"/>');
+                
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZCcIssueSearchController.deleteSelectedIssue}',issuekey,
+            function(result, event) {
+                if(event.status){
+                    if(result.wasIssueDeleted){
+                        $j(spanIssue).html('<span style="font-size:16px;" class="glyphicon glyphicon-ok"></span>');                                                                      
+                        setTimeout(
+                            function() {
+                                $j('#'+issuekey).hide("fast", function(){});
+                            },1000
+                        );
+                    }
+                    else{
+                        $j(spanIssue).html(buildOptions(issuekey,isLinked));
+                        $j("#titleModal").text('ERROR');
+                        $j("#textModal").html(result.errorMessage);
+                        $j("#modalMessages").modal('show');
+                    }
+                }
+                else{
+                    $j(spanIssue).html(buildOptions(issuekey,isLinked));
+                    $j("#titleModal").text('ERROR');
+                    $j("#textModal").html(event.message);
+                    $j("#modalMessages").modal('show');
+                }
+            }
+        );
+        
+    }
+    </script>
+    <apex:outputPanel rendered="{!linkAllowed}">
+        <script>
+        function linkIssue(issuekey){
+            if(externalCaseId=='unsupported' && floatableConsoleComp){
+                $j("#titleModal").text('ERROR');
+                $j("#textModal").html('Please focus a valid Entity on console');
+                $j("#modalMessages").modal('show');
+                return;
+            }
+            var spanIssue = '#span_'+issuekey;
+            $j(spanIssue).html('<img height="16" weight="16" src="{!$Resource.zsfjira__loader}"/>');
+            var caseId = externalCaseId;
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.ZCcIssueSearchController.linkSelectedIssues}',issuekey,caseId,
+                function(result, event) {
+                    if(event.status){
+                        if(result.wasIssueLInked){
+                            $j("#triggered-cta-box-wrapper").show().delay(5000).fadeOut();
+                            if(floatableConsoleComp){
+                                $j(spanIssue).html(buildOptions(issuekey,false));
+                                $j("a[id^='link_']").html('Link to '+externalCaseNumber);
+                            }
+                            else{
+                                $j(spanIssue).html(buildOptions(issuekey,true));
+                            }
+                            refreshCase();
+                        }
+                        else{                        
+                            $j(spanIssue).html(buildOptions(issuekey,false));
+                            $j("a[id^='link_']").html('Link to '+externalCaseNumber);
+                            $j("#titleModal").text('ERROR');
+                            $j("#textModal").html(result.errorMessage);
+                            $j("#modalMessages").modal('show');
+                        }
+                    }
+                    else{
+                        $j(spanIssue).html(buildOptions(issuekey,false));
+                        $j("#titleModal").text('ERROR');
+                        $j("#textModal").html(event.message);
+                        $j("#modalMessages").modal('show');
+                    }
+                }
+            );
+            
+        }
+        </script>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!NOT(linkAllowed)}">
+        <script>
+        function linkIssue(issuekey){
+            $j("#titleModal").text('ERROR');
+            $j("#textModal").html('You do not have permissions to link issues');
+            $j("#modalMessages").modal('show');
+            return;
+        }
+        </script>
+    </apex:outputPanel>
+    <script>
+    function refreshCase(){
+        window.console.log("sending refresh order to Jira Issues panel");
+        var caseId = externalCaseId;
+        var message = {
+            source : "suggestedIssues",
+            caseId : caseId,
+            action : "refresh" 
+        };
+        sforce.console.fireEvent(
+            'messageFromComponent',JSON.stringify(message), function(result){}
+        );
+    }
+    function buildOptions(issueKey,linked){
+        var isLinkAllowed = {!linkAllowed};
+        var optionsHtml='';
+        optionsHtml += '<div class="btn-group" style="padding-bottom:5px;"><button style="height:15px;padding-top:1px;padding-left: 1px;" type="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>';
+        optionsHtml += '<ul class="dropdown-menu" role="menu">';        
+        
+        if(isLinkAllowed && (floatableConsoleComp || (!floatableConsoleComp && !linked))){
+            optionsHtml += '<li id="li_link_'+issueKey+'"><a id="link_'+issueKey+'" href="#" onclick="linkIssue(\''+issueKey+
+                '\');return false;">Link to Entity</a></li>';
+        }      
+        /*optionsHtml += '<li><a href="#" onclick="editIssue(\''+issueKey+
+            '\');">Edit</a></li>';
+        optionsHtml += '<li><a href="#" onclick="deleteIssue(\''+issueKey+
+                '\');return false;">Delete</a></li>';*/
+        optionsHtml += '<li><a href="#" onclick="openIssue(\''+issueKey+
+                '\');return false;">Details</a></li>';
+        optionsHtml += '</ul></div>';
+        return optionsHtml;
+    }
+    function addIssueToList(issueObj){
+        var newLI = '<li onmouseover="this.style.background=\'#E6E6E6\';" onmouseout="this.style.background=\'white\';" style="cursor: move;" id="'+issueObj.key+'" draggable="true" ondragstart="drag(event);" class="mruWidgetRowItem"><div class="consoleMruEntry">';        
+        newLI+='<span style="cursor:move;" class="entryLabel">';
+        
+        newLI+='<img class="mruMenuButton uiImage" title="Show Menu" alt="Show Menu" '+
+            'src="/auraFW/resources/aura/s.gif">';  
+        
+        newLI += '<div id ="span_'+issueObj.key+'" class="bs" style="display:inline;">';
+        newLI += buildOptions(issueObj.key,issueObj.linked);    
+        newLI += '</div>';
+        
+        newLI+='<span class="tabIcon caseMru">&nbsp;</span>';
+        newLI+='<span class="tabText uiOutputText"><a style="cursor:pointer;" ondragstart="return false;" onclick="openIssue(\''+issueObj.key+
+            '\');" name="'+issueObj.key+'"href="#" type="popTrigger" key="'+issueObj.key+'" >'+issueObj.key+
+            '</a></span>';
+        newLI+='<div class="status">'+issueObj.status.value+'</div><br/>';
+        newLI+=issueObj.summary;        
+        newLI+='</span></div></li>';
+        
+        var lst=document.getElementById('lstIssues');
+        lst.innerHTML+=newLI;                
+    }
+    function openIssue(issueKey){
+        sforce.console.openPrimaryTab(null, '/apex/zsfjira__ZIssueDetails?issueKey='+issueKey,
+                                      true, issueKey, openSuccess, issueKey);
+    }
+    function editIssue(issueKey){
+        sforce.console.openPrimaryTab(null, '/apex/zsfjira__ZCreateOrEditIssue?issueKey='+issueKey,
+                                      true, 'Edit Issue '+issueKey, openSuccess, 'Edit Issue '+issueKey);
+    }
+    function drag(ev) {
+        var jsonText ='{"issueKey":"'+ev.target.id+'"}';
+        ev.dataTransfer.setData("text", jsonText);
+    }
+    var openSuccess = function openSuccess(result) {
+        if (result.success == true) {
+            window.console.log('Primary tab successfully opened');
+        } else {
+            window.console.log('Primary tab cannot be opened');
+        }
+    };
+    function reload(searchTxt,suggest){
+        var lst=document.getElementById('lstIssues');
+        lst.innerHTML='';
+        $j('#loadingFrameConsoleComp').css('display','block');
+        var caseId = externalCaseId;
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZCcIssueSearchController.getSuggestedIssues}',caseId,searchTxt,suggest,
+            function(result, event) {                
+                $j('#loadingFrameConsoleComp').css('display','none');                
+                if(event.status){
+                    if(!result.success){
+                        var text = result.errors[0];
+                        var lst=document.getElementById('lstIssues');
+                        lst.innerHTML = '<center style="color:red;"><br/>'+text+'</center>';
+                        return;
+                    }
+                    if(result.success && result.lstIssues.length==0){
+                        var text = 'No matching issues';
+                        var lst=document.getElementById('lstIssues');
+                        lst.innerHTML = '<center><br/>'+text+'</center>';
+                        return;
+                    }
+                    for(var i= 0;i<result.lstIssues.length;i++){
+                        addIssueToList(result.lstIssues[i]);
+                    }                        
+                    if(externalCaseId!='unsupported'){
+                        $j("a[id^='link_']").html('Link to '+externalCaseNumber);
+                    }
+                    else{
+                        $j("li[id^='li_link_']").css('display','none');
+                    }
+                    initializePromptEvents();
+                }                
+            }
+        );        
+    }
+    function search(){
+        var txt= document.getElementById("searchText").value;
+        if(txt.trim()=='')return;
+        reload(txt,false);
+    }
+    function suggested(){
+        $j('#searchText').val('');
+        reload(externalCaseSubject,true);
+    }
+    function htmlEncode(value){
+        return $j('<div/>').text(value).html();
+    }
+    function htmlDecode(value){
+        return $j('<div/>').html(value).text();
+    }
+    function analyzeAndDisplay(relatedIssues){
+        switch (customSettings){
+            case 1:
+                if(relatedIssues==0){
+                    suggested();
+                }
+                else{
+                    $j('#searchText').val('');
+                    var lst=document.getElementById('lstIssues');
+                    lst.innerHTML='';
+                }
+                break;
+            case 2:
+                suggested();
+                break;
+            case 3:
+                $j('#searchText').val('');
+                var lst=document.getElementById('lstIssues');
+                lst.innerHTML='';
+                break;
+        }
+    }
+    var processMessageCase = function (result) {
+        window.console.log('Message Received: '+ result.message);
+        if(firstListen){
+            var objResult = JSON.parse(result.message);        
+            if(objResult.action=='send'){
+                externalCaseId = objResult.caseId;                
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZCcIssueSearchController.getEntityInfo}',externalCaseId,
+                    function(result, event) {
+                        if(event.status){
+                            externalCaseNumber = result.CaseNumber;
+                            externalCaseSubject = htmlDecode(result.Subject);
+                            $j('#cccTitle').html('<li><a href="#" onclick="suggested();">'+
+                                                 'Suggest for '+externalCaseNumber+'</a><li/>');
+                            $j('#moreActions').removeAttr('style');
+                            analyzeAndDisplay(result.RelatedIssues);
+                        }
+                    }                
+                );                                                
+                firstListen = false;
+            }                        
+        }
+    }; 
+    var floatableConsoleComp = false;
+    var firstListen = true;
+    $j(document).ready(function() {     
+        externalCaseId='unsupported';
+        sforce.console.isInCustomConsoleComponent(
+            function (result){                
+                floatableConsoleComp = result.inCustomConsoleComponent;
+                if(floatableConsoleComp){                                        
+                    sforce.console.addEventListener('messageFromCase',processMessageCase);
+                    var eventHandler = function (result) {
+                        if(!floatableConsoleComp){
+                            return;
+                        }
+                        $j('#moreActions').attr('style','display:none');
+                        $j("li[id^='li_link_']").css('display','none');
+                        externalCaseId = 'unsupported';
+                        firstListen = false;
+                        if(result.objectId=='null'){
+                            $j('#cccTitle').html('Unsupported Object');
+                            return;
+                        }
+                        externalCaseId = result.objectId;                        
+                        Visualforce.remoting.Manager.invokeAction(
+                            '{!$RemoteAction.ZCcIssueSearchController.getEntityInfo}',externalCaseId,
+                            function(result, event) {
+                                if(event.status){
+                                    if(!result.validObj){
+                                        $j('#cccTitle').html('Unsupported Object');
+                                        return;
+                                    }
+                                    externalCaseNumber = result.CaseNumber;
+                                    externalCaseSubject = htmlDecode(result.Subject);
+                                    $j('#cccTitle').html('<li><a href="#" onclick="suggested();">'+
+                                                         'Suggest for '+externalCaseNumber+
+                                                         '</a></li>');
+                                    $j("a[id^='link_']").html('Link to '+externalCaseNumber);
+                                    $j("li[id^='li_link_']").css('display','block');
+                                    $j('#moreActions').removeAttr('style');
+                                    analyzeAndDisplay(result.RelatedIssues);
+                                }
+                            }
+                        );                 		
+                    };
+                    sforce.console.onFocusedPrimaryTab(eventHandler);
+                }
+                else{
+                    sforce.console.onEnclosingTabRefresh(onEtRefresh);
+                    externalCaseId = getParameterByName('id');                                                           
+                    Visualforce.remoting.Manager.invokeAction(
+                        '{!$RemoteAction.ZCcIssueSearchController.getEntityInfo}',externalCaseId,
+                        function(result, event) {
+                            if(event.status){
+                                if(!result.validObj){
+                                    $j('#cccTitle').html('Unsupported Object');
+                                    externalCaseId = 'unsupported';
+                                    return;
+                                }                                
+                                externalCaseNumber = result.CaseNumber;
+                                externalCaseSubject = htmlDecode(result.Subject);
+                                $j('#cccTitle').html('<li><a href="#" onclick="suggested();">'+
+                                                     'Suggest For '+externalCaseNumber+'</a></li>');
+                                $j('#moreActions').removeAttr('style');
+                                analyzeAndDisplay(result.RelatedIssues);
+                            }
+                        }
+                    );                                                                             
+                }
+            }
+        );
+        $j('#searchText').focus();
+    });    
+    var searchOpenEvent = function (result) {
+        if(!result.windowHidden){
+            $j('#searchText').focus();
+        }
+    };
+    sforce.console.onCustomConsoleComponentButtonClicked(searchOpenEvent);    
+    
+    var onEtRefresh = function eventHandler(result) {        
+        window.console.log('Enclosing tab has refreshed:' + result.id+ 'and the object Id is:' + result.objectId);        
+    };
+    </script>    
+    <div class="consoleMruWidget">
+        <br/>
+        <div class="bs">
+            <div class = "input-group input-group-sm">
+                <input type="text" id='searchText' class="form-control"
+                       onkeydown="if (event.keyCode == 13) {search();return false;}"/>
+                <div class="input-group-btn">
+                    <button type="button" onclick='search();return false;'  class="btn btn-default">Find</button>
+                    <button id="moreActions" type="button" class="btn btn-default dropdown-toggle"
+                            data-toggle="dropdown" aria-expanded="false" style="display:none">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right"
+                        style="position: absolute; left: -95px"
+                        role="menu" id="cccTitle">
+                        Unsupported Object
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="mruWidgetHeader" >
+            <div>
+                <table>
+                    <tr>
+                        <td>
+                            JIRA Issues
+                        </td>
+                        <td id ="settingsLink">
+                            <a href="/apex/zsfjira__ZConsoleCompSettings" 
+                               title="Settings" target="_blank" class="settingsButton"/>
+                        </td>
+                    </tr>
+                </table>                                
+            </div>
+            <div style="line-height: 0px;font-size: 85%;font-weight: 200;">
+                Drag items &amp; drop them to Related Issues Section.</div>
+            <div class = "loading_modal" id='loadingFrameConsoleComp'/>
+        </div>
+        <ul class="mruEntry" id='lstIssues'/>
+    </div>
+    <div class="bs">
+        <div id="modalMessages" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">                        
+                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                        <h4 class="modal-title" id="titleModal"/>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-warning" id='textModal'/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="triggered-cta-box-wrapper" class="triggered-cta-box-wrapper triggered-cta-box-wrapper--bottom"
+         style="bottom: 0px; display: none;">
+        <div>
+            <div class="triggered-cta-box">
+                <div class ="bs" style="max-width:40em">
+                    <div style="margin-left:1em;">
+                        <div class="alert alert-success" role="alert">
+                            <strong>Issue Linked Successfully!</strong>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>	
+    
+    <c:ZIssuePrompter popUpWidth="260px" renderTransitions="false"/>
+</apex:page>
