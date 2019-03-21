@@ -1,0 +1,12 @@
+<apex:page standardController="Account">
+    <apex:form >
+        <apex:pageBlock title="Edit Account for {!$User.FirstName}">
+            <apex:pageMessages />
+            <apex:pageBlockButtons >
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection >
+                <apex:outputText value="{!account.name}" />
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

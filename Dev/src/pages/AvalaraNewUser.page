@@ -1,0 +1,88 @@
+<apex:page standardStylesheets="false" sidebar="false" showHeader="false" docType="html-5.0" controller="AvalaraNewUserCtrl">
+    <style>
+        .row-margin{
+            margin-top:1%;
+        }
+        .required{
+           color:#c00;  
+        }
+        .panel-title{
+            font-weight:bold;
+        }
+        .glyphicon-ok-circle{
+            font-size:50px;
+        }
+    </style>
+    <script>
+        $( document ).ready(function() { 
+            $("footer").addClass("navbar-fixed-bottom");
+        });
+        
+    </script>
+    <apex:composition template="AvalaraTemplate">
+        <apex:define name="body">
+            <div class="container" style="margin-top:3%;">
+                <apex:form >
+                    <apex:outputPanel layout="block" rendered="{!isSuccess}" styleClass="alert alert-success" style="text-align:center;">
+                        <span class="glyphicon glyphicon-ok-circle"/>
+                        <br/>
+                        Request Created Successfully...
+                        <br/><br/>
+                        <a class="btn btn-primary btn-sm" href="{!IF($Site.Prefix != null,$Site.Prefix,'/apex')}/avalaratellus" style="width:250px;">
+                            Back To Launch Center
+                        </a>    
+                    </apex:outputPanel>
+                    <apex:outputPanel layout="block" rendered="{!!isSuccess}">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">
+                                    Request New User
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-2">
+                                       <label> First Name </label>
+                                    </div>
+                                    <div class="col-xs-10">
+                                        <apex:inputField value="{!req.First_Name__c}" styleClass="form-control"/>    
+                                    </div>
+                                </div>
+                                 <div class="row row-margin">
+                                    <div class="col-xs-2">
+                                       <label> Last Name<b class="required">*</b> </label>
+                                    </div>
+                                    <div class="col-xs-10">
+                                        <apex:inputField value="{!req.Last_Name__c}" styleClass="form-control" required="true"/> 
+                                    </div>
+                                </div>
+                                 <div class="row row-margin">
+                                    <div class="col-xs-2">
+                                       <label> Email <b class="required">*</b></label>
+                                    </div>
+                                    <div class="col-xs-10">
+                                        <apex:inputField value="{!req.Email__c}" styleClass="form-control" required="true"/>    
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="well well-sm">
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <a class="btn btn-primary btn-block btn-sm" href="{!IF($Site.Prefix != null,$Site.Prefix,'/apex')}/avalaratellus">
+                                        Back To Launch Center
+                                    </a>
+                                </div>
+                                 <div class="col-xs-6">
+                                     <apex:commandButton value="Save" styleClass="btn btn-success btn-block btn-sm" action="{!insertRequest}"/>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </apex:outputPanel>
+                </apex:form>
+            </div>
+        </apex:define>
+        <apex:define name="versionnote"> </apex:define>
+    </apex:composition>
+</apex:page>

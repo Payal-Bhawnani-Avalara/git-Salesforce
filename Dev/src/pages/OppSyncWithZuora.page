@@ -1,0 +1,3 @@
+<apex:page sidebar="false" showHeader="false" standardController="Opportunity">
+    <apex:iframe frameborder="false" src="/apex/Zuora__AccountOnDemandSync?Id={!Opportunity.AccountId}"/>
+</apex:page>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>Cancel_reschedule_reason__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The Cancel/reschedule reason field allows you to track the cancel/reschedule reason provided by the Customer when canceling or rescheduling an activity.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Cancellation or rescheduling reason provided by the Customer when canceling an activity.</inlineHelpText>
+        <label>Cancel/reschedule reason</label>
+        <required>false</required>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Event_status__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Event status</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Canceled (rescheduled by Customer)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Canceled (reschedule requested by Owner)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Canceled by Customer</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Canceled by Owner</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Completed</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No-show</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Rescheduled by Customer</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Rescheduled by Owner</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Scheduled</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+</CustomObject>

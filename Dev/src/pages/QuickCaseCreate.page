@@ -1,0 +1,7 @@
+<apex:page standardController="Contact" showHeader="false" >
+
+<flow:interview name="CreateCaseFromContact" finishLocation="{!URLFOR('/varNewCaseID')}">
+  <apex:param name="varContactCaseSafeID" value="{!Id}"/>
+
+    </flow:interview>
+</apex:page>

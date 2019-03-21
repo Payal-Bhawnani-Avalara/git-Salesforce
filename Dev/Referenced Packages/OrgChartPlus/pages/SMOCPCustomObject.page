@@ -1,0 +1,28 @@
+<apex:page controller="OrgChartPlus.SM_OCPCustomObject" extensions="OrgChartPlus.SM_OCPHelp" sidebar="false" tabStyle="SM_Config__tab">
+	<table style=" width:100%; padding:0;" cellspacing="0" cellpadding="0" border="0">
+		<tr>
+			<c:SMConfigBanner Selection="cust"/>
+			
+			<td style="padding:0 10px; vertical-align:top;'">
+				<apex:sectionHeader title="Add Custom Object" help="{!zipName}/OCPMainFrame.html"/>
+	
+				<apex:form >
+					<apex:pageBlock mode="detail" title="">
+						<apex:pageBlockButtons >
+							<apex:commandButton value="Save" action="{!addSelectedObject}" />
+							<input type="button" onclick="navigateToUrl('{!$Page.SMConfig}',null,'new');" class="btn" value="Cancel"/>
+						</apex:pageBlockButtons>
+						
+						<div>Select an object that will become the new chart master then click Save.</div>
+
+						<apex:pageMessages />
+						
+						<apex:selectList value="{!prefix}" multiselect="false" style="max-height:300px; margin-top:10px;">
+							<apex:selectOptions value="{!allObjects}" />
+						</apex:selectList>
+					</apex:pageBlock>
+				</apex:form>
+			</td>
+		</tr>
+	</table>
+</apex:page>

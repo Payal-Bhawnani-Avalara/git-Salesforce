@@ -1,0 +1,27 @@
+<!--
+    /******************************************************************************
+    *
+    *   Custom VisualForce Page for Training Attendee
+    *   Copyright 2006, 2007, 2008, 2009 (c) by SalesLogistix.com
+    *   All Rights Reserved, Modifications can only be made for your direct use and 
+    *   not for distribution without explicit permission from SalesLogistix.
+    *
+    ********************************************************************************/
+-->
+<apex:page StandardController="CLX__Training_Attendee__c" tabStyle="CLX__Training_Course__c" sidebar="true" standardStylesheets="true" showHeader="true" id="page">
+<apex:stylesheet value="{!URLFOR($Resource.CLX__VFResources, 'GeneralCss.css')}" />
+<style>
+.dim_a {width:300px; font-family: Verdana; font-size: 10px; font-weight: normal;}
+.tabletext {font-family: Verdana; font-size: 90%; font-weight: normal;}
+.activeTab {background-color: LightSlateGray; color:white; background-image:none}
+.inactiveTab { background-color: lightgrey; color:black; background-image:none}
+</style>
+
+
+<chatter:feedWithFollowers entityId="{!CLX__Training_Attendee__c.id}"/>
+
+<apex:form >
+<apex:detail relatedlist="false" inlineEdit="TRUE"/>
+</apex:form>
+
+</apex:page>

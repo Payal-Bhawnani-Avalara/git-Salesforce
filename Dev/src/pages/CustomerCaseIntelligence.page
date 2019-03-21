@@ -1,0 +1,79 @@
+<apex:page standardController="Case" >
+    <!--
+   /*
+    * first blue background-color: #CBEDF6
+    * avalara grey #eaeaea
+    * background-color: #eaeaea;
+    * 
+    */
+    -->
+    
+<table border="0" cellpadding="1" cellspacing="1" style="width: 100%; table-layout: auto;">
+    <tbody>
+        <tr>
+            <td valign="top">
+            <h2>Customer Alerts</h2>
+            <br />
+            <br />
+          
+             <apex:outputText value="{!Case.PGL_AgeStatus__c}"  
+                    style="
+                    {!IF((Case.PGL_AgeStatus__c='First Year Customer'),
+                        'background-color:#CBEDF6;',
+                        'background-color:#FFFFFF')
+                    }">
+                    <apex:param value="{!Case.PGL_AgeStatus__c}" />
+           </apex:outputText><br />
+          
+            {!Case.PGL_SupportLevel__c} <br />
+            
+            
+             <apex:outputText value="{!Case.CI_GLILookup__c}"  
+                    style="
+                    {!IF((Case.CI_GLILookup__c='In Go-Live'),
+                        'background-color:#CBEDF6;',
+                        'background-color:#FFFFFF')
+                    }">
+                    <apex:param value="{!Case.CI_GLILookup__c}" />
+            </apex:outputText><br />
+            
+                        
+            {!Case.Account_Support_Type__c} <br />
+                     
+            </td>
+            <td valign="top">
+            
+            <h2>Customer Activity</h2>
+            <br />
+            <br />
+            <apex:outputText value="{!FLOOR(Case.Open_Cases_on_Account__c)} Open Case(s)"  
+                    style="
+                    {!IF((FLOOR(Case.Open_Cases_on_Account__c)>1),
+                        'background-color:#CBEDF6;',
+                        'background-color:#FFFFFF')
+                    }">
+                    <apex:param value="{!FLOOR(Case.Open_Cases_on_Account__c)} Open Case(s)" />
+           </apex:outputText><br />
+
+            
+                        
+            </td> 
+            <td valign="top">
+            
+            <h3>Customer GoLive</h3>
+            <br />
+            <br />
+            Primary GL Status: {!Case.PGL_Status__c}<br />
+            Primary Connector: {!Case.PGL_ConnectorName__c}<br />
+            Service Type: {!Case.PGL_ProBasic__c} <br />
+            Path: {!Case.PGL_ImplementationPath__c} <br />
+            {!Case.PGL_ConsultantName__c}           
+           
+            </td>
+            
+        </tr>
+    </tbody>
+</table>
+  
+  
+</apex:page>

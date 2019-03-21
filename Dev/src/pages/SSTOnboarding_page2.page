@@ -1,0 +1,6 @@
+<apex:page showHeader="false">
+     <div style="text-align:center;">
+        <apex:image url="{!$Resource.avalaralogo}" style="max-wiidth:70px;max-height:70px;" />
+    </div>
+    <flow:interview name="SSTOnboarding" buttonStyle="color:#050; background-color:#fed; border:1px solid;"/>
+</apex:page>

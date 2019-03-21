@@ -1,0 +1,427 @@
+<apex:page standardController="Case" >
+
+    <script type="text/javascript">
+    var __sfdcSessionId = '{!GETSESSIONID()}';
+    </script>
+    <script src="../../soap/ajax/29.0/connection.js" type="text/javascript"></script>
+    <script src="../../soap/ajax/29.0/apex.js" type="text/javascript"></script>
+       
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        var MindTouch = {};
+        MindTouch.URL = "https://help.avalara.com";
+
+        // from salesforce environment
+        MindTouch.DEFAULT_SEARCH = '{!JSENCODE(Case.Subject)}';
+        
+        // remove punctuation
+        MindTouch.DEFAULT_SEARCH = MindTouch.DEFAULT_SEARCH.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()?]/g," ");
+        
+        MindTouch.TICKET_ID = '{!Case.CaseNumber}';
+        MindTouch.TICKET_TITLE = '{!JSENCODE(Case.Subject)}';
+        MindTouch.TICKET_BODY = '{!JSENCODE(Case.Description)}';
+        
+        MindTouch.DEFAULT_NEW_PATH = 'https://help.avalara.com/z_Avalara_Internal/02_Support_Internal_KBs/KB_Staging_Environment';        
+        MindTouch.DEFAULT_TEMPLATE = 'Avalara/KB_-_Complex_-_Title';
+        
+        MindTouch.WIDGET_NAME = 'servicecloud-case';        
+        
+        //console.log(window.setFocusOnLoad);
+        //console.log(document.setFocusOnLoad);
+        //console.log(setFocusOnLoad);
+        
+        //window.setFocusOnLoad = document.setFocusOnLoad = function(){ };
+     </script>
+
+    <!-- Mark up for the Form -->
+    <style type="text/css">
+        h2 {
+            display: block;
+        }
+    
+        .mt-widget input[type=text] {
+            width: 50%;
+            margin-bottom: .5em;
+        }
+        
+        #mt-solution-finder-button {
+            float: right;
+        }
+        .mt-widget .classifications {
+            margin: 5px 0px;
+            padding: 5px 0px;
+            border-top: 1px solid #999;
+            border-bottom: 1px solid #999;
+        }
+        
+        .classifications label {
+            display: inline-block;
+            margin-right: .5em;
+        }
+        
+        .mt-search-categories span {
+            padding: 2px 5px;
+            margin: 0 .5em .5em 0;
+            border: 1px solid #ccc;
+            display: inline-block;
+        }
+        
+        .mt-search-categories span.active {
+            background: #009900;
+            color: #fff;
+        }
+        
+        ul.mt-search-results {
+            list-style-type: none;
+            margin: 0px;
+            padding: 0px;
+           
+        }
+        .mt-search-results li {
+            padding: 5px 0px;
+            margin: 5px 0px;
+            border-bottom: 1px solid #ccc;
+        }
+        .mt-search-results .overview {
+            max-height: 50px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin: .5em 0;
+        }
+        
+        .mt-search-results a {
+            color: #30b3f6;
+            text-decoration: none;
+        }
+        
+        .mt-search-results a:hover {
+            color: #30b3f6;
+            text-decoration: underline;
+        }
+        
+        .overview.expanded {
+            max-height: 200px;
+            white-space: normal;
+            text-overflow: inherit;
+        }
+        
+        .mt-search-results .detail {
+            color: #cceecc;
+        }
+        button.mt-relate-case {
+            xfloat: right;
+        }
+        #mt-expand-search {
+            float: left;
+        }
+        #mt-create-article {
+            float: right;
+        }
+    </style>
+
+    <div class="mt-widget">
+        <form id="mt-search-form">
+            <input type="text" name="" id="mt-solution-finder-input" value="" placeholder="Enter your query here" data-skipFocus="true"></input>
+            <button type="submit" class="mt-button" id="mt-solution-finder-button">MindTouch Search</button>
+        </form>
+
+        <div class="mt-search-categories">
+        </div>
+
+        <div class="classifications">
+            <h2>Classifications</h2>
+        </div>
+
+        <ul class="mt-search-results">
+        </ul>
+
+        <div class="footer">
+            <input type="text" id="mt-create-article-title" placeholder="Article Title" value="{!HTMLENCODE(Case.Subject)}" data-skipFocus="true"></input>
+            <button class="mt-button" id="mt-create-article">
+                Create New Article
+            </button>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var geniusLink = {};
+
+        geniusLink.init = function() {
+
+            geniusLink.findCaseLinks();
+            geniusLink.findClassifications();
+
+            // default search on load
+            $('#mt-solution-finder-input').val(MindTouch.DEFAULT_SEARCH);
+            geniusLink.search();
+
+            // perform search on form submit
+            $('#mt-search-form').submit(function(event) {
+                event.preventDefault();
+                geniusLink.search();
+            });
+            
+            // expand search results
+            $('#mt-expand-search').click(function() {
+                $('.expanded-results').toggle();
+            });
+            
+            // create a new article if configured
+            if (!MindTouch.DEFAULT_NEW_PATH && !geniusLink.getKCSRole()) {
+                $('#mt-create-article').hide();
+            }
+            else {
+                $('#mt-create-article').click(function(){
+                    geniusLink.createArticle();
+                });
+            }
+            
+            if (!MindTouch.TICKET_ID) {
+                $('.footer').hide();
+            }
+        };
+        
+        geniusLink.search = function(query, constraint) {
+            var $results = $('.mt-search-results');
+            var $categories = $('.mt-search-categories');
+
+            var query = query || $('#mt-solution-finder-input').val();
+            query = $.trim(query);
+            if (!query) {
+                $results.text('Please enter a search');
+                return;
+            }
+             
+            // helper to construct result           
+            var buildResultItem = function(result) {
+                var $link = $('<a target="_blank"></a>').attr('href', result["uri"]).text(result.title);
+                var $button = $('<button class="mt-relate-case" title="Link to case">Link to case</button>');
+                $button.click(function() {
+                    geniusLink.relateCase(result, $(this));
+                });
+                var $overview = $('<div class="overview">').text(result["content"]);
+                $overview.click(function() {
+                    $(this).toggleClass('expanded');
+                });
+                                        
+                if (geniusLink.cases[result.id]) {
+                    $button = $('<span>Linked to case</span>');
+                }
+                
+                if (!MindTouch.TICKET_ID) {
+                   $button.hide();
+                }
+                
+                return $('<li></li>').append($link, $overview, $button);
+            };
+
+            if (query.match("^https?://")) {
+                // access API endpoint for this article directly            
+                var path = encodeURIComponent(encodeURIComponent(query.replace(MindTouch.URL, '')));
+                var url = MindTouch.URL + '/@api/deki/pages/=' + path + '?dream.out.format=jsonp&dream.out.pre=?';
+
+                $.ajax({
+                    url: url,
+                    dataType: 'jsonp',
+                    success: function(data) {
+                        $results.html('');
+                        $categories.html('');
+                        var page = data.page;
+                        if (!page) {
+                            $results.text("Page Not Found");
+                        }
+
+                        // make page look like a search result
+                        var $li = buildResultItem({
+                            uri: page["uri.ui"],
+                            title: page["title"],
+                            id: page["@id"],
+                            content: '',
+                            author: page["user.author"].username,
+                            "date.modified": page["date.modified"]
+                        });
+                        $results.append($li);
+                        console.log(data);
+                    }
+                });
+            }
+            else {
+
+                // prepare API request. Note: dream.out.pre is =? so it's a JSONP request
+                var url = MindTouch.URL + '/@api/deki/site/query?dream.out.format=jsonp&dream.out.pre=?';
+                
+                // escape special characters
+                searchquery = query.replace(/[[\]'":+\-&|!(){}\[\]^~*?]/g, "\\$&");
+                constraint = constraint || "+namespace:main +type:wiki";
+
+                // include classification filters, if any checked
+                var classifications = $('.classifications input:checked').map(function(){
+                    return 'tag:"' + this.value + '"';
+                }).get();
+                
+                if (classifications.length > 0){
+                    constraint += " AND (";
+                    constraint += classifications.join(" OR ");
+                    constraint += ")";
+                }
+
+                var params = {
+                    q: searchquery,
+                    limit: 10,
+                    sortby: "-date,-rank",
+                    constraint: constraint,
+                    format: "search",
+                    origin: MindTouch.WIDGET_NAME
+                };
+
+                $.ajax({
+                    url: url,
+                    data: params,
+                    dataType: 'jsonp',
+                    success: function(data) {
+                        if (!data.search || !data.search.result) {
+                            $results.text('No results found');
+                            return;
+                        }
+
+                        var results = data.search.result instanceof Array ? data.search.result : [data.search.result];                    
+                        var categories = {};
+                        $categories.html('');
+                        var $all = $('<span>All</span>').addClass('active').click(function(){
+                            $('.mt-search-categories span').removeClass('active');
+                            $('.mt-search-results li').show();
+                            $(this).addClass('active');
+                        });
+                        $categories.append($all);
+
+                        $results.html('');
+                        $.each(results, function(i, result) {
+                            var $li = buildResultItem(result);
+                            $results.append($li);
+                            
+                            // setup category filter
+                            // remove leading numbers, underscores to space
+                            var category = $.trim(result.page.path.split('/')[0].replace(/^[a-z0-9]+_/, '').replace(/_/g, ' '));
+                            category = category == "" ? "Home" : category;
+                                                    
+                            if (typeof(categories[category]) == "undefined"){    
+                                categories[category] = [];
+                                
+                                var $span = $('<span>' + category + '</span>');
+                                $span.click(function(){
+                                    // hide other results
+                                    $('.mt-search-categories span').removeClass('active');
+                                    $('.mt-search-results li').hide();
+                                    
+                                    // show mine
+                                    $(this).addClass('active');                               
+                                    $(categories[category]).each(function(){
+                                        $(this).show();
+                                    });
+                                    
+                                });
+                                
+                                $categories.append($span);
+                            }                        
+                            categories[category].push($li);
+                        });
+                    }
+                });
+            }
+        };
+                
+        geniusLink.findClassifications = function(){
+            var result = sforce.connection.query("SELECT Label__c, Tag__c FROM MindTouch_Classification_Manager__c");
+            var records = result.getArray('records');
+
+            for (var i = 0; i < records.length; i++){
+                var label = records[i].get("Label__c");
+                var tag = records[i].get("Tag__c");
+                $label = $('<label><input type="checkbox" value="' + tag + '"></input>' + label + '</label>');
+                $label.find('input').change(function(){geniusLink.search();});
+                $('.classifications').append($label);
+            }
+        };
+        
+        geniusLink.findCaseLinks = function(){
+            var caseId = "{!Case.Id}";
+            geniusLink.cases = {};
+            var result = sforce.connection.query("Select PageId__c FROM Article__c WHERE Id IN (SELECT Article__c FROM MindTouch_Use__c WHERE Case__c = '" + caseId + "')");
+            var records = result.getArray('records');
+            
+            for (var i = 0; i < records.length; i++){
+               var pageId = records[i].get("PageID__c");
+               geniusLink.cases[pageId] = true;
+            }            
+        };
+
+        geniusLink.relateCase = function(result, $button) {            
+            var caseId = "{!Case.Id}";
+            var articleId = null;
+            
+            // create article if doesn't exist in SF
+            console.log("looking up article");
+            var query = sforce.connection.query("SELECT Id FROM Article__c WHERE PageID__c = '" + result.id +"'");
+            if (!query.records){
+                var article = new sforce.SObject("Article__c");
+                article.PageID__c = result.id;
+                article.Title__c = result.title;
+                article.URL__c = result.uri;
+                article.Author_Username__c = result.author;
+                var resp = sforce.connection.create([article]);
+                articleId = resp[0].id;
+            }
+            else {
+                articleId = query.records.Id;
+            }
+                                    
+            // create KB link
+            var mtUse = new sforce.SObject("MindTouch_Use__c");
+            mtUse.Article__c = articleId;
+            mtUse.Case__c = caseId;
+            mtUse.Article_Version_Date__c = new Date(result["date.modified"]);
+            
+            var resp = sforce.connection.create([mtUse]);            
+            $button.replaceWith($('<span>Linked to case</span>'));
+        };
+
+        geniusLink.getKCSRole = function() {
+            var userId = sforce.connection.getUserInfo().userId;
+            var result = sforce.connection.query("SELECT KCS_Role__c FROM User WHERE Id = '" + userId + "'");
+            var records = result.getArray('records');
+            return records[0].KCS_Role__c;
+        };
+
+        geniusLink.createArticle = function() {
+            
+            // default path to create article
+            var path = MindTouch.DEFAULT_NEW_PATH + encodeURIComponent(MindTouch.TICKET_ID) + "?template=" + encodeURIComponent(MindTouch.DEFAULT_TEMPLATE);
+            var current_kcs_role = geniusLink.getKCSRole();
+            var title = $('#mt-create-article-title').val();
+
+            result = sforce.connection.query("SELECT KCS_Role__c, URI__c FROM MindTouch_Path_Manager__c");
+            records = result.getArray('records');
+            
+            for (var i = 0; i < records.length; i++){
+                var kcs_role = records[i].get("KCS_Role__c");
+                
+                var uri = records[i].get("URI__c");
+                // including trailing slash
+                uri = uri[uri.length - 1] == "/" ? uri : uri + "/";
+
+                if (current_kcs_role == kcs_role) {
+                    path = uri + encodeURIComponent(title) + "?template=" + encodeURIComponent(MindTouch.DEFAULT_TEMPLATE);
+                }
+            }
+                                  
+            window.open(path, "_blank");
+        };
+
+        $(function() {
+            geniusLink.init();
+        });
+    </script>
+   <br /><a href="https://help.avalara.com/Avalara_TrustFile/kb/Page_Title_2?action=edit&template=Avalara%2FKB_-_Avalara_TrustFile" target="_blank" title="">Create KBKCS-TF Articles</a><br /> <br />
+        
+</apex:page>

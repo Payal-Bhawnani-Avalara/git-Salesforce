@@ -1,0 +1,5 @@
+<apex:page controller="Sertifi2_0.GetLinkController"
+           action="{!redirectUser}"
+           lightningStylesheets="true">
+    <apex:pageMessages ></apex:pageMessages>
+</apex:page>

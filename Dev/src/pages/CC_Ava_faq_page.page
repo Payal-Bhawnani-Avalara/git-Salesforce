@@ -1,0 +1,415 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false">
+
+	
+<div class="content-container">
+	
+	<div class="breadcrumbs">
+		<span><a href="/">Store</a></span>
+		<span>></span>
+		<span>FAQ</span>
+	</div>
+	
+</div>
+
+<div class="span co-brand help">
+
+	<div class="confirm-container">
+	            <h2 class="confirm-title">FAQs - Frequently Asked Questions</h2>
+	            <p class="confirm-msg">Do you have a question on our products or process? Check the frequently asked questions below to see if your question has already been answered.</p>
+	</div>
+	
+	<span class="line"></span>
+	<div class="comp_faq order">
+
+		<div class="comp_faq">
+	        <div class="content-container">
+	            
+	           <span class="faq-title">Order FAQs</span>
+	            <a href="#" class="show-hide-all-expand show-all">Expand all</a>
+	            <span class="icon icon-plus"></span>
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">How do I get AvaTax for my BigCommerce store so I can purchase Avalara Returns? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>AvaTax is included with your BigCommerce Standard, Plus, or Pro plan. Your AvaTax account can be set up through the tax tab within your BigCommerce control panel.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">How do you determine how often my business must file? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>The state determines your filing frequency.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">What information do you need to file my returns? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>As a Returns customer, your tax liabilities are funded through an electronic withdrawal (ACH debit) from your bank account. Avalara initiates this withdrawal according to your Avalara funding power of attorney (POA) authorization.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">I’m doing business in a state with local tax jurisdictions, does Avalara file those returns also? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>Yes. We can file both your state and local sales tax returns.</p>
+	                </div>
+
+	            </div>
+	            
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">Is the cost per state or per sales tax form filed? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>Cost is per form filed; some states may require multiple forms. </p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">Can Avalara file my back taxes? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>Yes.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">Does Avalara charge me to file $0 tax returns? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>Yes.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">How do I do the filing and remittance? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>You must register with the Department of Revenue for each state or local jurisdiction. Then, log in to AvaTax to complete a filing calendar and power of attorney authorization.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">When do I have to start? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>You control when you start filing with Avalara Returns. Once you start, your returns will be filed following the filing frequency of the states you're registered in.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">Do I have to start with all returns? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>No, you can choose which states to use Avalara Returns for.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">What do I do if I have back taxes? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>Avalara Professional Services can provide help with registration and past liabilities. Give us a call!</p>
+	                </div>
+
+	            </div>
+
+	        </div>
+	    </div>
+
+	</div>
+	<div class="comp_faq avatax">
+	    <div class="comp_faq">
+	        <div class="content-container">
+	            
+	           <span class="faq-title">Avatax FAQs</span>
+	            <a href="#" class="show-hide-all-expand show-all">Expand all</a>
+	            <span class="icon icon-plus"></span>
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">How do I get AvaTax for my BigCommerce store so I can purchase Avalara Returns? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>AvaTax is included with your BigCommerce Standard, Plus, or Pro plan. Your AvaTax account can be set up through the tax tab within your BigCommerce control panel.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">How do you determine how often my business must file? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>The state determines your filing frequency.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">What information do you need to file my returns? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>As a Returns customer, your tax liabilities are funded through an electronic withdrawal (ACH debit) from your bank account. Avalara initiates this withdrawal according to your Avalara funding power of attorney (POA) authorization.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">I’m doing business in a state with local tax jurisdictions, does Avalara file those returns also? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>Yes. We can file both your state and local sales tax returns.</p>
+	                </div>
+
+	            </div>
+	            
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">Is the cost per state or per sales tax form filed? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>Cost is per form filed; some states may require multiple forms. </p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">Can Avalara file my back taxes? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>Yes.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">Does Avalara charge me to file $0 tax returns? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>Yes.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">How do I do the filing and remittance? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>You must register with the Department of Revenue for each state or local jurisdiction. Then, log in to AvaTax to complete a filing calendar and power of attorney authorization.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">When do I have to start? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>You control when you start filing with Avalara Returns. Once you start, your returns will be filed following the filing frequency of the states you're registered in.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">Do I have to start with all returns? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>No, you can choose which states to use Avalara Returns for.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">What do I do if I have back taxes? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>Avalara Professional Services can provide help with registration and past liabilities. Give us a call!</p>
+	                </div>
+
+	            </div>
+
+	        </div>
+	    </div>
+
+	</div>
+
+	<div class="comp_faq returns">
+	    <div class="comp_faq">
+	        <div class="content-container">
+	            
+	           <span class="faq-title">Avalara Returns FAQs</span>
+	            <a href="#" class="show-hide-all-expand show-all">Expand all</a>
+	            <span class="icon icon-plus"></span>
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">How do I get AvaTax for my BigCommerce store so I can purchase Avalara Returns? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>AvaTax is included with your BigCommerce Standard, Plus, or Pro plan. Your AvaTax account can be set up through the tax tab within your BigCommerce control panel.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">How do you determine how often my business must file? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>The state determines your filing frequency.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">What information do you need to file my returns? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>As a Returns customer, your tax liabilities are funded through an electronic withdrawal (ACH debit) from your bank account. Avalara initiates this withdrawal according to your Avalara funding power of attorney (POA) authorization.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">I’m doing business in a state with local tax jurisdictions, does Avalara file those returns also? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>Yes. We can file both your state and local sales tax returns.</p>
+	                </div>
+
+	            </div>
+	            
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">Is the cost per state or per sales tax form filed? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>Cost is per form filed; some states may require multiple forms. </p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">Can Avalara file my back taxes? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>Yes.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">Does Avalara charge me to file $0 tax returns? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>Yes.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">How do I do the filing and remittance? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>You must register with the Department of Revenue for each state or local jurisdiction. Then, log in to AvaTax to complete a filing calendar and power of attorney authorization.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">When do I have to start? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>You control when you start filing with Avalara Returns. Once you start, your returns will be filed following the filing frequency of the states you're registered in.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">Do I have to start with all returns? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>No, you can choose which states to use Avalara Returns for.</p>
+	                </div>
+
+	            </div>
+
+	            <div class="expand-container">
+	                
+	                <a href="#" class="expand"><p class="expand-title">What do I do if I have back taxes? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+	                <div class="expand-content" aria-hidden="true">
+	                    <p>Avalara Professional Services can provide help with registration and past liabilities. Give us a call!</p>
+	                </div>
+
+	            </div>
+
+	        </div>
+	    </div>
+
+	</div>
+
+	<div class="background-grey contact-container">
+		<h2 class="confirm-title">Still have questions? Call us! (877) 780-4848</h2>
+		<button>Contact us</button>
+	</div>
+</div>
+<script type="text/javascript">
+	jQuery(document).ready(function($){
+		$('body').on('click' , '.faq-title , .icon-plus' , function(){
+			$(this).siblings('.expand-container , .icon-plus , .show-all , .hide-all').toggle();
+		});
+
+		$('body').on('click' , '.icon-plus' , function(){
+			$(this).hide();
+		});
+
+		$('body').on('click' , '.contact-container button' , function(){
+			window.open(
+			  'https://www.avalara.com/store-bigcommerce-contact-us/',
+			  '_blank'
+			);
+		});
+		
+
+	});
+</script>
+
+
+</apex:page>

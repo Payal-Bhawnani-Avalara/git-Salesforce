@@ -1,0 +1,1086 @@
+<apex:page title="Product Selector"
+           showHeader="true"
+           sidebar="false"
+           tabStyle="zqu__Quote__c"
+           standardController="zqu__Quote__c"
+           extensions="ProductSelectorController">
+
+  <apex:includeScript value="{!$Resource.zqu__jquery_1_9_1}" />
+
+  <script>
+    var timesCalled = 0;
+
+    function setProducts(message){
+      if(timesCalled == 0){
+        timesCalled++;
+        return;
+      }
+      
+      //ensure the everything is done before trying to get the element values 
+      //that were set by the lookup component 
+      setTimeout(function(){
+        selectProduct();
+      }, 0);
+    }
+
+    var $jq = jQuery.noConflict();
+    $jq(document).ready(function(){
+
+      var element = $jq("[id$='targetNameDisplay']");
+      
+
+      window.addEventListener("message", setProducts.bind(this), false);
+
+      //capture the event when the lookup component changes the dom of the page
+      //onchange wouldn't work this is the only way i could find to make the lookup work
+      // window.addEventListener("message", 
+      //   selectProduct,
+      //   false);
+
+    });
+
+    //Listener method that runs selectProduct whenever page gets message
+
+
+    function selectPriceSchedule(){
+      var f = $jq("[id$='priceschedule']");
+      pickPriceSchedule( f.val() );
+    }
+
+
+    function selectProduct(){
+      //ensure the everything is done before trying to get the element values
+      //that were set by the lookup component
+      setTimeout(function(){
+        var e = $jq("[id$='targetId']");
+        var f = $jq("[id$='targetName']");
+        pickProduct( e.val(), f.val() );
+      }, 0);
+      //reset the service level
+      //it doesn't want to rerender
+      $jq("[id$='servicelevel']").find(":selected").removeAttr("selected");;
+      $jq("[id$='servicelevel']").find("option:first").attr("selected");
+      //make the price schedule happen at the same time as the service level
+      $jq("[id$='priceschedule']").find(":selected").removeAttr("selected");;
+      $jq("[id$='priceschedule']").find("option:first").attr("selected");
+      //make the connector happen at the same time as the service level
+      $jq("[id$='connector']").find(":selected").removeAttr("selected");;
+      $jq("[id$='connector']").find("option:first").attr("selected");
+      //make the connector happen at the same time as the service level
+      $jq("[id$='addonconnector']").find(":selected").removeAttr("selected");;
+      $jq("[id$='addonconnector']").find("option:first").attr("selected");
+    }
+
+    function selectPriceSchedule(){
+      var f = $jq("[id$='priceschedule']");
+      pickPriceSchedule( f.val() );
+    }
+
+    function selectConnector(){
+      var f = $jq("[id$='connector']");
+      pickConnector( f.val() );
+    }
+
+    function selectServiceLevel(){
+      var f = $jq("[id$='servicelevel']");
+      pickServiceLevel( f.val() );
+    }
+
+    function selectAddOnConnector(){
+      var f = $jq("[id$='addonconnector']");
+      pickAddOnConnector( f.val() );
+    }
+
+    function selectTransactionTier(){
+      var f = $jq("[id$='transactiontiers']");
+      pickTransactionTier( f.val() );
+    }
+
+  </script>
+
+  <!-- Message are out of the main panel to be rendered in any case -->
+  <zqu:Notification options="{!notificationOptions}" id="msg"/>
+
+  <!-- Modal message box component -->
+  <zqu:StatusModal />
+
+  <!-- PageMessages -->
+<!--   <apex:outputPanel id="msg">
+    <zqu:Notification />
+  </apex:outputPanel> -->
+
+  <!-- Main panel, only rendered if the initialization was successful -->
+  <apex:outputPanel rendered="{!initSuccess}">
+
+    <apex:form id="mainForm">
+
+      <apex:variable value="{!0}" var="chargesindex"/>
+
+      <apex:actionFunction name="pickCharge" 
+                           action="{!pickCharge}"
+                           rerender="mainForm, filters, priceschedule, servicelevel"
+                           immediate="true"
+                           status="createStatus">
+
+        <apex:param assignTo="{!selectedChargeProductId}" 
+                    value=""
+                    name="val" />
+
+        <apex:param assignTo="{!selectedTierChargeGroupId}" 
+                    value=""
+                    name="val2" />
+    
+      </apex:actionFunction>
+
+
+      <apex:actionFunction name="pickProduct" 
+                           action="{!pickProduct}"
+                           rerender="mainForm, filters, priceschedule, servicelevel"
+                           immediate="true"
+                           status="createStatus">
+
+        <apex:param assignTo="{!selectedProductId}" 
+                    value=""
+                    name="val" />
+
+        <apex:param assignTo="{!selectedProductName}" 
+                    value=""
+                    name="val2" />
+    
+      </apex:actionFunction>
+
+      <apex:actionFunction name="pickPriceSchedule" 
+                           action="{!pickPriceSchedule}"
+                           rerender="mainForm"
+                           immediate="true"
+                           status="createStatus">
+
+        <apex:param assignTo="{!selectedPriceSchedule}" 
+                    value=""
+                    name="val" />
+
+      </apex:actionFunction>
+
+
+      <apex:actionFunction name="pickConnector" 
+                           action="{!pickConnector}"
+                           rerender="mainForm"
+                           immediate="true"
+                           status="createStatus">
+
+        <apex:param assignTo="{!selectedConnector}" 
+                    value=""
+                    name="val" />
+
+      </apex:actionFunction>
+
+      <apex:actionFunction name="pickServiceLevel" 
+                           action="{!pickServiceLevel}"
+                           rerender="mainForm"
+                           immediate="true"
+                           status="createStatus">
+
+        <apex:param assignTo="{!selectedServiceLevel}" 
+                    value=""
+                    name="val" />
+    
+      </apex:actionFunction>
+
+      <apex:actionFunction name="pickAddOnConnector" 
+                           action="{!pickAddOnConnector}"
+                           rerender="mainForm"
+                           immediate="true"
+                           status="createStatus">
+
+        <apex:param assignTo="{!selectedAddOnConnector}" 
+                    value=""
+                    name="val" />
+    
+      </apex:actionFunction>
+
+      <apex:actionFunction name="pickTransactionTier" 
+                           action="{!pickPriceSchedule}"
+                           rerender="mainForm"
+                           immediate="true"
+                           status="createStatus">
+
+        <apex:param assignTo="{!selectedTransactionTier}" 
+                    value=""
+                    name="val" />
+
+      </apex:actionFunction>
+      
+      <apex:sectionHeader title="Product Selector"/>
+      
+      <apex:pageBlock >
+        <!-- select products section -->
+        <apex:pageBlockSection title="Select Product"
+                               columns="1"
+                               collapsible="false">
+
+          <zqu:LookupComponent options="{!optionsForProductLookup}"/>
+
+        </apex:pageBlockSection>
+        <!-- select connector / price book -->
+        <apex:pageBlockSection title="Filters"
+                               columns="1"
+                               collapsible="false"
+                               rendered="{!productSelected}"
+                               id="filters">
+          <!-- connector drop down --> 
+          <apex:pageBlockSectionItem rendered="{!showConnectors}">
+            
+            <apex:outputLabel value="Connector"/>
+
+            <apex:selectList value="{!pickedConnector}" 
+                             size="1" 
+                             required="false"
+                             onchange="javascript:selectConnector();"
+                             id="connector">
+
+              <apex:selectOptions value="{!availableConnectorValues}"/>
+
+            </apex:selectList>
+
+          </apex:pageBlockSectionItem>
+          <!-- price schedule drop down --> 
+          <apex:pageBlockSectionItem rendered="{!showPriceSchedules}">
+            
+            <apex:outputLabel value="Price Schedule"/>
+
+            <apex:selectList value="{!pickedPriceSchedule}" 
+                             size="1" 
+                             required="false"
+                             onchange="javascript:selectPriceSchedule();"
+                             id="priceschedule">
+
+              <apex:selectOptions value="{!priceScheduleValues}"/>
+
+            </apex:selectList>
+
+          </apex:pageBlockSectionItem>
+          <!-- service level drop down --> 
+          <apex:pageBlockSectionItem rendered="{!showServiceLevel}">
+            
+            <apex:outputLabel value="Service Level"/>
+
+            <apex:selectList value="{!pickedServiceLevel}" 
+                             size="1" 
+                             required="false"
+                             onchange="javascript:selectServiceLevel();"
+                             id="servicelevel">
+
+              <apex:selectOptions value="{!serviceLevelValues}"/>
+
+            </apex:selectList>
+
+          </apex:pageBlockSectionItem>
+          <!-- service level drop down --> 
+          <apex:pageBlockSectionItem >
+            
+            <apex:outputLabel value="Add On Connector"/>
+
+            <apex:selectList value="{!pickedAddOnConnector}" 
+                             size="1" 
+                             required="false"
+                             onchange="javascript:selectAddOnConnector();"
+                             id="addonconnector">
+
+              <apex:selectOptions value="{!addOnConnectorValues}"/>
+
+            </apex:selectList>
+
+          </apex:pageBlockSectionItem>
+          
+          <!-- transaction tier drop down --> 
+          <apex:pageBlockSectionItem >
+            
+            <apex:outputLabel value="Transaction Tier"/>
+
+            <apex:selectList value="{!pickedTransactionTier}" 
+                             size="1" 
+                             required="false"
+                             onchange="javascript:selectTransactionTier();"
+                             id="transactiontiers">
+
+              <apex:selectOptions value="{!transactionTierValues}"/>
+
+            </apex:selectList>
+
+          </apex:pageBlockSectionItem>
+
+        </apex:pageBlockSection>
+
+        <!-- rate plan table -->
+        <apex:pageBlockSection title="Select Product Rate Plan(s):"
+                               columns="1"
+                               collapsible="true"
+                               rendered="{!showRatePlans}">
+
+          <apex:outputPanel >
+
+            <apex:actionRegion >
+
+              <table style="width: 100%; padding: .5em 0em;">
+
+                <tr>
+                   <td style="text-align: right;">
+
+                    <apex:actionRegion >
+
+                      <apex:inputText value="{!productRatePlanSearchText}" />
+
+                      <apex:actionStatus id="stsSearch">
+
+                        <apex:facet name="start">
+
+                          <apex:commandButton value="Working..."
+                                              disabled="true" />
+
+                        </apex:facet>
+
+                        <apex:facet name="stop">
+
+                          <apex:outputPanel >
+
+                            <apex:commandButton value="search"
+                                                action="{!doSearch}"
+                                                rerender="msg, mainForm"
+                                                status="stsSearch" />
+
+                            <apex:commandButton value="clear"
+                                                action="{!doClearSearch}"
+                                                rerender="msg, mainForm"
+                                                status="stsSearch" />
+
+                          </apex:outputPanel>
+
+                        </apex:facet>
+
+                      </apex:actionStatus>
+
+                    </apex:actionRegion>
+
+                  </td>
+
+                </tr>
+
+              </table>
+
+              <apex:pageBlockTable value="{!productRatePlanSetRecords}"
+                                   var="rateplan"
+                                   rows="{!productRatePlanSetPageSize}">
+
+                <apex:column headerValue="" 
+                             width="3%">
+
+                  <apex:inputCheckbox value="{!selectedproductRatePlanMap[rateplan.Id]}">
+
+                    <apex:actionSupport event="onclick"
+                                        action="{!pickRatePlan}"
+                                        rerender="msg, mainForm"
+                                        status="createStatus">
+
+                      <apex:param value="{!rateplan.Id}"
+                                  name="subscriber"
+                                  assignTo="{!selectedproductRatePlan}" />
+
+                    </apex:actionSupport>
+
+                  </apex:inputCheckbox>
+
+                </apex:column>
+
+                <apex:column value="{!rateplan.Name}" 
+                             width="9%" />
+
+                <!-- remove me, for testing -->             
+                <apex:column value="{!rateplan.PriceSchedule__c}" 
+                             width="9%" />
+                <apex:column value="{!rateplan.TransactionTier__c}" 
+                             width="9%" />
+                <apex:column value="{!rateplan.ServiceLevel__c}" 
+                             width="9%" />
+                <apex:column value="{!rateplan.AddOnConnector__c}" 
+                             width="9%" />
+                                                                                                                
+              </apex:pageBlockTable>
+
+              <!-- The section info and previous/next button -->
+              <table style="width: 100%; padding: .5em 0em;">
+                <tr>
+                  <td style="text-align: left; width: 33%;">
+                    Total record(s) displayed: <strong>{!productRatePlanSetResultSize}</strong>
+                  </td>
+                  <td style="text-align: center; width: 33%;">
+                    Page <strong>{!productRatePlanSetPageNumber}</strong> of <strong>{!productRatePlanSetMaxPage}</strong>
+                  </td>
+                  <td style="text-align: right;">
+
+                    <!-- Previous action -->
+                    <apex:commandLink rendered="{!productRatePlanSetHasPrevious}"
+                                      action="{!previous}"
+                                      reRender="msg, mainForm">
+
+                      <apex:image value="{!$Resource.zqu__back_enabled}" />
+
+                    </apex:commandLink>
+
+                    <apex:image value="{!$Resource.zqu__back_disabled}" 
+                                rendered="{!!productRatePlanSetHasPrevious}"/>
+
+                    <!-- Next action -->
+                    <apex:commandLink rendered="{!productRatePlanSetHasNext}"
+                                      action="{!next}"
+                                      reRender="msg, mainForm">
+
+                      <apex:image value="{!$Resource.zqu__forward_enabled}" />
+
+                    </apex:commandLink>
+
+                    <apex:image value="{!$Resource.zqu__forward_disabled}" 
+                                rendered="{!!productRatePlanSetHasNext}"/>
+
+                  </td>
+                </tr>
+              </table>
+
+            </apex:actionRegion>
+
+          </apex:outputPanel>
+
+        </apex:pageBlockSection>
+        <!-- show the charges section -->
+        
+
+        <apex:pageBlockSection title="Edit Charges" 
+                               rendered="{!productRatePlanSelected}"
+                               id="editchargesection">
+
+          <apex:repeat value="{!cghList}" 
+                       var="cgh"
+                       id="rpcrepeat">
+
+            <tr>
+              <td>
+                <b>{!cgh.chargeGroup.productName}&nbsp;:&nbsp;{!cgh.chargeGroup.ratePlanName}</b>
+              </td>
+            </tr>
+
+            <apex:pageBlockTable value="{!cgh.allCharges }"
+                                 var="charge"
+                                 id="charges">
+              <!-- column rendered with a checkbox to be clicked to show the tiers -->
+              <apex:column headerValue="Charge Name" 
+                           
+                           width="10%">
+
+                <apex:facet name="header">Charge Name</apex:facet>
+                
+                <apex:outputPanel >
+                  
+                  <!-- <apex:inputCheckbox rendered="{!charge.MODEL == 'Tiered Pricing' || charge.MODEL == 'Tiered with Overage Pricing' || charge.MODEL == 'Volume Pricing'}" > -->
+                  <apex:inputCheckbox rendered="false" >
+
+                    <apex:actionSupport event="onchange"
+                                        status="addingChargesStatus"
+                                        reRender="mainForm"
+                                        action="{!pickCharge}" >
+
+                      <apex:param value="{!cgh.Id}"
+                                  name="tierGroupId"
+                                  assignTo="{!selectedTierChargeGroupId}" />
+
+                      <apex:param value="{!charge.PRODUCT_RATE_PLAN_CHARGE_SFDC_ID}"
+                                  name="tierGroupProductId"
+                                  assignTo="{!selectedChargeProductId}" />
+
+                    </apex:actionSupport>
+
+                  </apex:inputCheckbox>
+
+                  <apex:outputLabel value="{!charge.NAME}"/> 
+
+                </apex:outputPanel>
+             
+              </apex:column>
+
+              <apex:column headerValue="Type" 
+                           value="{!charge.CHARGE_TYPE}" 
+                           width="10%"/>
+
+              <apex:column headerValue="Model" 
+                           value="{!charge.MODEL}" 
+                           width="10%"/>
+
+              <apex:column headerValue="List Price" 
+                           value="{!charge.LIST_PRICE}" 
+                           width="10%"/>
+
+              <!-- Discount column, only display the '%' character if it's a number -->
+              <apex:column headerValue="Discount" 
+                           width="10%">
+                  
+                  <apex:inputText style="width:65%;font-weight:bold;"
+                                  id="discount"
+                                  value="{!charge.DISCOUNT}"
+                                  rendered="{!charge.isDiscountEditable}">
+
+                    <apex:actionSupport event="onchange"
+                                        status="addingChargesStatus"
+                                        focus="{!$Component.discount}"
+                                        reRender="editchargesection"
+                                        action="{!discountChange}" >
+
+                      <apex:param value="{!cgh.Id}"
+                                  name="subscriber"
+                                  assignTo="{!selectedChargeGroupId}" />
+
+                    </apex:actionSupport>
+
+                  </apex:inputText>
+                  
+                  <apex:outputText value="{!charge.DISCOUNT}" 
+                                   rendered="{!!charge.isDiscountEditable}" />
+                  
+                  <apex:outputText value=" %" 
+                                   rendered="{!ISNUMBER(charge.DISCOUNT)}" />
+              
+              </apex:column>
+
+              <!-- Effective price, only editable based on a boolean custom field? -->
+              <apex:column headerValue="Effective Price" 
+                           width="10%">
+                  
+                  <apex:inputText style="width:85%;font-weight:bold"
+                                  id="effectivePrice"
+                                  value="{!charge.EFFECTIVE_PRICE}"
+                                  rendered="{!charge.isEffectivePriceEditable}">
+                  
+                      <apex:actionSupport event="onchange"
+                                          status="addingChargesStatus"
+                                          focus="{!$Component.effectivePrice}"
+                                          reRender="editchargesection" 
+                                          action="{!effectivePriceChange}">
+
+                        <apex:param value="{!cgh.Id}"
+                                    name="subscriber"
+                                    assignTo="{!selectedChargeGroupId}" />
+
+                      </apex:actionSupport>
+                  
+                  </apex:inputText>
+                  
+                  <apex:outputText value="{!charge.EFFECTIVE_PRICE}"
+                                      rendered="{!!charge.isEffectivePriceEditable}" />
+                  
+              </apex:column>
+
+              <!-- Quantity column, editable only if the charge is per unit, etc. -->
+              <apex:column headerValue="Quantity" 
+                           width="10%">
+                  
+                  <apex:inputText style="width:85%;font-weight:bold"
+                                  value="{!charge.QUANTITY}"
+                                  id="quantity"
+                                  rendered="{!charge.isQuantityEditable}">
+                  
+                      <apex:actionSupport event="onchange"
+                                          status="addingChargesStatus"
+                                          focus="{!$Component.quantity}"
+                                          reRender="editchargesection"
+                                          action="{!quantityChange}" >
+
+                        <apex:param value="{!cgh.Id}"
+                                    name="subscriber"
+                                    assignTo="{!selectedChargeGroupId}" />
+
+                      </apex:actionSupport>
+                  
+                  </apex:inputText>
+                  
+                  <apex:outputText value="{!charge.QUANTITY}"
+                                   rendered="{!!charge.isQuantityEditable}" />
+                  
+              </apex:column>
+
+              <apex:column headerValue="UOM" 
+                           value="{!charge.UNIT_OF_MEASURE}" 
+                           width="10%"/>
+
+              <apex:column headerValue="Period" 
+                           value="{!charge.PERIOD}" 
+                           width="10%"/>
+
+
+              <apex:column headerValue="Total" 
+                           value="{!charge.TOTAL}" 
+                           width="10%"/>
+
+              <!-- column for the tier, break before puts it on a new row -->
+              <apex:column colspan="1" 
+                           breakBefore="true"
+                           rendered="{!charge.chargeObject['TiersEdited__c'] == 'True'}">
+
+              </apex:column>
+
+              <!-- tiers column -->
+              <apex:column colspan="8"
+                           rendered="{!charge.chargeObject['TiersEdited__c'] == 'True'}">
+                <!-- add wrapper for zCharge or add custom field to the quote charge -->
+                <apex:pageBlockTable value="{!charge.chargeTiersObjects}" 
+                                     var="tier">
+                
+                  <apex:column headerValue="Tier #"
+                               value="{!tier.zqu__Tier__c}"
+                               width="5.5%">
+
+                  </apex:column>
+
+                  <apex:column headerValue="From"
+                               width="5.5%">
+                    
+                    <apex:outputText value="{0, number,###,###,##0.00}">
+
+                      <apex:param value="{!tier.zqu__StartingUnit__c}"/>
+
+                    </apex:outputText>
+
+                  </apex:column>
+
+                  <apex:column headerValue="To"
+                               width="12.5%">
+
+                    <apex:inputField value="{!tier.zqu__EndingUnit__c}"
+                                     style="width:90%;">
+
+                        <apex:actionSupport event="onchange"
+                                            status="createStatus"
+                                            reRender="mainForm, editchargesection"
+                                            action="{!changeTierEndingUnit}" >
+
+                          <apex:param value="{!cgh.Id}"
+                                      name="tierGroupId"
+                                      assignTo="{!selectedTierChargeGroupId}" />
+
+                          <apex:param value="{!charge.PRODUCT_RATE_PLAN_CHARGE_SFDC_ID}"
+                                      name="tierGroupProductId"
+                                      assignTo="{!selectedChargeProductId}" />
+
+                          <apex:param value="{!tier.zqu__Tier__c}"
+                                      name="tierNumber"
+                                      assignTo="{!selectedTier}" />
+
+                        </apex:actionSupport>
+
+                    </apex:inputField>
+
+                  </apex:column>
+
+                  <apex:column headerValue="List Price"
+                               width="5.5%">
+
+                    <apex:outputText value="{0, number,###,###,##0.00}">
+
+                      <apex:param value="{!tier.zqu__Price__c}"/>
+
+                    </apex:outputText>
+
+                  </apex:column>
+
+                  <apex:column headerValue="Discount %"
+                               width="5.5%">
+
+                    <apex:inputField value="{!tier.zqu__Discount__c}"
+                                     style="width:50%;">
+
+                      <apex:actionSupport event="onchange"
+                                          status="createStatus"
+                                          reRender="mainForm, editchargesection"
+                                          action="{!changeTierDiscount}">
+
+                        <apex:param value="{!cgh.Id}"
+                                    name="tierGroupId"
+                                    assignTo="{!selectedTierChargeGroupId}" />
+
+                        <apex:param value="{!charge.PRODUCT_RATE_PLAN_CHARGE_SFDC_ID}"
+                                    name="tierGroupProductId"
+                                    assignTo="{!selectedChargeProductId}" />
+
+                        <apex:param value="{!tier.zqu__Tier__c}"
+                                    name="tierNumber"
+                                    assignTo="{!selectedTier}" />
+
+                      </apex:actionSupport>
+
+                    </apex:inputField>
+
+                  </apex:column>
+
+                  <apex:column headerValue="Effective Price"
+                               width="12.5%">
+
+                    <apex:inputField value="{!tier.zqu__Effective_Price__c}"
+                                     style="width:95%;">
+                    
+                      <apex:actionSupport event="onchange"
+                                          status="createStatus"
+                                          reRender="mainForm, editchargesection"
+                                          action="{!changeTierEffectivePrice}" >
+
+                        <apex:param value="{!cgh.Id}"
+                                    name="tierGroupId"
+                                    assignTo="{!selectedTierChargeGroupId}" />
+
+                        <apex:param value="{!charge.PRODUCT_RATE_PLAN_CHARGE_SFDC_ID}"
+                                    name="tierGroupProductId"
+                                    assignTo="{!selectedChargeProductId}" />
+
+                        <apex:param value="{!tier.zqu__Tier__c}"
+                                    name="tierNumber"
+                                    assignTo="{!selectedTier}" />
+
+                      </apex:actionSupport>
+
+                    </apex:inputField>
+
+                  </apex:column>
+
+                  <apex:column headerValue="Price Format"
+                               width="12.5%">
+
+                    <apex:selectList value="{!tier.zqu__PriceFormat__c}" 
+                                     multiselect="false"
+                                     size="1">
+
+                      <apex:selectOptions value="{!tierPriceFormats}"/>
+
+                      <apex:actionSupport event="onchange"
+                                          status="createStatus"
+                                          reRender="mainForm, editchargesection"
+                                          action="{!changeTierPriceFormat}" >
+
+                        <apex:param value="{!cgh.Id}"
+                                    name="tierGroupId"
+                                    assignTo="{!selectedTierChargeGroupId}" />
+
+                        <apex:param value="{!charge.PRODUCT_RATE_PLAN_CHARGE_SFDC_ID}"
+                                    name="tierGroupProductId"
+                                    assignTo="{!selectedChargeProductId}" />
+
+                      </apex:actionSupport>
+
+                    </apex:selectList>
+
+                  </apex:column>
+
+                  <apex:column headerValue=""
+                               width="12.5%">
+
+                    <apex:outputPanel >
+
+                      <apex:commandLink value="Remove"
+                                        rendered="{!tier.zqu__Tier__c != 1}"
+                                        style="float:right;"
+                                        styleClass="btn"
+                                        action="{!removeTier}"
+                                        rerender="mainForm, editchargessection">
+
+                        <apex:param value="{!cgh.Id}"
+                                    name="tierGroupId"
+                                    assignTo="{!selectedTierChargeGroupId}" />
+
+                        <apex:param value="{!charge.PRODUCT_RATE_PLAN_CHARGE_SFDC_ID}"
+                                    name="tierGroupProductId"
+                                    assignTo="{!selectedChargeProductId}" />
+
+                        <apex:param value="{!tier.zqu__Tier__c}"
+                                    name="tierNumber"
+                                    assignTo="{!selectedTier}" />
+
+                      </apex:commandLink>
+
+                      <apex:commandLink value="Add"
+                                        rendered="{!charge.chargeTiersObjects.size == tier.zqu__Tier__c}"
+                                        style="float:right;"
+                                        action="{!addTier}"
+                                        rerender="mainForm, editchargesection"
+                                        styleClass="btn">
+
+                        <apex:param value="{!cgh.Id}"
+                                    name="tierGroupId"
+                                    assignTo="{!selectedTierChargeGroupId}" />
+
+                        <apex:param value="{!charge.PRODUCT_RATE_PLAN_CHARGE_SFDC_ID}"
+                                    name="tierGroupProductId"
+                                    assignTo="{!selectedChargeProductId}" />
+
+                        <apex:param value="{!tier.zqu__Tier__c}"
+                                    name="tierNumber"
+                                    assignTo="{!selectedTier}" />
+
+                      </apex:commandLink>
+                      
+                    </apex:outputPanel>
+
+                  </apex:column>
+
+                </apex:pageBlockTable>
+                
+              </apex:column>
+
+<!--               <apex:column rendered="{!charge.chargeObject['TiersEdited__c'] == 'True'}">
+                
+                <apex:commandButton value="Save"/>
+
+              </apex:column> -->
+              <!-- end tiers column -->
+              
+            </apex:pageBlockTable>
+          
+          </apex:repeat>
+          
+        </apex:pageBlockSection>
+        
+        <!-- 
+              show the existing charges section 
+        -->
+        <apex:pageBlockSection title="Existing Charges" 
+                               rendered="{!showExistingCharges}"
+                               id="existingChargeSection">
+
+          <apex:repeat value="{!existingChargeGroupHolders}" 
+                       var="cgh"
+                       id="rpcrepeat">
+            <tr>
+              <td>
+                <b style="{!IF((cgh.chargeGroup.groupType == 6 || cgh.chargeGroup.groupType == 10), 'text-decoration:line-through;', null)}" >
+                  {!cgh.chargeGroup.productName}&nbsp;:&nbsp;{!cgh.chargeGroup.ratePlanName}
+                </b>
+
+                  <!-- delete a charge group -->
+                  <apex:outputPanel style="float:right"
+                                    rendered="{!(cgh.chargeGroup.zCharges[0].chargeObject['Display__c'] == 'True' || cgh.display == 'True') && cgh.chargeGroup.groupType != 6 && cgh.chargeGroup.groupType != 10}">
+                    Click to delete
+                    <apex:inputCheckBox id="deleteme">
+                  
+                      <apex:actionSupport event="onclick"
+                                          action="{!removeChargeGroup}" 
+                                          reRender="existingChargeSection, msg"
+                                          status="createStatus">
+
+                        <apex:param value="{!cgh.Id}"
+                                    name="subscriber"
+                                    assignTo="{!selectedChargeGroupId}" />
+
+                      </apex:actionSupport>
+                  
+                    </apex:inputCheckBox>
+
+                  </apex:outputPanel>
+                  <!-- Undelete a charge group -->
+                  <apex:outputPanel style="float:right"
+                                    rendered="{!(cgh.chargeGroup.zCharges[0].chargeObject['Display__c'] == 'True' || cgh.display == 'True') && (cgh.chargeGroup.groupType == 6 || cgh.chargeGroup.groupType == 10)}">
+                    Click to undelete
+                    <apex:inputCheckBox id="undeleteme">
+                  
+                      <apex:actionSupport event="onclick"
+                                          action="{!removeChargeGroup}" 
+                                          reRender="existingChargeSection, msg"
+                                          status="createStatus">
+
+                        <apex:param value="{!cgh.Id}"
+                                    name="subscriber"
+                                    assignTo="{!selectedChargeGroupId}" />
+
+                      </apex:actionSupport>
+                  
+                    </apex:inputCheckBox>
+
+                  </apex:outputPanel>
+                  <!--render text if not group 6-->
+                  <apex:outputPanel style="float:right"
+                                    rendered="{!(cgh.chargeGroup.zCharges[0].chargeObject['Display__c'] == 'False' || cgh.display == 'False') && cgh.chargeGroup.groupType != 6 && cgh.chargeGroup.groupType != 10}">
+                    Delete related plan to remove
+                  </apex:outputPanel>
+                  <!--render text if group 6-->
+                  <apex:outputPanel style="float:right"
+                                    rendered="{!(cgh.chargeGroup.zCharges[0].chargeObject['Display__c'] == 'False' || cgh.display == 'False') && (cgh.chargeGroup.groupType == 6 || cgh.chargeGroup.groupType == 10)}">
+                    Undelete related plan to add back
+
+                  </apex:outputPanel>
+
+              </td>
+            </tr>
+
+            <apex:pageBlockTable value="{!cgh.allCharges}"
+                                 var="charge"
+                                 id="charges">
+              
+              <apex:column headerValue="Charge Name" 
+                           value="{!charge.NAME}" 
+                           width="10%"
+                           style="{!IF((cgh.chargeGroup.groupType == 6 || cgh.chargeGroup.groupType == 10), 'text-decoration:line-through;', null)}"/>
+
+              <apex:column headerValue="Type" 
+                           value="{!charge.CHARGE_TYPE}" 
+                           width="10%"
+                           style="{!IF((cgh.chargeGroup.groupType == 6 || cgh.chargeGroup.groupType == 10), 'text-decoration:line-through;', null)}"/>
+
+              <apex:column headerValue="Model" 
+                           value="{!charge.MODEL}" 
+                           width="10%"
+                           style="{!IF((cgh.chargeGroup.groupType == 6 || cgh.chargeGroup.groupType == 10), 'text-decoration:line-through;', null)}"/>
+
+              <apex:column headerValue="List Price" 
+                           value="{!charge.LIST_PRICE}" 
+                           width="10%"
+                           style="{!IF((cgh.chargeGroup.groupType == 6 || cgh.chargeGroup.groupType == 10), 'text-decoration:line-through;', null)}"/>
+
+              <!-- Discount column, only display the '%' character if it's a number -->
+              <apex:column headerValue="Discount" 
+                           width="10%"
+                           style="{!IF((cgh.chargeGroup.groupType == 6 || cgh.chargeGroup.groupType == 10), 'text-decoration:line-through;', null)}">
+                  
+                  <apex:inputText style="width:65%;font-weight:bold;"
+                                  id="discount"
+                                  value="{!charge.DISCOUNT}"
+                                  rendered="{!charge.isDiscountEditable && cgh.chargeGroup.groupType != 6 && cgh.chargeGroup.groupType != 10}">
+
+                    <apex:actionSupport event="onchange"
+                                        status="addingChargesStatus"
+                                        focus="{!$Component.discount}"
+                                        reRender="existingChargeSection"
+                                        action="{!discountChange}" >
+
+                      <apex:param value="{!cgh.Id}"
+                                  name="subscriber"
+                                  assignTo="{!selectedChargeGroupId}" />
+
+                    </apex:actionSupport>
+
+                  </apex:inputText>
+                  
+                  <apex:outputText value="{!charge.DISCOUNT}" 
+                                   rendered="{!!charge.isDiscountEditable && (cgh.chargeGroup.groupType == 6 || cgh.chargeGroup.groupType == 10)}" />
+                  
+                  <apex:outputText value=" %" 
+                                   rendered="{!ISNUMBER(charge.DISCOUNT) && charge.isDiscountEditable && cgh.chargeGroup.groupType != 6 && cgh.chargeGroup.groupType != 10}" />
+              
+              </apex:column>
+
+              <!-- Effective price, only editable based on a boolean custom field? -->
+              <apex:column headerValue="Effective Price" 
+                           width="10%"
+                           style="{!IF((cgh.chargeGroup.groupType == 6 || cgh.chargeGroup.groupType == 10), 'text-decoration:line-through;', null)}">
+                  
+                  <apex:inputText style="width:85%;font-weight:bold"
+                                  id="effectivePrice"
+                                  value="{!charge.EFFECTIVE_PRICE}"
+                                  rendered="{!charge.isEffectivePriceEditable && cgh.chargeGroup.groupType != 6 && cgh.chargeGroup.groupType != 10}">
+                  
+                      <apex:actionSupport event="onchange"
+                                          status="addingChargesStatus"
+                                          focus="{!$Component.effectivePrice}"
+                                          reRender="existingChargeSection" 
+                                          action="{!effectivePriceChange}">
+
+                        <apex:param value="{!cgh.Id}"
+                                    name="subscriber"
+                                    assignTo="{!selectedChargeGroupId}" />
+
+                      </apex:actionSupport>
+                  
+                  </apex:inputText>
+                  
+                  <apex:outputText value="{!charge.EFFECTIVE_PRICE}"
+                                      rendered="{!!charge.isEffectivePriceEditable && (cgh.chargeGroup.groupType == 6 || cgh.chargeGroup.groupType == 10)}" />
+                  
+              </apex:column>
+
+              <!-- Quantity column, editable only if the charge is per unit, etc. -->
+              <apex:column headerValue="Quantity" 
+                           width="10%"
+                           style="{!IF(cgh.chargeGroup.groupType == 6, 'text-decoration:line-through;', null)}">
+                  
+                  <apex:inputText style="width:85%;font-weight:bold"
+                                  value="{!charge.QUANTITY}"
+                                  id="quantity"
+                                  rendered="{!charge.isQuantityEditable && cgh.chargeGroup.groupType != 6 && cgh.chargeGroup.groupType != 10}">
+                  
+                      <apex:actionSupport event="onchange"
+                                          status="addingChargesStatus"
+                                          focus="{!$Component.quantity}"
+                                          reRender="existingChargeSection"
+                                          action="{!quantityChange}" >
+
+                        <apex:param value="{!cgh.Id}"
+                                    name="subscriber"
+                                    assignTo="{!selectedChargeGroupId}" />
+
+                      </apex:actionSupport>
+                  
+                  </apex:inputText>
+                  
+                  <apex:outputText value="{!charge.QUANTITY}"
+                                   rendered="{!!charge.isQuantityEditable && (cgh.chargeGroup.groupType == 6 || cgh.chargeGroup.groupType == 10)}" />
+                  
+              </apex:column>
+
+              <apex:column headerValue="UOM" 
+                           value="{!charge.UNIT_OF_MEASURE}" 
+                           width="10%"
+                           style="{!IF((cgh.chargeGroup.groupType == 6 || cgh.chargeGroup.groupType == 10), 'text-decoration:line-through;', null)}"/>
+
+              <apex:column headerValue="Period" 
+                           value="{!charge.PERIOD}" 
+                           width="10%"
+                           style="{!IF((cgh.chargeGroup.groupType == 6 || cgh.chargeGroup.groupType == 10), 'text-decoration:line-through;', null)}"/>
+
+              <apex:column headerValue="Total" 
+                           value="{!charge.TOTAL}" 
+                           width="10%"
+                           style="{!IF((cgh.chargeGroup.groupType == 6 || cgh.chargeGroup.groupType == 10), 'text-decoration:line-through;', null)}"/>            
+            </apex:pageBlockTable>
+
+          </apex:repeat>
+          
+        </apex:pageBlockSection>
+
+        <!-- modal for the action status -->
+        <apex:actionStatus id="createStatus"
+                           onstart="displayStatusModal();"
+                           onstop="closeStatusModal();">
+        </apex:actionStatus>
+        <!-- Button(s) section -->
+        <apex:pageBlockButtons location="bottom">
+
+          <apex:commandButton value="Add New Charge"
+                              action="{!saveAndNew}"
+                              status="createStatus"
+                              rendered="{!productRatePlanSelected}"/>
+
+          <apex:commandButton value="Validate"
+                              action="{!validateQuote}"
+                              status="createStatus"
+                              rerender="msg, mainForm" 
+                              rendered="{!productRatePlanSelected || showExistingCharges}"/>
+
+          <apex:commandButton value="Validate and Save"
+                              action="{!validateAndSaveQuote}"
+                              status="createStatus" 
+                              rendered="{!productRatePlanSelected || showExistingCharges}"/>
+
+          <apex:commandButton value="Cancel"
+                              action="{!cancel}"
+                              status="createStatus"/>
+
+        </apex:pageBlockButtons>
+
+      </apex:pageBlock>
+
+    </apex:form>
+
+  </apex:outputPanel>
+
+</apex:page>

@@ -1,0 +1,90 @@
+<apex:page showHeader="false" sidebar="false" docType="html-5.0" controller="AvalaraLoginCtrl" standardStylesheets="false" action="{!checkLogin}">
+    <style>
+        
+        .login:hover,.login{
+            text-decoration:none;
+            color:#fff;
+            cursor:pointer;
+            text-transform:uppercase;
+        }
+        .login {
+            padding: 10px 15px;
+            background-color: #ff6600;
+            border: 1px solid #ff6600;
+            border-radius: 3px;
+            text-align: center;
+            font-size: 15px;
+        }
+        input{
+            width:70% !important;
+        }
+        .panel-heading{
+            text-align:center;
+        }
+        .panel-title{
+            font-weight:bold;
+            font-size: 22px
+        }
+        .panel{
+            border-radius:0px;
+        }
+        .messageTable{
+            width:100%;
+            border: 1px solid #cd0f17;
+            background: #ffc9c9;
+        }
+        .messageText {
+            display: block !important;
+        }
+        .message .messageText h4{
+            display: inline-block !important;
+            margin-right: 5px !important;
+            font-size: 17px !important; 
+            padding-bottom: 8px !important;  
+        }
+        body{
+            background-image: url('{!URLFOR($Resource.AvalaraResources,'/public/images/loginbg.png')}');
+        }
+    </style>
+    <script>
+        $( document ).ready(function() { 
+            $("footer").addClass("navbar-fixed-bottom");
+        });
+        
+    </script>
+    <apex:composition template="AvalaraTemplate">
+        
+        <apex:define name="nav"></apex:define>
+        <apex:define name="body">
+            <div class="container" style="margin-top:7%;">
+                <apex:form >
+                    <apex:pageMessages ></apex:pageMessages>
+                    <br/>
+                    <h4>Welcome! Thanks for choosing to become an Avalara Partner. The Avalara Launch Center is designed to help you move seamlessly through the onboarding process and to get you certified and taking orders for AvaTax as quickly as possible. </h4>
+                    <h4>With over 500 connectors on the market, we’ve learned a few things to help you streamline and implement your connector quickly and easily.  Let’s get started!  </h4>
+                    <br/>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" style="text-align:center;">Avalara Login</h3>
+                        </div>
+                        <div class="panel-body">
+                            <center>
+                                <apex:input styleClass="form-control login-input" html-placeholder="Username" value="{!username}"/> 
+                                <apex:inputSecret value="{!password}" styleClass="form-control login-input" style="margin-top:12px;" html-placeholder="Password"/>
+                                <br/>
+                                
+                                <!--<a href="/partnerlaunch/AvalaraResetPassword" class="login-text"> Reset Password? </a>-->
+                                 <a href="/partnerlaunch/AvalaraForgotPassword" class="login-text"> Forgot Password?</a>
+                                <br/>
+                                <apex:commandButton styleClass="login" action="{!login}" value="Login"/>
+                            </center>
+                            
+                        </div>
+                       
+                    </div>
+                </apex:form>
+            </div>
+        </apex:define>
+        <apex:define name="versionnote"></apex:define>
+    </apex:composition>
+</apex:page>

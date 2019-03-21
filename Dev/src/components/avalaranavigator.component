@@ -1,0 +1,154 @@
+<apex:component selfclosing="true" controller="AvalaraCommunityWizardCtrl">
+    <apex:attribute type="Integer" description="selected page number" name="selected"/>
+    <apex:attribute type="String" name="vId" description="current/selected version id" assignTo="{!versionId}"/>
+    <style>
+        .avalara-wizard > .avalara-wizard-step > .avalara-wizard-dot {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            display: block;
+            background: #ff6600;
+            top: 30px;
+            left: 8%;
+            margin-top: -15px;
+            margin-left: -15px;
+            border-radius: 50%;
+            z-index: 99;
+        }
+        @media(max-width:767px){
+            .avalara-wizard > .avalara-wizard-step > .avalara-wizard-dot {
+                width: 50px;
+                height: 50px;
+            }
+            .avalara-wizard > .avalara-wizard-step > .avalara-wizard-dot:after,.avalara-wizard > .avalara-wizard-step.disabled > .avalara-wizard-dot:after{
+                font-size:30px;
+                top: 15px;
+                left: 18px;
+            }
+            .avalara-wizard > .avalara-wizard-step{
+                width:24.66667% !important;
+            }
+            .container-left-margined{
+                padding-left:10%;
+            }
+
+             .avalara-wizard > .avalara-wizard-step .avalara-wizard-stepnum{
+                 font-size:12px;
+                 top:70px;
+                 right:66%;
+             }
+        }
+        @media(max-width:580px){
+            .avalara-wizard > .avalara-wizard-step > .progress{
+                top: 26px;
+                width:113px;
+            }
+        }
+        @media(min-width:581px) and (max-width:767px){
+            .avalara-wizard > .avalara-wizard-step > .progress{
+                top: 26px;
+                width:165px;
+            }
+        }
+        .avalara-wizard {margin-top: 5px;}
+        .avalara-wizard {border-bottom: solid 1px #e0e0e0; padding: 0 0 10px 0;}
+        .avalara-wizard > .avalara-wizard-step {padding: 0; position: relative;}
+
+        .avalara-wizard > .avalara-wizard-step .avalara-wizard-stepnum {color: #000;margin-bottom: 5px;position:absolute;}
+        .avalara-wizard > .avalara-wizard-step .avalara-wizard-info {color: #999; font-size: 14px;}
+
+        .avalara-wizard > .avalara-wizard-step > .progress {position: absolute; border-radius: 0px; height: 8px; box-shadow: none; margin: 12px 0;}
+        .avalara-wizard > .avalara-wizard-step > .progress > .progress-bar {width:100%; box-shadow: none; background: #ff6600;}
+        .avalara-wizard > .avalara-wizard-step.complete > .progress > .progress-bar {width:100%;}
+        .avalara-wizard > .avalara-wizard-step.active > .progress > .progress-bar {width:50%;}
+        .avalara-wizard > .avalara-wizard-step:first-child.active > .progress > .progress-bar {width:0%;}
+        .avalara-wizard > .avalara-wizard-step:last-child.active > .progress > .progress-bar {width: 100%;}
+        .avalara-wizard > .avalara-wizard-step.disabled > .avalara-wizard-dot {background-color: #f5f5f5;    border: 1px solid #ed7d31;color:#ed7d31;cursor:not-allowed;}
+        .avalara-wizard > .avalara-wizard-step.disabled > .avalara-wizard-dot:after {opacity: 1;}
+        .avalara-wizard > .avalara-wizard-step:first-child  > .progress {left: 28%; width: 75%;}
+        .avalara-wizard > .avalara-wizard-step:last-child  > .progress {width: 0%;}
+        .avalara-wizard > .avalara-wizard-step.disabled a.avalara-wizard-dot{ pointer-events: auto;cursor:pointer; }
+        .avalara-wizard{
+            counter-reset: index;
+        }
+        .avalara-wizard > .avalara-wizard-step > .avalara-wizard-dot:after,.avalara-wizard > .avalara-wizard-step.disabled > .avalara-wizard-dot:after{
+            counter-increment: index;
+            content:counter(index);
+            width: 22px;
+            height: 14px;
+            border-radius: 50px;
+            position: absolute;
+        }
+        @media(min-width:768px){
+            .avalara-wizard > .avalara-wizard-step > .avalara-wizard-dot:after,.avalara-wizard > .avalara-wizard-step.disabled > .avalara-wizard-dot:after{
+                top: 28px;
+                left: 28px;
+                font-size: 44px;
+            }
+            .container-left-margined{
+                padding-left:20%;
+            }
+        }
+        @media(min-width:768px) and (max-width:991px){
+            .avalara-wizard > .avalara-wizard-step .avalara-wizard-stepnum{
+                 right: 80px;
+                 top: 100px;
+                 font-size:16px;
+             }
+             .avalara-wizard > .avalara-wizard-step > .progress{
+                top: 40px;
+                width:230px;
+            }
+        }
+        @media(min-width:992px){
+            .avalara-wizard > .avalara-wizard-step .avalara-wizard-stepnum{
+                 font-size:16px;
+                 top: 100px;
+                right: 145px;
+             }
+             .avalara-wizard > .avalara-wizard-step > .progress{
+                top: 40px;
+                width:250px;
+            }
+        }
+        .avalara-wizard > .avalara-wizard-step > .avalara-wizard-dot:after{
+            color: #fff;
+        }
+        .avalara-wizard > .avalara-wizard-step.disabled > .avalara-wizard-dot:after{
+            color: #ed7d31;
+        }
+        a{
+            cursor:pointer;
+        }
+
+    </style>
+    
+    <div class="container container-left-margined">
+        <div class="row avalara-wizard" style="border-bottom:0;">
+            <div class="col-xs-3 avalara-wizard-step {!IF(selected >= 1,'complete','disabled')}">
+                <div class="text-center avalara-wizard-stepnum">Tell Us About Yourself</div>
+                <div class="progress"><div class="progress-bar"></div></div>
+                <a class="avalara-wizard-dot" onclick="goToTellUs();return false;"> </a>
+            </div>
+
+            <div class="col-xs-3 avalara-wizard-step {!IF(selected >= 2,'complete','disabled')}">
+                <div class="text-center avalara-wizard-stepnum">Solution Details</div>
+                <div class="progress"><div class="progress-bar"></div></div>
+                <apex:outputLink styleClass="avalara-wizard-dot" onclick="goToSolutionDetails();return false;" disabled="{!vid == ''}"> </apex:outputLink>
+            </div>
+
+            <div class="col-xs-3 avalara-wizard-step {!IF(selected >= 3,'complete','disabled')}">
+                <div class="text-center avalara-wizard-stepnum">Upload Evidence</div>
+                <div class="progress"><div class="progress-bar"></div></div>
+                <apex:outputLink styleClass="avalara-wizard-dot" onclick="goToUploadEvidence();return false;" disabled="{!vid == '' && $CurrentPage.Parameters.vid == ''}"> </apex:outputLink>
+            </div>
+
+            <div class="col-xs-3 avalara-wizard-step {!IF(selected >= 4,'complete','disabled')}">
+                <div class="text-center avalara-wizard-stepnum">Customer Reference</div>
+                <div class="progress"><div class="progress-bar"></div></div>
+                
+                <apex:outputLink styleClass="avalara-wizard-dot" onclick="goToCustomerReference();return false;" disabled="{!vid == '' && $CurrentPage.Parameters.vid == ''}"> </apex:outputLink>
+            </div>
+        </div>
+    </div>
+</apex:component>

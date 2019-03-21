@@ -1,0 +1,141 @@
+<apex:page standardController="Case" >
+
+    <script type="text/javascript">
+    var __sfdcSessionId = '{!GETSESSIONID()}';
+    </script>
+    <script src="../../soap/ajax/29.0/connection.js" type="text/javascript"></script>
+    <script src="../../soap/ajax/29.0/apex.js" type="text/javascript"></script>
+       
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        var MindTouch = {};
+        MindTouch.URL = "https://help.avalara.com";
+
+         // from salesforce environment
+        MindTouch.DEFAULT_SEARCH = '{!Case.Subject}';
+        MindTouch.TICKET_ID = '{!Case.CaseNumber}';
+        MindTouch.TICKET_TITLE = '{!JSENCODE(Case.Subject)}';
+        MindTouch.TICKET_BODY = '{!JSENCODE(Case.Description)}';
+        MindTouch.CUSTOMER_ID = '{!Case.CustomerId__c}';
+        
+        MindTouch.WIDGET_NAME = 'servicecloud-case';
+    </script>
+
+    <!-- Mark up for the Form -->
+    <style type="text/css">
+     
+        ul.mt-history {
+            list-style-type: none;
+            margin: 0px;
+            padding: 0px;
+        }
+       
+       .mt-history a {
+            color: #30b3f6;
+            text-decoration: none;
+        }
+        
+        .mt-history .date {
+          float: right;
+        }
+
+        .mt-history li {
+            padding: 5px 0px;
+            margin: 5px 0px;
+            border-bottom: 1px solid #ccc;
+            overflow: auto;
+        }
+        .mt-history .overview {
+            max-height: 50px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .overview.expanded {
+            max-height: 200px;
+        }
+
+        .mt-search-results .detail {
+            color: #cceecc;
+        }
+    </style>
+
+    <div class="mt-widget">
+
+        <ul class="mt-history">
+
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+        // sets event handlers
+        var geniusLink = {};
+
+        geniusLink.init = function() {
+            geniusLink.customerHistory(MindTouch.CUSTOMER_ID);
+        };
+        
+        geniusLink.customerHistory = function(customerId) {
+            var $results = $('.mt-history');
+
+            if (!customerId) {
+                $results.text('No MindTouch CustomerID found.');
+                return;
+            }
+
+            // prepare API request. Note: dream.out.pre is =? so it's a JSONP request
+            var url = MindTouch.URL + '/@api/deki/events/support-agent/=' + customerId + '?dream.out.format=jsonp&dream.out.pre=?';
+            var params = {
+                limit: 50,
+                include: "page,file",
+                origin: MindTouch.WIDGET_NAME
+            };
+
+            $.ajax({
+                url: url,
+                data: params,
+                dataType: 'jsonp',
+                success: function(data) {
+                
+                    console.log(data);
+
+                    if (!data.events || !data.events.event) {
+                        $results.text('No user history found');
+                        return;
+                    }
+
+                    var events = data.events.event instanceof Array ? data.events.event : [data.events.event];
+
+                    $results.html('');
+                    $.each(events, function(i, event) {
+                        console.log('adding event');
+                        console.log(event);
+
+                        var $contents = null;
+                        // var date = new Date(event["@datetime"]);
+                        var label = ""; // date.format("M d");
+                        
+                        if (event['@type'] == 'page:view') {
+                            label += "Viewed: ";
+                            $contents = $('<a target="_blank"></a>').attr('href', event.page["uri.ui"]).text(event.page.title);                                                             
+                        } else if (event['@type'] == 'user:search') {
+                            label += "Searched: ";
+                            $contents = $('<a target="_blank"></a>').attr('href', MindTouch.URL + '/Special:Search?search=' + event.data.query).text(event.data.query);
+                        }
+                        var dateString = (new Date(event["@datetime"])).toLocaleDateString();
+                        var $date = $('<span class="date"></span>').text(dateString);
+                        
+                        var $li = $('<li></li>').text(label).append($contents, $date);
+                        $results.append($li);
+                    });
+                }
+            });
+        };
+        
+        $(function() {
+            geniusLink.init()
+        });
+    </script>
+ 
+ 
+</apex:page>

@@ -1,0 +1,6 @@
+<apex:page standardController="case" showHeader="false">
+
+<flow:interview name="GetNextCase">
+<apex:param name="NewOwner_ID" value="{!$User.Id}"/>
+</flow:interview>
+</apex:page>

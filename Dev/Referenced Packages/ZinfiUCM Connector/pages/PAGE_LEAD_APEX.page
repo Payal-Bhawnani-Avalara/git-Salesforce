@@ -1,0 +1,16 @@
+<apex:page standardController="Lead" extensions="ucm.LeadExtApex" recordSetVar="gh"  >
+<apex:slds />
+<div class="slds-scope">
+    <apex:messages />
+    <apex:pageBlock >
+        <apex:pageBlockTable value="{!memList}" var="M">
+            <apex:column value="{!M.email}"/>
+            <apex:column value="{!M.firstname}"/>
+            <apex:column value="{!M.lastname}"/>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+
+    <apex:CanvasApp applicationName="ZINFI_PRM" width="100%" height="100%" scrolling="true"
+     parameters="{!(str)}"/>
+     </div>  
+</apex:page>

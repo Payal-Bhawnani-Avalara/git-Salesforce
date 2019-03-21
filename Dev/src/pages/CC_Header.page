@@ -1,0 +1,48 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false">
+   <script id="MyHeaderDesktop" type="text/template">
+ <div class="top_navigation">
+  <div class="misc-function" />
+
+  <div class="search_form" /> <!--*************************************-->
+  <p>
+      
+   <span>
+    <span class="lssec">
+    </span>
+
+    <span class="acctsec">
+     <a class="acct" id="goToAccount" href="#" >{{pageLabelMap 'Component_SiteHeader_MyAccount'}}</a> |
+    </span>
+
+
+    <span class="cartsec">
+     <a id="cartHeader" class="chead cartHeaderLink" href="#">
+
+     </a> |
+    </span>
+    <span class="loginoutsec"> 
+    </span>
+   </span>
+  </p>
+ </div>
+
+ <div class="logo_tagline hidden-phone">
+  <div class="logo">
+   <a href="#" id="logoUrl">
+    <img src="{{this.logoUrl}}"/> 
+   </a>
+  </div>
+ </div>
+</script>
+ 
+    <script>
+            jQuery(function($){
+                CCRZ.uiProperties.headerView.desktop.tmpl='MyHeaderDesktop';
+                CCRZ.uiProperties.headerView.phone.tmpl='MyHeaderDesktop';
+                CCRZ.uiProperties.headerView.phone.selector='.header';
+                CCRZ.uiProperties.Menu.desktop.tmpl='menu-desktop-template';
+                CCRZ.uiProperties.Menu.phone.tmpl='menu-desktop-template';
+                CCRZ.uiProperties.Menu.phone.selector='.menu_container';
+            });
+        </script>
+</apex:page>

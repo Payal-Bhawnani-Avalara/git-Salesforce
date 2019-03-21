@@ -1,0 +1,5 @@
+<apex:component access="global" allowDML="true" controller="CC_AVA_API">
+<script type="text/javascript" >
+	sessionStorage.setItem('CartDefaultCampaignValues','{!CartDefaultCampaignValues}');
+</script>
+</apex:component>

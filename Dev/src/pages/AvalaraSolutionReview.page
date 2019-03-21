@@ -1,0 +1,250 @@
+<apex:page showHeader="false" sidebar="false" docType="html-5.0" controller="AvalaraCommunityWizardCtrl">
+
+    <style>
+        .text-right{
+            text-align:right;
+        }
+        .row{
+            margin-bottom:2%;
+        }
+        .div-left{
+            float:left;
+            width:28.3333333%;
+        }
+        .div-right{
+            float:right;
+            width:71%;
+        }
+        .panel-title{
+            font-weight:600;
+        }
+        .required{
+           color:#c00;
+        }
+        .note-others{
+            border:1px solid #ff6600;
+            border-radius:5px;
+            color:#555555;
+            padding:5px;
+            margin-top:5px;
+            float:left;
+
+        }
+        .note-self{
+            border:1px solid #ff6600;
+            border-radius:5px;
+            color:#000;
+            float:right;
+            background: rgba(255, 152, 0, 0.11);
+            padding:5px;
+            margin-top:5px;
+        }
+
+    </style>
+        <apex:composition template="AvalaraTemplate">
+            <apex:define name="body">
+                <apex:form >
+                    <div class="container" style="margin-top:3%;min-height:645px;">
+                        <h2 style="color:#ed7d31">  Avalara Launch Center </h2>
+
+                        <c:avalaranavigator selected="2" id="navigator" vid="{!versionId}"/>
+                        <hr class="avalara-hr"/>
+                        <c:avalaraversion currentversion="{!version}"/>
+                        <br/>
+                        <c:avalaraversionutil currentversionId="{!versionId}" isRequirement="true"/>
+                        <h4> It’s time to get ready!  Here’s a quick checklist of what you need to have in order to complete your functional review!</h4>
+                        <div class="info-box">
+                            <h4>Prepare for your Functional Review Appointment </h4><br/>
+                            <h6>You will be requested to demonstrate the integration during the appointment. We recommend the demonstration follow this order:</h6>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td style="width:4%;">
+                                            1.
+                                        </td>
+                                        <td>
+                                            Configuration Screen
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            2.
+                                        </td>
+                                        <td>
+                                            Customer Record
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            3.
+                                        </td>
+                                        <td>
+                                            Item Record
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            4.
+                                        </td>
+                                        <td>
+                                            Create Order (get tax call)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            5.
+                                        </td>
+                                        <td>
+                                            Process Order (post tax call)
+                                        </td>
+                                    </tr>
+                                    <!--
+                                    <tr>
+                                        <td>
+                                            6.
+                                        </td>
+                                        <td>
+                                            Prior to our review we suggest you look at the <a href="http://developer.avalara.com/avatax/testing-your-integration/" target="_blank">Test Scenarios</a> and run a quick analysis with the <a href="http://developer.avalara.com/avatax/self-test/" target="_blank">Integration Self-Test</a>
+                                        </td>
+                                    </tr>-->
+                                </tbody>
+                            </table>
+                            <br/>
+                            <p>Note: there may be a few orders placed to demonstrate exempt clients, system tax codes, freight, nexus and non-nexus settings. We will view tax call results in both your application and in your AvaTax Development Account.</p>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-xs-8 col-xs-offset-6">
+                                <div class="row">
+                                    <div class="col-xs-6" style="text-align:right;">
+                                        <h4>Schedule Functional Review:</h4>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <a class="btn btn-sm btn-warning" href="http://www.meetme.so/AvalaraBizDev" target="_blank">
+                                            Book Now
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <apex:pageMessages ></apex:pageMessages>
+                        <apex:outputPanel layout="block" id="solutionpanel" >
+                            <apex:outputPanel layout="block" styleClass="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Article</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <label>Client Exemption Click Path</label>
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <apex:inputTextarea value="{!knowledge.Client_Exemption_Click_Path__c}" styleClass="form-control input-sm"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <label>Configuration Click Path</label>
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <apex:inputTextarea value="{!knowledge.Configuration_Click_Path__c}" styleClass="form-control input-sm"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <label>Address Validation Click Path</label>
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <apex:inputTextarea value="{!knowledge.Address_Validation_Click_Path__c}" styleClass="form-control input-sm"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                   <label> Escalation Contact</label>
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <c:AutoCompleteV2 allowClear="true" importJquery="false" labelField="Name" SObject="Contact" valueField="Id" targetField="{!knowledge.Escalation_Contact__c}" whereClause="{!'AccountId =\''+acc.Id + '\''}" style="width:345px;">
+                                                    </c:AutoCompleteV2>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                   <label> Implementation Contact</label>
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <c:AutoCompleteV2 allowClear="true" importJquery="false" labelField="Name" SObject="Contact" valueField="Id" targetField="{!knowledge.Contact__c}" whereClause="{!'AccountId =\''+acc.Id + '\''}" style="width:345px;">
+                                                    </c:AutoCompleteV2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                   <label> Implementation Path</label>
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <apex:inputTextarea value="{!knowledge.Implementation_Path__c}" styleClass="form-control input-sm"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <label>Line Level Addressing</label>
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <apex:inputTextarea value="{!knowledge.Line_Level_Addressing__c}" styleClass="form-control input-sm"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <label>Location Code &amp; Click Path</label>
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <apex:inputTextarea value="{!knowledge.Location_Code_Click_Path__c}" styleClass="form-control input-sm"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                    <label>Product Mapping Click Path</label>
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <apex:inputTextarea styleClass="form-control input-sm" value="{!knowledge.Product_Mapping_Click_Path__c}"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-4">
+                                                   <label> Support Path</label>
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <apex:inputTextarea styleClass="form-control input-sm" value="{!knowledge.Support_Path__c}"/>
+                                                </div>
+                                            </div>
+                                            <apex:outputPanel styleClass="row" layout="block" rendered="{!knowledge.Sales_Tax_Matrix__r != NULL}">
+                                                <div class="col-xs-4">
+                                                   <label> Timing for Tax Calculation</label>
+                                                </div>
+                                                <div class="col-xs-8">
+                                                    <apex:inputTextarea styleClass="form-control input-sm" value="{!knowledge.Sales_Tax_Matrix__r.Timing_For_Tax_Calculation__c}"/>
+                                                </div>
+                                            </apex:outputPanel>
+                                        </div>
+                                    </div>
+                                    <div class="well well-sm">
+                                        <div class="row" style="margin-bottom:0px;">
+                                            <div class="col-xs-12">
+                                                <apex:commandButton value="Save" styleClass="btn btn-sm btn-block btn-success" action="{!saveRecord}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </apex:outputPanel>
+                        </apex:outputPanel>
+                    </div>
+                    <apex:actionFunction name="goToTellUs" action="{!saveAndRedirect}" status="status"/>
+                    <apex:actionFunction name="goToSolutionDetails" action="{!updateAccountDetail}"/>
+                    <apex:actionFunction name="goToUploadEvidence" action="{!saveRecord}"/>
+                    <apex:actionFunction name="goToCustomerReference" action="{!uploadAttachment}"/>
+                </apex:form>
+            </apex:define>
+        </apex:composition>
+</apex:page>

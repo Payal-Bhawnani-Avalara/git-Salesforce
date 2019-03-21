@@ -1,0 +1,112 @@
+<apex:page >
+  <!-- Begin Default Content REMOVE THIS -->
+  <apex:pageBlock > 
+  
+<table border="0" cellpadding="1" cellspacing="1" style="width: 100%; table-layout: fixed;">
+    <tbody>
+        <tr>
+            <td valign="top">
+            <h3>Avalara Products</h3>
+            <br />
+            <br />
+            <a href="https://admin-avatax.avalara.net/" target="_blank">Production Admin Console</a><br />
+            <a href="https://admin-development.avalara.net/" target="_blank">Developer Admin Console</a><br />
+            <a href="https://app.certcapture.com/" target="_blank">CertCapture</a><br />
+            <a href="http://www.avatax.com/login.aspx?id=ispi" target="_blank">ISPI Login</a><br /> 
+            <a href="https://status.avalara.com/" target="_blank">Status.Avalara.Com</a><br />              
+             <br />
+           
+            <h3>Help Resources</h3>
+            <br />
+            <br />
+            <a href="https://help.avalara.com/" target="_blank" title="">Avalara Help Center</a><br />
+            <a href="http://developer.avalara.com/" target="_blank">Developer Network</a><br />
+            <a href="https://community.avalara.com/avalara" target="_blank">Community </a><br />  <br />
+            
+           <h3>Screen Sharing Tools</h3>
+            <br />
+            <br />    
+            <a href="http://www.avalara.com/gotoassistlaunch.htm" target="_blank">Avalara GoToAssist</a><br />          
+            <a href="https://join.me/" target="_blank">Join.me - Free Screensharing</a><br />
+            <a href="http://bluejeans.com/" target="_blank">BlueJeans</a><br />
+            <a href="https://free.gotomeeting.com/" target="_blank">Free GoToMeeting</a><br /><br />
+
+            <h3>Escalations</h3>
+            <br />
+            <br />
+            <a href="https://avalara.atlassian.net/wiki/display/CUSTSUP/Escalations" target="_blank">Escalations Process</a><br />         
+            <a href="https://avalara.atlassian.net/wiki/display/SRE/Incident+Response+Process" target="_blank">IRT</a><br />  <br />
+
+            
+            </td>
+            <td valign="top">
+            
+            <h2>SOHO CONNECTOR LISTS</h2>
+            <br />
+            <br />
+            <a href="https://na27.salesforce.com/00O33000004IOJh" target="_blank">SOHO Report</a><br /><br />
+          
+            <h2>Rate Check Utilities</h2>
+            <br />
+            <br />
+            <a href="http://www.melissadata.com/lookups/AddressCheck.asp" target="_blank">Melissa Data</a><br />
+            <a href="http://salestax.avalara.com/" target="_blank">Salestax.Avalara.com</a><br />
+            <a href="https://tools.usps.com/go/ZipLookupAction!input.action" target="_blank">USPS</a><br />
+            <a href="http://www.canadapost.ca/cpo/mc/personal/postalcode/fpc.jsf" target="_blank">Canada Post</a><br /><br />
+                    
+            
+            <h3>Time Utilities</h3>
+            <br />
+            <br />
+            <a href="http://worldmeetingtime.com/" target="_blank">World Meeting Time</a><br />
+            <a href="http://time.is/" target="_blank">Time is - Time Zone Checker</a><br />
+            <a href="http://www.areacodetimezone.com/" target="_blank">Area Code Time Zone.com</a><br /><br />
+            
+               
+           <h3>Other Utilities</h3>
+            <br />
+            <br />
+            <a href="http://www.howtocallabroad.com/" target="_blank" title="">How to call abroad</a><br />
+            <a href="http://www.kitsaptransit.com/RoutesAndSchedules.html" target="_blank">Kitsap Transit</a><br />
+            <a href="http://www.wsdot.com/ferries/schedule/ScheduleDetailByRoute.aspx?route=sea-bi" target="_blank">Ferries Schedule for Sea/Bi </a><br /> <br />
+            
+                        
+            </td>  <br />
+            <td valign="top">
+            
+            <h3>Avalara Utilities</h3>
+            <br />
+            <br />
+            <a href="http://internalreports/Reports/Pages/Folder.aspx" target="_blank">Audit Reports</a><br />  
+            <a href="http://datacafe/Reports/Pages/Report.aspx?ItemPath=%2FTeams%2FAll%2FUserSearch" target="_blank">User Search</a><br />
+            <a href="https://passwords/dashboard.aspx" target="_blank">Password Vault</a><br />     
+            <a href="https://avalara.atlassian.net/wiki/display/CUSTSUP/Phone+Numbers" target="_blank">Phone Numbers</a><br />          
+            <a href="http://10.192.60.4/Wallboard/wallboard.asp?pname_checkbox=&p0_id=p3&p1_id=p4&p2_id=p6&p3_id=p7&p4_id=p1&p5_id=p10&p6_id=p5&p7_id=p15&p8_id=None&qname_checkbox=&c0_id=SupportQueues&c1_id=None&a0_id=p1&agentSortingB=0&a1_id=p2&a2_id=p3&a3_id=p4&a4_id=None&btnCreateDisplay=Create+Display&pname_checkbox=&p0_id=p3&p1_id=p4&p2_id=p6&p3_id=p7&p4_id=p1&p5_id=p10&p6_id=p5&p7_id=p15&p8_id=None&qname_checkbox=&c0_id=SupportQueues&c1_id=None&a0_id=p1&a1_id=p2&a2_id=p3&a3_id=p4&a4_id=None&btnCreateDisplay=Create+Display&ddlTimeZone2=n0&whitevalue=10&lightredvalue=50&mediumredvalue=80&t2=&t3=&t4=&t5=&t6=&t7=4&t8=&t9=&n5=on&n6_t=05%3A00+to+06%3A00&a5_id=p8&a6_id=None&displayType=Agents&header1_checkbox=on&displayName=Global&heading=Call+Centre+Display&fontSize=0.9&scrolltime=15&tmessenger_checkbox=off&audio_checkbox=off&breachcounts_checkbox=on&breachtimes_checkbox=on&shadowing_checkbox=on&messenger_checkbox=off&loggedout_checkbox=off&btnNext=Next&queuesT=&p9_id=p17&p10_id=None&c2_id=CSQ_Avatax&c3_id=CSQ_ISPI&c4_id=CSQ_Operator&c5_id=CSQ_Other&c6_id=CSQ_Sales&c7_id=CSQ_Testing&c8_id=CSQ_Trustfile&c9_id=CSQ_TrustfileSales&c10_id=Sales_Queue&c11_id=None&linkback=&linkback=#" target="_blank">Wallboard</a><br />
+            <a href="https://login.paylocity.com/escher/escher_webui/views/login/login.aspx" target="_blank">Paylocity Web Time</a><br />
+            <a href="http://sitemanager/index.cfm?CFID=21236&CFTOKEN=b06760f92a821056-9BD007AB-5056-0102-BE5611E74C476942" target="_blank">Site Manager</a><br />
+            <a href="http://dashboard.avlr.net/" target="_blank">Marketing Dashboard</a><br />  
+            <a href="https://avalara.atlassian.net/wiki/display/WEL/HelpDesk" target="_blank">IT Help Desk</a><br />  
+            <a href="https://passwords/dashboard.aspx" target="_blank">Password Vault</a><br />   
+            <a href="https://avalara.atlassian.net/secure/CreateIssueDetails%21init.jspa?pid=14703&issuetype=11" target="_blank">Facilities Ticket</a><br />    
+            <a href="https://auth.avalara.com/cmspages/logon.aspx?ReturnUrl=%2fcmsdesk%2fdefault.aspx" target="_blank">Kentico (for TrustFile)</a><br /><br />  
+            
+            <h3>Wikis</h3>
+            <br />
+            <br />
+            <a href="https://avalara.atlassian.net/wiki/display/CUSTSUP/Customer+Support+Team" target="_blank">Customer Support</a><br />
+            <a href="https://avalara.atlassian.net/wiki/display/SO/Customer+Success+Training" target="_blank">Customer Success Training</a><br />
+            <a href="https://avalara.atlassian.net/wiki/pages/viewpage.action?spaceKey=CONNECTOR&title=Binary+Gatekeeper" target="_blank">Binary Gatekeeper</a><br />           
+            <a href="https://avalara.atlassian.net/wiki/display/CUSTSUP/General+Process+and+Procedure+Documents" target="_blank">General Processess and Procedures</a><br />            
+            
+            
+            
+            </td>
+        </tr>
+    </tbody>
+</table>
+ 
+  </apex:pageBlock>
+ 
+  
+   <!-- End Default Content REMOVE THIS -->
+</apex:page>

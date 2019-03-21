@@ -1,0 +1,5 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false">
+
+	<c:CC_Ava_Footer />
+	
+</apex:page>

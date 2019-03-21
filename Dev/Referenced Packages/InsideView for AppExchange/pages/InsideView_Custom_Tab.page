@@ -1,0 +1,3 @@
+<apex:page docType="html-5.0" title="InsideView | Targeting, Sales and Marketing Intelligence Software Solutions">
+    <apex:canvasApp namespacePrefix="iv" canvasId="IV_CUSTOM_TAB" applicationName="insideview_login_connected_app" width="100%" scrolling="auto"/>
+</apex:page>
