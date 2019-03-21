@@ -1,0 +1,17 @@
+<apex:page standardController="Version__c" extensions="VersionClone">
+	<apex:sectionHeader title="Create sub version of {!Version__c.Connector__r.Name}->{!Version__c.Name}" />
+	<apex:form >
+	<apex:pageBlock mode="edit" title="Sub Version Detail">
+        <apex:pageBlockButtons location="bottom">
+            <apex:commandButton action="{!saveSubVersion}" value="Save"/>
+            <apex:commandButton action="{!Cancel}" value="Cancel"/>
+        </apex:pageBlockButtons>	
+		<apex:pageBlockSection columns="1">
+			<apex:outputField value="{!Version__c.Connector__r.Name}"/>
+			<apex:outputField value="{!Version__c.Name}"/>
+			<apex:inputField value="{!subVersion.Name}"/>
+			<apex:inputField value="{!subVersion.Sort_Order__c}" required="true"/>
+		</apex:pageBlockSection>
+	</apex:pageBlock>
+	</apex:form>
+</apex:page>

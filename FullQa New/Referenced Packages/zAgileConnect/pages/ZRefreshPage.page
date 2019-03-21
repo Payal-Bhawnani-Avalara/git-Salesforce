@@ -1,0 +1,15 @@
+<!--
+ - Created by giordannocastro on 10/27/17.
+ -->
+<apex:page controller="zsfjira.ZRefreshController"
+           action="{!refreshEntityIssues}">
+    <apex:form >
+        <apex:pageBlock title="Refresh JIRA Issues">
+            <apex:pageMessages escape="false"/>
+            <apex:pageBlockButtons location="bottom" rendered="{!NOT(ISNULL(parentId))}">
+                <apex:commandButton value="Return" action="{!returnToEntity}">
+                </apex:commandButton>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

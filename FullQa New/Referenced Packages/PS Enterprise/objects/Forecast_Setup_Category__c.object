@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>Forecast_Setup_Category_Compact_Layout</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>Forecast_Setup_Category_Compact_Layout</fullName>
+        <fields>Label__c</fields>
+        <fields>Name</fields>
+        <fields>Order__c</fields>
+        <fields>Forecast_Setup__c</fields>
+        <label>Forecast Setup Category Compact Layout</label>
+    </compactLayouts>
+    <customHelpPage>ForecastEnhancedSetupCategoryHelp</customHelpPage>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <description>This object stores details about the weighted forecast categories, such as Best Case or Expected, used in a forecast calculation. There must be at least one category assigned to the forecast setup details for a forecast calculation to run.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>false</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Billings_Actuals__c</fullName>
+        <defaultValue>1.00</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The multiplier applied to the actual billable amount on a project. This includes Billed Timecards, Billed Milestones and Miscellaneous Adjustments.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The multiplier applied to the actual billable amount on a project. This includes Billed Timecards, Billed Milestones and Miscellaneous Adjustments.</inlineHelpText>
+        <label>Billings</label>
+        <precision>5</precision>
+        <required>true</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Expense_Actuals__c</fullName>
+        <defaultValue>1.00</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The multiplier applied to the expenses on a project. This is the billable amount of the expenses.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The multiplier applied to the expenses on a project. This is the billable amount of the expenses.</inlineHelpText>
+        <label>Expenses</label>
+        <precision>5</precision>
+        <required>true</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Forecast_Setup__c</fullName>
+        <deleteConstraint>Restrict</deleteConstraint>
+        <deprecated>false</deprecated>
+        <description>The forecast setup this forecast category is used with. You must configure at least one forecast category.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The forecast setup this forecast category is used with. You must configure at least one forecast category.</inlineHelpText>
+        <label>Forecast Setup</label>
+        <referenceTo>Forecast_Setup__c</referenceTo>
+        <relationshipLabel>Forecast Setup Categories</relationshipLabel>
+        <relationshipName>Forecast_Setup_Categories</relationshipName>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Label__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The label displayed for a weighted forecast category, for example, Expected, Best Case, Worst Case.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The label displayed for a weighted forecast category, for example, Expected, Best Case, Worst Case.</inlineHelpText>
+        <label>Label</label>
+        <length>80</length>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Opportunities__c</fullName>
+        <defaultValue>1.00</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The multiplier applied to opportunities for this weighted forecast category.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The multiplier applied to opportunities for this weighted forecast category.</inlineHelpText>
+        <label>Opportunities</label>
+        <precision>5</precision>
+        <required>true</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Order__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The order the forecast categories are applied in the forecast calculation. You can enter values from 1 to 3.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The order the forecast categories are applied in the forecast calculation. You can enter values from 1 to 3.</inlineHelpText>
+        <label>Category Order</label>
+        <precision>2</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Ordinal__c</fullName>
+        <deprecated>false</deprecated>
+        <description>This field is deprecated.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This field has been deprecated and been replaced by Order__c</inlineHelpText>
+        <label>zDeprecated:Category Order</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Scheduled_Assignments__c</fullName>
+        <defaultValue>1.00</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The multiplier applied to the value of the assignments on a project.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The multiplier applied to the value of the assignments on a project.</inlineHelpText>
+        <label>Scheduled Assignments</label>
+        <precision>5</precision>
+        <required>true</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Scheduled_Held_Resource_Requests__c</fullName>
+        <defaultValue>1.00</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The multiplier applied to the resource request hours on a project, when the Resource Held field is checked.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The multiplier applied to the resource request hours on a project, when the Resource Held field is checked.</inlineHelpText>
+        <label>Held Resource Requests</label>
+        <precision>5</precision>
+        <required>true</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Scheduled_Milestones__c</fullName>
+        <defaultValue>1.00</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The multiplier applied to the value of the scheduled milestones for a project.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The multiplier applied to the value of the scheduled milestones for a project.</inlineHelpText>
+        <label>Scheduled Milestones</label>
+        <precision>5</precision>
+        <required>true</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Scheduled_Unheld_Resource_Requests__c</fullName>
+        <defaultValue>1.00</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The multiplier applied to the planned resource request hours for a project, when the Resource Held field is unchecked.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The multiplier applied to the planned resource request hours for a project, when the Resource Held field is unchecked.</inlineHelpText>
+        <label>Unheld Resource Requests</label>
+        <precision>5</precision>
+        <required>true</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Unscheduled_Backlog__c</fullName>
+        <defaultValue>1.00</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The multiplier applied to the value of the unscheduled backlog on a project, using the value generated by the backlog calculation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The multiplier applied to the value of the unscheduled backlog on a project, using the value generated by the backlog calculation.</inlineHelpText>
+        <label>Unscheduled Backlog</label>
+        <precision>5</precision>
+        <required>true</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Forecast Setup Category</label>
+    <nameField>
+        <displayFormat>FSetupCategory-{0000}</displayFormat>
+        <label>Forecast Setup Category Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Forecast Setup Categories</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

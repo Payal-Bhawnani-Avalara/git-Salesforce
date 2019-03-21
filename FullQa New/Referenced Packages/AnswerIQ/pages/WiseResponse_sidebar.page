@@ -1,0 +1,2262 @@
+<!-- Wise.io and GE Confidential and Proprietary -->
+
+<apex:page docType="html-5.0" standardstylesheets="false" standardController="Case" extensions="wisespt.WiseCaseController" showHeader="false" sidebar="false" action="{!prepareWiseSettings}">
+    <script src="/canvas/sdk/js/43.0/publisher.js" type="text/javascript"></script> 
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <head>
+        <apex:stylesheet value="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+        <apex:stylesheet value="{!URLFOR($Resource.wisespt__SLDS0110, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+        <apex:includeScript value="/soap/ajax/36.0/connection.js" />
+        <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" />
+        <apex:includeScript value="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" />
+        <apex:includeScript value="{!$Resource.wisespt__lodashmin}" />
+        <apex:includeScript value="{!$Resource.wisespt__fuzzyjs}" />
+        <apex:includeScript value="{!$Resource.wisespt__handlebarsmin}" />
+        <apex:includeScript value="{!$Resource.wisespt__shortcut}" />
+        <apex:includeScript value="{!$Resource.wisespt__lzstringminjs}" />
+        <apex:includeScript value="/support/console/42.0/integration.js" />
+        <script type='text/javascript' src='/canvas/sdk/js/36.0/controller.js' />
+        <c:RecommendationsTemplate />
+        <script type="text/javascript">
+            (function(e, a) {
+                if (!a.__SV) {
+                    var b = window;
+                    try {
+                        var c, l, i, j = b.location,
+                            g = j.hash;
+                        c = function(a, b) {
+                            return (l = a.match(RegExp(b + "=([^&]*)"))) ? l[1] : null
+                        };
+                        g && c(g, "state") && (i = JSON.parse(decodeURIComponent(c(g, "state"))), "mpeditor" === i.action && (b.sessionStorage.setItem("_mpcehash", g), history.replaceState(i.desiredHash || "", e.title, j.pathname + j.search)))
+                    } catch (m) {}
+                    var k, h;
+                    window.mixpanel = a;
+                    a._i = [];
+                    a.init = function(b, c, f) {
+                        function e(b, a) {
+                            var c = a.split(".");
+                            2 == c.length && (b = b[c[0]], a = c[1]);
+                            b[a] = function() {
+                                b.push([a].concat(Array.prototype.slice.call(arguments,
+                                    0)))
+                            }
+                        }
+                        var d = a;
+                        "undefined" !== typeof f ? d = a[f] = [] : f = "mixpanel";
+                        d.people = d.people || [];
+                        d.toString = function(b) {
+                            var a = "mixpanel";
+                            "mixpanel" !== f && (a += "." + f);
+                            b || (a += " (stub)");
+                            return a
+                        };
+                        d.people.toString = function() {
+                            return d.toString(1) + ".people (stub)"
+                        };
+                        k = "disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset init opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+                        for (h = 0; h < k.length; h++) e(d, k[h]);
+                        a._i.push([b, c, f])
+                    };
+                    a.__SV = 1.2;
+                    b = e.createElement("script");
+                    b.type = "text/javascript";
+                    b.async = !0;
+                    b.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "file:" === e.location.protocol && "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//) ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js" : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";
+                    c = e.getElementsByTagName("script")[0];
+                    c.parentNode.insertBefore(b, c)
+                }
+            })(document, window.mixpanel || []);
+            mixpanel.init("f295b09e8f6a0064f5b1825f5522d33e");
+        </script>
+        <script type='text/javascript'>
+            window.our_state = {};
+            var allRecommendations = [];
+            var searchRecommendations = [];
+            var macros = [];
+            var onclickaction = false;
+            var knowledgeArticles = [];
+            var knowledgeSearchArticles = [];
+            var knowledgeAction = 'onLoad';
+            var responseAction = 'onLoad';
+            var emailTemplates = [];
+            var emailTemplatesFetchedOnBackground = [];
+            var macrosMap = {};
+            var emailTemplatesMap = {};
+            var wiseSettings;
+            var usageEvents = [];
+            var NoofTemplateswithSearchString =0;
+            var emailTemplateIdMacrosMap = JSON.parse('{}');
+            var userAgent = navigator.userAgent;
+            var currentCaseId = '{!Case.Id}';
+            var CaseNumber='{!Case.CaseNumber}';
+            var client_id=null;
+            var appName = 'ServiceCloudResponseRecSidebar';
+            var appVersion = '2016.11.10';
+            var agentId = '{!$User.Id}';
+            var uiTheme = '{!$User.UITheme}';
+            var agentName = '{!$User.FirstName}' + ' ' + '{!$User.LastName}';
+            var agentCompany = '{!$User.CompanyName}';
+            var agentRole = '{!$UserRole.Id}';
+            var sessionStart = unixTimestamp();
+            var feedbackLastSent;
+            var sendFeedbackTriggerEventTypes = ['ticketLoaded','foldMacro','hideSearch', 'clickShowLess','shortcutActivateSearch','doSearch','clickApplyMacro', 'clickApplyEmailTemplate', 'shortcutApplyMacro', 'shortcutApplyEmailTemplate', 'tabClosed','clickShowMore','shortcutShowMore','unfoldMacro','clickPrevious','clickNext','changeSearchTitlesOnly'];            var errorRunningMacroMessage = "There was an error running the Macro. Take a look at the Macro’s instructions and try again.";
+            var maximumRecommendationsToDisplay = 6;
+            var minTimeInSecondsToWaitBeforeSendingFeedback=60;
+            var alreadyLoggedCloseTabEvent = false;
+            var storageNameForMacros = 'WiseMacrosJSON';
+            var storageNameForEmailTemplates = 'WiseEmailTemplatesJSON';
+            var storageNameForKnowledge = 'WiseKnowledgeArticleJSON';
+            var initialKnowApplyCheck = false;
+            var startcountResponse = 0;
+            var endcountResponse = 8;
+            var knowledgePageNum = 1;
+            var KBmaxpagesize = 0;
+            var KBtotalnoofrecs = 0;
+            var KBonloadCount = 1;
+            var replaceMacroCheck = false;
+            var offsetlimit=10;
+            var knowledgeConfig = null;
+            var maxRecords = 8;
+            var activeTab = null;
+            Handlebars.registerHelper('ifCond', function(v1, operator, v2, options) {
+                switch (operator) {
+                    case '==':
+                        return (v1 == v2) ? options.fn(this) : options.inverse(this);
+                    case '===':
+                        return (v1 === v2) ? options.fn(this) : options.inverse(this);
+                    case '<':
+                        return (v1 < v2) ? options.fn(this) : options.inverse(this);
+                    case '<=':
+                        return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+                    case '>':
+                        return (v1 > v2) ? options.fn(this) : options.inverse(this);
+                    case '>=':
+                        return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+                    case '&&':
+                        return (v1 && v2) ? options.fn(this) : options.inverse(this);
+                    case '||':
+                        return (v1 || v2) ? options.fn(this) : options.inverse(this);
+                    default:
+                        return options.inverse(this);
+                }
+            });
+            function hideSearch(hidesearchfrom) {
+                if (hidesearchfrom == 'KBSearch') {
+                    $("#Knowledge .search").val("");
+                    $("#Knowledge .header-wise").removeClass("searching");
+                    knowledgePageNum = 1;
+                    knowledgeAction = 'onLoad';
+                    knowledgesetup();
+                } else {
+                    $("#responses .search").val("");
+                    $("#responses .header-wise").removeClass("searching");
+                    this.search_results = null;
+                    responseAction = 'onLoad';
+                    showRecommendations(allRecommendations);
+                }
+                var type = (hidesearchfrom == 'KBSearch') ? "KnowledgeArticle" : "Macro";
+                var eventType = (hidesearchfrom == 'KBSearch') ? "Solution Search Clear" : "hideSearch";
+                recordUsageEvent({
+                    event_type: eventType
+                });
+            }
+            function clickHideSearch(e) {
+                logUsageEvent({event_type: 'hideSearch'});
+                var hidesearchfrom = $(e.currentTarget).attr('id');
+                hideSearch(hidesearchfrom);
+            }
+            function unfoldMacro(e) {
+                e.preventDefault();
+                var macroDiv = $(e.currentTarget).parent();
+                var eventType = null;
+                var target = macroDiv.find('.title');
+                var type = target.attr('data-type');
+                var id = target.attr('data-id');
+                var title = strip(target.attr('data-name'));
+                var isBulk = target.attr('data-isirreversible');
+                var action=null;
+                if (type === "KnowledgeArticle") {
+                    action=(knowledgeAction === 'onLoad') ? 'KB recommendation':'KB search';
+                    eventType = (macroDiv.hasClass("open")) ? 'Solution Closed' : 'Solution Opened';
+                    recordUsageEvent({ event_type: eventType,Source:action,solution_id: id,title: title,isBulk: isBulk });
+                } else {
+                        eventType = macroDiv.hasClass("open") ? 'foldMacro' : 'unfoldMacro';
+                    action=( responseAction=== 'onLoad') ? 'response recommendation':'response search';
+                    type=(type==='EmailTemplate') ? 'email template':'macro';
+                    recordUsageEvent({event_type: eventType,Source:action,Type: type,macro_id: id, title: title,isBulk: isBulk});
+                }
+
+                var macroStatus = macroDiv.hasClass("open") ? 'foldMacro' : 'unfoldMacro';
+                logUsageEvent({event_type: macroStatus, type: type, foreign_id: id, title: title, isBulk: isBulk});
+
+                macroDiv.toggleClass("open");
+            }
+            function postknowledgerating(e) {
+                e.preventDefault();
+                var macroDiv = $(e.currentTarget).parent();
+                var target = macroDiv.find('.rating-star');
+                target.removeClass('active');
+                $(e.currentTarget).addClass('active');
+                var rating = $(e.currentTarget).attr('data-value');
+                var kbId = $(e.currentTarget).attr('data-Kbid');
+                var queryId = $(e.currentTarget).attr('data-queryId');
+                var segId = $(e.currentTarget).attr('data-segId');
+                var id = $(e.currentTarget).attr('data-id');
+                  var recs = knowledgeArticles.recommendations;
+                var currentrec;
+                for (var i = 0; i < recs.length; i++) {                   
+                    if(recs[i].id==id){
+                     currentrec=recs[i];
+                    currentrec.rating=rating;
+                    knowledgeArticles.recommendations.splice(i,1,currentrec);
+                   
+                   }
+                    
+                }
+                var action=(knowledgeAction == 'onLoad') ? 'KB recommendation':'KB search';
+
+                recordUsageEvent({ event_type: "Solution feedback Rating",Source:action,rating: rating,solution_id:kbId });
+                Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.WiseCaseController.postArticleRating}', rating, queryId, segId, function(result, event) {});
+                     
+            }
+
+            function openSuccess(result) {
+                //Report whether opening the new tab was successful
+                if (result.success == true) {
+                    console.log('Primary tab successfully opened');
+                } else {
+                    console.log('Primary tab cannot be opened');
+                }
+            };
+
+            function ClickonViewArticle(e) {
+                var url = $(e.currentTarget).attr('data-Url');
+                var id = $(e.currentTarget).attr('data-id');
+                var action=(knowledgeAction === 'onLoad') ? 'KB recommendation':'KB search';
+                recordUsageEvent({
+                    event_type: "Solution Viewed",
+                    url: url,
+                    Source:action,
+                    solution_id:id
+                });
+            }
+
+            function displayKeyboardShortcutsMenu() {
+                $('#shortcuts').modal({
+                    backdrop: true,
+                    keyboard: false,
+                    show: true
+                });
+            }
+
+            function displayKeyboardShortcutsMenuArticle() {
+                $('#Knowledge .articleshortcuts').modal({
+                    backdrop: true,
+                    keyboard: false,
+                    show: true
+                });
+            }
+
+            function displayProgressModal(type, title, isBulk) {
+                $(".search").blur();
+                var modalLabel = strip(title);
+                if (type == 'Macro' && isBulk == "true") {
+                    modalLabel = 'Running Bulk Macro: ' + modalLabel;
+                } else if (type == 'Macro' && isBulk == "false") {
+                    modalLabel = 'Running Macro: ' + modalLabel;
+                } else if (type == 'EmailTemplate') {
+                    modalLabel = 'Applying Email Template: ' + modalLabel;
+                }
+
+                $('#progressModalLabel').text(modalLabel);
+                $('.progress-icon').show();
+                $('.progress-error-message').text('');
+                $('.modal-footer').hide();
+                $('#progress').modal({
+                    backdrop: true,
+                    keyboard: false,
+                    show: true
+                });
+            }
+
+            function displayErrorMessageInProgressModal(message) {
+                $('.progress-icon').hide();
+                $('.progress-error-message').text(message);
+                $('.modal-footer').show();
+            }
+
+            function hideProgressModal() {
+                $('#progress').modal('hide');
+            }
+
+            function doSearch(searchfrom,mixpanelSearch,KBbuttonSearch) {
+                var keyword = $(".search").val();
+                var articlekeyword = $("#Knowledge .search").val();
+                var type = "Macro";
+                var eventType = "SearchMacros";
+
+                if (keyword === "" && articlekeyword == "") {
+                    hideSearch();
+                    return;
+                }
+
+                $(".search").focus();
+                var searchResults = [];
+                if (searchfrom == 'KB') {
+
+                    $("#Knowledge .header-wise").addClass("searching");
+                    knowledgeAction = 'onSearch';
+                    KBmaxpagesize = 0;
+                    if(KBbuttonSearch==false || KBbuttonSearch==undefined){
+                    knowledgePageNum = 1;
+                    }
+                    KBtotalnoofrecs = 0;
+
+                    Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.WiseCaseController.getSearchApiResults}', '{!Case.Id}', articlekeyword, knowledgePageNum, populateKnowledgeJSONs, {
+                        escape: false
+                    });
+
+                    keyword = articlekeyword;
+
+                    type = "KnowledgeArticle";
+                    eventType = "Solution Search";
+
+                }
+
+                if (searchfrom == 'response') {
+                     startcountResponse = 0;
+                    endcountResponse = 8;
+                    searchRecommendations=null;
+                    offsetlimit=10;
+                    if({!noofEmailTemplates}>1000){
+                    Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.WiseCaseController.prepareEmailTemplatesJSONs}', '{!Case.Id}', null, null,null,keyword,0,
+                                                              function(result1, event) {
+                                                                  emailTemplates=result1['emailTemplates'];
+                                                                  NoofTemplateswithSearchString=result1['searchRecordSize'];  
+                                                                  searchEmailTemplatesAndMacros(emailTemplates,keyword);
+                                                              });
+                        }
+                    else{
+                         searchEmailTemplatesAndMacros(emailTemplates,keyword);
+                        }
+                    type = "Response";
+                    eventType = "doSearch";
+                
+                }
+                if(mixpanelSearch!=false){
+                    recordUsageEvent({
+                        event_type: eventType,
+                        search: keyword
+                    });
+                }
+                logUsageEvent({event_type: "doSearch", search: keyword});
+            }
+
+            function searchRecords(records, keyword) {
+                var respTitlecheck = $('#ResTitleCheckId')[0].checked;
+                for (var i = 0; i < records.length; i++) {
+                    var d = $('<div>').html(records[i].comment);
+                    records[i].comment = d.text();
+                }
+                
+                var searchOnName = fuzzy.filter(keyword, records, {
+                    pre: "<span class='highlight'>",
+                    post: "</span>",
+                    extract: function(el) {
+                        
+                        return el.name;
+                    }
+                });
+                
+                searchOnName = _.map(searchOnName, function(res) {
+                    var ret = {};
+                    _.extend(ret, res.original);
+                    ret.name = res.string;
+                    if (ret.comment) {
+                        ret.comment = ret.comment.trim("\n ");
+                    }
+                    return ret;
+                });
+                if(!respTitlecheck){
+                    var searchOnComment = fuzzy.filter(keyword, records, {
+                        pre: "<span class='highlight'>",
+                        post: "</span>",
+                        extract: function(el) {
+                            return el.comment;
+                        }
+                    });
+
+                    searchOnComment = _.map(searchOnComment, function(res) {
+                        var ret = {};
+                        _.extend(ret, res.original);
+                        ret.comment = res.string;
+                        ret.default_open = true;
+                        return ret;
+                    });
+                    return searchOnName.concat(searchOnComment)
+                }
+                return searchOnName
+            }
+        function searchEmailTemplatesAndMacros(emailTemplates,keyword)
+        {
+                    var respTitlecheck = $('#ResTitleCheckId')[0].checked;
+                    if ((wiseSettings.wisespt__WiseSearchEmailTemplates__c == true) && (wiseSettings.wisespt__WiseSearchMacros__c == false)) {
+                        searchResults = searchRecords(emailTemplates, keyword);
+                    } else if ((wiseSettings.wisespt__WiseSearchEmailTemplates__c == false) && (wiseSettings.wisespt__WiseSearchMacros__c == true)) {
+
+                        searchResults = searchRecords(macros, keyword);
+                        NoofTemplateswithSearchString=NoofTemplateswithSearchString+searchResults.length;
+                        var emailTemplateSearchResults = searchRecords(emailTemplates, keyword);
+                        searchResults = searchResults.concat(convertEmailTemplatesToMacros(emailTemplateSearchResults));
+                    } else if ((wiseSettings.wisespt__WiseSearchEmailTemplates__c == true) && (wiseSettings.wisespt__WiseSearchMacros__c == true)) {
+
+                        searchResults = searchRecords(macros, keyword);
+                         NoofTemplateswithSearchString=NoofTemplateswithSearchString+searchResults.length;
+                        var emailTemplateSearchResults = searchRecords(emailTemplates, keyword);
+                        if(!respTitlecheck){
+                        }
+                        searchResults = searchResults.concat(emailTemplateSearchResults);
+                    } else {
+                        searchResults = [];
+                    }
+                    $("#responses .header-wise").addClass("searching");
+                    searchRecommendations = searchResults;
+                    responseAction = 'onSearch';
+                    startcountResponse = 0;
+                    endcountResponse = 8;
+                    if (responseAction == 'onSearch' && (searchResults == undefined || searchResults == null || searchResults.length == 0)) {
+
+                        $('#resonseSection').html('<div style="margin: 9px 1px 10px;"> No Results Found <div>');
+
+                    } else {
+                        if({!noofEmailTemplates}<=1000) {
+                            searchResults = _.uniq(searchResults, function(r) {
+                                return r.foreign_id;
+                            });
+                            NoofTemplateswithSearchString=searchResults.length;
+                        }
+                        
+                        showRecommendations(searchResults, 8);
+                    }
+
+        }
+            function convertEmailTemplatesToMacros(emailTemplateRecords) {
+                var macroRecords = [];
+
+                emailTemplateRecords.forEach(function(emailTemplateRecord) {
+                    if (emailTemplateIdMacrosMap[emailTemplateRecord.foreign_id] != undefined) {
+                        emailTemplateIdMacrosMap[emailTemplateRecord.foreign_id].forEach(function(macro) {
+                            var tmpMacro = {};
+                            tmpMacro["foreign_id"] = macro.foreign_id;
+                            tmpMacro["name"] = macro.name;
+                            if (emailTemplateRecord.default_open == true) {
+                                tmpMacro["comment"] = emailTemplateRecord.comment;
+                            } else {
+                                tmpMacro["comment"] = emailTemplateRecord.name;
+                            }
+                            tmpMacro["type"] = "Macro";
+                            tmpMacro["default_open"] = true;
+                            tmpMacro["isIrreversible"] = macro.isIrreversible;
+                            macroRecords.push(tmpMacro);
+                        });
+                    }
+                });
+
+                return macroRecords;
+            }
+
+            function populateKnowledgeList(search) {
+                var recs = [];
+                recs = knowledgeArticles.recommendations;
+                KBtotalnoofrecs = knowledgeArticles.num_responses;
+                if (KBtotalnoofrecs > 0)
+                    KBmaxpagesize = parseInt((KBtotalnoofrecs / 8) + 1);
+
+                var recsToDisplay = [];
+                if(recs!=undefined){
+                    for (var i = 0; i < recs.length; i++) {
+                        
+                        var rec = {};
+                        rec.name = recs[i].metadata.title;
+                        rec.type = 'KnowledgeArticle';
+                        rec.showApplyButtonKB= knowledgeConfig && knowledgeConfig.parameters ? knowledgeConfig.parameters.show_apply : true;
+                        rec.foreign_id = recs[i].metadata.ka_id;
+                        rec.id=recs[i].id;
+                        rec.comment = '<div style="width:250px !important;">'+recs[i].content.replace(/width:/g, 'widthwidget:')+'</div>';
+                        rec.queryid = recs[i].query_id;
+                        rec.segId = recs[i].id;
+                        rec.rating= recs[i].rating!=null?recs[i].rating:0;
+                        rec.knowledgeUrl = recs[i].metadata.url;
+                        recsToDisplay.push(rec);
+                    }
+                }
+                
+                return recsToDisplay;
+            }
+
+            function getRecommendationsList() {
+                var recs = [];
+                if (wiseSettings.wisespt__WisePredictEmailTemplatesOnly__c == true) {
+                    recs = ({!WiseResponseJSON
+                    }).recommendations;
+                } else {
+                    recs = ({!WiseResponseJSON
+                    }).macro_recommendations;
+                }
+
+                if (recs == undefined) {
+                    return [];
+                }
+                // Make sure all recommendations are sorted by score in descending order
+                recs.sort(function(a, b) {
+                    return b.score - a.score;
+                });
+
+                // Get current name and comments for each recommended macro/email template
+                // if recommended macro/email template is active and available to current user
+                var recsToDisplay = [];
+                for (var i = 0; i < recs.length; i++) {
+                    var currentRecord = (recs[i].type == 'Macro') ? macrosMap[recs[i].foreign_id] : emailTemplatesMap[recs[i].foreign_id];
+                    if(currentRecord){
+                        
+                        var rec = recs[i];
+                        rec['name'] = currentRecord.name;
+                        rec['comment'] = currentRecord.comment;
+                        recsToDisplay.push(rec);
+                    }
+                    if (recsToDisplay.length == maximumRecommendationsToDisplay) {
+                        return recsToDisplay;
+                    }
+                }
+
+                return recsToDisplay;
+            }
+        function htmlDecode(input){
+            var e = document.createElement('div');
+            e.innerHTML = input;
+            if(e.childNodes[0]!=undefined)
+            return e.childNodes[0].nodeValue;
+            else
+                return;
+        }
+            function showKnowledgeArticles(recommendations, count) {
+                //knowledgePageNum
+                var KBpaginationString;
+                var KBPageStartNumber;
+                var KBPageEndNumber;
+                var KBPageTotalRecords;
+                if (KBtotalnoofrecs <= knowledgePageNum * 8) {
+                    KBpaginationString = knowledgePageNum * 8 - 7 + '-' + KBtotalnoofrecs + ' of ' + KBtotalnoofrecs + ' results';
+                    KBPageEndNumber = KBtotalnoofrecs;
+                    KBPageTotalRecords = KBtotalnoofrecs;
+                } else {
+                    KBpaginationString = knowledgePageNum * 8 - 7 + '-' + knowledgePageNum * 8 + ' of ' + KBtotalnoofrecs + ' results';
+                    KBPageEndNumber = knowledgePageNum * 8;
+                    KBPageTotalRecords = KBtotalnoofrecs;
+                }
+                KBPageStartNumber = knowledgePageNum * 8 - 7;
+
+                $('#Knowledge .loader').css("display", "none");
+                var recHBS = Handlebars.compile($("#recommendations-template").html());
+                var response = {
+                    "recommendations": recommendations.slice(0, count),
+                    "morearticle": count < 6 && recommendations.length > 3,
+                    "lessarticle": count == 6,
+                    "none": recommendations.length === 0,
+                    "next": knowledgePageNum < KBmaxpagesize,
+                    "prev": knowledgePageNum > 1,
+                    "actionType": knowledgeAction,
+                    "type": 'KB',
+                    "KBpaginationString": KBpaginationString,
+                    "KBPageStartNumber": KBPageStartNumber,
+                    "KBPageEndNumber": KBPageEndNumber,
+                    "KBPageTotalRecords": KBPageTotalRecords,
+                    "KBPageButtonVisible": KBPageTotalRecords>8
+                    
+                }
+                var result_html = recHBS(response);
+                $('#KnowledgeSection').html(result_html);
+                $("#KnowledgeSection .macro").on('copy', copy);
+                $("#KnowledgeSection .macro").on('cut', cut);
+                $("#KnowledgeSection .disclosure").on("click", unfoldMacro);
+                $("#KnowledgeSection .title").on("click", unfoldMacro);
+                $("#KnowledgeSection .apply").on("click", clickApplyRecResponse);
+                $("#KnowledgeSection .more").on("click", clickShowMore);
+                $("#KnowledgeSection .less").on("click", clickShowLess);
+                $("#KnowledgeSection .rating-star").on("click", postknowledgerating);
+                $("#KnowledgeSection .view-article").on("click", ClickonViewArticle);
+            }
+
+            function showRecommendations(recommendations, count) {
+
+                if (responseAction == 'onLoad')
+                    recommendations = recommendations;
+                else
+                    recommendations = searchRecommendations;
+                
+                if (this.search_results) {
+                    
+                    recommendations = this.search_results;
+                    count = count || 6;
+                } else {
+                    recommendations = recommendations || this.recommendations;
+                    count = count || 3;
+                }
+
+                recommendations = _.uniq(recommendations, function(r) {
+                    return r.foreign_id;
+                });
+                for (var i = 0; i < recommendations.length; i++) {
+                    recommendations[i]['displayOrder'] = i + 1;
+                     if(recommendations[i].comment !=null)
+                    {
+                        if(recommendations[i].type != 'Macro'){
+                            if(htmlDecode(recommendations[i].comment)!=null)
+                            recommendations[i].comment =htmlDecode(recommendations[i].comment);
+                        }
+                        
+                        recommendations[i].comment=recommendations[i].comment.replace(/]]>/g, '');
+                    }
+                }
+               
+                if (recommendations.length < 3)
+                    count = recommendations.length;
+                $('#responses .loader').css("display", "none");
+                var recHBS = Handlebars.compile($("#recommendations-template").html());
+                
+                var slicerecommendations;
+                if (responseAction == 'onSearch')
+                    slicerecommendations = recommendations.slice(startcountResponse, endcountResponse);
+                else
+                    slicerecommendations = recommendations.slice(0, count);
+
+                var resppaginationString;
+                var respPageStartNumber;
+                var respPageEndNumber;
+                var respTotalRecords;
+                if (recommendations.length <= endcountResponse) {
+                    resppaginationString = startcountResponse + 1 + '-' + recommendations.length + ' of ' + recommendations.length + ' results';
+                    respPageStartNumber = startcountResponse + 1;
+                    respPageEndNumber = NoofTemplateswithSearchString;
+                    respTotalRecords = NoofTemplateswithSearchString;
+                } else {
+
+                    resppaginationString = startcountResponse + 1 + '-' + endcountResponse + ' of ' + recommendations.length + ' results';
+                    respPageStartNumber = startcountResponse + 1;
+                    respPageEndNumber = endcountResponse;
+                    respTotalRecords = NoofTemplateswithSearchString;
+                }
+
+                if (recommendations.length > 0)
+                    var responseActionnew = responseAction;
+                else
+                    responseActionnew = "onLoad";
+                var response = {
+                    "recommendations": slicerecommendations,
+                    "more": count < 6 && recommendations.length > 3,
+                    "less": count == 6,
+                    "next": NoofTemplateswithSearchString > endcountResponse,
+                    "prev": endcountResponse > 8,
+                    "none": recommendations.length === 0,
+                    "type": 'Response',
+                    "actionType": responseActionnew,
+                    "resppaginationString": resppaginationString,
+                    "respPageStartNumber": respPageStartNumber,
+                    "respPageEndNumber": respPageEndNumber,
+                    "respTotalRecords": respTotalRecords,
+                    "restPageButtonVis": respTotalRecords>8
+                }
+                var result_html = recHBS(response);
+                $('#resonseSection').html(result_html);
+                var that = this;
+                this.$(".pre-open .action-text").each(function(i, e) {
+                    var highlight = that.$(e).find(".highlight");
+                    if(highlight.position()!=undefined){
+                        var offset = highlight.position().top;
+                        that.$(e).scrollTop(offset - 6);
+                    }
+                });
+                $("#resonseSection .macro").on('copy', copy);
+                $("#resonseSection .macro").on('cut', cut);
+                $("#resonseSection .disclosure").on("click", unfoldMacro);
+                $("#resonseSection .title").on("click", unfoldMacro);
+                $("#resonseSection .apply").on("click", clickApplyRecResponse);
+                $("#resonseSection .more").on("click", clickShowMore);
+                $("#resonseSection .less").on("click", clickShowLess);
+                $("#resonseSection .replace").on("click", clickResetRecResponse);
+            }
+            function copy(e) {
+                var id = $(e.currentTarget).closest('.macro').find('.title').attr('data-id');
+                logUsageEvent({
+                    event_type: 'copy',
+                    foreign_id: id
+                });
+
+            }
+            function cut(e) {
+                var id = $(e.currentTarget).closest('.macro').find('.title').attr('data-id');
+                logUsageEvent({
+                    event_type: 'cut',
+                    foreign_id: id
+                });
+            }
+
+            function applyEmailTemplate(emailTemplateId) {
+                emailTemplateId = emailTemplateId.substring(0, emailTemplateId.length - 3);
+                 if(uiTheme=='Theme4d'||uiTheme=='Theme4u'||uiTheme=='Theme4t'){
+                var instructions = [{
+                        name: "publisher.selectAction",
+                        payload: {
+                            actionName: "Case.Email"
+                        }
+                    },
+                    {
+                        name: "publisher.setActionInputValues",
+                        payload: {
+                            actionName: "Case.Email",
+                            target: {
+                                HtmlBody: {
+                                    value: '</br></br>',
+                                    insertType: "end"
+                                }
+                            },
+                             emailFields: {
+                            template:{value:emailTemplateId}
+                            }
+                        }
+                    }
+                ];
+                executeInstructions(instructions);
+                     
+                     }else{
+                      var instructions = [{
+                        name: "publisher.selectAction",
+                        payload: {
+                            actionName: "Case.Email"
+                        }
+                    },
+                    {
+                        name: "publisher.setActionInputValues",
+                        payload: {
+                            actionName: "Case.Email",
+                            target: {
+                                HtmlBody: {
+                                    value: '</br></br>',
+                                    insertType: "end"
+                                }
+                            },
+                            "emailTemplate":{"id":emailTemplateId}
+                          
+                        }
+                    }
+                ];
+                executeInstructions(instructions);
+                   
+                     
+                     }
+            }
+
+            function executeInstructions(instructions) {
+                //('executeInstructions');
+                var waitTimeInMs = 0;
+                for (var i = 0; i < instructions.length; i++) {
+                    setTimeout(executeInstruction, waitTimeInMs, instructions[i]);
+
+                    if (instructions[i].name === 'publisher.invokeAction') {
+                        waitTimeInMs += 2000;
+                    } else if (instructions[i].name === 'publisher.refresh') {
+                        waitTimeInMs += 2000;
+                    } else if ('emailTemplate' in instructions[i].payload) {
+                        waitTimeInMs += 2000;
+                    } else {
+                        waitTimeInMs += 200;
+                    }
+                }
+                setTimeout(hideProgressModal, waitTimeInMs);
+            }
+
+    function executeInstruction(instruction) {
+        Sfdc.canvas.publisher.publish(instruction);
+    }
+
+            function shortcutApplyRecResponse(displayOrder) {
+                var target = $('[displayOrder=' + displayOrder.toString() + '].title');
+                applyRecResponse(target, 'shortcutApplyMacro');
+            }
+
+            function clickApplyRecResponse(e) {
+                var target = $(e.currentTarget);
+                    applyRecResponse(target, 'clickApplyMacro');
+
+            }
+
+            function clickResetRecResponse(e) {
+                var target = $(e.currentTarget);
+                    applyRecResponse(target, 'clickApplyMacro', 'ResetResponse');
+
+            }
+            function applyRecResponse(target, eventType, ResetResponseCode) {
+                var type = target.attr('data-type');
+                var id = target.attr('data-id');
+                var title = target.attr('data-name');
+                var isBulk = target.attr('data-isirreversible');
+                var rank = target.attr('data-rank');
+                var comments = target.attr('data-comments');
+                var action=null;
+                if (ResetResponseCode == 'ResetResponse') {
+                    replaceMacroCheck = true;
+                }
+                if (type === 'KnowledgeArticle') {
+                    eventType = "Solution Applied";
+                    action=(knowledgeAction == 'onLoad') ? 'KB recommendation':'KB search';
+                    recordUsageEvent({ event_type: eventType,Source:action,rank: rank,solution_id: id,title: title,isBulk: isBulk });
+                   
+                }else{
+                    action=( responseAction== 'onLoad') ? 'response recommendation':'response search';
+                    type=(type=='EmailTemplate') ? 'email template':'macro';
+                    recordUsageEvent({ event_type: eventType,Source:action,rank: rank,Type: type,macro_id: id,title: title,isBulk: isBulk});
+                }
+
+                if(eventType!=='shortcutApply'){
+                eventType='clickApply';
+                }
+                logUsageEvent({event_type: eventType, rank: rank, type: type, foreign_id: id, title: title, isBulk: isBulk});
+
+                displayProgressModal(type, title, isBulk);
+                if ((type == 'EmailTemplate' || type =='email template')&& ResetResponseCode == 'ResetResponse') {
+                    ResetEmailTemplate(title, comments, id);
+                } else if (type == 'EmailTemplate' || type =='email template') {
+                    applyEmailTemplate(id);
+                } else if (type == 'KnowledgeArticle') {
+                   var comments1 =comments.replace(/widthwidget:/g, 'width:');
+                    
+                    applyKnowledgeArticle(title, comments1);
+                } else {
+                    applyMacro(id);
+                }
+            }
+
+            function ResetEmailTemplate(title, comments, emailTemplateId) {
+
+                emailTemplateId = emailTemplateId.substring(0, emailTemplateId.length - 3);
+                if(uiTheme=='Theme4d'||uiTheme=='Theme4u'||uiTheme=='Theme4t'){
+                var instructions = [{
+                        name: "publisher.selectAction",
+                        payload: {
+                            actionName: "Case.Email"
+                        }
+                    },
+                    {
+                        name: "publisher.setActionInputValues",
+                        payload: {
+                            actionName: "Case.Email",
+                            emailFields: {
+                               
+                                HtmlBody: {
+                                value: null
+                            },
+                            template:{value:emailTemplateId}
+                            }
+                        }
+                    }
+                ];
+                executeInstructions(instructions);
+                    }else{
+                        
+                         var instructions = [{
+                        name: "publisher.selectAction",
+                        payload: {
+                            actionName: "Case.Email"
+                        }
+                    },
+                    {
+                        name: "publisher.setActionInputValues",
+                        payload: {
+                            actionName: "Case.Email",
+                           "emailTemplate":{"id":emailTemplateId},
+                            emailFields: {
+                               
+                                HtmlBody: {
+                                value: null
+                            }                        
+                            }
+                        }
+                    }
+                ];
+                executeInstructions(instructions);
+                        }
+
+            }
+
+            function applyKnowledgeArticle(title, comments) {
+                if (initialKnowApplyCheck == true) {
+                    var instructions = [{
+                            name: "publisher.selectAction",
+                            payload: {
+                                actionName: "Case.Email"
+                            }
+                        },
+                        {
+                            name: "publisher.setActionInputValues",
+                            payload: {
+                                actionName: "Case.Email",
+                                emailFields: {
+                                    HtmlBody: {
+                                        value: '</br></br>' + comments,
+                                        insertType: "cursor"
+                                    }
+                                }
+                            }
+                        }
+                    ];
+                }
+                if (initialKnowApplyCheck == false) {
+                    var instructions = [{
+                            name: "publisher.selectAction",
+                            payload: {
+                                actionName: "Case.Email"
+                            }
+                        },
+                        {
+                            name: "publisher.setActionInputValues",
+                            payload: {
+                                actionName: "Case.Email",
+                                emailFields: {
+                                    HtmlBody: {
+                                        value: comments + '</br></br>',
+                                        insertType: "cursor"
+                                    }
+                                }
+                            }
+                        }
+                    ];
+                }
+
+                initialKnowApplyCheck = true;
+                executeInstructions(instructions);
+            }
+
+            function applyMacro(macroId) {
+                
+                Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.WiseCaseController.getInstructions}', macroId, currentCaseId, translateAndApplyInstructions, {
+                    escape: false
+                });
+            }
+
+            function translateAndApplyInstructions(result, event) {
+                
+                if (result.errorMessage != null) {
+                    message = 'Unable to apply macro. Reason: ' + result.errorMessage;
+                    console.log(message);
+                    sendError(message)
+                    displayErrorMessageInProgressModal(errorRunningMacroMessage);
+                    return;
+                }
+
+                var rawInstrs = result.instructions;
+                var translatedInstrs = [];
+                var refreshInstr = {
+                    name: 'publisher.refresh',
+                    payload: {
+                        feed: true
+                    }
+                };
+                var currentActionName;
+
+                for (var i = 0; i < rawInstrs.length; i++) {
+                    var rawInstr = rawInstrs[i];
+                    var translatedInstr;
+
+                    if (rawInstr.Operation === 'Select') {
+                        translatedInstr = translateSelectInstruction(rawInstr);
+                    } else if (rawInstr.Operation === 'Set') {
+                        translatedInstr = translateSetInstruction(rawInstr, currentActionName);
+                    } else if (rawInstr.Operation === 'Insert') {
+                        translatedInstr = translateInsertInstruction(rawInstr, currentActionName);
+                    } else if (rawInstr.Operation === 'Submit') {
+                        translatedInstr = translateSubmitInstruction(rawInstr, currentActionName);
+                    } else {
+                        console.log('Operation is not supported:' + String(rawInstr));
+                    }
+
+                    if (translatedInstr) {
+                        currentActionName = translatedInstr.payload.actionName;
+                        translatedInstrs.push(translatedInstr);
+                    }
+                    //Insert publisher refresh instruction after every Submit
+                    if (rawInstr.Operation === 'Submit') {
+                    }
+                }
+                executeInstructions(translatedInstrs);
+            }
+
+            function translateSelectInstruction(rawInstr) {
+                if (rawInstr.Target.startsWith('QuickAction.')) {
+                    return {
+                        name: 'publisher.selectAction',
+                        payload: {
+                            actionName: rawInstr.Target.replace('QuickAction.', '')
+                        }
+                    };
+                }
+            }
+
+            function translateSetInstruction(rawInstr, actionName) {
+                var translatedInstr = {
+                    name: 'publisher.setActionInputValues',
+                    payload: {
+                        actionName: actionName
+                    }
+                };
+                var targetField = rawInstr.Target.substring(rawInstr.Target.lastIndexOf('.') + 1, rawInstr.Target.length);
+                if (targetField === 'EmailTemplate') {
+                    translatedInstr.payload['emailTemplate'] = {
+                        id: rawInstr.ValueRecord.substring(0, rawInstr.ValueRecord.length - 3)
+                    };
+                   
+                    if (replaceMacroCheck == true) {
+                        if(uiTheme=='Theme4d'||uiTheme=='Theme4u'||uiTheme=='Theme4t'){
+                            translatedInstr.payload['emailFields'] = {
+                                template:{value:rawInstr.ValueRecord.substring(0, rawInstr.ValueRecord.length - 3)},  
+                            };
+                        }else{
+                            translatedInstr.payload['emailFields'] = {
+                                HtmlBody: {
+                                    value: null
+                                }
+                                
+                            };
+                        }
+                    } else {
+                        if(uiTheme=='Theme4d'||uiTheme=='Theme4u'||uiTheme=='Theme4t'){
+                        translatedInstr.payload['emailFields'] = {
+                            template:{value:rawInstr.ValueRecord.substring(0, rawInstr.ValueRecord.length - 3)},
+                            
+                        };
+                            }else{
+                               translatedInstr.payload['emailFields'] = {
+                         
+                            HtmlBody: {
+                                value: null,
+                                insertType: "end"
+                            }
+                        };
+                            }
+                    }
+                  
+                    replaceMacroCheck = false;
+                } else {
+                    translatedInstr.payload['targetFields'] = {};
+                    translatedInstr.payload['targetFields'][targetField] = {
+                        value: rawInstr.Value
+                    };
+                }
+
+                return translatedInstr;
+            }
+
+            function translateInsertInstruction(rawInstr, actionName) {
+                var translatedInstr = {
+                    name: 'publisher.setActionInputValues',
+                    payload: {
+                        actionName: actionName
+                    }
+                };
+                var insertType = rawInstr.Target.substring(rawInstr.Target.lastIndexOf('.') + 1, rawInstr.Target.length);
+                var targetWithoutInsertType = rawInstr.Target.substring(0, rawInstr.Target.lastIndexOf('.'));
+                var targetField = targetWithoutInsertType.substring(targetWithoutInsertType.lastIndexOf('.') + 1, targetWithoutInsertType.length);
+
+                translatedInstr.payload['targetFields'] = {};
+                translatedInstr.payload['targetFields'][targetField] = {
+                    value: rawInstr.Value,
+                    insertType: insertType
+                };
+
+                return translatedInstr;
+            }
+
+            function translateSubmitInstruction(rawInstr, actionName) {
+                return {
+                    name: 'publisher.invokeAction',
+                    payload: {
+                        actionName: actionName
+                    }
+                };
+            }
+
+            function showMore(type) {
+                if (type == 'KnowledgeArticle') {
+                    if (knowledgeAction == 'onSearch') {
+                        knowledgePageNum = knowledgePageNum + 1;
+                        doSearch('KB',false,true);
+                    } else {
+                        var allknowledge = populateKnowledgeList();
+                        showKnowledgeArticles(allknowledge, 6);
+                    }
+                } else {
+                    startcountResponse = startcountResponse + 8;
+                    endcountResponse = endcountResponse + 8;
+                    
+                    if(responseAction == 'onSearch'){
+                        searchRecommendations = _.uniq(searchRecommendations, function(r) {
+                            return r.foreign_id;
+                        });
+                        
+                        if(searchRecommendations.length!=NoofTemplateswithSearchString)
+                        {
+                            var searchResultsnext=[]
+                            var keyword = $(".search").val();
+                            if (keyword === "") {
+                                hideSearch();
+                                return;
+                            }
+                            
+                            Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.WiseCaseController.prepareEmailTemplatesJSONs}', '{!Case.Id}', null, null,null,keyword,offsetlimit, 
+                                                                      function(result1, event) {
+                                                                          var  emailTemplates=result1['emailTemplates'];  
+                                                                          offsetlimit=offsetlimit+10;
+                                                                          var emailTemplateSearchResults = searchRecords(emailTemplates, keyword);
+                                                                          searchRecommendations= searchRecommendations.concat(emailTemplateSearchResults);
+                                                                          showRecommendations(searchRecommendations, 8);
+                                                                      });
+                            
+                        }
+                        else if(searchRecommendations.length==NoofTemplateswithSearchString)
+                        {
+                            showRecommendations(searchRecommendations, 8);
+                        }
+                    }else{
+                            
+                         showRecommendations(allRecommendations, 6);
+                    }
+                    
+                }
+
+            }
+
+            function clickShowMore(e) {
+                e.preventDefault();
+                var macroDiv = $(e.currentTarget).parent();
+                var target = macroDiv.find('.more');
+                var type = target.attr('data-type');
+                var next = target.attr('data-action');
+                var eventType = null;
+                if(next=='Next'){
+                    recordUsageEvent({
+                        event_type: 'clickNext'
+                    });
+                    logUsageEvent({
+                        event_type: 'clickNext',
+                        type: type
+                    });
+                }else{
+                    if (type === 'KnowledgeArticle') {
+                        eventType = "ClickShowMoreKB"
+                    } else {
+                        eventType = "clickShowMore"
+                    }
+                    
+                    recordUsageEvent({
+                        event_type: eventType
+                    });
+                    logUsageEvent({event_type: eventType});
+                }
+                showMore(type);
+            }
+
+            function clickShowLess(e) {
+                e.preventDefault();
+                var macroDiv = $(e.currentTarget).parent();
+                var target = macroDiv.find('.less');
+                var type = target.attr('data-type');
+                var Prev = target.attr('data-action');
+                var eventType = null;
+                
+                if(Prev=='Prev'){
+                      recordUsageEvent({
+                        event_type: 'clickPrevious'
+                    });
+                    logUsageEvent({
+                        event_type: 'clickPrevious',
+                        type: type
+                    });
+                }
+                else{
+                    if (type === 'KnowledgeArticle') {
+                        eventType = "ClickShowLessKB"
+                    } else {
+                        eventType = "clickShowLess"
+                    }
+                    
+                    recordUsageEvent({
+                        event_type: eventType
+                    });
+                    logUsageEvent({event_type: eventType});
+                }
+                showLess(type);
+            }
+
+            function showLess(type) {
+                if (type == 'KnowledgeArticle') {
+
+                    if (knowledgeAction == 'onSearch') {
+                        knowledgePageNum = knowledgePageNum - 1;
+                        doSearch('KB',false,true);
+                    } else {
+                        var allknowledge = populateKnowledgeList();
+                        showKnowledgeArticles(allknowledge, 3);
+                    }
+                } else {
+                    startcountResponse = startcountResponse - 8;
+                    endcountResponse = endcountResponse - 8;
+                    showRecommendations(allRecommendations, 3);
+                }
+
+            }
+
+            function shortcutShowMore() {
+                logUsageEvent({
+                    event_type: 'shortcutShowMore'
+                });
+                showMore();
+            }
+
+            function shortcutActivateSearch(activateFromSidebar) {
+                logUsageEvent({
+                    event_type: 'shortcutActivateSearch'
+                });
+                $(".search").focus();
+            }
+
+            function logUsageEvent(eventData) {
+               
+                if(activeTab!='Knowledge' || eventData.event_type=='ticketLoaded'){
+                // Remove previous doSearch event from usageData if it is for the same keyword as current doSearch event
+                // This should remove duplicate events when extra character was typed or last character was deleted
+                if ((eventData.event_type == 'doSearch') &&
+                    (usageEvents.length > 0) &&
+                    (usageEvents[usageEvents.length - 1].event_type == 'doSearch') &&
+                    ((usageEvents[usageEvents.length - 1].search.length <= eventData.search.length) ||
+                        (usageEvents[usageEvents.length - 1].search.length - eventData.search.length == 1))) {
+
+                    usageEvents.pop();
+                }
+                
+                // Add new event to usageData
+                var event = eventData;
+                var now = unixTimestamp();
+                event.timestamp = now;
+                event.time_secs = now - sessionStart;
+                usageEvents.push(event);
+                // Send feedback if current event is one of the events specified in sendFeedbackTriggerEventTypes list
+                // OR more than minTimeInSecondsToWaitBeforeSendingFeedback passed since feedbackLastSent
+                if (($.inArray(event.event_type, sendFeedbackTriggerEventTypes) > -1) ||
+                    (feedbackLastSent - now > minTimeInSecondsToWaitBeforeSendingFeedback)) {
+                    
+                    sendFeedback(usageEvents);
+                    usageEvents = [];
+                }
+                }
+            }
+
+            function recordUsageEvent(event) {
+                
+                if (event != undefined && event.event_type.indexOf('Solution') !== -1) {
+                    event.tab = 'Knowledge';
+                } else {
+                    event.tab = 'Response';
+
+                }
+                event.Client_id=client_id;
+                event.ticket_id=currentCaseId;
+                event.agent_id= agentId;
+                event.account_sub_domain=agentCompany;
+                mixpanel.track(event.event_type, event);
+
+            }
+
+            function registerEventsHeader() {
+                mixpanel.register({
+                    case_id: currentCaseId,
+                    agent_id: agentId,
+                    account_sub_domain: agentCompany
+                });
+            }
+
+            function sendFeedback(Usevents) {
+			console.log(JSON.stringify(Usevents));
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.WiseCaseController.sendFeedback}',
+                    usageEvents,
+                    currentCaseId,
+                    Usevents,
+                    function(result, event) {
+                        if (result == 'success') {
+                            feedbackLastSent = unixTimestamp();
+                            usageEvents = [];
+                        } else {
+                            sendError(result);
+                            feedbackLastSent = unixTimestamp();
+                        }
+                    });
+            }
+
+            function sendError(message, file, line) {
+                try {
+                    console.log('Sending error message: ' + message);
+                    $.ajax({
+                        type: 'POST',
+                        url: wiseSettings.wisespt__WiseAPIURL__c + 'v1/sidebar/error?auth=' + wiseSettings.wisespt__WiseAuthToken__c,
+                        data: JSON.stringify({
+                            'app_name': appName,
+                            'app_version': appVersion,
+                            'agent_id': agentId,
+                            'agent_name': agentName,
+                            'agent_role': agentRole,
+                            'agent_company': agentCompany,
+                            'user_agent': userAgent,
+                            'ticket_id': currentCaseId,
+                            'message': message,
+                            'file': file,
+                            'line': line
+                        }),
+                        contentType: 'application/json; charset=utf-8'
+                    });
+
+                    console.log('Finished sending error message.');
+                } catch (exception) {
+                    console.log(exception);
+                }
+            }
+
+            function getStorage() {
+                // Detect storage https://mathiasbynens.be/notes/localstorage-pattern
+                // if storage then we can use local storage
+                var storage;
+                var fail;
+                var uid;
+                var jsonmap;
+                try {
+                    
+                    uid = new Date;
+                    (storage = window.localStorage).setItem(uid, uid);
+                    fail = storage.getItem(uid) != uid;
+                    storage.removeItem(uid);
+                    fail && (storage = false);
+                } catch (exception) {
+                    console.log(exception);
+                    sendError('Could not get local storage.', 'WiseResponse_sidebar.getStorage');
+                }
+                return storage;
+            }
+
+            function setupJSONs(jsonName) {
+                // If JSONs are in local storage, then set them up based on stored JSONs and then fetch all updated JSONs on background
+                wiseSettings = {!WiseSettingsJSON};
+                var storage = getStorage();
+                if (storage) {
+                    try {
+                        var jsonmapz = storage.getItem(jsonName);
+
+                        if (jsonmapz != null) {
+                            console.log("Found " + jsonName + " JSONs in local storage.");
+                            console.log("Compressed " + jsonName + " JSON size = " + jsonmapz.length.toString() + " char");
+                            jsonmap = JSON.parse(LZString.decompress(jsonmapz));
+                          
+                                populateJSONs(jsonmap);
+                                allRecommendations = getRecommendationsList();
+                                showRecommendations(allRecommendations, 3);
+                            
+                        } else if (storageNameForMacros == jsonName) {
+                            var recs = [];
+                            var predectionmacroids = [];
+                            if (wiseSettings.wisespt__WisePredictEmailTemplatesOnly__c != true) {
+                                recs = ({!WiseResponseJSON
+                                }).macro_recommendations;
+                            }
+                            if (recs != undefined) {
+                                for (var i = 0; i < recs.length; i++) {
+                                    if (recs[i].type == 'Macro')
+                                        predectionmacroids.push(recs[i].foreign_id);
+
+                                }
+                                console.log('Calling @RemoteAction.WiseCaseController.prepareMacrosJSONs...');
+                                Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.WiseCaseController.prepareMacrosJSONs}', '{!Case.Id}', predectionmacroids, function(result1, event) {
+                                    saveJSONToLocalStorage(storageNameForMacros, result1);
+                                    populateJSONs(result1);
+                                    allRecommendations = getRecommendationsList();
+                                    showRecommendations(allRecommendations, 3);
+                                    
+                                });
+
+                            }
+                        }
+                    } catch (exception) {
+                        console.log(exception);
+                        sendError("Unable to setup " + jsonName + " JSONs.", "WiseResponse_sidebar.setupJSONs");
+                    }
+                } else {
+                    sendError("No local storage.", "WiseResponse_sidebar.setupJSONs");
+                }
+
+                fetchJSONs(jsonName, null);
+            }
+
+            function fetchJSONs(jsonName, offset) {
+                if (jsonName === storageNameForMacros) {
+                    console.log('Calling @RemoteAction.WiseCaseController.prepareMacrosJSONs...');
+                    Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.WiseCaseController.prepareMacrosJSONs}', '{!Case.Id}', null, saveMacrosJSONs, {
+                        escape: false
+                    });
+                }
+                if (jsonName === storageNameForEmailTemplates) {
+                    var folders = wiseSettings.wisespt__WiseSearchEmailTemplateFolders__c;
+                    
+                    var recs = [];
+                            var predectionemailIds = [];
+                            if (wiseSettings.wisespt__WisePredictEmailTemplatesOnly__c != true) {
+                                recs = ({!WiseResponseJSON
+                                }).macro_recommendations;
+                            }
+                            if (recs != undefined) {
+                                for (var i = 0; i < recs.length; i++) {
+                                    if (recs[i].type == 'EmailTemplate')
+                                        predectionemailIds.push(recs[i].foreign_id);
+
+                                }     
+
+                            }
+                    if (folders == undefined) {
+                        folders = null;
+                    }
+                    console.log('Email Templates are restricted to these folders: ' + folders);
+                    console.log('Calling @RemoteAction.WiseCaseController.prepareEmailTemplatesJSONs...');
+                    Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.WiseCaseController.prepareEmailTemplatesJSONs}', '{!Case.Id}', folders, offset,predectionemailIds,null,0, 
+                    saveEmailTemplatesJSONs);
+                }
+            }
+
+            function saveMacrosJSONs(val, event) {
+                if (val == null || val == undefined) {
+                    sendError('Did not fetch ' + storageNameForMacros, 'WiseResponse_sidebar.saveMacrosJSONs');
+                } else if (val.length == 0) {
+                    sendError('Did not fetch ' + storageNameForMacros, 'WiseResponse_sidebar.saveMacrosJSONs');
+                } else {
+                    populateJSONs(val);
+                    saveJSONToLocalStorage(storageNameForMacros, val);
+                }
+            }
+
+        function populateKnowledgeJSONs(val, event) {
+            
+            if(val && val['client_id'])
+            {
+                client_id=val['client_id'];
+            }
+            if (knowledgeAction != 'onSearch') {
+                if ((val == undefined || val == null ||val['NOContent']==undefined || val['knowledge'].recommendations == undefined || val['knowledge'].recommendations == null || val['knowledge'].status == undefined || val['knowledge'].status == null)) {
+                    $('#Knowledge .loader').css("display", "none");
+                    if ((val == undefined || val == null || (val['knowledge']!=undefined && val['knowledge'].status!=200)) && currentCaseId != '' && currentCaseId != null){
+                        $('#KnowledgeSection').html('<div style="margin: 9px 1px 10px; color: red;"> Unable to contact AnswerIQ server <div>');
+                    }
+                    else{
+                        $('#KnowledgeSection').html('<div style="margin: 9px 1px 10px ;"> No relevant Knowledge articles found. Please, use search to find articles.');
+                    }
+                    
+                }
+                
+                if(KBonloadCount===1 ||KBonloadCount===0){
+                    setup();
+                    if(KBonloadCount===1)
+                    KBonloadCount=2;
+                }
+            }
+            
+            if (knowledgeAction == 'onSearch' && val == undefined) {
+                
+                $('#KnowledgeSection').html('<div style="margin: 9px 1px 10px;"> No Results Found <div>');
+                
+            }
+            if (val == null || val == undefined) {
+                sendError('Did not fetch ' + storageNameForKnowledge, 'WiseResponse_sidebar.populateKnowledgeJSONs');
+                
+            } else if (val.length == 0) {
+                sendError('Did not fetch ' + storageNameForKnowledge, 'WiseResponse_sidebar.populateKnowledgeJSONs');
+                
+            } else {
+                
+                populateJSONs(val);
+                var allknowledge = populateKnowledgeList();
+                if (knowledgeAction == 'onSearch')
+                    showKnowledgeArticles(allknowledge, 8);
+                else{
+                    showKnowledgeArticles(allknowledge, 3);
+                }
+                if(KBonloadCount===2){
+                    recordUsageEvent({
+                        event_type: 'Solutions Generated',
+                        solutions:'{ '+JSON.stringify(allknowledge)+' }'
+                    });
+                    KBonloadCount=3;
+                }
+            }
+        }
+            function saveEmailTemplatesJSONs(val, event) {
+                
+                if (val == null || val == undefined) {
+                    sendError('Did not fetch ' + storageNameForEmailTemplates, 'WiseResponse_sidebar.saveEmailTemplatesJSONs');
+                } else if (val.length == 0) {
+                    sendError('Did not fetch ' + storageNameForEmailTemplates, 'WiseResponse_sidebar.saveEmailTemplatesJSONs');
+                } else {
+                    if ('offsetId' in val) {
+                        emailTemplatesFetchedOnBackground = emailTemplatesFetchedOnBackground.concat(val['emailTemplates']);
+                        fetchJSONs(storageNameForEmailTemplates, val['offsetId']);
+                    } else {
+                        emailTemplatesFetchedOnBackground = emailTemplatesFetchedOnBackground.concat(val['emailTemplates']);
+                        console.log('Got ' + emailTemplatesFetchedOnBackground.length + ' email templates.');
+                        emailTemplates = emailTemplatesFetchedOnBackground;
+                        emailTemplatesMap = emailTemplates.reduce(function(map, emailTemplate) {
+                            map[emailTemplate.foreign_id] = emailTemplate;
+                            return map;
+                        }, {});
+                        saveJSONToLocalStorage(storageNameForEmailTemplates, {
+                            'emailTemplates': emailTemplates
+                        });
+                        allRecommendations = getRecommendationsList();
+                        showRecommendations(allRecommendations, 3);
+                    }
+                }
+            }
+
+            function saveJSONToLocalStorage(jsonName, val) {
+                var storage = getStorage();
+
+                if (storage) {
+                    try {
+                        console.log('Saving ' + jsonName + ' into local storage');
+                        console.log('Uncompressed ' + jsonName + ' = ' + JSON.stringify(val).length.toString() + ' char');
+                        console.log('Compressed ' + jsonName + ' = ' + LZString.compress(JSON.stringify(val)).length.toString() + ' char');
+                        storage.setItem(jsonName, LZString.compress(JSON.stringify(val)));
+                        storage.setItem(jsonName + '_time', unixTimestamp());
+                    } catch (exception) {
+                        console.log(exception);
+                        sendError('Unable to save ' + jsonName + ' to local storage.', 'WiseResponse_sidebar.saveJSONToLocalStorage');
+                    }
+                } else {
+                    sendError('Unable to save ' + jsonName + ' to local storage because could not get storage.', 'WiseResponse_sidebar.saveJSONToLocalStorage');
+                }
+            }
+
+            function populateJSONs(jsonmap) {
+                knowledgeArticles = [];
+                if ('knowledge' in jsonmap) {
+                    
+                    knowledgeArticles = jsonmap['knowledge'];
+
+                    return;
+                }
+                if ('macros' in jsonmap) {
+                    macros = jsonmap['macros'];
+                    macrosMap = macros.reduce(function(map, macro) {
+                        map[macro.foreign_id] = macro;
+                        return map;
+                    }, {});
+                }
+                
+                if ('emailTemplates' in jsonmap) {
+                   
+                    emailTemplates = emailTemplates.concat(jsonmap['emailTemplates']);
+                    emailTemplatesMap = emailTemplates.reduce(function(map, emailTemplate) {
+                        map[emailTemplate.foreign_id] = emailTemplate;
+                        return map;
+                    }, {});
+                }
+
+                if ('emailTemplateIdMacrosMap' in jsonmap) {
+                    emailTemplateIdMacrosMap = jsonmap['emailTemplateIdMacrosMap'];
+                }
+            }
+
+            function logCloseTabEvent(result) {
+                console.log('logCloseTabEvent>>>'+this.alreadyLoggedCloseTabEvent);
+                console.log('result.objectId>>>'+result.objectId);
+                console.log('this.currentCaseId.slice(0, -3)>>>'+this.currentCaseId.slice(0, -3));
+                var that = this;
+                if (this.currentCaseId.slice(0, -3) == result.objectId && this.alreadyLoggedCloseTabEvent === false) {
+                    this.alreadyLoggedCloseTabEvent = true;
+                    console.log('tabClosed');
+                    logUsageEvent({
+                        event_type: 'tabClosed'
+                    });
+                }
+            }
+
+            function setup() {
+
+                logUsageEvent({
+                    event_type: 'ticketLoaded'
+                });
+                 recordUsageEvent({
+                    event_type: 'ticketLoaded'
+                });
+                var that = this;
+                if({!macrosCount}==0){
+                    saveJSONToLocalStorage(storageNameForMacros, null);
+                }
+                setupJSONs(storageNameForMacros);
+                setupJSONs(storageNameForEmailTemplates);
+                
+
+                $("#responses .help-icon").on("click", displayKeyboardShortcutsMenu);
+                $("#Knowledge .help-icon").on("click", displayKeyboardShortcutsMenuArticle);
+                $(".close-search").on("click", clickHideSearch);
+                $("#responses .search").keyup(function(e) {
+                    var code = e.which; // recommended to use e.which, it's normalized across browser
+                    if (code == 13) {
+                        doSearch('response');
+                    }
+                });
+                $("#Knowledge .search").keyup(function(e) {
+                    var code = e.which; // recommended to use e.which, it's normalized across browsers
+                    if (code == 13) {
+                        doSearch('KB');
+                    }
+                });
+                sforce.console.addEventListener(sforce.console.ConsoleEvent.CLOSE_TAB, logCloseTabEvent);
+                window.onerror = function(message, file, line) {
+                    sendError(message, file, line);
+                };
+                // Setup shortcuts: one set of event listeners will work when focus is on sidebar elements
+                // and another when focus is not on sidebar elements
+                var shortcuts = {
+                    "Ctrl+Alt+q": {
+                        "function": shortcutActivateSearch,
+                        "customShortcut": "SearchResponseRecs"
+                    },
+                    "Ctrl+Alt+y": {
+                        "function": shortcutShowMore,
+                        "customShortcut": "ShowMore"
+                    },
+                    "Ctrl+Alt+1": {
+                        "function": function() {
+                            shortcutApplyRecResponse(1);
+                        },
+                        "customShortcut": "ApplyFirstRecResponse"
+                    },
+                    "Ctrl+Alt+2": {
+                        "function": function() {
+                            shortcutApplyRecResponse(2);
+                        },
+                        "customShortcut": "ApplySecondRecResponse"
+                    },
+                    "Ctrl+Alt+3": {
+                        "function": function() {
+                            shortcutApplyRecResponse(3);
+                        },
+                        "customShortcut": "ApplyThirdRecResponse"
+                    },
+                    "Ctrl+Alt+4": {
+                        "function": function() {
+                            shortcutApplyRecResponse(4);
+                        },
+                        "customShortcut": "ApplyFourthRecResponse"
+                    },
+                    "Ctrl+Alt+5": {
+                        "function": function() {
+                            shortcutApplyRecResponse(5);
+                        },
+                        "customShortcut": "ApplyFifthRecResponse"
+                    },
+                    "Ctrl+Alt+6": {
+                        "function": function() {
+                            shortcutApplyRecResponse(6);
+                        },
+                        "customShortcut": "ApplySixthRecResponse"
+                    }
+                };
+
+                for (var combination in shortcuts) {
+                    if (shortcuts.hasOwnProperty(combination)) {
+                        shortcut.add(combination, shortcuts[combination]["function"]);
+                        sforce.console.addEventListener("customShortcut." + shortcuts[combination]["customShortcut"],
+                            shortcuts[combination]["function"]);
+                    }
+                }
+            };
+
+            function unixTimestamp() {
+                return Math.round(new Date().getTime() / 1000.0);
+            }
+
+            function strip(html) {
+                var tmp = document.createElement("DIV");
+                tmp.innerHTML = html;
+                return tmp.textContent || tmp.innerText || "";
+            }
+
+            function configsetup() {
+
+                //calling configapi
+                var storage = getStorage();
+                var result = storage.getItem(agentId);
+                if (result != undefined && result != null) {
+                    result = JSON.parse(LZString.decompress(result))
+                }
+                if (result != null && result != undefined) {
+                    tabsetup(result);
+
+                } else {
+                    Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.WiseCaseController.getUserConfig}', '{!Case.Id}', function(result1, event) {
+                        tabsetup(result1);
+                    });
+                }
+                $('.c-tab__list').css("display", "block");
+                knowledgesetup();
+
+            }
+
+            function tabsetup(result) {
+                
+                $('#responses').css("display", "none");
+                $('#responsetab').css("display", "none");
+                $('#knowledgebase').css("display", "none");
+                $('#Triagetab').css("display", "none");
+                var responsevar = false;
+                var knowledgevar = false;
+                var triagevar = false;
+                var list, b;
+                list = document.getElementById("wise-tabs1");
+                b = list.getElementsByTagName("li");
+                if (result != null && result != undefined) {
+                    $('#mainLoader').css("display", "none");
+                    var config = result.config.components;
+                    $("#wise-tabs").empty();
+
+                    var blength = b.length;
+                    for (var i = 0; i < config.length; i++) {
+
+                        $('#wise-responses').css("display", "block");
+                        
+                        if (config[i].id == 'response') {
+                            if (i == 0) {
+                                var element = document.getElementById("responsetab");
+                                element.classList.add("is-selected");
+                                document.getElementById("responses").style.display = "block";
+                                activeTab='responses';
+                            }
+                            $("#wise-tabs").append(b[0]);
+                            $("#wise-tabs").append(b[blength - 3]);
+                            $('#responsetab').css("display", "inline-block");
+                            responsevar = true;
+                           
+                            
+                        } else if (config[i].id == 'triage') {
+                            if (i == 0) {
+                                activeTab='Triage';
+                                var element = document.getElementById("Triagetab");
+                                element.classList.add("is-selected");
+                                document.getElementById("Triage").style.display = "block";
+                                $('#Triagetab').css("margin-left", "5px");
+                                $("#wise-tabs").append(b[2]);
+                            } else if (i == 1) {
+                                
+                                if (b[1] == undefined)
+                                    $("#wise-tabs").append(b[0]);
+                                else
+                                    $("#wise-tabs").append(b[1]);
+                                
+                            } else if (i == 2) {
+                                if (b[0] != undefined)
+                                    $("#wise-tabs").append(b[0]);
+                                else if(b[1] != undefined)
+                                    $("#wise-tabs").append(b[1]);
+                                    else
+                                        $("#wise-tabs").append(b[2]);
+                            }
+                            $("#wise-tabs").append(b[blength - 1]);
+                            $('#Triagetab').css("display", "inline-block");
+                            triagevar = true;
+                        } else if (config[i].id == 'knowledgebase') {
+                            if (i == 0) {
+                                activeTab='Knowledge';
+                                var element = document.getElementById("knowledgebase");
+                                element.classList.add("is-selected");
+                                document.getElementById("Knowledge").style.display = "block";
+
+                                $("#wise-tabs").append(b[1]);
+                            } else if (i == 2) {
+                                $("#wise-tabs").append(b[0]);
+                            } else {
+                                if (b[1] == undefined)
+                                    $("#wise-tabs").append(b[0]);
+                                else
+                                    $("#wise-tabs").append(b[1]);
+
+                            }
+                            $('#knowledgebase').css("display", "inline-block");
+                            
+                            knowledgeConfig = config[i];
+                            knowledgevar = true;
+                        }
+
+                    }
+                    if(knowledgevar==false){
+                        KBonloadCount=0;
+                    }
+
+                } else {
+                    $('#mainLoader').css("display", "none");
+                    $('#wise-responses').css("display", "block");
+                    var element = document.getElementById("responsetab");
+                    element.classList.add("is-selected");
+                    document.getElementById("responses").style.display = "block";
+                    $("#wise-tabs").append(b[0]);
+                    $('#responsetab').css("display", "inline-block");
+                }
+
+            }
+        function titlesOnly(e){
+            
+            recordUsageEvent({
+                event_type: 'changeSearchTitlesOnly'
+            });
+            logUsageEvent({
+                event_type: 'changeSearchTitlesOnly'
+            });
+        }
+
+            function knowledgesetup() {
+                console.log('Calling @RemoteAction.WiseCaseController.getKnowledgeArticles...');
+                Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.WiseCaseController.getKnowledgeArticles}', '{!Case.Id}', populateKnowledgeJSONs, {
+                    escape: false
+                });
+
+                Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.WiseCaseController.getUserConfig}', '{!Case.Id}', function(result, event) {
+                    var storage = getStorage();
+                    storage.setItem(agentId, LZString.compress(JSON.stringify(result)));
+
+                });
+            }
+            $(window).on(function(e) {
+
+                // do search if user has entered text to search
+                if ($(".search").val() !== "") {
+                }
+            });
+
+            function openTab(evt, tabName) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("c-tab__list__item");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" is-selected", "");
+                }
+                activeTab=tabName;
+                document.getElementById(tabName).style.display = "block";
+                evt.currentTarget.className += " is-selected";
+            }
+        </script>
+        <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" />
+        <script type='text/javascript'>
+            $(document).ready(function() {
+                configsetup();
+                $('.rating-star').click(function() {
+                    $('.rating-star').removeClass('active');
+                    $('.rating-star').addClass(' active');
+                });
+                $('#Triage .help-icon-Triage').on('click', function() {
+                    $('#Triage .legend').toggle();
+
+                });
+
+            });
+        </script>
+        <apex:stylesheet value="{!$Resource.wisespt__responsecss}" />
+        <apex:stylesheet value="{!$Resource.wisespt__zdcss}" />
+        <style>
+            .app_view {
+                box-sizing: content-box;
+                background: #FFF none repeat scroll 0% 0%;
+                border: 1px solid #D5D5D5;
+                float: left;
+                margin: 0px 15px;
+                padding: 10px;
+                width: 320px;
+                border-radius: 5px;
+                font-size: 14px;
+                font-family: inherit;
+                color: #555;
+                letter-spacing: 0px;
+                vertical-align: baseline;
+
+            }
+
+            #wise-tabs {
+                margin-bottom: 10px;
+            }
+
+
+            #wise-responses .spinner {
+                background-image: url("{!$Resource.wisespt__spinner}");
+            }
+
+            #wise-responses .macro .disclosure {
+                background-image: url("{!$Resource.wisespt__disclosure}");
+            }
+
+            #wise-responses .macro.open .disclosure {
+                background-image: url("{!$Resource.wisespt__disclosureopen}");
+            }
+
+            #wise-responses .more-wrapper {
+                margin: 0px;
+                padding: 0px;
+                border: 0px none;
+                outline: 0px none;
+                vertical-align: baseline;
+                background: transparent none repeat scroll 0% 0%;
+            }
+
+            #wise-responses button,
+            #wise-responses input,
+            #wise-responses select,
+            #wise-responses textarea {
+                margin: 0px;
+                border: 0px none;
+            }
+
+            #wise-responses header_class .search {
+                padding: 6px;
+                width: 258px;
+            }
+
+            #wise-responses .header-wise {
+                margin-bottom: 5px;
+            }
+
+            #wise-responses .header-wise>.search {
+                margin-bottom: 5px;
+            }
+
+            #wise-responses .header-wise>.search:focus {
+                outline: 1px solid #977ab8;
+            }
+
+            #wise-responses .header-wise .close-search {
+                font-size: 21px;
+            }
+
+            #wise-responses header_class .help-icon {
+                padding-right: 21px;
+            }
+
+            #wise-responses .macro .title .title-text {
+                word-wrap: normal;
+                word-break: normal;
+                text-align: left;
+            }
+
+            #wise-responses .macro .title .icon {
+                margin-top: 1px;
+            }
+
+            /* Style the tab */
+            .tab {
+                overflow: hidden;
+                border: 1px solid #ccc;
+                background-color: #f1f1f1;
+            }
+
+            /* Style the buttons inside the tab */
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 3px 22px;
+                transition: 0.3s;
+                font-size: 16px;
+            }
+
+            /* Change background color of buttons on hover */
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            /* Create an active/current tablink class */
+            .tab button.active {
+                background-color: #ccc;
+            }
+
+            /* Style the tab content */
+            .tabcontent {
+                display: none;
+
+            }
+        </style>
+        <apex:stylesheet value="{!$Resource.wisespt__triagenewcss}" />
+        <style>
+            .app_view {
+                background: #FFF;
+                border: 1px #d5d5d5 solid;
+                float: left;
+                margin: 0 0 10px 8px;
+                display: none;
+                padding: 10px 15px 20px;
+                width: 320px;
+                border-radius: 5px;
+                outline: 0;
+                vertical-align: baseline;
+                letter-spacing: 0;
+                font: 12px;
+            }
+
+            #wise-responses1.wise-triage header h3 {
+                margin-top: 6px;
+            }
+
+            #wise-responses1.wise-triage header .help-icon-Triage {
+                color: white;
+                font-size: 20px;
+                padding-right: 21px;
+                user-select: none;
+
+            }
+
+            #wise-responses1.wise-triage .legend {
+                text-align: left;
+                border-bottom: 1px #d5d5d5 solid;
+            }
+
+
+
+            #wise-responses1.wise-triage .explanation {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+            }
+        </style>
+        <style>
+            .loader {
+                border: 16px solid #f3f3f3;
+                border-radius: 50%;
+                border-top: 16px solid #3498db;
+                width: 45px;
+                margin-left: 140px;
+                height: 45px;
+                margin-top: 45px;
+                -webkit-animation: spin 2s linear infinite;
+                /* Safari */
+                animation: spin 2s linear infinite;
+            }
+
+            .loadertop {
+
+                margin-left: 160px;
+                margin-top: 200px;
+
+            }
+
+            .configErrorcls {
+                margin-top: 100px;
+                margin-left: 100px;
+                color: red;
+                display: none;
+                ;
+            }
+
+            #responses .tabcontent {
+                display: none;
+            }
+
+            /* Safari */
+            @-webkit-keyframes spin {
+                0% {
+                    -webkit-transform: rotate(0deg);
+                }
+                100% {
+                    -webkit-transform: rotate(360deg);
+                }
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <apex:pageMessages />
+        <!--<div>Error Message::{!configErrorMsg}</div>-->
+
+        <div class="loader loadertop" id="mainLoader"></div>
+        <div class="configErrorcls">
+            <h5 id="errorMsg"></h5>
+        </div>
+
+        <div id="wise-responses" class="app_view container">
+
+            <header class="app_header">
+                <a href="https://www.answeriq.com" target="_blank">
+                    <apex:image styleClass="logo" value="{!$Resource.wisespt__logosmall}" />
+
+                </a>
+                <h3 class="title">AnswerIQ</h3>
+            </header>
+            <ul id="wise-tabs1" style="display:none">
+
+                <li class="c-tab__list__item" onclick="openTab(event, 'responses')" id="responsetab">
+                    Response
+                </li>
+
+                <li class="c-tab__list__item" onclick="openTab(event, 'Knowledge')" id="knowledgebase">
+                    Knowledge
+                </li>
+                <li class="c-tab__list__item" onclick="openTab(event, 'Triage')" id="Triagetab">
+                    Triage
+                </li>
+
+            </ul>
+            <nav class="c-tab">
+
+                <ul id="wise-tabs" class="c-tab__list">
+                </ul>
+            </nav>
+            <div id="responses" class="tabcontent">
+
+                <div class="header-wise">
+
+
+                    <input class="search " type="text" placeholder="{!SearchFieldPlaceholder}" />
+
+                    <div class="post-search">
+                        <button class="search-shortcut" accesskey="q"></button>
+                        <div class="close-search " id="responseSearch">×</div>
+                    </div>
+                    <div class="settings-link">
+                        <i class="fa fa-filter"></i>
+
+                    </div>
+                    <div class="help-link" title="User Guide">
+                        <i class="fa fa-question-circle help-icon"><img class="Questionmark" src="{!$Resource.questionmark}" alt="?" /></i>
+                    </div>
+                </div>
+                <div style="{!IF(noofEmailTemplates<1000, 'display:block', 'display:none')};"><input type="checkbox" name="ResponseTitleCheck" id="ResTitleCheckId" value="" style="margin-left: 10px;" onClick="titlesOnly(this);"/> Titles Only</div>
+
+                <div class="loader"></div>
+                <section id="resonseSection" data-main=""></section>
+
+            </div>
+            <div id="Knowledge" class="tabcontent">
+
+                <div class="header-wise">
+
+
+                    <input class="search " type="text" placeholder="Search Article" />
+                    <div class="post-search">
+                        <button class="search-shortcut" accesskey="q"></button>
+                        <div class="close-search " id="KBSearch">×</div>
+                    </div>
+                    <div class="settings-link">
+                        <i class="fa fa-filter"></i>
+
+                    </div>
+                    <div class="help-link" title="User Guide">
+                        <i class="fa fa-question help-icon"><img class="Questionmark" src="{!$Resource.Questionmark}" alt="?" /></i>
+                    </div>
+
+
+                </div>
+                <div class="loader"></div>
+                <section id="KnowledgeSection" data-main="">
+                </section>
+
+            </div>
+            <div class="tabcontent" id="Triage">
+                <div id="wise-responses1" class='wise-triage'>
+
+                    <div id="TriageSection" class="legend">
+                        <div style="font-weight:bold;">
+                            <span style="margin-right:73px;">Legend</span>
+                            <span>Explanation</span>
+                        </div>
+                        <div>
+                            <span class="label example">Low Priority</span>
+                            <span class="explanation">
+                                White text with a pink background represents a predicted value. It's a category we think this ticket belongs in.
+                            </span>
+                        </div>
+                        <div>
+                            <span class="label actual-value example">Low Priority</span>
+                            <span class="explanation">
+                                Plain text represents an existing value. It's a category you've manually sorted the ticket into. We treat these values as Truth.
+                            </span>
+                        </div>
+                        <div>
+                            <span class="label actual-value example"></span>
+                            <span class="explanation">
+                                Where there is a blank in the table, we don't have a prediction, and you haven't labeled the ticket manually, either.
+                            </span>
+                        </div>
+                    </div>
+                    <table class="predictions">
+                        <thead>
+                            <tr height="30px">
+                                <td>
+                                    Field
+                                </td>
+                                <td>
+                                    <div class="help-link">
+                                        <span>Prediction</span>
+                                        <i class="fa fa-question-circle help-icon-Triage"><img class="Questionmark" src="{!$Resource.Questionmark}" alt="?" /></i>
+                                    </div>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <apex:repeat value="{!TagMap}" var="Tag">
+                                <tr>
+                                    <td>
+                                        <apex:outputText escape="false" value="{!JSINHTMLENCODE(Tag)}" />
+                                    </td>
+                                    <td>
+                                        <apex:outputText escape="false" value="{!TagMap[Tag]}" />
+                                    </td>
+                                </tr>
+                            </apex:repeat>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="myModal" style="top: 168px;" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                    <div class="modal-body">
+                        <p>Rating Submitted successfully.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </body>
+
+    </html>
+
+</apex:page>

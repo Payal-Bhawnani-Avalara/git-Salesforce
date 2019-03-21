@@ -1,0 +1,591 @@
+<apex:page action="{!if(!isSysAdmin,urlFor('/apex/zsfjira__ZInsufficientPriv'), null)}"
+           controller="zsfjira.ZSettingsController" setup="true">
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-ui-1.10.3.custom.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__dynatree_1_2_4_js)}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__jQuery, '/css/redmond/jquery-ui-1.10.3.custom.min.css')}" />
+    <apex:slds />
+    
+    <style>        
+        .pageMessageContainer {
+        display: none;
+        }
+        
+        .divline{        
+        height: 1px;
+        background: #CFD7E6;
+        margin-top:1%;                  
+        }
+        
+        .dataRow {
+        padding-top:2px;
+        padding-right: 10px;
+        }
+        
+    </style>
+    
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__hogan)}" />
+    <script src="../../soap/ajax/28.0/connection.js" type="text/javascript"></script>
+    <script src="../../soap/ajax/28.0/apex.js" type="text/javascript"></script>    
+    <script type="text/javascript">
+    Visualforce.remoting.timeout = 120000;
+
+    if (!window.console) window.console = {};
+    if (!window.console.log) window.console.log = function () { };
+    
+    console = console ? console : {"log" : function(){}};            
+    function requestMyself(jiraUrl, oauthToken, save) {
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.requestMyself}', jiraUrl, oauthToken,
+            function(result, event){
+                if (event.status) {                
+                    if(result.success){
+                        var response = result.response;
+                        document.getElementById("tdStatus").innerHTML = "<b>Connected</b>";                                            
+                        detectOndemandAndSave(jiraUrl,result.odMap,response.name, oauthToken,save);
+                        document.getElementById("tdUserInfo").innerHTML = buildUserInfo(response);
+                        console.log(response);
+                    }
+                    else{
+                        document.getElementById("tdStatus").innerHTML = result.message;
+                    }
+                    
+                } else {
+                    document.getElementById("tdStatus").innerHTML = "Could not connect to JIRA, "+
+                        event.message;
+                }
+            }
+        );
+    }
+    function setJiraVersion(isOnDemand,version,jiraUrl,alreadySavedOpUrl){
+        if(jiraUrl.trim()!=''){
+            $jqz('#addPlugSectionParent').removeAttr('style');
+            if(document.getElementById("addonAuthStatus")){        
+                $jqz("#addonAuthStatus").remove();
+            }
+            if(document.getElementById("addonAuthUser")){
+                $jqz("#addonAuthUser").remove();
+            }
+            if(document.getElementById("sfUserRow")){
+                $jqz("#sfUserRow").remove();
+            }
+            if(document.getElementById("pluginVersionRow")){
+                $jqz("#pluginVersionRow").remove();
+            }
+            $jqz("#tr-addon-url").hide();
+            labelJiraVersion = document.getElementById('jiraVersion');
+            labelJiraVersion.innerHTML='';
+            if(isOnDemand){
+                //$jqz("div[id$=addPlugSection] H2.mainTitle").html('zAgileConnect Add-on Connection');
+                $jqz("h2[id$=addPlugSection]").html('zAgileConnect Add-on Connection');
+                
+                labelJiraVersion.innerHTML='JIRA Cloud'+(version!=''?'('+version+')':'');
+                $jqz("#syncSF_JIRA").show("fast", function(){});
+                $jqz("#syncJIRA_Data").hide("fast", function(){});
+                $jqz("#tr-addon-url").show();
+                
+                var table = document.getElementById("statusTable");
+                var rowStatus = table.insertRow(-1);
+                rowStatus.className = "dataRow";
+                rowStatus.id        = "addonAuthStatus";
+                
+                var cell1Status = rowStatus.insertCell(0);
+                var cell2Status = rowStatus.insertCell(1);
+                
+                cell1Status.innerHTML = "<b>zAgileConnect Add-on:</b>";
+                cell1Status.className = "headerRow slds-size--1-of-5 slds-text-body--small ";
+                cell2Status.innerHTML = "<i>Loading ...</i>";
+                cell2Status.id        = "addonStatus";
+                cell2Status.className = "dataCell";
+                
+                var rowUser= table.insertRow(-1);
+                rowUser.className = "dataRow";
+                rowUser.id        = "addonAuthUser";
+                
+                var cell1User = rowUser.insertCell(0);
+                var cell2User = rowUser.insertCell(1);
+                
+                cell1User.innerHTML = "<b>Salesforce Integration User:</b>";
+                cell1User.className = "headerRow slds-size--1-of-5 slds-text-body--small ";
+                cell2User.id        = "addonUser";
+                cell2User.className = "dataCell";
+                
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZSettingsController.getAddonStatus}', 
+                    function(result, event){
+                        if (event.status) {
+                            document.getElementById("addonStatus").innerHTML = result.statusMessage;
+                            document.getElementById("addonUser").innerHTML = result.user;
+                        }
+                        else{
+                            document.getElementById("addonStatus").innerHTML = 
+                                'Error during getting Information, Contact your Administrator';
+                        }
+                    }
+                );
+            }
+            else{                
+                //$jqz("div[id$=addPlugSection] H2.mainTitle").html('zAgileConnect Plugin Connection');
+                $jqz("h2[id$=addPlugSection]").html('zAgileConnect Plugin Connection');
+                
+                labelJiraVersion.innerHTML='JIRA Server'+(version!=''?'('+version+')':'');  
+                $jqz("#syncSF_JIRA").hide("fast", function(){});
+                $jqz("#syncJIRA_Data").show("fast", function(){});            
+                
+                var table = document.getElementById("statusTable");
+                var rowVersion = table.insertRow(-1);
+                rowVersion.className = "dataRow";
+                rowVersion.id        = "pluginVersionRow";
+                
+                var cell1Status = rowVersion.insertCell(0);
+                var cell2Status = rowVersion.insertCell(1);
+                
+                cell1Status.innerHTML   = "<b>Plugin Version:</b>";
+                cell1Status.className   = "headerRow slds-size--1-of-5 slds-text-body--small ";
+                cell2Status.innerHTML   = "<i>Loading ...</i>";
+                cell2Status.id          = "pluginVersion";
+                cell2Status.className   = "dataCell";
+                cell2Status.style.width = "800px";
+                
+                var rowUser= table.insertRow(-1);
+                rowUser.className = "dataRow";
+                rowUser.id        = "sfUserRow";
+                
+                var cell1User = rowUser.insertCell(0);
+                var cell2User = rowUser.insertCell(1);
+                
+                cell1User.innerHTML   = "<b>Salesforce Integration User:</b>";
+                cell1User.className   = "headerRow slds-size--1-of-5 slds-text-body--small ";
+                cell2User.id          = "sfUser";
+                cell2User.className   = "dataCell";
+                cell2User.style.width = "800px";
+                
+                if(alreadySavedOpUrl){
+                    setPluginVersion();
+                }     
+            }
+        }
+    }
+    
+    function saveAddonUrl() {
+        var addonUrl = document.getElementById('txtAddonUrl').value;
+        if (addonUrl && addonUrl.lastIndexOf('/') == (addonUrl.length-1)) {
+            addonUrl = addonUrl.substring(0, addonUrl.length - 1);
+        }
+        $jqz("#btn-addon-url").addClass("btnDisabled");
+        document.getElementById("addonStatus").innerHTML = '<i>Saving...</i>';
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.saveAddonUrl}', addonUrl,
+            function(result, event){
+                $jqz("#btn-addon-url").removeClass("btnDisabled");
+                if (event.status) {
+                    Visualforce.remoting.Manager.invokeAction(
+                        '{!$RemoteAction.ZSettingsController.getAddonStatus}', 
+                        function(result, event){
+                            if (event.status) {
+                                document.getElementById("addonStatus").innerHTML = result.statusMessage;
+                                document.getElementById("addonUser").innerHTML = result.user;
+                            }
+                            else{
+                                document.getElementById("addonStatus").innerHTML =
+                                    'Add-on URL saved but could not retrieve connection information, '+
+                                    event.message;
+                            }
+                        }
+                    );
+                }
+                else{
+                    document.getElementById("addonStatus").innerHTML = 
+                        'Error during saving, '+event.message;
+                }
+            }
+        );
+    }
+    $jqz(function() {        
+        requestMyself('{!JiraUrl}', '{!JiraOAuthToken}', false);        
+        loadRequestOAuthToken();        
+        $jqz("div.pageMessageContainer").each(function(i){
+            $jqz(this).removeAttr("class");
+        });    
+    });
+    
+    </script>
+    
+    <script>
+    var checkAutorizationId = null;
+    var jiraWindow = null;
+    var jiraUrl = null;
+    var oauthToken = null;
+    var oauthTokenSecret = null;
+    
+    function readJiraUrlFromInputText() {
+        jiraUrl = document.getElementById('txtJiraUrl').value;
+        if (jiraUrl == undefined || jiraUrl == '') {
+            alert('JIRA URL is required.');
+            return;
+        }
+        removeSlashIfExists();
+    }
+    function removeSlashIfExists(){
+        if (jiraUrl && jiraUrl.lastIndexOf('/') == (jiraUrl.length-1)) {
+            jiraUrl = jiraUrl.substring(0, jiraUrl.length - 1);
+        }
+    }
+    function loadRequestOAuthToken() {
+        jiraUrl = '{!JiraUrl}';
+        if (jiraUrl == undefined || jiraUrl == null || jiraUrl == "") {
+            return;
+        }
+        removeSlashIfExists();
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.requestOAuthToken}', jiraUrl,
+            function(result, event){
+                if (event.status && !result.oauth_problem) {
+                    oauthToken = result.oauth_token;
+                    oauthTokenSecret = result.oauth_token_secret;
+                }
+            });
+    }
+    
+    function requestOAuthToken() {    
+        readJiraUrlFromInputText();
+        if (jiraUrl == undefined || jiraUrl == null || jiraUrl == "") {
+            return;
+        }
+        buildPopUp();
+        setJiraVersion(false,'','',false);
+        document.getElementById("tdStatus").innerHTML = "<i>Contacting JIRA...</i>";
+        document.getElementById("tdUserInfo").innerHTML = "Unknown";
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.requestOAuthToken}', jiraUrl,
+            function(result, event){
+                if (event.status) {
+                    window.console.log('requestOAuthToken',result);
+                    if (result.oauth_problem){
+                        var oauthMessage = 'JIRA Application Link is not configured properly ('+result.oauth_problem+')';
+                        popUpStopLoadingAndClose(oauthMessage);
+                        document.getElementById("tdStatus").innerHTML = "Could not connect to JIRA. "+oauthMessage;                 
+                    }else{     
+                        if(!result.oauth_token || !result.oauth_token_secret){
+                            var httpMessage='Got '+result.http_status+
+                                ' when requesting oauth token.';
+                            popUpStopLoadingAndClose(httpMessage);
+                            document.getElementById("tdStatus").innerHTML = "Could not connect to JIRA. "+httpMessage;
+                        }
+                        else{
+                            oauthToken = result.oauth_token;
+                            oauthTokenSecret = result.oauth_token_secret;
+                            document.getElementById("tdStatus").innerHTML = "JIRA is valid.";
+                            jiraWindow.document.getElementById('pMessage').innerHTML = '<b>JIRA is valid</b>';
+                            loginToJiraAndConfirmOAuthToken();
+                        }
+                    }
+                } else {
+                    popUpStopLoadingAndClose(event.message);
+                    document.getElementById("tdStatus").innerHTML = "<b>Could not connect to JIRA: </b>" + event.message;                   
+                }
+            }
+        );
+    }
+    
+    function popUpStopLoadingAndClose(resultMessage){
+        var pMessage = jiraWindow.document.getElementById('pMessage');
+        pMessage.innerHTML = '<b>Could Not Connect</b>';
+        
+        var divLoader = jiraWindow.document.getElementById('loadingFrame');
+        divLoader.style.display = 'none';
+        
+        jiraWindow.document.getElementById('closeLink').style.display = 'block';
+        
+        jiraWindow.document.getElementById('pResult').innerHTML = resultMessage;
+        jiraWindow.document.getElementById('pResult').style.display = 'block';
+    }
+    function buildPopUp(){
+        jiraWindow = window.open('', '_blank', 'toolbar=0,location=0,menubar=0,width=800,height=500');        
+        var styleS =document.createElement('style');
+        var currentURL = document.location.protocol;
+        if(currentURL.indexOf(':')!=-1){
+            var idx = currentURL.indexOf(':');
+            currentURL = currentURL.substr(0,idx);
+        }
+        currentURL+= '://'+document.domain;    
+        
+        var html_body = document.createElement('div');    
+        var divLoader =document.createElement('div');
+        divLoader.setAttribute('class','loading_modal');
+        divLoader.style.background = 'url('+currentURL+"{!URLFOR($Resource.zAgileResources, 'images/loader.gif')})no-repeat center";
+        divLoader.style.width = '100%';
+        divLoader.style.height = '100%';
+        divLoader.style.position = 'absolute';
+        divLoader.style.left = '0';
+        divLoader.style.top = '0';
+        divLoader.setAttribute('id','loadingFrame');
+        html_body.appendChild(divLoader);
+        
+        var pMessage =document.createElement('center');
+        pMessage.setAttribute('id','pMessage');
+        pMessage.style.verticalAlign = 'middle';
+        pMessage.style.paddingTop = '25%';
+        pMessage.style.fontFamily ='Arial,Helvetica,sans-serif';
+        pMessage.style.fontSize ='1.0em';
+        pMessage.innerHTML = '<b>Loading...</b>';
+        html_body.appendChild(pMessage);
+        html_body.appendChild(document.createElement('br'));
+        
+        var pResult =document.createElement('center');
+        pResult.setAttribute('id','pResult');
+        pResult.style.verticalAlign = 'middle';
+        pResult.style.fontFamily ='Arial,Helvetica,sans-serif';
+        pResult.style.fontSize ='1.0em';
+        pResult.style.color = 'red';
+        pResult.style.display ='none';
+        html_body.appendChild(pResult);
+        html_body.appendChild(document.createElement('br'));
+        
+        var closeLink =document.createElement('center');
+        closeLink.setAttribute('id','closeLink');
+        closeLink.innerHTML = '<a href="#" onclick="window.close();">Close</a>';
+        closeLink.style.fontFamily ='Arial,Helvetica,sans-serif';
+        closeLink.style.fontSize ='0.9em';
+        closeLink.style.display ='none';
+        html_body.appendChild(closeLink);
+        
+        jiraWindow.document.write(html_body.innerHTML);
+    }    
+    
+    function toggleEnableLoginToJiraButton(enable) {
+        if (enable) {
+            $jqz("#btnLoginToJira").removeAttr("disabled");
+            $jqz("#btnLoginToJira").removeClass("btnDisabled");
+        } else {
+            $jqz("#btnLoginToJira").attr("disabled", "");
+            $jqz("#btnLoginToJira").attr("class", "btnDisabled");
+        }
+    }
+    
+    function loginToJiraAndConfirmOAuthToken() {
+        readJiraUrlFromInputText(); 
+        jiraWindow.location = jiraUrl + '/plugins/servlet/oauth/authorize?oauth_token=' + oauthToken;
+        document.getElementById("tdStatus").innerHTML = "<i>Waiting for JIRA authorization ...</i>";
+        checkAutorizationId = setInterval(checkIfAuthorized, 1000);
+    }
+    
+    function checkIfAuthorized() {
+        console.log('wating for user close window: ' + checkAutorizationId);
+        if (jiraWindow != null && jiraWindow.closed) {
+            stopCheckIfAutorized();
+            document.getElementById("tdStatus").innerHTML = "<i>Requesting Access Token ...</i>";
+            requestAccessToken();
+        }
+    }
+    
+    function stopCheckIfAutorized() {
+        if (checkAutorizationId != null) {
+            clearTimeout(checkAutorizationId);
+        }
+    }
+    
+    function requestAccessToken() {
+        if (jiraUrl == undefined || oauthToken  == undefined || oauthTokenSecret == undefined) {
+            document.getElementById("tdStatus").innerHTML = "Could not connect to JIRA";
+            return;
+        }
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.requestAccessToken}', jiraUrl, oauthToken, oauthTokenSecret,
+            function(result, event){
+                if (event.status) {
+                    if (result.oauth_problem) {
+                        document.getElementById("tdStatus").innerHTML = "Could not connect to JIRA("+
+                            result.oauth_problem+")";
+                    } else {
+                        if(!result.oauth_token){
+                            document.getElementById("tdStatus").innerHTML = "Could not connect to JIRA, "+
+                                "Got "+result.http_status+" when requesting access token.";
+                        }else{
+                            oauthToken = result.oauth_token;
+                            document.getElementById("tdStatus").innerHTML = "<i>Request User Information ...</i>";
+                            requestMyself(jiraUrl, oauthToken, true);
+                        }
+                    }
+                } else {
+                    document.getElementById("tdStatus").innerHTML = "Could not connect to JIRA, "+ event.message;
+                }
+                console.log(result);
+            });
+    }
+   
+    function detectOndemandAndSave(jiraUrl,odMap, username, oauthToken,save){
+        setJiraVersion(odMap.isOnDemand,odMap.version,jiraUrl,!save);
+        if(!save){         
+            return;
+        }
+        var ok = false;
+        if(odMap.previousUrl==undefined){
+            ok = true;
+        }
+        else{
+            if(odMap.previousValue!=odMap.isOnDemand){
+                ok = confirm('Migration between zAgileConnect for JIRA Server and JIRA '+
+                             'Cloud is not supported, this action may cause unpredictable'+
+                             ' results, do you want to continue?');
+            }
+            else{
+                ok = true;
+            }
+        }
+        if(ok){
+            saveOAuthJiraSettings(jiraUrl, username, oauthToken, odMap.isOnDemand);
+        }
+        else{
+            document.getElementById("tdStatus").innerHTML = "Connected but JIRA login settings not saved.";
+        }
+    }
+    function saveOAuthJiraSettings(jiraUrl, username, oauthToken, isOnDemand) {
+        document.getElementById("tdStatus").innerHTML = "<i>Saving JIRA settings ...</i>";
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.saveOAuthJiraSettings}', jiraUrl, username, 
+            oauthToken, isOnDemand,function(result, event){
+                console.log(result);
+                if (event.status) {
+                    document.getElementById("tdStatus").innerHTML = "<b>Connected</b>";   
+                    if(!isOnDemand){
+                        setPluginVersion();                        
+                    }
+                } else {
+                    document.getElementById("tdStatus").innerHTML = "Connected but could not save JIRA login settings, "+
+                        event.message;
+                }            
+            });
+    }
+    function setPluginVersion(){    
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZSettingsController.getPluginVersion}', 
+            function(result, event){
+                if (event.status) {
+                    document.getElementById("pluginVersion").innerHTML = result.version;
+                    document.getElementById("sfUser").innerHTML = result.user;
+                }
+                else{
+                    document.getElementById("pluginVersion").innerHTML = 'Error during getting Information';
+                }
+            }
+        );
+    }
+    function buildUserInfo(userInfo) {
+        var html = '<table><tr>';
+        if (userInfo && userInfo.avatarUrls["32x32"]) {
+            html += "<td style='padding-left: 1.4%;padding-top: 0.7%;width: 7%;' rowspan='2'><img height='32' width='32' src='" + userInfo.avatarUrls["32x32"] + "'></td>";
+        }
+        html += "<td>" + userInfo.displayName + "</td></tr>";
+        html += "<tr><td>" + userInfo.name  + " - " + userInfo.emailAddress + "</td></tr></table>";
+        return html;
+    }
+    function returnToMainSettings(){
+        var settingsPage ='/apex/zsfjira__zAgile_Settings';
+        if (typeof sforce != 'undefined' && sforce && sforce.one) {
+            sforce.one.back();
+        }else{
+            window.location.replace(settingsPage);
+        }
+    }
+    </script>
+
+    <div class="slds slds-scope">
+        <div class="slds-page-header">
+          <div class="slds-grid">
+            <div class="slds-col slds-has-flexi-truncate">
+              <p class="slds-text-body--small">Configure JIRA Connection</p>
+              <div class="slds-grid">
+                <div class="slds-grid slds-no-space">
+                  <h1 class="slds-text-heading--medium slds-truncate" title="Settings">zAgileConnect Settings</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slds-grid">
+            <div class="slds-card slds-m-around--large slds-col">
+                 <div class="slds-card__header slds-grid grid--flex-spread">
+                     <h2 class="slds-text-heading--small slds-truncate">Configure JIRA Connection</h2>
+                </div>
+                <div class="divline"> </div>
+                <div class="slds-card__body slds-p-horizontal--small">
+                     <div class="slds-m-around--small">
+                        <p>
+                             Please enter JIRA URL for authenticating various actions initiated from Salesforce. The JIRA URL must also be
+                            defined in Remote Sites.
+                            <br/>If your JIRA is hosted by Atlassian, then you will also need to add zAgileConnect
+                            ConnectApp URL to the Remote Sites.&nbsp;<a href="{!RemoteSitesUrl}" target="_blank">Configure Remote Sites</a>
+                            <br/><br/>
+                            If you are hosting JIRA on premise, please ensure that your corp. JIRA is accessible from Salesforce whitelist IP
+                            addesses and HTTPS traffic can flow in both directions.
+                        </p>
+                        <br />
+                        <div class="slds-form slds-form_horizontal">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label ">JIRA Connection Status:</label>
+                                <div class="slds-form-element__control slds-form-element__control slds-p-top_xx-small" id="tdStatus">
+                                    <i>Loading ...</i>
+                                </div>
+                            </div>
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label">JIRA Integration User:</label>
+                                <div class="slds-form-element__control" id="tdUserInfo"/>
+                            </div>
+                            <br/>
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label">JIRA URL:</label>
+                                <div class="slds-form-element__control">
+                                    <input class="slds-input"
+                                           type="text" id="txtJiraUrl" value="{!JiraUrl}"/>
+                                </div>
+                            </div>
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label"></label>
+                                <div class="slds-form-element__control" id="jiraVersion" />
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="slds-grid slds-grid--align-center">
+                            <button id="btnLoginToJira"
+                                    class="slds-button slds-button--brand" onclick="requestOAuthToken(); return false;">Login to JIRA</button>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+        </div>
+
+        <div class="slds-grid" id="addPlugSectionParent" style="display:none">
+          <div class=" slds-card slds-m-around--large slds-col">
+                <div class="slds-card__header slds-grid grid--flex-spread">
+                     <h2 id="addPlugSection" class="slds-text-heading--small slds-truncate"></h2>
+                </div>
+                <div class="divline"> </div>          
+                <div class="slds-card__body slds-p-horizontal--small">
+                <div style="background-color: white; padding:1%;">
+                    <table class="list " border="0" cellpadding="0" cellspacing="0" id="statusTable">
+                        <tr class="dataRow" style="display: none;" id="tr-addon-url">
+                            <th class="headerRow slds-size--1-of-5 slds-text-body--small ">zAgileConnect Add-on URL:</th>
+                            <td class="dataCell">
+                                <input class="slds-input slds-input slds-size--6-of-8" type="text" id="txtAddonUrl"
+                                       value="{!AddonUrl}" onkeydown="if (event.keyCode == 13) {saveAddonUrl();return false;}"/>
+                                <button id="btn-addon-url" class="slds-button slds-button--brand" onclick="saveAddonUrl(); return false;">Save</button>
+                            </td>
+                        </tr>
+                    </table>                     
+                </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="grid">
+            <div align="center">
+                <button class="slds-button slds-button--neutral" onclick="returnToMainSettings();">
+                    Return
+                </button>        
+            </div>   
+        </div>       
+    </div>
+</apex:page>

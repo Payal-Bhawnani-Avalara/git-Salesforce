@@ -1,0 +1,9 @@
+<messaging:emailTemplate subject="Related Articles" recipientType="Contact" relatedToType="Contact">
+    <messaging:htmlEmailBody >
+        <html>
+            <body>
+                <c:MindTouchRelatedArticlesHTML object="{!relatedTo}"/>
+            </body>
+        </html>
+    </messaging:htmlEmailBody>
+</messaging:emailTemplate>

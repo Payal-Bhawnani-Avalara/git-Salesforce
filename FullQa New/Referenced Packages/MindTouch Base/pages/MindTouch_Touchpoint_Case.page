@@ -1,0 +1,37 @@
+<apex:page standardController="Case" docType="html-5.0" showHeader="false" sidebar="false" standardStylesheets="false">
+    <script src="/soap/ajax/42.0/connection.js"></script>
+    <script src="/soap/ajax/42.0/apex.js"></script>
+    <script>
+        sforce.connection.sessionId='{!GETSESSIONID()}';
+        var MindTouchSettings = {
+            namespace: 'mindtouch_sf__',
+
+            touchpointId: '{!JSENCODE($Setup.mindtouch_sf__settings__c.mindtouch_sf__TouchpointID__c)}',
+
+            objectId: '{!Case.Id}',
+            objectType: 'Case',
+
+            customerActivityIdField: '{!JSENCODE($Setup.mindtouch_sf__settings__c.mindtouch_sf__Customer_Activity_ID_Field__c)}',
+            caseSearchField: '{!JSENCODE($Setup.mindtouch_sf__settings__c.mindtouch_sf__case_search_field__c)}',
+
+            constraint: '{!JSENCODE($Setup.mindtouch_sf__settings__c.mindtouch_sf__search_constraint__c)}',
+
+            siteId: '{!JSENCODE($Setup.mindtouch_sf__settings__c.mindtouch_sf__SiteID__c)}',
+            siteUrl: '{!JSENCODE($Setup.mindtouch_sf__settings__c.mindtouch_sf__url__c)}'
+        };
+    </script>
+
+    <!-- javascript global mode -->
+    <script src="{!$Setup.mindtouch_sf__settings__c.mindtouch_sf__url__c}/deki/javascript/out/integrations/salesforce.integration.js"></script>
+    <script>
+        SalesforceIntegration.initialize(MindTouchSettings);
+    </script>
+
+    <!-- javascript module mode -->
+    <!--
+    <script type="module">
+        import SalesforceIntegration from '{!$Setup.mindtouch_sf__settings__c.mindtouch_sf__url__c}/@lib/src/integrations/salesforce/salesforce.integration.js';
+        SalesforceIntegration.initialize(MindTouchSettings);
+    </script>
+    -->
+</apex:page>

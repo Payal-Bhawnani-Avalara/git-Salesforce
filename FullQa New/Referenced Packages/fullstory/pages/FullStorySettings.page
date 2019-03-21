@@ -1,0 +1,65 @@
+<apex:page standardStylesheets="false" sidebar="false" docType="html-5.0" applyBodyTag="False" applyHtmlTag="true" controller="fullstory.FS_Setup">
+  <head>
+    <title>{!$Label.Settings_Page_Title}</title>
+    <apex:slds />
+    <apex:stylesheet value="{!URLFOR($Resource.fullstory__fullstorysessions, '/main.css')}"/>
+  </head>
+
+  <div class="fullstory-settings-container slds-scope">
+    <div class="settings-header">
+      <div class="pent"><apex:image url="{!URLFOR($Resource.fullstory__fullstorysessions, '/pent.png')}"/></div>
+      <div class="fullstory-logo">
+        <apex:image url="{!URLFOR($Resource.fullstory__fullstorysessions, '/fullstory-logo-white.png')}"/>
+      </div>
+    </div>
+    <div class="api-info-container">
+      <div class="slds-text-heading--medium">
+        API Key
+      </div>
+      <div class="slds-text-body--regular slds-m-vertical--medium">
+        You can generate your integrations API token from your Settings Page in FullStory.
+      </div>
+      <div class="api-input-field slds-form-element">
+        <div class="slds-form-element__control">
+
+          <!-- Populated API Input Field --> 
+  
+            <div>
+              <apex:form >
+                  <apex:outputPanel id="apiField" rendered="{!successSave==false}">
+                    <apex:inputSecret styleClass="slds-input" required="true" value="{!apiKey}" html-placeholder="Enter API Key"/>
+                    <apex:commandButton styleClass="slds-m-vertical--medium slds-button slds-button--brand" value="{!$Label.fullstory__button_save}" action="{!saveApiKey}" />
+                  </apex:outputPanel>  
+                      
+                  <!-- Success Message -->
+                  <apex:outputPanel id="succesMessage" styleClass="slds-badge slds-theme_success" rendered="{!successSave}">
+                      <apex:outputText value="{!$Label.fullstory__success_info_api_key_successfully_saved}"/>
+                      &nbsp;&nbsp;
+                      <apex:commandLink value="Edit Key" action="{!editAPIKey}" />
+                  </apex:outputPanel>    
+               <!--  End of Success Message -->
+
+              </apex:form>
+            </div>
+          <!-- End of Populated API Input Field -->
+        </div>
+
+        <!-- Error Message -->
+         <apex:outputPanel id="apiMessage">
+            <apex:pageMessages />
+             
+                <apex:outputPanel styleClass="error-message slds-m-top--medium" rendered="{!invalidApiKey}">
+                  <apex:outputText value="{!$Label.fullstory__error_info_need_valid_api_key}"/>
+                </apex:outputPanel>
+       <!-->
+                <apex:outputPanel styleClass="error-message slds-m-top--medium" >
+                  <apex:outputText value="{!errorMessage}"/>
+                </apex:outputPanel>
+          -->
+         </apex:outputPanel>
+        <!-- End of Error Message -->
+
+      </div>
+    </div>
+  </div>
+</apex:page>

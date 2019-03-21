@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>CUST_NAME</field>
+    </columns>
+    <columns>
+        <field>FieldPro__c.Object_API_Name__c</field>
+    </columns>
+    <columns>
+        <field>FieldPro__c.Object_Label__c</field>
+    </columns>
+    <columns>
+        <field>FieldPro__c.API_Name__c</field>
+    </columns>
+    <columns>
+        <field>FieldPro__c.Label__c</field>
+    </columns>
+    <description>Display all fields for an particular object.</description>
+    <filter>
+        <criteriaItems>
+            <column>FieldPro__c.Object_API_Name__c</column>
+            <isUnlocked>true</isUnlocked>
+            <operator>equals</operator>
+            <value>fpro__FieldPro__c</value>
+        </criteriaItems>
+    </filter>
+    <format>Tabular</format>
+    <name>FieldPro - Object Fields</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>CustomEntity$FieldPro__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>FieldPro__c.Created_Date__c</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

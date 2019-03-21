@@ -1,0 +1,18 @@
+<apex:page id="EvernotePassthrough" controller="Evernote.EvernotePassthroughController" standardStylesheets="false" sidebar="false" showHeader="false" docType="html-5.0">
+<apex:stylesheet value="{!$Resource.Evernote__WaitStyles}" />
+<c:EvernoteConstants />
+<c:EvernoteJsLibrary />
+<script type="text/javascript">
+	document.addEventListener("DOMContentLoaded", documentReady);
+
+    function documentReady(event) {
+    	var enLibrary = new EvernoteLibrary();
+		var noteGuid = enLibrary.getValueFromQueryString('n');
+        var shard = enLibrary.getValueFromQueryString('s');
+        var personal = enLibrary.getValueFromQueryString('p');
+        var baseUrl = '{!baseUrl}';
+		window.top.location.replace(baseUrl
+				+ enLibrary.getNoteEditorPath(baseUrl, noteGuid, shard, personal));
+	}   
+</script>
+</apex:page>

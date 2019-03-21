@@ -1,0 +1,3 @@
+<apex:page StandardController="CAM_Lead__c">
+  {!CAM_Lead__c.CAM_Lead_Campaign__r.Description}
+</apex:page>

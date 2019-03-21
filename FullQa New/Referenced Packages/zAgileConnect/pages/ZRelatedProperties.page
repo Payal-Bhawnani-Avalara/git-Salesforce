@@ -1,0 +1,1121 @@
+<apex:page action="{!if(!isSysAdmin,urlFor('/apex/zsfjira__ZInsufficientPriv'), null)}"
+           controller="zsfjira.ZSettingsController" setup="true"> 
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'scripts/vendor.js')}" /> 
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'scripts/app.js')}" />                 
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'styles/vendor.css')}"/> 
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'styles/app.css')}"/> 
+    
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-ui-1.10.3.custom.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__dynatree_1_2_4_js)}" />
+
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/js/bootstrap.min.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/css/bootstrap.css')}" />
+    <script src="../../soap/ajax/28.0/connection.js" type="text/javascript"></script>
+    <script src="../../soap/ajax/28.0/apex.js" type="text/javascript"></script>
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zAgileResources,'/js/angular-sortable.js')}" />
+
+    <apex:slds />
+    <style>
+        ul.sortable {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        margin-bottom: 10px;
+        cursor: default;
+        }
+        ul.sortable > li {
+        margin: 5px;
+        padding: 5px;
+        width: 550px;
+        border: 1px solid #D4DADC;
+        border-radius: 4px;
+        cursor: move;
+        }
+        
+        ul.sortable>li>ul>li {
+        width: 510px;
+        background-color: #FAFAFA;
+        }
+        
+        ul.sortable li>span.closeable {
+        float: right;
+        height: 12px;
+        padding: 3px;
+        text-align: center;
+        width: 12px;
+        cursor: default;
+        }
+        .mandatoryField {
+        color: gray;
+        cursor: not-allowed !important;
+        }
+        .objElem{
+        border: 2px solid;
+        padding: 5px;
+        width: 150px;
+        height: 30px;
+        text-align: center;
+        }
+        
+        .messageText {
+        color: white !important;
+        }
+
+        .selectedProperty, .selectedSubProperty {
+        width: auto;
+        height: auto;
+        min-width: 300px;
+        min-height: 15px;
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid #D4DADC;
+        border-radius: 4px;
+        background-color: #F1F1F1;
+        }
+        
+        .selectedSubProperty {
+        background-color: white !important;
+        }
+        
+        .selectedProperty span, .selectedSubProperty span {
+        cursor: pointer;
+        float: right;
+        width: 12px;
+        height: 12px;
+        text-align: center;
+        padding: 3px;
+        }
+        
+        .selectedProperty span : hover {
+        background-color: white;
+        }
+        
+        div.loader:after{
+        background-image: url({!URLFOR($Resource.zsfjira__zAgileResources, 'images/loader.gif')});
+        background-size: 24px 24px;
+        display: inline-block;
+        width: 24px; 
+        height: 24px;
+        content:"";
+        }
+        
+        span.propertyLabel{
+        color: #54698d;
+        }
+
+        .noMargin{
+        margin-top:0px!important;
+        }
+    </style>
+    <c:ZAttachmentSources />
+    <div ng-controller="RelatedCtrl as vm" ng-app="src" class="slds slds-scope">
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <p class="slds-text-body--small">Salesforce properties</p>
+                    <div class="slds-grid">
+                        <div class="slds-grid slds-no-space">
+                            <h1 class="slds-text-heading--medium slds-truncate" title="Settings">Select object properties to send to JIRA</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slds-grid">
+            <div class="slds-text-body--regular slds-m-vertical--medium">
+                In this section, you may select properties of objects to send to JIRA to display in the context of Salesforce properties in JIRA.
+            </div>            
+        </div>
+        <div class="slds-grid ng-hide" ng-show="vm.isShowing.errorMessages">
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error">
+                <p ng-bind-html="vm.errorMessages" > </p>
+            </div>
+        </div>    
+        <div class="slds-grid ng-hide" ng-show="vm.isShowing.warningMessages" id="warningMessages">
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning">
+                <p ng-bind-html="vm.warningMessages" > </p>
+            </div>
+        </div>  
+        <div class="slds-grid ng-hide" ng-show="vm.isShowing.infoMessages">
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info">
+                <p ng-bind-html="vm.infoMessages" > </p>
+            </div>
+        </div> 
+        
+        <div class="slds-grid ng-hide" ng-show="vm.mainLoader">
+            <div id="slds-loader" class="slds-spinner_container slds-is-fixed zc-hide" >
+                <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand" >
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tabs" class="ng-hide slds-tabs_scoped" ng-show="vm.tabsLoaded">
+            <ul class="slds-tabs_scoped__nav" role="tablist">
+                <li ng-repeat="sobject in vm.sobjects" role="presentation" class="slds-tabs_scoped__item"
+                    ng-class="vm.objectOpened == sobject.name?'slds-is-active':''">
+                    <a href="javascript:void(0)"
+                       class="slds-tabs_scoped__link"
+                       ng-click="vm.addOrOpenSObject(sobject)">{{vm.htmlDecode(vm.describeZIssueRelationships[sobject.name].objectLabel)}}</a>
+                </li>
+            </ul>
+            <div ng-repeat="sobject in vm.sobjects" id="{{sobject.name}}"
+                 class="slds-tabs_scoped__content" ng-class="vm.objectOpened == sobject.name?'slds-show':'slds-hide'">
+
+                <div id="{{sobject.name}}_content"
+                     ng-class="{'slds-tabs_scoped': sobject.name == 'Case'}">
+                    <ul ng-if="sobject.name == 'Case'" class="slds-tabs_scoped__nav"
+
+                        role="tablist" >
+                        <li class="slds-tabs_scoped__item" role="presentation"
+                            ng-class="vm.displayCaseProps?'slds-is-active':''">
+                            <a class="slds-tabs_scoped__link" href="javascript:void(0)" ng-click="vm.displayCaseProps=true;">
+                                Properties
+                            </a>
+                        </li>
+                        <li class="slds-tabs_scoped__item" role="presentation"
+                            ng-class="!vm.displayCaseProps?'slds-is-active':''">
+                            <a href="javascript:void(0)"
+                               class="slds-tabs_scoped__link"
+                               ng-click = "vm.displayCaseProps=false;vm.openOrLoadAttachmentSources()">
+                                Attachment sources
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <div id="{{sobject.name}}_properties"
+                         class="bs slds-text-body--regular slds-m-vertical--small"
+                         ng-class="{'slds-tabs_scoped__content noMargin': (sobject.name == 'Case'), 'slds-show':(sobject.name == 'Case' && vm.displayCaseProps),'slds-hide':(sobject.name == 'Case' && !vm.displayCaseProps)}"
+                         style="color:#16325c;">
+                        
+                        <div ng-if="!sobject.loaded" align="center" class="loader"/>
+                        
+                        <span ng-if="sobject.loaded">
+                            <div class="slds-grid ng-hide" ng-show="vm.concepts[sobject.name].hasError">
+                                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error">
+                                    <p ng-bind-html="vm.concepts[sobject.name].errorMessage" > </p>
+                                </div>
+                            </div>   
+                            
+                            <span ng-show="!vm.concepts[sobject.name].hasError">
+                                <span class="glyphicon glyphicon-info-sign slds-m-around--x-small" aria-hidden="true"></span>
+                                <span>
+                                    The checkboxes indicate fields which will be visible in JIRA Salesforce Properties Section and the order of the fields is reflected in the order of the columns, you can reorder fields by drag and drop. 
+                                </span>
+                                <br/><br/>
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container" style="display: inline-block;">
+                                            <select class="slds-select" style="width: auto;"
+                                                    ng-model="vm.concepts[sobject.name].selectedField"
+                                                    ng-init="vm.concepts[sobject.name].selectedField=(vm.metadata.describe[sobject.name].fields|orderBy: ['groupName','nlabel']| filter:{isId:false})[0]"
+                                                    ng-change = "vm.concepts[sobject.name].selectedSubPropertyField=(vm.mergeFieldsOfReferences(sobject)|orderBy: 'nlabel'| filter:{ groupName: '!Relationships',isId:false})[0]; vm.concepts[sobject.name].accessibleField = true;vm.concepts[sobject.name].alreadyAdded=false;"
+                                                    ng-options="field.nlabel group by field.groupName for field in
+                                                        vm.metadata.describe[sobject.name].fields|orderBy: ['groupName','nlabel']| filter:{isId:false}">
+                                            </select>
+                                        </div>
+                                        <div class="slds-select_container" style="display: inline-block;"
+                                             ng-if="vm.concepts[sobject.name].selectedField.groupName=='Relationships'">
+                                            <select class="slds-select" style="width: auto;"
+                                                    ng-change="vm.concepts[sobject.name].accessibleField = true;vm.concepts[sobject.name].alreadyAdded=false;"
+                                                    ng-model ="vm.concepts[sobject.name].selectedSubPropertyField"
+                                                    ng-options="field.nlabel for field in vm.mergeFieldsOfReferences(sobject)|orderBy: 'nlabel'| filter:{ groupName: '!Relationships',isId:false}">
+                                            </select>
+                                        </div>
+                                        <button class="slds-button slds-button--neutral"
+                                                ng-click="vm.addProperty(sobject.name)"
+                                                ng-disabled = "vm.concepts[sobject.name].addDisabled">
+                                            Add
+                                        </button>
+                                    </div>
+                                </div>
+                                <span style="color:red;" ng-if="vm.concepts[sobject.name].alreadyAdded">
+                                    &nbsp;Field already added!
+                                </span>
+                                <span style="color:red;" ng-if="!vm.concepts[sobject.name].accessibleField">
+                                    &nbsp;Field is not accessible from JIRA, check permissions and availability
+                                </span>
+
+                                <ul data-ui-sortable="vm.sortableOptions"
+                                    ng-model="vm.concepts[sobject.name].properties" class="sortable ui-sortable"  concept="{{sobject.name}}" style="color:#16325c;">
+                                    <li class="ui-sortable-handle"
+                                        ng-repeat="property in vm.concepts[sobject.name].properties"
+                                        ng-class="{mandatoryField: property.mandatoryField}">
+                                        <div class="slds-form-element" style="display: inline-block;">
+                                            <div class="slds-form-element__control">
+                                                <label class="slds-checkbox">  
+                                                    <input title="Display in JIRA" 
+                                                           ng-model="property.jiraDisplay"
+                                                           checked="" type="checkbox"
+                                                           ng-disabled = "property.hasSubproperties||property.mandatoryField"/>
+                                                    <span class="slds-checkbox--faux"></span>
+                                                    <span class="propertyLabel">
+                                                        {{property.fieldMeta.nlabel}} ({{property.name}})
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <img src="/img/msg_icons/error16.png" style="cursor: default;"
+                                             title="Field is currently not accessible from JIRA, check field permissions and availability" 
+                                             ng-show="!property.accessible"/>
+                                        <span class="closeable" title="Remove this item" 
+                                              ng-show="!property.mandatoryField"
+                                              ng-click="vm.removeProperty(sobject.name,property.name)">
+                                            <img src="/img/dismiss.gif"/>
+                                        </span>
+                                        <ul data-ui-sortable="vm.sortableOptions"
+                                            ng-model="property.subProperties" 
+                                            class="sortable ui-sortable" ng-if="property.hasSubproperties" >
+                                            <li class="ui-sortable-handle"
+                                                ng-repeat = "subProperty in property.subProperties"
+                                                ng-class="{mandatoryField: subProperty.mandatoryField}">
+                                                {{subProperty.fieldMeta.nlabel}} ({{subProperty.name}}) 
+                                                <img src="/img/msg_icons/error16.png" style="cursor: default;"
+                                                     title="Field is currently not accessible from JIRA, check field permissions and availability"
+                                                     ng-show="!subProperty.accessible"/>
+                                                <span ng-show="!subProperty.mandatoryField"
+                                                      class="closeable" title="Remove this item" ng-click="vm.removeSubProperty(sobject.name,property.name,subProperty.name)">
+                                                    <img src="/img/dismiss.gif"/>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </span>
+                        </span>
+                    </div>
+                    <div ng-if="sobject.name == 'Case' && sobject.loaded" 
+                         ng-show ="vm.caseAttachmentSourcesLoaded"
+                         class='ng-hide slds-tabs_scoped__content'
+                         ng-class="!vm.displayCaseProps?'slds-show':'slds-hide'"
+                         id="{{sobject.name}}_attachmentSources">
+
+                        <div id="attachments"></div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+
+        <div class="slds-grid ng-hide" ng-show="vm.isShowing.infoBottomMessages">
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info">
+                <p ng-bind-html="vm.infoBottomMessages" > </p>
+            </div>
+        </div>
+        <div class="slds-grid ng-hide" ng-show="vm.isShowing.errorBottomMessages">
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error">
+                <p ng-bind-html="vm.errorBottomMessages" > </p>
+            </div>
+        </div>   
+        <br/>
+        <div class="slds-grid slds-grid--align-center">
+            <div style="text-align: center;">
+                <button ng-click="vm.save()" ng-disabled="vm.saveDisabled" disabled="true"
+                        class="slds-button slds-button--brand"
+                        ng-bind-html="vm.saveLabel">
+                    Save
+                </button>
+                <button ng-click="vm.returnToMainSettings()" class="slds-button slds-button--neutral">
+                    Return
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+
+    Visualforce.remoting.timeout = 120000;
+    if (!window.console) window.console = {};
+    if (!window.console.log) window.console.log = function () { };
+
+    var RelatedCtrl = function(dataService,$filter,$timeout,$window,$scope,$sce) {
+        var vm = this;
+
+        vm.sortableOptions = {
+            'ui-floating': true, 
+            'items': 'li:not(.mandatoryField)'
+        };
+        vm.mergeFieldsOfReferences=function(sobject){
+            var arrayOfReferences = vm.concepts[sobject.name].selectedField.referenceTo;
+            if(arrayOfReferences.length==0){
+                return [];
+            }
+            if(arrayOfReferences.length==1){
+                return vm.metadata.describe[arrayOfReferences[0]].fields;
+            }
+            
+            //for referenced fields like Owner that has more than one reference we take the fields that
+            //every object has in common.
+            var fieldsMaps = {};
+            var referencedObject1= arrayOfReferences[0];
+            for(var ip=0;ip<vm.metadata.describe[referencedObject1].fields.length;ip++){
+                var field1 = vm.metadata.describe[referencedObject1].fields[ip];
+                if(field1.name in fieldsMaps)continue;
+                var isInEveryObject = true;
+                
+                for(var j =1;j<arrayOfReferences.length;j++){
+                    var referencedObject2= arrayOfReferences[j];
+                    var isInThisObject = false;
+                    for(var jp = 0 ;jp<vm.metadata.describe[referencedObject2].fields.length;jp++){
+                        var field2 = vm.metadata.describe[referencedObject2].fields[jp];
+                        if(field1.name==field2.name && field1.type==field2.type){
+                            isInThisObject = true;
+                            break
+                        }
+                    }
+                    isInEveryObject = isInEveryObject && isInThisObject
+                    if(!isInEveryObject)break;
+                }
+                if(isInEveryObject){
+                    fieldsMaps[field1.name]=field1;
+                }
+            }
+            var isOwner =vm.concepts[sobject.name].selectedField.name=='OwnerId';
+            var ownerInvalidFields = {
+                CreatedDate:true,
+                LastModifiedDate:true,
+                SystemModstamp:true
+            };
+            
+            var fields = [];
+            for(field in fieldsMaps){
+                if(isOwner && (field in ownerInvalidFields))
+                    continue;
+                fields.push(fieldsMaps[field]);
+            }
+            return fields;
+        };
+        vm.openOrLoadAttachmentSources=function(){
+            //external Call to ZAttachmentSources component
+            loadAttachments(function(errorMessage){
+                vm.isShowing.errorAttachments = true;
+                vm.errorAttachments = $sce.trustAsHtml(errorMessage);
+            });
+            vm.caseAttachmentSourcesLoaded = true;
+        };
+        vm.returnToMainSettings = function(){
+            var settingsPage ='/apex/zsfjira__zAgile_Settings';
+            if (typeof sforce != 'undefined' && sforce && sforce.one) {
+                sforce.one.back();
+            }else{
+                window.location.replace(settingsPage);
+            }
+        };
+        vm.getNeedToSync=function(scroll){
+            dataService.getNeedToSync().then(function(needed){
+                $window.console.log('getNeedToSync',needed);
+                if(needed){
+                    var html = '';
+                    if(vm.isOndemand){
+                        html = "Please perform <a href='/apex/zsfjira__ZSyncSfJiraOD'>Refresh "+
+                            "Salesforce properties in JIRA</a> "+
+                            "after you have finished adding fields in this section.";
+                    }
+                    else{
+                        html= "Please perform <a href='/apex/zsfjira__ZSyncSfJiraOP'>Refresh "+
+                            "Salesforce properties in JIRA</a> "+
+                            "after you have finished adding fields in this section.";
+                    }
+                    vm.warningMessages = $sce.trustAsHtml(html);
+                    vm.isShowing.warningMessages = true;
+                    if(scroll){
+                        $timeout(function () { 
+                            $jqz('html, body').animate({
+                                scrollTop: $jqz('#warningMessages').offset().top
+                            }, 500); 
+                        }, 2000);
+                    }
+                }
+                
+            });
+        };
+        vm.addOrOpenSObject=function(object){
+            if(!vm.tabsLoaded){
+                vm.tabsLoaded = true;
+                
+                vm.mainLoader = false;
+                vm.getNeedToSync(false);
+            }
+            vm.objectOpened =object.name;
+            if(object.loaded){
+                return;
+            }
+            var concept = object.name;
+            
+            vm.concepts[concept] = {}
+            vm.concepts[concept].hasError = false;
+            vm.concepts[concept].errorMessage = '';
+            return dataService.loadConceptsFields(concept).then(function(data){
+                $window.console.log('loadConceptsFields',data);
+                
+                vm.saveDisabled = false;                
+                mergeObjects(data);
+                vm.concepts[concept].selectedField = null;
+                vm.concepts[concept].selectedSubPropertyField = null;
+                vm.concepts[concept].alreadyAdded = false;
+                vm.concepts[concept].accessibleField = true;
+                vm.concepts[concept].addDisabled = false;
+                
+                vm.concepts[concept].properties = [];
+                
+                if(!(concept in vm.metadata.selected)){
+                    return;
+                }
+                //Filling stored data in the tab
+                var mandatoryField = vm.metadata.describe[concept].mandatoryField;
+                for(var i=0;i<vm.metadata.selected[concept].sharedFields.length;i++){
+                    //validate and find metadata for each field
+                    for(var j =0;j<vm.metadata.describe[concept].fields.length;j++){
+                        if(vm.metadata.selected[concept].sharedFields[i].name == vm.metadata.describe[concept].fields[j].name){
+                            var hasSubProperties = (vm.metadata.selected[concept].sharedFields[i].sharedFields!=null);
+                            var subProperties = [];
+                            if(hasSubProperties){
+                                var referencedObject = vm.metadata.describe[concept].fields[j].referenceTo[0];
+                                //display subproperties
+                                for(var k=0;k<vm.metadata.selected[concept].sharedFields[i].sharedFields.length;k++){
+                                    //validate and find metadata for each field
+                                    for(var l =0;l<vm.metadata.describe[referencedObject].fields.length;l++){
+                                        if(vm.metadata.selected[concept].sharedFields[i].sharedFields[k].name == vm.metadata.describe[referencedObject].fields[l].name){
+                                            subProperties.push({
+                                                name:vm.metadata.selected[concept].sharedFields[i].sharedFields[k].name,
+                                                fieldMeta: vm.metadata.describe[referencedObject].fields[l],
+                                                accessible:isAccessible(referencedObject,vm.metadata.selected[concept].sharedFields[i].sharedFields[k].name),
+                                                mandatoryField :(vm.metadata.selected[concept].sharedFields[i].sharedFields[k].name == vm.metadata.describe[referencedObject].mandatoryField)
+                                            });
+                                            break;
+                                        }
+                                    }
+                                }
+                                
+                            }
+                            var hasSubproperties = (vm.metadata.selected[concept].sharedFields[i].sharedFields!=null);
+                            var jiraDisplay = vm.metadata.selected[concept].sharedFields[i].jiraDisplay && !hasSubproperties;
+                            
+                            vm.concepts[concept].properties.push({
+                                name: vm.metadata.selected[concept].sharedFields[i].name,
+                                fieldMeta: vm.metadata.describe[concept].fields[j],
+                                mandatoryField :(mandatoryField==vm.metadata.selected[concept].sharedFields[i].name),
+                                jiraDisplay:jiraDisplay,
+                                accessible:isAccessible(concept,vm.metadata.selected[concept].sharedFields[i].name),
+                                hasSubproperties: hasSubproperties,
+                                subProperties:subProperties
+                            });
+                            break;
+                        }
+                    }
+                }
+                
+            }).catch(function(data){
+                vm.concepts[concept].hasError = true;
+                vm.concepts[concept].errorMessage = $sce.trustAsHtml(data.message+
+                                                                     ', Cannot load '+concept+
+                                                                     ' selected properties');
+            }).finally(function(){
+                object.loaded=true;
+            });
+        };
+        vm.addSharedFieldToFieldsIfNeeded=function(sharedField,concept,selectedMetadata){
+
+            if(!(concept in selectedMetadata)){
+                selectedMetadata[concept]={};
+                selectedMetadata[concept].sharedFields=[];
+                selectedMetadata[concept].name = vm.metadata.describe[concept].name;
+                selectedMetadata[concept].mandatoryField = vm.metadata.describe[concept].mandatoryField;
+                selectedMetadata[concept].labelPlural = vm.metadata.describe[concept].labelPlural;
+                selectedMetadata[concept].label = vm.metadata.describe[concept].label;
+                selectedMetadata[concept].fields = [];
+            }
+            var needToAddField = true;
+            if(selectedMetadata[concept].fields.length==0){
+                if(concept in vm.metadata.describe){
+                    selectedMetadata[concept].fields.push({
+                        type:"id",
+                        relationshipName:null,
+                        "referenceTo":[
+                        ],
+                        name:"Id",
+                        label:vm.metadata.describe[concept].idLabel
+                    });
+                }else if(concept in vm.metadata.selected){
+
+                    for(var i = 0;i<vm.metadata.selected[concept].fields.length;i++){
+                        var field = vm.metadata.selected[concept].fields[i];
+                        if(field.name == 'Id'){
+                            selectedMetadata[concept].fields.push(field);
+                            break;
+                        }
+                    }
+
+                }
+            }else{
+                for(var i =0;i<selectedMetadata[concept].fields.length;i++){
+                    var field = selectedMetadata[concept].fields[i];
+                    if(field.name==sharedField.name){
+                        needToAddField = false;
+                    }
+                }
+            }
+
+            var metadataField = null;
+            if(needToAddField){
+                if(concept in vm.metadata.describe){
+                    for(var i = 0;i<vm.metadata.describe[concept].fields.length;i++){
+                        if(sharedField.name == vm.metadata.describe[concept].fields[i].name){
+                            metadataField = vm.metadata.describe[concept].fields[i];
+                            selectedMetadata[concept].fields.push({
+                                type:metadataField.type,
+                                relationshipName:metadataField.relationshipName,
+                                referenceTo:metadataField.referenceTo,
+                                name:metadataField.name,
+                                label:metadataField.label
+                            });
+                            break;
+                        }
+                    }
+                }else if(concept in vm.metadata.selected){
+                    for(var i = 0;i<vm.metadata.selected[concept].fields.length;i++){
+                        var field = vm.metadata.selected[concept].fields[i];
+                        if(field.name == sharedField.name){
+                            metadataField = field;
+                            selectedMetadata[concept].fields.push(field);
+                            break;
+                        }
+                    }
+                }
+            }
+            return metadataField;
+        };
+        vm.save = function(){ 
+            var selectedMetadata = {};
+            //Asumming that there is no tab loaded
+            for(var concept in vm.metadata.selected){
+                selectedMetadata[concept] = {};
+
+                selectedMetadata[concept].label = vm.metadata.selected[concept].label;
+                selectedMetadata[concept].labelPlural = vm.metadata.selected[concept].labelPlural;
+                selectedMetadata[concept].mandatoryField = vm.metadata.selected[concept].mandatoryField;
+                selectedMetadata[concept].name = vm.metadata.selected[concept].name;
+
+                selectedMetadata[concept].fields=[];
+                
+                var zissueLinkedObject = false;
+                for(var i =0;i< vm.sobjects.length;i++){
+                    if(vm.sobjects[i].name==concept){
+                        zissueLinkedObject = true;
+                        break;
+                    }
+                }
+                if(!zissueLinkedObject){
+                    selectedMetadata[concept].sharedFields=[];
+                }else{
+                    selectedMetadata[concept].sharedFields=vm.metadata.selected[concept].sharedFields;
+                }
+            }
+            //Then override what user has entered in the loaded tabs
+            vm.sobjects.forEach(function(sobjectTab){
+                var sobject = sobjectTab.name;                
+                //if tab is loaded
+                if(sobjectTab.loaded && vm.concepts[sobject].properties.length>0){
+                    selectedMetadata[sobject]={};
+                    selectedMetadata[sobject].sharedFields=[];
+                    selectedMetadata[sobject].name = vm.metadata.describe[sobject].name;
+                    selectedMetadata[sobject].mandatoryField = vm.metadata.describe[sobject].mandatoryField;
+                    selectedMetadata[sobject].labelPlural = vm.metadata.describe[sobject].labelPlural;
+                    selectedMetadata[sobject].label = vm.metadata.describe[sobject].label;
+                    selectedMetadata[sobject].fields = [];
+                    
+                    for(var i=0;i<vm.concepts[sobject].properties.length;i++){
+                        var property = vm.concepts[sobject].properties[i];
+                        
+                        var sharedField = {};
+                        sharedField.sharedFields = null;
+                        if(property.hasSubproperties){
+                            sharedField.sharedFields = [];
+                            for(var j=0;j<property.subProperties.length;j++){
+                                sharedField.sharedFields.push({
+                                    name: property.subProperties[j].name,
+                                    jiraDisplay:false
+                                });
+                            }
+                        }
+                        sharedField.name=property.name;
+                        sharedField.jiraDisplay= property.jiraDisplay;
+                        selectedMetadata[sobject].sharedFields.push(sharedField);
+                    }
+                }
+            });
+
+            var notStoredMetadata = {};
+            for(var concept in selectedMetadata){
+                selectedMetadata[concept].sharedFields.forEach(function(sharedField){
+                    var metadataField = vm.addSharedFieldToFieldsIfNeeded(sharedField,concept,selectedMetadata);
+                    if(metadataField!=null && sharedField.sharedFields!=null){
+                        sharedField.sharedFields.forEach(function(subSharedField){
+                            var referencedConcept = metadataField.referenceTo[0];
+                            if(referencedConcept in selectedMetadata){
+                                vm.addSharedFieldToFieldsIfNeeded(subSharedField,referencedConcept,selectedMetadata);
+                            }else{
+                                vm.addSharedFieldToFieldsIfNeeded(subSharedField,referencedConcept,notStoredMetadata);
+                            }
+                        });
+                    }
+                });
+            }
+            //merge objects not present in tabs
+            for(var concept in notStoredMetadata){
+                selectedMetadata[concept] = notStoredMetadata[concept]; 
+            }
+            //purge objects that are empty
+
+            var finalSelectedMeta = {};
+            for(var concept in selectedMetadata){
+                if(selectedMetadata[concept].fields.length !=0){
+                    finalSelectedMeta[concept] = selectedMetadata[concept]; 
+                }
+            }
+            
+            vm.isShowing.errorBottomMessages = false;
+            vm.isShowing.infoBottomMessages = false;
+            
+            vm.saveDisabled = true;
+            vm.saveLabel = $sce.trustAsHtml('Saving...');
+            
+            dataService.saveConceptProperties(finalSelectedMeta,vm.isOndemand).then(function(result){
+                $window.console.log('saveConceptProperties',result);
+                
+                if (result && result.length > 0) {
+                    var errmessage = result.join('. ') + ".";
+
+                    vm.isShowing.errorBottomMessages = true;
+                    vm.errorBottomMessages = $sce.trustAsHtml(errmessage);
+
+                } else {
+                    vm.metadata.selected = finalSelectedMeta;
+                    //external Call to ZAttachmentSources component
+                    saveSchemas(function(){
+                        vm.isShowing.infoBottomMessages = true;
+                        vm.infoBottomMessages = $sce.trustAsHtml("Saved successfully.");
+                        
+                        vm.saveDisabled = false;
+                        vm.saveLabel = $sce.trustAsHtml('Save');
+                        
+                        vm.getNeedToSync(true);
+                        
+                    },function(event){
+                        var errmessage = '<b>'+event.message+' Cannot save modifications to attachment sources.'+' </b>';
+                        
+                        vm.isShowing.errorBottomMessages = true;
+                        vm.errorBottomMessages = $sce.trustAsHtml(errmessage);
+                    });                   
+                }
+                
+            }).catch(function(data){
+                var errmessage = '<strong>'+event.message + ' Cannot save Salesforce related objects.</strong>';
+                
+                vm.isShowing.errorBottomMessages = true;
+                vm.errorBottomMessages = $sce.trustAsHtml(errmessage);
+            });
+
+        };
+        function isAccessible(concept,fieldName){
+            if(concept in vm.metadata.accessibleMeta){
+                return (fieldName in vm.metadata.accessibleMeta[concept]);
+            }
+            return true;
+        }
+        function mergeAccessibleMeta(accessibleMeta){
+            for(var concept in accessibleMeta.accessibleFields){
+                if(!(concept in vm.metadata.accessibleMeta)){
+                    vm.metadata.accessibleMeta[concept]={};
+                    accessibleMeta.accessibleFields[concept].forEach(function(field){
+                        vm.metadata.accessibleMeta[concept][field]=true;
+                    });
+                }
+            }
+        }
+        function mergeObjects(metadata){
+            for(var concept in metadata){
+                if(!(concept in vm.metadata.describe)){
+                    vm.metadata.describe[concept] = metadata[concept];
+                    vm.metadata.describe[concept].label=htmlDecode(vm.metadata.describe[concept].label);
+                    vm.metadata.describe[concept].fields.forEach(function(field,i){
+                        field.groupName = 'Fields';
+                        field.label = htmlDecode(field.label);
+                        field.nlabel = field.label;
+                        if(field.referenceTo.length>0){
+                            field.groupName = 'Relationships';
+                            field.nlabel = field.relationshipName;
+                        }
+                        if(field.name=='Id'){
+                            vm.metadata.describe[concept].idLabel = field.label;
+                        }
+                        field.nlabel = htmlDecode(field.nlabel);
+                        field.isId = (field.name=='Id');
+                    });
+                }
+            }
+        }
+        vm.htmlDecode = function(value){
+            return htmlDecode(value);
+        };
+        function htmlDecode(value){
+            return $jqz('<div/>').html(value).text();
+        }
+        vm.removeSubProperty =function(sobject,propertyName,subPropertyName){
+            var indexP = vm.indexOfProperty(sobject,propertyName);
+            var subProperties = vm.concepts[sobject].properties[indexP].subProperties;
+            for(var j = 0;j<subProperties.length;j++){
+                if(subProperties[j].name==subPropertyName){
+                    subProperties.splice(j,1);
+                }
+            }
+        };
+        vm.removeProperty =function(sobject,propertyName){ 
+            var indexP = vm.indexOfProperty(sobject,propertyName);
+            vm.concepts[sobject].properties.splice(indexP,1);
+        };
+        vm.indexOfProperty=function(sobject,propertyName){
+            var properties = vm.concepts[sobject].properties;
+            for(var i =0;i<properties.length;i++){
+                if(properties[i].name==propertyName){
+                    return i;
+                }
+            }
+            return -1;
+        };
+        vm.propertyAlreadyAdded=function(sobject,propertyName){
+            return vm.indexOfProperty(sobject,propertyName)!=-1;
+        };
+        vm.subPropertyAlreadyAdded=function(sobject,propertyName,subPropertyName){
+            var properties = vm.concepts[sobject].properties;
+            for(var i =0;i<properties.length;i++){
+                if(properties[i].name==propertyName){
+                    var subProperties = vm.concepts[sobject].properties[i].subProperties;
+                    for(var j = 0;j<subProperties.length;j++){
+                        if(subProperties[j].name==subPropertyName){
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        };
+        vm.addProperty=function(sobject){
+
+            var addPropertyInternal = function(){
+                vm.concepts[sobject].alreadyAdded = false;
+                vm.concepts[sobject].accessibleField = true;
+                
+                var selectedField = vm.concepts[sobject].selectedField;
+                if(selectedField.groupName=='Fields'){
+                    vm.concepts[sobject].accessibleField = isAccessible(sobject,selectedField.name);
+                }else{
+                    var subProperty = vm.concepts[sobject].selectedSubPropertyField;
+                    var refObject = selectedField.referenceTo[0];
+                    
+                    vm.concepts[sobject].accessibleField = isAccessible(refObject,subProperty.name);
+                }
+                
+                if(!vm.concepts[sobject].accessibleField){
+                    return;
+                }
+                
+                var mandatoryField = vm.metadata.describe[sobject].mandatoryField;
+                
+                if(!vm.propertyAlreadyAdded(sobject,mandatoryField)){
+                    var mandatoryMeta = null;
+                    for(var i =0;i<vm.metadata.describe[sobject].fields.length;i++){
+                        if(vm.metadata.describe[sobject].fields[i].name==mandatoryField){
+                            mandatoryMeta =vm.metadata.describe[sobject].fields[i];
+                            break;
+                        }
+                    }
+                    vm.concepts[sobject].properties.push({
+                        name: mandatoryField,
+                        fieldMeta: mandatoryMeta,
+                        mandatoryField :true,
+                        jiraDisplay:true,
+                        accessible:isAccessible(sobject,mandatoryField),
+                        hasSubproperties: false,
+                        subProperties:[]
+                    });
+                    if(selectedField.name == mandatoryField){
+                        return;
+                    }
+                }
+                
+                if(selectedField.groupName=='Fields'){
+                    if(vm.propertyAlreadyAdded(sobject,selectedField.name)){
+                        vm.concepts[sobject].alreadyAdded = true;
+                        return;
+                    }
+                    vm.concepts[sobject].properties.push({
+                        name: selectedField.name,
+                        fieldMeta: selectedField,
+                        mandatoryField :false,
+                        jiraDisplay:true,
+                        accessible:isAccessible(sobject,selectedField.name),
+                        hasSubproperties: false,
+                        subProperties:[]
+                    });
+                }else{
+                    var refObject = selectedField.referenceTo[0];
+                    var subProperty = vm.concepts[sobject].selectedSubPropertyField;
+                    
+                    if(!vm.propertyAlreadyAdded(sobject,selectedField.name)){
+                        var mandatoryField = vm.metadata.describe[refObject].mandatoryField;
+                        var mandatoryMeta = null;
+                        for(var i =0;i<vm.metadata.describe[refObject].fields.length;i++){
+                            if(vm.metadata.describe[refObject].fields[i].name==mandatoryField){
+                                mandatoryMeta =vm.metadata.describe[refObject].fields[i];
+                                break;
+                            }
+                        }
+                        vm.concepts[sobject].properties.push({
+                            name: selectedField.name,
+                            fieldMeta: selectedField,
+                            mandatoryField :false,
+                            jiraDisplay:false,
+                            accessible:isAccessible(sobject,selectedField.name),
+                            hasSubproperties: true,
+                            subProperties:[
+                                {
+                                    name:mandatoryField,
+                                    fieldMeta: mandatoryMeta,
+                                    accessible:isAccessible(refObject,mandatoryField),
+                                    mandatoryField :true
+                                }
+                            ]
+                        });
+                        if(subProperty.name == mandatoryField){
+                            return;
+                        }
+                    }
+                    if(vm.subPropertyAlreadyAdded(sobject,selectedField.name,subProperty.name)){
+                        vm.concepts[sobject].alreadyAdded = true;
+                        return;
+                    }
+                    var indexP = vm.indexOfProperty(sobject,selectedField.name);
+                    vm.concepts[sobject].properties[indexP].subProperties.push({
+                        name:subProperty.name,
+                        fieldMeta: subProperty,
+                        accessible:isAccessible(refObject,subProperty.name),
+                        mandatoryField :false
+                    });
+                }
+            };
+            
+            var concepts = [];
+            if(!(sobject in vm.metadata.accessibleMeta)){
+                concepts.push(sobject);
+            }
+            
+            if(vm.concepts[sobject].selectedField.groupName!='Fields'){
+                var refObject = vm.concepts[sobject].selectedField.referenceTo[0];
+                if(!(refObject in vm.metadata.accessibleMeta)){
+                    concepts.push(refObject);
+                }
+            }
+            if(concepts.length==0){
+                addPropertyInternal();
+            }else{
+                vm.concepts[sobject].addDisabled = true;
+                dataService.getAccessibleFields(concepts).then(function(accessibleMeta){
+                    $window.console.log('getAccessibleFields',accessibleMeta);
+                    mergeAccessibleMeta(accessibleMeta);
+                }).finally(function(){
+                    addPropertyInternal();
+                    vm.concepts[sobject].addDisabled = false;
+                });
+            }
+        };
+        
+        init();
+        function init(){
+            vm.displayCaseProps = true;
+            vm.objectOpened = 'Case';
+            vm.saveLabel = $sce.trustAsHtml('Save');
+            
+            vm.tabsLoaded = false;
+            vm.mainLoader = true;
+            vm.isOndemand = {!IF(JiraIsOnDemand,true,false)};
+          
+            vm.isShowing = {};
+            vm.isShowing.errorMessages = false;
+            vm.isShowing.warningMessages = false;
+            vm.isShowing.infoBottomMessages = false;   
+            vm.isShowing.errorBottomMessages= false;
+            vm.isShowing.errorAttachments = false;
+            vm.isShowing.infoMessages = false;
+            vm.saveDisabled = true;
+            
+            vm.sobjects = [{name:'Case',loaded:false}];
+
+            dataService.saveDefaultValuesIfNotExists().finally(function(){
+                dataService.getZIssueMeta().then(function(result){
+
+                    $window.console.log('getZIssueMeta',result);
+                    vm.describeZIssueRelationships = result.describeZIssueRelationships;
+                    vm.describeZIssueSf = result.describeZIssueSf;
+
+                    for(var object in vm.describeZIssueRelationships){
+                        if(object=='Case')continue;
+                        if(object in vm.describeZIssueSf){
+                            vm.sobjects.push({name:object,loaded:false});
+                        }
+                    }
+
+                    vm.metadata={};
+                    vm.concepts={};
+                    vm.metadata.describe = {};
+                    vm.metadata.accessibleMeta = {};
+
+                    dataService.loadSelectedConceptFields().then(function(data){
+                        $window.console.log('loadSelectedConceptFields',data);
+                        vm.metadata.selected = data;
+                        var concepts = [];
+                        for(object in vm.metadata.selected){
+                            //clean labels
+                            vm.metadata.selected[object].label=htmlDecode(vm.metadata.selected[object].label);
+                            vm.metadata.selected[object].labelPlural=htmlDecode(vm.metadata.selected[object].labelPlural);
+                            vm.metadata.selected[object].fields.forEach(function(field){
+                               field.label=htmlDecode(field.label);
+                            });
+
+                            concepts.push(object);
+                        }
+                        dataService.getAccessibleFields(concepts).then(function(accessibleMeta){
+                            $window.console.log('getAccessibleFields',accessibleMeta);
+                            mergeAccessibleMeta(accessibleMeta);
+                        }).finally(function(){
+                            vm.addOrOpenSObject(vm.sobjects[0]);
+                        });
+                    }).catch(function(data){
+                        vm.errorMessages = $sce.trustAsHtml(data.message+', Cannot load selected properties');
+                        vm.isShowing.errorMessages = true;
+                        vm.mainLoader = false;
+                    });
+                }).catch(function(event){
+                    vm.errorMessages = $sce.trustAsHtml(event.message+', Cannot load ZIssue related properties');
+                    vm.isShowing.errorMessages = true;
+                    vm.mainLoader = false;
+                });
+            });
+        }
+    };
+    var dataService = function($q) {
+        return {
+            saveConceptProperties:function(metadata,isOndemand){
+                var deferred = $q.defer(); 
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZSettingsController.saveConceptProperties}',metadata,isOndemand , function(result, event){
+                        if (event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }
+                    }
+                );
+                return deferred.promise;                
+            },
+            getNeedToSync:function(){
+                var deferred = $q.defer(); 
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZSettingsController.getNeedToSync}', function(result, event){
+                        if (event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }
+                    }
+                );
+                return deferred.promise;
+            },
+            loadSelectedConceptFields:function(){
+                var deferred = $q.defer(); 
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZSettingsController.loadSelectedConceptFields}', function(result, event){
+                        if (event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }
+                    }
+                );
+                return deferred.promise;
+            },
+            loadConceptsFields:function(sobject){
+                var deferred = $q.defer();  
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZSettingsController.loadFieldsOfConcept}',sobject,
+                    function(result, event){
+                        if(event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }
+                    }
+                );
+                return deferred.promise;
+            },
+            getZIssueMeta:function(){
+                var deferred = $q.defer(); 
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZSettingsController.getZIssueMeta}', function(result, event){
+                        if (event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }
+                    }
+                );
+                return deferred.promise;
+            },
+            getAccessibleFields:function(concepts){
+                var deferred = $q.defer(); 
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZSettingsController.getAccessibleFields}',concepts, function(result, event){
+                        if (event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }
+                    }
+                );
+                return deferred.promise;
+            },
+            saveDefaultValuesIfNotExists:function(concepts){
+                var deferred = $q.defer();
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZSettingsController.saveDefaultValuesIfNotExists}', function(result, event){
+                        if (event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }
+                    }
+                );
+                return deferred.promise;
+            }
+        };                      
+    };
+    
+    
+    var srcApp =  angular.module("src", ['ui.sortable']);
+    srcApp.factory("dataService",dataService);
+    
+    srcApp.constant("resourceRoot","{!URLFOR($Resource.SLDS103,'')}");    
+    srcApp.controller("RelatedCtrl",RelatedCtrl); 
+    srcApp.filter('unsafe', function($sce) { return $sce.trustAsHtml; });
+    
+    RelatedCtrl.$inject = ["dataService","$filter","$timeout","$window","$scope","$sce"];
+    
+    dataService.$inject = ["$q"];
+
+    </script>
+</apex:page>

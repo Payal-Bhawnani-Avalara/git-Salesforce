@@ -1,0 +1,5 @@
+<messaging:emailTemplate subject="Related Articles" recipientType="Contact" relatedToType="Contact">
+    <messaging:plainTextEmailBody >
+        <c:MindTouchRelatedArticlesPlain object="{!relatedTo}"/>
+    </messaging:plainTextEmailBody>
+</messaging:emailTemplate>

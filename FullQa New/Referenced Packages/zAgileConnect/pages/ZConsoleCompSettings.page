@@ -1,0 +1,29 @@
+<apex:page controller="zsfjira.ZConsoleCompSettings" setup="true">
+    <apex:sectionHeader title="Custom Settings" subtitle="Console Components"/>    
+    <apex:pageBlock title="Console Component Behaviour for {!$User.Username}">
+        <apex:pageMessage strength="1" summary="Saved Succesfully" severity="info" rendered="{!savedOk}"/>
+        <apex:form >
+            <b>
+                1. Suggest JIRA Issues when Object page loaded.
+            </b>
+            <p style="display:inline">
+                The property applies to Suggested Issues Console Component 
+            </p>
+            <apex:selectRadio layout="pageDirection" value="{!suggestIssuesAtLoad}">
+                <apex:selectOptions value="{!loadSuggIssuesOptions}"/>
+            </apex:selectRadio>            
+            <b>
+                2. Request related JIRA Issue Activity stream when Object page loaded
+            </b>        
+            <p style="display:inline">
+                This property applies to related JIRA Issues Activity Console Component
+            </p>
+            <apex:selectRadio layout="pageDirection" value="{!activityStreamAtLoad}">
+                <apex:selectOptions value="{!loadActivityOptions}"/>
+            </apex:selectRadio>
+            <div align ="center">
+                <apex:commandButton action="{!saveSettings}" value="Save"/>
+            </div>            
+        </apex:form>
+    </apex:pageBlock>
+</apex:page>

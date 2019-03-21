@@ -1,0 +1,4 @@
+<apex:page standardcontroller="Opportunity" renderas="pdf" standardstylesheets="true" sidebar="true" showheader="true">
+Hey Hey!
+  <!-- End Default Content REMOVE THIS -->
+</apex:page>

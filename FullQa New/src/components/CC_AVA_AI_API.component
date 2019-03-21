@@ -1,0 +1,2 @@
+<apex:component access="global" allowDML="true" controller="CC_AVA_AI_API">
+</apex:component>

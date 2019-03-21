@@ -1,0 +1,131 @@
+<apex:page action="{!if(!isSysAdmin,urlFor('/apex/zsfjira__ZInsufficientPriv'), null)}"
+           controller="zsfjira.ZSyncSfJiraOD" setup="true">    
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-ui-1.10.3.custom.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__dynatree_1_2_4_js)}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__jQuery, '/css/redmond/jquery-ui-1.10.3.custom.min.css')}" />
+    <apex:slds />
+    <style>
+        .pageMessageContainer {
+        display: none;
+        }
+        
+        .divline{
+        height: 1px;
+        background: #CFD7E6;
+        margin-top:1%;                  
+        }
+        .messageText {
+        color: white !important;
+        }
+        .slds .slds-input {
+        width: auto;
+        }
+        div.pageMessageContainer>span{
+        width:100%;
+        }
+    </style>
+    <div class="slds slds-scope">
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <p class="slds-text-body--small">Sync JIRA from Salesforce</p>
+                    <div class="slds-grid">
+                        <div class="slds-grid slds-no-space">
+                            <h1 class="slds-text-heading--medium slds-truncate" title="Settings">
+                                Refresh Salesforce properties in JIRA
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='pageMessageContainer'>
+            <apex:outputPanel rendered="{!error}" id="merr">
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error">
+                        {!JSENCODE(message)}
+                </div>
+            </apex:outputPanel>
+        </div>
+        <div class='pageMessageContainer'>
+            <apex:outputPanel rendered="{!success}" id="msuc">
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info">
+                        {!JSENCODE(message)}
+                </div>
+            </apex:outputPanel>
+        </div>
+        <div class='pageMessageContainer'>
+            <apex:outputPanel rendered="{!warning}" id="mwar">
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning">
+                        {!JSENCODE(message)}
+                </div>
+            </apex:outputPanel>
+        </div>
+        <apex:form >
+            <div class="slds-grid">
+                <div class="slds-card slds-m-around--large slds-col">
+                    <div class="slds-card__header slds-grid grid--flex-spread">
+                        <h2 class="slds-text-heading--small slds-truncate">Sync JIRA from Salesforce</h2>
+                    </div>
+                    <div class="divline"> </div>
+                    <div class="slds-card__body slds-p-horizontal--small">
+                        <p>
+                            This option refreshes Salesforce data in JIRA. When properties are added or updated in Salesforce
+                            settings, the sync action will tag them in JIRA for refresh. By clicking on the Refresh button, all
+                            Salesforce objects stored in JIRA will be refreshed.
+                            
+                        </p>            
+                    </div>
+                    <div class="slds-card__body slds-p-horizontal--small">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Object to Synchronize:</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container slds-size--2-of-5">
+                                    <apex:selectList value="{!selectedSObject}" multiselect="false" size="0"
+                                                     id="sObjectsSelect" styleClass="slds-select">
+                                        <apex:selectOptions value="{!availableSObjects}"/>
+                                    </apex:selectList>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+            <div class="slds-text-align--center slds-m-vertical--medium">
+                <apex:commandButton styleClass="slds-button slds-button--brand" action="{!sendToAddon}" value="Refresh"/>
+                <apex:commandButton styleClass="slds-button slds-button--neutral" action="{!cancel}" value="Return"/>
+            </div>
+        </apex:form>
+    </div>    
+    <script>
+    $jqz(function() {
+        
+        $jqz("div.pageMessageContainer").each(function(i){
+            $jqz(this).css("display","block");
+        });
+        sortSelect($jqz("select[id$='sObjectsSelect']")[0]);
+    });
+    
+    function sortSelect(elem) {
+        var tmpAry = [];
+        // Retain selected value before sorting
+        var selectedValue = elem[elem.selectedIndex].value;
+        // Grab all existing entries
+        for (var i=0;i<elem.options.length;i++) tmpAry.push(elem.options[i]);
+        // Sort array by text attribute
+        tmpAry.sort(function(a,b){ return (a.text < b.text)?-1:1; });
+        // Wipe out existing elements
+        while (elem.options.length > 0) elem.options[0] = null;
+        // Restore sorted elements
+        var newSelectedIndex = 0;
+        for (var i=0;i<tmpAry.length;i++) {
+            elem.options[i] = tmpAry[i];
+            if(elem.options[i].value == selectedValue) newSelectedIndex = i;
+        }
+        elem.selectedIndex = newSelectedIndex; // Set new selected index after sorting
+        return;
+    }
+    </script>
+    
+</apex:page>

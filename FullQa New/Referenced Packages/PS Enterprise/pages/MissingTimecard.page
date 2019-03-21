@@ -1,0 +1,82 @@
+<apex:page controller="pse.MissingTimecardController" lightningStylesheets="true">
+<apex:outputPanel rendered="{!$User.UIThemeDisplayed == 'Theme4d'}" layout="none">
+	<style>
+		.pageTitleIcon {
+			border-radius: .25rem;
+		    background-color: #EF7EAD;
+		    background-image: url("{!URLFOR($Asset.SLDS, 'assets/icons/standard/home.svg')}");
+		    background-repeat: no-repeat;
+		    background-position: center;
+		    background-size: 2rem;
+			display: block !important;
+		}
+	</style>
+</apex:outputPanel>
+<apex:insert name="sectionHeader"/>
+<apex:sectionHeader title="{!$Label.pse__missingtimecard_title}" help="{!$Page.pse__MissingTimecardHelp}"/> 
+
+<apex:pageMessages id="messages"/>
+<apex:outputText value="{!$Label.pse__missingtimecard_message_instructions}" rendered="{!showEntryMode}"/><p />
+
+<style type="text/css">
+.detailList .data2Col {width: 82% !important;}
+img.percentImage1 {
+ background: white url({!URLFOR($Resource.progressImages, 'percentImage_back1.png')}) top left no-repeat;
+ padding: 0;
+ margin: 5px 0 0 0;
+ background-position: 1px 0;
+}
+
+</style>
+<apex:stylesheet value="{!URLFOR($Resource.pse__fflib_baf, '/stylesheets/progress-bar.css')}" />
+
+<c:WaitComponent />
+
+<apex:form >
+
+<apex:pageBlock title="{!$Label.pse__missingtimecard_label_generate}" mode="edit" rendered="{!showEntryMode}">
+    <apex:pageBlockButtons >
+     <apex:commandButton value="{!$Label.pse__missingtimecard_label_generate}" action="{!generate}"/>
+     <apex:commandButton value="{!$Label.pse__missingtimecard_schedule}"       action="{!doSchedule}"/>
+     <apex:commandButton value="{!$Label.pse__common_label_cancel}"            action="{!cancel}"/>
+    </apex:pageBlockButtons>
+    
+    <apex:pageBlockSection title="{!$Label.pse__common_label_information}" columns="1">
+        <apex:inputField value="{!criteria.pse__Region__c}"/>
+        <apex:inputField value="{!criteria.pse__Practice__c}"/>
+        <apex:inputField value="{!criteria.pse__Group__c}"/>
+        <apex:inputField value="{!criteria.pse__Week_End_Date__c}"/>
+        <apex:inputField value="{!criteria.pse__Include_Sublevels__c}"/>
+    </apex:pageBlockSection>
+
+    <apex:pageBlockSection title="{!$Label.pse__missingtimecard_schedule}" columns="1">
+      <apex:pageblockSectionItem >
+        <apex:outputLabel value="{!$Label.pse__common_label_type}" for="optionId"/>
+          <apex:selectList value="{!criteria.pse__Date_Type__c}" multiselect="false" size="1" id="optionId">
+            <apex:selectOptions value="{!dateOption}"/>
+          </apex:selectList>
+      </apex:pageblockSectionItem>
+    <apex:pageblockSectionItem >
+      <c:ApexSchedule schedPattern="{!schedulePattern}"/>
+    </apex:pageblockSectionItem> 
+    </apex:pageBlockSection>
+</apex:pageBlock>
+
+<apex:outputPanel rendered="{!NOT(showEntryMode)}" id="progressPanel">
+    <div class="ffdc-apexlib-progress ffdc-apexlib-progress-default" style="width: 20%; margin-left: 40%;">
+        <div class="ffdc-apexlib-progress-inner">
+            <div class="ffdc-apexlib-progress-strip"></div>
+            <div class="ffdc-apexlib-progress-bar" style="width: {!percentComplete}%;"></div>
+        </div>
+        <div class="ffdc-apexlib-progress-message">{!statusString}</div>
+    </div>
+</apex:outputPanel>
+
+<apex:actionPoller action="{!checkProgress}" id="poller" interval="5" rerender="progressPanel,messages,poller"
+    rendered="{!AND(NOT(showEntryMode),NOT(isComplete))}"/>
+
+
+</apex:form>
+
+
+</apex:page>

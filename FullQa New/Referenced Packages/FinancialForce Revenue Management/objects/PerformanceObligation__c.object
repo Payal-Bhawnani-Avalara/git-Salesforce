@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>PerformanceObligationCompactLayout</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>PerformanceObligationCompactLayout</fullName>
+        <fields>Name</fields>
+        <fields>Description__c</fields>
+        <fields>Revenue__c</fields>
+        <fields>AllocatedRevenue__c</fields>
+        <fields>SSP__c</fields>
+        <fields>TotalSSP__c</fields>
+        <fields>AllocationStatus__c</fields>
+        <label>Performance Obligation Compact Layout</label>
+    </compactLayouts>
+    <customHelpPage>helprevenuecontract</customHelpPage>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <description>Delivery of independent goods and/or services to the customer.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>false</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>AccountName__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The name of the account for this Performance Obligation.</description>
+        <externalId>false</externalId>
+        <label>Account Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Indicates whether the source record is active.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Indicates whether the source record is active.</inlineHelpText>
+        <label>Active</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>AllocatedRevenueAdjustment__c</fullName>
+        <defaultValue>0</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Adjustment because of rounding issues.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Adjustment because of a difference between revenue and allocated revenue on the Revenue Contract caused by cumulative rounding errors on the Performance Obligations.</inlineHelpText>
+        <label>Allocated Revenue Rounding Adjustment</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>AllocatedRevenueOverride__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Override the calculated amount allocated to this Performance Obligation by entering a different value here.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Override the calculated amount allocated to this Performance Obligation by entering a different value here.</inlineHelpText>
+        <label>Allocated Revenue Override</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>AllocatedRevenue__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The amount allocated to this Performance Obligation by the Revenue Allocation calculation. This value is used for revenue recognition.</description>
+        <externalId>false</externalId>
+        <formula>ROUND(IF(ISNULL(AllocatedRevenueOverride__c),
+                    IF(ISNULL(AllocationRatio__c),
+                        null,
+                        (AllocationRatio__c * SSP__c) +
+                            IF(ISNULL(AllocatedRevenueAdjustment__c),
+                                0,
+                                AllocatedRevenueAdjustment__c)),
+                    AllocatedRevenueOverride__c), 2)</formula>
+        <inlineHelpText>The amount allocated to this Performance Obligation by the Revenue Allocation calculation. This value is used for revenue recognition.</inlineHelpText>
+        <label>Allocated Revenue</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>14</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>AllocationRatio__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The ratio used to allocate revenue across the Revenue Contract.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The ratio used to allocate revenue across the Revenue Contract.</inlineHelpText>
+        <label>Allocation Ratio</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>14</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>AllocationStatus__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Shows if the Revenue for this performance obligation has been fully allocated, or needs reallocating.</description>
+        <externalId>false</externalId>
+        <formula>RevenueContract__r.AllocationStatus__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Shows if the Revenue for this performance obligation has been fully allocated, or needs reallocating.</inlineHelpText>
+        <label>Allocation Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>AmortizedToDate__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The amount amortized to date for this Performance Obligation.</description>
+        <externalId>false</externalId>
+        <label>Amortized to Date</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>BalanceSheetAccount__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The name of the balance sheet account for this Performance Obligation.</description>
+        <externalId>false</externalId>
+        <label>Balance Sheet Account</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Completed__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Indicates whether the source record is complete.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Indicates whether the source record is complete.</inlineHelpText>
+        <label>Completed</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ControllingCostPOLI__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <description>The Controlling Cost Performance Obligation Line Item. Used to populate the fields on the Performance Obligation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The Controlling Cost Performance Obligation Line Item. Used to populate the fields on the Performance Obligation.</inlineHelpText>
+        <label>Controlling POLI (Cost)</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>PerformanceObligationLineItem__c.PerformanceObligation__c</field>
+                <operation>equals</operation>
+                <valueField>$Source.Id</valueField>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>PerformanceObligationLineItem__c</referenceTo>
+        <relationshipLabel>Controlling POLIs (Cost)</relationshipLabel>
+        <relationshipName>ControllingCostPOLIs</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>ControllingPOLI__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <description>The Controlling Revenue Performance Obligation Line Item. Used to populate the fields on the Performance Obligation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The Controlling Revenue Performance Obligation Line Item. Used to populate the fields on the Performance Obligation.</inlineHelpText>
+        <label>Controlling POLI (Revenue)</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>PerformanceObligationLineItem__c.PerformanceObligation__c</field>
+                <operation>equals</operation>
+                <valueField>$Source.Id</valueField>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>PerformanceObligationLineItem__c</referenceTo>
+        <relationshipLabel>Controlling POLIs (Revenue)</relationshipLabel>
+        <relationshipName>ControllingPOLIs</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>CostBalanceSheetAccount__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The name of the balance sheet account (cost) for this Performance Obligation.</description>
+        <externalId>false</externalId>
+        <label>Balance Sheet Account (Cost)</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CostCenter__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The cost center for this Performance Obligation.</description>
+        <externalId>false</externalId>
+        <label>Cost Center</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CostCostCenter__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The cost center (cost) for this Performance Obligation.</description>
+        <externalId>false</externalId>
+        <label>Cost Center (Cost)</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CostIncomeStatementAccount__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The name of the income statement account (cost) for this Performance Obligation.</description>
+        <externalId>false</externalId>
+        <label>Income Statement Account (Cost)</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Cost__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Cost for this Performance Obligation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Cost for this Performance Obligation</inlineHelpText>
+        <label>Cost</label>
+        <summarizedField>PerformanceObligationLineItem__c.Cost__c</summarizedField>
+        <summaryFilterItems>
+            <field>PerformanceObligationLineItem__c.ValueType__c</field>
+            <operation>notEqual</operation>
+            <value>Revenue</value>
+        </summaryFilterItems>
+        <summaryForeignKey>PerformanceObligationLineItem__c.PerformanceObligation__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The description of this Performance Obligation.</description>
+        <externalId>false</externalId>
+        <label>Description</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>EndDate__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The end date of this Performance Obligation.</description>
+        <externalId>false</externalId>
+        <label>End Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>HasRevenue__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Indicates that this Performance Obligation relates to revenue.</description>
+        <externalId>false</externalId>
+        <formula>NOT(ISBLANK(SSPOverride__c)) ||
+            (RevenueCount__c != 0) ||
+            NOT(ISBLANK(AllocatedRevenueOverride__c))</formula>
+        <inlineHelpText>Indicates that this Performance Obligation relates to revenue.</inlineHelpText>
+        <label>Has Revenue</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>IncomeStatementAccount__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The name of the income statement account for this Performance Obligation.</description>
+        <externalId>false</externalId>
+        <label>Income Statement Account</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>NullSSPCount__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The number of Performance Obligation Line Items relating to revenue that have a null SSP value.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Performance Obligation Line Items relating to revenue that have a null SSP value.</inlineHelpText>
+        <label>Null SSP Count</label>
+        <summaryFilterItems>
+            <field>PerformanceObligationLineItem__c.SSP__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </summaryFilterItems>
+        <summaryFilterItems>
+            <field>PerformanceObligationLineItem__c.ValueType__c</field>
+            <operation>notEqual</operation>
+            <value>Cost</value>
+        </summaryFilterItems>
+        <summaryForeignKey>PerformanceObligationLineItem__c.PerformanceObligation__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>PercentComplete__c</fullName>
+        <deprecated>false</deprecated>
+        <description>This Performance Obligation&apos;s percentage complete.</description>
+        <externalId>false</externalId>
+        <label>% Complete</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>10</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>ReadyForRevenueRecognition__c</fullName>
+        <deprecated>false</deprecated>
+        <description>This is checked if the Revenue has been allocated and the Source Record is active. If unchecked this record cannot be included in Revenue Recognition.</description>
+        <externalId>false</externalId>
+        <formula>(RevenueContract__r.RevenueAllocated__c || !HasRevenue__c) &amp;&amp; Active__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>This is checked if the Revenue has been allocated and the Source Record is active. If unchecked this record cannot be included in Revenue Recognition.</inlineHelpText>
+        <label>Ready for Revenue Recognition</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>RecognizedToDate__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The amount recognized to date for this Performance Obligation.</description>
+        <externalId>false</externalId>
+        <label>Recognized to Date</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>RevenueContract__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The Revenue Contract this Performance Obligation belongs to.</description>
+        <externalId>false</externalId>
+        <label>Revenue Contract</label>
+        <referenceTo>RevenueContract__c</referenceTo>
+        <relationshipLabel>Performance Obligations</relationshipLabel>
+        <relationshipName>PerformanceObligations</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>RevenueCount__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The number of Performance Obligation Line Items that relate to revenue.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Performance Obligation Line Items that relate to revenue.</inlineHelpText>
+        <label>Revenue Count</label>
+        <summaryFilterItems>
+            <field>PerformanceObligationLineItem__c.ValueType__c</field>
+            <operation>notEqual</operation>
+            <value>Cost</value>
+        </summaryFilterItems>
+        <summaryForeignKey>PerformanceObligationLineItem__c.PerformanceObligation__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>RevenueRecognitionComplete__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Indicates whether this Performance Obligation is fully recognized and amortized.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>When set, indicates that all the revenue for this Performance Obligation has been fully recognized and all cost fully amortized.</inlineHelpText>
+        <label>Fully Recognized and Amortized</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Revenue__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Revenue for this Performance Obligation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Revenue for this Performance Obligation</inlineHelpText>
+        <label>Revenue</label>
+        <summarizedField>PerformanceObligationLineItem__c.Revenue__c</summarizedField>
+        <summaryFilterItems>
+            <field>PerformanceObligationLineItem__c.ValueType__c</field>
+            <operation>notEqual</operation>
+            <value>Cost</value>
+        </summaryFilterItems>
+        <summaryForeignKey>PerformanceObligationLineItem__c.PerformanceObligation__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>SSPOverride__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Override the Standalone Selling Price from the source record by entering a different value here.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Override the Standalone Selling Price from the source record by entering a different value here.</inlineHelpText>
+        <label>SSP Override</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>SSP__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The Standalone Selling Price that will be used for this Performance Obligation. Uses Total SSP, or SSP Override if populated.</description>
+        <externalId>false</externalId>
+        <formula>ROUND(IF (ISBLANK(SSPOverride__c), TotalSSP__c, SSPOverride__c ), 2)</formula>
+        <inlineHelpText>The Standalone Selling Price that will be used for this Performance Obligation. Uses Total SSP, or SSP Override if populated.</inlineHelpText>
+        <label>SSP</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>StartDate__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The start date for this Performance Obligation.</description>
+        <externalId>false</externalId>
+        <label>Start Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>TotalSSP__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The amount that would be charged for this Performance Obligation if it was sold on its own.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Sum of Standalone Selling Prices from all linked Performance Obligation Line Items.</inlineHelpText>
+        <label>Total SSP</label>
+        <summarizedField>PerformanceObligationLineItem__c.SSP__c</summarizedField>
+        <summaryFilterItems>
+            <field>PerformanceObligationLineItem__c.ValueType__c</field>
+            <operation>notEqual</operation>
+            <value>Cost</value>
+        </summaryFilterItems>
+        <summaryForeignKey>PerformanceObligationLineItem__c.PerformanceObligation__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>ffrrTemplate__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <description>The template assigned to this Performance Obligation.</description>
+        <externalId>false</externalId>
+        <label>Template</label>
+        <referenceTo>Template__c</referenceTo>
+        <relationshipLabel>Performance Obligations</relationshipLabel>
+        <relationshipName>PerformanceObligations</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <label>Performance Obligation</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>POB-{00000000}</displayFormat>
+        <label>Performance Obligation Number</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Performance Obligations</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <webLinks>
+        <fullName>AllocateRevenue</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Allocate Revenue</masterLabel>
+        <openType>sidebar</openType>
+        <page>AllocateRevenueFromPO</page>
+        <protected>false</protected>
+    </webLinks>
+    <webLinks>
+        <fullName>Update</fullName>
+        <availability>online</availability>
+        <description>Updates the related Performance Obligation Line Items based on their Field Mapping Definition</description>
+        <displayType>button</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Update Performance Obligation</masterLabel>
+        <openType>sidebar</openType>
+        <page>PopulatePolisFromPO</page>
+        <protected>false</protected>
+    </webLinks>
+</CustomObject>

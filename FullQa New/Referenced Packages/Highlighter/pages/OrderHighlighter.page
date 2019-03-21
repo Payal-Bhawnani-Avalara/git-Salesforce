@@ -1,0 +1,10 @@
+<apex:page id="pg">
+<!-- 
+
+    REMOVING THIS PAGE BECAUSE MANY COMPANIES DO NOT HAVE ORDERS ENABLED
+
+<apex:page standardController="Order" title="Order: {!Order.Name}" id="pg">
+    <apex:Detail subject="{!$CurrentPage.parameters.Id}" relatedList="true" inLineEdit="true" relatedListHover="true" showChatter="true"  title="true" />
+    <c:HighlighterScript ></c:HighlighterScript>
+    -->
+</apex:page>

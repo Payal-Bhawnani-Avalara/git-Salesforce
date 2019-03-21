@@ -1,0 +1,515 @@
+<!--
+ - Created by dtorres on 5/25/18.
+ -->
+
+<apex:page controller="zsfjira.ZIssueSObjectSettingsController"
+           action="{!if(!isSysAdmin,urlFor('/apex/zsfjira__ZInsufficientPriv'), null)}"
+            lightningStylesheets="true">
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    <apex:includeScript value="/soap/ajax/42.0/connection.js"/>
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'scripts/vendor.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'scripts/app.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zAgileResources, '/js/zConnectNavigationHelper.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zAgileResources, '/js/svg4everybody.js')}" />
+
+    <apex:variable var="isLightning"
+                   value="{!IF($User.UIThemeDisplayed=='Theme4d'||$User.UIThemeDisplayed=='Theme4u',true,false)}"/>
+    <apex:slds rendered="{!isLightning}"/>
+
+    <style>
+        .multiselectControls {
+            font-size: 91%;
+            font-weight: bold;
+            text-align: center;
+        }
+        .x-panel {
+            border-color: #d0d0d0;
+            border-style: solid;
+            border-width: 0;
+            padding-top: 20px;
+        }
+        .issueFields{
+            width: 200px;
+            min-height: 150px!important;
+        }
+        .rlBtnInstr {
+            color: #666;
+            font-family: 'Arial','Helvetica',sans-serif;
+            margin-bottom: 10px;
+            font-size: 105%;
+        }
+    </style>
+    <apex:outputPanel rendered="{!NOT(isLightning)}" layout="none">
+        <style>
+            .tertiaryPalette{
+                background-color: #8e9dbe!important;
+                border-color: #8e9dbe!important;
+            }
+        </style>
+    </apex:outputPanel>
+    <div class="slds-scope">
+        <apex:form >
+            <apex:actionFunction name="funcRedirectToRelatedIssues" action="{!redirectToRelatedIssues}"/>
+            <div ng-controller="SObjectProperties as vm" ng-app="src">
+                <span ng-show="vm.loader && !vm.isLightning && !vm.saveDisabled" class="ng-hide">
+                    <apex:pageMessage severity="info" strength="3"
+                                      summary="Loading..."/>
+                </span>
+                <span ng-show="vm.loader && vm.isLightning" class="ng-hide">
+                    <div id="slds-loader" class="slds-spinner_container slds-is-fixed zc-hide" >
+                        <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand" >
+                            <span class="slds-assistive-text">Loading</span>
+                            <div class="slds-spinner__dot-a"></div>
+                            <div class="slds-spinner__dot-b"></div>
+                        </div>
+                    </div>
+                </span>
+                <span ng-show="vm.body" class="ng-hide">
+                <apex:pageBlock title="Related Issue Properties - {!JSENCODE(sObjPluralLabel)}">
+                    <span ng-show="vm.errorLoading" class="ng-hide">
+                        <apex:pageMessage severity="error" strength="3"
+                                          summary="Error getting properties"/>
+                    </span>
+                    <span class="ng-hide" ng-show="vm.panel">
+                    <apex:pageBlockSection columns="1" title="Columns">
+                        <div class="rlBtnInstr">
+                            Select fields to display on the grid. You can also re-order the selected fields.
+                        </div>
+                        <div class="errorMsg ng-hide" ng-show="vm.errorMessage">Error: Issue Key cannot be removed and must be the first field in the grid.</div>
+                        <br ng-show="!vm.errorMessage"/>
+                        <table class="x-table-layout" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td class="x-table-layout-cell">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">Available Issue Fields</label>
+                                            <div class="slds-form-element__control">
+                                                <div class="slds-select_container">
+                                                    <select multiple="true" class="issueFields slds-select"
+                                                            ng-options="vm.htmlDecode(field.zsfjira__IssueFieldLabel__c) for field in vm.availableJIRAFields| orderBy: 'zsfjira__IssueFieldLabel__c' track by field.zsfjira__IssueFieldId__c"
+                                                            ng-model="vm.selectedAvailableJIRAFields"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="x-table-layout-cell" style="width: 60px;">
+                                        <div class="x-panel multiselectControls" >
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <center>Add</center>
+                                                        <img src="/img/ple/directionals/right.gif"
+                                                             ng-click="vm.add($event)"
+                                                             class="{!IF(isLightning,'ng-hide','')}"
+                                                             style="cursor:pointer;margin:2px;"/>
+                                                        <span>
+                                                            <button class="slds-button slds-button_icon slds-button_icon-border-filled {!IF(NOT(isLightning),'ng-hide','')}"
+                                                                    ng-click="vm.add($event)">
+                                                                <svg class="slds-button__icon" aria-hidden="true">
+                                                                    <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#chevronright')}"/>
+                                                                </svg>
+                                                                <span class="slds-assistive-text">Settings of Salesforce Object</span>
+                                                            </button>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <img src="/img/ple/directionals/left.gif"
+                                                             ng-click="vm.remove($event)"
+                                                             class="{!IF(isLightning,'ng-hide','')}"
+                                                             style="cursor:pointer;margin:2px;"/>
+                                                        <span>
+                                                            <button class="slds-button slds-button_icon slds-button_icon-border-filled {!IF(NOT(isLightning),'ng-hide','')}"
+                                                                    ng-click="vm.remove($event)">
+                                                                <svg class="slds-button__icon" aria-hidden="true">
+                                                                    <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#chevronleft')}"/>
+                                                                </svg>
+                                                                <span class="slds-assistive-text">Settings of Salesforce Object</span>
+                                                            </button>
+                                                        </span>
+                                                        <center>Remove</center>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                    <td class="x-table-layout-cell">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">Selected Issue Fields</label>
+                                            <div class="slds-form-element__control">
+                                                <div class="slds-select_container">
+                                                    <select multiple="true" class="issueFields slds-select"
+                                                            ng-options="vm.htmlDecode(field.zsfjira__IssueFieldLabel__c) for field in vm.selectedJIRAFields track by field.zsfjira__IssueFieldId__c"
+                                                            ng-model="vm.selectedSelectedJIRAFields"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="x-table-layout-cell" style="width: 60px;">
+                                        <div class=" x-panel multiselectControls">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <center>Up</center>
+                                                        <img src="/img/ple/directionals/up.gif"
+                                                             ng-click="vm.up($event)"
+                                                             class="{!IF(isLightning,'ng-hide','')}"
+                                                             style="cursor:pointer;margin:2px;"/>
+                                                        <span>
+                                                            <button class="slds-button slds-button_icon slds-button_icon-border-filled {!IF(NOT(isLightning),'ng-hide','')}"
+                                                                    ng-click="vm.up($event)">
+                                                                <svg class="slds-button__icon" aria-hidden="true">
+                                                                    <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#chevronup')}"/>
+                                                                </svg>
+                                                            </button>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <img src="/img/ple/directionals/down.gif"
+                                                             ng-click="vm.down($event)"
+                                                             class="{!IF(isLightning,'ng-hide','')}"
+                                                             style="cursor:pointer;margin:2px;"/>
+                                                        <span>
+                                                            <button class="slds-button slds-button_icon slds-button_icon-border-filled {!IF(NOT(isLightning),'ng-hide','')}"
+                                                                    ng-click="vm.down($event)">
+                                                                <svg class="slds-button__icon" aria-hidden="true">
+                                                                    <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#chevrondown')}"/>
+                                                                </svg>
+                                                            </button>
+                                                        </span>
+                                                        <center>Down</center>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </apex:pageBlockSection>
+                    <apex:pageBlockSection columns="1" title="Suggest Issues">
+                        <div class="rlBtnInstr">
+                            Select the field which is going to be used for suggesting Issues for the {!JSENCODE(sObjLabel)}
+                        </div>
+                        <br/>
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">Suggest Issues by :</label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-select_container">
+                                    <select class="slds-select"
+                                            ng-options="vm.htmlDecode(field.label) for field in vm.conceptStringFields| orderBy: 'label' track by field.name"
+                                            ng-model="vm.suggestField">
+                                        <option value=""/>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </apex:pageBlockSection>
+                    </span>
+                    <span ng-show="vm.errorSave" class="ng-hide">
+                        <br/>
+                        <apex:pageMessage severity="error" strength="3"
+                                          summary="Oops! there was a problem saving the properties"/>
+
+                    </span>
+                    <apex:pageBlockButtons location="bottom">
+                        <input value="{{vm.saveLabel}}" class="{!IF(isLightning,'slds-button slds-button_brand','btn')}"
+                               ng-class="vm.saveDisabled?'btnDisabled':''"
+                               ng-click="vm.save($event)" ng-disabled="vm.saveDisabled"
+                               ng-show="!vm.errorLoading"
+                               type="button"/>
+                        <input value="Cancel" class="btn slds-button_neutral"
+                               ng-click="vm.cancel($event)"
+                               type="button"/>
+                    </apex:pageBlockButtons>
+                </apex:pageBlock>
+                </span>
+            </div>
+        </apex:form>
+    </div>
+
+    <script type="text/javascript">
+    zConnectNavigationHelper.setState(zConnectNavigationHelper.State.SOBJECT_SETTINGS);
+
+    Visualforce.remoting.timeout = 120000;
+    if (!window.console) window.console = {};
+    if (!window.console.log) window.console.log = function () { };
+    svg4everybody();
+
+    var SObjectProperties = function(dataService,$filter,$timeout,$window,$scope,$sce) {
+        var vm = this;
+
+        //template functions
+        vm.add = function($event){
+            if($event){
+                $event.preventDefault();
+            }
+            vm.errorMessage =false;
+            angular.forEach(vm.selectedAvailableJIRAFields, function(field){
+                 vm.selectedJIRAFields.push(field);
+                 removeElementFromArray(vm.availableJIRAFields,field);
+            });
+            vm.selectedAvailableJIRAFields = [];
+        };
+        vm.remove = function($event){
+            $event.preventDefault();
+
+            vm.errorMessage =false;
+            angular.forEach(vm.selectedSelectedJIRAFields, function(field){
+                if(field.zsfjira__IssueFieldId__c=='key'){
+                    vm.errorMessage =true;
+                    return;
+                }
+                vm.availableJIRAFields.push(field);
+                removeElementFromArray(vm.selectedJIRAFields,field);
+            });
+            vm.selectedSelectedJIRAFields=[];
+
+        };
+        vm.up = function($event){
+            $event.preventDefault();
+            vm.errorMessage =false;
+            angular.forEach(vm.selectedSelectedJIRAFields, function(field){
+                if(field.zsfjira__IssueFieldId__c=='key'){
+                    vm.errorMessage =true;
+                    return;
+                }
+                var newIndex = arrayIndexOf(vm.selectedJIRAFields,field)-1;
+                if(newIndex>-1){
+                    if(vm.selectedJIRAFields[newIndex].zsfjira__IssueFieldId__c=='key'){
+                        vm.errorMessage =true;
+                        return;
+                    }
+                    vm.selectedJIRAFields.splice(newIndex, 0, field);
+                    removeElementFromArray(vm.selectedJIRAFields,field,false);
+                }
+            });
+        };
+
+        vm.down = function($event){
+            $event.preventDefault();
+
+            vm.errorMessage =false;
+            vm.selectedSelectedJIRAFields.slice().reverse().forEach(function(field) {
+                if(field.zsfjira__IssueFieldId__c=='key'){
+                    vm.errorMessage =true;
+                    return;
+                }
+                var newIndex = arrayIndexOf(vm.selectedJIRAFields,field)+1;
+                if (newIndex < vm.selectedJIRAFields.length) {
+                    vm.selectedJIRAFields.splice(newIndex+1, 0, field);
+                    removeElementFromArray(vm.selectedJIRAFields,field);
+                }
+            });
+        };
+
+        vm.save=function($event){
+            vm.errorSave = false;
+            var selectedFields = [];
+            angular.forEach(vm.selectedJIRAFields, function(field){
+                if(field.zsfjira__IssueFieldId__c=='key'){
+                    return;
+                }
+                selectedFields.push(field.zsfjira__IssueFieldId__c);
+            });
+            var suggestField = vm.suggestField!=null?vm.suggestField.name:null;
+
+            vm.saveDisabled = true;
+            vm.saveLabel='Saving...';
+            vm.loader = true;
+            dataService.save(vm.sObjName,selectedFields,suggestField).then(function(data){
+                $window.console.log('save',data);
+                handleOnSaveEnded();
+            }).catch(function(data){
+                vm.errorSave = true;
+                vm.saveDisabled = false;
+                vm.saveLabel='Save';
+            }).finally(function(){
+                vm.loader = false;
+            });
+        }
+        vm.cancel = function($event){
+            classicConsoleCallback = function() {
+                funcRedirectToRelatedIssues();
+            };
+            return zConnectNavigationHelper.handleAction(
+                zConnectNavigationHelper.ActionType.SELECT_CANCEL,
+                {
+                    tabUrl : '{!JSENCODE(retUrl)}&inline=1',
+                    tabName : '',
+                    cancelUrl : '{!JSENCODE(retUrl)}&inline=1',
+                    entityId: '{!JSENCODE(entityId)}'
+                },
+                zConnectNavigationHelper.createCallbacks(null, classicConsoleCallback, null, null)
+            );
+        }
+        vm.htmlDecode = function(value){
+            return htmlDecode(value);
+        };
+        function htmlDecode(value){
+            return jQuery('<div/>').html(value).text();
+        }
+
+        //load function
+        init();
+        function init(){
+            vm.body = false;
+            vm.errorSave = false;
+            vm.errorLoading = false;
+            vm.errorMessage =false;
+            vm.sObjName = '{!JSENCODE(sObjName)}';
+            vm.loader = true;
+            vm.saveDisabled = false;
+            vm.saveLabel='Save';
+            vm.isLightning = {!IF(isLightning,true,false)};
+            vm.panel = false;
+
+            vm.selectedJIRAFields =[{
+                Id: "",
+                zsfjira__IssueFieldId__c: "key",
+                zsfjira__IssueFieldLabel__c: "Issue Key"}];
+
+            dataService.getFieldProperties(vm.sObjName).then(function(data){
+                $window.console.log('getFieldProperties',data);
+                vm.availableJIRAFields = data.availableJIRAFields;
+                vm.selectedFields = data.selectedFields;
+                vm.conceptStringFields = data.conceptStringFields;
+                vm.panel = true;
+
+                for(var i =0;i<vm.conceptStringFields.length;i++){
+                    if(vm.conceptStringFields[i].name==data.suggestIssuesField){
+                        vm.suggestField = vm.conceptStringFields[i];
+                        break;
+                    }
+                }
+
+                if(vm.selectedFields!=null){
+                    var jiraFieldMap = {};
+                    angular.forEach(vm.availableJIRAFields, function(field){
+                         jiraFieldMap[field.zsfjira__IssueFieldId__c]=field;
+                    });
+
+                    vm.selectedAvailableJIRAFields = [];
+                    angular.forEach(vm.selectedFields, function(field){
+                         if(field in jiraFieldMap){
+                             vm.selectedAvailableJIRAFields.push(jiraFieldMap[field]);
+                         }
+                    });
+                    vm.add();
+                }
+            }).catch(function(data){
+                vm.errorLoading = true;
+            }).finally(function(){
+                vm.loader = false;
+                vm.body = true;
+            });
+        }
+        //private functions
+        function arrayIndexOf(array,pfield,firstOcurrence){
+            if(firstOcurrence==null){
+                firstOcurrence=true;
+            }
+
+            var findex = -1;
+            for(var index=0;index<array.length;index++){
+                var field = array[index];
+                if(field.zsfjira__IssueFieldId__c == pfield.zsfjira__IssueFieldId__c){
+                    if(findex == -1 && firstOcurrence){
+                        return index;
+                    }
+                    findex = index;
+                }
+            }
+            return findex;
+        }
+        function removeElementFromArray(array,field,firstOcurrence){
+            if(firstOcurrence==null){
+                firstOcurrence=true;
+            }
+            var index = arrayIndexOf(array,field,firstOcurrence);
+            if(index!=-1){
+                array.splice(index,1);
+            }
+
+        }
+        function handleOnSaveEnded(){
+            var consoleClassic = function() {
+                funcRedirectToRelatedIssues();
+            };
+
+            var lightningConsoleCallback = function(){
+                var messageObject = {
+                    source : "objectSettings",
+                    entityId : "{!entityId}",
+                    action : "refresh",
+                    msgError : "",
+                    msgSuccess :""
+                };
+                sforce.console.fireEvent(
+                    'messageFromComponent',JSON.stringify(messageObject), function(result){}
+                );
+            };
+            return zConnectNavigationHelper.handleAction(
+                zConnectNavigationHelper.ActionType.SELECT_SAVE,
+                {
+                    tabUrl : '{!JSENCODE(retUrl)}&inline=1',
+                    tabName : '',
+                    cancelUrl : '{!JSENCODE(retUrl)}&inline=1',
+                    entityId: '{!JSENCODE(entityId)}'
+                },
+                zConnectNavigationHelper.createCallbacks(null, consoleClassic, null, lightningConsoleCallback)
+            );
+        }
+    };
+    var dataService = function($q) {
+        return {
+            getFieldProperties:function(sObjName){
+                var deferred = $q.defer();
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZIssueSObjectSettingsController.getFieldProperties}',sObjName, function(result, event){
+                        if (event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }
+                    }
+                );
+                return deferred.promise;
+            },
+            save:function(sObjName,fields,suggestField){
+                var deferred = $q.defer();
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZIssueSObjectSettingsController.saveProperties}',sObjName,fields,suggestField,function(result, event){
+                        if (event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }
+                    }
+                );
+                return deferred.promise;
+            }
+        };
+    };
+
+
+    var srcApp =  angular.module("src");
+    srcApp.factory("dataService",dataService);
+
+    srcApp.constant("resourceRoot","{!URLFOR($Resource.zsfjira__SLDS103,'')}");
+    srcApp.controller("SObjectProperties",SObjectProperties);
+    srcApp.filter('unsafe', function($sce) { return $sce.trustAsHtml; });
+
+    SObjectProperties.$inject = ["dataService","$filter","$timeout","$window","$scope","$sce"];
+
+    dataService.$inject = ["$q"];
+
+    </script>
+    </html>
+</apex:page>

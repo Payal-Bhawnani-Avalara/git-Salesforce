@@ -1,0 +1,259 @@
+<apex:page docType="html-5.0" showHeader="false" sidebar="false"
+           standardController="Case" extensions="zsfjira.ZCaseCommentController" standardStylesheets="false">
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <script src="../../soap/ajax/28.0/connection.js" type="text/javascript"></script>
+    <script src="../../soap/ajax/28.0/apex.js" type="text/javascript"></script>
+    <apex:slds />
+    <style>
+        textarea:focus {
+        outline: 0 none !important
+        }
+        label{
+            display:inline-block!important;
+        }
+    </style>
+    <div class="slds-scope">
+        <body>
+        <div style="" id='content'>
+            <div class="container">
+                <div class="slds-media__body">
+                    <h1 class="slds-page-header__title slds-align-middle">Comments for Case {!Case.CaseNumber}</h1>
+                </div>
+                <center>
+                    <button class="slds-button slds-button_neutral"
+                            onclick="newComment();return false;">New</button>
+                </center>
+                <br/>
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error"
+                     id = "modalError" role="alert" style="display:none;"/>
+                <br/>
+                <apex:outputPanel id="tableComments">
+                    <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Action</th>
+                            <th>Comment</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <apex:repeat value="{!caseComments}" var="comment">
+                            <tr id='tr_{!comment.caseCommentId}'>
+                                <th>{!comment.ordinal}</th>
+                                <td>
+                                    <a href="#" class="btn btn-primary btn-xs"
+                                       onclick="editComment('{!JSENCODE(comment.caseCommentId)}');return false;">
+                                        Edit
+                                    </a>
+                                    <a href="#" class="btn btn-primary btn-xs"
+                                       onclick="deleteComment('{!JSENCODE(comment.caseCommentId)}');return false;"
+                                       style = 'display:none'>
+                                        Del
+                                    </a>
+                                </td>
+                                <td >
+                                    <b>{!comment.header}</b><br/>
+                                    <input ordinal = '{!comment.ordinal}' type="hidden"
+                                           value="{!comment.body}"/>
+                                    <div id= 'comm_{!comment.ordinal}'
+                                         style="white-space:normal;"
+                                         class="slds-truncate"/>
+                                </td>
+                            </tr>
+                        </apex:repeat>
+                        </tbody>
+                    </table>
+                </apex:outputPanel>
+                <apex:form >
+                    <apex:actionFunction name="funcRemoveCaseComment" action="{!removeCaseComment}"
+                                         oncomplete="completeEvent({!resultEvent},'{!resultMessage}');renderTextAreaFields();"
+                                         reRender="tableComments">
+                        <apex:param name="pIdToRemove" assignTo="{!caseCommentToUpdate}" value="" />
+                    </apex:actionFunction>
+                    <apex:actionFunction name="funcUpsertCaseComment" action="{!upsertCaseComment}"
+                                         oncomplete="completeEvent({!resultEvent},'{!resultMessage}');renderTextAreaFields();"
+                                         reRender="tableComments">
+                        <apex:param name="pBody" assignTo="{!caseCommentBody}" value="" />
+                        <apex:param name="pCommentFooter" assignTo="{!commentFooter}" value="" />
+                        <apex:param name="pMode" assignTo="{!mode}" value="" />
+                        <apex:param name="pCaseCommentToUpdate" assignTo="{!caseCommentToUpdate}" value="" />
+                    </apex:actionFunction>
+                </apex:form>
+            </div>
+
+
+            <div id="modalComments" style="display:none;">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                    onclick='$j("#modalComments").hide();' title="Close">
+                                <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                    <use xlink:href="{!URLFOR($Asset.SLDS,
+                                            '/assets/icons/utility-sprite/svg/symbols.svg#close')}"  xmlns:xlink="http://www.w3.org/1999/xlink" />
+                                </svg>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <h2 class="slds-text-heading_medium slds-hyphenate" id="titleModal"/>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <textarea class="form-control" style="border-radius: 0px;border-bottom-width: 0px;resize:none;display:block;width:100%" rows="5" id="textComment"/>
+                            <textarea id="footComment" readonly="true"
+                                      onclick="$j('#textComment').focus();" class="form-control" style="border-radius: 0px;border-top-width: 0px;resize:none;width:100%" rows="1">
+                            </textarea>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <div id='checkIssues' align='left'/>
+                            <button type="button" class="slds-button slds-button_brand" id ='submitComment'
+                                    onclick='submit();'>Submit</button>
+                            <button type="button" class="slds-button slds-button_neutral"
+                                    onclick='$j("#modalComments").hide();'
+                                    data-dismiss="modal">Cancel</button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </div>
+        </body>
+    </div>
+    <script>
+    $j = jQuery.noConflict();
+    var mode ='';
+    var updatedId ='';
+
+    $j(document).ready(
+        function() {
+            renderTextAreaFields();
+        }
+    );
+    function renderTextAreaFields(){
+        $j("input[type='hidden']").each(
+            function(){
+                var ordinal =$j(this).attr('ordinal');
+                if(ordinal){
+                    var value= $j(this).val();
+                    $j("#comm_"+ordinal).html(value);
+                }
+            }
+        );
+    }
+    function completeEvent(result,resultMessage){
+        if(!result){
+            $j("#modalError").show();
+            $j("#modalError").html(resultMessage);
+        }
+    }
+    function editComment(caseCommentId){
+        $j("#modalError").hide();
+
+        mode = 'update';
+        updatedId = caseCommentId;
+        $j("#textComment").val('Loading...');
+        $j("#titleModal").html('Update Comment');
+        $j("#textComment").attr('disabled','true');
+        $j("#submitComment").attr('disabled','true');
+        $j('#footComment').hide();
+        var checkIss = document.getElementById('checkIssues');
+        checkIss.innerHTML = '';
+        $j("#modalComments").show();
+
+        Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ZCaseCommentController.getCommentBody}', caseCommentId,
+            function(result, event) {
+                if(event.status){
+                    if(result.success){
+                        $j("#textComment").val(result.message);
+                        $j("#submitComment").removeAttr('disabled');
+                        $j("#textComment").removeAttr('disabled');
+                    }
+                    else{
+                        $j("#modalComments").hide();
+                        $j("#modalError").show();
+                        $j("#modalError").html(result.message);
+                    }
+                }
+                else{
+                    $j("#modalComments").hide();
+                    $j("#modalError").show();
+                    $j("#modalError").html(event.message);
+                }
+            }, {escape:false}
+        );
+    }
+    function deleteComment(caseCommentId){
+        if(confirm('Are you Sure?')){
+            funcRemoveCaseComment(caseCommentId);
+        }
+    }
+    function newComment(){
+        $j("#modalError").hide();
+
+        mode = 'new';
+        $j("#titleModal").html('New Comment');
+        $j("#textComment").val('');
+        $j('#footComment').val('#JIRA');
+        $j('#footComment').show();
+        $j("#submitComment").attr('disabled','true');
+
+        var checkIss = document.getElementById('checkIssues');
+        checkIss.innerHTML = 'Send comment to the following JIRA issues: <br/>';
+        var lstIssues = JSON.parse('{!JSENCODE(RelatedIssues)}');
+        window.console.log('lstIssues',lstIssues);
+        if(lstIssues.length==0){
+            $j('#footComment').val('');
+        }
+        for(var i=0;i<lstIssues.length;i++){
+            var newLabel = document.createElement('label');
+            var newCheck = document.createElement('input');
+            newCheck.setAttribute('type','checkbox');
+            newCheck.setAttribute('value',lstIssues[i]);
+            newCheck.setAttribute('checked',true);
+            newCheck.setAttribute('id','check_'+lstIssues[i]);
+            newCheck.setAttribute('onclick','refreshFooter();');
+
+            newLabel.appendChild(newCheck);
+            newLabel.innerHTML+=lstIssues[i] + '&nbsp;&nbsp;';
+
+            checkIss.appendChild(newLabel);
+        }
+        $j("#submitComment").removeAttr('disabled');
+        $j("#textComment").removeAttr('disabled');
+        $j("#modalComments").show();
+    }
+    function refreshFooter(){
+        var footerTxt = '';
+        var selectAll = true;
+        var issues =[];
+        $j("input[type='checkbox']").each(
+            function(){
+                if($j(this).is(':checked')){
+                    issues.push($j(this).attr('value'));
+                    footerTxt = '#JIRA';
+                }
+                else{
+                    selectAll = false;
+                }
+            }
+        );
+        if(!selectAll){
+            for(var i=0;i<issues.length;i++){
+                footerTxt+=' #'+issues[i];
+            }
+        }
+        $j('#footComment').val(footerTxt);
+    }
+    function submit(){
+        $j("#modalComments").hide();
+        var commentBody = $j("#textComment").val();
+        if(commentBody!=''){
+            var commentFooter = $j('#footComment').val();
+            funcUpsertCaseComment(commentBody,commentFooter,mode,updatedId);
+        }
+        else{
+            $j("#modalError").show();
+            $j("#modalError").html("You must enter a value");
+        }
+    }
+    </script>
+</apex:page>

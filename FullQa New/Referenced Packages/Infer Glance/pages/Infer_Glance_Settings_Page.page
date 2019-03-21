@@ -1,0 +1,4 @@
+<apex:page >
+    <apex:sectionHeader title="Infer Glance Settings"/>
+    <apex:canvasApp developerName="Infer_Glance" namespacePrefix="inferg" width="100%" parameters="{mode: 'setup'}"/>
+</apex:page>

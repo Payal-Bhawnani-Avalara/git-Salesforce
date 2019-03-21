@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <baseObject>pse__Grp__c</baseObject>
+    <category>other</category>
+    <deployed>true</deployed>
+    <description>Revenue Management Actual vs. Forecasts Lines with Project and Group</description>
+    <join>
+        <join>
+            <outerJoin>false</outerJoin>
+            <relationship>ActualvsForecastLines__r</relationship>
+        </join>
+        <outerJoin>false</outerJoin>
+        <relationship>pse__Projects__r</relationship>
+    </join>
+    <label>Actual vs Forecast Revenue for Groups</label>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Id</field>
+            <table>pse__Grp__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
+            <table>pse__Grp__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>pse__Actuals_Last_Update_Date__c</field>
+            <table>pse__Grp__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
+            <table>pse__Grp__c.pse__Projects__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <field>Name</field>
+            <table>pse__Grp__c.pse__Projects__r.ActualvsForecastLines__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ffrr__RecognitionYear__c</field>
+            <table>pse__Grp__c.pse__Projects__r.ActualvsForecastLines__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ffrr__ActualValue__c</field>
+            <table>pse__Grp__c.pse__Projects__r.ActualvsForecastLines__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ffrr__ForecastValue__c</field>
+            <table>pse__Grp__c.pse__Projects__r.ActualvsForecastLines__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>ffrr__RecognitionPeriod__c</field>
+            <table>pse__Grp__c.pse__Projects__r.ActualvsForecastLines__r</table>
+        </columns>
+        <masterLabel>Actual vs. Forecast Lines</masterLabel>
+    </sections>
+</ReportType>

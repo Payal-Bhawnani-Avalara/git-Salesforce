@@ -1,0 +1,20 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" > 
+     <aura:attribute name="selectedAccountId" type="Id"  default="0014000000gDXKdAAO"/>
+    <lightning:button name="Save" label="Save" onclick="{!c.performSaveOperation}"/>
+            <!-- BOXED AREA -->
+            <fieldset class="slds-box slds-theme--default">
+               <legend class="slds-text-heading--small 
+                  slds-p-vertical--medium">
+                  Company Information 444
+               </legend>
+               <div class="slds-grid slds-wrap fullwidth"> 
+                   <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_xx-large">
+                <lightning:recordEditForm aura:id="formAccountLookup" objectApiName="Opportunity" class="fullwidth"> 
+                <lightning:messages /> 
+                    <label for="AccountId">Account1</label>
+                <lightning:inputField fieldName="AccountId" value="{!v.selectedAccountId}" aura:id="AccountId" variant="label-hidden"/>  
+                </lightning:recordEditForm>                   
+                   </span>
+                </div>
+    </fieldset>
+</aura:component>

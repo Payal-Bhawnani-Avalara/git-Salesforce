@@ -1,0 +1,8 @@
+<apex:page standardController="ffr__InquiryTemplate__c" extensions="ffr.ActionViewImportExportController" recordSetVar="templates" tabstyle="ImportActionViews__tab" docType="html-5.0">
+	<c:extjs_bootstrap applicationName="ActionViewImportExport" staticResource="{!$Resource.ffr__ActionViewImportExport}" developmentPrefix="{!$Setup.ClientDeveloperSettings__c.ResourcePrefix__c}">
+		<c:actionviewimportexport export="false"
+			importBag="{!$RemoteAction.ActionViewImportExportController.importBag}"
+			ListPageUrl="{!ListPageUrl}"
+			version="{!Version}"/>
+	</c:extjs_bootstrap>
+</apex:page>

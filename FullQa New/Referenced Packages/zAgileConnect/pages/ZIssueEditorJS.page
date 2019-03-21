@@ -1,0 +1,889 @@
+<apex:page contentType="text/javascript" controller="zsfjira.ZJiraIssueDetailsController" >
+// <script>
+console = console ? console : {"log" : function(){}};    
+$j = jQuery.noConflict();
+
+var zagile = {};
+zagile.issueEditor = {};
+
+zagile.issueEditor.ApplicationController = function() {
+	this.presenter = null;
+	this.bind();
+};
+
+zagile.issueEditor.ApplicationController.prototype = {
+  bind : function() {
+	  var that = this;
+	  jQuery(window).on("hashchange", function(event) {
+		  that.onValueChange(that.getHistoryToken());
+	  });
+
+	  jQuery(window).bind("quickCreateIssueEvent", function(event) {
+		  that.doQuickCreateIssue();
+	  });
+
+	  jQuery(window).bind("editIssueEvent", function(event) {
+		  that.doEditContact(event.userId);
+	  });
+
+	  jQuery(window).bind("cancelEditIssueEvent", function(event) {
+	  	that.doEditContactCancelled();
+	  });
+
+	  jQuery(window).bind("issueUpdatedEvent", function(event) {
+	  	that.doContactUpdated();
+	  });
+  },
+
+  decodeFragment : function(encodedFragment) {
+	  // decodeURI() does *not* decode the '#' character.
+	  return decodeURI(encodedFragment.replace("%23", "#"));
+  },
+
+  encodeFragment : function(fragment) {
+	  // encodeURI() does *not* encode the '#' character.
+	  return encodeURI(fragment).replace("#", "%23");
+  },
+
+  getHistoryToken : function() {
+	  return this.decodeFragment(location.hash.replace("#", ""));
+  },
+
+  setHistoryToken : function(token, issueEvent) {
+	  location.hash = this.encodeFragment(token);
+  },
+
+
+	go : function(container) {
+		this.container = container;
+		
+		if ("" == this.getHistoryToken()) {
+			this.setHistoryToken(issueKey ? "edit" : "create");
+		} else {
+			jQuery(window).trigger("hashchange");
+		}
+	},
+
+  onValueChange : function(token) {
+	  if (token != null) {
+		  var presenter = null;
+		  if (token == "create") {
+			  presenter = new zagile.issueEditor.EditIssuePresenter(new zagile.issueEditor.EditIssueView());
+		  } else if (token.indexOf("edit") == 0) {
+				var issueKey = window.issueKey; //token.substring(token.indexOf("/")+1);
+			  presenter = new zagile.issueEditor.EditIssuePresenter(new zagile.issueEditor.EditIssueView(issueKey), issueKey);
+		  }
+
+		  if (presenter != null) {
+		  		this.presenter = presenter;
+			  presenter.go(this.container);
+		  }
+	  }
+  },
+
+  doQuickCreateIssue : function() {
+	  this.setHistoryToken("quickCreate");
+  },
+
+  doEditIssue : function(issueKey) {
+	  this.setHistoryToken("edit/" + issueKey, false);
+  },
+
+  doCancelEditIssue : function() {
+  	alert('Canceling edit issue');
+	  //this.setHistoryToken("list");
+  },
+
+  doIssueUpdated : function() {
+  	alert('Issue Updated successfully');
+	  //this.setHistoryToken("list");
+  },
+
+  saveCreateIssue: function() {
+  	this.presenter.doSaveCreate();
+  },
+
+  saveUpdateIssue: function() {
+  	this.presenter.doSaveUpdate();
+  },
+
+  showAdditionalFields: function() {
+  	this.presenter.showAdditionalFields();
+  },
+  
+  getIssueData: function() {
+  	return this.presenter.getIssueData();
+  }
+};
+
+////// EDIT ISSSUE PRESENTER
+
+/**
+ * 
+ * @param display
+ * @returns {zagile.issueEditor.EditIssuePresenter}
+ */
+zagile.issueEditor.EditIssuePresenter = function (display, issueKey) {
+  this.display = display;
+  this.issueKey = issueKey;
+  this.bind();
+  if (issueKey) {
+    jQuery("button.aditional-fields-button").hide();
+    jQuery("button.create-issue-button").hide();
+    this.fetchIssueDataWithEditMeta(issueKey);
+  } else {
+    jQuery("button.update-issue-button").hide();
+    this.fetchCreateMetaInitial();
+  }
+};
+
+zagile.issueEditor.EditIssuePresenter.prototype = {
+  bind : function() {
+    var that = this;
+    jQuery(this.display.getSaveButton()).bind("click", function() {   
+        that.doSave();
+    });
+
+    jQuery(this.display.getCancelButton()).bind("click", function() {
+      var event = jQuery.Event("cancelEditIssueEvent");
+      jQuery(window).trigger(event);
+    });
+  },
+
+  go : function(container) {
+    jQuery(container).empty();
+    jQuery(container).append(jQuery(this.display.asWidget()));
+  },
+
+  fetchCreateMetaInitial: function() {
+  	var that = this;
+//     Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ZJiraIssueDetailsController.createMetaInitial}', function(result, event) {
+//         if (event.status) {
+//             that.display.renderProjectField(result);
+//             that.display.postRenderFields();
+//         } else {
+//         	//add error handling
+//         }
+//     });
+  },
+
+  fetchIssueDataWithEditMeta : function(issueKey) {
+    var that = this;
+//     Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ZJiraIssueDetailsController.issueDataWithEditMeta}', issueKey, function(result, event) {
+//         if (event.status) {
+// 	        jQuery("h2.pageDescription").html(result.fields.project.name + " / " + issueKey);
+//             that.display.renderIssueFields(result.editmeta.fields);
+//             that.display.setIssueData(result.fields);
+//             that.display.postRenderFields();
+//         } else {
+//         	//add error handling
+//         }
+//     });
+  },
+
+  getIssueData: function() {
+  	return this.display.getIssueData();
+  },
+
+  doSaveUpdate : function() {
+  	var that = this;
+  	var issueDataAsJsonString = JSON.stringify(this.display.getIssueData());
+// 	Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ZJiraIssueDetailsController.updateIssue}', issueDataAsJsonString, currentInstanceId, issueKey, function(result, event) {
+// 		if (event.status) {
+//             if (result["errors"] || result["errorMesssages"]) {
+//             	that.display.showErrors(result["errors"], result["errorMessages"]);
+//             } else {
+//                 location.href = 'ZIssueDetails?issueKey=' + result["key"];
+//             }
+//         }
+//         jQuery(".update-issue-button").removeAttr("disabled");
+//         jQuery(".update-issue-button").html("Save")
+// 	});
+  },
+
+  doSaveCreate : function() {
+  	var that = this;
+  	var issueDataAsJsonString = JSON.stringify(this.display.getIssueData());
+// 	Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ZJiraIssueDetailsController.createIssue}', issueDataAsJsonString, currentInstanceId, function(result, event) {
+// 		if (event.status) {
+//             if (result["errors"] || result["errorMesssages"]) {
+//             	that.display.showErrors(result["errors"], result["errorMessages"]);
+//             } else {
+//                 location.href = 'ZIssueDetails?issueKey=' + result["key"];
+//             }
+//         }
+//         jQuery(".create-issue-button").removeAttr("disabled");
+//         jQuery(".create-issue-button").html("Create")
+// 	});
+  },
+  
+  showAdditionalFields: function() {
+  	this.display.renderAdditionalFields();
+  }
+
+};
+
+
+//// EDIT ISSUE VIEW
+
+zagile.issueEditor.EditIssueView = function(issueKey) {
+	this.issueKey = issueKey;
+	this.mainPanel = null;
+	this.saveButton = null;
+	this.cancelButton = null;
+	this.moreDetailsButton = null;
+	this.metaFields = {};
+	this.dataFields = {};
+	this.projectsById = {};
+	this.issuetypesById = {};
+	this.temporalIssueData = { fields: {} };
+
+	this.init();
+};
+
+zagile.issueEditor.EditIssueView.prototype = {
+	init: function() {
+	    var html = hoganTemplates["issue-editor-mu"].render();
+	    jQuery(window.document.body).append(html);
+	    this.mainPanel = jQuery("#tbl-issue-editor")[0];
+	},
+	
+	showErrors: function(errors, errorMessages) {
+		jQuery("td > div.fieldError").html("");
+		for (var key in errors) {
+		    jQuery("#tr-" + key + " > td > div.fieldError").html(errors[key]);
+		}
+		var htmlErrors = "";
+		for (var i=0; i < errorMessages.length; i++) {
+		    htmlErrors += "<li>" + errorMessages[i] + "</li>";
+		}
+		if (htmlErrors != "") {
+		    jQuery("div.aui-message-context > ul").show();
+		    jQuery("div.aui-message-context > ul").html(htmlErrors);
+		} else {
+		    jQuery("div.aui-message-context > ul").hide();
+		}
+	},
+
+	setIssueData: function(issueDataFields) {
+		this.dataFields = issueDataFields;
+		for (var fieldName in issueDataFields) {
+			var editorType = jQuery("#td-" + fieldName).attr("editortype");
+			if (issueFieldEditors[editorType]) {
+				issueFieldEditors[editorType].setValue(fieldName, issueDataFields[fieldName]);
+			}
+		}
+	},
+
+	getIssueData : function() {
+	  var issueFields = {};
+	  for (var fieldName in this.metaFields) {
+			var editorType = jQuery("#td-" + fieldName).attr("editortype");
+			if (issueFieldEditors[editorType]) {
+				issueFields[fieldName] = issueFieldEditors[editorType].getValue(fieldName);
+			}
+	  }
+	  var issueUpdate = {fields: issueFields};
+	  if (issueFields.comment) {
+	  	issueUpdate.update = { comment : issueFields.comment };
+	  	issueFields.comment = undefined;
+	  }
+	  return issueUpdate;
+	},
+
+	renderProjectField: function(createmeta) {
+		this.metaFields = {
+			project: { name: "Project", operations: [], schema: {type: 'project', system: 'project'}, required: true }
+		};
+
+		var preselectedProject = null;
+	    for (var i=0; i<createmeta.projects.length; i++) {
+	        var project = createmeta.projects[i];
+	        if (project.key == defaultProjectKey) {
+	            project["selected"] = true;
+	            preselectedProject = project;
+	        }
+	        this.projectsById[project.id] = project;
+	    }
+	    if (preselectedProject == null && createmeta.projects.length > 0) {
+	    	preselectedProject = createmeta.projects[0];
+	    }
+	    this.metaFields.project.allowedValues = createmeta.projects;
+
+		if (this.metaFields.project) {
+		    this.prepareField(this.metaFields.project, 'project');
+		}
+	    var html = hoganTemplates["create-issue-fields-mu"].render({fields: [this.metaFields.project]});
+	    jQuery("#tbody-issue-editor-project").html(html);
+		jQuery("td[editortype='project']#td-" + this.metaFields.project.id).html(issueFieldEditors.project.render(this.metaFields.project));
+
+		//this.projectSelectionChanged();
+		var that = this;
+		jQuery("#tbody-issue-editor-project select").on("change", function(event) {
+			that.projectSelectionChanged();
+		});
+		jQuery("#tbody-issue-editor-project select").trigger("change");
+	},
+
+	renderIssuetypeField: function(issuetypes) {
+		this.metaFields = this.metaFields || {};
+		this.metaFields.issuetype = { name: "Issue Type", operations: [], schema: {type: 'issuetype', system: 'issuetype'}, required: true };
+	    this.metaFields.issuetype.allowedValues = issuetypes;
+
+	    for (var i=0; i<issuetypes.length; i++) {
+	        var issuetype = issuetypes[i];
+	        if (issuetype.id == defaultIssueTypeId) {
+	            issuetype["selected"] = true;
+	        }
+	        this.issuetypesById[issuetype.id] = issuetype;
+	    }
+		if (this.metaFields.issuetype) {
+		    this.prepareField(this.metaFields.issuetype, 'issuetype');
+		}
+	    var html = hoganTemplates["create-issue-fields-mu"].render({fields: [this.metaFields.issuetype]});
+	    jQuery("#tbody-issue-editor-issuetype").html(html);
+		jQuery("td[editortype='issuetype']#td-" + this.metaFields.issuetype.id).html(issueFieldEditors.issuetype.render(this.metaFields.issuetype));
+		this.postRenderFields();
+		var that = this;
+		jQuery("#tbody-issue-editor-issuetype select").on("change", function(event) {
+			that.issueTypeSelectionChanged();
+		});
+		jQuery("#tbody-issue-editor-issuetype select").trigger("change");
+	},
+
+	projectSelectionChanged: function() {
+	    this.temporalIssueData = this.getIssueData();
+	    var projectId = jQuery("#tbody-issue-editor-project select").val();
+	    var selectedProject = this.projectsById[projectId];
+	    var issuetypes = selectedProject ? selectedProject.issuetypes : [];
+	    this.renderIssuetypeField(issuetypes);
+	    this.setIssueData(this.temporalIssueData.fields);
+	},
+
+	issueTypeSelectionChanged: function() {
+	    this.temporalIssueData = this.getIssueData();
+	    var projectId = jQuery("#tbody-issue-editor-project select").val();
+	    var issueTypeId = jQuery("#tbody-issue-editor-issuetype select").val();
+	    var that = this;
+// 	    Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ZJiraIssueDetailsController.createMeta}', [projectId], [issueTypeId], function(result, event) {
+// 	    	var project = that.metaFields.project;
+// 	    	var issuetype = that.metaFields.issuetype;
+// 	    	that.metaFields = result.projects[0].issuetypes[0].fields;
+// 	    	that.metaFields.project = project;
+// 	    	that.metaFields.issuetype = issuetype;
+// 			that.renderRequiredFields();
+// 		    if (!jQuery("button.aditional-fields-button").is(":visible")) {
+// 				that.renderAdditionalFields();
+// 		    }
+// 		    that.setIssueData(that.temporalIssueData.fields);
+//             that.postRenderFields();
+// 	    });
+	},
+
+	renderIssueFields: function(metaFields) {
+		this.metaFields = metaFields;
+		this.renderRequiredFields();
+		this.renderAdditionalFields();
+	},
+
+	prepareField: function(field, fieldName) {
+		console.log('preparing field: ' + field + ' -> ' + fieldName);
+		if (field == undefined) {
+			return;
+		}
+        field.fieldId = field.id = fieldName;
+        field.multiple = field.operations.length > 1;
+        field.schema[field.schema.type] = true;
+        if (field.schema.system) {
+            field.schema.editorType = field.schema.system;
+        }
+        else if (field.schema.custom) {
+            field.schema.editorType = field.schema.custom;
+        }
+
+        if (field.schema.system) {
+            field.schema[field.schema.system] = true;
+        }
+        if (field.schema.custom) {
+            field.schema[field.schema.system] = true;
+        }
+        field.schema.editorSupported = !!issueFieldEditors[field.schema.editorType];
+	},
+
+	renderFields : function(fieldNames, targetId) {
+	    var fieldMap = this.metaFields;
+	    var fields = [];
+	    for (var i=0; i<fieldNames.length; i++) {
+	        var field = fieldMap[fieldNames[i]];
+	        this.prepareField(field, fieldNames[i]);
+	        fields.push(field);
+	    }
+	    console.log('total fields: ' + fields.length + ". Field Names to render: " + fieldNames.join(", "));
+	    var html = hoganTemplates["create-issue-fields-mu"].render({fields: fields});
+	    jQuery("#" + targetId).html(html);
+	
+	    for (var i=0; i<fieldNames.length; i++) {
+	        var field = fieldMap[fieldNames[i]];
+	        var editorType = "text";
+	        if (!field) {
+	        	continue;
+	        }
+	        if (field.schema.system) {
+	            editorType = field.schema.system;
+	        } else if (field.schema.custom) {
+	            editorType = field.schema.custom;
+	        }
+	        if (issueFieldEditors[editorType]) {
+	            jQuery("td[editortype='" + editorType + "']#td-" + field.id).html(issueFieldEditors[editorType].render(field));
+	        }
+	    }
+	    //jQuery("td.valueCol > select").select2();
+	},
+
+	postRenderFields: function() {
+	    jQuery("td[datatype='date'] > input").datetimepicker({format: "Y-m-d", timepicker: false, closeOnDateSelect: true});
+	    jQuery("td[datatype='datetime'] > input").datetimepicker({format: "Y-m-d H:i", closeOnDateSelect: true});
+	
+	    jQuery("td[datatype='date'] > input").width("125px");
+	    jQuery("td[datatype='datetime'] > input").width("180px");
+
+		jQuery("select[fieldid='project']").select2({
+			formatResult: formatProjectForSelect2Result,
+		    formatSelection: formatProjectForSelect2Selection,
+		});
+		jQuery("select[fieldid='issuetype']").select2({
+			formatResult: formatIssuetypeForSelect2Result,
+		    formatSelection: formatIssuetypeForSelect2Selection
+		});
+	    jQuery("select[fieldid='priority']").select2({
+			formatResult: formatPriorityForSelect2Result,
+		    formatSelection: formatPriorityForSelect2Selection
+		});
+		jQuery("select[fieldid='resolution']").select2();
+		jQuery("td[datatypeitem='version'] > select").select2();
+		jQuery("td[datatype='version'] > select").select2();
+		jQuery("td[datatypeitem='component'] > select").select2();
+		jQuery("td[datatype='component'] > select").select2();
+	    
+	    jQuery("td[datatype='user'] > input").select2({
+	        minimumInputLength: 1,
+	        allowClear: true,
+	        placeholder: 'Choose an user',
+	        initSelection: function(element, callback) {
+		        var username = jQuery(element).val();
+		        if (username !== "") {
+					Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ZJiraIssueDetailsController.getUserPicker}', username, function(result, event) {
+                		if (event.status && result.length > 0) {
+                			var i = 0;
+	                    	result[i].html = result[i].displayName + " - " + result[i].emailAddress + " (" + result[i].name + ")";
+	                    	if (result[i].avatarUrls && result[i].avatarUrls["16x16"]) {
+	                    		result[i].avatarUrl = result[i].avatarUrls["16x16"];
+	                    	}
+		                    var data = {id: result[i].name, text: result[i].html, avatarUrl: result[i].avatarUrl};
+		            		callback(data);
+		            	}
+		            });
+		        }
+		    },
+	        formatResult: formatUserForSelect2Result,
+		    formatSelection: formatUserForSelect2Selection,
+	        //escapeMarkup: function (m) { return unescapeHTML(m) },
+	        query: function (query) {
+	            Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.ZJiraIssueDetailsController.getUserPicker}', query.term, function(result, event) {
+	                if (event.status) {
+	                    var data = {results: []};
+	                    for (var i=0; i<result.length; i++) {
+	                    	result[i].html = result[i].displayName + " - " + result[i].emailAddress + " (" + result[i].name + ")";
+	                    	if (result[i].avatarUrls && result[i].avatarUrls["16x16"]) {
+	                    		result[i].avatarUrl = result[i].avatarUrls["16x16"];
+	                    	}
+	                        data.results.push({id: result[i].name, text: result[i].html, avatarUrl: result[i].avatarUrl});
+	                    }
+	                    query.callback(data);
+	                }
+	            });
+	        }
+	    });
+	},
+
+	renderRequiredFields: function() {
+	    var fieldMap = this.metaFields;
+	    var fieldNames = [];
+	    var fieldNamesMap = {};
+	    var defaultFieldNames = ["summary", "priority", "description"];
+	    if (this.issueKey) {
+	    	defaultFieldNames.unshift("issuetype");
+	    }
+	    if (fieldMap.summary) {
+	        fieldMap.summary.value = caseSubject;
+	    }
+	    if (fieldMap.description) {
+	        fieldMap.description.value = caseDescription;
+	    }
+	    if (fieldMap.priority) {
+	        var priorityItems = fieldMap.priority.allowedValues;
+	        for (var i=0; i<priorityItems.length; i++) {
+	            if (priorityItems[i].id == defaultPriorityId) {
+	                priorityItems[i].selected = true;
+	            }
+	            prioritiesById[priorityItems[i].id] = priorityItems[i];
+	        }
+	    }
+	    for (var i=0; i<defaultFieldNames.length; i++) {
+	        fieldNames.push(defaultFieldNames[i]);
+	        fieldNamesMap[defaultFieldNames[i]] = true;
+	    }
+	    for (var fieldName in fieldMap) {
+	        if (fieldMap[fieldName].required && !ignoredFields[fieldName] && !fieldNamesMap[fieldName]) {
+	            fieldNames.push(fieldName);
+	            fieldNamesMap[fieldName] = true;
+	        }
+	    }
+	    requiredFields = {};
+	    for (var i=0; i<fieldNames.length; i++) {
+	        requiredFields[fieldNames[i]] = true;
+	    }
+	    this.renderFields(fieldNames, "tbody-issue-editor-required-fields");
+	},
+
+	renderAdditionalFields: function() {
+	    var fieldMap = this.metaFields;
+	    var systemFieldMap = {};
+	    var customFieldMap = {};
+	    for (var fieldName in fieldMap) {
+	        if (fieldMap[fieldName].schema.system) {
+	            systemFieldMap[fieldName] = fieldMap[fieldName];
+	        } else {
+	            customFieldMap[fieldName] = fieldMap[fieldName];
+	        }
+	    }
+	    var fieldNames = [];
+	    for (var fieldName in systemFieldMap) {
+	        if (!ignoredFields[fieldName] && !requiredFields[fieldName]) {
+	            fieldNames.push(fieldName);
+	        }
+	    }
+	    for (var fieldName in customFieldMap) {
+	        if (!ignoredFields[fieldName] && !requiredFields[fieldName]) {
+	            fieldNames.push(fieldName);
+	        }
+	    }
+	    this.renderFields(fieldNames, "tbody-issue-editor-additional-fields");
+	    jQuery("button.aditional-fields-button").hide();
+	},
+
+  getSaveButton : function() {
+    return this.saveButton;
+  },
+  
+  getCancelButton : function() {
+    return this.cancelButton;
+  },
+
+  getFilterTextBox : function() {
+	  return this.filterTextBox;
+  },
+
+  asWidget : function() {
+    return this.mainPanel;
+  }
+};
+
+
+/////// GLOBAL VARIABLES
+
+var hoganTemplates = {};
+var projectsById = {};
+var issuetypesById = {};
+var prioritiesById = {};
+var availableVersions = [];
+var availableComponents = [];
+
+var issueKey = '{issueKey}';
+var isCreatingIssue = issueKey.indexOf('-') == -1;
+var userTimeZoneOffset = '{TimeZoneOffset}';
+var currentInstanceId = '{Case.Id}';
+var caseSubject = jQuery("#case-subject-content").html();
+var caseDescription = jQuery("#case-description-content").html();
+var defaultProjectKey = '{DefaultProject}';
+var defaultIssueTypeId = '{DefaultIssueType}';
+var defaultPriorityId = '{DefaultPriority}';
+var ignoredFields = {"issuetype" : true, "project" : true, "attachment": true, "timetracking": true, worklog: true};
+var requiredFields = {};
+
+function IssueFieldEditor(hoganTemplate, valueGetter, valueSetter) {
+	this.hoganTemplate = hoganTemplate;
+	this.getValue = valueGetter;
+	this.setValue = valueSetter;
+}
+
+IssueFieldEditor.prototype.render = function(data) {
+	return hoganTemplates[this.hoganTemplate].render(data);
+}
+
+function inputTextGetter(fieldId) {
+	var value = jQuery("#field-" + fieldId).val();
+	var datatype = jQuery("#field-" + fieldId).parent().attr("datatype");
+	if (datatype == "date") {
+	    return value ? value : null;// + 'T12:00:00';
+	} else if (datatype == "datetime") {
+		if (!value) {
+			return null;
+		}
+	    value = value.replace(' ', 'T');
+	    var timezone = parseInt(userTimeZoneOffset)/36000;
+	    var sign = timezone < 0 ? "-" : "+";
+	    timezone = Math.abs(timezone);
+	    timezone = timezone < 1000 ? ("0" + timezone) : timezone;
+	    return value+ ":00.000" + sign + timezone;
+	} else if (datatype == "number") {
+		if (!value) {
+			return null;
+		}
+	    var number = parseFloat(value);
+	    return isNaN(number) ? value : number;
+    }
+	else if (datatype == "user" || datatype == "group") {
+	    return value ? { name : value} : null;
+	} else if (datatype == "array") {
+	    var datatypeitem = jQuery("#field-" + fieldId).parent().attr("datatypeitem");
+	    if (datatypeitem == "group") {
+	        var groups = value ? value.split(",") : [];
+	        groupValues = [];
+	        for (var i=0; i<groups.length; i++) {
+	            groupValues.push({name: groups[i].trim()});
+	        }
+	        return groupValues;
+	    } else if(datatypeitem == "comment") {
+	    	return value ? [{ add: { body: value}}] : [];
+	    }
+	}
+	return value;
+}
+
+function inputTextSetter(fieldId, value) {
+	if (value != null && value != undefined && value != "") {
+		if (jQuery("#td-" + fieldId).attr("datatype") == "user") {
+			value = value.name;
+		} else if (jQuery("#td-" + fieldId).attr("datatype") == "group") {
+			value = value.name;
+		} else if (jQuery("#td-" + fieldId).attr("datatype") == "array") {
+			if (jQuery("#td-" + fieldId).attr("datatypeitem") == "group") {
+				var values = [];
+				for (var i=0; i<value.length; i++) {
+					values.push(value[i].name);
+				}
+				value = values.join(", ");
+			} else if (jQuery("#td-" + fieldId).attr("datatypeitem") == "comment") {
+				value = "";
+			}
+		} else if (jQuery("#td-" + fieldId).attr("datatype") == "datetime") {
+			var pos = value.lastIndexOf(":");
+			value = value.replace("T", " ").substring(0, pos);
+		}
+		jQuery("#field-" + fieldId).val(value);
+	}
+}
+
+function selectGetter(fieldId) {
+	var value = jQuery("#field-" + fieldId).val();
+    if (jQuery("#field-" + fieldId).attr("multiple")) {
+    	if (!value) {
+    		return [];
+    	}
+		var fieldValues = [];
+		for (var i = 0; i < value.length; i++) {
+		    fieldValues.push({id: value[i]});
+		}
+		return fieldValues;
+    } else {
+        return value ? { id: value } : null;
+    }
+}
+
+function selectSystemSetter(fieldId, fieldValue) {
+	if (Array.isArray(fieldValue)) {
+		var values = [];
+		for (var i=0; i<fieldValue.length; i++) {
+			values.push(fieldValue[i].id);
+		}
+		jQuery("#field-" + fieldId).val(values);
+	} else if (typeof fieldValue == "object") {
+		jQuery("#field-" + fieldId).val(fieldValue.id);
+	} else {
+		jQuery("#field-" + fieldId).val(fieldValue);
+	}
+}
+
+function radioButtonGetter(fieldId) {
+	return { id: jQuery("input[name='radio-" +  fieldId + "']:checked").val()};
+}
+
+function radioButtonSetter(fieldId, fieldValue) {
+	if (fieldValue) {
+		jQuery("input[name='radio-" + fieldId + "'][value='" + fieldValue.id + "']").prop('checked', 'checked');
+	}
+}
+
+function checkboxGetter(fieldId) {
+	var values = [];
+	jQuery("input[name='checkbox-" + fieldId + "']:checked").each(function(index, value) {
+	    values.push( { id: jQuery(this).val()} );
+	});
+	return values;
+}
+
+function checkboxSetter(fieldId, fieldValue) {
+	if (fieldValue) {
+		for (var i=0; i<fieldValue.length; i++) {
+			jQuery("input[name='checkbox-" + fieldId + "'][value='" + fieldValue[i].id + "']").prop('checked', 'checked');
+		}
+	}
+}
+
+var inputTextEditor = new IssueFieldEditor("text-input-editor-mu", inputTextGetter, inputTextSetter);
+var textAreaEditor = new IssueFieldEditor("text-area-editor-mu", inputTextGetter, inputTextSetter);
+var selectSystemEditor = new IssueFieldEditor("select-compponent-version-priority-editor-mu", selectGetter, selectSystemSetter);
+var selectEditor = new IssueFieldEditor("select-editor-mu", selectGetter, selectSystemSetter);
+var selectCustomEditor = new IssueFieldEditor("select-custom-editor-mu", selectGetter, selectSystemSetter);
+var radioButtonEditor = new IssueFieldEditor("radio-buttons-editor-mu", radioButtonGetter, radioButtonSetter);
+var checkboxEditor = new IssueFieldEditor("checkbox-editor-mu", checkboxGetter, checkboxSetter);
+
+var issueFieldEditors = {
+    text: inputTextEditor,
+    project: selectSystemEditor,
+    issuetype: selectSystemEditor,
+    summary: inputTextEditor,
+    comment: textAreaEditor,
+    description: textAreaEditor,
+    duedate: inputTextEditor,
+    reporter: inputTextEditor,
+    assignee: inputTextEditor,
+    priority: selectSystemEditor,
+    resolution: selectSystemEditor,
+    components: selectSystemEditor,
+    versions: selectSystemEditor,
+    fixVersions: selectSystemEditor,
+    environment: textAreaEditor,
+    "com.atlassian.jira.plugin.system.customfieldtypes:url": inputTextEditor,
+    "com.atlassian.jira.plugin.system.customfieldtypes:datepicker": inputTextEditor,
+    "com.atlassian.jira.plugin.system.customfieldtypes:datetime": inputTextEditor,
+    "com.atlassian.jira.plugin.system.customfieldtypes:userpicker": inputTextEditor,
+    "com.atlassian.jira.plugin.system.customfieldtypes:float": inputTextEditor,
+    "com.atlassian.jira.plugin.system.customfieldtypes:version": selectEditor,
+    "com.atlassian.jira.plugin.system.customfieldtypes:select": selectCustomEditor,
+    "com.atlassian.jira.plugin.system.customfieldtypes:multiselect": selectCustomEditor,
+    "com.atlassian.jira.plugin.system.customfieldtypes:radiobuttons": radioButtonEditor,
+    "com.atlassian.jira.plugin.system.customfieldtypes:multicheckboxes": checkboxEditor,
+    "com.atlassian.jira.plugin.system.customfieldtypes:textarea": textAreaEditor,
+    "com.atlassian.jira.plugin.system.customfieldtypes:textfield": inputTextEditor,
+    "com.atlassian.jira.plugin.system.customfieldtypes:multiversion": selectEditor,
+    "com.atlassian.jira.plugin.system.customfieldtypes:grouppicker": inputTextEditor,
+    "com.atlassian.jira.plugin.system.customfieldtypes:multigrouppicker": textAreaEditor,
+};
+
+function loadTemplate(templateId, partials) {
+    if (jQuery("#" + templateId).length == 0) {
+        console.log('Template not found: ' + templateId);
+        return;
+    }
+    var tmpl = jQuery("#" + templateId).html();
+    var tmplPartials = [];
+    if (partials) {
+        for (var i=0; i<partials.length; i++) {
+            tmplPartials[i] = jQuery("#" + partials[i]).html();
+        }
+    }
+    hoganTemplates[templateId] = Hogan.compile(tmpl, tmplPartials);
+}
+
+function loadTemplates() {
+    loadTemplate("issue-editor-mu");
+    loadTemplate("quick-create-issue-issuetypes-mu");
+    loadTemplate("create-issue-fields-mu");
+    loadTemplate("list-box-items-mu");
+    
+    loadTemplate("text-input-editor-mu");
+    loadTemplate("text-area-editor-mu");
+    loadTemplate("select-editor-mu");
+    loadTemplate("select-custom-editor-mu");
+    loadTemplate("select-compponent-version-priority-editor-mu");
+    loadTemplate("radio-buttons-editor-mu");
+    loadTemplate("checkbox-editor-mu");
+}
+
+function formatUserForSelect2Result(user) {
+	if (user) {
+		return "<img class='entity-icon' src='" + user.avatarUrl + "'/> <span>" + unescapeHTML(user.text) + "</span>";
+	}
+}
+
+function formatUserForSelect2Selection(user) {
+	if (user) {
+		return "<img class='entity-icon-selection' src='" + user.avatarUrl + "'/> <span style='margin-left: 20px;'>" + unescapeHTML(user.text) + "</span>";
+	}
+}
+
+function formatPriorityForSelect2Result(item) {
+	if (item) {
+		if (prioritiesById[item.id]) {
+			return "<img class='entity-icon' src='" + prioritiesById[item.id].iconUrl + "'/> <span>" + unescapeHTML(item.text) + "</span>";
+		}
+		return item.text;
+	}
+}
+
+function formatPriorityForSelect2Selection(item) {
+	if (item) {
+		if (prioritiesById[item.id]) {
+			return "<img class='entity-icon-selection' src='" + prioritiesById[item.id].iconUrl + "'/> <span style='margin-left: 20px;'>" + unescapeHTML(item.text) + "</span>";
+		}
+		return item.text;
+	}
+}
+
+function formatIssuetypeForSelect2Result(item) {
+	if (item) {
+		if (issuetypesById[item.id]) {
+			return "<img class='entity-icon' src='" + issuetypesById[item.id].iconUrl + "'/> <span>" + unescapeHTML(item.text) + "</span>";
+		}
+		return item.text;
+	}
+}
+
+function formatIssuetypeForSelect2Selection(item) {
+	if (item) {
+		if (issuetypesById[item.id]) {
+			return "<img class='entity-icon-selection' src='" + issuetypesById[item.id].iconUrl + "'/> <span style='margin-left: 20px;'>" + unescapeHTML(item.text) + "</span>";
+		}
+		return item.text;
+	}
+}
+
+function formatProjectForSelect2Result(project) {
+	if (projectsById[project.id] && projectsById[project.id].avatarUrls["16x16"]) {
+		return "<img class='entity-icon' src='" + projectsById[project.id].avatarUrls["16x16"] + "'/> <span>" + unescapeHTML(project.text) + "</span>";
+	}
+	return project.text;
+}
+
+function formatProjectForSelect2Selection(project) {
+	if (projectsById[project.id] && projectsById[project.id].avatarUrls["16x16"]) {
+		return "<img class='entity-icon-selection' src='" + projectsById[project.id].avatarUrls["16x16"] + "'/> <span style='margin-left: 20px;'>" + unescapeHTML(project.text) + "</span>";
+	}
+	return project.text;
+}
+
+function saveCreateIssue() {
+	zagile.issueEditor.applicationController.saveCreateIssue();
+}
+
+function saveUpdateIssue() {
+	zagile.issueEditor.applicationController.saveUpdateIssue();
+}
+
+function showAdditionalFields2() {
+	zagile.issueEditor.applicationController.showAdditionalFields();
+}
+// </script>
+</apex:page>

@@ -1,0 +1,61 @@
+<aura:component controller="CFSearch">
+    <aura:handler  name="init" value="{!this}" action="{!c.doinit}"/>
+    <aura:attribute name="idVersion" type="String" required="true"/>
+    <aura:attribute name="bRenderSubVersion" type="Boolean" default="false"/>
+    <aura:attribute name="strPreFixName" type="String" default=""/>
+    <aura:attribute name="strVersionName" type="String" default=""/>
+    <aura:attribute name="subVersions" type="List" />
+    <aura:attribute name="badges" type="List" />
+	<div class="slds-card"> 
+        <lightning:accordion aura:id="accordion" activeSectionName="1111" allowMultipleSectionsOpen="true">
+                <lightning:accordionSection name="{!vIndex}" class="slds-text-body_small slds-truncate" label="{!v.strPreFixName+v.strVersionName}">
+                    <aura:set attribute="body">
+<div class="slds-grid slds-wrap">
+    <div class="slds-col slds-size_4-of-6 slds-max-small-size_1-of-1">
+        <div class="slds-grid slds-wrap">
+            
+        <aura:iteration items="{!v.badges}" var="b" indexVar="bIndex">   <!--v.badges.length--> 
+            <c:CFVersionBadge badge="{!b}"/>
+   <!--         <a href="#">
+          <div class="{!'slds-col slds-box slds-box_xx-small slds-size_1-of-8'+' slds-max-small-size_1-of-1 slds-m-around_xx-small'}" style="width:130px;">
+            <span>
+                <article class="slds-card slds-size_xxsmall">
+                  <div class="slds-grid slds-einstein-header slds-card__header slds-media slds-media_center slds-has-flexi-truncate" style="background-image:url(/resource/1526639575000/CertificationBadges/SVG/SALESTAX.svg);height:120px;background-color:#ffffff;">
+                	<div>&nbsp;</div>
+                  </div>
+                  <div class="slds-card__body slds-card__body_inner slds-wrap slds-align_absolute-center" style="font-size: .65rem;">{!b.Type__c}</div>
+                  <div class="slds-card__body slds-card__body_inner slds-wrap slds-align_absolute-center" style="font-size: .65rem;">{!b.Status__c}</div>    
+                  <footer class="slds-card__footer slds-align_absolute-center"  style="font-size: .65rem;">
+                	{!b.Date_Achieved__c}&nbsp;
+                  </footer>
+                </article>              
+              </span>
+          </div>
+            </a>-->
+         </aura:iteration>
+
+        </div>        
+    </div>
+    <div class="slds-col slds-size_2-of-6 slds-max-small-size_1-of-1">
+        bbbbb
+    </div>    
+</div>    
+                        
+                  
+                        
+                        <aura:if isTrue="{!v.bRenderSubVersion}">
+                            <aura:iteration items="{!v.subVersions}" var="v" indexVar="vIndex">
+                                <ul class="slds-has-dividers_around-space slds-theme_shade">
+                                    <li class="slds-item">
+                                        <lightning:tile class="slds-tile_board">
+                                			<c:CFVersion idVersion="{!v.Id}" strVersionName="{!v.Name}" strPreFixName="" bRenderSubVersion="false"/>
+                                        </lightning:tile>
+                                    </li>
+                                </ul> 
+                            </aura:iteration>                            
+                        </aura:if>
+                    </aura:set>
+                </lightning:accordionSection>
+        </lightning:accordion>
+    </div>    
+</aura:component>

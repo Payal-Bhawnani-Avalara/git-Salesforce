@@ -1,0 +1,114 @@
+<apex:page docType="html-5.0" controller="zsfjira.ZJiraIssueDetailsController" showHeader="false" sidebar="false">
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}"  />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/js/bootstrap.min.js')}" />    
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/css/bootstrap.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-ui-1.10.3.custom.min.js')}"  />    
+    <apex:includeScript value="/soap/ajax/30.0/connection.js"/> 
+    <apex:includeScript value="/support/console/30.0/integration.js"/>
+    <body>
+        <apex:form >
+            <div id="content">
+                <div class ="bs">
+                    <br/>
+                    <div class="container">
+                        <h5>
+                            <b>{!ProjectName.value} /                                 
+                                <a title="View in JIRA" target="_blank" href="{!IssueUrl}" style="color:rgb(1, 91, 167);">{!IssueKey}</a>
+                            </b>
+                        </h5>
+                        <br/>
+                        <h6>{!Summary.value}</h6>                   
+                    </div>
+                </div>
+                <br/>
+                <apex:outputPanel id="issue-details-panel">
+                    <div class ="bs">
+                        <div class="container">
+                            <table style="width:100%;">
+                                <tr>
+                                    <td>
+                                        <h6><label>{!IssueTypeName.label}</label></h6>
+                                    </td>
+                                    <td>
+                                        <h6>{!IssueTypeName.value}</h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6><label>{!StatusName.label}</label></h6>
+                                    </td>
+                                    <td>
+                                        <h6>{!StatusName.value}</h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6><label>{!PriorityName.label}</label></h6>
+                                    </td>
+                                    <td>
+                                        <h6>{!PriorityName.value}</h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6><label>{!ResolutionName.label}</label></h6>
+                                    </td>
+                                    <td>
+                                        <h6>{!ResolutionName.value}</h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6><label>{!AssigneeName.label}</label></h6>
+                                    </td>
+                                    <td>
+                                        <h6>{!AssigneeName.value}</h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6><label>{!CreatedDate.label}</label></h6>
+                                    </td>
+                                    <td>
+                                        <h6>{!CreatedDate.value}</h6>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h6><label>{!DueDate.label}</label></h6>
+                                    </td>
+                                    <td>
+                                        <h6>{!DueDate.value}</h6>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </apex:outputPanel>            
+            </div>
+        </apex:form>
+    </body>
+    <script>
+    $jqz(document).ready(function() {
+        renderTextAreaFields();
+    });    
+    function renderTextAreaFields(){
+    }
+    function fixScreen(){
+        $jqz('div[type="noTA"]').attr('style','height:25px');
+    }
+    $jqz(document).on(
+        "transitionError",
+        function(event,errorMessage){
+            
+        }
+    );
+    $jqz(document).on(
+        "transitionFinish",
+        function(event){
+            funcReloadIssueDetails();
+        }
+    ); 
+    </script>
+</apex:page>

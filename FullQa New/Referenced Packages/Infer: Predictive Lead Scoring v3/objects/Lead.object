@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>Encoded_Rating__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <formula>RPAD(&apos;4&apos;,$Setup.Infer_Scoring_Settings__c.Score_Bucket_3_Threshold__c,&apos;4&apos;)+RPAD(&apos;3&apos;,$Setup.Infer_Scoring_Settings__c.Score_Bucket_2_Threshold__c-$Setup.Infer_Scoring_Settings__c.Score_Bucket_3_Threshold__c,&apos;3&apos;)+RPAD(&apos;2&apos;,$Setup.Infer_Scoring_Settings__c.Score_Bucket_1_Threshold__c-$Setup.Infer_Scoring_Settings__c.Score_Bucket_2_Threshold__c,&apos;2&apos;)+RPAD(&apos;1&apos;,101-$Setup.Infer_Scoring_Settings__c.Score_Bucket_1_Threshold__c,&apos;1&apos;)</formula>
+        <label>Infer Encoded Rating</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Infer_Rating__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <formula>CASE(VALUE(MID(Encoded_Rating__c,Infer_Score__c+1,1)),1,$Setup.Infer_Scoring_Settings__c.Score_Bucket_1_Label__c,2,$Setup.Infer_Scoring_Settings__c.Score_Bucket_2_Label__c,3,$Setup.Infer_Scoring_Settings__c.Score_Bucket_3_Label__c,4,$Setup.Infer_Scoring_Settings__c.Score_Bucket_4_Label__c,null)</formula>
+        <label>Infer: Rating</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Infer_Score__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <formula>VALUE(TRIM(SUBSTITUTE(MID(CASE(FLOOR(Score_Index__c/85),0,Score_Object_ID__r.Score_0__c,1,Score_Object_ID__r.Score_1__c,2,Score_Object_ID__r.Score_2__c,3,Score_Object_ID__r.Score_3__c,4,Score_Object_ID__r.Score_4__c,5,Score_Object_ID__r.Score_5__c,6,Score_Object_ID__r.Score_6__c,7,Score_Object_ID__r.Score_7__c,8,Score_Object_ID__r.Score_8__c,9,Score_Object_ID__r.Score_9__c,10,Score_Object_ID__r.Score_10__c,11,Score_Object_ID__r.Score_11__c,12,Score_Object_ID__r.Score_12__c,13,Score_Object_ID__r.Score_13__c,14,Score_Object_ID__r.Score_14__c,15,Score_Object_ID__r.Score_15__c,16,Score_Object_ID__r.Score_16__c,17,Score_Object_ID__r.Score_17__c,18,Score_Object_ID__r.Score_18__c,null),1+3*MOD(Score_Index__c,85),3),&apos;^&apos;,&apos; &apos;)))</formula>
+        <label>Infer: Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Score_Index__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Infer Score Index</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Score_Object_ID__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Score Object ID</label>
+        <referenceTo>Score_Object__c</referenceTo>
+        <relationshipName>Lead_Score_Object</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Score_Snapshot__c</fullName>
+        <deprecated>false</deprecated>
+        <description>A saved copy of the score, if the &quot;Update Lead with Score Update&quot; option is enabled. This field is only intended for custom triggers or third-party systems that can&apos;t track formula fields.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>A saved copy of the score, if the &quot;Update Lead with Score Update&quot; option is enabled. This field is only intended for custom triggers or third-party systems that can&apos;t track formula fields.</inlineHelpText>
+        <label>Score Snapshot NOT FOR LAYOUT</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+</CustomObject>

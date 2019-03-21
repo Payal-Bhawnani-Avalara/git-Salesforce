@@ -1,0 +1,5 @@
+<apex:page controller="Sertifi2_0.RedirectController" action="{!RedirectFunction}"  >
+    <apex:form >
+        <apex:pageMessages />
+    </apex:form>
+</apex:page>

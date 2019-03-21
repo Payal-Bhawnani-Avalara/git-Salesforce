@@ -1,0 +1,111 @@
+<apex:page applyHtmlTag="false" id="pg" docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" cache="false">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script>
+
+        /* Add immediate trigger to change var in parent*/
+            parent.parentCallbackTrigger('true');
+            console.log('callback loaded');
+
+        /********************************
+            START URL PARAM COLLECTION
+        *********************************/
+
+            function getUrlParams(){
+
+                var urlParams = new Array();
+                var isUrl = window.location.href;
+                isUrl = isUrl.replace(/&amp;/g,'urlConvert').split('?');
+                isUrl = isUrl[1] !== undefined 
+                    && isUrl[1] !== '' ? 
+                        isUrl[1].split('&')
+                        : new Array();
+
+                jQuery.each(isUrl, function(k,v){
+                    var v = v.split('=');
+                    
+                    if(v[1]!== undefined 
+                        && v[1] !== ''){
+
+                            urlParams[v[0]] = v[1].replace(/urlConvert/g,'&');
+
+                        }
+
+
+                });
+
+                return urlParams;
+
+            }
+
+        var paymentParams = getUrlParams();
+
+        /********************************
+            END URL PARAM COLLECTION
+        *********************************/
+
+    
+        
+
+
+
+
+
+
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                results = regex.exec(document.location.href);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+    
+        
+
+
+
+
+
+
+
+        function postBackData() {
+
+            console.log(['Postback triggered']);
+            
+            var success      = getParameterByName("success");
+            var errorCode    = getParameterByName("errorCode");
+            var errorMessage = getParameterByName("errorMessage");
+            var refId        = getParameterByName("refId");
+            var message      = "Please call us to proceed with your order: (877) 780-4848";
+            var payload      = '';
+            
+            if(success == "") {
+                message = "Invalid Response";
+            }
+            
+            
+            //
+            // Improve error message
+            //
+            
+            payload = JSON.stringify({
+                success      : success,
+                errorCode    : errorCode,
+                errorMessage : errorMessage,
+                refId        : refId,
+                message      : message,
+                
+            });
+
+            console.log(['Postback message',payload]);
+            
+            //alert('This is the payload'+JSON.stringify(payload));
+            //parent.postMessage(payload, '*');
+
+            parent.parentCollection(payload, paymentParams);
+
+        }
+        
+        postBackData();
+
+
+    </script>
+</apex:page>

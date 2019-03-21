@@ -1,0 +1,264 @@
+<apex:page standardController="Functional_Matrix__c" extensions="EditMatrixRequirementsCtrl">
+    <apex:slds />
+    <apex:styleSheet value="{!URLFOR($Resource.MatrixResources,'/ngProgress.css')}"/>
+    <apex:styleSheet value="{!URLFOR($Resource.MatrixResources,'/angular-datepicker.min.css')}"></apex:styleSheet>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"/>
+    <script src="https://cdn.jsdelivr.net/sweetalert2/6.6.2/sweetalert2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.13/moment-timezone-with-data.min.js"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-block-ui/0.2.2/angular-block-ui.min.js"></script>
+    <script src="{!URLFOR($Resource.MatrixResources,'/ngprogress.min.js')}"/>
+    <script src="{!URLFOR($Resource.MatrixResources,'/angular-datepicker.min.js')}"/>
+    <style>
+        .slds-scope .slds-button_success{
+            color:#fff;
+        }
+        .slds-scope .slds-button{
+            width:100%;
+        }
+        .swal2-modal .swal2-styled{
+            background: none;
+        }
+        .slds-scope .slds-box{
+            margin-top: 10px;
+        }
+        .block-ui-container{
+            display: none;
+        }
+        .slds-scope .slds-badge{
+            border-radius: 0px;
+        }
+        .slds-scope hr{
+            margin: 0.2rem 0;
+        }
+        @media (min-width: 48em){
+            .slds-scope .slds-form--horizontal .slds-form-element__control, .slds-scope .slds-form_horizontal .slds-form-element__control{
+                width: 78%;
+            }
+            .slds-scope .slds-form_horizontal .slds-form-element>.slds-form-element__label{
+                width: 20%;
+            }
+        }
+        .slds-scope .slds-accordion__content{
+            display: none;
+        }
+        .slds-scope .slds-is-open .slds-accordion__content{
+            display: block;
+        }
+        datepicker{
+            width:30%;
+        }
+    </style>
+    <script>
+        var app = angular.module('app',['ngProgress', 'blockUI', '720kb.datepicker']);
+        var tz;
+    </script>
+    <c:ctrlRemoting factory="ctrlFactory" angularApp="app" controller="EditMatrixRequirementsCtrl"></c:ctrlRemoting>
+    <script>
+
+        app.controller('ctrl',function($scope, $q,ngProgressFactory, ctrlFactory) {
+
+            $scope.ui = {
+                requirements : {},
+                state : []
+            }
+
+            $scope.progressbar = ngProgressFactory.createInstance();
+            $scope.progressbar.setHeight('5px');
+
+            function convertDateTimeToMS(dateStr) {
+                var m = moment(dateStr,'MM/DD/YYYY').startOf('day');
+                m = moment.tz([m.year(), m.month(), m.date(), m.hours(), m.minutes(), m.seconds(), m.milliseconds()], window.tz.id);
+                return m.toDate().getTime();
+            }
+
+            function convertMStoDate(newDate) {
+                var m = moment.utc(newDate);
+                return new Date(m.year(), m.month(), m.date(), m.hours());
+            }
+
+            function init() {
+                $scope.progressbar.start();
+                var req = {};
+                $q.all([ctrlFactory.getUserTimeZone(), ctrlFactory.getRequirements('{!Functional_Matrix__c.Id}')]).then(function (r) {
+                    window.tz = r[0];
+                    var res = r[1];
+                    for (var i = 0; i < res.length; i++) {
+                        var c = res[i].Functional_Matrix_Requirements_Config__r;
+                        c.Section__c = c.Section__c || '';
+                        c.SubHeader__c = c.SubHeader__c || '';
+                        req[c.Section__c] = req[c.Section__c] || {};
+                        req[c.Section__c][c.SubHeader__c] = req[c.Section__c][c.SubHeader__c] || [];
+                        if(res[i].Date__c && res[i].Date__c != null){
+                            res[i].attributes = res[i].attributes || {};
+                            res[i].attributes.Date__c = convertMStoDate(res[i].Date__c);
+                            res[i].attributes.r_date = new moment(convertMStoDate(res[i].Date__c)).format();
+                        }
+                        req[c.Section__c][c.SubHeader__c].push(res[i]);
+                    }
+                    $scope.ui.requirements = req;
+                    if(Object.keys($scope.ui.requirements).length == 1){
+                        $scope.ui.state[Object.keys($scope.ui.requirements)[0]] = true;
+                    }
+                    $scope.progressbar.complete();
+                })
+            }
+
+            $scope.save = function () {
+
+                var req = [];
+                var r = Object.values(angular.copy($scope.ui.requirements));
+
+                for (var i = 0; i < r.length; i++) {
+                    for (var j = 0; j < Object.values(r[i]).length; j++) {
+                        for (var k = 0; k < Object.values(r[i])[j].length; k++) {
+                            var d = Object.values(r[i])[j][k];
+                            if($scope.ui.forms[d.Id] && $scope.ui.forms[d.Id].$dirty == true){
+                                req.push(d);
+                            }
+                        }
+                    }
+                }
+
+                for (var i = 0; i < req.length; i++) {
+                    if(req[i].attributes && req[i].attributes.Date__c && req[i].attributes.Date__c != null){
+                        req[i].Date__c = convertDateTimeToMS(req[i].attributes.Date__c);
+                    }
+                }
+                if(req && req.length > 0){
+                    $scope.progressbar.start();
+                    var requirements = angular.copy(req);
+                    for(var i = 0 ; i < requirements.length ; i++){
+                        delete requirements[i].attributes;
+                    }
+                    ctrlFactory.updateRequirement(requirements).then(function(res){
+                        swal({
+                            title: 'Updated',
+                            text: "Requirements Successfully updated",
+                            type: 'success',
+                            confirmButtonText: 'Ok'
+                            }).then(function() {
+                            $scope.cancel();
+                        })
+                        $scope.progressbar.complete();
+                    }).catch(function(err){
+                        swal(
+                            'Error',
+                            err.message,
+                            'error'
+                        );
+                        $scope.progressbar.complete();
+                    })
+                }
+                else{
+                    $scope.cancel();
+                }
+            }
+
+            $scope.cancel = function () {
+                window.history.back();
+            }
+
+
+            init();
+
+
+        });
+    </script>
+    <body ng-app="app" ng-controller="ctrl" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ng-cloak="true">
+        <div class="slds-page-header">
+            <div class="slds-media">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-standard-calibration">
+                        <svg class="slds-icon slds-page-header__icon" aria-hidden="true">
+                            <use xlink:href="{!$Asset.slds}/assets/icons/standard-sprite/svg/symbols.svg#calibration" />
+                        </svg>
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                    <h1 class="slds-page-header__title slds-truncate slds-align-middle">Functional Matrix</h1>
+                    <p class="slds-text-body_small slds-line-height_reset">{!Functional_Matrix__c.Name}</p>
+                </div>
+            </div>
+        </div>
+        <div class="slds-box">
+            <div class="slds-panel slds-grid slds-grid_vertical slds-nowrap">
+                <ul class="slds-accordion">
+                     <li class="slds-accordion__list-item" ng-form="ui.forms[r.Id]" ng-repeat="(k,v) in ui.requirements">
+                         <section class="slds-accordion__section" ng-class="{'slds-is-open' : ui.state[k]}">
+                            <div class="slds-accordion__summary">
+                                <h3 class="slds-text-heading_small slds-accordion__summary-heading">
+                                    <a aria-controls="accordion-details" aria-expanded="true" class="slds-button slds-button_reset slds-accordion__summary-action" ng-click="ui.state[k] = !ui.state[k]">
+                                        <svg class="slds-accordion__summary-action-icon slds-button__icon slds-button__icon_left" aria-hidden="true">
+                                            <use xlink:href="{!$Asset.slds}/assets/icons/utility-sprite/svg/symbols.svg#switch" />
+                                        </svg>
+                                        <span class="slds-truncate" title="Accordion summary">{{k}}</span>
+                                    </a>
+                                </h3>
+                            </div>
+                            <div aria-hidden="false" class="slds-accordion__content">
+                                <div ng-repeat="(sk,sv) in v" class="slds-m-top_large">
+                                    <span class="slds-badge slds-badge_inverse" ng-if="sk">{{sk}}</span>
+                                    <hr/>
+                                    <div class="slds-form slds-form_horizontal slds-box" ng-repeat="req in sv" ng-form="ui.forms[req.Id]">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                Requirement Type
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                {{req.Functional_Matrix_Requirements_Config__r.Requirement_Type__c}}
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">{{req.Functional_Requirement_Name__c}}
+                                                Date
+                                                <span title="{{req.Functional_Matrix_Requirements_Config__r.Tool_Tip__c}}" ng-if="req.Functional_Matrix_Requirements_Config__r.Tool_Tip__c">
+                                                    <svg class="slds-accordion__summary-action-icon slds-button__icon slds-button__icon_left" aria-hidden="true">
+                                                        <use xlink:href="{!$Asset.slds}/assets/icons/utility-sprite/svg/symbols.svg#info" />
+                                                    </svg>
+                                                </span>
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <datepicker date-format="MM/dd/yyyy" date-set="{{req.attributes.r_date}}">
+                                                    <input class="slds-input"
+                                                        placeholder="Date"
+                                                        ng-model="req.attributes.Date__c"
+                                                        name="Date__c"></input>
+                                                </datepicker>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label"> {{req.Functional_Requirement_Name__c}}
+                                                Note
+                                                <span title="{{req.Functional_Matrix_Requirements_Config__r.Tool_Tip__c}}" ng-if="req.Functional_Matrix_Requirements_Config__r.Tool_Tip__c">
+                                                    <svg class="slds-accordion__summary-action-icon slds-button__icon slds-button__icon_left" aria-hidden="true">
+                                                        <use xlink:href="{!$Asset.slds}/assets/icons/utility-sprite/svg/symbols.svg#info" />
+                                                    </svg>
+                                                </span>
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <textarea class="slds-textarea" placeholder="Note" ng-model="req.Note__c" name="Note__c"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                     </li>
+                </ul>
+            </div>
+
+            <div class="slds-box">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-large">
+                        <a class="slds-button slds-button_destructive" ng-click="cancel()"> Cancel</a>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-large">
+                        <button ng-click="save()" class="slds-button slds-button_success"> Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</apex:page>

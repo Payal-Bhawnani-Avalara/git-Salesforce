@@ -1,0 +1,39 @@
+<apex:component >
+    <apex:attribute name="controller" type="string" description="TODO"></apex:attribute>
+    <apex:attribute name="factory" type="string" description="TODO"></apex:attribute>
+    <apex:attribute name="angularApp" type="string" description="TODO"></apex:attribute>
+    <script>
+    {!angularApp}.factory('{!factory}', function ($q) {
+       var ctrlName = '{!controller}'
+       function getFactory() {
+           var obj = {};
+           var fns = Object.keys(window[ctrlName]);
+           for (var i = 0; i < fns.length; i++) {
+               var currentFunction = fns[i];
+               obj[currentFunction] = Object.defineProperty(function () {
+                   var deferred = $q.defer();
+                   var fn = arguments.callee.name;
+                   var cb = function (result, event) {
+                       if (event.status) {
+                           deferred.resolve(result);
+                       } else {
+                           deferred.reject(event);
+                       }
+
+                   }
+                   var remotingArgs = [ctrlName+'.' + fn];
+                   for (var i = 0; i < arguments.length; i++) {
+                       remotingArgs.push(arguments[i]);
+                   }
+                   remotingArgs.push(cb);
+                   remotingArgs.push({escape: false, buffer: false});
+                   Visualforce.remoting.Manager.invokeAction.apply(Visualforce.remoting.Manager, remotingArgs);
+                   return deferred.promise;
+               }, "name", {value: currentFunction});;
+           }
+           return obj;
+       }
+       return getFactory();
+   })
+    </script>
+</apex:component>

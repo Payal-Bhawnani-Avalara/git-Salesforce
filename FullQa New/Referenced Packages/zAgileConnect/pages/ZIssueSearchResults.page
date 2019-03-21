@@ -1,0 +1,801 @@
+<apex:page controller="zsfjira.ZIssueSearchController"
+           lightningStylesheets="true" docType="html-5.0"
+           title="Search Issues">
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'scripts/vendor.js')}" /> 
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'scripts/app.js')}" />                 
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'styles/vendor.css')}"/> 
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'styles/app.css')}"/>
+
+    <apex:includeScript value="/soap/ajax/42.0/connection.js"/>
+    <apex:includeScript value="/support/console/42.0/integration.js"/>
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zAgileResources, '/js/zConnectNavigationHelper.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zAgileResources, '/js/svg4everybody.js')}" />
+
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/js/bootstrap.min.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/css/bootstrap.css')}"/>
+
+    <apex:variable var="linkAllowed" value="{!IF(zPermissions.linkIssuesEnabled,true, $Permission.zsfjira__ZC_Link_Issues)}"/>
+    <apex:variable var="isLightning"
+                   value="{!IF($User.UIThemeDisplayed=='Theme4d'||$User.UIThemeDisplayed=='Theme4u',true,false)}"/>
+
+    <apex:slds rendered="{!isLightning}"/>
+    <style>
+        .paginatorDisable{
+            opacity:0.5;
+            cursor: default;
+            pointer-events: none;
+        }
+        .loaderInTable {
+            background:url({!URLFOR($Resource.zsfjira__zAgileResources, 'images/loader.gif')});
+            background-repeat:no-repeat;
+            background-position:center center;
+        }
+
+        input[type="checkbox"][disabled]::after {
+           border-color: black!important;
+           opacity: 0.5!important;
+        }
+        .helpIcon{
+            background: transparent url(/img/alohaSkin/help_orange.png) no-repeat;
+            width: 16px;
+            height: 16px;
+        }
+    </style>
+    <apex:variable value="" rendered="{!isLightning}" var="lightningCSS_">
+        <style>
+            span.lightningPreFirst{
+                width: 2px;
+                height: 8px;
+                vertical-align: middle;
+                background-color: currentColor;
+                display: inline-block;
+
+            }
+            span.lightningPosLast{
+                width: 2px;
+                height: 8px;
+                vertical-align: middle;
+                background-color: currentColor;
+                display: inline-block;
+            }
+
+            img.first{
+                margin-left: -6px!important;
+            }
+
+            img.last{
+                margin-right: -6px!important;
+            }
+        </style>
+    </apex:variable>
+
+    <script>
+    Visualforce.remoting.timeout = 120000;    
+    if (!window.console) window.console = {};
+    if (!window.console.log) window.console.log = function () {};
+    svg4everybody();
+
+    function supports_html5_storage() {
+        try {
+            return 'sessionStorage' in window && window['sessionStorage'] !== null;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    zConnectNavigationHelper.setState(zConnectNavigationHelper.State.ISSUE_SEARCH_RESULT);
+
+    function handleCancel(){
+        return zConnectNavigationHelper.handleAction(
+            zConnectNavigationHelper.ActionType.SELECT_CANCEL,
+            {
+                'cancelUrl' : '{!JSENCODE(cancelUrl)}'
+            });
+    }
+
+    function handleOnIssuesLinkingEnded(fromRelatedList, entityId, errorMessages, finalMessage){
+        function consoleCallback() {
+            var message = {
+                source : "linkCreateIssue",
+                entityId : entityId,
+                action : "renderIssueResults",
+                msgError : errorMessages,
+                msgSuccess :finalMessage
+            };
+            sforce.console.fireEvent(
+                'messageFromComponent', JSON.stringify(message), function(result){}
+            );
+        }
+        function classicCallback(){
+            if(supports_html5_storage()){
+                var jsonResult = {
+                    linkError : errorMessages,
+                    linkSuccess : finalMessage
+                };
+            sessionStorage["LINK_RESULT_" + entityId] = JSON.stringify(jsonResult);
+            }
+        }
+
+        function lexStdCallback(){
+            zConnectNavigationHelper.notifyByPostMessage(
+                    "LINK_RESULT_" + entityId,
+                    { linkError : errorMessages, linkSuccess : finalMessage},
+                    '{!JSENCODE(hostUrl)}',
+                    '{!JSENCODE(iframeName)}'
+            );
+        }
+
+        return zConnectNavigationHelper.handleAction(
+            zConnectNavigationHelper.ActionType.SELECT_SAVE,
+            {
+                'onErrorReturn': (fromRelatedList || (zConnectNavigationHelper.isSfdcClassic() && !isCase())),
+                'cancelUrl' : '{!JSENCODE(cancelUrl)}',
+                'msgError': errorMessages,
+                'msgSuccess': finalMessage
+            },
+            zConnectNavigationHelper.createCallbacks(classicCallback, consoleCallback,
+                lexStdCallback, consoleCallback)
+        );
+    }
+
+    function goToEntity(tabUrl, tabName){
+        return zConnectNavigationHelper.handleAction(
+            zConnectNavigationHelper.ActionType.SELECT_LINK,
+            {
+                'tabUrl' : tabUrl,
+                'tabName' : tabName
+            });
+    }
+    function isCase(){
+        var objName = '{!JSENCODE(objName)}';
+        return objName == 'Case';
+    }
+
+    </script>
+    <div id="container" class="slds-p-left_medium slds-p-right_medium">
+    <apex:sectionHeader title="JIRA Search" subtitle="Search Issues for {!objNameLabel}: {!mandatoryField}"
+                        rendered="{!NOT(ISNULL(entityId))}"/>
+    <apex:sectionHeader title="JIRA Search" subtitle="Find JIRA Issues"
+                        rendered="{!ISNULL(entityId)}"/>
+    <apex:pageBlock rendered="{!AND(NOT(ISNULL(entityId)),objName=='Case')}">
+        <br />
+        <table class="detailList" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+                <tr>
+                    <td class="labelCol"> Case Owner </td>
+                    <td class="dataCol" > 
+                        <a href="/{!JSENCODE(currentCase.OwnerId)}" onClick='return goToEntity("/{!JSENCODE(currentCase.OwnerId)}", "{!JSENCODE(currentCase.Owner.Name)}")'>{!JSENCODE(currentCase.Owner.Name)} </a>
+                    </td>
+                    <td class="labelCol"> Contact Name </td>
+                    <td class="dataCol" > 
+                        <a href="/{!JSENCODE(currentCase.ContactId)}" onClick='return goToEntity("/{!JSENCODE(currentCase.ContactId)}", "{!JSENCODE(currentCase.Contact.Name)}")'>{!JSENCODE(currentCase.Contact.Name)}</a>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td class="labelCol"> Status </td>
+                    <td class="dataCol" > {!currentCase.Status} </td>
+                    <td class="labelCol"> Email </td>
+                    <td class="dataCol" > <a href="mailto:{!currentCase.Contact.Email}">{!currentCase.Contact.Email}</a> </td>
+                </tr>
+                
+                <tr>
+                    <td class="labelCol"> Case Number </td>
+                    <td class="dataCol" > 
+                        <a href="/{!JSENCODE(currentCase.Id)}" 
+                           onClick='return goToEntity("/{!JSENCODE(currentCase.Id)}", "{!JSENCODE(currentCase.CaseNumber)}")'>{!JSENCODE(currentCase.CaseNumber)}</a>
+                    </td>
+                    <td class="labelCol"> Phone </td>
+                    <td class="dataCol" > {!currentCase.Contact.Phone} </td>
+                </tr>
+                
+                <tr>
+                    <td class="labelCol"> Subject </td>
+                    <td class="dataCol" colspan="3"> {!currentCase.Subject} </td>
+                </tr>
+            </tbody>
+        </table>
+    </apex:pageBlock>    
+    <apex:pageBlock >        
+        <div ng-controller="SearchCtrl as vm" ng-app="src">
+            <apex:outputPanel rendered="{!IF(missingObjectProperties,true,false)}">
+                <div class="message warningM4" role="alert">
+                    <img style="vertical-align: middle;" alt="ERROR" class="msgIcon" src="/s.gif" title="ERROR"/>
+                    To enable Issue Linking, please configure {!objNameLabel} properties to share with Jira
+                </div>
+            </apex:outputPanel>
+
+
+            <div align="center" ng-show="vm.isShowing.basicSearch">
+                <input ng-model="vm.txtSearch" type="text" style="width: 400px; " class="z-basic-search-input slds-input"
+                       enter="vm.searchBasic()"/> &nbsp;&nbsp;
+                <input type="button" class="btn z-basic-search-find-btn" value="Find Issues" ng-click="vm.searchBasic()"/> &nbsp;
+                <a href="#" ng-click="vm.toogleSearch(true,$event)" class="z-adv-seach-toogle-lnk">
+                    Advanced Search
+                </a>                
+            </div>
+
+            <div align="center" ng-show="vm.isShowing.advancedSearch" class="ng-hide">
+                JQL&nbsp;&nbsp;
+                <input enter="vm.searchAdvanced()" ng-model="vm.jqlSearch" type="text" style="width: 500px; "  class="z-adv-search-input slds-input"/> &nbsp;&nbsp;
+                <input type="button" class="btn z-adv-search-find-btn" value="Find Issues"
+                       ng-click="vm.searchAdvanced()"/>&nbsp;
+                <a href="#" ng-click="vm.toogleSearch(false,$event)" >
+                    Basic Search
+                </a>
+                <apex:outputPanel rendered="{!NOT(isLightning)}">
+                    <a ng-href="#" ng-click="vm.helpDialog($event)" style="display: inline;float: right;"
+                       title="Help">
+                        <img src="/img/s.gif" alt="" class="helpIcon"/>
+                    </a>
+                </apex:outputPanel>
+
+                <apex:outputPanel rendered="{!isLightning}">
+                    <button class="slds-button slds-button_icon slds-float--right slds-p-top_x-small"
+                            ng-click="vm.helpDialog($event)"
+                            title="Help">
+                        <svg class="slds-button__icon" aria-hidden="true">
+                            <use xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#question')}"  xmlns:xlink="http://www.w3.org/1999/xlink" />
+                        </svg>
+                        <span class="slds-assistive-text">Help</span>
+                    </button>
+                </apex:outputPanel>
+            </div>
+            <br/>
+            <div align="center" ng-show="vm.isShowing.loader" class="ng-hide">
+                <apex:variable value="" rendered="{!NOT(isLightning)}" var="classicLoader">
+                    <img src="{!URLFOR($Resource.zsfjira__zAgileResources, 'images/loader.gif')}"/>
+                </apex:variable>
+
+                <apex:variable value="" rendered="{!isLightning}" var="lexLoader">
+                    <div id="slds-loader" class="slds-spinner_container slds-is-fixed" >
+                        <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand" >
+                            <span class="slds-assistive-text">Loading</span>
+                            <div class="slds-spinner__dot-a"></div>
+                            <div class="slds-spinner__dot-b"></div>
+                        </div>
+                    </div>
+                </apex:variable>
+            </div>
+
+            <span ng-show="vm.isShowing.results" class ="ng-hide"
+                  ng-class="{paginatorDisable: vm.nav.loading}">
+                <table class="list"
+                       ng-class="{loaderInTable: vm.nav.loading}"
+                       border="0" cellpadding="0" cellspacing="0">
+                    <colgroup span="5"></colgroup>
+                    <thead class="">
+                        <tr class="headerRow">
+                            <th class="headerRow" scope="col" colspan="1"
+                                ng-show="{!AND(linkAllowed,NOT(ISNULL(entityId)),NOT(missingObjectProperties))}">
+                                <div>
+                                    <input type="checkbox" ng-model="vm.selectAll"
+                                           ng-click="vm.toogleSelection()"/>
+                                </div>
+                            </th>
+                            <th class="headerRow" scope="col" colspan="1">
+                                <div>Type</div>
+                            </th>
+                            <th class="headerRow" scope="col" colspan="1">
+                                <div>Key</div>
+                            </th>
+                            <th class="headerRow" scope="col" colspan="1" >
+                                <div>Summary</div>
+                            </th>
+                            <th class="headerRow" scope="col" colspan="1">
+                                <div>Status</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr postrender="true"
+                            ng-repeat="issue in vm.lstIssuesResult track by $index"
+                            class="dataRow even first" onmouseover="if (window.hiOn){hiOn(this);} "
+                            onmouseout="if (window.hiOff){hiOff(this);}" onblur="if (window.hiOff){hiOff(this);}" onfocus="if (window.hiOn){hiOn(this);}">
+                            <td class="dataCell" colspan="1" width="20px" ng-show="{!AND(linkAllowed,NOT(ISNULL(entityId)),NOT(missingObjectProperties))}">
+                                <input ng-model="vm.selection[issue.key]" type="checkbox"
+                                       ng-disabled="vm.originalSelection[issue.key]"
+                                       ng-click="vm.checkOne(issue.key)"/>
+                            </td>
+                            <td class="dataCell" colspan="1" width="5%">
+                                <span ng-bind-html="issue.type.value"></span>
+                            </td>
+                            <td class="dataCell " colspan="1" width="25%">
+                                <a type='popTrigger' key='{{issue.key}}'
+                                   ng-href='{{issue.issueDetailsUrl}}'
+                                   ng-click='vm.navigateOrOpenSecondaryTabIfPossible(issue.issueDetailsUrl, issue.key,$event)'
+                                   target="_top">
+                                    {{issue.key}}
+                                </a>
+                            </td>
+                            <td class="dataCell" colspan="1" width="45%">
+                                <span ng-bind-html="issue.summary"></span>
+                            </td>
+                            <td class="dataCell" colspan="1" width="30%">
+                                <span ng-bind-html="issue.status.value"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="bottomNav" style="margin-top: 8px;">
+                    <div class="paginator">
+                        <span class="left"></span>
+                        <span class="prevNextLinks">
+                            <span class="prevNext">
+                                <a ng-click = "vm.nav.first($event)"
+                                   href="#" ng-class="{paginatorDisable: (vm.nav.currentPage ==1)}">
+                                 <span class="lightningPreFirst"></span>
+                                 <img src="/s.gif" class="first" alt="First Page"/>
+                                </a>
+                            </span>
+                            <span class="prevNext">
+                                <a ng-click = "vm.nav.previous($event)"
+                                   href="#" ng-class="{paginatorDisable: (vm.nav.currentPage ==1)}">
+                                    <img src="/s.gif" class="prev" alt="Previous"/>
+                                    Previous
+                                </a>
+                            </span>
+                            <span class="prevNext">
+                                <a ng-click = "vm.nav.next($event)"
+                                   href="#" ng-class="{paginatorDisable: (vm.nav.currentPage >= vm.nav.totalPages )}">
+                                    Next
+                                    <img src="/s.gif" title="Next" alt="Next" class="next"/>
+                                </a>
+                            </span>
+                            <span class="prevNext">
+                                <a ng-click = "vm.nav.last($event)"
+                                   href="#" ng-class="{paginatorDisable: (vm.nav.currentPage >= vm.nav.totalPages )}">
+                                    <img src="/s.gif" title="Last Page" alt="Last Page" class="last"/>
+                                    <span class="lightningPosLast"></span>
+                                </a>
+                            </span>
+                        </span>
+                        <span class="right">
+                            Page {{vm.nav.currentPage}} of {{vm.nav.totalPages}}
+                        </span>
+                    </div>
+                    <div class="clearingBox"></div>
+                 </div>
+            </span>
+            <div ng-show="vm.isShowing.alert" class="message infoM4 ng-hide" role="alert">
+                <img style="vertical-align: middle;" alt="INFO" class="msgIcon" src="/s.gif" title="INFO"/>
+                <span ng-bind-html="vm.alert"></span>
+            </div>
+            <div ng-show="vm.isShowing.error" class="message errorM4 ng-hide" role="alert">
+                <img style="vertical-align: middle;" alt="ERROR" class="msgIcon" src="/s.gif" title="ERROR"/>
+                <span ng-repeat="error in vm.errors"><span ng-bind-html="error" class="z-search-msg"></span><br/></span>
+            </div>
+            <br/><br/>
+            <div align="center">                            
+                <apex:outputPanel rendered="{!AND(linkAllowed,NOT(ISNULL(entityId)),NOT(missingObjectProperties))}">
+                    <input ng-value="vm.linkButton" ng-disabled="vm.linkBDisabled" type="button"
+                           ng-class="vm.linkBClass" class="btn z-link-issue-btn" ng-click="vm.linkIssues()" value="Link to {!objNameLabel}"/>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!NOT(ISNULL(entityId))}">
+                    <input class="btn" ng-click="vm.doCancelSearch()" type="button" value="Return"/>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!AND(ISNULL(entityId),NOT(ISNULL($CurrentPage.parameters.retURL)))}">
+                    <input class="btn" ng-click="vm.doReturn()" type="button" value="Return"/>
+                </apex:outputPanel>
+            </div>
+            <input type="hidden" value="{!$CurrentPage.parameters.searchText}" name="pSearchText"/>
+            <input type="hidden" value="{!$CurrentPage.parameters.suggest}" name="pSuggest"/>
+            <input type="hidden" value="{!$CurrentPage.parameters.retURL}" name="retURL"/>
+            <input type="hidden" value="{!$CurrentPage.parameters.fromRelatedList}" name="fromRelatedList"/>
+        </div>        
+    </apex:pageBlock>
+    <apex:form >
+        <apex:actionFunction action="{!cancelSearch}" name="funcCancelSearch"/>
+    </apex:form>
+    </div>
+
+    <div class="bs" align="left">
+        <div class="modal fade" id="help-dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="issue-dialog-title">JQL Help</h4>
+                    </div>
+                    <div class="modal-body">
+                        When you perform an advanced search, you are using the JIRA Query Language (JQL).
+                        <br/><br/>
+                        A simple query in JQL (also known as a 'clause') consists of a field, followed by
+                        an operator, followed by one or more values or functions. For example, the
+                        following simple query will find all issues in the "TEST" project:
+                        <br/><br/>
+                        <code>
+                            project = "TEST"
+                        </code>
+                        <br/><br/>
+                        <b>Join two or more clauses together using keywords to refine your search.</b>
+                        <br/><br/>
+                        <b>AND</b><br/>
+                        <ul>
+                            <li>
+                                Find all open issues in the "New office" project:<br/>
+                                <code>project = "New office" and status = "open"</code>
+                            </li>
+                            <li>
+                                Find all issues for a specific version across several projects:<br/>
+                                <code>project IN (JRA,CONF) and fixVersion = "3.14"</code>
+                            </li>
+                        </ul>
+                        <b>OR</b><br/>
+                        <ul>
+                            <li>
+                                Find all issues that were created by either jsmith or jbrown:<br/>
+                                <code>reporter = jsmith or reporter = jbrown</code>
+                            </li>
+                        </ul>
+                        <b>NOT</b><br/>
+                        <ul>
+                            <li>
+                                Find all issues that were not created by either jsmith or jbrown:<br/>
+                                <code>not (reporter = jsmith or reporter = jbrown)</code>
+                            </li>
+                        </ul>
+                        <b>EMPTY</b><br/>
+                        <ul>
+                            <li>
+                                Find all issues without a DueDate:<br/>
+                                <code>duedate = empty</code>
+                            </li>
+                        </ul>
+                        <b>ORDER BY</b><br/>
+                        <ul>
+                            <li>
+                                Find all issues without a DueDate, sorted by CreationDate:<br/>
+                                <code>duedate = empty order by created</code>
+                            </li>
+                            <li>
+                                Find all resolved issues, sorted descending by Resolved Date :<br/>
+                                <code>not resolved = empty order by resolved desc</code>
+                            </li>
+                        </ul>
+                        <br/>
+                        <div style="float: right;">
+                            Click <a href="https://confluence.atlassian.com/display/JIRA/Advanced+Searching" target="blank">here</a> for further information
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+    var srcApp =  angular.module("src");
+    
+    srcApp.constant("resourceRoot","{!URLFOR($Resource.SLDS103,'')}");    
+    srcApp.controller("SearchCtrl",SearchCtrl);    
+
+    srcApp.directive('postrender', function() {
+        return function(scope, element, attrs) {
+            // if (scope.$last) {
+            //     //this function is defined in ZIssuePrompter component
+            //     initializePromptEvents();
+            // }
+        };
+    });
+    srcApp.directive('enter', function () {
+        return function (scope, element, attrs) {
+            element.bind("keydown keypress", function (event) {
+                if(event.which === 13) {
+                    scope.$apply(function (){
+                        scope.$eval(attrs.enter);
+                    });
+                    event.preventDefault();
+                }
+            });
+        };
+    });
+    srcApp.directive('input', function($compile){        
+        return {
+            link:function(scope, iElement, iAttrs) {
+            	if (iElement.attr('type') === 'text') {
+            		iAttrs.$set('ngTrim', "false");
+        		}
+        	}
+        };
+	});
+    
+    SearchCtrl.$inject = ["dataService","$filter","$timeout","$window","$scope"];
+    
+    function SearchCtrl(dataService,$filter,$timeout,$window,$scope) {
+        var vm = this;
+
+        vm.nav = {};
+        vm.nav.currentPage = 0;
+        vm.nav.totalPages = 0;
+        vm.nav.loading = false;
+
+        vm.isShowing = {};
+        vm.isShowing.basicSearch = true;
+        vm.isShowing.alert = false;
+        vm.isShowing.error = false;
+
+        vm.selection = {};
+        vm.originalSelection = {};
+        
+        vm.param = {};
+        vm.selectAll = false;
+        vm.lstIssuesResult=[];
+        vm.linkButton = 'Link to {!JSENCODE(objNameLabel)}';
+        var psuggest = $jqz('input[name=pSuggest]').val();            
+        vm.param.suggest = (psuggest=='true');
+        
+        var pfromRelatedList = $jqz('input[name=fromRelatedList]').val();            
+        vm.param.fromRelatedList = (pfromRelatedList=='true');
+        
+        if(vm.param.suggest){
+            vm.param.searchText = '{!JSENCODE(suggestIssueText)}';
+        }else{
+            vm.param.searchText = $jqz('input[name=pSearchText]').val();
+        }
+        vm.param.retURL = $jqz('input[name=retURL]').val().trim();
+        vm.entityId = '{!JSENCODE(entityId)}';
+        
+        vm.decodeHTML = htmlDecode;
+        
+        vm.toogleSearch = function(basic,$event){
+            $event.preventDefault();
+
+            if(basic){
+                vm.isShowing.basicSearch=false;
+                vm.isShowing.advancedSearch=true;
+            }else{
+                vm.isShowing.basicSearch=true;
+                vm.isShowing.advancedSearch=false;
+            }
+        };
+        vm.navigateOrOpenSecondaryTabIfPossible=function(url,name,$event){
+            if(!goToEntity(url,name)){
+                $event.preventDefault();
+            }
+        };
+        vm.doCancelSearch=function(){
+            handleCancel();
+        };
+        vm.doReturn = function(){
+            $window.location.replace(vm.param.retURL);
+        };
+        vm.searchBasic=function(){
+            vm.selection = {};
+            vm.originalSelection = {};
+
+            vm.nav.currentPage = 1;
+            searchIssues(vm.txtSearch,false,false,false);
+        };
+        vm.searchAdvanced=function(){
+            vm.selection = {};
+            vm.originalSelection = {};
+
+            vm.nav.currentPage = 1;
+            searchIssues(vm.jqlSearch,false,true,false);
+        };
+        vm.showMessagesOrClose=function(finalMessage,lstErrorMessages){
+            if(finalMessage!=''){
+                vm.isShowing.alert = true;
+                vm.alert=finalMessage;
+            }
+            if(lstErrorMessages.length!=0){
+                vm.isShowing.error = true;
+                vm.errors=lstErrorMessages;
+            }
+        };
+        vm.linkIssues=function(){
+            vm.isShowing.error = false;
+            vm.isShowing.alert = false;
+
+            var lstSelectedIssues =[];
+
+            for(var key in vm.selection){
+                if(vm.selection[key] && !vm.originalSelection[key]){
+                    lstSelectedIssues.push(key);
+                }
+            }
+            window.console.log('lstSelectedIssues',lstSelectedIssues);
+
+            if(lstSelectedIssues.length==0){
+                vm.errors =["Select at least one issue to link."];
+                vm.isShowing.error = true;
+                return;
+            }
+            if(lstSelectedIssues.length>10){
+                vm.errors =["You can only link 10 issues at a time."];
+                vm.isShowing.error = true;
+                return;
+            }
+            vm.linkButton='Linking...';
+            vm.linkBDisabled = true;
+            vm.linkBClass = 'btnDisabled';
+            return dataService.linkIssues(lstSelectedIssues,vm.entityId).then(function(data){
+                var finalMessage = '';
+                if(data.linkedIssues!=null && data.linkedIssues.length>0){
+                    finalMessage = 'Issue(s) linked successfully: ' + data.linkedIssues;
+                }
+                var errorMessages = '';
+                var lstErrorMessages = [];
+                for(var i = 0;i<data.messages.length;i++){            
+                    if(data.messages[i].indexOf('E|')==0||data.messages[i].indexOf('W|')==0) {
+                        var errorM = data.messages[i].substring(2);
+                        errorMessages += errorM+',';
+                        lstErrorMessages.push(errorM);
+                    }
+                }
+                if(vm.param.fromRelatedList || (zConnectNavigationHelper.isSfdcClassic() && !isCase())){
+                    vm.showMessagesOrClose(finalMessage,lstErrorMessages);
+                }
+                handleOnIssuesLinkingEnded(vm.param.fromRelatedList, vm.entityId, errorMessages, finalMessage);
+            }).catch(function(data){
+                vm.errors =[data.message];
+                vm.isShowing.error = true;
+            }).finally(function(){
+                vm.isShowing.loader = false;
+                
+                vm.linkButton='Link to {!JSENCODE(objNameLabel)}';
+                vm.linkBDisabled = false;
+                vm.linkBClass = 'btn';
+            });                                    
+        };
+        vm.toogleSelection=function(){
+            vm.lstIssuesResult.forEach(function(issue,index){
+                if(!vm.originalSelection[issue.key]){
+                    vm.selection[issue.key]=vm.selectAll;
+                }
+            });
+        };
+        vm.checkOne= function(key){
+            if(!vm.selection[key]){
+                vm.selectAll=false;
+            }
+        };
+        vm.helpDialog = function($event){
+            $event.preventDefault();
+            $jqz('#help-dialog').modal('show');
+        };
+        activate();
+        function activate() {
+            if(!vm.param.suggest){
+                vm.txtSearch=vm.param.searchText
+            }
+            vm.nav.currentPage = 1;
+            vm.selection = {};
+            vm.originalSelection = {};
+            return searchIssues(vm.param.searchText,vm.param.suggest,false,false);
+        }
+        vm.nav.next =function($event){
+            $event.preventDefault();
+
+            vm.nav.currentPage += 1;
+            vm.selectAll=false;
+            searchIssues(vm.nav.txt ,vm.nav.suggest,vm.nav.useJql,true);
+        };
+
+        vm.nav.last =function($event){
+            $event.preventDefault();
+
+            vm.nav.currentPage=vm.nav.totalPages;
+            vm.selectAll=false;
+            searchIssues(vm.nav.txt ,vm.nav.suggest,vm.nav.useJql,true);
+        };
+
+        vm.nav.previous =function($event){
+            $event.preventDefault();
+
+            vm.nav.currentPage -= 1;
+            vm.selectAll=false;
+            searchIssues(vm.nav.txt ,vm.nav.suggest,vm.nav.useJql,true);
+        };
+
+        vm.nav.first =function($event){
+            $event.preventDefault();
+
+            vm.nav.currentPage=1;
+            vm.selectAll=false;
+            searchIssues(vm.nav.txt ,vm.nav.suggest,vm.nav.useJql,true);
+        };
+
+        function searchIssues(txt,suggest,useJql,navigationEvent) {
+            vm.nav.txt = txt;
+            vm.nav.suggest = suggest;
+            vm.nav.useJql = useJql;
+
+            vm.isShowing.alert = false;
+            vm.isShowing.error = false;
+
+            if(!txt){
+                return;
+            }
+            if(txt.trim()==''){
+                return;
+            }
+
+            if(!navigationEvent){
+                vm.isShowing.loader = true;
+                vm.isShowing.results = false;
+                vm.lstIssuesResult = [];
+            }else{
+                vm.nav.loading = true;
+            }
+            return dataService.searchIssues(vm.entityId,vm.nav.currentPage,txt,suggest,useJql).then(function(data){
+                window.console.log('searchIssues',data);
+                if(data.success && data.lstIssues.length==0){
+                    vm.alert ='No matching search results';
+                    vm.isShowing.alert = true;
+                    return;
+                }
+                if(!data.success){
+                    vm.errors =data.errors;
+                    vm.isShowing.error = true;
+                    return;
+                }
+                vm.nav.totalPages = data.total;
+                data.lstIssues.forEach(function(issue,index) {
+                    if(!(issue.key in vm.selection)){
+                        vm.selection[issue.key]=issue.linked;
+                    }
+                    vm.originalSelection[issue.key]=issue.linked;
+                });                
+                vm.lstIssuesResult = data.lstIssues;
+                vm.isShowing.results = true;                
+            }).catch(function(data){
+                vm.errors =[data.message];
+                vm.isShowing.error = true;
+            }).finally(function(){
+                if(!navigationEvent){
+                    vm.isShowing.loader = false;
+                }else{
+                    vm.nav.loading = false;
+                }
+            });
+        }
+    }               
+    srcApp.factory("dataService",dataService);
+    dataService.$inject = ["$q"];
+    function dataService($q) {
+        var service = {
+            linkIssues: function(lstIssues,entityId) {
+                 var deferred = $q.defer();                
+                Visualforce.remoting.Manager.invokeAction(
+                    "{!$RemoteAction.ZIssueSearchController.linkIssues}",lstIssues,entityId,
+                    function(result,event) {
+                        if(event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }                
+                    });
+                return deferred.promise;
+            },
+            searchIssues: function(entityId,currentPage,txt,suggest,useJql) {
+                var deferred = $q.defer();                
+                Visualforce.remoting.Manager.invokeAction(
+                    "{!$RemoteAction.ZIssueSearchController.searchIssues}",entityId,currentPage,txt,suggest,useJql,
+                    function(result,event) {
+                        if(event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }                
+                    });
+                return deferred.promise;            
+            }                    
+        };        
+        return service;                
+    }        
+    </script>
+    <script>
+    function htmlDecode(value){
+        ret = $jqz('<div/>').html(value).text();
+        return ret;
+    }
+    </script>
+</apex:page>

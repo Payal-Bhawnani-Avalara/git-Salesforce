@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>TemplateCompactLayout</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>TemplateCompactLayout</fullName>
+        <fields>Name</fields>
+        <fields>RevRecType__c</fields>
+        <fields>CalculationType__c</fields>
+        <fields>SettingsType__c</fields>
+        <fields>Settings__c</fields>
+        <label>Template Compact Layout</label>
+    </compactLayouts>
+    <customHelpPage>helptemplate</customHelpPage>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <description>Contains the details of Revenue Recognition templates (such as template type, calculation type and revenue source) used in revenue calculations.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>true</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>false</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>CalculationType__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Calculation Type</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>RevRecType__c</controllingField>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Not Applicable</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Months</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Months / Part Periods</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Days</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>4,4,5</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>% Complete</controllingFieldValue>
+                <controllingFieldValue>Deliverable</controllingFieldValue>
+                <valueName>Not Applicable</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Equal Split</controllingFieldValue>
+                <valueName>Months</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Equal Split</controllingFieldValue>
+                <valueName>Months / Part Periods</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Equal Split</controllingFieldValue>
+                <valueName>Days</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Equal Split</controllingFieldValue>
+                <valueName>4,4,5</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>CostBasis__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <inlineHelpText>This field is only used if the Setting related to this Template includes Cost as a selected Value Type.</inlineHelpText>
+        <label>Cost Basis</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Total Cost</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Total Cost Units * Cost Rate</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>ForecastScheduleDefinition__c</fullName>
+        <deleteConstraint>Restrict</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <inlineHelpText>This Schedule Definition will be used by the Generate Forecast process.</inlineHelpText>
+        <label>Forecast Schedule Definition</label>
+        <referenceTo>ForecastScheduleDefinition__c</referenceTo>
+        <relationshipLabel>Templates</relationshipLabel>
+        <relationshipName>Templates</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>RevRecType__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Template Type</label>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>% Complete</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Equal Split</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Deliverable</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>RevenueBasis__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <inlineHelpText>This field is only used if the Setting related to this Template includes Revenue as a selected Value Type.</inlineHelpText>
+        <label>Revenue Basis</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Total Revenue</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Total Units * Rate</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Total Revenue * VSOE %</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Total Units * Rate * VSOE %</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Total Units * VSOE Rate</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>RevenueSource__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Revenue Source</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>SettingsType__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <formula>IF(AND(INCLUDES(Settings__r.SettingsType__c, &quot;Actual&quot;), INCLUDES(Settings__r.SettingsType__c, &quot;Forecast&quot;)), &quot;Actual;Forecast&quot;, IF(INCLUDES(Settings__r.SettingsType__c, &quot;Actual&quot;), &quot;Actual&quot;, IF(INCLUDES(Settings__r.SettingsType__c, &quot;Forecast&quot;), &quot;Forecast&quot;, &quot;&quot;)))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Settings Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Settings__c</fullName>
+        <deleteConstraint>Restrict</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Settings</label>
+        <referenceTo>Settings__c</referenceTo>
+        <relationshipLabel>Templates</relationshipLabel>
+        <relationshipName>Templates</relationshipName>
+        <required>true</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>UseInRevenueContract__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Shows whether the Setting related to this Template is used in Revenue Contracts.</description>
+        <externalId>false</externalId>
+        <formula>Settings__r.UseInRevenueContract__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Shows whether the Setting related to this Template is used in Revenue Contracts.</inlineHelpText>
+        <label>Use in Revenue Contract</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ValueType__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <formula>IF(AND(INCLUDES(Settings__r.ValueType__c, &apos;Revenue&apos;), INCLUDES(Settings__r.ValueType__c, &apos;Cost&apos;)), &apos;Revenue;Cost&apos;, IF(INCLUDES(Settings__r.ValueType__c, &apos;Revenue&apos;), &apos;Revenue&apos;, IF(INCLUDES(Settings__r.ValueType__c, &apos;Cost&apos;), &apos;Cost&apos;, &apos;Revenue&apos;)))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Value Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Template</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>RevRecType__c</columns>
+        <columns>ValueType__c</columns>
+        <columns>RevenueSource__c</columns>
+        <columns>RevenueBasis__c</columns>
+        <columns>CostBasis__c</columns>
+        <columns>CalculationType__c</columns>
+        <columns>Settings__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+        <language>en_US</language>
+    </listViews>
+    <nameField>
+        <label>Template Name</label>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Templates</pluralLabel>
+    <searchLayouts>
+        <lookupDialogsAdditionalFields>SettingsType__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>ForecastScheduleDefinition__c</lookupDialogsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

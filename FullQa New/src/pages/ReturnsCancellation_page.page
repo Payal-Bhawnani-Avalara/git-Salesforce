@@ -1,0 +1,4 @@
+<apex:page showHeader="false" >
+<p>Avalara Returns Cancellation Process</p>
+<flow:interview name="ReturnsCancellation" buttonStyle="color:#050; background-color:#fed; border:1px solid;"/>
+</apex:page>

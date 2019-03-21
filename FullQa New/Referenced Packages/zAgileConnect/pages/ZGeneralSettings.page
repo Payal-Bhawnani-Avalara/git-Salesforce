@@ -1,0 +1,150 @@
+<apex:page action="{!if(!isSysAdmin,urlFor('/apex/zsfjira__ZInsufficientPriv'), null)}"
+           controller="zsfjira.ZGeneralSettingsController" setup="true">    
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-ui-1.10.3.custom.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__dynatree_1_2_4_js)}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__jQuery, '/css/redmond/jquery-ui-1.10.3.custom.min.css')}" />
+    <apex:slds />
+    <style>      
+        .divline{
+        height: 1px;
+        background: #CFD7E6;
+        margin-top:1%;                  
+        }
+        .messageText {
+        color: white !important;
+        }
+        .slds .slds-input {
+        width: auto;
+        }
+        div.pageMessageContainer>span{
+        width:100%;
+        }
+    </style>
+    <div class="slds slds-scope">
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <p class="slds-text-body--small">General Settings</p>
+                    <div class="slds-grid">
+                        <div class="slds-grid slds-no-space">
+                            <h1 class="slds-text-heading--medium slds-truncate" title="Settings">
+                                zAgileConnect Settings 
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <apex:form >
+            <div class="slds-grid">
+                <div class="slds-card slds-m-around--large slds-col">
+                    <div class="slds-card__header slds-grid grid--flex-spread">
+                        <h2 class="slds-text-heading--small slds-truncate">Comment Settings</h2>
+                    </div>
+                    <div class="divline"> </div>
+                    <div class="slds-card__body slds-p-horizontal--small">
+                        <p>
+                            In this section you can define whether a JIRA comment sent with #salesforce will be posted to Chatter Feed or Comment.
+                        </p>
+                        <br/>
+                        <div>
+                            <b>Case</b>
+                        </div>
+                        <div style="padding-left: 30px;">
+                            <apex:selectRadio value="{!selectedJiraCommentTarget}"
+                                              layout="pageDirection">
+                                <apex:selectOptions value="{!issueCommentTargets}"/>
+                            </apex:selectRadio>
+                        </div>
+                        <br/>
+                        <div>
+                            <b>Other Objects</b>
+                        </div>
+                        <div style="padding-left: 30px;">
+                            <fieldset style="border: none;"><table role="presentation">
+                                <tbody><tr><td>
+                                <input id="otherobjects" type="radio" value="feed" selected="selected" checked="true" disabled="disabled"></input>
+                                <label for="otherobjects"> Post to Object Feed</label></td>
+                                </tr>
+                                </tbody></table></fieldset>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+
+            <!-- Attachment Settings -->
+            <apex:outputPanel >
+                <div class="slds-grid">
+                    <div class="slds-card slds-m-around--large slds-col">
+                        <div class="slds-card__header slds-grid grid--flex-spread">
+                            <h2 class="slds-text-heading--small slds-truncate">Attachment Settings</h2>
+                        </div>
+                        <div class="divline"> </div>
+                        <div class="slds-card__body slds-p-horizontal--small">
+                            <p>
+                                In this section you can define whether a JIRA attachment will be posted as Salesforce file or Object attachment.
+                            </p>
+                            <br/>
+                            <div style="padding-left: 30px;">
+                                <apex:selectRadio value="{!asSalesforceFile}"
+                                                  layout="pageDirection">
+                                    <apex:selectOptions value="{!IssueAttachmentTargets}"/>
+                                </apex:selectRadio>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </apex:outputPanel>
+
+            <apex:outputPanel id="messagesSection" style="display:none;">
+                <apex:outputPanel rendered="{!error}" id="merr">
+                    <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-ERROR" role="alert">
+                            {!JSENCODE(message)}
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!success}" id="msuc">
+                    <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info" role="alert">
+                            {!JSENCODE(message)}
+                    </div>
+                </apex:outputPanel>
+                <apex:outputPanel rendered="{!warning}" id="mwar">
+                    <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_WARNING" role="alert">
+                            {!JSENCODE(message)}
+                    </div>
+                </apex:outputPanel>
+            </apex:outputPanel>
+            <div class="slds-text-align--center slds-m-vertical--medium">
+                <input id="saveButton" type="button" class="slds-button slds-button--brand" value="Save"/>
+                <input id="returnButton" type="button" class="slds-button slds-button--neutral" value="Return"/>
+            </div>            
+            <apex:actionFunction name="funcSave" action="{!save}" reRender="messagesSection"
+                                 oncomplete="saveCallBack({!IF(success,true,false)});"/>
+            <apex:actionFunction name="funcCancel" action="{!cancel}"/>
+        </apex:form>
+    </div>    
+    <script>
+    $jqz(function() {
+        
+        $jqz("#saveButton").click(function(e){
+            $jqz("#saveButton").attr('disabled','true');
+            $jqz("#saveButton").val('Saving..');
+            funcSave();
+        });
+        $jqz("#returnButton").click(function(e){
+            funcCancel();
+        });             
+    });
+    function saveCallBack(success){
+        $jqz("#saveButton").removeAttr('disabled');
+        $jqz("#saveButton").val('Save');
+        $jqz("span[id$=messagesSection]").show();  
+        if(success){
+            $jqz("span[id$=msuc]").show().delay(5000).fadeOut();    
+        }
+    }
+
+    </script>
+    
+</apex:page>

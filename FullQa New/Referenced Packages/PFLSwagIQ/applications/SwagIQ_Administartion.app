@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <defaultLandingTab>SwagIQ_Tools</defaultLandingTab>
+    <formFactors>Large</formFactors>
+    <label>SwagIQ Administartion</label>
+    <tab>SwagIQ_Tools</tab>
+    <tab>SwagIQ_Order__c</tab>
+    <tab>LeanData__LD_Log__c</tab>
+    <tab>LeanData__LD_Long_Log__c</tab>
+</CustomApplication>

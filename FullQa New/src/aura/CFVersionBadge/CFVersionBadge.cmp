@@ -1,0 +1,78 @@
+<aura:component >
+    <aura:attribute name="badge" type="Badge__c" />
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:attribute name="showNotes" type="boolean" default="false"/>
+    <a onclick="{! c.openModel }">
+        <div class="{!'slds-col slds-box slds-box_xx-small slds-size_1-of-8'+' slds-max-small-size_1-of-1 slds-m-around_xx-small'}" style="width:130px;">
+            <span>
+                <article class="slds-card slds-size_xxsmall">
+                    <div class="slds-grid slds-einstein-header slds-card__header slds-media slds-media_center slds-has-flexi-truncate" style="background-image:url(/resource/1526639575000/CertificationBadges/SVG/SALESTAX.svg);height:120px;background-color:#ffffff;">
+                        <div>&nbsp;</div>
+                    </div>
+                    <div class="slds-card__body slds-card__body_inner slds-wrap slds-align_absolute-center" style="font-size: .65rem;">{!v.badge.Type__c}</div>
+                    <div class="slds-card__body slds-card__body_inner slds-wrap slds-align_absolute-center" style="font-size: .65rem;">{!v.badge.Status__c}</div>    
+                    <footer class="slds-card__footer slds-align_absolute-center"  style="font-size: .65rem;">
+                        {!v.badge.Date_Achieved__c}&nbsp;
+                    </footer>
+                </article>              
+            </span>
+        </div>
+    </a>
+        <aura:if isTrue="{!v.isOpen}">
+            
+            <!--###### MODAL BOX Start######--> 
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- ###### MODAL BOX HEADER Start ######-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!v.badge.Type__c}</h2>
+                    </header>
+                    <!--###### MODAL BOX BODY Part Start######-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <thead>
+                        <tr class="slds-line-height_reset">
+                        <th class="slds-text-title_caps" scope="col">
+                        <div class="slds-truncate" title="Opportunity Name">Opportunity Name</div>
+                        </th>
+                        <th class="slds-text-title_caps" scope="col" style="{!v.showNotes?'display:;':'display:none;'}">
+                        <div class="slds-truncate" title="Account Name">Account Name</div>
+                        </th>
+                        
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="slds-hint-parent">
+                        <th data-label="Opportunity Name" scope="row">
+                        <div class="slds-wrap" title="Cloudhub"><a href="javascript:void(0);" tabindex="-1">Cloudhub dsfgsfgvsdf gsdfgv dsfgvdsfgv sdfgsdf gsdfg vsdg dsfg vsdf gvd dfg vd g dfg vdsf gvds fg vdsg dfg vdsfg vdsf g </a></div>
+                        </th>
+                        <td data-label="Account Name" class=""  style="{!v.showNotes?'display:;':'display:none;'}">
+                        <div class="slds-wrap" title="Cloudhub">Cloudhub rrewrwerwerwe wer wer w erw er wer wer we r wer we rw r w er wer we rw er wer w er wer we rw er wer we rw er </div>
+                        </td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </div>
+                    <!--###### MODAL BOX FOOTER Part Start ######-->
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral" 
+                                          label="Show Notes"
+                                          title="Show Notes"
+                                          onclick="{! c.showNotes }"/>
+                        <lightning:button variant="brand" 
+                                          label="Close"
+                                          title="Close"
+                                          onclick="{! c.closeModel }"/>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            <!--###### MODAL BOX Part END Here ######-->
+            
+        </aura:if>    
+</aura:component>

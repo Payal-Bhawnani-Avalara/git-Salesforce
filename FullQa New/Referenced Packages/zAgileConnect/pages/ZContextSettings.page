@@ -1,0 +1,932 @@
+<apex:page action="{!if(!isSysAdmin,urlFor('/apex/ZInsufficientPriv'), null)}"
+           controller="zsfjira.ZSettingsController" setup="true" >
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'scripts/vendor.js')}" /> 
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'scripts/app.js')}" />                 
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'styles/vendor.css')}"/> 
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'styles/app.css')}"/>
+    <apex:slds />
+    <style type="text/css">        
+        @-moz-document url-prefix() {
+            select, select:-moz-focusring, select::-moz-focus-inner {
+                color: transparent !important;
+                text-shadow: 0 0 0 #000 !important;
+                background-image: none !important;
+                border:0;
+            }
+        }        
+        .divline{        
+            height: 1px;
+            background: #CFD7E6;
+            margin-top:1%;
+        }        
+        .aRow {
+            margin: 1% 1% 1% 1%;
+        }        
+        /* solves select2 bug */
+        .select2-choices {
+            position: relative;
+        }
+        .ui-select-multiple input.ui-select-search {
+            width: 100% !important;
+            position: absolute;
+        }
+        .slds-select{
+            min-width: 100px;
+        }
+        .hicon{
+            margin-right: 5px;
+        }
+    </style>
+    <script>
+	Visualforce.remoting.timeout = 120000;
+
+    if (!window.console) window.console = {};
+    if (!window.console.log) window.console.log = function () { };
+    </script>
+    <div class ="slds slds-scope" ng-app="src">
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <p class="slds-text-body--small">Select JIRA Projects and Issue Types</p>
+                    <div class="slds-grid">
+                        <div class="slds-grid slds-no-space">
+                            <h1 class="slds-text-heading--medium slds-truncate" title="Settings">zAgileConnect Settings</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>                        
+        <div ng-controller="SettingsCtrl as vm">            
+            <div class="ng-hide" ng-show="vm.isShowing.alert">
+                <div id="slds-loader" class="slds-spinner_container slds-is-fixed zc-hide" >
+                    <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand" >
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </div>            
+            <div class="slds-grid ng-hide"  ng-show="vm.isShowing.warning">
+                <div class="slds-col slds-box slds-box--small slds-notify slds-notify_alert slds-theme_alert-texture slds-theme--warning">
+                    <p ng-bind-html="vm.warningMessage"></p>
+                </div> 
+            </div>                        
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col--padded-large slds-size--1-of-2 slds-size--5-of-6 slds-size--11-of-12">
+                    <div class="slds-card slds-m-around--large ng-hide" ng-show="vm.isShowing.prjAndTps">
+                        <div class="slds-card__header slds-grid grid--flex-spread">
+                            <h2 class="slds-text-heading--small slds-truncate">Projects and Issue Types</h2>
+                        </div>
+                        <div class="divline"> </div>
+                        <div class="slds-card__body slds-p-horizontal--small">
+                            
+                            <div class="slds-m-around--small">
+                                <p>Please select one or more projects and issue types that will be used within Salesforce to create issues</p>
+                            </div>
+                            
+                            <div class="slds-m-around--medium">
+                                <multiselect-tree label="JIRA Projects" data="vm.projectList" selected-nodes="vm.defaultProjectOptions" set-selection="vm.selectedProjects" to-select-header="Available Projects" selected-header="Selected Projects" order-by="name">
+                                </multiselect-tree>  
+                            </div>
+                            
+                            <div class="slds-m-around--medium">
+                                <multiselect-tree label="JIRA Issue Types" data="vm.issueList" selected-nodes="vm.defaultIssueOptions" set-selection="vm.selectedIssues" to-select-header="Available Issue Types" selected-header="Selected Issue Types" order-by="name">
+                                </multiselect-tree> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-card slds-m-around--large ng-hide" ng-show="vm.isShowing.defaults">
+                        <div class="slds-card__header slds-grid grid--flex-spread">
+                            <h2 class="slds-text-heading--small slds-truncate">Defaults</h2>
+                        </div>
+                        <div class="divline"> </div>
+                        <div class="slds-card__body slds-p-horizontal--small">                            
+                            <div class="slds-m-around--small">
+                                <p>Please select the default JIRA Project and Issue Type to be used when creating Issues from Salesforce.</p>
+                            </div>                            
+                            <div class="slds-form--stacked">
+                                <div class="slds-form-element slds-m-around--medium">                                                                        
+                                    <div class="slds-form-element__label slds-text-heading--label">
+                                        <label class="slds-align-middle">Default Project</label>
+                                    </div>                                                                        
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container slds-size--3-of-5">
+                                            <select id="select-03" 
+                                                    class="slds-select"
+                                                    ng-options="project.key as project.name for project in vm.defaultProjectOptions | flatCategory"
+                                                    ng-model="vm.defaultProject"
+                                                    ng-change="vm.defaultProjectChanged()">											          											         
+                                            </select>										         
+                                        </div>
+                                    </div>
+                                </div>                                                                
+                                <div class="slds-form-element slds-m-around--medium">                                                                        
+                                    <div class="slds-form-element__label slds-text-heading--label">
+                                        <label class="slds-align-middle">Default Issue Type</label>
+                                    </div>                                    
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container slds-size--3-of-5">
+                                            <select id="select-04" 
+                                                    class="slds-select"
+                                                    ng-options="issue.id as issue.name for issue in vm.defaultIssuesPerProject"
+                                                    ng-model="vm.defaultIssue">
+                                                
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>                                
+                                <div class="slds-form-element slds-m-around--medium">                                    
+                                    <div class="slds-form-element__label slds-text-heading--label">
+                                        <label class="slds-align-middle">Default Priority</label>
+                                    </div>                                    
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-select_container slds-size--3-of-5">
+                                            <select id="select-05" 
+                                                    class="slds-select"
+                                                    ng-options="priority.id as priority.name for priority in vm.defaultPriorityOptions"
+                                                    ng-model="vm.defaultPriority">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-card slds-m-around--large ng-hide" ng-show="vm.isShowing.options">
+                        <div class="slds-card__header slds-grid grid--flex-spread">
+                            <h2 class="slds-text-heading--small slds-truncate">Options</h2>
+                        </div>
+                        <div class="divline"> </div>
+                        <div class="slds-card__body slds-p-horizontal--small">
+                            <div class="slds-form--stacked">                                
+                                <div class="slds-m-around--medium">
+                                    <div class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                            <label class="slds-checkbox">
+                                                <input type="checkbox" name="options" id="checkbox-01" ng-model="vm.autoCreate"/>
+                                                <span class="slds-checkbox--faux"></span>
+                                                
+                                                <z-help-label label="Auto-create JIRA Issue when Case is created" help-text="The Project and Issue Type defaults above will be used when automatically creating the issue."/>
+                                                <div style="display:inline;color:red;">for Case objects only</div>
+                                            </label>
+                                        </div>
+                                    </div>                                                                        
+                                    <div class="slds-grid slds-grid-pull-padded-large" ng-show="vm.autoCreate">
+                                        <div class="slds-form-element slds-col--padded-large" >
+                                            <div class="slds-form-element__control" ng-init="vm.autoCreateRadio='always'" style="margin-top: 15px;margin-bottom: 15px;">
+                                                <label class="slds-radio">
+                                                    <input type="radio" name="applyRules" value="always" ng-model="vm.autoCreateRadio"/>
+                                                    <span class="slds-radio--faux"></span>
+                                                    <span class="slds-form-element__label">Always</span>
+                                                </label>
+                                                <label class="slds-radio">
+                                                    <input type="radio" name="applyRules" value="criteria" ng-model="vm.autoCreateRadio"/>
+                                                    <span class="slds-radio--faux"></span>
+                                                    <span class="slds-form-element__label">Only Cases meeting certain criteria</span>
+                                                </label>
+                                            </div>
+                                            <div id="rulesPosta" class="slds-m-around--medium" ng-show="vm.autoCreateRadio== 'criteria'">                                                            
+                                                <table border="0" cellspacing="0" cellpadding="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="slds-text-align--center">Field</th>
+                                                            <th class="slds-text-align--center">Operator</th>
+                                                            <th class="slds-text-align--center">Value</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-show="vm.hasRecordType">
+                                                            <td>
+                                                                <div class="slds-form-element__label slds-m-around--small slds-text-body--regular">
+                                                                    Record Type	
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="slds-form-element__control slds-m-around--x-small">
+                                                                    <div class="slds-select_container">
+                                                                        <select class="slds-select" ng-options="option.op as option.label for option in vm.recordTypeOperatorOptions"
+                                                                                ng-model="vm.recordTypeOperator">		                                    					
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="slds-form-element__control slds-m-around--x-small">
+                                                                    <ui-select multiple="true" ng-model="vm.selectedRecordTypes" theme="select2" ng-disabled="vm.recordTypeOperator==''" style="width:100%;">
+                                                                        <ui-select-match placeholder="Pick one ...">
+                                                                            {{$item.name}}
+                                                                        </ui-select-match>
+                                                                        <ui-select-choices
+                                                                                           repeat="item in (vm.recordTypeOptions | filter: $select.search) track by item.id">
+                                                                            <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                                                        </ui-select-choices>
+                                                                    </ui-select>	
+                                                                </div>                                                      
+                                                            </td>                                                            
+                                                            <td>
+                                                                <div class="slds-form-element__label slds-m-around--medium">AND</div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr ng-repeat="field in vm.autoCreateFieldsSelected track by $index">
+                                                            <td>
+                                                                <div class="slds-form-element__control slds-m-around--x-small">
+                                                                    <div class="slds-select_container">
+                                                                        <select id="col{{$index}}"
+                                                                                class="slds-select"
+                                                                                ng-options="option.label for option in vm.fieldOptions | orderBy:'label'"
+                                                                                ng-model="field.fieldObj"
+                                                                                ng-change="vm.updateOperator(field)">
+                                                                        </select>
+                                                                    </div>
+                                                                </div>                                                                                                                                
+                                                            </td>
+                                                            <td>
+                                                                <div class="slds-form-element__control slds-m-around--x-small">
+                                                                    <div class="slds-select_container">
+                                                                        <select id="op{{$index}}" class="slds-select"
+                                                                                ng-options="operator.op as operator.label for operator in field.operatorOptions" ng-model="field.op">
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="slds-form-element__control slds-m-around--x-small">
+                                                                    <input type="text" class="slds-input" ng-model="field.value"/>
+                                                                </div>                                                                
+                                                            </td>
+                                                            <td ng-hide="$last">
+                                                                <div class="slds-form-element__label slds-m-around--medium">AND</div>
+                                                            </td>
+                                                        </tr>                                                                                                                
+                                                    </tbody>
+                                                </table>
+                                                <br/>
+                                                <span class="filterHint">Filter By Additional Fields (Optional):</span>
+                                                <ul class="slds-list--dotted">                                    
+                                                    <li>For Record Type field you can select multiple values which means "or"</li>
+                                                    <li>You can use "or" filters by entering multiple items in the ‘Value’ column, separated by commas.</li>
+                                                </ul>
+                                            </div>                                            
+                                        </div>
+                                    </div>                                    
+                                    <div class="slds-form-element">
+                                        <div class="slds-form-element__control">
+                                            <label class="slds-checkbox">
+                                                <input type="checkbox" name="options" id="checkbox-02" ng-model="vm.disableTriggers" ng-change="vm.changeDisableTriggers()" />
+                                                <span class="slds-checkbox--faux"></span>
+                                                <z-help-label label=" Disable All Triggers" help-text="This option is only to be used when disabling automatic updates of Case information to JIRA. If this is checked, the updates will need to be done manually via Sync option."/>                                                
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form-element slds-m-around-medium">
+                                    <z-help-label label="Email
+                                                         notifications" help-text="zAgileConnect will use this email address to send error notifications related to issue creation and updates that may occur in the background. You can specify multiple emails by separating them with a comma (,)."/>
+                                    <div class="slds-form-element__control">
+                                        <input id="text-input-01" class="slds-input" type="text" placeholder=" Enter one or more email addresses, each separated by comma, to receive notifications from zAgileConnect." ng-model="vm.emailNotifications"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                    <div class="slds-grid ng-hide" ng-show="vm.isShowing.success">
+                        <div class="slds-col slds-box slds-box--small slds-notify slds-notify_alert slds-theme_alert-texture slds-theme--info">
+                            <p ng-bind-html="vm.successMessage" > </p>
+                        </div>
+                    </div>
+                    <div ng-show="vm.isShowing.success"><br/></div>
+                    <div class="slds-grid ng-hide" ng-show="vm.isShowing.error">
+                        <div class="slds-col slds-box slds-box--small slds-notify slds-notify_alert slds-theme_alert-texture slds-theme--error">
+                            <p ng-bind-html="vm.errorMessage"></p>
+                        </div>
+                    </div>
+                    <br/>
+                    <div ng-show="vm.btnSectionVisible" class="slds-grid slds-grid--align-center ng-hide">
+                        <div class="slds-form-element">                            
+                            <button class="slds-button slds-button--brand" ng-click="vm.saveClicked()" ng-disabled="vm.btnSaveDisabled">{{vm.btnSaveText}}</button>
+                            <button class="slds-button slds-button--neutral" ng-click="vm.returnClicked()">Return</button>
+                        </div>
+                    </div>
+                </div> 
+                <div class="slds-col--padded-large slds-size--1-of-2 slds-size--1-of-6 slds-size--4-of-12"
+                     style="height: 50px;"></div>
+            </div>             
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+    var srcApp =  angular.module("src");
+    
+    srcApp.constant("resourceRoot","{!URLFOR($Resource.SLDS103,'')}");
+        
+    srcApp.controller("SettingsCtrl",SettingsController);
+    
+    SettingsController.$inject = ["dataService","$filter","$timeout","$window","$scope"];
+
+    function SettingsController(dataService,$filter,$timeout,$window,$scope) {
+        var vm = this;
+        vm.projectList =  [];
+        vm.projectsNoCategory = [];
+                
+        vm.issueList =  [];
+        
+        vm.defaultProject = null;
+        vm.defaultProjectOptions = [];
+        vm.defaultIssue = null;
+        vm.defaultIssueOptions = [];
+        vm.defaultIssuesPerProject = [];
+        vm.defaultPriority = 0;
+        vm.defaultPriorityOptions = [];
+        
+        vm.autoCreate = false;
+        vm.disableTriggers = false;
+        
+        vm.emailNotifications = "";
+                
+        vm.hasRecordType = false;
+        
+        vm.selectedProjects= [];
+        vm.selectedIssues = [];
+        
+        vm.defaultProjectChanged = defaultProjectChanged;
+        vm.changeDisableTriggers = changeDisableTriggers;
+                
+        vm.autoCreateDisabledFields = ["IsDeleted","IsClosed"];
+        
+        vm.autoCreateAdmisibleTypes = ["STRING","PICKLIST","EMAIL","TEXTAREA","URL","PHONE","BOOLEAN"];
+        vm.autoCreateCaseMeta = {};
+        
+        vm.recordTypeOperatorOptions = [
+            {op: "",label:"--None--"},
+            {op: "e",label:"equals"},
+            {op: "n",label:"not equal to"}
+        ];
+        
+        vm.recordTypeOperator = "";
+        
+        vm.selectedRecordTypes = [];
+        vm.recordTypeOptions = [];
+        
+        vm.fieldOptions = [{name:"",label:"--None--",type:""}];
+        vm.autoCreateFieldsSelected = [
+            {fieldObj:vm.fieldOptions[0], operatorOptions:[{op:"",label: "--None--"}],op:"", value:""},
+            {fieldObj:vm.fieldOptions[0], operatorOptions:[{op:"",label: "--None--"}],op:"", value:""},
+            {fieldObj:vm.fieldOptions[0], operatorOptions:[{op:"",label: "--None--"}] ,op:"", value:""},
+            {fieldObj:vm.fieldOptions[0], operatorOptions:[{op:"",label: "--None--"}],op:"", value:""}            
+        ];
+        vm.updateOperator = updateOperator;
+        
+        vm.btnSaveText = "Save";
+        vm.btnSaveDisabled = true;
+        vm.btnSectionVisible = true;
+        
+        vm.saveClicked = saveClicked;
+        vm.returnClicked = returnClicked;
+        
+        vm.isShowing = {
+            success: false,
+            warning: false,
+            error: false,
+            alert: true,
+            prjAndTps:false,
+            defaults:false,
+            options:false
+        };
+        vm.successMessage = "";
+        vm.warningMessage = "";
+        vm.errorMessage = "";
+        
+        $scope.$watchCollection("vm.defaultIssueOptions",function(newOptions) {            
+            vm.defaultProjectChanged();            
+        });
+        $scope.$watchCollection("vm.defaultIssuesPerProject",function(newIssues) {            
+            if(vm.defaultIssue==null && newIssues.length>0 ){
+                vm.defaultIssue = newIssues[0].id;
+            }
+        });
+        $scope.$watchCollection("vm.defaultProjectOptions",function(newProjects) { 
+            if(vm.defaultProject==null && newProjects.length>0){
+                vm.defaultProject = newProjects[0].key;
+                vm.defaultProjectChanged();
+            }
+        });        
+        activate();
+        /////////////////////////////
+        function activate() {
+            return createMeta().then(getCategories).then(getPriorities).then(getDefaults).then(function() {
+                vm.isShowing.alert = false;
+                vm.isShowing.prjAndTps = true;
+                vm.isShowing.defaults = true;
+                vm.isShowing.options = true;
+                
+                vm.btnSaveDisabled = false;
+            });
+        }        
+        function getCategories() {
+            return dataService.getProjectsWithCategory()
+            .then(function(data) {
+                console.log("Categories",data);                
+                if(data.status=="success") {                    
+                    var createMetaProjectKeys = vm.projectsNoCategory.map(function(project) { 
+                        return project.key;
+                    });                                                            
+                    var createMetaIntersection = data.body.filter(function(project) {
+                        return createMetaProjectKeys.indexOf(project.key) != -1;                        
+                    });                    
+                    var projectsWithCategory = createMetaIntersection.filter(function(project) {
+                        return project.projectCategory;
+                    });                    
+                    var noCategoryProjects = createMetaIntersection.filter(function(project) {
+                        return !project.projectCategory;
+                    });                    
+                    var categoryMap = {};  
+                    projectsWithCategory.forEach(function(project) {
+                        var categoryId = project.projectCategory.id;                        
+                        if(categoryMap.hasOwnProperty(categoryId)) {                            
+                            categoryMap[categoryId].children.push(project);
+                        } else {
+                            categoryMap[categoryId] = {};
+                            categoryMap[categoryId].children = [project];
+                            //Copying properties from projectCategory object
+                            var categoryKeys = Object.keys(project.projectCategory);                            
+                            categoryKeys.forEach(function(key) {
+                                var propertyVal = project.projectCategory[key];
+                                if(key=='id'){
+                                    propertyVal = 'CAT-'+propertyVal;
+                                }
+                                if(key!='description'){
+                                    categoryMap[categoryId][key] = propertyVal;
+                                }
+                            });
+                        }                        
+                    });     
+                    var categoryList = [];
+                    for(var prop in categoryMap) {
+                        categoryList.push(categoryMap[prop]);
+                    }                    
+                    vm.projectList = categoryList.concat(noCategoryProjects);
+                    window.console.log('vm.projectList',vm.projectList);
+                } else {
+                    vm.projectList = vm.projectsNoCategory;
+                }
+                for(var project in vm.projectList){
+                    var x = document.createElement('div');
+                    x.innerHTML = vm.projectList[project].name;
+                    vm.projectList[project].name = x.innerHTML;
+                }
+            });
+        }
+        function getPriorities() {
+            return dataService.getPriorities()
+            .then(function(data) {
+                vm.defaultPriorityOptions = data;
+            });
+        }        
+        function getDefaults() {
+            return dataService.getDefaultJiraValues().then(function(data) {
+                vm.emailNotifications = data.emailNotifications;
+                vm.autoCreate = data.autoCreateTasks;
+                vm.disableTriggers = data.disableAllTriggers;
+                if(data.priorityId){
+                    vm.defaultPriority = data.priorityId;
+                }else{
+                    if(vm.defaultPriority==0 && vm.defaultPriorityOptions.length>0){
+                        vm.defaultPriority = vm.defaultPriorityOptions[0].id;
+                    }
+                }
+                vm.autoCreate = data.autoCreateTasks;
+                
+                var projectKeys = data.jiraProjects;
+                vm.selectedProjects = vm.projectsNoCategory.filter(function(project) {
+                    return projectKeys.indexOf(project.key) != -1;
+                    
+                });                
+                var issueIds = data.jiraIssueTypes;                
+                vm.selectedIssues = vm.issueList.filter(function(issue) {
+                    return issueIds.indexOf(issue.id) != -1;
+                });                
+                vm.defaultProject = data.projectKey;                                
+                vm.defaultIssue = data.issueTypeId;                                                
+                if(data.autoCreateRules!="") {
+                    vm.autoCreateRadio = "criteria";
+                    var rules = JSON.parse(htmlDecode(data.autoCreateRules));
+                    
+                    var fieldNames = vm.fieldOptions.map(function(fieldObj) {
+                        return fieldObj.name;
+                    });                    
+                    var notPresent = rules.filter(function(aRule) {
+                        return fieldNames.indexOf(aRule.lfield) == -1 && aRule.lfield!="RecordTypeId";
+                    });                    
+                    var presentRules = rules.filter(function(aRule) {
+                        return fieldNames.indexOf(aRule.lfield) != -1 
+                        || aRule.lfield == "RecordTypeId";
+                    });                    
+                    if(notPresent.length>0) {						 					                        
+                        var removeFieldsMessage = "There are some failed conditions:<br/> ";
+                        var fieldMessages = notPresent.map(function(aRule) {
+                            return "<br/>  -"+ aRule.lfield+" "+ getOperatorString(aRule.loperator)
+                            + " " + aRule.lvalue;
+                        });                        
+                        var fieldsString = fieldMessages.join("");
+                        
+                        var actionMessage = "<br/><br/> Click on Save button to delete them.";
+
+                        vm.errorMessage = removeFieldsMessage+fieldsString+actionMessage;
+                        showMessage("error");                                                
+                    } else {                        
+                        if(notPresent.length==rules.length) {
+                            vm.autoCreateRadio = "always";
+                        } else {                            
+                            var index = 0;
+                            presentRules.forEach(function(aRule) {
+                                if(vm.hasRecordType && aRule.lfield=="RecordTypeId") {                                    
+                                    vm.recordTypeOperator = aRule.loperator;
+                                    var rtString = aRule.lvalue;
+                                    var recordTypesIds = rtString.split(",");
+                                    
+                                    vm.selectedRecordTypes = recordTypesIds.map(function(rtId) {
+                                        return {id: rtId};
+                                    });                                    
+                                } else {                                    
+                                    var toSelectField = vm.fieldOptions.filter(function(fieldObj) {
+                                        return fieldObj.name==aRule.lfield;
+                                    });
+                                    
+                                    //Its guaranteed that index 0 exist
+                                    vm.autoCreateFieldsSelected[index].fieldObj = toSelectField[0];
+                                    vm.updateOperator(vm.autoCreateFieldsSelected[index]);
+                                    vm.autoCreateFieldsSelected[index].op = aRule.loperator;
+                                    vm.autoCreateFieldsSelected[index].value = aRule.lvalue;
+                                    
+                                    index++;                                    
+                                }
+                            });
+                        }                                                
+                    }                    
+                } else {
+                    vm.autoCreateRadio = "always";
+                }                                                
+            });
+        }        
+        function createMeta() {
+            return dataService.getMetaData().then(createMetaComplete).catch(createMetaFailed);
+            
+            function createMetaComplete(data) {
+                console.log(data);                
+                //Manage Record Type
+                if(data.status=="success") {
+                    var caseFields = data.caseFields;
+                    var fieldList = caseFields.fields;
+                    
+                    var nProjects = data.body.projects.length;
+                    
+                    vm.hasRecordType = caseFields.hasRecordType;                    
+                    if(nProjects>0) {
+                        fillAutoCreateValues(caseFields);
+                        vm.projectsNoCategory = data.body.projects;
+                        var allIssues = vm.projectsNoCategory.reduce(function(prev,curr) {
+                            return prev.concat(curr.issuetypes);
+                        },[]);                        
+                        var nonSubtask = allIssues.filter(function(issue) {
+                            return !issue.subtask
+                        });                                                
+                        var seenIssue = {};
+                        var uniqueIssues = nonSubtask.filter(function(issue) {
+                            delete issue.description;
+                            return seenIssue.hasOwnProperty(issue.id) ? false: (seenIssue[issue.id] = true);
+                        });
+                        
+                        vm.issueList = uniqueIssues;
+                    } else {
+                        //Show message
+                        //Disable button
+                        
+                        vm.warningMessage = "JIRA Integration user does not have permission to create issues in any project or you do not have any project defined in JIRA";
+                        
+                        vm.isShowing.warning = true;                        
+                        vm.btnSaveDisabled = true;                        
+                    }                                        
+                } else {
+                    //show message
+                    //disable save button
+                    vm.warningMessage = data.status;
+                    vm.isShowing.warning = true;
+                    vm.isShowing.alert = false;
+                    vm.btnSaveDisabled = true;
+                }
+            }            
+            function createMetaFailed(error) {
+                
+            }
+        }        
+        function saveDefaults(defaultValues) {
+            return dataService.saveDefaultJiraValues(defaultValues).then(saveDefaultsComplete).catch(saveDefaultsFailed);
+            
+            function saveDefaultsComplete(result) {                
+                vm.btnSaveText = "Save";
+                if( result != null && result == true ) {
+                    //Show Correct Message
+                    vm.successMessage = "Saved successfully";
+                    showMessage("success");
+                    
+                } else {
+                    //Show Error Message
+                    vm.errorMessage = "Couldn\'t save JIRA Default Settings.";
+                    showMessage("error");
+                }
+            }            
+            function saveDefaultsFailed(error) {
+                //Show Error Message
+            }            
+        }
+        function changeDisableTriggers(){            
+            if (vm.disableTriggers){            
+                if(!confirm('Warning!' +'\n\n' +'Disable All Triggers will impact zAgileConnect functionality, the Case updates will need to be sent to JIRA manually via “Refresh Salesforce properties in JIRA” option and Comments and Chatter Posts will not be sent to JIRA. Are you sure?')) {
+                    vm.disableTriggers = false;
+                }                   
+            }            
+        }
+        function defaultProjectChanged() {
+            console.log("default",vm.defaultIssueOptions);
+            if(vm.defaultProject != null) {                
+                var atIndex = vm.projectsNoCategory.map(function(project) { return project.key;}).indexOf(vm.defaultProject);
+                
+                var projectObj = vm.projectsNoCategory[atIndex];
+                var issueTypeIds = projectObj.issuetypes.map(function(issue) { return issue.id;});
+                vm.defaultIssuesPerProject = vm.defaultIssueOptions.filter(function(issue){ return issueTypeIds.indexOf(issue.id) != -1; });
+            } else {
+                vm.defaultIssuesPerProject = [];
+            }            
+        }
+        function showMessage(messageType) {
+            vm.isShowing[messageType]  = true;
+            $timeout(function () { vm.isShowing[messageType]  = false; }, 5000);            
+        }
+        function fillAutoCreateValues(caseFields) {
+            var fieldList = caseFields.fields;
+            var admisibleFields = fieldList.filter(function(field){
+                return vm.autoCreateDisabledFields.indexOf(field.name)==-1 &&
+                    vm.autoCreateAdmisibleTypes.indexOf(field.type) != -1;
+            });
+            vm.recordTypeOptions = caseFields.recordTypes;
+            vm.fieldOptions = vm.fieldOptions.concat(admisibleFields);
+            vm.fieldOptions.forEach(function (element, index) {
+                if(element.label){
+                    vm.fieldOptions[index].label =htmlDecode(element.label);
+                }
+            });
+        }        
+        function updateOperator(fieldEntry) {						 	            
+            function standardFieldOperators () {
+                var operators = [
+                    {op:"",label: "--None--"},
+                    {op:"e", label:'equals'},
+                    {op:"n", label:'not equal to'},
+                    {op:"l", label:'less than'},
+                    {op:"g", label:'greater than'},
+                    {op:"m", label:'less or equal'},
+                    {op:"h", label:'greater or equal'},
+                    {op:"c", label:'contains'},
+                    {op:"k", label:'does not contain'},
+                    {op:"s", label:'starts'}
+                ];
+                return operators;
+            }            
+            function binaryFieldOperators () {
+                var operators = [
+                    {op:"",label: "--None--"},
+                    {op:"e",label:'equals'},
+                    {op:"n",label:'not equal to'}
+                ];                
+                return operators;
+            }
+            function emptyOperators () {
+                var operators = [
+                    {op:"",label: "--None--"}
+                ];                
+                return operators;
+            }
+            var fieldTypes = {
+                "EMPTY":emptyOperators,
+                "PICKLIST": standardFieldOperators,
+                "EMAIL": standardFieldOperators, 
+                "TEXTAREA": standardFieldOperators,
+                "URL": standardFieldOperators,                
+                "PHONE": standardFieldOperators,
+                "STRING": standardFieldOperators,
+                "BOOLEAN": binaryFieldOperators
+            };                        
+            var fieldObj = fieldEntry.fieldObj;            
+            fieldEntry.operatorOptions = fieldTypes[fieldObj.type!=''?fieldObj.type:'EMPTY']();
+            
+            var containsSelectedElement = false;
+            fieldEntry.operatorOptions.forEach(function (element, index) {
+                if(element.op == fieldEntry.op){
+                    containsSelectedElement = true;
+                }
+            });
+            if(!containsSelectedElement){
+                fieldEntry.op='';
+            }            
+        }        
+        function getOperatorString(operator){
+            if(operator=='e')return 'equals to';
+            if(operator=='n')return 'not equal to';
+            if(operator=='l')return 'less than';
+            if(operator=='g')return 'greater than';
+            if(operator=='m')return 'less or equal';
+            if(operator=='h')return 'greater or equal';
+            if(operator=='c')return 'contains';
+            if(operator=='k')return 'does not contain';
+            if(operator=='s')return 'starts with';
+            return '';
+        }        
+        function saveClicked() {                        
+            if(areDefaultValuesSelected()) {                
+                var rulesConditions = getRulesConditions();
+                var selectedProjectsString = getProjectsString();
+                var selectedIssueTypesString = getIssuesString();                                                
+                var defaultValues = {
+                    projectKey: vm.defaultProject,
+                    issueTypeId: vm.defaultIssue,
+                    priorityId: vm.defaultPriority,
+                    disableAllTriggers: vm.disableTriggers,
+                    autoCreateTasks: vm.autoCreate,
+                    emailNotifications: vm.emailNotifications,
+                    selectedProjects:selectedProjectsString,
+                    selectedIssueTypes:selectedIssueTypesString,
+                    rulesConditions: JSON.stringify(rulesConditions)
+                    
+                };                                
+                vm.btnSaveText = "Saving...";
+                console.log(defaultValues);                
+                saveDefaults(defaultValues);                
+            } else {
+                // Show Error
+                if(vm.defaultProject == null) {
+                    vm.errorMessage = "Default JIRA Project is required";
+                } else {
+                    vm.errorMessage = "Default JIRA Issue Type is required";
+                }                
+                showMessage("error");
+            }                                    
+            function getProjectsString() {                
+                var noCategoryList = $filter("flatCategory")(vm.defaultProjectOptions);                
+                var selectedProjectKeys = noCategoryList.map(function(project) {
+                    return project.key;
+                });                
+                return JSON.stringify(selectedProjectKeys);                
+            }            
+            function getIssuesString() {                
+                var selectedIssueIds = vm.defaultIssueOptions.map(function(issue) {
+                    return issue.id
+                });                
+                return JSON.stringify(selectedIssueIds);
+            }            
+            function areDefaultValuesSelected() {
+                return vm.defaultProject != null
+                && vm.defaultIssue != null;
+            }            
+            function getRulesConditions() {                
+                var rulesConditions = [];
+                if(vm.autoCreate && vm.autoCreateRadio == "criteria") {                    
+                    if(vm.hasRecordType) {                        
+                        var selectedIds = vm.selectedRecordTypes.map(function(recordType) {
+                            return recordType.id;
+                        });                        
+                        var valuesStringList = selectedIds.join();
+                        var recordTypeObj = {
+                            lfield: "RecordTypeId",
+                            loperator: vm.recordTypeOperator,
+                            lvalue: valuesStringList,
+                            ltype:"REFERENCE"
+                        };                        
+                        rulesConditions.push(recordTypeObj);                        
+                    }                    
+                    var conditions = vm.autoCreateFieldsSelected.map(function(selectedField) {                        
+                        var lvalue  = selectedField.value;                        
+                        if(selectedField.fieldObj.type=="BOOLEAN") {
+                            lvalue = lvalue.toLowerCase()=='true'?'true':'false';
+                        }                        
+                        return {
+                            'lfield' : selectedField.fieldObj.name,
+                            'loperator' : selectedField.op,
+                            'lvalue' : lvalue,
+                            'ltype' : selectedField.fieldObj.type
+                        };
+                    });
+                    
+                    var allConditions =  rulesConditions.concat(conditions);                    
+                    rulesConditions = allConditions.filter(function(cond) {
+                        return cond.lfield !="" 
+                        && cond.loperator != ""
+                        && cond.lvalue != "";
+                    });
+                }                
+                if(rulesConditions.length==0)
+                    rulesConditions = null;
+                return rulesConditions;
+            }
+        }
+        
+        function htmlDecode(value) {
+            return angular.element('<textarea />').html(value).text();
+        }
+        
+        function returnClicked() {
+            var settingsPage ='/apex/zsfjira__zAgile_Settings';
+            if (typeof sforce != 'undefined' && sforce && sforce.one) {
+                sforce.one.back();
+            }else{
+                $window.location.replace('zsfjira__zAgile_Settings');            
+            }            
+        }        
+    }        
+    srcApp.filter("flatCategory",function() {
+        return function(projectList) {
+            var filtered = [];           
+            angular.forEach(projectList,function(project) {
+                if(project.children) {
+                    filtered = filtered.concat(project.children);
+                } else {
+                    filtered.push(project);
+                }
+            });            
+            return filtered;
+        };
+    });        
+    srcApp.factory("dataService",dataService);
+    dataService.$inject = ["$q"];
+    function dataService($q) {
+        var service = {
+            getPriorities: getPriorities,
+            getDefaultJiraValues: getDefaultJiraValues,
+            getMetaData: getMetaData,
+            saveDefaultJiraValues: saveDefaultJiraValues,
+            getProjectsWithCategory: getProjectsWithCategory                        
+        };        
+        return service;
+        
+        ////////////
+        
+        function getPriorities() {
+            var deferred = $q.defer();            
+            Visualforce.remoting.Manager.invokeAction("{!$RemoteAction.ZSettingsController.getPriorities}",function(result,event) {
+                if(event.status) {
+                    deferred.resolve(result);
+                } else {
+                    deferred.reject(event);
+                }                
+            },
+            {escape: false});
+            return deferred.promise;
+        }        
+        function getDefaultJiraValues() {
+            var deferred = $q.defer();            
+            Visualforce.remoting.Manager.invokeAction("{!$RemoteAction.ZSettingsController.getDefaultJiraValues}",function(result,event) {
+                if(event.status) {
+                    deferred.resolve(result);
+                } else {
+                    deferred.reject(event);
+                }                
+            });
+            return deferred.promise;            
+        }        
+        function getMetaData() {
+            var deferred = $q.defer();            
+            Visualforce.remoting.Manager.invokeAction("{!$RemoteAction.ZSettingsController.createMeta}",function(result,event) {
+                if(event.status) {
+                    deferred.resolve(result);
+                } else {
+                    deferred.reject(event);
+                }                
+            },{escape: false});
+            return deferred.promise;            
+        }        
+        function saveDefaultJiraValues(defaultValues) {            
+            var deferred = $q.defer();            
+            Visualforce.remoting.Manager.invokeAction("{!$RemoteAction.ZSettingsController.saveDefaultJiraValues}",defaultValues,function(result,event) {
+                if(event.status) {
+                    deferred.resolve(result);
+                } else {
+                    deferred.reject(event);
+                }
+                
+            });
+            return deferred.promise;
+        }                
+        function getProjectsWithCategory() {
+            var deferred = $q.defer();            
+            Visualforce.remoting.Manager.invokeAction("{!$RemoteAction.ZSettingsController.getProjectsWithCategory}",function(result,event) {
+                if(event.status) {
+                    deferred.resolve(result);
+                } else {
+                    deferred.reject(event);
+                }                
+            });
+            return deferred.promise;
+        }
+    }        
+    </script>
+</apex:page>

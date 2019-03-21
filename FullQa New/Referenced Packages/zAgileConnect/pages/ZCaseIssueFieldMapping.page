@@ -1,0 +1,777 @@
+<apex:page action="{!if(!isSysAdmin,urlFor('/apex/zsfjira__ZInsufficientPriv'), null)}"
+           controller="zsfjira.ZCaseIssueFieldMappingController" setup="true">
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-1.9.1.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jquery_jqz_noconflict)}" />
+
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'scripts/vendor.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'scripts/app.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'styles/vendor.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__zsettingsForm, 'styles/app.css')}"/>
+
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__jQuery, '/js/jquery-ui-1.10.3.custom.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__dynatree_1_2_4_js)}" />
+
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__jQuery, '/css/slds-theme/jquery-ui-1.10.4.custom.min.css')}" />
+
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/js/bootstrap.min.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.zsfjira__bootstrap4VF, 'bootstrap/css/bootstrap.css')}" />
+    <script src="../../soap/ajax/28.0/connection.js" type="text/javascript"></script>
+    <script src="../../soap/ajax/28.0/apex.js" type="text/javascript"></script>
+    <apex:includeScript value="{!URLFOR($Resource.zsfjira__zAgileResources,'/js/angular-sortable.js')}" />
+    <apex:slds />
+    <style>
+        ul.sortable {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        margin-bottom: 10px;
+        }
+        ul.sortable > li {
+        margin: 5px;
+        padding: 5px;
+        width: 500px;
+        border: 1px solid #D4DADC;
+        border-radius: 4px;
+        }
+        ul.sortable>li>ul>li {
+        width: 420px;
+        background-color: #FAFAFA;
+        }
+        ul.sortable li>span.closeable {
+        float: right;
+        height: 12px;
+        padding: 3px;
+        text-align: center;
+        width: 12px;
+        cursor: pointer;
+        }
+        .undrag{
+        color: gray;
+        }
+        .pageMessageContainer {
+        display: none;
+        }
+        ul.sortable li>select {
+        width: 100%;
+        max-width: 45%;
+        }
+        .divline{
+        height: 1px;
+        background: #CFD7E6;
+        margin-top:1%;
+        }
+        .messageText {
+        color: white !important;
+        }
+        .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+        font-weight: normal !important;
+        }
+        .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+        font-weight: normal !important;
+        }
+        div.loader:after{
+        background-image: url({!URLFOR($Resource.zAgileResources, 'images/loader.gif')});
+        background-size: 24px 24px;
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        content:"";
+        }
+    </style>
+
+    <div ng-controller="FieldMappingCtrl as vm" ng-app="src" class="slds slds-scope">
+        <div class="slds-page-header">
+            <div class="slds-grid">
+                <div class="slds-col slds-has-flexi-truncate">
+                    <p class="slds-text-body--small">Salesforce Object - Issue field Mapping</p>
+                    <div class="slds-grid">
+                        <div class="slds-grid slds-no-space">
+                            <h1 class="slds-text-heading--medium slds-truncate" title="Settings">Configure field mapping</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-grid">
+            <div class="slds-text-body--regular slds-m-vertical--medium">
+               In this section you can map Object fields to JIRA issue fields. Only issue fields of compatible types are listed next to each field.
+            </div>
+        </div>
+        <div class="slds-grid ng-hide" ng-show="vm.isShowing.errorMessages">
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error">
+                <p ng-bind-html="vm.errorMessages" > </p>
+            </div>
+        </div>
+        <div class="slds-grid ng-hide" ng-show="vm.isShowing.warningMessages" id="warningMessages">
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning">
+                <p ng-bind-html="vm.warningMessages" > </p>
+            </div>
+        </div>
+        <div class="slds-grid ng-hide" ng-show="vm.isShowing.infoMessages">
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info">
+                <p ng-bind-html="vm.infoMessages" > </p>
+            </div>
+        </div>
+        <div id="slds-loader" class="slds-spinner_container slds-is-fixed ng-hide" ng-show="vm.mainLoader">
+            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand" >
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+        <div id="tabs" class="ng-hide slds-tabs_scoped" ng-show="vm.tabsLoaded">
+            <ul class="slds-tabs_scoped__nav" role="tablist">
+                <li ng-repeat="sobject in vm.sobjects" role="presentation" class="slds-tabs_scoped__item"
+                    ng-class="sobject.name==vm.selectedObject?'slds-is-active':''">
+                    <a href="javascript:void(0)" ng-click="vm.openOrRenderTab(sobject)"
+                       class="slds-tabs_scoped__link" role="tab">
+                        {{vm.htmlDecode(vm.describeZIssueRelationships[sobject.name].objectLabel)}}
+                    </a>
+                </li>
+            </ul>
+            <div ng-repeat="sobject in vm.sobjects" id="{{sobject.name}}"
+                 class="slds-tabs_scoped__content" role="tabpanel"
+                 ng-class="sobject.name==vm.selectedObject?'slds-show':'slds-hide'">
+                <div ng-if="!sobject.loaded && !vm.concepts[sobject.name].hasError" align="center" class="loader"/>
+                <div class="slds-grid ng-hide" ng-show="vm.concepts[sobject.name].hasError">
+                    <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error">
+                        <p ng-bind-html="vm.concepts[sobject.name].errorMessage" > </p>
+                    </div>
+                </div>
+                <span ng-if="sobject.loaded" >
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <div class="slds-select_container" style="display: inline-block;">
+                                <select class="slds-select" style="width:auto;"
+                                        ng-change="vm.concepts[sobject.name].alreadyAdded=false;"
+                                        ng-init="vm.concepts[sobject.name].selectedField=(vm.concepts[sobject.name].entityFields|orderBy: 'label')[0]"
+                                        ng-model="vm.concepts[sobject.name].selectedField"
+                                        ng-options="vm.htmlDecode(field.label) for field in vm.concepts[sobject.name].entityFields |orderBy: 'label'">
+                                </select>
+                            </div>
+                            <button ng-click="vm.addField(sobject)"
+                                    class="slds-button slds-button--neutral">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                    <span style="color:red;" ng-if="vm.concepts[sobject.name].alreadyAdded">
+                        &nbsp;Field already added!
+                    </span>
+                    <ul class="sortable ui-sortable" id="Case-fieldMapping">
+                        <li style="color:#54698d;">
+                            <table><tr><th></th><th width="50%">{{vm.htmlDecode(vm.describeZIssueRelationships[sobject.name].objectLabel)}} Field</th><th width="50%">Issue Field</th></tr></table>
+                        </li>
+                        <li class='ui-sortable-handle' style='color:#16325c;'
+                            sf-field = "{{field.name}}"
+                            ng-repeat="field in vm.concepts[sobject.name].storedEntityFields">
+                            <div style='width: 220px; overflow: hidden; display: inline-block; margin-right: 5px;'>
+                                {{vm.htmlDecode(field.label)}}
+                            </div>
+                            <div class="slds-select_container slds-size--2-of-5" style="display:inline-block;">
+                                <select class='slds-select'
+                                        ng-model="field.selectedIssueField"
+                                        ng-change="vm.checkDuplicatedFieldsAndOtherControls(sobject,field)"
+                                        ng-options="jiraField.name group by jiraField.group for jiraField in vm.jiraFields(field)|orderBy: ['-group','name']">
+                                    <option ng-value="null">Choose a state</option>
+                                </select>
+                            </div>
+                            <img class='warning'
+                                 ng-show="field.isDuplicated"
+                                 src='/img/msg_icons/warning16.png'
+                                 title='This field is already mapped.'/>
+                            <span ng-click='vm.removeField(field,sobject)' title='Remove this item' class='closeable'><img src='/img/dismiss.gif'/>
+                            </span>
+                        </li>
+                    </ul>
+
+                    <table class="slds-m-vertical--small">
+                        <tr id="tr-auto-edit-issues">
+                            <td>
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                        <label class="slds-checkbox">
+                                            <input ng-change="vm.changeAutoEdit(sobject)"
+                                                   type="checkbox"
+                                                   ng-model="vm.concepts[sobject.name].autoUpdate"/>
+                                            <span class="slds-checkbox--faux"></span>
+                                            <span class="slds-form-element__label"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="color:#16325c;">Automatically update Issue(s) on {{vm.htmlDecode(vm.describeZIssueRelationships[sobject.name].objectLabel)}} update. <span style="color: gray; font-size: 14px">If enabled, update JIRA issue fields when corresponding salesforce object fields are modified. Only issues created from salesforce would be updated according to field mapping above.</span></td>
+                        </tr>
+                    </table>
+                </span>
+            </div>
+        </div>
+
+        <div class="slds-grid ng-hide" ng-show="vm.isShowing.infoBottomMessages">
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info">
+                <p ng-bind-html="vm.infoBottomMessages" > </p>
+            </div>
+        </div>
+        <div class="slds-grid ng-hide" ng-show="vm.isShowing.errorBottomMessages">
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error">
+                <p ng-bind-html="vm.errorBottomMessages" > </p>
+            </div>
+        </div>
+        <div class="slds-grid ng-hide" ng-show="vm.isShowing.warningBottomMessages">
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning">
+                <p ng-bind-html="vm.warningBottomMessages" > </p>
+            </div>
+        </div>
+        <br/>
+        <div class="slds-grid slds-grid--align-center">
+            <div style="text-align: center;">
+                <button ng-click="vm.save()" ng-disabled="vm.saveDisabled" disabled="true"
+                        class="slds-button slds-button--brand"
+                        ng-bind-html="vm.saveLabel">
+                    Save
+                </button>
+                <button ng-click="vm.returnToMainSettings()" class="slds-button slds-button--neutral">
+                    Return
+                </button>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    Visualforce.remoting.timeout = 120000;
+    if (!window.console) window.console = {};
+    if (!window.console.log) window.console.log = function () { };
+
+    var FieldMappingCtrl = function(dataService,$filter,$timeout,$window,$scope,$sce) {
+        var vm = this;
+
+        init();
+        function init(){
+            vm.oldMetadata = {};
+
+            vm.saveLabel = $sce.trustAsHtml('Save');
+
+            vm.tabsLoaded = false;
+            vm.mainLoader = true;
+
+            vm.isShowing = {};
+            vm.isShowing.errorMessages = false;
+            vm.isShowing.warningBottomMessages = false;
+            vm.isShowing.infoBottomMessages = false;
+            vm.isShowing.errorBottomMessages= false;
+            vm.isShowing.infoMessages = false;
+            vm.saveDisabled = true;
+
+            vm.concepts={};
+            vm.sobjects = [{name:'Case',loaded:false}];
+            vm.selectedObject = 'Case';
+            dataService.getZIssueMeta().then(function(result){
+
+                $window.console.log('getZIssueMeta',result);
+                vm.describeZIssueRelationships = result.describeZIssueRelationships;
+                vm.describeZIssueSf = result.describeZIssueSf;
+
+                for(var object in vm.describeZIssueRelationships){
+                    if(object=='Case')continue;
+                    if(object in vm.describeZIssueSf){
+                        vm.sobjects.push({name:object,loaded:false});
+                    }
+                }
+
+                dataService.getCompatibleCFTypesforForFieldType().then(function(compatibleFields){
+                    $window.console.log('getCompatibleCFTypesforForFieldType',compatibleFields);
+                    vm.compatibleFieldsByType = compatibleFields;
+
+                    dataService.issueCreateMeta().then(function(issueCreateMeta){
+                        $window.console.log('issueCreateMeta',issueCreateMeta);
+                        if(issueCreateMeta.body){
+                            vm.issueFieldsByName = mergeIssueFields(issueCreateMeta.body);
+
+                            vm.openOrRenderTab(vm.sobjects[0]);
+                        }else{
+                            vm.errorMessages = $sce.trustAsHtml(result.status+', Cannot pull issue create meta');
+                            vm.isShowing.errorMessages = true;
+                            vm.mainLoader = false;
+                        }
+                    }).catch(function(event){
+                        vm.errorMessages = $sce.trustAsHtml(event.message+', Cannot pull issue create meta');
+                        vm.isShowing.errorMessages = true;
+                        vm.mainLoader = false;
+                    });
+                }).catch(function(event){
+                    vm.errorMessages = $sce.trustAsHtml(event.message+', Cannot load compatible fields');
+                    vm.isShowing.errorMessages = true;
+                    vm.mainLoader = false;
+                });
+
+            }).catch(function(event){
+                vm.errorMessages = $sce.trustAsHtml(event.message+', Cannot load ZIssue related properties');
+                vm.isShowing.errorMessages = true;
+                vm.mainLoader = false;
+            });
+        }
+        function closeMessages(){
+            for(var message in vm.isShowing){
+                vm.isShowing[message]=false;
+            }
+        }
+        vm.returnToMainSettings=function(){
+            var settingsPage ='/apex/zsfjira__zAgile_Settings';
+            if (typeof sforce != 'undefined' && sforce && sforce.one) {
+                sforce.one.back(false);
+            }else{
+                window.location.replace(settingsPage);
+            }
+        };
+        vm.checkDuplicatedFieldsAndOtherControls=function(sobject,field){
+            closeMessages();
+
+            var concept = sobject.name;
+            var sfField = field.name;
+            var jiraField = field.selectedIssueField.id;
+            if(vm.concepts[sobject.name].autoUpdate && (jiraField=='project'||jiraField=='issuetype')){
+                var confirmation = confirm('Field '+field.selectedIssueField.name+' will only apply on issue creation, on '+
+                                        vm.htmlDecode(vm.describeZIssueRelationships[sobject.name].objectLabel) + ' update it will not have any effect.\n\n Do you want to continue?');
+                if(!confirmation){
+                    field.selectedIssueField=null;
+                    return;
+                }
+            }
+
+            vm.concepts[concept].storedEntityFields.forEach(function(storedField1){
+                var value = storedField1.selectedIssueField !=null?storedField1.selectedIssueField.id:null;
+                if(value!=null){
+                    var duplicates = [];
+                    vm.concepts[concept].storedEntityFields.forEach(function(storedField2){
+                        if(storedField2.selectedIssueField){
+                            if(storedField2.selectedIssueField.id==value){
+                                duplicates.push(storedField2);
+                            }
+                        }
+                    });
+                    if (duplicates.length > 1) {
+                        duplicates.forEach(function(field){
+                            field.isDuplicated = true;
+                        });
+                    } else {
+                        duplicates.forEach(function(field){
+                            field.isDuplicated = false;
+                        });
+                    }
+
+                }
+            });
+        };
+        vm.save=function(){
+            closeMessages();
+
+            vm.saveDisabled = true;
+            vm.saveLabel = $sce.trustAsHtml('Saving...');
+
+            var ffinally = function(){
+                vm.saveDisabled = false;
+                vm.saveLabel = $sce.trustAsHtml('Save');
+            };
+
+            var selectedMetadata = {};
+            var autoUpdate = {};
+
+            var sfFieldsWithNoJiraFields = [];
+            var duplicatedFields = false;
+            vm.sobjects.forEach(function(sobject){
+                if(sobject.loaded){
+                    selectedMetadata[sobject.name]={};
+                    autoUpdate[sobject.name] = vm.concepts[sobject.name].autoUpdate;
+
+                    vm.concepts[sobject.name].storedEntityFields.forEach(function(storedField){
+                        duplicatedFields = duplicatedFields || storedField.isDuplicated
+                        if(storedField.selectedIssueField){
+                            var jiraFieldName =storedField.selectedIssueField.id;
+                            var sfField = storedField.name;
+
+                            selectedMetadata[sobject.name][sfField]=jiraFieldName;
+                        }else{
+                            sfFieldsWithNoJiraFields.push(storedField.label);
+                        }
+                    });
+                }
+            });
+            if(duplicatedFields){
+                vm.isShowing.errorBottomMessages= true;
+                vm.errorBottomMessages= $sce.trustAsHtml('Can not save: There are JIRA fields being mapped more than once.');
+                ffinally();
+                return;
+            }
+            if(sfFieldsWithNoJiraFields.length>0){
+                vm.isShowing.errorBottomMessages= true;
+                vm.errorBottomMessages= $sce.trustAsHtml(vm.htmlDecode('Can not save: Please select a JIRA field(s) for: '+sfFieldsWithNoJiraFields));
+                ffinally();
+                return;
+            }
+            $window.console.log('vm.oldMetadata', vm.oldMetadata);
+            $window.console.log('selectedMetadata',selectedMetadata);
+
+            dataService.saveAutoCreateEditValues(autoUpdate).then(function(result){
+                $window.console.log('saveAutoCreateEditValues',result);
+                dataService.saveMappedFieldsByConcept(selectedMetadata).then(function(result){
+                    $window.console.log('selectedMetadata',result);
+                    vm.isShowing.infoBottomMessages = true;
+                    vm.infoBottomMessages=$sce.trustAsHtml('Saved successfully');
+                }).catch(function(event){
+                    vm.errorBottomMessages = $sce.trustAsHtml(event.message+', Cannot save mapped fields');
+                    vm.isShowing.errorBottomMessages = true;
+                }).finally(function(){
+                    ffinally();
+                    var conceptsThatNeedSync = [];
+                    for(var concept in selectedMetadata){
+                        if(concept in vm.oldMetadata){
+                            for(field in selectedMetadata[concept]){
+                                if(!(field in vm.oldMetadata[concept])){
+                                    conceptsThatNeedSync.push(vm.htmlDecode(vm.describeZIssueRelationships[concept].objectLabel));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    vm.oldMetadata=selectedMetadata;
+                    if(conceptsThatNeedSync.length>0){
+                        var syncMessage = "Please perform  <a href='ZSyncMapping'>Sync "+
+                            "mapped Salesforce fields in JIRA</a> after you have finished adding fields in this section.";
+
+                        vm.isShowing.warningBottomMessages = true;
+                        vm.warningBottomMessages=$sce.trustAsHtml(syncMessage);
+                    }
+                });
+            }).catch(function(event){
+                vm.errorBottomMessages = $sce.trustAsHtml(event.message+', Cannot save auto edit indicator');
+                vm.isShowing.errorBottomMessages = true;
+                ffinally();
+            });
+
+        };
+        vm.changeAutoEdit=function(sobject){
+            closeMessages();
+
+            if(vm.concepts[sobject.name].autoUpdate){
+                var found = false;
+                var foundFieldsMap={};
+
+                for(var i =0;i<vm.concepts[sobject.name].storedEntityFields.length;i++){
+                    var storedField = vm.concepts[sobject.name].storedEntityFields[i];
+                    if(storedField.selectedIssueField){
+                        var jiraFieldName =storedField.selectedIssueField.id;
+                        if(jiraFieldName =='project'||jiraFieldName=='issuetype'){
+                            found=true;
+                            foundFieldsMap[storedField.selectedIssueField.name]=true;
+                        }
+                    }
+                }
+                if(found){
+                    var foundFields=[];
+                    for(field in foundFieldsMap){
+                        foundFields.push(field);
+                    }
+                    var confirmation = confirm('Field(s): '+foundFields+' will only apply on issue creation, on '+
+                                             vm.htmlDecode(vm.describeZIssueRelationships[sobject.name].objectLabel) +  ' update it will not have any effect.\n\n Do you want to continue?');
+                    if(!confirmation){
+                        vm.concepts[sobject.name].autoUpdate = false;
+                    }
+                }
+            }
+        };
+        vm.indexOf=function(sobject,fieldName){
+            for(var i =0;i<vm.concepts[sobject.name].storedEntityFields.length;i++){
+                var storedField = vm.concepts[sobject.name].storedEntityFields[i];
+                if(storedField.name==fieldName){
+                    return i;
+                }
+            }
+            return -1;
+        };
+        vm.addField = function(sobject){
+            closeMessages();
+
+            vm.concepts[sobject.name].alreadyAdded = false;
+            var selField = vm.concepts[sobject.name].selectedField;
+            var index = vm.indexOf(sobject,selField.name);
+            if(index==-1){
+                selField.isDuplicated =false;
+                selField.selectedIssueField = null;
+                vm.concepts[sobject.name].storedEntityFields.push(selField);
+            }else{
+                vm.concepts[sobject.name].alreadyAdded = true;
+            }
+        };
+        vm.jiraFields= function(currentField){
+            var compatibleFields = vm.compatibleFieldsByType[currentField.type];
+
+            var jiraFields = [];
+            var sfFieldType = currentField.type;
+
+            if (compatibleFields != undefined) {
+                for(var fieldName in vm.issueFieldsByName) {
+                    var issueField = vm.issueFieldsByName[fieldName];
+                    var isCompatible = false;
+                    isCompatible = $jqz.inArray(issueField.schema.type, compatibleFields) != -1;
+                    if (!isCompatible && issueField.schema.type == "array") {
+                        isCompatible = $jqz.inArray("array:"+ issueField.schema.items, compatibleFields) != -1;
+                    }
+                    if (!isCompatible && issueField.schema.type == "string" && issueField.schema.system) {
+                        isCompatible = $jqz.inArray("system:string", compatibleFields) != -1;
+                    }
+                    if (!isCompatible && issueField.schema.type == "array" && issueField.schema.items == "string" && issueField.schema.system) {
+                        isCompatible = $jqz.inArray("system:array:string", compatibleFields) != -1;
+                    }
+                    if (!isCompatible && issueField.schema.custom) {
+                        isCompatible = $jqz.inArray(issueField.schema.custom, compatibleFields) != -1;
+                    }
+                    if (isCompatible) {
+                        jiraFields.push(issueField);
+                    }
+                }
+            }
+            return jiraFields;
+
+        };
+        vm.openOrRenderTab = function(object){
+            closeMessages();
+
+            if(!vm.tabsLoaded){
+                vm.tabsLoaded = true;
+                vm.mainLoader = false;
+            }
+            vm.selectedObject = object.name;
+            if(object.loaded){
+                return;
+            }
+            var concept = object.name;
+
+            vm.concepts[concept] = {}
+            vm.concepts[concept].alreadyAdded = false;
+            vm.concepts[concept].hasError = false;
+            vm.concepts[concept].errorMessage = '';
+
+            var getEntityFields = function(){
+                dataService.saveDefaultValuesIfNotExists(concept).then(function(saveResults){
+                    $window.console.log('saveDefaultValuesIfNotExists',saveResults);
+                }).finally(function(){
+                    dataService.getEntityFields(concept).then(function(entityFields){
+                        $window.console.log('getEntityFields',entityFields);
+                        vm.oldMetadata[concept]={};
+                        vm.concepts[concept].entityFields = entityFields;
+                        vm.concepts[concept].storedEntityFields=[];
+                        vm.concepts[concept].entityFields.forEach(function(currentField){
+                            if(currentField.issueFieldName in vm.issueFieldsByName){
+                                currentField.selectedIssueField = vm.issueFieldsByName[currentField.issueFieldName];
+                                currentField.isDuplicated = false;
+                                vm.concepts[concept].storedEntityFields.push(currentField);
+
+                                vm.oldMetadata[concept][currentField.name]=currentField.issueFieldName;
+                            }else{
+                                currentField.selectedIssueField = null;
+                            }
+                        });
+
+                        object.loaded = true;
+                        vm.saveDisabled = false;
+
+                    }).catch(function(event){
+                        vm.concepts[concept].hasError = true;
+                        vm.concepts[concept].errorMessage = $sce.trustAsHtml(event.message+', Cannot load object fields');
+                    });
+                });
+            };
+
+            dataService.getAutoEditValues(concept).then(function(autoMeta){
+                $window.console.log('getAutoEditValues', autoMeta);
+                vm.concepts[concept].autoUpdate = autoMeta.autoEditIssues;
+
+                getEntityFields();
+            }).catch(function(event){
+                vm.concepts[concept].hasError = true;
+                vm.concepts[concept].errorMessage = $sce.trustAsHtml(event.message+', Cannot load auto update value.');
+            });
+
+
+        };
+        vm.removeField=function(field,sobject){
+            var indexP = vm.indexOf(sobject,field.name);
+            if(indexP!=-1){
+                vm.concepts[sobject.name].storedEntityFields.splice(indexP,1);
+
+                //re validate duplicates
+                if(field.isDuplicated){
+                    var remainingDuplicates = [];
+                    vm.concepts[sobject.name].storedEntityFields.forEach(function(storedField){
+                        if(storedField.selectedIssueField &&
+                           storedField.selectedIssueField.id==field.selectedIssueField.id){
+                            remainingDuplicates.push(storedField);
+                        }
+                    });
+                    if(remainingDuplicates.length==1){
+                        remainingDuplicates[0].isDuplicated=false;
+                    }
+                }
+            }
+        };
+        vm.htmlDecode = function(value){
+            return htmlDecode(value);
+        };
+        function htmlDecode(value){
+            return $jqz('<div/>').html(value).text();
+        }
+        function mergeIssueFields(fields) {
+            var invalidFields = {
+                aggregateprogress:null,
+                aggregatetimeestimate:null,
+                aggregatetimeoriginalestimate:null,
+                aggregatetimespent:null,
+                timetracking:null
+            };
+            var issueFields = {};
+
+            for (var i=0; i<fields.length; i++) {
+                if(fields[i].schema && !(fields[i].id in invalidFields)){
+                    issueFields[fields[i].id] = fields[i];
+
+                    if (fields[i].schema.custom){
+                        issueFields[fields[i].id].group = "Custom Fields";
+                    }else{
+                        issueFields[fields[i].id].group = "Standard Fields";
+                    }
+                }
+            }
+
+            if(issueFields.timeestimate){
+                issueFields.timeestimate.schema.type = 'timetracking';
+            }
+            if(issueFields.timeoriginalestimate){
+                issueFields.timeoriginalestimate.schema.type = 'timetracking';
+            }
+
+            return issueFields;
+        }
+    };
+    var dataService = function($q) {
+        return {
+            getZIssueMeta:function(){
+                var deferred = $q.defer();
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZCaseIssueFieldMappingController.getZIssueMetaWithSharedFields}', function(result, event){
+                        if (event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }
+                    }
+                );
+                return deferred.promise;
+            },
+            getCompatibleCFTypesforForFieldType:function(){
+                var deferred = $q.defer();
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZCaseIssueFieldMappingController.getCompatibleCFTypesforForFieldTypeByName}', function(result, event){
+                        if (event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }
+                    }
+                );
+                return deferred.promise;
+            },
+            issueCreateMeta:function(){
+                var deferred = $q.defer();
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZCaseIssueFieldMappingController.issueCreateMeta}', function(result, event){
+                        if (event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }
+                    }
+                );
+                return deferred.promise;
+            },
+            getAutoEditValues:function(objName){
+                var deferred = $q.defer();
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZCaseIssueFieldMappingController.getAutoupdateEnabledValues}', objName, function(result, event){
+                        if (event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }
+                    }
+                );
+                return deferred.promise;
+            },
+            saveDefaultValuesIfNotExists:function(concept){
+                var deferred = $q.defer();
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZCaseIssueFieldMappingController.saveDefaultValuesIfNotExists}',concept, function(result, event){
+                        if (event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }
+                    }
+                );
+                return deferred.promise;
+            },
+            getEntityFields:function(concept){
+                var deferred = $q.defer();
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZCaseIssueFieldMappingController.getEntityFields}',concept,function(result, event){
+                        if (event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }
+                    }
+                );
+                return deferred.promise;
+            },
+            saveMappedFieldsByConcept:function(mappedFieldsByConcept){
+                var deferred = $q.defer();
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZCaseIssueFieldMappingController.saveMappedFieldsByConcept}',mappedFieldsByConcept,function(result, event){
+                        if (event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }
+                    }
+                );
+                return deferred.promise;
+            },
+            saveAutoCreateEditValues:function(autoEditMeta){
+                var deferred = $q.defer();
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.ZCaseIssueFieldMappingController.saveAutoCreateEditValues}',autoEditMeta,function(result, event){
+                        if (event.status) {
+                            deferred.resolve(result);
+                        } else {
+                            deferred.reject(event);
+                        }
+                    }
+                );
+                return deferred.promise;
+            }
+        };
+    };
+
+    var srcApp =  angular.module("src", ['ui.sortable']);
+    srcApp.factory("dataService",dataService);
+
+    srcApp.constant("resourceRoot","{!URLFOR($Resource.SLDS103,'')}");
+    srcApp.controller("FieldMappingCtrl",FieldMappingCtrl);
+    srcApp.filter('unsafe', function($sce) { return $sce.trustAsHtml; });
+
+
+    FieldMappingCtrl.$inject = ["dataService","$filter","$timeout","$window","$scope","$sce"];
+
+    dataService.$inject = ["$q"];
+
+    </script>
+</apex:page>

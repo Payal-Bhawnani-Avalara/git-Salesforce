@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>MindTouch_AccountDisabled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AccountDisabled</shortDescription>
+        <value>Your MindTouch account has been disabled. Please contact your site administrator to continue.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_ArticleCreatedL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ArticleCreatedL</shortDescription>
+        <value>The article has successfully been created.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_ArticleRepublishedL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ArticleRepublishedL</shortDescription>
+        <value>The article has successfully been republished.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_AttachAccount</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AttachAccount</shortDescription>
+        <value>Click to attach the article to the account.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_AttachCase</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AttachCase</shortDescription>
+        <value>Click to attach the article to the case.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_AttachContact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AttachContact</shortDescription>
+        <value>Click to attach the article to the contact.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_AttachOpportunity</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AttachOpportunity</shortDescription>
+        <value>Click to attach the article to the opportunity.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_AttachedTo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AttachedTo</shortDescription>
+        <value>Attached to:</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_BackToTop</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BackToTop</shortDescription>
+        <value>Back to top</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_Cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_CollapseSummary</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CollapseSummary</shortDescription>
+        <value>Click to collapse summary</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_CustomerActivityIdNotConfigured</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CustomerActivityIdNotConfigured</shortDescription>
+        <value>No customer activity ID field has been configured.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_DetachAccount</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DetachAccount</shortDescription>
+        <value>Click to detach the article from the account.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_DetachCase</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DetachCase</shortDescription>
+        <value>Click to detach the article from the case.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_DetachContact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DetachContact</shortDescription>
+        <value>Click to detach the article from the contact.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_DetachOpportunity</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DetachOpportunity</shortDescription>
+        <value>Click to detach the article from the opportunity.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_DettachErrorLink</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DettachErrorLink</shortDescription>
+        <value>There has been an error trying to detach this article. Please try again later.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_Empty</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Empty</shortDescription>
+        <value>Empty</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_EmptySearch</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>EmptySearch</shortDescription>
+        <value>Sorry, we can&apos;t find what you are looking for. Try searching for something else or select another category.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_ErrorDifferentOrigins</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ErrorDifferentOrigins</shortDescription>
+        <value>Cannot load MindTouch Publisher, across different origins.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_ErrorLink</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ErrorLink</shortDescription>
+        <value>There has been an error trying to link this article. Please try again later.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_ErrorLoadingLinked</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ErrorLoadingLinked</shortDescription>
+        <value>There has been an error loading the attached articles. Please try again later.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_ErrorLoadingTemplate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ErrorLoadingTemplate</shortDescription>
+        <value>There has been an error loading the MindTouch Template. Please check your settings and try again.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_ErrorUserHistory</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ErrorUserHistory</shortDescription>
+        <value>Error retrieving user history, please check your permissions and the customer activity ID.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_ExpandPublishSection</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ExpandPublishSection</shortDescription>
+        <value>Click to expand Publish Section</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_ExpandSummary</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ExpandSummary</shortDescription>
+        <value>Click to expand summary</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_HideLegend</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>HideLegend</shortDescription>
+        <value>Click to hide</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_Insights</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Insights</shortDescription>
+        <value>Insights</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_Issue</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Issue</shortDescription>
+        <value>Issue</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_LinkToAccount</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LinkToAccount</shortDescription>
+        <value>Link to account</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_LinkToCase</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LinkToCase</shortDescription>
+        <value>Link to case</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_LinkToContact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LinkToContact</shortDescription>
+        <value>Link to contact</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_LinkToOpportunity</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LinkToOpportunity</shortDescription>
+        <value>Link to opportunity</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_LoggedOut</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LoggedOut</shortDescription>
+        <value>You are currently logged out of your MindTouch Site. Please login to continue.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_Login</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Login</shortDescription>
+        <value>Click here to login</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_LoginTip</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LoginTip</shortDescription>
+        <value>This page will refresh automatically</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_Newer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Newer</shortDescription>
+        <value>Newer</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_NoCustomerActivityId</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>NoCustomerActivityId</shortDescription>
+        <value>This record has no customer activity ID.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_NoPriviliges</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>NoPriviliges</shortDescription>
+        <value>Your MindTouch account has insufficient privileges. Please contact your site administrator to continue.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_NoSiteConfigured</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>NoSiteConfigured</shortDescription>
+        <value>No MindTouch site has been configured. Please contact your administrator to continue.</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_NoUserHistory</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>NoUserHistory</shortDescription>
+        <value>No History for the current user</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_Older</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Older</shortDescription>
+        <value>Older</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_Overwrite</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Overwrite</shortDescription>
+        <value>Overwrite</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_OverwriteArticle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>OverwriteArticle</shortDescription>
+        <value>Overwrite article</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_OverwriteExistingArticle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>OverwriteExistingArticle</shortDescription>
+        <value>Are you sure you want to overwrite the existing article?</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_PoweredBy</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PoweredBy</shortDescription>
+        <value>Powered by</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_PrefilledComments</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PrefilledComments</shortDescription>
+        <value>prefilled with case comments</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_PublishExistL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PublishExistL</shortDescription>
+        <value>This case has already published the article</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_PublishToL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PublishToL</shortDescription>
+        <value>Publish to</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_QueryPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>QueryPlaceholder</shortDescription>
+        <value>Enter your query here</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_RefineSearch</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RefineSearch</shortDescription>
+        <value>Refine search</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_Searched</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Searched</shortDescription>
+        <value>Searched</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_ShowMore</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ShowMore</shortDescription>
+        <value>Show more</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_Solution</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Solution</shortDescription>
+        <value>Solution</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_SuggestArticle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SuggestArticle</shortDescription>
+        <value>Suggest article</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_Unlink</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Unlink</shortDescription>
+        <value>Unlink</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_UpToXDays</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>UpToXDays</shortDescription>
+        <value>Up to %1 days</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_ViewInMindTouch</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ViewInMindTouch</shortDescription>
+        <value>View in MindTouch</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_Viewed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Viewed</shortDescription>
+        <value>Viewed</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_XDaysAndOlder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>XDaysAndOlder</shortDescription>
+        <value>%1 days and older</value>
+    </labels>
+    <labels>
+        <fullName>MindTouch_XToYDays</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>XToYDays</shortDescription>
+        <value>%1 to %2 days</value>
+    </labels>
+</CustomLabels>

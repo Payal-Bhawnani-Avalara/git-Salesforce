@@ -1,0 +1,339 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false">
+
+
+<script>
+
+      var productConfigurator = function(productId) {
+        console.log("productConfigurator firing inside end of html page include");
+
+        document.location = "/ccrz__ProductDetails?viewState=DetailView&cartID=" + CCRZ.pagevars.currentCartID + "&sku=" + productId + getCSRQueryString() + "&showproductconfig=true";
+        }
+
+      var productConfiguratorAddon = function(parentProductId, addonId) {
+        console.log("productConfiguratorAddon firing inside end of html page include");
+
+        document.location = "/ccrz__ProductDetails?viewState=DetailView&cartID=" + CCRZ.pagevars.currentCartID + "&sku=" + parentProductId + "&skuAddon=" + addonId + getCSRQueryString() + "&showproductconfig=true";
+        }
+
+
+
+ jQuery(function($){
+
+    CCRZ.views.productDetailView = CCRZ.CloudCrazeView.extend({
+    templatePhone : CCRZ.util.template(CCRZ.uiProperties.productDetailView.phone.tmpl),
+    templateDesktop : CCRZ.util.template(CCRZ.uiProperties.productDetailView.desktop.tmpl),
+    viewName : "productDetailView",
+    events: {
+     "click .prodLink" : "gotoProductDetail",
+     "click .addItem" : "addItem",
+     "keypress .entry" : "addItemKey",
+     "click .plus" : "addSingleQty",
+     "click .minus" : "removeSingleQty",
+     "click .plusFF" : "addSkipQty",
+     "click .minusFF" : "removeSkipQty",
+     "mouseover .alternate" : "swapImage",
+     "click .alternate" : "popImage",
+     "click .productBuyButton" : "productConfigurator",
+    "click .productBuyButtonAddon" : "productConfiguratorAddon"
+    },
+    init: function() {
+     var v = this;
+     this.pickerView = _.isUndefined(CCRZ.views.wishlistPickerModal)?false:(new CCRZ.views.wishlistPickerModal());
+     this.pageSections = CCRZ.pageSectionsList;
+     this.relatedData  = CCRZ.relatedModel;
+     CCRZ.pubSub.on('action:productDetailView:addItem', function(data) {
+      if (data) {
+       v.processAddItem(data, 1, '', true);
+      }
+     });
+     v.render();
+    },
+   productConfigurator : function(event){
+     var sku = $(event.currentTarget).data("sku");
+     console.log('firing in the view');
+     productConfigurator(sku);
+   },
+   productConfiguratorAddon : function(event){
+     var sku = $(event.currentTarget).data("sku");
+     var addon = $(event.currentTarget).data("addon");
+     console.log('addon config listener firing');
+     productConfiguratorAddon(sku, addon);
+   },
+    preRender : function(){
+     var v = this;
+     v.model.set('relatedProducts', v.relatedData.toJSON());
+     v.model.set('pageSections', v.pageSections.toJSON());
+    },
+    renderDesktop : function(){
+     var v = this;
+     v.$el.html('');
+     $(CCRZ.uiProperties.productDetailView.desktop.right.selector).html('');
+     this.setElement($(CCRZ.uiProperties.productDetailView.desktop.main.selector));
+     v.$el.html(v.templateDesktop(v.model.toJSON()));
+     $('#avgRating').rateit({ max: 5, step: 1});
+    },
+    renderPhone : function(){
+     var v = this;
+     v.$el.html('');
+     this.setElement($(CCRZ.uiProperties.productDetailView.phone.selector));
+     v.$el.html(v.templatePhone(v.model.toJSON()));
+     $('#avgRating').rateit({ max: 5, step: 1});
+    },
+    postRender : function(){
+     this.renderSections();
+     if(this.pickerView){
+      if (this.pickerView.coll.length == 0) {
+       this.pickerView.refresh();
+      }else{
+       this.pickerView.render();
+      }
+     }
+
+     if(this.model.attributes.product){
+      CCRZ.pubSub.trigger('prodDetailRefresh', this.model.attributes.product.prodBean);
+      CCRZ.console.log('trigger=prodDetailRefresh context=' + this.model.attributes.product.prodBean);
+     }else{
+      CCRZ.pubSub.trigger('prodDetailRefresh', false);
+      CCRZ.console.log('trigger=prodDetailRefresh context=false');
+     }
+    },
+
+    renderSections: function() {
+     for (var i=0; i<CCRZ.pageSectionsList.length; i++) {
+      var mod = CCRZ.pageSectionsList.at(i);
+      if (mod.attributes.displayType === 'Tab') {
+       var tabView = new CCRZ.views.tabSectionView(mod, this.model);
+       tabView.render();
+       for (var j=0; j<mod.attributes.subSections.length; j++) {
+        this.buildViewForSection(mod.attributes.subSections[j]);
+       }
+      }
+      else if (mod.attributes.displayType === 'Widget') {
+       var widgetView = new CCRZ.views.widgetSectionView(mod, this.model);
+       widgetView.render();
+       this.buildViewForSection(mod.toJSON());
+      }
+     }
+    },
+    buildViewForSection: function(section) {
+     if (section.sectionName == 'Content') {
+      var filter = (section.sectionFilter) ? section.sectionFilter : section.sectionOther;
+      if (this.model.attributes.content && this.model.attributes.content[filter])
+      var contentView = new CCRZ.views.contentSectionView(section, this.model.attributes.content[filter]);
+     }
+     else if (section.sectionName == 'Specs-All') {
+      if (this.model.attributes.specifications)
+      var nvGroupView = new CCRZ.views.nameValGroupSectionView(section, this.model.attributes.specifications);
+     }
+     else if (section.sectionName == 'Specs-Single') {
+      if (this.model.attributes.specifications && this.model.attributes.specifications[section.sectionOther])
+      var nvsView = new CCRZ.views.nameValSectionView(section, this.model.attributes.specifications[section.sectionOther]);
+     }
+     else if (section.sectionName == 'Shipping') {
+      var nvView = new CCRZ.views.nameValSectionView(section, this.model.attributes.shippingInfo);
+     }
+     else if (section.sectionName == 'Documents') {
+      if (this.model.attributes.mediaWrappers) {
+       var types = section.sectionFilter.split(';');
+       var entries = {};
+       var hasEntries = false;
+       for (var j=0; j<types.length; j++) {
+        if (this.model.attributes.mediaWrappers[types[j]]) {
+         entries[types[j]] = this.model.attributes.mediaWrappers[types[j]];
+         hasEntries = true;
+        }
+       }
+       if (hasEntries)
+       var docView = new CCRZ.views.mediaSectionView(section, entries);
+      }
+     }
+     else if (section.sectionName == 'Related') {
+      if (this.model.attributes.relatedProducts && this.model.attributes.relatedProducts[section.sectionFilter]){
+        var prdView = new CCRZ.views.prodSectionView(section, this.model.attributes.relatedProducts[section.sectionFilter]);
+      }
+     }
+     else if(section.sectionName == 'Sellers') {
+      var sellerView = new CCRZ.views.sellerSectionView(section, this.model.attributes);
+     }
+    },
+    addSingleQty : function(event){
+     this.adjustQty(event, 1, '.item_qtyIncrement');
+    },
+    removeSingleQty : function(event){
+     this.adjustQty(event, -1, '.item_qtyIncrement');
+    },
+    addSkipQty : function(event){
+     this.adjustQty(event, 1, '.item_qtySkipIncrement');
+    },
+    removeSkipQty : function(event){
+     this.adjustQty(event, -1, '.item_qtySkipIncrement');
+    },
+    adjustQty: function(event, direction, multipler) {
+     var p = $(event.target).parent();
+     var objItems = p.find(".entry");
+     if (objItems) {
+      var incr = p.find(multipler);
+      var increment = 1;
+      if (incr)
+      increment = parseInt(incr.val());
+      var qty = parseInt(objItems.val());
+      if (direction > 0 || qty >= increment)
+      objItems.val(qty + direction*increment);
+      else
+      objItems.val('0');
+     }
+    },
+    gotoProductDetail: function(event) {
+     var objLink = $(event.target);
+     var id = objLink.data("id");
+     //this.remote.loadOverlay($('.prodDetailContainer'));
+     productDetails(id, CCRZ.pagevars.currentCartID);
+    },
+    swapImage: function(event) {
+     var objLink = $(event.target);
+     var id = objLink.data("id");
+     var resMedia = $.grep(this.model.attributes.mediaWrappers["Alternate Images"], function(e){ 
+      return e.uri == id;
+     });
+     if(!resMedia || resMedia.length == 0) {
+      resMedia = $.grep(this.model.attributes.mediaWrappers["Product Image"], function(e){
+       return e.uri == id;
+      });
+     }
+     if (resMedia[0].imageFullPath){
+      $('.mainProdImage').attr("src", resMedia[0].imageFullPath);
+     }else{
+      if('Attachment' == resMedia[0].sourceType){
+       $('.mainProdImage').attr("src", CCRZ.pagevars.attachmentURL + resMedia[0].uri);
+      }else{
+       $('.mainProdImage').attr("src", resMedia[0].uri);
+      }
+     }
+    },
+    popImage: function(event) {
+     var objLink = $(event.target);
+     var id = objLink.data("id");
+     var resMedia = $.grep(this.model.attributes.mediaWrappers["Alternate Images"], function(e){
+      return e.uri == id;
+     });
+     if(!resMedia || resMedia.length == 0) {
+      resMedia = $.grep(this.model.attributes.mediaWrappers["Product Image"], function(e){
+       return e.uri == id;
+      });
+     }
+     for(var i=0; i < resMedia.length; i++) {
+      if(resMedia[i]) {
+       if (resMedia[i].imageFullPath){
+        $('img.modalImg').attr("src", resMedia[i].imageFullPath);
+       }else{
+        if('Attachment' == resMedia[i].sourceType){
+         $('img.modalImg').attr("src", CCRZ.pagevars.attachmentURL + resMedia[i].uri);
+        }else{
+         $('img.modalImg').attr("src", resMedia[i].uri);
+        }
+       }
+       if (resMedia[i].productDescription){
+        $('p.modalText').html(resMedia[i].productDescription);
+       }else{
+        $('p.modalText').html('');
+       }
+       $('#altImageModal').modal('show');
+       break;
+      }
+     }
+    },
+    addItemKey : function(event){
+     var v = this;
+     if (window.event && window.event.keyCode == 13 || event.which == 13) {
+      $('button.addItem').click();
+      return false;
+     } else {
+      return CCRZ.util.isValidNumericInput(event);
+     }
+    },
+    addItem: function(event) {
+     var objLink = $(event.target);
+     var qtyInput = objLink.parents(".phoneProductItem").find(".entry");
+     var qty = qtyInput.val();
+     var scrubbedQty = CCRZ.util.scrubQuantity(qty);
+     if(qty !== scrubbedQty || qty < 1) {
+      CCRZ.pubSub.trigger("pageMessage", CCRZ.createPageMessage('WARN', "messagingSection-Warning", 'Invalid_Qty'));
+      qtyInput.val(scrubbedQty);
+     } else {
+      var sku = objLink.data("sku");
+      var parentId = objLink.data("parent");
+      var subTerm = $("input[name='subOptionGuider"+sku+"']:checked").val();
+      if(subTerm == 'nosuboption')
+      {
+       subTerm = null;
+      }
+      var sellerID = objLink.data("seller");
+      this.processAddItem(sku, qty, parentId, false, subTerm, sellerID);
+     }
+    },
+    processAddItem: function(sku, qty, parentId, showMessage, subTerm, sellerID) {
+     if (!qty)
+     qty = 1;
+     this.className = 'cc_RemoteActionController';
+     this.invokeContainerLoadingCtx(
+      $('.prodDetailContainer')
+      ,'addItem'
+      ,sku
+      ,qty
+      ,_.isUndefined(parentId)?null:parentId
+      ,_.isUndefined(subTerm)?null:subTerm
+      ,_.isUndefined(sellerID)?null:sellerID
+      ,function(response){
+       var cartId = response.data;
+       CCRZ.pagevars.currentCartID = cartId;
+       //cart change will update cookie
+       CCRZ.pubSub.trigger('cartChange', cartId);
+       if (showMessage) {
+        var msgArr = new Array();
+        msgArr[0] = sku;
+        var msg = CCRZ.processPageLabelMap('ADDED_TO_CART', msgArr);
+        var msgContext = CCRZ.createPageMessage('INFO', "messagingAction-Info", msg);
+        CCRZ.pubSub.trigger("pageMessage", msgContext);
+       }
+       this.className = 'cc_ctrl_ProductDetailRD';
+       if (CCRZ.pagevars.pageConfig.isTrue('pd.g2c')) {
+        cartDetails();
+       }
+      }
+     );
+    }
+   });
+
+   CCRZ.productDetailModel = new CCRZ.models.ProductDetailModel();
+   CCRZ.productDetailModel.fetch(function() {});
+   CCRZ.pageSectionsList = new CCRZ.collections.PageSectionList();
+   CCRZ.relatedModel = new CCRZ.models.RelatedProductModel();
+   CCRZ.prodDetailView = new CCRZ.views.productDetailView({
+    model : CCRZ.productDetailModel
+   });
+   //CCRZ.dynamicViews.push(CCRZ.prodDetailView);
+
+  });
+
+</script>
+
+    <apex:outputPanel rendered="{!$CurrentPage.parameters.showproductconfig=='true'}">
+
+
+<!--         <script>
+        jQuery(function($){
+          jQuery.ui.autocomplete.filter = function (array, term)  { 
+            var matcher;
+            var keys = term.split(' ');
+            $.each(keys, function(index, value) { 
+              matcher = new RegExp( $.ui.autocomplete.escapeRegex(value), "i" ); 
+            });
+            return $.grep( array, function(value) {
+              return matcher.test( value.label || value.value || value );  
+            });
+          }; 
+      	});
+       </script>
+ -->	</apex:outputPanel>
+
+</apex:page>

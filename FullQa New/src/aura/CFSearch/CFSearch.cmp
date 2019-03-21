@@ -1,0 +1,62 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" controller="CFSearch" >
+    <aura:attribute name="connectors" type="List" />
+    <aura:attribute name="searchText" type="String" default=""/>
+    <div class="slds-grid slds-wrap">
+        <span class="slds-size_3-of-4 slds-max-small-size_1-of-1 slds-p-horizontal_medium">
+			<lightning:input value="{!v.searchText}" aura:id="txtSearch" minlength="3" type="search" required="true" 
+                             variant = "label-hidden" name="txtSearch" placeholder="Search connector"
+                             messageWhenTooShort="Your entry must be at least 3 characters."
+                             onblur="{! c.handleSearch }"/>
+        </span>
+        <span class="slds-size_1-of-4 slds-max-small-size_1-of-1 slds-p-horizontal_medium">
+			<lightning:button variant="brand" label="Search" title="Search" onclick="{! c.handleSearch }" />
+        </span>
+    </div>
+    <br/>
+        <table class="slds-table slds-table_bordered slds-table_striped slds-table_fixed-layout">
+          <thead>
+            <tr class="slds-text-heading_label slds-card">
+              <th scope="col" style="width: 4rem;"><div class="slds-truncate" title="ID"></div></th>
+                <th scope="col"><div class="slds-truncate" title="Name">Name</div></th>
+                <th scope="col"><div class="slds-truncate" title="Name">Vibrancy </div></th>
+                <th scope="col"><div class="slds-truncate" title="Name">Platform Category</div></th>
+                <th scope="col"><div class="slds-truncate" title="Name">Avalara Contact</div></th>
+            </tr>
+          </thead>
+          <tbody>
+        <aura:iteration items="{!v.connectors}" var="con" indexVar="itemIndex">
+                   <tr class="slds-card">
+                        <td scope="col" style="width: 4rem;">
+                       		<lightning:buttonIcon value="{!itemIndex}" onclick="{!c.toggle}" iconName="{!con.Expanded__c?'utility:chevrondown':'utility:chevronright'}" />
+                       </td>
+                        <td><div class="slds-truncate" title="{!con.Name}">{!con.Name}</div></td>
+                        <td><div class="slds-truncate" title="{!con.Vibrancy__c}">{!con.Vibrancy__c}</div></td>
+                        <td><div class="slds-truncate" title="{!con.Platform_Cateogry__c}">{!con.Platform_Cateogry__c}</div></td>
+                        <td><div class="slds-truncate" title="{!con.Early_Adopter_Sales_Owner__r.Name}">{!con.Early_Adopter_Sales_Owner__r.Name}</div></td>
+                    </tr>                    
+                <aura:if isTrue="{!con.Expanded__c}">
+
+                    <tr >
+                        <td colspan="5">
+                            <div class="slds-card11">
+                                <aura:iteration items="{!con.Versions__r}" var="v" indexVar="vIndex">
+                                    <c:CFVersion idVersion="{!v.Id}" strVersionName="{!v.Name}" strPreFixName="" bRenderSubVersion="true"/>
+                                </aura:iteration>                                
+                            <!--<lightning:accordion aura:id="accordion" activeSectionName="1111">
+                                <aura:iteration items="{!con.Versions__r}" var="v" indexVar="vIndex">
+                                <lightning:accordionSection name="{!vIndex}" label="{!'VERSION: '+v.Name}">
+                                    <aura:set attribute="body">
+                            			<c:CFVersion idVersion="{!v.Id}"/>
+                                    </aura:set>
+                                </lightning:accordionSection>
+                                </aura:iteration>
+                            </lightning:accordion>-->
+                            </div>
+                        </td>
+                    </tr>
+
+                </aura:if>
+        </aura:iteration>
+          </tbody>
+        </table> 
+</aura:component>

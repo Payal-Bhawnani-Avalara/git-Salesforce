@@ -1,0 +1,164 @@
+<apex:page standardController="pse__Milestone__c" extensions="pse.LinkMilestoneController" action="{!init}" title="{!$Label.pse__link_milestone_label_link_milestone}" 
+sidebar="false" tabStyle="pse__Milestone__c" id="linkMilestonePage" lightningStylesheets="true">
+
+<script type="text/javascript">
+_Label = {
+	selectedRecordCount : "{!JSINHTMLENCODE($Label.common_label_selected_record_count)}" ,
+	noUnsavedChanges : "{!JSINHTMLENCODE($Label.link_assignment_message_no_unsaved_changes)}"
+}
+
+_Component = {
+	recordCountInfo : "checkAssignCountInfo",
+	recordResultPBT : '{!$Component.linkMilestonePage.linkMilestoneForm.assignmentResult.assignmentResultPBS.assignmentResultPBT}'
+}
+</script>
+<apex:includeScript value="{!$Resource.pse__YUI3MinCombo}"/>
+<apex:includeScript value="{!$Resource.pse__linkAssignmentjs}" />
+
+<apex:stylesheet value="{!URLFOR($Resource.pse__timecard2, 'YUI_TC_CSS.css')}" />
+<style>
+	.selectAllCheckbox{width:40px;}
+	.currentCheckbox{width:80px;}
+	.infoImage{vertical-align:top;}
+	.actionButtons{text-align:center;}
+	#toolTipDiv { display: block; opacity: 0.99; left: 2px; bottom: -75px; width: -webkit-max-content; width: -moz-max-content; width: -o-max-content; width: -ms-max-content; max-width: 25rem; }
+ 	.confirmBoxOverlayBody {
+ 			position: relative;
+	 		border: 1px solid #dddbda;
+	  		border-radius: 0.25rem;
+	  		-webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
+	  		box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
+	  		height: 90px; min-height: 30px; width: max-content; width: -moz-max-content; margin-top: 10px;}
+	.overlarCaptionBar {position: absolute; top: -18px; right: -18px; width:20px; height:20px; min-height: auto;}
+</style>
+<apex:outputPanel rendered="{!$User.UIThemeDisplayed == 'Theme4d'}" layout="none">
+	<style>
+		.pageTitleIcon {
+			border-radius: .25rem;
+		    background-color: #8ed363;
+		    background-image: url("{!URLFOR($Asset.SLDS, 'assets/icons/custom/custom79.svg')}");
+		    background-repeat: no-repeat;
+		    background-position: center;
+		    background-size: 2rem;
+			display: block !important;
+		}
+	</style>
+</apex:outputPanel>
+
+<c:WaitComponent />
+<apex:sectionHeader title="{!$Label.pse__link_milestone_label_link_milestone}" help="{!$Page.pse__LinkMilestoneHelp}" />
+<a href="/{!milestone.id}">
+    <apex:outputText value="{!milestone.Name}" />
+</a>
+ <div style="display:inline;">
+     <apex:image id="infoImage" value="/s.gif" styleClass="infoImage infoIcon" alt="{!tooltip}" onmouseover="this.parentNode.className ='helpButtonOn';" onmouseout="this.parentNode.className ='';"/>
+ </div>
+ 
+<br/>
+
+<apex:form id="linkMilestoneForm" rendered="{!isEverythingOk}">
+	<apex:inputHidden id="dirtyHidden" value="{!dirty}"/>
+	
+	<apex:actionFunction action="{!cancel}"  name="jsdoCancel" />
+	<apex:actionFunction action="{!save}"  name="jsdoSave" status="ajaxStatus" reRender="linkMilestoneForm,messageSection" oncomplete="updateAnchorTargetAttribute();bindConfirmOverlay();"/>
+	<apex:actionFunction action="{!reset}"  name="jsdoReset" status="ajaxStatus" reRender="linkMilestoneForm,messageSection" oncomplete="updateAnchorTargetAttribute();bindConfirmOverlay();"/>
+	
+    <apex:actionStatus id="ajaxStatus" onstart="wait(true)" onstop="wait(false)" />
+    
+    <apex:pageBlock id="assignmentResult" title="{!$Label.pse__create_project_from_template_label_assignments}" >
+    	<apex:PageMessages id="messageSection" />
+        <apex:pageBlockButtons location="{!IF(foundAssignmentItems,'both','bottom')}">
+            <apex:commandButton value="{!$Label.pse__common_label_save}" onclick="onSaveClick();return false;" />
+            <apex:commandButton value="{!$Label.pse__common_label_reset}" onclick="onResetClick();return false;" />
+            <apex:commandButton value="{!$Label.pse__common_label_done}" onclick="onDoneClick(); return false;" />
+        </apex:pageBlockButtons>
+        
+        <apex:pageBlockSection columns="1" collapsible="false"  id="assignmentResultPBS" > 
+        	<div id="checkAssignCountInfo">{!HTMLENCODE(selectedAssignmentCountInfo)}</div>
+        	<div id="assignmentResultDiv" >
+            <apex:pageBlockTable value="{!assignmentWrapperList}" var="wr" rendered="{!foundAssignmentItems}" id="assignmentResultPBT" >
+                <apex:column headerClass="selectAllCheckbox">
+                    <apex:facet name="header">
+                        <input type="checkbox" onclick="selectAll(this, 'assignmentCheckbox')" id="assignmentSelectAllCheckbox" onchange="setDirty('{!$Component.dirtyHidden}');" />
+                    </apex:facet>
+                    <apex:inputCheckbox value="{!wr.isSelectedForAMCreation}" id="assignmentCheckbox" onclick="selectItem(this, 'assignmentSelectAllCheckbox');" onchange="setDirty('{!$Component.dirtyHidden}');" />
+                </apex:column>
+                
+                <apex:column headerClass="currentCheckbox">
+                    <apex:facet name="header">
+                        <apex:outputLabel value="{!$Label.pse__common_label_current}"/>
+                    </apex:facet>
+                    <apex:inputCheckbox value="{!wr.isAssignMilestoneJuctionExist}" rendered="{!!wr.isAssignMilestoneJuctionExist}" disabled="true"/>
+                 	<apex:image value="/img/checkbox_checked.gif" alt="Checked" width="21" height="16" styleClass="checkImg" title="Checked" rendered="{!wr.isAssignMilestoneJuctionExist}"/>
+                </apex:column>
+                
+                <apex:repeat value="{!assignmentColumns}" var="f" >   
+                	 
+                	<apex:column value="{!wr.assignment[f.fieldPath]}" rendered="{!NOT(f.Label == $ObjectType.pse__Assignment__c.Fields.Name.Label)}"  />
+                
+                   <apex:column headerValue="{!f.Label}" rendered="{!f.Label == $ObjectType.pse__Assignment__c.Fields.Name.Label}" >
+                        <apex:outputpanel rendered="{!f.Label == $ObjectType.pse__Assignment__c.Fields.Name.Label}" >
+                            <a href="/{!wr.assignment.id}" target="_blank">
+                                <apex:outputField value="{!wr.assignment[f.fieldPath]}"/>
+                            </a>
+                        </apex:outputpanel>
+                    </apex:column> 
+                </apex:repeat> 
+           </apex:pageBlockTable>
+           </div>
+        </apex:pageBlockSection>
+         
+    </apex:pageBlock>
+     <!-- Block for updating the SelectAllCheckboxs based on allAssignmentSelected value -->
+    <script>
+    	if({!allAssignmentSelected}) {
+		    document.getElementById('assignmentSelectAllCheckbox').checked = true;
+		}
+    </script>
+    
+    <!-- ConfirmBox Section -->
+	<div id="confirmBoxOverlayContainer" class="overlayContainer" style="position: {!IF($User.UIThemeDisplayed == 'Theme4d', 'fixed', '')};">
+	    <div id="confirmBoxOverlay" style="margin-top:90px;width:100%;z-index:2">
+		        <div class="yui-widget-bd overlayBody confirmBoxOverlayBody">
+		        	<div class="yui-widget-hd overlarCaptionBar" onclick="javascript:_confirmBoxHandler.hide();"></div>
+		        		<table style="margin-top: 5px;margin-left: 5px;">
+		        			<tr>
+		        				<td style="vertical-align: top;">
+		        					<apex:image id="infoImage" value="/s.gif" styleClass="infoImage infoIcon" alt="{!tooltip}" onmouseover="this.parentNode.className ='helpButtonOn';" onmouseout="this.parentNode.className ='';"/>	
+		        				</td>
+		        				<td>
+		        					<b><apex:outputLabel value="{!$Label.pse__link_assignment_message_unsaved_changes_want_to_save_changes}"/></b>
+		        				</td>
+		        			</tr>
+		        			<tr>
+		        				<td></td>
+		        				<td class="actionButtons"><br/>
+		        					<apex:commandButton value="{!$Label.pse__common_label_continue_without_saving}" action="{!cancel}" style="margin-right:5px;"/>
+					        		<apex:commandButton value="{!$Label.pse__common_label_cancel}" onclick="javascript:_confirmBoxHandler.hide();return false;" style="margin-right:5px;"/>
+					        		<apex:commandButton value="{!$Label.pse__common_label_save_and_continue}" status="ajaxStatus" action="{!saveAndGoToRecord}"/>	
+		        				</td>        				
+		        			</tr>
+		        		</table>
+		        </div>
+		 </div>          
+	</div>    
+</apex:form>
+
+<script>
+	document.addEventListener('DOMContentLoaded', updateAnchorTargetAttribute);
+	
+	var yuiControlledOnDomReady = function () {
+		_TooltipHandler.prepare();
+		_TooltipHandler.bindTooltip();
+		_confirmBoxHandler.prepare();
+	}
+	
+	YUI({combine: false, fetchCSS : false, timeout: 10000}).use("node", "NodeList","overlay", "anim", function(Y) {
+	    _yui = Y;
+	    _yui.on('domready', yuiControlledOnDomReady, _yui); 
+	});
+		
+</script>
+
+
+</apex:page>

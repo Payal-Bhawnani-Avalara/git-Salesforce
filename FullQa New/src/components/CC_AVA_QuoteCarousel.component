@@ -1,0 +1,93 @@
+<apex:component id="CC_AVA_QuoteCarousel">
+  <div class="rotate quote quote-carousel" data-timer="5" data-auto-rotate="on" data-transition-speed="400">
+    <div class="rotate-container">
+      <h2 class="fcolorTheme container-title">Trusted by over 20,000 companies worldwide</h2>
+      <div class="items">
+        
+        <div>
+          <div class="is-quote">
+            
+            <div class="quote-icons">
+              <div class="left"><span class="fa fa-quote-left"></span></div>
+              <div class="right"><span class="fa fa-quote-right"></span></div>
+            </div>
+
+            <p>I would probably have no hair or be completely gray if we were not using Avalara AvaTax. There is definite value, because there’s no way anyone can keep up on the sales tax rules in all of the 46 states that have sales tax and still stay sane.</p>
+            <p>&nbsp;</p>
+            <p class="author">Karen Fitzgerald | Senior Accountant | Game Ready</p>
+
+          </div>
+        </div>
+
+        <div>
+          <div class="is-quote">
+            <div class="quote-icons">
+              <div class="left"><span class="fa fa-quote-left"></span></div>
+              <div class="right"><span class="fa fa-quote-right"></span></div>
+            </div>
+            <div class="quote-content">
+              <p>The reason you buy Avalara AvaTax is to trust that sales tax is being collected accurately when it needs to be collected, and to not have to look at another sales tax rate again.</p>
+              <p>&nbsp;</p>
+              <p class="author">Matt Carver | E-Commerce Manager | Backwoods Inc.</p>
+            </div>
+
+          </div>
+        </div>
+
+        <div>
+          <div class="is-quote">
+            
+            <div class="quote-icons">
+              <div class="left"><span class="fa fa-quote-left"></span></div>
+              <div class="right"><span class="fa fa-quote-right"></span></div>
+            </div>
+
+            <p>The same process that took us a few weeks in the past now takes just a couple of days, and we all know that time is money.</p>
+            <p>&nbsp;</p>
+            <p class="author">Shari Beaver | CEO | Retail Services Inc.</p>
+
+          </div>
+        </div>
+
+
+        <div>
+          <div class="is-quote">
+            
+            <div class="quote-icons">
+              <div class="left"><span class="fa fa-quote-left"></span></div>
+              <div class="right"><span class="fa fa-quote-right"></span></div>
+            </div>
+            <div class="quote-content">
+              <p>That's where specialists, such as Avalara, that relieve small businesses of ancillary tasks can serve as an accelerant.</p>
+              <p>&nbsp;</p>
+              <p class="author">USA Today</p>
+            </div>
+
+          </div>
+        </div>
+
+        <div>
+          <div class="is-quote">
+            
+            <div class="quote-icons">
+              <div class="left"><span class="fa fa-quote-left"></span></div>
+              <div class="right"><span class="fa fa-quote-right"></span></div>
+            </div>
+
+            <p>It's a fantastic product. I get outstanding support, and it's extremely affordable. I couldn't be happier.</p>
+            <p>&nbsp;</p>
+            <p class="author">Bruno Oghittu | Head of E-Commerce | Christian Louboutin</p>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="buttons">
+        <ul>
+          <li class="active"></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</apex:component>
