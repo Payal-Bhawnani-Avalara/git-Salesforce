@@ -1,0 +1,14 @@
+<apex:component id="CC_Ava_ContactUsButton">
+
+	<div id="theContactUsButton">
+
+		<!--div class="contact-us-container" style="text-align:center">
+
+			<p><a href="ccrz__CCPage?pageKey=contactus&fromPage={!$CurrentPage.Name}"><button type="button" class="btn-contact"></button></a></p>
+			<p>We'd love to hear from you.</p>
+
+		</div-->
+
+	</div>
+
+</apex:component>

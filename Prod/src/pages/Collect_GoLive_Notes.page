@@ -1,0 +1,5 @@
+<apex:page standardController="zqu__Quote__c">
+<flow:interview name="Collect_GoLive_Notes_Wizard" finishLocation="https://c.na2.visual.force.com/apex/ProductSelector?Id={!zqu__Quote__c.Id}&quoteType=Amendment&retUrl=%2F{!zqu__Quote__c.zqu__Opportunity__c}&stepNumber=4">
+<apex:param name="QuoteID" value="{!zqu__Quote__c.id}"/> 
+</flow:interview>
+</apex:page>

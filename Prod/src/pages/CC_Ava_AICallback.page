@@ -1,0 +1,31 @@
+<apex:page applyHtmlTag="false" docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" controller="cc_Ava_ctrl_AICallback">
+
+    <p>Please wait...</p>
+
+<script type="text/javascript" >
+    window.onload = function(){
+        //document.cookie = "debug_logs=debug_logs,domain=.force.com"
+        var anchorElement = window.location.hash.substring(1);
+        //document.cookie = anchorElement + ',domain=' + document.domain;
+        //console.log(anchorElement);
+        if (anchorElement) {
+            cc_Ava_ctrl_AICallback.getUserInfo(anchorElement, function(result) {
+                console.log(JSON.stringify(result));
+                console.log(result.name);
+                if (result.name) {
+                		//console.log(result.name);
+                		if(navigator.cookieEnabled){
+	                		sessionStorage.setItem('avalaraLogin',result.name);
+	                		sessionStorage.setItem('cupbt',anchorElement);
+	                		window.location.href=sessionStorage.getItem('avalaraPrevPage');
+                		}
+                		else{
+                			window.location.href="/ccrz__CCPage?pageKey=static_configflow&cupbt="+anchorElement;
+                		}
+                }
+            })
+        }
+    };
+</script>
+
+</apex:page>

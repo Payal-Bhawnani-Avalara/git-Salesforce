@@ -1,0 +1,1867 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false" controller="cc_Ava_ctrl_ConfigFlow">
+
+<script>
+    /*@kevin this is nothing cloudcraze-specific (ootb ccrz search functionality queries the server via xhr) so no need to worry about naming etc
+    function searchIntegrations() {
+        console.log('typing in search box');
+    }*/
+</script>
+
+{!blank}
+
+    <div class="Ava-Integrations-target" style="display:none;"></div>
+
+    <div class="AvaIntegrationTarget" style="display:none;"></div>
+
+    <div class="integrations-display">
+
+        <div class="panel-heading cc_heading">
+            <h2 class="panel-title cc_title">Integrations</h2>
+            <p class="subtitle">Avalara has hundreds of integrations, and we're adding new ones all the time. Select or search for your accounting, ERD, or e-commerce application below.</p>
+        </div>
+        
+        <div class="integration-search-page-container content-container">
+
+            <div class="headers">
+                <div class="col-sm-8"><h3 class="int-text">POPULAR INTEGRATIONS</h3></div>
+                <div class="col-sm-1 col-separator"></div>
+                <div class="col-sm-3"><h3 class="int-text">YOUR SELECTION(S)</h3></div>
+            </div>
+
+            <!-- HTML template -->
+            
+            <div class="product-area">
+                <div id="tiles-wrapper" class="col-sm-8"></div>
+                <div class="col-sm-1 col-separator"></div>
+                <div class="col-sm-3 sidebar">
+                    <div id="selection-wrapper" class="scrollable">
+                        <div class="background-set"></div>
+                        <p class="init-text">Please make a selection to begin.</p>
+                    </div>
+                    <a class="" onClick="scrollSelectedDown(this); return false;">
+                        <div class="scroll-show-more">
+                            <span class="show-more"><i class="glyphicon glyphicon-menu-down"></i> Scroll down</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="row navigation">
+                <div class="col-sm-3 text-left"><span class="grid-left"></span></div>
+                <div class="col-sm-3"></div>
+                <div class="col-sm-3 text-right"><span class="grid-right"></span></div>
+                <div class="col-sm-3"></div>
+            </div>
+
+            <div class="row search-field-container">
+                
+                <div class="col-sm-8"><input id="search" class="form-control search" type="text" placeholder="Type the name of your software here..." /></div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-3"><a class="btn btn-search-clear" onClick="clearSearch(this); return false;"><span class="glyphicon glyphicon-trash"></span> Clear</a></div>
+            
+            </div>
+
+            <div class="col-sm-12 no-product-message">
+                <p>Don't see your software? Search 500+ applications here. <a href="//www.avalara.com/integrations/" rel="noopener noreferrer" target="_blank" title="Search more integrations">Search from 500+ more here</a>.</p>
+            </div>
+
+        
+            
+            <input type="hidden" id="grid-info" />
+            <div id="insert"></div>
+
+        </div>
+
+        <div class="integrations-product-results" style="display:none">
+
+            <div class="integrations-transaction-title">
+                <h2 class="fcolorTheme transaction-main-title">The following products are compatible with the software you selected:</h2>
+            </div>
+
+            <div class="integrations-page">
+               
+                <div class="transactionLevelContainer dual integrations-transactions-container content-container">
+
+                    <div class="transactionLevelBox">
+                      <div class="transaction-holder">
+                        <div>
+                          <h3 class="transaction-header"><img src="{!$Resource.CC_Ava_ProductImages}/AvaTax-Icon.png" /> AvaTax</h3>
+                          <div class="pricing-container">
+                            <p class="tagline">AvaTax automates sales and use tax calculation and compliance within your existing ERP, POS, or e-commerce system.</p>
+                          </div>
+                        </div>
+                        <div class="select-action">
+                          <a href="ccrz__CCPage?pageKey=configflow&sku=ATBDK001&transactionLevelSku=AT001&isCSRFlow=true&cclcl=en_US" class="transaction-url-update" onClick="sendWithTransactions(this);return false" >
+                            <button class="btn-blue btn-add-to-cart uppercase"></button>
+                          </a>
+                          <a href="ccrz__ProductDetails?viewState=DetailView&cartID=&sku=ATBDK001&isCSRFlow=true&portalUser=&store=&cclcl=en_US" class="transaction-learn-more" title="Learn more about AvaTax"><p>Learn more</p></a>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="transactionLevelBox">
+                      <div class="transaction-holder">
+                        <div>
+                          <h3 class="transaction-header"><img src="{!$Resource.CC_Ava_ProductImages}/Returns-Icon.png" /> Returns</h3>
+                          <div class="pricing-container">
+                            <p class="tagline">Automated sales tax return software that helps you file accurately and on time.</p>
+                          </div>
+                        </div>
+                        <div class="select-action">
+                          <a href="#" onClick="modalPopup(this);return false;">
+                            <button class="btn-blue btn-add-to-cart uppercase"></button>
+                          </a>
+
+                          <a href="ccrz__ProductDetails?viewState=DetailView&cartID=&sku=AR0001&isCSRFlow=true&portalUser=&store=&cclcl=en_US" class="transaction-learn-more" title="Learn more about Returns"><p>Learn more</p></a>
+
+                          <div class="modal-content-grab">
+                            <div class="returns-modal">
+                                <h3 class="theme-title">Getting set up:</h3>
+                                <ul>
+                                <li>Configure AvaTax based on your tax registrations</li>
+                                <li>Specify which returns you want Avalara to file for you</li>
+                                <li>Provide Avalara with (secure) information on how to fund your tax payments</li>
+                                </ul>
+                                <h3 class="theme-title">Before we file returns on your behalf:</h3>
+                                <ul>
+                                <li>Before we file, you can use AvaTax to reconcile and approve your liabilities</li>
+                                <li>Avalara will file your returns and facilitate funding of liabilities</li>
+                                <li>Avalara will manage tax notices, if applicable</li>
+                                <li>Returns are processed and filed automatically whether or not you have any tax liability and you will be charged for those filings</li>
+                                </ul>
+                                <a href="https://help.avalara.com/003_Avalara_Returns/Get_Started_with_Avalara_Returns" class="more-link" title="More information on returns" rel="noopener noreferrer" target="_blank"><p>Find more information about Returns here</p></a>
+                                <div class="button-container">
+                                  <button class="btn-reverse-blue" onClick="closeModal(this);return false;">Cancel</button>
+                                  <a href="ccrz__CCPage?pageKey=configflow&transactionLevelSku=AT003&tabState=add-ons&sku=ATBDK001&skuAddOn=AR0001&isCSRFlow=true&cclcl=en_US&skuintegrations=a93c00000008SrhAAE"><button class="btn-blue">Continue</button></a>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script id="Ava-Integrations" type="text/template">
+        <div id="integrations_container">
+            {{#each this}}
+                {{#ifEquals groupName 'Integrations'}}<h2>{{groupName}}</h2>
+                {{#each productsThisGroupOnly}}
+                    <!--@kevin you should be able to target each group by this class -->
+                    <div class="integration_container">
+                        <!-- only logos should display in integrations page but in-page search will probably target by class -->
+                        <div class="integration_name"><h3>Product Name: {{this.productInfo.sfdcName}}</h3></div>
+                        <div class="integration_name_after_icon">Product Name After Icon: {{this.productInfo.productNameAfterIcon}}</div>
+                        <div class="integration_tagline">Tagline: {{this.productInfo.tagline}}</div>
+                        <div class="integration_short_description">Short Description: {{this.productInfo.shortDesc}}</div>
+                        <div class="integration_long_description">Long Description: {{this.productInfo.longDesc}}</div>
+                        <div><a href="javascript:void(0);" data-sku="{{this.productInfo.SKU}}" data-sfid="{{sfid}}" data-group="{{groupName}}" class="configUnselected">{{#each this.productInfo.EProductMediasS}}
+                            <img src="{!$Resource.CC_Ava_ProductImages}/{{filePath}}" style="width: 200px"/>
+                        {{/each}}</a></div>
+                    </div>
+                {{/each}}
+                {{/ifEquals}}
+            {{/each}}
+        </div>
+        <div>
+            <!--@kevin i'm obviously assuming a js function searchIntegrations() but that isn't anything cloudcraze-specific/magical so just use whatever you like -->
+            <input type="text" id="integrationSearchBox" onkeyup="searchIntegrations()" placeholder="search for your integration software"/>
+        </div>
+        <a href="javascript:void(0);" class="addToConfig"><button type="button" class="btn-select" style="margin: 20px">ADD CURRENT CONFIGURATIONS</button></a>    
+        </script>
+    <script>
+
+        /********************************
+            START URL PARAM COLLECTION
+        *********************************/
+
+            var urlParams = new Object();
+
+            function getUrlParams(){
+
+                var urlParamsUpdate = new Object();
+                var isUrl = window.location.href;
+                isUrl = isUrl.replace(/&amp;/g,'urlConvert').split('?');
+                isUrl = isUrl[1] !== undefined 
+                    && isUrl[1] !== '' ? 
+                        isUrl[1].split('&')
+                        : new Array();
+
+                jQuery.each(isUrl, function(k,v){
+                    var v = v.split('=');
+                    
+                    if(v[1]!== undefined 
+                        && v[1] !== ''
+                        && $.inArray(v[0], urlParams) === -1){
+
+                            urlParams[v[0]] = v[1].replace(/urlConvert/g,'&');
+
+                        }
+
+
+                });
+
+                urlParams.transactionLevelSku = urlParams.transactionLevelSku == undefined ? 
+                    'AT002': urlParams.transactionLevelSku;
+
+                return urlParams;
+
+            }
+
+        /********************************
+            END URL PARAM COLLECTION
+        *********************************/
+
+
+
+
+
+
+
+
+        jQuery(function($){
+
+            //initialize global variables for building integrations list and passing to configflow page
+            //@kevin this integrations sku list functionality is a kinda crude example..you might not like the tight view-data coupling (see AvaIntegrationView event handlers below)
+            myIntegrationsSkuList = [];
+            mySku = getUrlParams()['sku'] == undefined ? 
+                'ATBDK001' : '{!$CurrentPage.parameters.sku}';
+            mySkuAsArray = [];
+            mySkuAsArray.push(mySku);
+
+
+            //set correct uiproperties values from div and handlebars template defined above -->
+            CCRZ.uiProperties.AvaIntegrations = {
+                tmpl: 'Ava-Integrations',
+                selector: '.Ava-Integrations-target',
+            };
+
+
+                //initialize root namespace for subscriber models
+                CCRZ.subsc = CCRZ.subsc || {};
+                CCRZ.subsc.models = CCRZ.subsc.models || {};
+                CCRZ.subsc.views = CCRZ.subsc.views || {};
+
+                //set up model by extending CloudCrazeModel
+                CCRZ.subsc.models.AvaIntegrationModel = CCRZ.CloudCrazeModel.extend({
+                    className: 'cc_Ava_ctrl_ConfigFlow',
+                    fetch: function(callback) {
+                        var model = this;
+                        this.invokeCtx(
+                            'fetchCompositeProducts', mySkuAsArray,
+                            function(response, event) {
+                                if(event.status && response && response.data) {
+                                    model.set(model.parse(response.data));
+                                    model.set('loaded',true);
+                                    callback(response);
+                                } else {
+                                    model.set('loaded',false);
+                                    if(response && response.messages && _.isArray(response.messages) && response.messages.length) {
+                                        CCRZ.console.log('got loaded');
+                                        callback(response);
+                                    } else {
+                                        CCRZ.console.log('got error');
+                                        callback(response);
+                                    }
+                                }
+                            }
+                            ,{nmsp: false}
+                        );
+                    }
+
+                });
+
+
+                //setup view by extending CloudCrazeView
+                //2017-04-07 atm just copied from configflow; TO DO: update event handling to build list to send to configflow page
+                CCRZ.subsc.views.AvaIntegrationView = CCRZ.CloudCrazeView.extend({
+                    viewName: 'AvaIntegrationView',
+                    templateBoth: CCRZ.util.template(CCRZ.uiProperties.AvaIntegrations.tmpl),
+                    managedSubView: true,
+                    init: function() {
+                        var v = this;
+                        //recall that model is attached only to view instance
+                        v.model.fetch(function() {
+                            v.render();
+                        });
+                    },
+                    events: {
+                        "click .addToConfig" : "addToConfig",
+                        "click .configUnselected" : "configSelect",
+                        "click .configSelected" : "configUnselect"
+                    },
+                    doRender: function(theTemplate, theSelector) {
+                        this.setElement(theSelector);
+                        var v = this;
+                        v.$el.html(theTemplate(v.model.toJSON()));
+
+                        var newArr = v.model.toJSON();
+                        var setupArr = new Object();
+
+                        $.each(newArr, function(k,v){
+
+                            setupArr[v.groupName] = v;
+
+                        });
+
+                        /*console.log(setupArr);*/
+
+                        var searchIntegrationsData = new Object();
+
+                        $.each(setupArr['Integrations'].productsThisGroupOnly, function(k,v){
+                            searchIntegrationsData[v.sfid] = new Object();
+                            searchIntegrationsData[v.sfid] = v;
+                        });
+
+                        /*console.log(setupArr['Integrations'].productsThisGroupOnly);*/
+                        $('body').prepend('<div class="search-data-object" style="display:none;">'+JSON.stringify(setupArr['Integrations'].productsThisGroupOnly)+'</div>'),
+
+                        setupSearch();
+
+                    },
+                    renderDesktop: function() {
+                        this.doRender(this.templateBoth, $(CCRZ.uiProperties.AvaIntegrations.selector));
+                    },
+                    renderPhone: function() {
+                        this.doRender(this.templateBoth, $(CCRZ.uiProperties.AvaIntegrations.selector))
+                    },
+                    addToConfig: function(event) {
+                        //goto configflow and pass selected integrations
+                        //@kevin build array and pass in url parameter, maybe like this:
+                        console.log('configSelected');
+                        $('.configSelected').each(function(){
+                            myIntegrationsSkuList.push($(this).data('sku'));
+                        });
+                        console.log(myIntegrationsSkuList);
+                        document.location = CCRZ.pagevars.currSiteURL + "ccrz__CCPage?pageKey=configflow&cartID=" + CCRZ.pagevars.currentCartID + "&sku=" + mySku + "&skuIntegrations=" + myIntegrationsSkuList.join() + getCSRQueryString();
+
+                    },
+                    configSelect: function(event) {
+                        //add to in-page list of selected integrations
+                        $(event.currentTarget).removeClass(("configUnselected"));
+                        $(event.currentTarget).addClass(("configSelected"));
+                    },
+                    configUnselect: function(event) {
+                        //remove from in-page list of selected integrations
+                        $(event.currentTarget).addClass(("configUnselected"));
+                        $(event.currentTarget).removeClass(("configSelected"));
+                    }
+                });
+
+                //instantiate model
+                CCRZ.subsc.AvaIntegrationModelData = new CCRZ.subsc.models.AvaIntegrationModel();
+                //instantiate view and attach model
+                CCRZ.subsc.myAvaIntegrationView = new CCRZ.subsc.views.AvaIntegrationView({
+                    model: CCRZ.subsc.AvaIntegrationModelData
+                });
+
+                //add handlebars helpers
+                Handlebars.registerHelper('removeSpaces', function(spaceyString) {
+                    if(spaceyString) {
+                        return spaceyString.replace(/\s+/g, '');
+                    } else {
+                        return 'no group name';
+                    }
+                });
+
+                Handlebars.registerHelper('annualDiscount', function(monthlyAmount, annualAmount, periodMultiplier) {
+                    if(monthlyAmount && annualAmount && periodMultiplier){
+                        return monthlyAmount*periodMultiplier - annualAmount;
+                    } else {
+                        return 0;
+                    }
+                });
+
+        });
+
+
+    </script>
+    <script>
+
+        /********************************
+                START VAR GATHER
+        *********************************/
+
+            /**/localStorage.removeItem('avalaraSelections');
+            sessionStorage.removeItem('avalaraSelections');
+
+            var urlParams = new Object();
+            urlParams = getUrlParams();
+
+            var avalaraSelections = new Object();
+            avalaraSelections = localStorage.getItem('avalaraSelections') ? 
+                JSON.parse(localStorage.getItem('avalaraSelections'))
+                : (sessionStorage.getItem('avalaraSelections') ? 
+                    JSON.parse(sessionStorage.getItem('avalaraSelections'))
+                    : avalaraSelections);
+
+            avalaraSelections.cartStatus = avalaraSelections.cartStatus !== undefined ? 
+                avalaraSelections.cartStatus
+                : 'change';
+
+            avalaraSelections.tier = avalaraSelections.tier !== undefined ? 
+                avalaraSelections.tier
+                : new Object();
+
+            avalaraSelections.tier.sku = urlParams.transactionLevelSku !== undefined ? 
+                urlParams.transactionLevelSku
+                : avalaraSelections.tier;
+
+            avalaraSelections.billMe = avalaraSelections.billMe !== undefined ? 
+                avalaraSelections.billMe
+                : 'annual';
+
+            avalaraSelections.products = avalaraSelections.products !== undefined ? 
+                avalaraSelections.products
+                : new Object();
+
+            avalaraSelections.integrations = avalaraSelections.integrations !== undefined ? 
+                avalaraSelections.integrations
+                : new Object();
+
+            Object.keys(avalaraSelections.integrations).length > 0 ? 
+                $('.integrations-product-results:hidden').fadeIn(300)
+                : '';
+
+            avalaraSelections.addons = avalaraSelections.addons !== undefined ? 
+                avalaraSelections.addons
+                : new Object();
+
+            updateURI();
+
+            var avalaraStaticResourcePath = '{!$Resource.CC_Ava_ProductImages}';
+            var resourceUrl = '{!$Resource.CC_Avalara_Theme}';
+
+        /********************************
+                END VAR GATHER
+        *********************************/
+
+
+
+
+
+
+
+
+        
+        /********************************
+                START URI UPDATE
+        *********************************/
+
+            var activeURI = false;
+
+            function updateURI(obj){
+
+                if(activeURI !== false){
+                    setTimeout(function(){
+
+                        obj !== undefined ? 
+                            updateURI(obj)
+                            : updateURI();
+
+                        return;
+
+                    },200);
+
+                    return;
+                }
+
+
+                activeURI = true;
+
+                var url = window.location.href.split('?')[0];
+                urlParams = urlParams == undefined ? 
+                    getUrlParams()
+                    : urlParams;
+
+                /*console.log(obj, urlParams);*/
+
+                var setURI = new Array();
+
+                $.each(urlParams, function(k,v){
+
+                    v !== undefined 
+                        && v.indexOf('undefined') == -1 ? 
+                            setURI.push(k+'='+v)
+                            : '';
+
+                });
+
+                if(obj !== undefined
+                    && obj !== ''){
+
+                    $.each(obj, function(k,v){
+                        
+                        $.inArray(k,urlParams).length == -1 
+                            && v!== undefind 
+                            && v.indexOf('undefined') == -1? 
+                                setURI.push(k+'='+v)
+                                : '';
+
+                    });
+
+                }
+
+                history.pushState(history.length,'update',url+encodeURI('?'+setURI.join('&')));
+
+                urlParams = new Object();
+                $.each(setURI, function(k,v){
+                    v = v.split('=');
+                    urlParams[v[0]] = v[1]
+                });
+
+                urlParams.skuintegrations !== undefined ? 
+                    $('.integrations-product-results:hidden').fadeIn(300)
+                    : $('.integrations-product-results:hidden').fadeOut(300);
+
+                activeURI = false;
+
+            }
+
+        /********************************
+                END URI UPDATE
+        *********************************/
+
+
+
+
+
+
+
+
+        /********************************
+                START SEND URL
+        *********************************/
+
+            function sendWithTransactions(event){
+                var sendUrl = $(event).attr('href');
+                sendUrl += '&'+urlParams.skuintegrations;
+
+                window.location.replace(sendUrl);
+                return false;
+            }
+
+        /********************************
+                END SEND URL
+        *********************************/
+
+
+
+
+
+
+
+
+
+        /********************************
+            START POPUP MODEL FUNCTIONS
+        *********************************/
+
+          function modalPopup(event, title, content){
+
+            var dataFind = $(event).attr('data-find') !== undefined ? 
+              $(event).attr('data-find') : '';
+
+            var modelTemplate = '<div class="noClick"></div>'+
+            '<a class="modal-close" onClick="closeModal(this);return false;"><span class="fa fa-close"></span></a>'+
+            '<div class="modal-information" style="display:none">'+
+              '<h3 class="modal-title"></h3>'+
+              '<div class="modal-content"></div>'+
+            '</div>';
+
+            var content = content === undefined
+              && $(event).find('.modal-content-grab'+dataFind).length > 0 ? 
+                $(event).find('.modal-content-grab'+dataFind).html() 
+                : content;
+
+            content = content === undefined
+              && $('.modal-content-grab'+dataFind).length > 0 ? 
+                $('.modal-content-grab'+dataFind).html() 
+                : content;
+
+            modelTemplate = $(modelTemplate);
+
+            title !== undefined 
+              && title !== '' ? 
+                modelTemplate.find('.modal-title').html(title)
+                : modelTemplate.find('.modal-title').remove();
+
+            content !== undefined 
+              && content !== '' ? 
+                modelTemplate.find('.modal-content').html(content).show()
+                : modelTemplate.find('.modal-content').html('<p>Content not found</p>');
+
+            if(content == '' || content == undefined){
+
+              /*console.log('No content found ', content);*/
+              return;
+
+            }
+
+            $('body').prepend(modelTemplate);
+
+            var marginTop = ($(window).outerHeight() - $('.modal-information').outerHeight())/3;
+
+            marginTop = $('.modal-information').outerHeight() > $(window).outerHeight() ? 
+              $(window).scrollTop()+30
+              : marginTop;
+
+            $(content).hasClass('returns-modal') 
+              || $('.modal-content-grab'+dataFind).hasClass('returns-modal') ? 
+                function(){
+
+                  $('.modal-information').addClass('returns-modal');
+                  $('a.modal-close').attr({'onClick':'closeReturnsModel(this);return false;'});
+
+                  $('.modal-information').find('a').on('click', function(){
+              
+                    $(this).find('button').text('Please wait');
+              
+                  })
+
+                }()
+                : '';
+
+            $('.modal-information').css({'margin-top': marginTop+'px'});
+
+            $('.modal-information').outerHeight()+20 < $(window).outerHeight() ? 
+              $('.modal-information').css({'position':'fixed'})
+              : '';
+
+            $('.noClick').fadeIn(200, function(){
+
+              $('.modal-information').fadeIn(200);
+
+            })
+
+          }
+
+
+          
+
+
+
+
+
+
+          function closeModal(event){
+
+            $('.modal-information').fadeOut(200, function(){
+            
+              $('.noClick, .modal-close').fadeOut(200, function(){
+            
+                $('.modal-information, .noClick, .modal-close').remove();
+              });
+
+            });
+
+          }
+
+
+
+
+
+
+
+
+
+          function closeReturnsModel(event){
+
+            $('.inPageCart_container')
+              .find('a[data-select-name="Avalara Returns"],a[data-select-name="Returns"]')
+              .trigger('click'),
+
+            closeModal(event);
+
+          }
+
+        /********************************
+            END POPUP MODEL FUNCTIONS
+        *********************************/
+
+
+
+
+
+
+
+
+
+        /********************************************************
+
+                        START INTEGRATION SEARCH 
+
+        ********************************************************/
+
+            var selectedIds = new Array(); //variable to store selected items IDs(sfid).
+            var product_obj = new Object(); // JSON object of product.
+
+            /*
+            localStorage.removeItem('selectedIntegrations');
+            sessionStorage.removeItem('selectedIntegrations');
+            localStorage.removeItem('arrTiles');
+            sessionStorage.removeItem('arrTiles');*/
+
+            arrTiles = getFromStorage('arrTiles') == undefined
+                || getFromStorage('arrTiles') == null ? 
+                    new Object()
+                    : getFromStorage('arrTiles');
+
+            selectedIds = getFromStorage('selectedIntegrations');
+            selectedIds = selectedIds == undefined
+                || selectedIds == null ? 
+                    new Array()
+                    : getFromStorage('selectedIntegrations');
+
+
+            selectedIds.length > 0 ? 
+                $('.integrations-product-results').show()
+                : '';
+
+
+
+
+
+
+            /**************************************
+                    Start search setup
+            ***************************************/
+                
+                function setupSearch(){
+
+                    integrationsObject = JSON.parse($.trim($('.search-data-object').html()));
+                    product_obj = integrationsObject;
+
+                    var scrlHeight = 0; // initialize scroll height
+                    initialize(product_obj);
+
+
+                    /* Search from integration */
+                    
+                    $("#search").keyup(function(e){
+                        var q = $("#search").val();
+                        
+                        if(q)
+                            searchIntegrationRender(product_obj,q);
+                        else
+                            searchIntegrationRender(product_obj);
+
+                        gridView(0);
+                    });
+
+
+                    
+
+                    /*
+                        show/hide scroll suggestion on scroll end.
+                    */
+
+                    $('#selection-wrapper').on('scroll', function() {
+                        if($(window).outerWidth() > 769){
+                                
+                                if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+                              
+                                $(".scroll-show-more").fadeOut(500);
+
+                            }else{
+                                
+                                $(".scroll-show-more").fadeIn(500);
+
+                            }
+
+                          } else {
+
+                            $("#fixed:visible").fadeOut(500);
+
+                          }
+
+                        scrlHeight = $(this).scrollTop();  //re-initialize scroll height
+                    });
+
+
+                }
+
+            /**************************************
+                        End search setup
+            ***************************************/
+
+
+
+
+
+
+
+
+
+            /**************************************
+                        Start initialize
+            ***************************************
+                initialize the ajax request to get data
+                */
+
+                function initialize(product_obj) {
+
+                    function setupTiles(product_obj){
+
+                        arrTiles = getFromStorage('arrTiles');
+                        selectedIds = getFromStorage('selectedIntegrations');
+
+                        if(arrLength(arrTiles)){
+                            $('p.init-text').hide();
+                            $.each(arrTiles , function(id, title){
+                                renderIntegration(id,title);
+                            });
+                        }
+
+                        var numItems = $('.tile-side').length;
+                        
+                        if($(window).outerWidth() > 769){
+
+                            numItems > 3  ?
+                                $(".scroll-show-more").show()
+                                : $(".scroll-show-more").hide();
+
+                        }
+
+                        searchIntegrationRender(product_obj); // call render function
+                        gridView(0);
+
+                    }
+
+                    setupTiles(product_obj);
+                    var minHeight = $('.product-area').find('.tile').first().outerHeight()*3;
+                    $('.sidebar,.scrollable').css({'height':minHeight+'px'})
+
+                }
+
+            /**************************************
+                        End initialize
+            ***************************************/
+
+
+
+
+
+
+
+
+
+            /**************************************
+                    Start get image by id
+            ***************************************/
+                
+                function getImageById(id){
+                    
+                    var searchImageData = $('.search-data-object').length > 0 ? 
+                        JSON.parse($.trim($('.search-data-object').html()))
+                        : new Object();
+                    var isImage = '';
+                   
+                    $.each(searchImageData, function(k,v){
+
+                        if(v.sfid === id){
+                            isImage = v;
+                        }
+                    })
+
+                    var isImage = isImage !== '' 
+                        && isImage.productInfo.EProductMediasS[0].filePath !== undefined ? 
+                           avalaraStaticResourcePath+'/'+isImage.productInfo.EProductMediasS[0].filePath
+                           : '{!$Resource.CC_Avalara_Theme}/images/dummy.jpg';
+
+                    return isImage;
+
+                }
+
+            /**************************************
+                    End get image by id
+            ***************************************/
+
+
+
+
+
+
+
+
+
+            /**************************************
+                        Start length
+            ***************************************
+                count the object length
+                */
+
+                function arrLength(obj) {
+
+                    return obj !== null ? 
+                        Object.keys(obj).length
+                        : 0;
+                }
+
+            /**************************************
+                        End length
+            ***************************************/
+
+
+
+
+
+
+
+
+
+            /**************************************
+                    Start get cookie
+            ***************************************
+                function getCookie is created to get the already stored cookie.
+                @param1: name of the cookie to get.
+                */
+                function getCookie(cname) {
+                    var name = cname + "=";
+                    var decodedCookie = decodeURIComponent(document.cookie);
+                    var ca = decodedCookie.split(';');
+                    for(var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+                        while (c.charAt(0) == ' ') {
+                            c = c.substring(1);
+                        }
+                        if (c.indexOf(name) === 0) {
+                            return c.substring(name.length, c.length);
+                        }
+                    }
+                    return "";
+                }
+
+            /**************************************
+                        End get cookie
+            ***************************************/
+                
+
+
+
+
+
+
+
+            /**************************************
+                        Start set cookie
+            ***************************************
+                function setCookie is created to store the cookie.
+                @param1: name of the cookie.
+                @param2: value of the cookie.
+                @param3: expiration in days.
+                */
+
+                function setCookie(cname,cvalue,exdays) {
+                
+                    var d = new Date();
+                    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+                    var expires = "expires=" + d.toGMTString();
+                    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+
+                }
+
+            /**************************************
+                        End set cookie
+            ***************************************/
+
+                
+
+
+
+
+
+
+
+            /**************************************
+                        Start delete cookie
+            ***************************************
+                function deleteCookie is created to delete the already stored cookie.
+                @param1: name of the cookie to delete.
+                */
+
+                function deleteCookie( name ) {
+                
+                  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+
+                }
+
+            /**************************************
+                        End delete cookie
+            ***************************************
+
+
+
+
+
+
+
+
+
+            /**************************************
+                    Start get product by name
+            ***************************************
+                function getProductByName is created to get product name by passing two parameters
+                @param1: the key of object
+                @param2: data object
+                */
+                
+                function getProductByName(key,data) {
+
+                var isFiltered = data.filter(function(data){
+                    var sfdcName = data.productInfo.sfdcName;
+                    sfdcName = sfdcName.replace("AvaTax Integration:", ""); // remove the repetitive pre text from sfdcName.
+                    sfdcName = sfdcName.trim();
+                    sfdcName = sfdcName.toLowerCase();
+                    key = key.toLowerCase();
+                    // return sfdcName.match(key); // contains search
+                    return sfdcName.match("^"+key); // start with search
+                  });
+
+                  return isFiltered;
+
+                }
+
+            /**************************************
+                    End get product by name
+            ***************************************
+
+
+
+
+
+
+            /**************************************
+                        Start grid view
+            ***************************************
+                function gridView is created to show/hide the grid container tiles.
+                @param1: pass the grid number to show. [For first grid pass 0 and so on]
+                */
+
+                function gridView(grid){
+                    
+                    $("#grid-info").val(grid);
+                    $(".grid-container").hide();
+                    $("#grid_"+grid).show();
+
+                }
+
+            /*************************************
+                        End grid view
+            *************************************/
+
+
+
+
+
+
+
+
+
+            /***************************************
+                        Start render
+            ****************************************
+                function render is created to render the HTML using json object.
+                @param1: JSON object
+                @param2: search query (optional)
+                */
+
+                function searchIntegrationRender(data , q){
+
+                    selectedIds = getFromStorage('selectedIntegrations');
+
+                    /*console.log('Selected ids', selectedIds);*/
+                    
+                      if(typeof(q) === 'undefined') {
+                        q = null;
+                      }
+                      
+                    $("#tiles-wrapper").empty();
+
+                    if(q){
+                        data = getProductByName(q,data);
+
+                        if(arrLength(data) > 9)
+                            $(".grid-right").text("View More");
+                        else
+                            $(".grid-right").text("");
+
+                    } else{
+
+                        $(".grid-right").text("");
+
+                    }
+
+                    var count = 0;
+                    var grid_no = 0;
+                    var grid_id;
+
+                    $.each(data, function(i, element) {
+
+                        avalaraSelections.integrations = avalaraSelections.integrations !== undefined ? 
+                        avalaraSelections.integrations
+                        : new Object();
+
+                        if($.inArray(element.sfid, selectedIds) ==-1){
+
+                            if(count%9 === 0){
+                                grid_id = "grid_"+grid_no;
+                                grid_no++;
+
+                                $("#tiles-wrapper").append('</div><div class="grid-container" id="'+grid_id+'">');
+                                $(window).outerWidth() > 769 ? 
+                                    $('.sidebar').css({'max-height':$('#tiles-wrapper').outerHeight()+'px'})
+                                    : '';
+
+                            }
+
+                            var prodName = element.productInfo.productNameAfterIcon !== undefined
+                                && element.productInfo.productNameAfterIcon !== '' ? 
+                                    element.productInfo.productNameAfterIcon
+                                    : $.trim(element.productInfo.sfdcName.replace("AvaTax Integration:", "")); // "prodName" is a variable to store sfdcName of product from JSON object.
+
+
+                            //Do not show if discontinued is in the title
+                            if(prodName.indexOf('-discontinued')!==-1){
+                                return;
+                            }
+
+                            var img = element.productInfo !== undefined
+                                && element.productInfo.EProductMediasS !== undefined
+                                && element.productInfo.EProductMediasS[0] !== undefined
+                                && element.productInfo.EProductMediasS[0].filePath !== undefined ? 
+                                    avalaraStaticResourcePath+'/'+element.productInfo.EProductMediasS[0].filePath
+                                    : '{!$Resource.CC_Avalara_Theme}/images/dummy.jpg'; 
+
+                            var titleClass = prodName.toLowerCase().replace(/ /g,'-');
+                            var appendIntegrationsTemplate = '<div id="'+element.sfid+'" class="tile '+titleClass+' col-xs-4">'+
+                                '<a href="#" onClick="addTile(this);return false;" title="Add '+prodName+'" data-sku="'+element.productInfo.SKU+'" data-sfid="'+element.sfid+'" data-group="Integrations">'+
+                                    '<div class="integration-image"><img src="'+img+'" class="tile-img" alt="'+prodName+'" /></div>'+
+                                '<span>'+prodName+'</span></a><div class="json-product-details" style="display:none">'+
+                                    JSON.stringify(element)+'</div></div>';
+                            
+
+                            $("#"+grid_id).append(appendIntegrationsTemplate);
+
+                            if(count%9 === 0){
+                                $("#tiles-wrapper").append('</div>');
+                            }
+
+                            count++;
+
+                        } else {
+
+                            /*console.log(element);*/
+                            avalaraSelections.integrations[element.sfid] = new Object();
+                            avalaraSelections.integrations[element.sfid] = element;
+                            avalaraSelections.integrations[element.sfid].cart = new Object();
+                            avalaraSelections.integrations[element.sfid].cart.groupName = 'Integrations';
+                            avalaraSelections.integrations[element.sfid].cart.productsThisGroupOnly = new Object();
+                            avalaraSelections.integrations[element.sfid].cart.productsThisGroupOnly.sfid = element.sfid;
+                            avalaraSelections.integrations[element.sfid].cart.productsThisGroupOnly.productInfo = new Object();
+                            avalaraSelections.integrations[element.sfid].cart.productsThisGroupOnly.productInfo.SKU = element.productInfo.SKU
+                            avalaraSelections.integrations[element.sfid].cart.productsThisGroupOnly.productInfo.subProdTerms = new Array();
+                            avalaraSelections.integrations[element.sfid].cart.productsThisGroupOnly.productInfo.subProdTerms = element.productInfo.subProdTerms;
+
+                            //renderIntegration(element.sfid,element.productInfo.sfdcName.replace('AvaTax Integration: ',''))
+
+                      }
+
+                    });
+                }
+
+            /**************************************
+                        End render
+            **************************************/
+
+
+
+
+
+
+
+
+
+            /**************************************
+                        Start save to storage
+            **************************************/
+
+                function saveToStorage(values, item){
+
+                    if(item === 'selectedIntegrations'){
+                        
+                        var cleanArr = new Array();
+                        $.each(values, function(k,v){
+                            v !== null ? 
+                                cleanArr.push(v)
+                                : '';
+                        });
+
+                        localStorage.setItem('selectedIntegrations', JSON.stringify(cleanArr));
+                        sessionStorage.setItem('selectedIntegrations', JSON.stringify(cleanArr));
+                        /*console.log(localStorage.getItem('selectedIntegrations'));*/
+
+                    } else {
+
+                        localStorage.setItem('arrTiles', JSON.stringify(values));
+                        sessionStorage.setItem('arrTiles', JSON.stringify(values));
+                        /*console.log(localStorage.getItem('arrTiles'));*/
+
+                    }
+
+                }
+
+            /**************************************
+                        End save to storage
+            **************************************/
+
+
+
+
+
+
+
+
+
+            /**************************************
+                    Start get from storage
+            **************************************/
+
+                function getFromStorage(item){
+
+                    /*console.log(item);*/
+
+                    if(item === 'arrTiles'){
+
+                        var storedValues = new Object();
+                        storedValues = localStorage.getItem('arrTiles') !== undefined
+                            && localStorage.getItem('arrTiles') !== null ? 
+                            JSON.parse(localStorage.getItem('arrTiles'))
+                            : (sessionStorage.getItem('arrTiles') !== undefined
+                                && sessionStorage.getItem('arrTiles') !== null ? 
+                                    JSON.parse(sessionStorage.getItem('arrTiles'))
+                                    : new Object());
+
+                        return storedValues;
+
+                    } else {
+                        
+                        var storedValues = new Array();
+                        storedValue = localStorage.getItem('selectedIntegrations') !== undefined
+                            && localStorage.getItem('selectedIntegrations') !== null ? 
+                                JSON.parse(localStorage.getItem('selectedIntegrations'))
+                                : (sessionStorage.getItem('selectedIntegrations') !== undefined
+                                    && sessionStorage.getItem('selectedIntegrations') !== null ? 
+                                        JSON.parse(sessionStorage.getItem('selectedIntegrations'))
+                                        : new Array());
+
+
+                        var checkParameters = getUrlParams();
+
+                        /*console.log(checkParameters, storedValues);*/
+
+                        /* check URL for overwrite */
+                        storedValues = checkParameters.skuintegrations !== undefined ? 
+                            (typeof checkParameters.skuintegrations === 'string' ? 
+                                checkParameters.skuintegrations.split(',')
+                                : checkParameters.skuintegrations)
+                            : storedValues;
+
+                        return storedValues;
+
+
+                    }
+
+                }
+
+            /**************************************
+                    End get from storage
+            **************************************/
+
+
+
+
+
+
+
+
+
+            /**************************************
+                    Start renderIntegrations
+            ***************************************
+                function renderIntegration is created to render the HTML of selected intergration tiles.
+                @param1: ID of the product(Integration).
+                @param2: Title of the product(Integration).
+                */
+
+                function renderIntegration(id,title){
+
+                    //Do not show if discontinued is in the title
+                    if(title.indexOf('-discontinued')!==-1){
+                        return;
+                    }
+
+                    /* Get skuintegrations parameter */
+
+                    urlParams.skuintegrations = urlParams.skuintegrations !== undefined ?
+                        urlParams.skuintegrations
+                        : new Array();
+
+                    
+                    /* Check if skuintegrations parameter is string and convert to array */
+
+                    if(typeof urlParams.skuintegrations == 'string'){
+
+                        urlParams.skuintegrations = urlParams.skuintegrations.split(',');
+
+                    }
+
+                    
+                    /* Check skuintegrations parameter if additional id */
+
+                    if($.inArray(id, urlParams.skuintegrations)==-1){
+                        urlParams.skuintegrations.push(id);
+                    }
+
+                    
+                    /* Set skuintegrations parameter to string */
+
+                    urlParams.skuintegrations = urlParams.skuintegrations.join(',');
+
+                    
+                    /* Update URI with new value */
+
+                    updateURI();
+
+
+                    if($('.inPageCart_container').length > 0){
+
+                        if($('.inPageCart_container')
+                            .find('.related-integrations li#'+id).length === 0){
+
+                            $('.inPageCart_container')
+                                .find('.related-integrations ul')
+                                .append('<li id="'+id+'">'+title+
+                                ' <a href="#" onClick="removeTile(this);return false" class="cart-edit cart-remove-btn" data-sfid="'+id+'"><span class="glyphicon glyphicon-remove-sign"></span></li>'),
+
+                            $('.inPageCart_container').find('.related-integrations').find('.conjunction').text(' of:');
+
+                        }
+
+                        var dataId = id;
+                        var details = integrationsPickList[id];
+
+                        avalaraSelections.integrations[dataId] = new Object();
+                        avalaraSelections.integrations[dataId] = details;
+                        avalaraSelections.integrations[dataId].cart = new Object();
+                        avalaraSelections.integrations[dataId].cart.groupName = 'Integrations';
+                        avalaraSelections.integrations[dataId].cart.productsThisGroupOnly = new Object();
+                        avalaraSelections.integrations[dataId].cart.productsThisGroupOnly.sfid = dataId;
+                        avalaraSelections.integrations[dataId].cart.productsThisGroupOnly.productInfo = new Object();
+                        avalaraSelections.integrations[dataId].cart.productsThisGroupOnly.productInfo.SKU = details.productInfo.SKU
+                        avalaraSelections.integrations[dataId].cart.productsThisGroupOnly.productInfo.subProdTerms = new Array();
+                        avalaraSelections.integrations[dataId].cart.productsThisGroupOnly.productInfo.subProdTerms = details.productInfo.subProdTerms;
+                        
+                        $('inPageCart_container').find('.related-integrations').find('.conjunction').text(' of:');
+
+                        urlParams.pageKey === 'configFlow' ? 
+                            updateCartTotalCost()
+                            : '';
+
+
+                    } else {
+
+                        var appendTemplate = '<div id="'+id+'" class="tile-side"><a href="#" onClick="removeTile(this);return false"><span class="undo glyphicon glyphicon-remove-sign"></span></a><a href="#" class="prod-ref" onClick="removeTile(this);return false"><img src="'+getImageById(id)+'" class="tile-img" alt=""><span class="title">'+title+'</span></a></div>';
+                        
+                        $("#selection-wrapper").prepend(appendTemplate);
+
+                        urlParams.pageKey === 'configFlow' ? 
+                            updateCartTotalCost()
+                            : '';
+
+                    }
+
+
+                }
+
+            /*************************************
+                    End renderIntegrations
+            *************************************/
+
+
+
+
+
+
+
+
+
+            /********************************
+                    START SAVE AVALARA 
+                    SELECTIONS
+            *********************************/
+
+                function saveAvalaraSelections(avalaraSelections){
+
+                    localStorage.setItem('avalaraSelections', JSON.stringify(avalaraSelections))
+                    sessionStorage.setItem('avalaraSelections', JSON.stringify(avalaraSelections))
+
+
+                    /*console.log(avalaraSelections);
+                    console.log(JSON.stringify(avalaraSelections));*/
+
+                }
+
+            /********************************
+                    END SAVE AVALARA 
+                    SELECTIONS
+            *********************************/
+
+
+
+
+
+
+
+
+
+            /*************************************
+                Start check cookies for value
+            *************************************
+
+                function checkJSONassets(){
+
+                    avalaraSelections.integrations = new Object();
+                    arrTiles = getFromStorage('arrTiles');
+                    selectedIds = getFromStorage('selectedIntegrations');
+
+                    if(arrLength(arrTiles)){
+                        $('p.init-text').hide();
+                        $.each(arrTiles , function(id, title){
+                            
+                            renderIntegration(id,title);
+                            
+                            /* CAPTURE INFORMATION *
+
+                            var addItem = $('.grid-container').find('div#'+id).find('.json-product-details').length > 0 ? 
+                                JSON.parse($.trim($('.grid-container').find('div#'+id).find('.json-product-details')))
+                                : ''
+
+                            addItem !== '' ? 
+                                avalaraSelections.integrations[id] = addItem
+                                : '';
+
+                        });
+                    }
+
+                    var numItems = $('.tile-side').length;
+                    if($(window).outerWidth() > 769){
+
+                        numItems > 3  ?
+                            $(".scroll-show-more").show()
+                            : $(".scroll-show-more").hide();
+
+                    }
+
+                  searchIntegrationRender(product_obj); // call render function
+                    gridView(0);
+
+                }
+
+            /*************************************
+                End check cookies for value
+            *************************************/
+
+
+
+
+
+
+
+
+
+            /*************************************
+                    Start add integration tile.
+            *************************************/
+
+                function addTile(event){
+
+                    $("#search").val($("#search").val());
+                    //q = $("#search").val();
+
+                    var numTiles = $('#tiles-wrapper .tile').length;
+                    if(numTiles > 1){
+                        var q = $("#search").val();
+                    }else{
+                        var q = '';
+                        $("#search").val('');
+                    }
+                    
+                    /*var image = $(this).find('img').attr('src');*/
+
+                    arrTiles = getFromStorage('arrTiles') !== null
+                        && getFromStorage('arrTiles') !== undefined ? 
+                            getFromStorage('arrTiles')
+                            : arrTiles;
+
+                    selectedIds = getFromStorage('selectedIntegrations') !== null
+                        && getFromStorage('selectedIntegrations') !== undefined ? 
+                            getFromStorage('selectedIntegtations')
+                            : selectedIds;
+
+                    var click_tile_id = $(event).parent().attr('id');
+                    var title = $(event).find("span").text();
+                    var dataId = $(event).attr('data-sfid');
+                    $('p.init-text').hide();
+
+                    var getDetails = $(event).parent().find('.json-product-details').length > 0 ? 
+                        JSON.parse($.trim($(event).parent().find('.json-product-details').html()))
+                        : '';
+
+                    details = getDetails !== undefined
+                        && getDetails !== '' ? 
+                            getDetails
+                            : $(event).data();
+
+                    /* IF QUICKBOOKS ONLINE SHOW MESSAGE */
+
+                    var checkTitle = title.toLowerCase();
+                    if(checkTitle.indexOf('quickbooks online') !== -1){
+                        var quickbooksMessage = '<div class="returns-modal quickbooks-online-message">'+
+                            '<h3 class="modal-title">AvaTax for Quickbooks Online can be purchased in the Intuit App Store</h3>'+
+                            '<p>Avalara and Quickbooks have partnered to offer a seamless integration. Complete your checkout and configuration in the Inuit App Store.</p>'+
+                            '<a href="//apps.intuit.com/avalara" rel="noopener noreferrer" target="_blank" title="Get Quickbooks Online" onCLick="closeModal(this);">'+
+                            '<button class="btn-buy-now"></button>'+
+                            '</a>'+
+                        '</div>';
+                        modalPopup('','', quickbooksMessage);
+                        return false;
+                    }
+
+                    /**************************************
+                        START SAMPLE OBJECT FOR CC CART
+                    ***************************************
+                        
+                        {
+                            "groupName" : "Integrations",
+                            "productsThisGroupOnly" : {
+
+                                "productInfo" : {
+
+                                    "SKU" : "ATI0002",
+                                    "subProdTerms" : [
+                                        {
+                                            "installmentFrequencyUOM" : "Monthly",
+                                            "subProdTermId" : "a9U5B0000008OJCUA2"
+                                        },
+                                        {
+                                            "installmentFrequencyUOM" : "Yearly",
+                                            "subProdTermId" : "a9U5B0000008OJDUA2"
+                                        }
+                                    ]
+                                },
+                                "sfid" : "a8z5B0000008OUpQAM"
+                            }
+                        }
+
+                    **************************************
+                        END SAMPLE OBJECT FOR CC CART
+                    ***************************************/
+
+                    renderIntegration(click_tile_id,title, details);
+
+                    $('.integrations-product-results:hidden').fadeIn(300);
+
+                    arrTiles[click_tile_id] = title;
+                    selectedIds.push(click_tile_id); // collect selected IDs to malupulate Tiles.
+                    
+                    urlParams.skuintegrations = urlParams.skuintegrations == undefined ? 
+                        new Array()
+                        : urlParams.skuintegrations;
+
+                    urlParams.skuintegrations = selectedIds.length > 0 ? 
+                        selectedIds.join(',')
+                        : '';
+
+                    if(urlParams.skuintegrations == ''){
+                    
+                        delete urlParams.skuintegrations
+                    
+                    }
+
+                    updateURI();
+
+                    urlParams.pageKey === 'configFlow' ? 
+                        updateCartTotalCost()
+                        : '';
+
+
+                    saveToStorage(selectedIds, 'selectedIntegrations'),
+                    saveToStorage(arrTiles, 'arrTiles'),
+                    saveAvalaraSelections(avalaraSelections);
+
+                    var numItems = $('.tile-side').length;
+                    if($(window).outerWidth() > 769){
+
+                        numItems > 3  ?
+                            $(".scroll-show-more").show()
+                            : $(".scroll-show-more").hide();
+
+                    }
+
+                    searchIntegrationRender(product_obj,q); // call render function
+                    gridView(0);
+
+
+                    return false;
+
+                }
+
+            /*************************************
+                    End add integration tile.
+            *************************************/
+
+
+
+
+
+
+
+
+
+            /*************************************
+                    Start Remove from already 
+                    selected integrations.
+            *************************************/
+
+                function removeTile(event){
+
+                    var this_div_id = $(event).parent().attr("id");
+
+                    delete arrTiles[this_div_id];
+                    delete avalaraSelections.integrations[this_div_id];
+
+                    selectedIds = getFromStorage('selectedIntegrations')
+                    selectedIds.splice( $.inArray(this_div_id,selectedIds) ,1 );
+                    for(var i=0; i <= selectedIds.length; i++){
+                        if(selectedIds[i]===$.trim(this_div_id)){
+                            delete selectedIds[i];
+                        }
+                    }
+
+                    $(event).parent().remove();
+
+                    var numItems = $('.tile-side').length;
+
+                    if($(window).outerWidth() > 769){
+                        
+                        numItems > 3  ?
+                            $(".scroll-show-more").show()
+                            : $(".scroll-show-more").hide();
+
+                    }
+
+                    arrLength(arrTiles) > 0 ? 
+                        $('.scrollable').find('.init-text').hide()
+                        : function(){
+                            $('.scrollable').find('.init-text').show()
+                            $('.integrations-product-results').fadeOut(300)
+                        }();
+
+                    if(selectedIds.length == 0){
+
+                        delete urlParams.skuintegrations;
+
+                    } else {
+
+                        urlParams.skuintegrations = selectedIds.join(',');
+
+                    }
+
+                    saveToStorage(selectedIds, 'selectedIntegrations'),
+                    saveToStorage(arrTiles, 'arrTiles'),
+                    saveAvalaraSelections(avalaraSelections),
+
+                    updateURI(),
+                    searchIntegrationRender(product_obj); // call render function
+                    gridView(0);
+
+                    urlParams.pageKey === 'configFlow' ? 
+                        updateCartTotalCost()
+                        : '';
+
+                    return false;
+
+                }
+
+            /*************************************
+                    End remove from already
+            *************************************/
+
+
+
+
+
+
+
+
+
+            /*************************************
+                Start show/hide scroll
+                suggestion on scroll end.
+            *************************************/
+
+                function checkSelectionScroll(){
+                    
+                    $('#selection-wrapper').unbind('scroll').on('scroll', function() {
+
+                        if($(window).outerWidth()> 769){
+                        
+                        if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+                          
+                          $(".scroll-show-more").fadeOut(500);
+
+                        } else {
+                            
+                            $(".scroll-show-more").fadeIn(500);
+
+                        }
+
+                       } else {
+                            $("#fixed:visible").fadeOut(500);
+                       }
+
+                      scrlHeight = $(this).scrollTop();  //re-initialize scroll height
+
+                    });
+
+
+                }
+
+            /*************************************
+                End show/hide scroll
+            *************************************/
+
+
+
+
+
+
+
+            /*************************************
+                        Start Next
+            *************************************/
+
+                function gridRight(event){
+                    
+                    var grid_no = $("#grid-info").val();
+
+                    grid_no = parseInt(grid_no);
+                    grid_no = grid_no + 1;
+
+                    grid_no == 1 ?
+                        $(".grid-left").text("Back")
+                        :(grid_no > 1 ?
+                            $(".grid-left").text("Back to beginning")
+                            : '');
+
+                    $("#search").keyup();
+                    gridView(grid_no);
+
+                }
+
+            /*************************************
+                        End Next
+            *************************************/
+
+
+
+
+
+
+
+
+
+            /*************************************
+                        Start back
+            *************************************/
+
+                function gridLeft(event){
+                    
+                    $(".grid-left").text("");
+                    $(".grid-right").text("");
+
+                    $("#search").keyup();
+                    gridView(0);
+
+                }
+
+            /*************************************
+                        End back
+            *************************************/
+
+
+
+
+
+
+
+
+
+            /*************************************
+                        Start scrolldown
+            *************************************/
+
+                function scrollSelectedDown(event){
+
+                    var isHeight = $('#selection-wrapper').find('.tile-side').first().outerHeight();
+                    var setScroll = $("#selection-wrapper").scrollTop() + isHeight;
+
+                    $("#selection-wrapper").animate({scrollTop: setScroll+'px'}, 400);
+
+                    return false;
+
+                }
+
+            /*************************************
+                        End scrolldown
+            *************************************/
+
+
+
+
+
+
+
+
+
+            /*************************************
+                        Start clear search
+            *************************************
+             Clear the search box text
+             */
+                
+                function clearSearch(){
+
+                    $("#search").val('');
+                    $("#search").keyup();
+
+                }
+
+            /*************************************
+                        End clear search
+            *************************************/
+
+        /********************************************************
+
+                        END INTEGRATION SEARCH 
+                                
+        ********************************************************/
+    </script>
+    
+</apex:page>

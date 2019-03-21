@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <icon>Campaign_Calendar/Campaign_Calendar_Tab_Icon.gif</icon>
+    <label>Campaign Calendar</label>
+    <mobileReady>false</mobileReady>
+    <motif>Custom244: TV Widescreen</motif>
+    <page>ccMonthView</page>
+</CustomTab>

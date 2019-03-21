@@ -1,0 +1,1813 @@
+<apex:page sidebar="false" docType="html-5.0" controller="AvalaraSearchCtrl" standardStylesheets="false">
+    <apex:slds ></apex:slds>
+    <apex:stylesheet value="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+    <apex:stylesheet value="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css"/>
+    <apex:stylesheet value="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <apex:styleSheet value="{!URLFOR($Resource.MatrixResources,'/ngProgress.css')}"/>
+    <apex:styleSheet value="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.6/sweetalert2.min.css"/>
+    <apex:styleSheet value="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.20.0/select.min.css"/>
+    <apex:styleSheet value="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css"/>
+
+    <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></apex:includeScript>
+    <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></apex:includeScript>
+    <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-sanitize.min.js"></apex:includeScript>
+    <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.1.3/ui-bootstrap-tpls.min.js"></apex:includeScript>
+    <apex:includeScript value="{!URLFOR($Resource.MatrixResources,'/ngprogress.min.js')}"></apex:includeScript>
+    <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.js"/>
+    <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.6/sweetalert2.min.js"/>
+    <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"/>
+    <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.13/moment-timezone-with-data.min.js"/>
+    <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.20.0/select.min.js"/>
+
+    <style>
+        .full-width{
+            width:100%;
+        }
+        .text-danger {
+            color: #a94442;
+        }
+        .text-primary {
+            color: #337ab7;
+        }
+        .text-orange{
+            color: #ff6600;
+        }
+        .slds-scope .slds-button--success, .slds-scope .slds-button_success{
+            color: #fff;
+        }
+        .carousel-caption{
+            text-align: center;
+        }
+
+        .badge-image{
+            height: 150px;
+            min-height: 150px;
+        }
+        .slick-next:focus,.slick-next:hover,.slick-prev:focus,.slick-prev:hover{
+            color:#000;
+        }
+        .slick-prev {
+            left: -40px;
+        }
+        .slick-next:before{
+            content: '→';
+        }
+        .slick-prev:before {
+            content: '←';
+        }
+        .slick-prev:before, .slick-next:before{
+            color:#000;
+        }
+        .slick-slide .slds-box{
+            border-radius:0px;
+        }
+        .slick-next,.slick-prev{
+            color:#fff !important;
+        }
+        .thead{
+            background-color: #3b5276;
+            font-weight: bold;
+            padding: 10px;
+            color: #fff;
+        }
+        .border-right{
+            border-right:1px solid #ccc;
+        }
+        .border-left{
+            border-left:1px solid #ccc;
+        }
+        .border-top-bottom{
+            border-top:1px solid #ccc;
+            border-bottom:1px solid #ccc;
+        }
+        .carousel{
+            box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+        }
+        .slds-notify{
+            width:25%;
+        }
+        .modal-icon-div{
+            cursor: pointer;
+            text-align: center;
+        }
+        .slds-scope button[disabled], .slds-scope input[disabled]{
+            cursor:not-allowed;
+            pointer-events: none;
+        }
+        body button{
+            background: none;
+        }
+        .slick-disabled{
+            cursor: not-allowed ;
+            pointer-events: none;
+        }
+        .slds-scope .slds-badge{
+            border-radius: 0px;
+        }
+        .slds-scope hr{
+            margin: 0.1rem 0;
+        }
+        .slds-scope .slds-theme--offline, .slds-scope .slds-theme_offline{
+            background-color: #3b5276;
+            font-weight: bold;
+        }
+        .bold-labels label{
+            font-weight: bold;
+        }
+        .slick-track{
+            margin: 0px;
+        }
+        .swal2-container{
+            z-index: 99999;
+        }
+
+        .connector-kb-modal .slds-box .slds-grid{
+            border-bottom: 1px solid #eaeaea;
+            padding-bottom: 2px;
+        }
+        .slds-scope .slds-button--success, .slds-scope .slds-button_success,.slds-scope .slds-button_success:link{
+            color:#fff;
+        }
+        .slds-scope a:focus, .slds-scope a:hover{
+            text-decoration:none;
+        }
+        .slds-scope a:hover .jira{
+            cursor:pointer;
+        }
+        .slds-scope .slds-table--bordered, .slds-scope .slds-table_bordered{
+            border-top: none;
+        }
+        .slds-scope .slds-table td, .slds-scope .slds-table th{
+            padding: .1rem;
+        }
+        .requirement{
+            max-width: 250px;
+            width: 250px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var app = angular.module('app', ['ui.bootstrap', 'ngProgress', 'ui.select', 'ngSanitize']);
+        app.constant('sfVariables',{
+            resource_path : '{!$Resource.CertificationBadges}',
+            userId : '{!$User.Id}'
+        });
+
+    </script>
+    <c:ctrlRemoting factory="remoting" angularApp="app" controller="AvalaraSearchCtrl"></c:ctrlRemoting>
+    <script>
+        app.controller('ctrl', ctrlFn);
+        app.controller('requestBadgeCtrl',requestBadgeCtrlFn);
+        app.controller('reportIssueCtrl',reportIssueCtrlFn);
+        app.controller('ConnectorKBCtrl',ConnectorKBCtrlFn);
+        app.controller('configModalCtrl',configModalCtrlFn);
+        app.controller('contactModalCtrl',contactModalCtrlFn);
+
+        app.filter('htmldecode', ['$sce', function($sce) {
+            return function(input) {
+                if (input) {
+                    var txt = document.createElement("textarea");
+                    txt.innerHTML = input;
+                    return $sce.trustAsHtml(txt.value);
+                    //var e = document.createElement('div');
+                    //e.innerHTML = input;
+                    //return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+                }
+                return input;
+            }
+        }]);
+
+        app.filter('dateAdjust', [function() {
+            return function(input) {
+                return input ? moment.utc(input).format('MM/DD/YYYY') : input;
+            }
+        }]);
+
+        app.factory('blockUI',function() {
+            return {
+                start : start,
+                stop : stop,
+                reset : stop
+            }
+
+            function start(title, body) {
+                swal({
+                  title: title,
+                  text: body,
+                  type: "info",
+                  showCancelButton: false,
+                  showConfirmButton : false,
+                  allowEscapeKey : false,
+                  allowOutsideClick : false
+              });
+
+            }
+
+            function stop() {
+                swal.close();
+            }
+        })
+
+        function ctrlFn($scope, $q, sfVariables, $uibModal, remoting, ngProgressFactory, $timeout) {
+            $scope.ui = {
+                connectors : [],
+                badges : {},
+                noResult : false,
+                searchText : ''
+            }
+            const SIZE = 6;
+            $scope.progressbar = ngProgressFactory.createInstance();
+            $scope.progressbar.setHeight('5px');
+
+            $scope.toggleSubVersion = function(parentId) {
+                    var parentCSS=".versionid"+parentId;
+                    var childCSS=".parentVersionId"+parentId;
+                    var parentVersionIdSpan=".parentVersionIdSpan"+parentId;
+                    var parentVersionIdSpanchevronright=".parentVersionIdSpanchevronright"+parentId;
+                    var parentVersionIdSpanchevrondown=".parentVersionIdSpanchevrondown"+parentId;
+                    var versionidspan=".versionidspan"+parentId;
+                var clickedElement=$(document).find(parentCSS).find(versionidspan);
+                var rightClass=$(parentVersionIdSpanchevronright).attr("class");
+                var downClass=$(parentVersionIdSpanchevrondown).attr("class");
+                //console.log("rightClass"+rightClass.indexOf("slds-hide"));
+                //console.log("downClass"+downClass.indexOf("slds-hide"));
+                if(rightClass.indexOf("slds-hide")==-1){
+                        //console.log("11111111");
+                        $(parentVersionIdSpanchevrondown).removeClass("slds-hide");
+                        $(parentVersionIdSpanchevronright).addClass("slds-hide");   
+                    $( childCSS ).each(function( index ) {
+                        $(this).removeClass("slds-hide");
+                        //$(this).css({ 'display': "none" });
+                    });                         
+                        
+                }
+                else if(downClass.indexOf("slds-hide")==-1){
+                    //console.log("222222222");
+                        $(parentVersionIdSpanchevronright).removeClass("slds-hide");
+                        $(parentVersionIdSpanchevrondown).addClass("slds-hide");    
+
+                    
+                    $( childCSS ).each(function( index ) {
+                        $(this).addClass("slds-hide");
+                        //$(this).css({ 'display': "auto" });
+                    });                                                                     
+                }
+                $( parentVersionIdSpan ).each(function( index ) {
+                  $(this).addClass("slds-hide");
+                });                 
+                /*var text=$(clickedElement).text();
+                if(text=="+"){
+                        $(clickedElement).html("-");
+                    $( childCSS ).each(function( index ) {
+                        $(this).removeClass("slds-hide");
+                        //$(this).css({ 'display': "none" });
+                    });                     
+                }
+                else{
+                        $(clickedElement).html("+");
+                    $( childCSS ).each(function( index ) {
+                        $(this).addClass("slds-hide");
+                        //$(this).css({ 'display': "auto" });
+                    });                         
+                }*/
+            };
+            $scope.openRequestModal = function(vId, ownerId, connector) {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'requestBadge.html',
+                    controller: 'requestBadgeCtrl',
+                    animation : false,
+                    resolve: {
+                        vId : function () {
+                            return vId;
+                        },
+                        ownerId :  function () {
+                            return ownerId;
+                        },
+                        connector : function () {
+                            return connector;
+                        }
+                    }
+                })
+            }
+
+            $scope.openReportModal = function(vId, connector) {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'reportIssue.html',
+                    controller: 'reportIssueCtrl',
+                    animation : false,
+                    resolve: {
+                        vId : function () {
+                            return vId;
+                        },
+                        connector : function () {
+                            return connector;
+                        }
+                    }
+                })
+            }
+
+            $scope.openConnectorModal = function(vid, c) {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'ConnectorKB.html',
+                    controller: 'ConnectorKBCtrl',
+                    animation : false,
+                    resolve: {
+                        article: function () {
+                            return getArticle(vid);
+                        },
+                        connector : function () {
+                            return c;
+                        }
+                    }
+                })
+            }
+
+            $scope.openModal = function(vid,type,badge) {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'configModal.html',
+                    controller: 'configModalCtrl',
+                    animation : false,
+                    resolve: {
+                        configs: function () {
+                            return getConfig(vid,type);
+                        },
+                        type : function () {
+                            return type;
+                        },
+                        badge : function () {
+                            return badge;
+                        }
+                    }
+                })
+            }
+
+            $scope.openContactModal = function(conId) {
+                var modalInstance = $uibModal.open({
+                    templateUrl: 'contactModal.html',
+                    controller: 'contactModalCtrl',
+                    animation : false,
+                    resolve: {
+                        contact: function () {
+                            return getUser(conId);
+                        }
+                    }
+                })
+            }
+
+            function buildSettings(arr) {
+                var m = {};
+                for (var i = 0; i < arr.length; i++) {
+                    m[arr[i].Type__c + '||' + arr[i].Status__c] = sfVariables.resource_path + arr[i].Badge_Resource_Path__c;
+                }
+                return m;
+            }
+
+            function split(arr) {
+                var size = SIZE;
+                var r = [];
+                for (var i = 0; i< arr.length; i += size) {
+                    r.push(arr.slice(i, i + size));
+                }
+                return r;
+            }
+
+            function parseBadges(settings, badges) {
+                for (var i = 0; i < badges.length; i++) {
+                    badges[i].src = settings[badges[i].Type__c + '||' + badges[i].Status__c];
+                }
+                return badges;
+            }
+
+            $scope.init = function(searchText) {
+
+                $scope.progressbar.start();
+                $scope.ui.connectors = [];
+                $q.all([
+                    remoting.getConnectors(searchText),
+                    remoting.getSettings()
+                ]).then(function (r) {
+                    var data = {};
+                    for (var i = 0; i < r[0].connectors.length; i++) {
+                        var c = r[0].connectors[i];
+                        if(c.Vibrancy__c == 'Launch' || c.Vibrancy__c == 'Dormant' || c.Vibrancy__c == 'Emerging' || c.Vibrancy__c == 'Active'){
+                            c.Avalara_Contact = c.Early_Adopter_Sales_Owner__r ? c.Early_Adopter_Sales_Owner__r.Name : '';
+                            c.Avalara_Contact_Id = c.Early_Adopter_Sales_Owner__c || '';
+                        }
+                        if(c.Vibrancy__c == 'Established'){
+                         if(c.SAM__c!=null){
+                            c.Avalara_Contact = c.SAM__r.Name ? c.SAM__r.Name : '';
+                            c.Avalara_Contact_Id = c.SAM__c || '';
+                            }
+                        }
+                        if(c.Vibrancy__c == 'Retired'){
+                            //TODO  assign BDM field value id and name
+                            c.Avalara_Contact = '';
+                            c.Avalara_Contact_Id = '';
+                        }
+                    }
+                    $scope.ui.connectors = r[0].connectors;
+                    $scope.ui.noResult = ($scope.ui.connectors && $scope.ui.connectors.length == 0);
+                    var m = split(parseBadges(buildSettings(r[1]), r[0].badges));
+
+                    for (var i = 0; i < m.length; i++) {
+                        for (var j = 0; j < Object.values(m[i]).length; j++) {
+                            var d = Object.values(m[i])[j];
+                            data[d.Version__c] = data[d.Version__c] || [];
+                            data[d.Version__c].push(d);
+                        }
+                    }
+                    $scope.ui.badges = data;
+                    $timeout( function(){
+                        $('.carousel').width($('.carousel').width())
+                        $('.carousel').slick({
+                            infinite: false,
+                            slidesToShow: 6,
+                            slidesToScroll: 6,
+                            autoplay: false,
+                            autoplaySpeed: 5000
+                        });
+                    },800 );
+                    $scope.progressbar.complete();                    
+                });
+            }
+
+            $scope.$watch('ui.searchText',function(nv,ov) {
+
+                if(nv && nv.length > 2 && nv != ov){
+                    $scope.init(nv);
+                }
+                if(!nv && $scope.ui.noResult){
+                    $scope.ui.noResult = false;
+                }
+                if(!nv && !$scope.ui.noResult){
+                    $scope.ui.connectors = [];
+                }
+            },true)
+
+            function getConfig(vid,type) {
+                var data = {};
+                return remoting.getRequirements(vid,type).then(function (res) {
+                    for (var i = 0; i < res.length; i++) {
+                        var c = res[i].Functional_Matrix_Requirements_Config__r;
+                        c.Section__c = c.Section__c || '';
+                        c.SubHeader__c = c.SubHeader__c || '';
+                        data[c.Section__c] = data[c.Section__c] || {};
+                        data[c.Section__c][c.SubHeader__c] = data[c.Section__c][c.SubHeader__c] || [];
+                        data[c.Section__c][c.SubHeader__c].push(res[i]);
+                    }
+                    return data;
+                });
+            }
+
+            function getArticle(vid) {
+                return remoting.getArticle(vid).then(function (res) {
+                    return res[0];
+                });
+            }
+
+            function getUser(conId){
+                return remoting.getUser(conId).then(function (res) {
+                    return res;
+                })
+            }
+        }
+
+        function requestBadgeCtrlFn($scope, $uibModalInstance, $q, sfVariables, remoting, vId, blockUI, ownerId, connector) {
+            $scope.ui = {
+                fName : '',
+                lName : '',
+                email : '',
+                note : '',
+                telephone : ''
+            }
+
+            $scope.save = function(){
+                blockUI.start('Saving....');
+                var task = {
+                    Subject : 'Badge Request',
+                    Priority : 'Normal',
+                    Status : 'Not Started',
+                    OwnerId : ownerId,
+                    WhatId : vId,
+                    Account__c : $scope.ui.Account.Id,
+                    Type : 'Functionality Request',
+                    // Reason_for_Call__c : 'Other',
+                    Description : 'Name : ' + $scope.ui.Account.Name + '\n' /*+ 'Email : ' + $scope.ui.Contact.Email + '\n'*/ + 'Note : ' + $scope.ui.note
+                }
+
+                if(connector.SAM__r && connector.SAM__r.Email && connector.Vibrancy__c == 'Established'){
+                    task.Avalara_Contact__c =connector.SAM__r.Email;
+                }
+                if(connector.Early_Adopter_Sales_Owner__r && connector.Early_Adopter_Sales_Owner__r.Email && (connector.Vibrancy__c == 'Launch' || connector.Vibrancy__c == 'Dormant' || connector.Vibrancy__c == 'Emerging' || connector.Vibrancy__c == 'Active')){
+                    task.Avalara_Contact__c =connector.Early_Adopter_Sales_Owner__r.Email;
+                }
+
+                remoting.createTask(task).then(function(r){
+                    $uibModalInstance.close();
+                    blockUI.stop();
+                    swal(
+                        'Created',
+                        'Task created successfully',
+                        'success'
+                    );
+                    console.log(r);
+                }).catch(function(err){
+                    blockUI.reset();
+                    swal(
+                        'Error',
+                        err.message,
+                        'error'
+                    );
+                })
+            }
+
+            $scope.searchContact = function ($select) {
+                if ($select.search && $select.search.length > 3) {
+                    return remoting.getAccounts($select.search).then(function (r) {
+                        $scope.ui.Accounts = r;
+                        return r;
+                    })
+                }
+                else {
+                    var deferred = $q.defer();
+                    $scope.ui.Accounts = [];
+                    deferred.resolve($scope.ui.Accounts);
+                    return deferred.promise;
+                }
+            }
+
+            $scope.onSelect = function (item, model) {
+                $scope.ui.email = item.Email;
+            }
+
+            $scope.cancel = function () {
+                $uibModalInstance.close();
+            };
+        }
+
+        function reportIssueCtrlFn($scope, $uibModalInstance, remoting, sfVariables, vId, blockUI, $q, connector) {
+
+            $scope.ui = {
+                accName : '',
+                caseNumber : '',
+                note : ''
+            }
+
+            $scope.save = function(){
+                blockUI.start('Saving....');
+                var task = {
+                    Subject : 'Report Issue',
+                    Priority : 'Normal',
+                    Status : 'Not Started',
+                    OwnerId : sfVariables.userId,
+                    WhatId : $scope.ui.case.Id,
+                    Type : 'Report Issue',
+                    // Reason_for_Call__c : 'Other',
+                    Description :  'SF Case Number : ' + $scope.ui.case.CaseNumber + '\n' + 'Note : ' + $scope.ui.note
+                                    + '\nUser : {!$User.FirstName} {!$User.LastName} \nEmail : ' + '{!$User.Email}'
+                }
+                if(connector.SAM__r && connector.SAM__r.Email && connector.Vibrancy__c == 'Established'){
+                    task.Avalara_Contact__c =connector.SAM__r.Email;
+                }
+                if(connector.Early_Adopter_Sales_Owner__r && connector.Early_Adopter_Sales_Owner__r.Email && (connector.Vibrancy__c == 'Launch' || connector.Vibrancy__c == 'Dormant' || connector.Vibrancy__c == 'Emerging' || connector.Vibrancy__c == 'Active')){
+                    task.Avalara_Contact__c =connector.Early_Adopter_Sales_Owner__r.Email;
+                }
+                remoting.createTask(task).then(function(){
+                    blockUI.stop();
+                    $uibModalInstance.close();
+                    swal(
+                        'Created',
+                        'Task created successfully',
+                        'success'
+                    );
+                }).catch(function(err){
+                    blockUI.reset();
+                    swal(
+                        'Error',
+                        err.message,
+                        'error'
+                    );
+                })
+            }
+
+            $scope.searchCases = function ($select) {
+                if ($select.search && $select.search.length > 3) {
+                    return remoting.getCases($select.search).then(function (r) {
+                        $scope.ui.Cases = r;
+                        return r;
+                    })
+                }
+                else {
+                    var deferred = $q.defer();
+                    $scope.ui.Cases = [];
+                    deferred.resolve($scope.ui.Cases);
+                    return deferred.promise;
+                }
+            }
+
+            $scope.cancel = function () {
+                $uibModalInstance.close();
+            };
+        }
+
+        function ConnectorKBCtrlFn($scope, $uibModalInstance, article, connector) {
+            console.log(article);
+            $scope.article = article;
+            $scope.connector = connector;
+
+            $scope.cancel = function () {
+                $uibModalInstance.close();
+            };
+        }
+
+        function configModalCtrlFn($scope, $uibModalInstance, configs, type, badge) {
+
+            $scope.configs = configs;
+            $scope.type = type;
+            $scope.dateAchieved = badge.Status__c == 'Certified' && badge.Date_Achieved__c ? badge.Date_Achieved__c : undefined;
+
+            $scope.cancel = function () {
+                $uibModalInstance.close();
+            };
+
+            function convertMStoDate(newDate) {
+                var m = moment.utc(newDate);
+                return new Date(m.year(), m.month(), m.date(), m.hours());
+            }
+        }
+
+        function contactModalCtrlFn($scope, $uibModalInstance, contact) {
+            $scope.contact = contact;
+
+            $scope.cancel = function () {
+                $uibModalInstance.close();
+            };
+        }
+    function hideChildVersions(){
+            
+        $( ".slds-hide1" ).each(function( index ) {
+            $(this).addClass("slds-hide");
+            //$(this).css({ 'display': "auto" });
+        }); 
+        $( ".parentVersion" ).each(function( index ) {
+            //console.log('parentVersion classes===='+$(this).attr("class"));
+            var pId=$(this).attr("class");
+            pId=pId.substring(pId.indexOf("versionid"));
+            pId=pId.substring(0,pId.indexOf(" "));
+            pId=pId.replace("versionid","");
+            var childClass=".parentVersionId"+pId;
+            var pClass=".versionidspan"+pId;
+            var totalC=0;
+            $( childClass ).each(function( index ) {
+                totalC=totalC+1;
+            });
+            if(totalC<=0){
+                $( pClass ).each(function( index ) {
+                    $(this).addClass("slds-hide");
+                });         
+                
+            }
+        });                  
+    }
+    </script>
+    <div class="slds-box" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ng-app="app" ng-controller="ctrl" ng-cloak="true">
+        <div class="slds-page-header slds-m-bottom_x-small">
+            <div class="slds-media">
+                <div class="slds-media__figure">
+                    <apex:image url="{!URLFOR($Resource.CertificationBadges, '/SVG/GENERIC.svg')}" style="height:80px;"/>
+                </div>
+                <div class="slds-media__body">
+                    <h1 class="slds-page-header__title slds-truncate slds-align-middle" style="margin-top:6px;font-size:25px;">Connector Search</h1>
+                </div>
+            </div>
+        </div>
+        <div class="slds-box" style="position:relative">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-p-horizontal_x-small">
+                    <ul class="slds-list--dotted">
+                        <li>
+                            Type in the box to search for a connector.
+                        </li>
+                        <li>
+                            Expand for versions.
+                        </li>
+                        <li>
+                            Click badge for details.
+                        </li>
+                    </ul>
+                    <!-- <p style="position:absolute;right:4px;top:6px">
+                        <apex:image url="{!$Resource.JiraLogo}" style="height:30px;"/>
+                        <a href="https://jira.avalara.com/projects/SE/issues/SE-1502?filter=allopenissues" target="_blank">Click here</a> to request assistance from a Sales Engineer.
+                    </p> -->
+                    <br/>
+                    <p>
+                        <small >Please type at least 3 letter to continue</small>
+                    </p>
+                    <div class="form-group has-feedback slds-grid">
+                        <div class="slds-col slds-size_10-of-12">
+                            <input ng-model="ui.searchText" type="text" class="slds-input" placeholder="Type your text here..." ng-model-options="{ debounce: 800 }"/>
+                        </div>
+
+                        <div class="slds-col slds-size_2-of-12 slds-p-horizontal_x-small">
+                            <button type="button" class="slds-button slds-button_brand" ng-click="init(ui.searchText)" tabindex="1" ng-disabled="ui.searchText.length < 3">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <br/>
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning" role="alert" ng-if="ui.noResult">
+                <span class="slds-assistive-text">error</span>
+                <span class="slds-icon_container slds-icon-utility-ban slds-m-right_x-small" >
+                    <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                        <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#ban" />
+                    </svg>
+                </span>
+                <h2>No Connector found</h2>
+            </div>
+            <div class="slds-grid slds-wrap" ng-if="!ui.noResult && ui.connectors.length > 0">
+                <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_2-of-12 slds-p-horizontal_x-small thead border-left border-top-bottom" >
+                            <label>Connector Name</label>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12 slds-p-horizontal_x-small thead border-top-bottom">
+                            <label>Vibrancy</label>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12 slds-p-horizontal_x-small thead border-top-bottom">
+                            <label>Platform Category &nbsp;
+                                <span title="The platform category assigned to the connector designates it pricing structure." style="cursor:pointer;">
+                                    <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                        <use xlink:href="/apexpages/slds/latest/assets/icons/action-sprite/svg/symbols.svg#info" fill="#000;"/>
+                                    </svg>
+                                </span>
+                            </label>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12 slds-p-horizontal_x-small thead border-top-bottom">
+                            <label>Avalara Contact</label>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12 slds-p-horizontal_x-small thead border-right border-top-bottom">
+                            &nbsp;
+                        </div>
+
+                    </div>
+                    <ul class="slds-accordion">
+                         <li class="slds-accordion__list-item" ng-repeat="c in ui.connectors">
+                             <section class="slds-accordion__section" ng-class="{'slds-is-open' : ui.state[c.Id]}">
+                                <div class="slds-accordion__summary">
+                                    <h3 class="slds-text-heading_small slds-accordion__summary-heading">
+                                        <a aria-controls="accordion-details" aria-expanded="true" class="slds-button slds-button_reset slds-accordion__summary-action" ng-click="ui.state[c.Id] = !ui.state[c.Id]" onclick='hideChildVersions();'>
+                                            <svg class="slds-accordion__summary-action-icon slds-button__icon slds-button__icon_left" aria-hidden="true">
+                                                <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#switch" />
+                                            </svg>
+                                        </a>
+                                    </h3>
+
+                                    <div class="slds-grid slds-wrap full-width" >
+                                        <div style="cursor:pointer" class="slds-col slds-size_2-of-12 slds-p-horizontal_x-small" ng-click="ui.state[c.Id] = !ui.state[c.Id]"  onclick='hideChildVersions();'>
+                                            {{c.Name}}
+                                        </div>
+                                        <div class="slds-col slds-size_2-of-12 slds-p-horizontal_x-small">
+                                            {{c.Vibrancy__c}}
+                                        </div>
+                                        <div class="slds-col slds-size_2-of-12 slds-p-horizontal_x-small">
+                                            {{c.Platform_Cateogry__c}}
+                                        </div>
+                                        <div class="slds-col slds-size_2-of-12 slds-p-horizontal_x-small" ng-click="openContactModal(c.Avalara_Contact_Id)" style="cursor:pointer;">
+                                            {{c.Avalara_Contact}}
+                                        </div>
+                                        <div class="slds-col slds-size_2-of-12 slds-p-horizontal_x-small">
+                                            &nbsp;
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div aria-hidden="false" class="slds-accordion__content">
+                                    <!-- <label style="font-weight: bold;padding-left: 45px;"> Version </label> -->
+                                    <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning" role="alert" ng-if="!c.Versions__r">
+                                        <span class="slds-assistive-text">error</span>
+                                        <span class="slds-icon_container slds-icon-utility-ban slds-m-right_x-small" >
+                                            <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#ban" />
+                                            </svg>
+                                        </span>
+                                        <h2>No Version found</h2>
+                                    </div>
+                                    <div ng-repeat="v in c.Versions__r" style="margin-top:15px;">
+                                        <div class="slds-grid slds-wrap parentVersion versionid{{v.Id}} parentVersionId{{v.Parent_Version__c}} {{v.Parent_Version__c?'slds-hide1':''}}" ng-style="v.Parent_Version__c && {'background-color':'#f8f8f8'}">
+                                            <div class="slds-col slds-size_1-of-1 slds-p-horizontal_x-large" style="padding-right:0px;">
+                                            
+                                                <a class="slds-button slds-button_reset versionid{{v.Id}} parentVersionId{{v.Parent_Version__c}} parentVersionIdSpan{{v.Parent_Version__c}}" style="border-radius:0px;font-size: 150%;" ng-click="toggleSubVersion(v.Id)">
+                                                
+                                                <span class="versionidspan{{v.Id}} parentVersionIdSpanchevronright{{v.Id}}">
+                                                <svg class="slds-button__icon slds-button__icon_chevronright" aria-hidden="true">
+                                                    <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#chevronright" />
+                                                </svg>                                              
+                                                </span>
+                                                <span class="versionidspan{{v.Id}} parentVersionIdSpanchevrondown{{v.Id}} slds-hide">
+                                                <svg class="slds-button__icon slds-button__icon_chevrondown" aria-hidden="true">
+                                                    <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#chevrondown" />
+                                                </svg>                                              
+                                                </span>                                             
+                                                </a>                                                                                     
+
+                                                <a target="_blank" href="/{{v.Id}}" class="slds-badge slds-badge_inverse" style="border-radius:0px;font-size: 90%;"><b>Version : {{v.Name}}</b></a>
+                                                <hr style="margin-top:2px;border-top: 2px solid #d8dde6;"/>
+                                                <br/>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid slds-wrap versionid{{v.Id}} parentVersionId{{v.Parent_Version__c}} {{v.Parent_Version__c?'slds-hide1':''}}"  ng-style="v.Parent_Version__c && {'background-color':'#f8f8f8'}">
+                                            <div class="slds-col slds-size_9-of-12 slds-p-horizontal_x-small" style="padding-left:35px;">
+                                                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning" role="alert" ng-if="v.Id && !ui.badges[v.Id]">
+                                                    <span class="slds-assistive-text">error</span>
+                                                    <span class="slds-icon_container slds-icon-utility-ban slds-m-right_x-small" >
+                                                        <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                                                            <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#ban" />
+                                                        </svg>
+                                                    </span>
+                                                    <h2>No badge found</h2>
+                                                </div>
+                                                <div class="carousel">
+                                                    <div ng-repeat="b in ui.badges[v.Id]" class="slds-box carousel-box" ng-click="openModal(b.Version__c,b.Type__c,b)" style="cursor:pointer;">
+                                                        <img ng-src="{{b.src}}" class="badge-image"/>
+                                                        <div class="carousel-caption">
+                                                            <h4>{{b.Type__c}}</h4>
+                                                            <p>{{b.Status__c}}</p>
+                                                            <p style="font-size: .5rem;">{{b.Date_Achieved__c | dateAdjust}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="slds-col slds-size_3-of-12 slds-p-horizontal_x-small">
+                                                <div class="slds-grid slds-wrap" ng-if="c.Versions__r">
+                                                    <div class="slds-col slds-size_3-of-12 slds-p-horizontal_x-small modal-icon-div" ng-click="openConnectorModal(v.Id)">
+                                                        <svg class="slds-icon" aria-hidden="true" style="fill: #a09898;">
+                                                            <use xlink:href="/apexpages/slds/latest/assets/icons/standard-sprite/svg/symbols.svg#poll"></use>
+                                                        </svg>
+                                                        <br />
+                                                        <label>Connector KB</label>
+                                                    </div>
+                                                    <div class="slds-col slds-size_3-of-12 slds-p-horizontal_x-small modal-icon-div" ng-click="openRequestModal(v.Id, c.Early_Adopter_Sales_Owner__c, c)">
+                                                        <svg class="slds-icon" aria-hidden="true" style="fill: #a09898;" >
+                                                            <use xlink:href="/apexpages/slds/latest/assets/icons/action-sprite/svg/symbols.svg#log_event"></use>
+                                                        </svg>
+                                                        <br />
+                                                        <label>Request Badge</label>
+                                                    </div>
+                                                    <div class="slds-col slds-size_3-of-12 slds-p-horizontal_x-small modal-icon-div" ng-click="openReportModal(v.Id, c)">
+                                                        <svg class="slds-icon" aria-hidden="true" style="fill: #a09898;" >
+                                                            <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#info"></use>
+                                                        </svg>
+                                                        <br />
+                                                        <label>Report Issue</label>
+                                                    </div>
+                                                    <div class="slds-col slds-size_3-of-12 slds-p-horizontal_x-small modal-icon-div" >
+                                                        <a href="https://wiki.avalara.com/x/ZFS0Dg" target="_blank" style="color: #16325c;" >
+                                                            <apex:image url="{!$Resource.JiraLogo}" style="height:30px;"/>
+                                                            <br />
+                                                            <label class="jira">Request SE</label>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                         </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <script type="text/ng-template" id="configModal.html">
+            <div class="slds-scope">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <h5 class="modal-title">
+                                <span class="glyphicon glyphicon-cog"></span>
+                                {{type}} Requirements
+                            </h5>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <div style="text-align:center;"><label> Date Achieved : {{dateAchieved | dateAdjust}}</label></div>
+
+                            <div ng-repeat="(k,v) in configs" style="position:relative;margin-bottom:25px;">
+                                <span class="slds-badge slds-badge_inverse section-span">{{k}}</span>
+                                <div  class="slds-box">
+                                    <table ng-repeat="(sk,sv) in v" style="margin-bottom:15px;" class="slds-table slds-table_bordered slds-table_cell-buffer slds-no-row-hover">
+                                        <thead>
+                                            <tr ng-if="sk">
+                                                <td colspan="3" style="padding-left: 0px;padding-bottom: 2px;">
+                                                    <span class="slds-badge slds-badge_inverse">{{sk}}</span>
+                                                </td>
+                                            </tr>
+                                            <tr class="slds-text-title_caps" >
+                                                <th class="requirement">
+                                                    Name
+                                                </th>
+                                                <th ng-if="showNote">
+                                                    Notes
+                                                </th>
+                                                <th style="width:30px;">
+                                                    &nbsp;
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr ng-repeat="r in sv">
+                                                <td style="white-space:unset;">
+                                                    {{r.Functional_Requirement_Name__c}}
+                                                </td>
+                                                <td ng-if="showNote" style="white-space:unset;">
+                                                    {{r.Note__c}}
+                                                </td>
+                                                <td>
+                                                    <input type="checkbox" ng-checked="r.Date__c" ng-model="r.Date" ng-disabled="true" style="float:right;"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <button type="button" ng-click="showNote = !showNote" class="slds-button slds-button_stateful slds-button_brand" style="float:left;">
+                                {{showNote == true ? 'Hide Note' : 'Show Note'}}
+                            </button>
+                            <button type="button" ng-click="cancel()" class="slds-button slds-button_stateful slds-button_destructive">
+                                <span class="glyphicon glyphicon-close"></span>
+                                CLOSE
+                            </button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </script>
+        <script type="text/ng-template" id="requestBadge.html">
+            <div class="slds-scope">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container" ng-form="requestBadgeFrm">
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                    <h2 class="text-primary">
+                                        <b>ConnectorForce</b>
+                                    </h2>
+                                    <h3 class="text-danger">
+                                        <b>Have a prospect looking for additional functionality?<br/><br/> The Avalara Contact and Business Development Manager will be notified when you submit this form.</b><br/><br/>
+                                        <b>Please include if the functionality is requesting a new version or adding functionality or badge. </b>
+                                    </h3>
+                                </div>
+                                <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                    <h5 class="pull-right text-primary">
+                                        <b>Send us their details and we will be in touch !</b>
+                                    </h5>
+                                    <br/>
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_1-of-12">
+                                            <div class="slds-form-element">
+                                                <label for="fname">Account Name<span class="text-danger">&lowast;</span></label>
+                                                <div class="slds-form-element__control">
+                                                    <ui-select
+                                                        theme="selectize"
+                                                        ng-model="ui.Account"
+                                                        on-select="onSelect($item, $model)"
+                                                        ng-required="true"
+                                                        data-ng-disabled="disabled">
+                                                        <ui-select-match placeholder="Search for Client">{{$select.selected.Name}}</ui-select-match>
+                                                            <ui-select-choices refresh="searchContact($select)" refresh-delay="800" repeat="c in ui.Accounts">
+                                                        <span ng-bind-html="c.Name | highlight: $select.search"></span>
+                                                        </ui-select-choices>
+                                                    </ui-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form-element">
+                                        <label for="note">Note<span class="text-danger">&lowast;</span></label>
+                                        <div class="slds-form-element__control">
+                                            <textarea name="note" class="slds-textarea" rows="12" ng-model="ui.note" required="true"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <button type="button" ng-click="cancel()" class="slds-button slds-button_stateful slds-button_destructive">
+                                CLOSE
+                            </button>
+                            <button type="button" ng-click="save()" class="slds-button slds-button_success" ng-disabled="requestBadgeFrm.$invalid">
+                                SUBMIT
+                            </button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </script>
+        <script type="text/ng-template" id="reportIssue.html">
+            <div class="slds-scope">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container" ng-form="reportIssueFrm">
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                    <h2 class="text-primary">
+                                        <b>ConnectorForce</b>
+                                    </h2>
+                                    <h3 class="text-danger">
+                                        <b>Have a issue you need to escalate to Partner Launch ?</b><br/><br/>
+                                        <b>Identify the Account, Case Number and provide information about the issue.<br/><br/>Once submitted, an email will be sent to the Partner Launch Team to investigate.<br/><br/></b>
+                                    </h3>
+                                </div>
+                                <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                    <h5 class="pull-right text-primary">
+                                        <b>Send the details and we will be in touch !</b>
+                                    </h5>
+                                    <br/>
+                                    <div class="slds-form-element">
+                                        <label for="cnumber">SF Case Number<span class="text-danger">&lowast;</span></label>
+                                        <div class="slds-form-element__control">
+                                            <ui-select
+                                                theme="selectize"
+                                                ng-model="ui.case"
+                                                ng-required="true"
+                                                data-ng-disabled="disabled">
+                                                <ui-select-match placeholder="Search for Case">{{$select.selected.CaseNumber}}</ui-select-match>
+                                                    <ui-select-choices refresh="searchCases($select)" refresh-delay="800" repeat="c in ui.Cases">
+                                                <span ng-bind-html="c.CaseNumber | highlight: $select.search"></span>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                    <div class="slds-form-element">
+                                        <label for="note">Note<span class="text-danger">&lowast;</span></label>
+                                        <div class="slds-form-element__control">
+                                            <textarea name="note" class="slds-textarea" rows="12" required="true" ng-model="ui.note"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <button type="button" ng-click="cancel()" class="slds-button slds-button_stateful slds-button_destructive">
+                                CLOSE
+                            </button>
+                            <button type="button" ng-click="save()" class="slds-button slds-button_success" ng-disabled="reportIssueFrm.$invalid">
+                                SUBMIT
+                            </button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </script>
+        <script type="text/ng-template" id="ConnectorKB.html" >
+            <div class="slds-scope bold-labels">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container connector-kb-modal">
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_offline" role="alert">
+                                <h2>Account Information</a></h2>
+                            </div>
+                            <div class="slds-box">
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Account
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        {{article.Account__r.Name}}
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Connector
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        {{article.Connector__r.Name}}
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Connector Vibrancy
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Connector_Vibrancy__c | htmldecode"></div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Connector Type
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        {{article.Connector_Type__c}}
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            X Avalara Client &nbsp;
+                                            <span class="slds-icon_container slds-icon-utility-ban slds-m-right_x-small" title="Identifies the software you are using to call this API to aid in debugging and verification. This is a string in the format (Client name); (app version); (library name); (library version); (machine name)">
+                                                <svg class="slds-icon slds-icon_x-small" aria-hidden="true" style="fill: #3b5276;">
+                                                    <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#info" />
+                                                </svg>
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        {{article.X_Avalara_Client__c}}
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Transaction Signature &nbsp;
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        {{article.X_Avalara_Client_Old__c}}
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+
+                            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_offline" role="alert">
+                                <h2>Market Ready</a></h2>
+                            </div>
+                            <div class="slds-box">
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            SI Documentation 
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <a target="_blank" href="{{article.SI_Documentation__c}}">{{article.SI_Documentation__c}}</a>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Connector Training 
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <a target="_blank" href="{{article.Connector_Training__c}}">{{article.Connector_Training__c}}</a>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Connector Demo 
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <a target="_blank" href="{{article.Connector_Demo__c}}">{{article.Connector_Demo__c}}</a>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Connector Communication 
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <a target="_blank" href="{{article.Connector_Communication__c}}">{{article.Connector_Communication__c}}</a>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Connector Endorsed by UX 
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <input type="checkbox" disabled="true" value="{{article.Connector_Endorsed_by_UX__c}}" ng-checked="article.Connector_Endorsed_by_UX__c"/>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Connector Download Location 
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <a target="_blank" href="{{article.Connector_Download_Location__c}}">{{article.Connector_Download_Location__c}}</a>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Notes
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        {{article.Market_Ready_Notes__c}}
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+
+                            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_offline" role="alert">
+                                <h2>Connector Notes</a></h2>
+                            </div>
+                            <div class="slds-box">
+                                <span class="slds-badge">Sales</span>
+                                <hr/>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Connector Description
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Connector_Description__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Selling Information
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Selling_Information__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Platform Category
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        {{article.Platform_Category__c}}
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Partner Fee
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Version__r.Connector__r.Partner_Fee__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Notes
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Notes__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Avalara Professional Services Required
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <input type="checkbox" disabled="true" value="{{article.Avalara_Professional_Services_Required__c}}" ng-checked="article.Avalara_Professional_Services_Required__c"/>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Sales Engineer Required
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <input type="checkbox" disabled="true" value="{{article.Sales_Engineer_Required__c}}" ng-checked="article.Sales_Engineer_Required__c"/>
+                                    </div>
+                                </div>
+
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Contract Author
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        {{article.Contract_Author__c}}
+                                    </div>
+                                </div>
+                                <br/>
+                                <span class="slds-badge">Implementation</span>
+                                <hr/>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Sales Engineer Notes
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        {{article.Sales_Engineer_Notes__c}}
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Avalara Professional Services Notes
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Avalara_Professional_Services_Notes__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Implementation Notes
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Implementation_Notes__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Implementation Path
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Implementation_Path__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Implementation Contact
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        {{article.Contact__r.Name}}
+                                    </div>
+                                </div>
+                                <br/>
+                                <span class="slds-badge">Support</span>
+                                <hr/>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            API
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        {{article.API__c | htmldecode}}
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Support Notes
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Support_Notes__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Support Path
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Support_Path__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Escalation Contact
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        {{article.Escalation_Contact__r.Name}}
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            PLC Contact
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        {{connector.PLT_Owner__r.Name}}
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_offline" role="alert">
+                                <h2>Quick Guide - Sales Tax</a></h2>
+                            </div>
+                            <div class="slds-box">
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            {!$ObjectType.Connector_KB__kav.fields.Notes__c.label}
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Notes__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            User Guides Url
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.User_Guide_Documentation__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            {!$ObjectType.Connector_KB__kav.fields.Implementation_Path__c.label}
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Implementation_Path__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            {!$ObjectType.Connector_KB__kav.fields.Support_Support_Path__c.label}
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Support_Support_Path__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Configuration Click Path
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Configuration_Click_Path__c| htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Company Code
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Company_Code__c| htmldecode ">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Address Validation Click Path
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Address_Validation_Click_Path__c| htmldecode"></div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Product Mapping Click Path
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Product_Mapping_Click_Path__c| htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Client Exemption Click Path
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Client_Exemption_Click_Path__c| htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Timing for Tax Calculation
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Timing_for_Tax_Calculation__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Timing for recording & Committing Transaction
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Timing_for_recording_Committing_Transa__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Location Code &amp; Click Path
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Location_Code_Click_Path__c| htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            Line Level Addressing
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.Line_Level_Addressing__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            API
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        {{article.API__c | htmldecode}}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_offline" role="alert">
+                                <h2>Quick Guide - Communication</a></h2>
+                            </div>
+                            <div class="slds-box">
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            {!$ObjectType.Connector_KB__kav.fields.C_Notes__c.label}
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.C_Notes__c| htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            {!$ObjectType.Connector_KB__kav.fields.C_User_Implementation_Guide__c.label}
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.C_User_Implementation_Guide__c| htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            {!$ObjectType.Connector_KB__kav.fields.C_Implementation_Path__c.label}
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.C_Implementation_Path__c| htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            {!$ObjectType.Connector_KB__kav.fields.C_Support_Path__c.label}
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.C_Support_Path__c| htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            {!$ObjectType.Connector_KB__kav.fields.C_Configuration_Click_Path__c.label}
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.C_Configuration_Click_Path__c| htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            {!$ObjectType.Connector_KB__kav.fields.C_Company_Code__c.label}
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.C_Company_Code__c| htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            {!$ObjectType.Connector_KB__kav.fields.C_Address_Validation_Click_Path__c.label}
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.C_Address_Validation_Click_Path__c| htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            {!$ObjectType.Connector_KB__kav.fields.C_Product_Mapping_Click_Path__c.label}
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.C_Product_Mapping_Click_Path__c| htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            {!$ObjectType.Connector_KB__kav.fields.C_Client_Exemption_Click_Path__c.label}
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.C_Client_Exemption_Click_Path__c| htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            {!$ObjectType.Connector_KB__kav.fields.C_Timing_For_Tax_Calculation__c.label}
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.C_Timing_For_Tax_Calculation__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            {!$ObjectType.Connector_KB__kav.fields.C_Timing_For_Recording_Committing_Tran__c.label}
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.C_Timing_For_Recording_Committing_Tran__c | htmldecode">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            {!$ObjectType.Connector_KB__kav.fields.C_Location_Code_Click_Path__c.label}
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <div ng-bind-html="article.C_Location_Code_Click_Path__c| htmldecode"/>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            {!$ObjectType.Connector_KB__kav.fields.C_Line_Level_Addressing__c.label}
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        {{article.C_Line_Level_Addressing__c| htmldecode}}
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        <label>
+                                            {!$ObjectType.Connector_KB__kav.fields.C_API__c.label}
+                                        </label>
+                                    </div>
+                                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
+                                        {{article.C_API__c| htmldecode}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <a ng-if="{!$ObjectType.Connector_KB__kav.accessible}" class="slds-button slds-button_stateful slds-button_success" href="/{{article.KnowledgeArticleId}}" target="_blank">
+                                VIEW
+                            </a>
+                            <a ng-if="{!$ObjectType.Connector_KB__kav.updateable}" class="slds-button slds-button_stateful slds-button_success" href="/knowledge/publishing/articleOnlineDetail.apexp?id={{article.KnowledgeArticleId}}" target="_blank">
+                                EDIT
+                            </a>
+                            <button type="button" ng-click="cancel()" class="slds-button slds-button_stateful slds-button_destructive">
+                                CLOSE
+                            </button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </script>
+        <script type="text/ng-template" id="contactModal.html">
+            <div class="slds-scope">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <div class="slds-modal__content slds-p-around_medium">
+                            <p>
+                            <strong>Email : </strong> {{contact.Email}}
+                            </p>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <button type="button" ng-click="cancel()" class="slds-button slds-button_stateful slds-button_destructive">
+                                CANCEL
+                            </button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </script>
+    </div>
+</apex:page>

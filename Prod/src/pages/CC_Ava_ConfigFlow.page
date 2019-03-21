@@ -1,0 +1,1870 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false" controller="cc_Ava_ctrl_ConfigFlow">
+	<!--
+		can't configure a product with a product sku, so only render and
+		grab data based on sku if sku is in url parameter
+	-->
+	   <apex:outputPanel rendered="{!HTMLENCODE(JSENCODE($CurrentPage.parameters.sku))!=null}">
+
+	    <div class="content-container" id="configflow-root">
+
+				<div class="breadcrumbs">
+					<span><a href="/">Store</a></span>
+					<span>></span>
+					<span>Cart Checkout</span>
+				</div>
+
+				<!--h2 class="page-title fcolorTheme">Get started with Avalara</h2-->
+				<div class="Ava-ConfigFlow-target configuration-flow-container"></div>
+
+			</div>
+
+		<!--define handlebars template for use in backbone view -->
+			<script type="text/template" id="Ava-ConfigFlow">
+
+				<div class="container-root">
+
+					<div class="rotate navigation-rotate move-container content_container">
+						<div class="rotate-menu"></div>
+						<div class="rotate-container">
+
+							<div class="items config_container">
+								<div class="avatax-content" data-navigation-item="AvaTax Setup">
+									<div class="avatax-container">
+										<h3 class="page-secondary-title fcolorTheme">Configure your AvaTax subscription in 3 easy steps</h3>
+
+										<div class="tier-selection">
+
+											<div class="span2575x">
+												<div>
+													<p class="row-title">Transaction Level</p>
+													<p class="learn-more icon-info icon"><a href="#" onClick="modalPopup(this,'','','white cobrand-modal','cobrand-modal');return false;" data-find=".learn-more-container1">Learn more</a></p>
+													<div class="modal-content-grab returns-modal cobrand-modal learn-more-container1">
+														<div class="learn-more-container1">
+															<p>Transaction level is defined by the number of transactions you anticipate requiring  for this year.</p>
+															<p>Be aware that if you have more than one integration engaged, each purchase may involve more than one transaction.</p>
+															<p>If you exceed the number of transactions allowed by your subscription level, overage charges may apply.</p>
+															<p>Do you need more than 1,500 transactions? Higher transaction volumes are available.</p>
+															<p>Contact or call us at <a href="tel://(877) 780-4848" title="Call us">(877) 780-4848</a> to let us answer your questions and help design a custom solution for your sales tax needs.</p>
+														</div>
+													</div>
+												</div>
+												<div>
+													<div class="tier-content">
+														<div class="tier-container"></div>
+													</div>
+													<div>
+														<fieldset class="transaction-select-fieldset">
+														</fieldset>
+														<p class="need-more-transactions">Need more transactions per year? Call us (877) 780-4848 to customize your subscription.</p>
+													</div>
+												</div>
+											</div>
+
+										</div>
+										<div class="billing-frequency-container">
+
+											<div class="span2575x">
+												<div>
+													<p class="row-title">Billing Frequency</p>
+													<p class="learn-more icon-info icon"><a href="#" onClick="modalPopup(this,'','','white cobrand-modal','cobrand-modal');return false;" data-find=".learn-more-container2">Learn more</a></p>
+													<div class="modal-content-grab returns-modal cobrand-modal learn-more-container2">
+														<div class="learn-more-container2">
+															<p>Billing Frequency indicates whether you will pay for your AvaTax subscription month-to-month or pay in advance for a full year.</p>
+															<div class="tier-pricing">
+															<div class="col-sm-3"><p>250 Transactions:</p></div>
+															<div class="col-sm-9"><p>Save $94 by paying for the annual subscription today</p></div>
+															<div class="col-sm-3"><p>500 Transactions:</p></div>
+															<div class="col-sm-9"<p>Save $85 by paying for the annual subscription today</p></div>
+															<div class="col-sm-3"><p>1,500 Transactions:</p></div>
+															<div class="col-sm-9"><p>Save $100 by paying for the annual subscription today</p></div>
+															</div>
+															<p>Questions? Need more transactions? Call us at <a href="tel://877-780-4848" title="Call us">(877) 780-4848</a>.</p>
+														</div>
+													</div>
+												</div>
+												<div class="billing-container">
+													<div class="form-group">
+														<p><input type="radio" id="billingAnnual" name="billingFrequency" value="annual" class="form-control" selected="true" checked="checked" onChange="billingFrequency(this);return false;" />  <label for="billingAnnual">Bill me annually</label></p>
+													</div>
+													<div class="form-group">
+														<p><input type="radio" id="billingMonthly" name="billingFrequency" value="monthly" class="form-control" onChange="billingFrequency(this);return false;" />  <label for="billingMonthly">Bill me monthly</label></p>
+													</div>
+												</div>
+											</div>
+
+										</div>
+										<div class="integration-search">
+											<div class="span2575x">
+												<div>
+													<p class="row-title">Software Integration(s)</p>
+													<p class="learn-more icon-info icon" onClick="modalPopup(this,'','','white cobrand-modal','cobrand-modal');return false;" data-find=".learn-more-container3"><a href="#">Learn more</a></p>
+													<div class="modal-content-grab returns-modal cobrand-modal learn-more-container3">
+														<div class="learn-more-container3">
+															<p>Integrations represent the accounting, ERP, and e-commerce platforms and software you currently use to run your business. You must select at least one integration to complete your AvaTax configuration today, and you can always come back to add more.</p>
+															<p>Be aware that the number of integrations you use may increase the number of transactions needed to complete each purchase.</p>
+															<p>AvaTax works with over 500 different integrations, and we're continually adding more integrations to better serve our customers. If you can't find your specific accounting, ERP, or e-commerce platform using the search field, chances are that it is available but isn't currently offered through this online configuration portal.</p>
+															<p>Call us at <a href="tel://877-780-4848" title="Call us">(877) 780-4848</a> to discuss integrations that are not currently available online, or if you have any other questions.</p>
+														</div>
+													</div>
+												</div>
+												<div>
+
+													<div class="integration-search-container">
+														<div>
+														<!-- HTML template -->
+
+													    <div class="row search-field-container">
+																<div class="col-sm-9"><input id="search" class="form-control search" type="text" placeholder="Type the name of your software here (ex: Quickbooks)"></div>
+																<div class="col-sm-3"><i class="icon icon-bin clear-selections-icon"/><a onClick="clearSearch(this); return false;" class="clear-selections">Clear selections</a></div>
+															</div>
+
+															<div class="product-area row">
+																<div id="tiles-wrapper" class="col-sm-12"></div>
+															</div>
+
+													    <div class="row navigation">
+													    	<div class="col-sm-3 text-left"><span class="grid-left"></span></div>
+													    	<div class="col-sm-3"></div>
+													    	<div class="col-sm-3 text-right"><span class="grid-right"></span></div>
+													    	<div class="col-sm-3"></div>
+													    </div>
+
+															<input type="hidden" id="grid-info">
+																<div id="insert"></div>
+
+														</div>
+
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="add-ons-content" data-navigation-item="Returns Setup">
+									<h3 class="page-secondary-title fcolorTheme">Get more value with add-on products and features</h3>
+									<div class="rotate-content">
+										<div class="add-ons-container"></div>
+									</div>
+								</div>
+
+								<div class="account-content" data-navigation-item="Account Info">
+									<div class="account-container">
+										<div class="rotate-content">
+										<div class="form-container span21">
+												<div>
+													<h3 class="page-secondary-title fcolorTheme">Account Information</h3>
+
+													<form id="contactInformation" name="contactInformation" action="" method="" class="copy-information active-validate">
+
+														<div class="form-group">
+	                            <div>
+	                              <p><label for="email">Email</label> <sup class="required-marker">*</sup></p>
+	                            </div>
+	                            <div>
+	                              <input name="email" id="email" value="" placeholder="Please enter a valid email" class="form-control" required="true" data-iframe="email" data-sfname="Email" autocomplete="off" />
+	                            </div>
+	                          </div>
+	                          
+	                          <div class="form-group">
+	                            <div>
+	                              <p><label for="full_name">Full Name</label> <sup class="required-marker">*</sup></p>
+	                            </div>
+	                            <div>
+	                              <input name="full_name" id="full_name" value="" placeholder="Please enter your first and last name" class="form-control" data-iframe="creditCardHolderName" data-sfname="fullname" required="true" autocomplete="off"/>
+	                            </div>
+	                          </div>
+
+	                          <div class="form-group">
+	                            <div>
+	                              <p><label for="company">Company</label> <sup class="required-marker">*</sup></p>
+	                            </div>
+	                            <div>
+	                              <input name="company" id="company" value="" placeholder="Please enter your company name" class="form-control" data-iframe="company" data-sfname="Company" required="true" />
+	                            </div>
+	                          </div>
+
+	                          <div class="form-group">
+	                            <div>
+	                              <p><label for="address1">Address</label> <sup class="required-marker">*</sup></p>
+	                            </div>
+	                            <div>
+	                              <input name="address1" id="address1" value="" placeholder="Please enter an address" class="form-control" data-iframe="creditCardAddress1" data-sfname="Address1" required="true" />
+	                            </div>
+	                          </div>
+
+														<div class="form-group-row span21">
+		                          <div class="form-group">
+		                            <div>
+		                              <p><label for="address2">Unit, Suite, Floor, Etc.</label></p>
+		                            </div>
+		                            <div>
+		                              <input name="address2" id="address2" value="" placeholder="Please enter an address" class="form-control" data-iframe="creditCardAddress2" data-sfname="Address2" />
+		                            </div>
+		                          </div>
+
+	                            <div class="form-group">
+	                              <div>
+	                                <p><label for="city">City</label> <sup class="required-marker">*</sup></p>
+	                              </div>
+	                              <div>
+	                                <input name="city" id="city" value="" placeholder="Please enter a city" class="form-control" data-iframe="creditCardCity" data-sfname="City" required="true" />
+	                              </div>
+	                            </div>
+														</div>
+
+														<div class="form-group-row span21">
+	                            <div class="form-group">
+	                              <div>
+	                                <p><label for="state">State/Province</label> <sup class="required-marker">*</sup></p>
+	                              </div>
+	                              <div>
+	                                <select class="form-control" data-country="US" required name='state' id='state' data-iframe="creditCardState" data-sfname="Region">
+						                        <option value="">Select a State</option>
+						                        <option value="AL">Alabama</option>
+						                        <option value="AK">Alaska</option>
+						                        <option value="AZ">Arizona</option>
+						                        <option value="AR">Arkansas</option>
+						                        <option value="CA">California</option>
+						                        <option value="CO">Colorado</option>
+						                        <option value="CT">Connecticut</option>
+						                        <option value="DE">Delaware</option>
+						                        <option value="DC">District of Columbia</option>
+						                        <option value="FL">Florida</option>
+						                        <option value="GA">Georgia</option>
+						                        <option value="GU">Guam</option>
+						                        <option value="HI">Hawaii</option>
+						                        <option value="ID">Idaho</option>
+						                        <option value="IL">Illinois</option>
+						                        <option value="IN">Indiana</option>
+						                        <option value="IA">Iowa</option>
+						                        <option value="KS">Kansas</option>
+						                        <option value="KY">Kentucky</option>
+						                        <option value="LA">Louisiana</option>
+						                        <option value="ME">Maine</option>
+						                        <option value="MD">Maryland</option>
+						                        <option value="MA">Massachusetts</option>
+						                        <option value="MI">Michigan</option>
+						                        <option value="MN">Minnesota</option>
+						                        <option value="MS">Mississippi</option>
+						                        <option value="MO">Missouri</option>
+						                        <option value="MT">Montana</option>
+						                        <option value="NE">Nebraska</option>
+						                        <option value="NV">Nevada</option>
+						                        <option value="NH">New Hampshire</option>
+						                        <option value="NJ">New Jersey</option>
+						                        <option value="NM">New Mexico</option>
+						                        <option value="NY">New York</option>
+						                        <option value="NC">North Carolina</option>
+						                        <option value="ND">North Dakota</option>
+						                        <option value="OH">Ohio</option>
+						                        <option value="OK">Oklahoma</option>
+						                        <option value="OR">Oregon</option>
+						                        <option value="PA">Pennsylvania</option>
+						                        <option value="PR">Puerto Rico</option>
+						                        <option value="RI">Rhode Island</option>
+						                        <option value="SC">South Carolina</option>
+						                        <option value="SD">South Dakota</option>
+						                        <option value="TN">Tennessee</option>
+						                        <option value="TX">Texas</option>
+						                        <option value="UT">Utah</option>
+						                        <option value="VT">Vermont</option>
+						                        <option value="VA">Virginia</option>
+						                        <option value="WA">Washington</option>
+						                        <option value="WV">West Virginia</option>
+						                        <option value="WI">Wisconsin</option>
+						                        <option value="WY">Wyoming</option>
+						                   		</select>
+	                              </div>
+	                            </div>
+
+	                            <div class="form-group">
+	                              <div>
+	                                <p><label for="zipcode">Zip Code <sup class="required-marker">*</sup></label></p>
+	                              </div>
+	                              <div>
+	                                <input name="zipcode" id="zipcode" value="" placeholder="XXXXXX" class="form-control" data-iframe="creditCardPostalCode" data-sfname="PostalCode" required="true" />
+	                              </div>
+	                            </div>
+														</div>
+
+														<div class="form-group-row span21">
+		                          <div class="form-group">
+		                            <div>
+		                              <p><label for="phone">Phone Number</label> <sup class="required-marker">*</sup></p>
+		                            </div>
+		                            <div>
+		                              <input name="phone" id="phone" value="" placeholder="Please enter a telephone number" class="form-control" data-iframe="phone" data-sfname="Phone" required="true"/>
+		                            </div>
+		                          </div>
+														</div>
+	                        </form>
+												</div>
+											</div>
+											<div class="clearfix-spacer">&nbsp;</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="payment-content" data-navigation-item="Payment Info">
+									<div class="rotate-content">
+										<div class="payment-container span21">
+											<div>
+												<h3 class="page-secondary-title fcolorTheme">Billing Information</h3>
+												
+												<form id="billingInformation" name="billingInformation" action="" method="">
+													<div class="form-group billing-radios">
+														<p>
+															<input
+																type="radio"
+																id="billingSameAsAccount"
+																name="sameas"
+																value="1"
+																class="form-control sameas"
+																checked="checked"
+																selected
+															/>
+															
+															<label for="billingSameAsAccount">Same as Account Information</label>
+														</p>
+														<p>
+															<input 
+																type="radio"
+																id="billingDifferent"
+																name="sameas"
+																value="0"
+																class="form-control sameas"
+															/>
+															
+															<label for="billingDifferent">Enter different Billing Information</label>
+														</p>
+													</div>
+
+													<div id="billingFormGroups">
+														<div class="form-group">
+															<div>
+																<p><label for="full_name">Full Name</label> <sup class="required-marker">*</sup></p>
+															</div>
+															<div>
+																<input name="full_name" id="full_name" value="" class="form-control" required="true" autocomplete="off" data-iframe="creditCardHolderName" data-sfname="fullname" disabled="disabled"/>
+															</div>
+														</div>
+
+														<div class="form-group">
+															<div>
+																<p><label for="company">Company</label> <sup class="required-marker">*</sup></p>
+															</div>
+															<div>
+																<input name="company" id="company" value="" class="form-control" required="true" data-iframe="company" data-sfname="Company" disabled="disabled"/>
+															</div>
+														</div>
+
+														<div class="form-group">
+															<div>
+																<p><label for="address1">Address</label> <sup class="required-marker">*</sup></p>
+															</div>
+															<div>
+																<input name="address1" id="address1" value="" class="form-control" required="true" data-iframe="creditCardAddress1" data-sfname="Address1" disabled="disabled" />
+															</div>
+														</div>
+
+														<div class="form-group-row span21">
+															<div class="form-group">
+																<div>
+																	<p><label for="address2">Unit, Suite, Floor, Etc.</label></p>
+																</div>
+																<div>
+																	<input name="address2" id="address2" value="" class="form-control" data-iframe="creditCardAddress2" data-sfname="Address2" disabled="disabled" />
+																</div>
+															</div>
+
+															<div class="form-group">
+																<div>
+																	<p><label for="city">City</label> <sup class="required-marker">*</sup></p>
+																</div>
+																<div>
+																	<input name="city" id="city" value="" class="form-control" required="true" data-iframe="creditCardCity" data-sfname="City" disabled="disabled" />
+																</div>
+															</div>
+														</div>
+
+														<div class="form-group-row span21">
+															<div class="form-group">
+																<div>
+																	<p><label for="state">State/Province</label> <sup class="required-marker">*</sup></p>
+																</div>
+																<div>
+																	<select class="form-control" data-country="US" required name='state' id='state' data-iframe="creditCardState"  data-sfname="Region" disabled="disabled">
+																		<option value="">Select a State</option>
+																		<option value="AL">Alabama</option>
+																		<option value="AK">Alaska</option>
+																		<option value="AZ">Arizona</option>
+																		<option value="AR">Arkansas</option>
+																		<option value="CA">California</option>
+																		<option value="CO">Colorado</option>
+																		<option value="CT">Connecticut</option>
+																		<option value="DE">Delaware</option>
+																		<option value="DC">District of Columbia</option>
+																		<option value="FL">Florida</option>
+																		<option value="GA">Georgia</option>
+																		<option value="GU">Guam</option>
+																		<option value="HI">Hawaii</option>
+																		<option value="ID">Idaho</option>
+																		<option value="IL">Illinois</option>
+																		<option value="IN">Indiana</option>
+																		<option value="IA">Iowa</option>
+																		<option value="KS">Kansas</option>
+																		<option value="KY">Kentucky</option>
+																		<option value="LA">Louisiana</option>
+																		<option value="ME">Maine</option>
+																		<option value="MD">Maryland</option>
+																		<option value="MA">Massachusetts</option>
+																		<option value="MI">Michigan</option>
+																		<option value="MN">Minnesota</option>
+																		<option value="MS">Mississippi</option>
+																		<option value="MO">Missouri</option>
+																		<option value="MT">Montana</option>
+																		<option value="NE">Nebraska</option>
+																		<option value="NV">Nevada</option>
+																		<option value="NH">New Hampshire</option>
+																		<option value="NJ">New Jersey</option>
+																		<option value="NM">New Mexico</option>
+																		<option value="NY">New York</option>
+																		<option value="NC">North Carolina</option>
+																		<option value="ND">North Dakota</option>
+																		<option value="OH">Ohio</option>
+																		<option value="OK">Oklahoma</option>
+																		<option value="OR">Oregon</option>
+																		<option value="PA">Pennsylvania</option>
+																		<option value="PR">Puerto Rico</option>
+																		<option value="RI">Rhode Island</option>
+																		<option value="SC">South Carolina</option>
+																		<option value="SD">South Dakota</option>
+																		<option value="TN">Tennessee</option>
+																		<option value="TX">Texas</option>
+																		<option value="UT">Utah</option>
+																		<option value="VT">Vermont</option>
+																		<option value="VA">Virginia</option>
+																		<option value="WA">Washington</option>
+																		<option value="WV">West Virginia</option>
+																		<option value="WI">Wisconsin</option>
+																		<option value="WY">Wyoming</option>
+																	</select>
+																</div>
+															</div>
+
+															<div class="form-group">
+																<div>
+																	<p><label for="zipcode">Zip Code <sup class="required-marker">*</sup></label></p>
+																</div>
+																<div>
+																	<input name="zipcode" id="zipcode" value="" class="form-control" required="true" data-iframe="creditCardPostalCode" data-sfname="PostalCode" disabled="disabled" />
+																</div>
+															</div>
+														</div>
+													</div>
+
+													<div class="clearfix-spacer">&nbsp;</div>
+												</form>
+												
+											</div>
+											<div>
+												<h3 class="page-secondary-title fcolorTheme">Payment Information</h3>
+	                      <div class="iframe-loader">
+	                        <div class="isloader">
+	                        	<div class="loader"></div>
+	                        	<h3 class="loader-title">Please wait, loading...</h3>
+	                        </div>
+	                      </div>
+	                      <div id="zuora_payment" onmouseover="validateBilling();"></div>
+											</div>
+										</div>
+
+										<div class="clearfix-spacer">&nbsp;</div>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+
+					<div class="cart-container">
+						<div>
+							<h3 class="cart-title fcolorTheme">Transaction Summary</h3>
+							<div class="inPageCart_container">
+
+								<div class="line-items">
+									<div class="selected-products-container"></div>
+
+									<div class="related-integrations">
+										<p>Includes <span class="transactions"></span> transactions<span class="conjunction"></span></p>
+										<ul class="selected-integrations">
+										</ul>
+									</div>
+
+									<div class="addons-container"></div>
+								</div>
+
+								<div class="total-container">
+									<div class="taxes-container">
+										<div class="col-sm-8">
+											<p>Estimated Taxes</p>
+										</div>
+										<div class="col-sm-4">
+											<p class="tax-total">--.--</p>
+										</div>
+									</div>
+
+									<div class="cost-container">
+										<div class="col-sm-8">
+											<p>TOTAL</p>
+										</div>
+										<div class="col-sm-4">
+											<p><span class="final-cost">TBD</span></p>
+										</div>
+									</div>
+								</div>
+
+								<button
+									name="submitPaymentWindow"
+									id="submitPaymentWindow"
+									class="btn-pay-now disabled"
+									onClick="submitPayment(this);return false;"
+									disabled="disabled"
+								>Submit payment</button>
+
+							</div>
+						</div>
+						<div class="cart-product-template" style="display:none;">
+							<div class="product-container">
+								<div class="title-container">
+									<div class="col-sm-8">
+										<p class="product-title"></p>
+										<div class="additional-cart-details"></div>
+									</div>
+									<div class="col-sm-4">
+										<div class="total-cost-container"><p>$<span class="total-cost"></span></p></div>
+									</div>
+								</div>
+								<div class="subscription-container">
+									<div class="col-sm-8">
+										<p class="subscription-title">Plus subscription</p>
+									</div>
+									<div class="col-sm-4">
+										<p class="billme"></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="setup-container" style="display:none;">
+
+					{{#each this}}
+
+						<div class="group_container group_{{removeSpaces groupName}}" data-navigation-item="{{groupName}}">
+
+						{{#each productsThisGroupOnly}}
+
+							<!--@kevin you should be able to target each group by this class -->
+							<div class="product_grouped" data-search="{{this.productInfo.productNameAfterIcon}}">
+
+								<div class="product-image-cell">
+									{{#each this.productInfo.EProductMediasS}}
+										{{#ifEquals mediaType 'Product Icon' }}
+										<img
+											class="product-image"
+											src="{!$Resource.CC_Ava_ProductImages}/{{filePath}}"
+										/>
+										{{/ifEquals}}
+									{{/each}}
+								</div>
+
+								<div class="product-details">
+									<h3 class="product-title">{{this.productInfo.productNameAfterIcon}}</h3>
+									<p>{{this.productInfo.productNameAfterIcon}}</p>
+									<p class="tagline">{{this.productInfo.tagline}}</p>
+									<div class="short-description text-to-html">{{{this.productInfo.shortDesc}}}</div>
+									<p class="price" style="color: red">Price:
+										<!--show subprodterm/subscription pricing if there are any subprodterms -->
+										{{#if this.productInfo.subProdTerms}}
+											{{#each this.productInfo.subProdTerms}}
+												<div class="{{#ifEquals orderFrequencyUOM 'Yearly'}}price-annual{{ else }}price-monthly{{/ifEquals}}" id="price{{productSKU}}{{orderFrequencyUOM}}" data-price="{{productPrice}}" style="margin-left: 20px">{{price productPrice currencyIsoCode}} {{orderFrequencyUOM}}</span>
+												<!--calculate annual discount-->
+												{{#ifEquals orderFrequencyUOM 'Yearly'}}
+													(save {{price (annualDiscount ../productInfo.minSubPrice ../productInfo.maxSubPrice 12) currencyIsoCode}})
+												{{/ifEquals}}
+												</div>
+											{{/each}}
+										{{else}}
+											<span class="price-value">{{price this.productInfo.price currencyIsoCode}}</span> (one-time)
+										{{/if}}
+									</p>
+									<p class="long-description">{{this.productInfo.longDesc}}</p>
+								</div>
+								<div class="select-button">
+									<a href="javascript:void(0);" data-sku="{{this.productInfo.SKU}}" data-select-name="{{this.productInfo.productNameAfterIcon}}" data-sfid="{{sfid}}" data-group="{{groupName}}" class="btn-select configUnselected"></a>
+								</div>
+							</div>
+
+						{{/each}}
+
+						</div>
+
+					{{/each}}
+
+				</div>
+
+
+				<a href="javascript:void(0);" class="addToCart trigger-add-to-cart" style="display:none;"><button type="button" class="btn-select">ADD CURRENT CONFIGURATION TO CART</button></a>
+				<a href="javascript:void(0);" class="placeOrder" style="display:none;"><button type="button" class="btn-select">PLACE ORDER</button></a>
+				<a href="javascript:void(0);" class="removeCart" style="display:none;"><button type="button" class="btn-select">REMOVE CART</button></a>
+
+				<c:CC_Ava_Guarantee />
+
+			</script>
+
+		<!--
+			define backbone models and views
+		-->
+			<script type="text/javascript">
+
+				//set correct uiproperties values from div and handlebars template defined above -->
+				CCRZ.uiProperties.AvaConfigFlow = {
+					tmpl: 'Ava-ConfigFlow',
+					selector: '.Ava-ConfigFlow-target',
+				};
+
+				//create the models and views only after document.ready
+				jQuery(function($) {
+
+					//initialize global objects productconfig app will use (prefixnamespace ava_pc_)
+					//these should be populated as users click SELECT buttons and displayed in 'current configuration' sidebar without actually adding anything to cart until user clicks addtocart
+					ava_pc_dynamicKitSku = '{!HTMLENCODE(JSENCODE($CurrentPage.parameters.sku))}';
+					//starting values just for demo purposes 2017-04-06
+					ava_pc_selectedBillingFrequencyString = 'Monthly';
+					ava_pc_selectedBillingFrequencyString = avalaraSelections.billMe;
+
+					//this can be set from the data-sfid on the SELECT button
+					ava_pc_selectedTransactionLevelId = 'a8z5B00000002Ph';
+					ava_pc_selectedTransactionLevelId = avalaraSelections.tier.sfid
+
+					ava_pc_componentProductsWithoutTier = [];
+					//@kevin this is just a sample of the object structure that the controller expects -- same as structure of CCRZ.subsc.myAvaConfigFlowView.model.attributes; all this info should be available in the event.currentTarget for events on the SELECT buttons as data-WHATEVER
+
+					ava_pc_selectedProducts = new Array();
+					$.each(avalaraSelections, function(k,v){
+
+
+						switch(k){
+							case 'addons':
+
+								$.each(v, function(i,att){
+
+									ava_pc_selectedProducts.push(att.cart);
+
+								});
+
+								break;
+							case 'integrations':
+
+								$.each(v, function(i,att){
+
+									ava_pc_selectedProducts.push(att.cart);
+
+								});
+
+								break;
+							case 'products':
+
+								$.each(v, function(i,att){
+
+									ava_pc_selectedProducts.push(att.cart);
+
+								});
+
+								break;
+							}
+
+						});
+
+						//initialize root namespace for subscriber models
+						CCRZ.subsc = CCRZ.subsc || {};
+						CCRZ.subsc.models = CCRZ.subsc.models || {};
+						CCRZ.subsc.views = CCRZ.subsc.views || {};
+
+
+						ava_pc_addressReal = {
+							"Line1" : "124 Fidelity Street",
+							"Line2" : "Apt. 5",
+							"City" : "Carrboro",
+							"Region" : "NC",
+							"PostalCode" : "27510",
+							"Country" : "US"
+						}
+
+					//populated by user input to form on ACCOUNT tab
+					ava_pc_shippingAddress = {}
+
+					ava_pc_billingAddress = {}
+
+					//should we add a new contact (because no contact for this email address exists)? default to false, set to true depending on matchEmail return
+					ava_pc_addContact = false;
+
+					//if a lead or contact with matching email address is found, store here to make available for conversation during addToCart (lead) and assignment to cart during addtocart (contact or converted lead)
+					ava_pc_foundLead = '';
+					ava_pc_foundContact = '';
+
+					//for storing contact and account ids that result from converting a lead whose email address matches user-input email address
+					ava_pc_newConvertedContactId = '';
+					ava_pc_newConvertedAccountId = '';
+
+					//set according to cart assignment logic
+					ava_pc_cartContact = '';
+					ava_pc_cartAccount = '';
+
+					ava_pc_paymentToken = '34ut3w9tuiuhwthgiurtliustrnhiturhtsrihw4589459t8wy5';
+
+					//initialize root namespace for subscriber models
+					CCRZ.subsc = CCRZ.subsc || {};
+					CCRZ.subsc.models = CCRZ.subsc.models || {};
+					CCRZ.subsc.views = CCRZ.subsc.views || {};
+
+					//need sku from page parameter, and product api needs js array->apex List
+					var skuArray = [];
+					var mySku = '{!HTMLENCODE(JSENCODE($CurrentPage.parameters.sku))}';
+					skuArray.push(mySku);
+					//console.log('skuArray: ' + skuArray);
+
+					//set up model by extending CloudCrazeModel
+					CCRZ.subsc.models.AvaConfigFlowModel = CCRZ.CloudCrazeModel.extend({
+						className: 'cc_Ava_ctrl_ConfigFlow',
+						fetch: function(callback) {
+							var model = this;
+							this.invokeCtx(
+								'fetchCompositeProducts', skuArray,
+								function(response, event) {
+									if(event.status && response && response.data) {
+											//EXAMPLE: here's how you might add an attribute (like 'doIWantThis') before attaching the model
+											// var modelOnPage = initOnPageProducts(model.parse(response.data));
+											//and here's a sample sort of tiers by number of transactions
+											// model.set(modelOnPage);
+											sortedProducts = sortProducts(model.parse(response.data));
+											//model.set(model.parse(response.data));
+											model.set(sortedProducts);
+											model.set('loaded',true);
+
+											avalaraLoggingConsole(['CCRZ product model', CCRZ.subsc.myAvaConfigFlowView.model.attributes]);
+
+											$.each(CCRZ.subsc.myAvaConfigFlowView.model.attributes, function(k,v){
+
+												if(v.groupName == 'Add-ons'){
+
+													cc_Ava_ctrl_ConfigFlow.fetchProductsTieredPricing(CCRZ.pagevars.remoteContext, ['AR0003'], function(response){
+
+														avalaraLoggingConsole(['fetchProductsTieredPricing reseponse',response,response.data]);
+
+														if(response.data == null 
+															|| response.data.length < 1
+															|| Object.keys(response.data).length < 1){
+
+																systemFailureMessage('','Failure retrieving item for cart','backend - fetchProductsTieredPricing','SF');
+																return false;
+
+														}
+
+														v.productsThisGroupOnly = [{"groupName":"Add-ons","productInfo":response.data[0],"sfid":response.data[0].sfid}];
+														callback(response); 
+
+													});
+
+													return;
+												}
+
+											})
+											
+
+										} else {
+											model.set('loaded',false);
+											if(response && response.messages && _.isArray(response.messages) && response.messages.length) {
+												CCRZ.console.log('got loaded');
+												callback(response);
+											} else {
+												CCRZ.console.log('got error');
+												callback(response);
+											}
+										}
+									}
+									,{nmsp: false}
+								);
+							}
+
+						});
+
+						//EXAMPLE: add attributes that are only useful on the page
+						//for example, 'do i want this?' for each selectable product..later, as you create the attoToCart request, you can match these against products the user has selected on the page
+						// var initOnPageProducts = function(compositeProducts) {
+						// 	//backbone model includes irrelevant 'loaded' and 'remove' properties
+						// 	for(var i=0; i<Object.keys(compositeProducts).length-2; i++) {
+						// 		for(var j=0; j<Object.keys(compositeProducts[i].productsThisGroupOnly).length; j++) {
+						// 			compositeProducts[i].productsThisGroupOnly[j].doIWantThis = 'false';
+						// 		}
+						// 	}
+						// 	return compositeProducts;
+						// };
+
+						var sortProducts = function(responseData) {
+							var sorted = responseData;
+							//backbone model includes irrelevant 'loaded' and 'remove' properties
+							for(var i=0; i<Object.keys(sorted).length-2; i++) {
+								//use elseifs to sort other groups using different sort functions
+								if(sorted[i].groupName==='Tier') {
+									sorted[i].productsThisGroupOnly.sort(function(a,b) {
+									    if(a.numberofTransactions < b.numberofTransactions)
+									        return -1;
+									    else if (a.numberofTransactions > b.numberofTransactions)
+									        return 0
+									    else return 1;
+									});
+								}
+							}
+							return sorted;
+						};
+
+						cartItems = {};
+						//setup view by extending CloudCrazeView
+						CCRZ.subsc.views.AvaConfigFlowView = CCRZ.CloudCrazeView.extend({
+							viewName: 'AvaConfigFlowView',
+							templateBoth: CCRZ.util.template(CCRZ.uiProperties.AvaConfigFlow.tmpl),
+							managedSubView: true,
+							init: function() {
+								var v = this;
+								//recall that model is attached only to view instance
+
+								v.model.fetch(function() {
+									v.render();
+								});
+							},
+							events: {
+								"click .addToCart" : "addToCart",
+								"click .configUnselected" : "configSelect",
+								"click .configSelected" : "configUnselect",
+								"click .placeOrder" : "placeOrder",
+	              "click .inCart" : "removeFromCart",
+	              "click .removeCart" : "removeCart"
+							},
+							doRender: function(theTemplate, theSelector) {
+
+								this.setElement(theSelector);
+								var v = this;
+								var newSetup = new Object();
+								CCRZ.pagevars.currentCartID = undefined;
+
+								jQuery.each(v.model.attributes, function(k,v){
+
+									v.groupName !== undefined ?
+										newSetup[v.groupName] = v
+										: '';
+
+								});
+
+								searchItemsObject = newSetup['Integrations'].productsThisGroupOnly;
+
+								newSetup['Integrations'].productsThisGroupOnly !== undefined ?
+									function(integrations){
+
+										$.each(integrations, function(k,v){
+											integrationsPickList[v.sfid] = v;
+										})
+
+									}(newSetup['Integrations'].productsThisGroupOnly)
+									: '';
+
+								$('body').append('<div style="display:none" class="search-data">'+
+									JSON.stringify(searchItemsObject)+'</div>');
+
+								avaProductsObject = new Object();
+								$.each(newSetup['Product'].productsThisGroupOnly, function(k,v){
+
+										avaProductsObject[v.sfid] = v;
+
+								});
+
+								v.$el.html(theTemplate(v.model.toJSON())),
+								setRotateContainer(),
+								setupContainers(jQuery('.move-container')),
+								formCollection(),
+								setupSearch();
+								$('input[name="billingFrequency"][value="'+avalaraSelections.billMe+'"]').trigger('click');
+
+								var navName = $('.rotate-menu li.actve a').text();
+								ava_aa.track({
+									type:'navigation',
+									target:storeSiteHost+':cart:Avatax'
+								});
+
+								avalaraActivity.push({
+									type:'navigation',
+									target:storeSiteHost+':cart:Avatax'
+								});
+
+								avalaraLoggingConsole(['analytics navigation',{
+									type:'navigation',
+									target:storeSiteHost+':cart:Avatax'
+								}]);
+
+								checkHtmlConversion();
+							},
+							renderDesktop: function() {
+
+								this.doRender(this.templateBoth, $(CCRZ.uiProperties.AvaConfigFlow.selector));
+
+							},
+							renderPhone: function() {
+
+								this.doRender(this.templateBoth, $(CCRZ.uiProperties.AvaConfigFlow.selector))
+
+							},
+							addToCart: function(event) {
+
+								if($('.welcome-back').length > 0){
+									return;
+								}
+
+
+								$('.inPageCart_container').hasClass('cart-removal') ?
+									updateCartMessage('')
+									: '';
+
+								//create local variables in case further manipulation reqd
+
+								if(CCRZ.pagevars.currentCartID !== ''
+									&& CCRZ.pagevars.currentCartID !== undefined){
+
+										avalaraLoggingConsole(['Cart exists', CCRZ.pagevars.currentCartID])
+										return;
+								}
+
+								ava_pc_selectedProducts = new Array();
+								ava_pc_selectedTransactionLevelId = '';
+								ava_pc_selectedBillingFrequencyString = 'Yearly';
+
+
+								avalaraCartProducts = new Array();
+								avalaraCartBilling = avalaraSelections.billMe.replace('annual','yearly').replace('Annual','Yearly');
+								avalaraCartBilling = avalaraCartBilling.replace(avalaraCartBilling[0], avalaraCartBilling[0].toUpperCase());
+								avalaraCartTier = avalaraSelections.tier.sfid;
+
+								$.each(avalaraSelections.products, function(k,v){
+
+									v.cart !== undefined ?
+										avalaraCartProducts.push(v.cart)
+										: '';
+
+								});
+
+								$.each(avalaraSelections.integrations, function(k,v){
+
+									v.cart !== undefined ?
+										avalaraCartProducts.push(v.cart)
+										: '';
+
+								});
+
+								$.each(avalaraSelections.addons, function(k,v){
+
+									if(v.cart !== undefined){
+
+										v.cart.groupName = 'StandAlone';
+										avalaraCartProducts.push(v.cart);
+										
+									}
+
+								});
+
+								var myDynamicKitSku = ava_pc_dynamicKitSku;
+								var mySelectedProducts = avalaraCartProducts;
+								var mySelectedTierId = avalaraCartTier;
+								var mySelectedBillingFrequency = avalaraCartBilling;
+								var myLeadInfo = ava_pc_leadInfo;
+
+
+
+								avalaraLoggingConsole(['Final values',
+									{"Sku":myDynamicKitSku},
+									{"Products":avalaraCartProducts},
+									{"Tier":avalaraCartTier},
+									{"Billing":avalaraCartBilling},
+									{"Lead Info": myLeadInfo}]
+								);
+
+								//actually call the remote method
+
+								cc_Ava_ctrl_ConfigFlow.addConfiguredProductToCart(
+									this.getRemoteContext(),
+									myDynamicKitSku,
+									JSON.stringify(mySelectedProducts),
+									mySelectedTierId,
+									mySelectedBillingFrequency,
+	  							JSON.stringify(myLeadInfo),
+									function(response, event) {
+
+										if($('.welcome-back').length > 0){
+											return;
+										}
+
+										if(event.status && response && response.data && response.success===true) {
+
+	                    cartItems = response.data;
+	                    //record returned pricegroupid globally so we can use it in placeOrder() later (to avoid querying on cart)
+
+	                    window.myPriceGroupId = response.inputContext.priceGroupId;
+
+	                    /*console.log('entire response: ' + JSON.stringify(response));*/
+	                    //console.log('new encrypted cartid: ' + response.data[0].encryptedId);
+	                    //console.log(cartItems,response);
+
+	                    //update CCRZ.pagevars.currentCartID with cart returned, in case new cart was just created
+	                    CCRZ.pagevars.currentCartID = response.data[0].encryptedId;
+
+	                    //refresh whatever is listening for a cartchange event (e.g. cartView)
+	                    CCRZ.pubSub.trigger('cartChange', CCRZ.pagevars.currentCartID);
+
+	                    avalaraSelections.update = 'set';
+	                    avalaraCartResponse = response;
+
+	                    sessionStorage.setItem('lastCart', CCRZ.pagevars.currentCartID);
+
+	                    /* If address has been verified add to cart */
+
+	                    avalaraFormCapture.contactInformation !== undefined
+												&& avalaraFormCapture.contactInformation.email !== undefined
+												&& avalaraFormCapture.contactInformation.email !== '' ?
+													CCRZ.subsc.myAvaConfigFlowView.matchEmail(avalaraFormCapture.contactInformation.email)
+													: '';
+
+											captureField($('form#contactInformation').find('input#phone.is-dirty'))
+
+	                    $('form#contactInformation .required.is-clean').length < 1 ?
+		                    	setAndSendAVSVerification(avalaraFormCapture['contactInformation'], 'contactInformation')
+		                    	: removeCartUpdate();
+
+	                    /*console.log(avalaraSelections);*/
+
+									  } else {
+
+									  	removeCartUpdate(200,'remove');
+									  	avalaraLoggingConsole('Issue with adding to cart');
+										  systemFailureMessage('','Failure with adding items to cart','backend - cc_Ava_ctrl_ConfigFlow.addConfiguredProductToCart','SF');
+
+									  }
+									}
+								);
+
+							},
+							addContactInfoToCart: function(contactInfoJSON) {
+
+								if ($('form').find('.is-required.is-clean').length > 0
+									|| $('form').find('.error').length > 0) {
+										
+										/* Do not continue if errors or required empty */
+										return;
+
+								}
+
+								if(ava_pc_foundContact.Id != null) {
+									var myMatchedContactId = ava_pc_foundContact.Id;
+								} else {
+									var myMatchedContactId = '';
+								}
+								if(ava_pc_foundLead.Id != null) {
+									var myMatchedLeadId = ava_pc_foundLead.Id;
+								} else {
+									var myMatchedLeadId = '';
+								}
+								var myMatchedContactId = '';
+								var myMatchedLeadId = '';
+								var myShippingAddress = contactInfoJSON;
+
+								if (typeof avalaraLoggingConsole !== undefined) {
+									avalaraLoggingConsole([
+										'Adding contact info to cart',
+										{'matched contact': myMatchedContactId},
+										{'matched lead': myMatchedLeadId},
+										{'address': myShippingAddress}
+									]);
+								}
+
+								cc_Ava_ctrl_ConfigFlow.addContactInfoToCart(
+									this.getRemoteContext(),
+									CCRZ.pagevars.currentCartID,
+									myMatchedContactId,
+									myMatchedLeadId,
+									JSON.stringify(myShippingAddress),
+									function(response, event) {
+										if(event.status && response && response.data && response.success===true) {
+
+											//Remove lastCart status because future visits will pick up as existin
+											sessionStorage.removeItem('lastCart');
+
+											avalaraLoggingConsole('entire response: ' + JSON.stringify(response));
+											avalaraLoggingConsole('added contact info to cart successfully!');
+											removeCartUpdate(300,'remove');
+											setCartTax();
+
+										} else {
+
+											removeCartUpdate(200,'remove');
+											avalaraLoggingConsole('something went wrong adding contact info to cart');
+											systemFailureMessage('','Failure with adding contact to cart','backend - cc_Ava_ctrl_ConfigFlow.addContactInfoToCart','SF');
+
+										}
+									}
+								)
+
+							},
+
+		          placeOrder: function(event) {
+
+		          	/* Don't run if already running */
+		          	if(avalaraPlaceOrderRunning){
+
+		          		avalaraLoggingConsole(['Place order is already running', event]);
+									return;
+
+								}
+
+								/* Check for response from zuora */
+								if(ava_pc_paymentToken == ''){
+
+										avalaraLoggingConsole(['Zuora Token not found', event, 'Token refId: '+ava_pc_paymentToken]);
+
+										avalaraPlaceOrderRunningCount < 2 ?
+		          			function(){
+
+		          				avalaraPlaceOrderTimeout = setTimeOut(function(){
+
+			          				avalaraLoggingConsole(['Retry Place order', event]);
+			          				$('a.placeOrder').trigger('click');
+			          				return;
+
+			          			},400);
+
+		          			}()
+		          			: systemFailureMessage('','zuora - placeOrder failure', 'Zuora error found in placeOrder method. Token not found', 'zuora');
+
+										return false;
+
+								}
+
+								/* Clear loop */
+								clearTimeout(avalaraPlaceOrderTimeout)
+
+								/* Set running status to prevent secondary trigger */
+								avalaraPlaceOrderRunning = true;
+
+								/* Continue with placeOrder method */
+								var myCartEncId = CCRZ.pagevars.currentCartID;
+								var myBillingAddress = ava_pc_billingAddress;
+								var myPaymentToken = ava_pc_paymentToken;
+								var myPriceGroupId = avalaraCartResponse.inputContext.priceGroupId;
+								avalaraLoggingConsole(['Response', avalaraCartResponse]);
+
+								cc_Ava_ctrl_ConfigFlow.placeOrder(
+									this.getRemoteContext(),
+									myCartEncId,
+									myPriceGroupId,
+									JSON.stringify(myBillingAddress),
+									myPaymentToken,
+									function(response, event) {
+
+										var analyticsProducts = new Array();
+										var isBillMe = avalaraSelections.billMe.replace('yearly','annual').toLowerCase();
+
+										var finalCost = $('.inPageCart_container').find('.final-cost').text();
+
+
+										if(event.status && response && response.data && response.success===true) {
+
+											//console.log('results of placeOrder call: ' + JSON.stringify(response));
+											var targetURL = CCRZ.pagevars.currSiteURL + response.data.placeURL + '&' + response.data.parameterName + '=' + response.data.parameterList + getCSRQueryString();
+											var cleanedPlaceURL = targetURL.replace(/{!HTMLENCODE('&')}/g, '&');
+											//window.location = cleanedPlaceURL;
+
+											localStorageTest() ?
+												localStorage.setItem('kickout', myCartEncId)
+												: '';
+
+											sessionStorageTest() ?
+												function(myCartEncId){
+
+													sessionStorage.setItem('kickout', myCartEncId);
+													sessionStorage.removeItem('lastCart');
+
+												}(myCartEncId)
+												: '';
+											
+											closeModel();
+
+											var confirmationHTML = '<div class="order-confirmation-container">'+
+												'<h3>Getting started</h3>'+
+												'<div class="message-container">'+
+													'<p>Thanks for your purchase, '+avalaraFormCapture['contactInformation'].first_name+'!</p>' +
+													'<p>An email from Avalara including your username, password, and next steps will be sent shortly. If you don’t see this email within 30 minutes, please check your junk mail, call <a href="tel:18778558622">1-877-855-8622</a>, or email <a href="mailto:customercarecenter@avalara.com">customercarecenter@avalara.com</a> for assistance.</p>'+
+
+												'</div>'+
+											'</div>';
+
+											$.each(avalaraSelections.products, function(k,v){
+
+												analyticsProducts.push({
+				                  category: 'AvaTax',
+			                    products: v.name,
+			                    price: v.price[isBillMe]
+				                });
+
+											});
+
+											$.each(avalaraSelections.integrations, function(k,v){
+
+												analyticsProducts.push({
+				                  category: 'AvaTax',
+			                    products: v.productInfo.productNameAfterIcon
+				                });
+
+											});
+
+											$.each(avalaraSelections.addons, function(k,v){
+												analyticsProducts.push({
+				                  category: 'AvaTax Add-on',
+			                    products: v.name+ '> Tier:'+avalaraSelections.tier.value+' > billing: '+avalaraSelections.billMe
+				                });
+											});
+
+											$('.configuration-flow-container').fadeOut(300, function(){
+
+												$(confirmationHTML).css({'min-height': getBodyMinHeight()+'px'}),
+												$('.configuration-flow-container').replaceWith(confirmationHTML);
+
+											});
+
+											ava_aa.track({
+						            type:'purchase',
+						            products:analyticsProducts,
+						            target:storeSiteHost+':cart:order confirmation'
+							        });
+
+							        avalaraActivity.push({
+						            type:'purchase',
+						            products:analyticsProducts,
+						            target:storeSiteHost+':cart:order confirmation'
+							        });
+
+							        avalaraLoggingConsole(['analytics purchase', {
+						            type:'purchase',
+						            products:analyticsProducts,
+						            target:storeSiteHost+':cart:order confirmation'
+							        }]);
+
+							        orderSuccessMessage(
+							        	$('.inPageCart_container').find('.tax-total').text(), $('.inPageCart_container').find('.final-cost').text(),
+							        	analyticsProducts,
+							        	avalaraSelections.tier.value,
+							        	avalaraSelections.billMe
+							        );
+
+							        avalaraPlaceOrderRunning = false;
+							        zuoraPaymentSuccess = false;
+
+											return false;
+
+										} else {
+
+											avalaraLoggingConsole('something went wrong in placeorder');
+											systemFailureMessage('','Failure with placing order after zuora success','backend - placeOrder','SF');
+											avalaraPlaceOrderRunning = false;
+											zuoraPaymentSuccess = false;
+
+										}
+									}
+								);
+
+							},
+							removeFromCart: function(sfid) {
+
+								avalaraLoggingConsole(['Item to remove', sfid])
+								var myCartLineItemToRemove = sfid;
+								avalaraLoggingConsole([myCartLineItemToRemove, CCRZ.pagevars.currentCartID]);
+								cc_Ava_ctrl_ConfigFlow.removeItemFromCart(
+									this.getRemoteContext(),
+									CCRZ.pagevars.currentCartID,
+									myCartLineItemToRemove,
+									function(response, event) {
+										avalaraLoggingConsole('results of removeItemFromCart: ' + JSON.stringify(response));
+										//window.location = response.data.placeURL + getCSRQueryString();
+										if(event.status && response) {
+
+											if(response.success) {
+
+												avalaraLoggingConsole('item removed from cart');
+												$(event.currentTarget).removeClass(("removeThisFromCart"));
+												$(event.currentTarget).addClass(("notInCart"));
+
+											} else {
+
+												avalaraLoggingConsole('item not removed from cart');
+
+											}
+
+										} else {
+
+											avalaraLoggingConsole('something went wrong removing item from cart');
+											systemFailureMessage('','Failure with removing item from cart','backend - removeFromCart','SF');
+
+										}
+
+									}
+
+								);
+
+							},
+							//use when you need to remove the cart altogether e.g. when changing transaction levels
+							removeCart: function(event) {
+
+								if(removeCartRunning){
+									avalaraLoggingConsole(['Remove cart currently running', CCRZ.pagevars.currentCartID])
+									return;
+								}
+
+								removeCartRunning = true;
+
+								if(CCRZ.pagevars.currentCartID == undefined
+									|| CCRZ.pagevars.currentCartID === ''){
+
+										avalaraLoggingConsole(['No cart id found - cart removal stopped'])
+										return;
+
+								}
+
+								$('.inPageCart_container').addClass('cart-removal')
+								updateCartMessage();
+
+								cc_Ava_ctrl_ConfigFlow.removeCart(
+									this.getRemoteContext(),
+									CCRZ.pagevars.currentCartID,
+									function(response,event) {
+
+										avalaraExistingUser = false;
+										if(event.status && response) {
+											if(response.success) {
+
+												avalaraLoggingConsole('cart removed');
+												//refresh whatever is listening for a cartchange event (e.g. cartView)
+												CCRZ.pubSub.trigger('cartChange', CCRZ.pagevars.currentCartID);
+												CCRZ.pagevars.currentCartID = undefined;
+												$('.inPageCart_container').find('.tax-total').text('--.--');
+												updateCartTotalCost();
+												avalaraAVSVerified = false;
+												avalaraCheckedUser = false;
+
+												setTimeout(function(){
+													removeCartUpdate();
+												},200)
+
+												removeCartRunning = false;
+
+											} else {
+
+												removeCartUpdate(200);
+												avalaraLoggingConsole('cart not removed');
+												systemFailureMessage('','Failure removing cart - cart not removed','backend - removeCart','SF');
+												removeCartRunning = false;
+
+											}
+										} else {
+
+											removeCartUpdate(200);
+											avalaraLoggingConsole('something went wrong removing cart');
+											systemFailureMessage('','Failure with remove cart','backend - removeCart','SF');
+											removeCartRunning = false;
+
+										}
+									}
+								);
+
+							},
+							verifyAddress: function(addressToVerify) {
+								var isVerified = false;
+								avalaraLoggingConsole('Verify address');
+
+								cc_Ava_ctrl_ConfigFlow.verifyAddress(
+									this.getRemoteContext(),
+									addressToVerify,
+									function(response, event) {
+
+										if(event.status && response && response.data) {
+
+											isVerified = response.data.success;
+											avalaraAVSVerified = isVerified;
+
+											avalaraLoggingConsole(['full avs response', response]);
+
+											if(isVerified===true) {
+
+												returnedAVSAddress = response.data.data.Address;
+												var sameAddress = true;
+
+												avalaraLoggingConsole(['Returned address', response.data.data.Address, 'Address sent for verification', addressToVerify]);
+
+												sameAddress = normalizeAddressLine(returnedAVSAddress.Line1) !== normalizeAddressLine(addressToVerify.Line1) ?
+													false : sameAddress;
+												sameAddress = returnedAVSAddress.Line2 !== undefined
+													&& addressToVerify.Line2 !== undefined
+													&& returnedAVSAddress.Line2.toLowerCase() !== addressToVerify.Line2.toLowerCase() ?
+														false : sameAddress;
+												sameAddress = returnedAVSAddress.City.toLowerCase() !== addressToVerify.City.toLowerCase() ?
+													false : sameAddress;
+												sameAddress = returnedAVSAddress.Region.toLowerCase() !== addressToVerify.Region.toLowerCase() ?
+													false : sameAddress;
+												sameAddress = returnedAVSAddress.PostalCode.split('-')[0] !== addressToVerify.PostalCode ?
+													false : sameAddress;
+
+												avalaraLoggingConsole(['Found same address',sameAddress]);
+
+												avalaraLoggingConsole(['active validate', $('form.active-validate').attr('id')]);
+
+												var captureKey = $('form.active-validate').attr('id');
+												$('form.active-validate').find('input, check, radio, select, textarea').each(function(){
+														
+													var name = $(this).attr('name');
+													var val = $.trim($(this).val());
+
+													avalaraFormCapture[captureKey][name] = val;
+
+												});
+
+												if(sameAddress){
+
+													if($('.item>div.active').attr('data-item-count') === 3){
+														loadZuoraHostedPage();
+													}
+
+													$('form.active-validate').addClass('avs-validated')
+
+													avalaraFormCapture.sameas ?
+														function(){
+															$('form#billingInformation').addClass('avs-validated');
+														}()
+														: '';
+
+													CCRZ.pagevars.currentCartID !== ''
+														&& CCRZ.pagevars.currentCartID !== undefined ?
+															(response.data.success == true ? 
+																CCRZ.subsc.myAvaConfigFlowView.addContactInfoToCart(ava_pc_shippingAddress)
+																: loadGenericAVSFailure(response))
+															: addToCart();
+
+													$('form.active-validate').removeClass('checking-validation')
+
+												}
+
+												if(!sameAddress){
+
+													$('.noClick,.is-loader').fadeOut(200, function(){
+														$('.noClick,.is-loader').remove();
+														$('.inPageCart_container').removeClass('cart-removal')
+													});
+
+													var setForUpdate = new Object();
+													setForUpdate.address1 = returnedAVSAddress.Line1;
+													setForUpdate.address2 = returnedAVSAddress.Line2 !== undefined ?
+														returnedAVSAddress.Line2 : '';
+													setForUpdate.city = returnedAVSAddress.City;
+													setForUpdate.state = returnedAVSAddress.Region;
+													setForUpdate.zipcode = returnedAVSAddress.PostalCode.split('-')[0];
+
+													returnedAVSAddress = setForUpdate;
+
+													var userAcceptanceAlert = buildAddressVerificationModal(returnedAVSAddress, addressToVerify);
+
+													modalPopup('', '', userAcceptanceAlert, 'white','usps-content cobrand-modal','','cobrand',1);
+
+													$('form.active-validate').attr('id') === 'contactInformation' ?
+														$('.rotate-menu li a[data-button="2"]').trigger('click')
+														: function(){
+															$('input#terms_conditions').prop('checked') ?
+																$('input#terms_conditions').trigger('click')
+																: '';
+														}()
+
+													return false;
+
+												}
+
+											} else {
+
+												loadGenericAVSFailure(response);
+
+											}
+
+											function loadGenericAVSFailure(response) {
+
+												$('.noClick,.is-loader').fadeOut(200, function(){
+													$('.noClick,.is-loader').remove();
+													$('.inPageCart_container').removeClass('cart-removal')
+												});
+
+												if($('.rotate-menu li a[data-button="2"]').hasClass('viewed')){
+
+													var isButtonClick = $('.items > div.active').attr('data-item-count');
+
+													avalaraLoggingConsole('sorry, address is invalid');
+													var failedAddressMessage = '<div class="returns-container address-failure-container">'+
+														'<h3 class="modal-title">Oops! We are having trouble processing your request</h3>'+
+														'<p>Please verify your address or call us at <a href="tel://(877) 780-4848" title="Call us">(877) 780-4848</a> if you continue experiencing issues.</p>'+
+														'<div class="button-container"><button data-button="'+isButtonClick+'" onClick="closeModal(this);">Try again</button></div>'+
+													'</div>';
+
+													modalPopup('','',failedAddressMessage);
+													$('form.active-validate').attr('id') === 'contactInformation' ?
+														$('.rotate-menu a[data-button="2"]').trigger('click')
+														: '';
+
+												}
+
+												avalaraLoggingConsole('Address verify failed', response);
+
+												return false;
+
+											}
+
+										}
+
+										return isVerified;
+
+									});
+
+									function normalizeAddressLine(line) {
+										return line.replace(/[.]/g, '').toLowerCase();
+									}
+							},
+							//note that myCartId is the actual sfid, not the encid: CCRZ.cartView.cartmodel.attributes.sfid
+							calculateTax: function(myCartId) {
+								avalaraLoggingConsole(['Cart sent for tax calc', myCartId, 'Current cart ID', CCRZ.pagevars.currentCartID]);
+								var calculatedTaxAmount = 0;
+								cc_Ava_ctrl_ConfigFlow.calculateTax(
+									this.getRemoteContext(),
+									myCartId,
+									function(response,event) {
+										if(event.status && response) {
+											calculatedTaxAmount = response.data;
+											if(calculatedTaxAmount===0) {
+
+												avalaraLoggingConsole(['tax calculated but zero amount -- are all products and addresses configured correctly?']);
+												$('.inPageCart_container').find('.tax-total').text('0.00');
+
+											} else {
+
+												var taxTotal = Number(calculatedTaxAmount);
+												taxTotal = taxTotal.toFixed(2);
+												var finalTotal = $('.inPageCart_container').find('.final-total');
+												$('.inPageCart_container').find('.tax-total').text(taxTotal),
+												updateCartTotalCost('calculate');
+												avalaraLoggingConsole('tax amount calculated: ' + calculatedTaxAmount);
+
+
+											}
+										} else {
+
+											calculatedTaxAmount = 'no response from tax service';
+											avalaraLoggingConsole('no response from tax service')
+											systemFailureMessage('','No reponse from AvaTax API','backend - calculateTax: "method"','AvaTax');
+
+										}
+
+										avalaraLoggingConsole(['full response: ',response,'calculated tax amount: ' + calculatedTaxAmount]);
+										return calculatedTaxAmount;
+
+									});
+
+							},
+							matchEmail: function(emailAddress) {
+
+								if(avalaraCheckedUser
+									&& !$('.inPageCart_container').hasClass('cart-removal')){
+
+									avalaraLoggingConsole(['Email '+emailAddress+' already checked'])
+									return;
+
+								}
+
+								var emailMatched = false;
+								avalaraExistingUser = false;
+								avalaraCheckedUser = true;
+								avalaraLoggingConsole('Check existing '+emailAddress);
+
+								cc_Ava_ctrl_ConfigFlow.matchEmail(
+									this.getRemoteContext(),
+									emailAddress,
+									CCRZ.pagevars.currentCartID,
+									function(response,event) {
+
+										avalaraLoggingConsole(['Match email response', response, event]);
+
+										avalaraLoggingConsole('full response from matchEmail: ' + JSON.stringify(response));
+
+										if(event.status && response && response.data) {
+
+											if(response.success) {
+
+												emailMatched = false;
+												isMatched = 'lead';
+
+												avalaraLoggingConsole('found lead or contact match on email address ' + emailAddress);
+
+												if(!newUser){
+													if(response.data.matchedLead
+														|| response.data.matchedContact) {
+
+															existingUserModal();
+															return false;
+
+													}
+												}
+
+												/*if(response.data.matchedLead) {
+
+													avalaraLoggingConsole('found lead match on email address ' + emailAddress);
+													ava_pc_foundLead = response.data.matchedLead;
+													$('.existing-user-alert').remove();
+													$('button#submitPaymentWindow').removeAttr('disabled');
+
+												}
+
+												if(response.data.matchedContact) {
+
+													avalaraLoggingConsole('found contact match on email address ' + emailAddress);
+													ava_pc_foundContact = response.data.matchedContact;
+
+													avalaraLoggingConsole(['Active Customer?', response.data.activeCustomer, 'Kickout?', response.data.kickout])
+
+													response.data.kickout ?
+														existingUserModal()
+														: '';
+
+												}
+
+												if(response.data.newConvertedAccountId) {
+
+													emailMatched = true;
+
+													avalaraLoggingConsole('lead converted to new contactid ' + response.data.newConvertedContactId + ' with associated new account ' + response.data.newConvertedAccountId);
+													ava_pc_newConvertedContactId = response.data.newConvertedContactId;
+													ava_pc_newConvertedAccountId = response.data.newConvertedAccountId;
+
+												}*/
+
+												avalaraLoggingConsole('full new lead data: ' + JSON.stringify(response.data));
+
+											} else {
+
+												newUser = true;
+												emailMatched = false;
+												avalaraLoggingConsole('no contact or lead with email address ' + emailAddress);
+												avalaraLoggingConsole('full data: ' + JSON.stringify(response.data));
+
+												$('.existing-user-alert').remove();
+												$('button#submitPaymentWindow').removeAttr('disabled');
+
+											}
+
+										} else {
+
+											avalaraLoggingConsole('something went wrong checking email address');
+											systemFailureMessage('','Failure checking email address','backend - cc_Ava_ctrl_ConfigFlow.matchEmail','AvaTax');
+
+										}
+
+										avalaraLoggingConsole('what is emailMatched? ' + emailMatched);
+
+										if(!emailMatched) {
+
+											ava_pc_addContact = true;
+
+										} else {
+
+											ava_pc_addContact = false;
+
+										}
+
+									}
+								);
+
+							}
+						});
+
+						//instantiate model
+						CCRZ.subsc.AvaConfigFlowModelData = new CCRZ.subsc.models.AvaConfigFlowModel();
+						//instantiate view and attach model
+						CCRZ.subsc.myAvaConfigFlowView = new CCRZ.subsc.views.AvaConfigFlowView({
+							model: CCRZ.subsc.AvaConfigFlowModelData
+						});
+
+						//add handlebars helpers
+						Handlebars.registerHelper('removeSpaces', function(spaceyString) {
+							if(spaceyString) {
+								return spaceyString.replace(/\s+/g, '');
+							} else {
+								return 'no-group-name';
+							}
+						});
+
+						Handlebars.registerHelper('annualDiscount', function(monthlyAmount, annualAmount, periodMultiplier) {
+							if(monthlyAmount && annualAmount && periodMultiplier){
+								return monthlyAmount*periodMultiplier - annualAmount;
+							} else {
+								return 0;
+							}
+						});
+
+				});
+
+
+			</script>
+
+    <!--
+    	backbone models and views for config flow DEPRECATED
+    -->
+
+	    <!--
+	    	bring product group data (tiers, integrations, addons, whatever) into page
+				<script>
+					//@kevin this will store all product data for the master composite product to include in the config flow
+					//each 'tab name' is a related product group, available under productData.EProductGuidesS[number].relatedProductGroupR.sfdcName
+					//each 'component' is a composite product, available under productData.compositeProductsS[number].componentR -- BUT this only has sku, currency, sfid; you probably want all the data in this object, so we'll add that
+					compositeProductData = '';
+					//need to send an array because ccProductApi accepts only List as input
+					var skuArray = [];
+					var mySku = '{!HTMLENCODE(JSENCODE($CurrentPage.parameters.sku))}';
+					skuArray.push(mySku);
+
+					//call apex controller to call ccproductapi to get composite product info, which contains product groups
+					cc_Ava_ctrl_ConfigFlow.fetchCompositeProducts(CCRZ.pagevars.remoteContext, skuArray, function(response) {
+							if(response && response.success) {
+								compositeProductData = response.data;
+								//show in page for now
+								$('#dataPile').text('temporarily making data visible on the page: ' + JSON.stringify(compositeProductData));
+							} else {
+								avalaraLoggingConsole('something went wrong with the ccproductapi request');
+								systemFailureMessage('','Something went wrong with the ccproductapi request','backend - cc_Ava_ctrl_ConfigFlow.fetchCompositeProducts','SF');
+							}
+					});
+					//currently grabbing all composite product data; need to add pricing, really should be on the same object
+				</script>
+			-->
+
+	<script>
+
+
+	/********************************
+		START STATIC RESOURCE
+		VARIABLE GATHER
+	*********************************/
+		var avalaraStaticResourcePath = '{!$Resource.CC_Ava_ProductImages}';
+		var resourceUrl = '{!$Resource.CC_Avalara_Theme}';
+
+	/********************************
+	  	END STATIC RESOURCE
+		VARIABLE GATHER
+	*********************************/
+
+
+	/********************************
+			START ZUORA DATA RETRIEVE
+	*********************************/
+
+		function getZuoraSignature(){
+
+			cc_Ava_ctrl_ConfigFlow.getZuoraIframe(CCRZ.pagevars.remoteContext,
+			function(response, event) {
+
+	      /*avalaraLoggingConsole('here you go:' + JSON.stringify(response.data));*/
+	      typeof avalaraLoggingConsole !== "undefined" ?
+	      	avalaraLoggingConsole(['here you go', response])
+	      	: '';
+	      zuoraData = response.data;
+
+
+					var zuoraScript = zuoraData.uriBaseUrl.replace(/https:/g,'').replace(/http:/g,'').replace(/www/g,'static') + '/Resources/libs/hosted/1.3.0/zuora-min.js';
+
+					$.getScript(zuoraScript, function(){
+						typeof avalaraLoggingConsole !== "undefined" ?
+							avalaraLoggingConsole(['Zuora script loaded', zuoraScript])
+							: '';
+					})
+					.error(function(e){
+						typeof avalaraLoggingConsole !== "undefined" ?
+						avalaraLoggingConsole(['Zuora script failed to load', zuoraScript, JSON.stringify(e)])
+						: '';
+						systemFailureMessage('','Zuora script failed to load: '+zuoraScript,'backend - cc_Ava_ctrl_ConfigFlow.getZuoraIframe','zuora');
+					});
+
+	  	}
+
+	  );
+
+	 }
+
+	 getZuoraSignature();
+
+	/********************************
+			END ZUORA DATA RETRIEVE
+	*********************************/
+
+	/********************************
+			START HTML CONVERSION
+	*********************************/
+
+			function checkHtmlConversion(){
+	        $('.text-to-html').each(function(){
+
+	          $(this).html(convertToHtml($(this).text())),
+	          $(this).removeClass('text-to-html')
+
+	        });
+
+		      }
+
+
+		      function convertToHtml(isText){
+
+		      	isText = $.trim(isText);
+
+		        var convert = isText.indexOf('&lt;')!==-1
+		          || isText.indexOf('&gt;')!==-1 ?
+		            isText.text().replace(/&lt;/g,'<').replace(/&gt;/g,'>')
+		            : isText;
+
+		        return convert.substr(0,2) === '<p'
+		        	|| convert.substr(0,2) === '<d' ?
+		        	convert : '<p>'+convert+'</p>';
+
+		      }
+
+  /********************************
+		END HTML CONVERSION
+	*********************************/
+
+
+	</script>
+
+
+
+</apex:outputPanel>
+
+{!blank}
+
+</apex:page>

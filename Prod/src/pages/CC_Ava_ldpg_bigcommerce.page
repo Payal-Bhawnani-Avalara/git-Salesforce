@@ -1,0 +1,343 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false">
+
+	
+	<!-- 
+		Start static content
+	-->
+
+	<div class="ldpg-template-container">
+   	
+		<div class="hero-banner jumbo-tron">
+			<div class="dynamic-background-image"
+				data-image="{!$Resource.CC_Ava_ProductImages}/BC_returns_hero_3-sfw.png"
+				data-position="top left"
+				data-size="cover"
+				data-repeat="no-repeat"
+			/>
+			<div class="content-container">
+				<div class="promo-content-container">
+					<h2 class="promo-title fcolorTheme">
+						<img src="{!$Resource.CC_Ava_ProductImages}/avalaratreturns_icontitle_sm.png"/>
+
+						Simplify tax compliance with Avalara Returns
+					</h2>
+				</div>
+			</div>
+		</div>
+		
+		<div class="content-container returns-bigcommerce-desc-container">
+			<div class="col-sm-6 logo-container">
+				<img src="{!$Resource.CC_Ava_ProductImages}/BigCommerce-logo-dark-cropped.png" class="bigcommerce-logo" />
+				<span class="plus">+</span>
+				<img src="{!$Resource.CC_Avalara_Theme}/images/home.svg" class="avalara-logo" />
+			</div>
+			<div class="col-sm-6">
+				<p>Avalara Returns helps BigCommerce merchants like you improve efficiency and ensure tax compliance by
+				handling monthly sales and use tax filing, remittance, and notice management. With Avalara Returns
+				managing your tax filing, you can lower costs, reduce errors, and stay focused on what matters — growing
+				your business.</p>
+			</div>
+		</div>
+
+		<div class="quote-container">
+			<div class="content-container">
+				<h3>What would you do with an extra 25 hours<sup>1</sup> per month?</h3>
+			
+				<div class="is-quote">
+					
+					<div class="quote-icons">
+						<div class="left"><span class="fa fa-quote-left"></span></div>
+						<div class="right"><span class="fa fa-quote-right"></span></div>
+					</div>
+
+					<p>We are focusing on fine tuning our billing process since our billing lady has the time to think about more than just billing and checking sales tax!</p>
+					<p>&nbsp;</p>
+					<p class="author">Mandy Guetzow | Lizzy Lift</p>
+
+				</div>
+			</div>
+		</div>
+		
+		<div class="product-desc-container product-details">
+			<div class="content-container">
+				<div class="col-sm-6">
+					<img src="{!$Resource.CC_Ava_ProductImages}/avalarareturns_prodsearch.png" />
+				</div>
+				<div class="col-sm-6">
+					<h3>Enable Avalara Returns to do tax compliance right</h3>
+					<p>
+					As part of your BigCommerce Standard, Plus, or Pro plan, Avalara AvaTax calculates sales tax for your transactions.
+					When you add Avalara Returns, it will use your BigCommerce transaction data to automatically prepare, file, and
+					remit your sales tax returns. Get Avalara Returns for a flat rate of <span class="fcolorTheme">$35 per return</span>
+					<sup>2</sup>. 
+					</p>
+					
+					<p>
+						<a href="ccrz__CCPage?pageKey=static_configflow">
+							<button class="btn-blue">Add to cart</button>
+						</a>
+					</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="">
+			<c:CC_Ava_Guarantee />
+		</div>
+		
+		<!-- Start FAQs -->
+
+		<c:CC_Ava_FAQ />
+
+		<!-- End FAQs -->
+
+
+		<!-- Start contact cta -->
+
+			<div class="background-grey contact-cta">
+				<div class="content-container talignC">
+					<h2 class="container-title fcolorTheme">Have additional questions?</h2>
+					<a href="https://www.avalara.com/store-bigcommerce-contact-us/" target="_blank" rel="noopener noreferrer">
+            <button class="btn-blue">Contact us</button>
+          </a>
+				</div>
+			</div>
+
+		<!-- End contact cta -->
+
+
+		<!-- Start foot notes -->
+			
+			<div class="content-container foot-notes">
+				<p><sup>1</sup>According to Aberdeen Research, the time spent on sales and use tax compliance activities for small companies is 25.3 hours per month (per employee dedicated to tax management). This includes calculating and/or verifying sales tax rates; completing, filing, and remitting returns.</p>
+				<p><sup>2</sup>(a) Promotional price of $35 per return for up to 50 automated return filings to be used within 12 months from the initial order date is available to qualified purchasers of Avalara Returns services until Dec 31, 2018. This offer expires Dec 31, 2018, and purchases made after this date are not eligible. (b) A purchaser is qualified if it purchases  Avalara Returns through a BigCommerce Standard, Plus, Pro, or Enterprise account, is not a current Avalara Returns customer, and uses AvaTax only through its BigCommerce account. Additions of Avalara AvaTax connections to other accounting, ERP, POS, or e-commerce systems may require purchase of additional Avalara Services. (c) This offer cannot be combined with any other offer. (d) The purchase of Avalara Returns is governed by the terms and conditions found at avalara.com/terms. (e) Avalara may suspend, terminate, or modify this offer at any time, without notice, and reserves the right to disqualify anyone from participation. All determinations will be made by Avalara in its sole discretion and are final.</p>
+			</div>
+
+		<!-- End foot notes -->
+
+
+		<!-- Start modal content -->
+
+			<div class="modal-content-grab returns-modal-content">
+        <div class="returns-modal">
+          <h3>Getting set up:</h3>
+          <ul>
+          <li>Configure AvaTax based on your tax registrations</li>
+          <li>Specify which returns you want Avalara to file for you</li>
+          <li>Provide Avalara with (secure) information on how to fund your tax payments</li>
+          </ul>
+          <h3>Before we file returns on your behalf:</h3>
+          <ul>
+          <li>AvaTax reconciles and approves your liabilities</li>
+          <li>Avalara files your returns and facilitate funding of liabilities</li>
+          <li>Avalara manages tax notices, if applicable</li>
+          <li>Returns are processed and filed automatically whether or not you have any tax liability and you will be charged for those filings</li>
+          </ul>
+          <a href="https://help.avalara.com/003_Avalara_Returns/Get_Started_with_Avalara_Returns" class="more-link" title="More information on returns" rel="noopener noreferrer" target="_blank"><p>Find more information about Returns here</p></a>
+          <div class="button-container">
+            <button class="btn-reverse-blue" onClick="closeModel(this);return false;">Cancel</button>
+            <a href="ccrz__CCPage?pageKey=static_configflow"><button class="btn-blue">Continue</button></a>
+          </div>
+        </div>
+      </div>
+
+		<!-- End modal content -->
+
+
+	</div>
+
+	<!-- 
+		End static content
+	-->
+
+
+
+
+
+
+
+
+
+	<!-- 
+		Start dynamic model/view render
+		This following will render into the empty div "ExampleTemplate"
+	-->
+
+   
+   	<script id="ldpg-template" type="text/template"></script>
+
+
+	<!-- 
+		End dynamic model/view render
+	-->
+
+
+
+
+
+
+	<!--
+		Define handlebars template for use in backbone view
+	-->
+
+		
+		<div class="ldpg-output"></div>
+
+
+	<!--
+		End define handlebars template for use in backbone view
+	-->
+
+	
+
+
+
+
+
+
+
+	<!--
+		Initiate render
+	-->
+		
+
+		<script type="text/javascript">
+
+			jQuery(function($){
+        
+        CCRZ.util.createView({
+          
+          desktop: {target:'ldpg-output', template:'ldpg-template'},
+        
+        });
+
+      });
+
+		</script>
+
+
+	<!--
+		End initial render
+	-->
+
+
+	<!-- Start custom source -->
+
+		<script>
+
+			var avalaraStaticResourcePath = '{!$Resource.CC_Ava_ProductImages}';
+			var resourceUrl = '{!$Resource.CC_Avalara_Theme}';
+			var loadResources = [
+				'/css3/cobrand-fonts.css',
+				'/css3/ldpg-template.css',
+				'/css3/cobrand.css',
+				'/css3/expand.css',
+				'/js/avalara-expand-collapse.js',
+				'/js/popup-modal.js'
+			];
+
+
+			$.each(loadResources, function(k,v){
+
+				v.indexOf('/css') !=-1 ? 
+					$('head').append('<link type="text/css" rel="stylesheet" href="'+resourceUrl+v+'" />')
+					: $('head').append('<script type="text/javascript" src="'+resourceUrl+v+'" />');
+
+			});
+
+
+			//$('.product-icon').html('<img src="{!$Resource.CC_Ava_ProductImages}/Returns-Icon.png" />');
+
+
+
+
+
+
+
+	    /********************************
+	         START SOCIAL IMAGE SET
+	    *********************************
+
+		    var socialIconSet = '';
+
+	      function setCobrandSocialIcons(){
+	      	
+	      	$('.footer').addClass('cobrand');
+	      	
+	      	if($('li.social-icons').length < 1){
+
+	      		socialIconsSet = setTimeout(function(){
+	      	
+	      			setCobrandSocialIcons()
+	      	
+	      		},100);
+
+	      		return false;
+
+	      	}
+	      	
+
+	      	clearTimeout(socialIconsSet);
+	      	$('.footer').addClass('cobrand');
+	      	$('a.facebook').find('img').attr('src',resourceImageUrl+'/Facebook_orange.png');
+	      	$('a.twitter').find('img').attr('src',resourceImageUrl+'/Twitter_orange.png');
+	      	$('a.youtube').find('img').attr('src',resourceImageUrl+'/YouTube_orange.png');
+	      	$('a.linkedin').find('img').attr('src',resourceImageUrl+'/LinkedIn_orange.png');
+
+	      }
+
+      /********************************
+	         START SOCIAL IMAGE SET
+	    *********************************/
+
+
+    	var rotateCount = 0;
+      var backgroundCount = 0;
+      var resourceUrl = '{!$Resource.CC_Avalara_Theme}';
+      var resourceImageUrl = '{!$Resource.CC_Ava_ProductImages}';
+
+      jQuery(document).ready(function(){
+
+      	//$('.cc_menu_container').remove();
+      	//setCobrandSocialIcons();
+
+      	$ = jQuery;
+
+        setTimeout(function(){
+
+	        $('.rotate').each(function(){
+	          
+	          setupRotateContainer(jQuery(this));
+	          $('.footer,cc_footer').addClass('cobrand');
+
+	        });
+
+	        $('.header').addClass('cobrand');
+	        $('.expand').attr({'onClick': 'expandContent(this); return false;'});
+
+	        //$('head').append('<style type="text/css">header .cobrand .topNav ul{display:none}</style>');
+	        $('.expand').attr({'onClick': 'expandContent(this); return false;'});
+	        //$('.main-phone').attr('href','#').text('LOGIN').toggleClass('main-phone login');
+	        //$('.navigation-container ul').remove();
+	        //$('a#logoUrl').replaceWith($('a#logoUrl').html());
+
+	      },200);
+
+        $('.dynamic-background-image').each(function(){
+
+          jQuery('head').append('<style type="text/css" id="dynamicBackgroundImages"></style>');
+
+          setDynamicBackgroundImage(jQuery(this));
+
+        });
+
+        //jQuery('.source-cleanup-remove').remove();
+
+      });
+
+  	</script>
+
+	<!-- End custom source -->
+
+
+</apex:page>

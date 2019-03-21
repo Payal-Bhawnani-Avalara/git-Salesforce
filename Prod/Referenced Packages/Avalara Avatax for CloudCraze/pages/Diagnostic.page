@@ -1,0 +1,147 @@
+<apex:page id="cc_avalara_Diagnostic" controller="ccava.cc_avalara_ctrl_Diagnostic">
+	<script type="text/javascript">
+    function testConnection(storefront) {
+      var btn = document.getElementById(storefront+'ConnectionTest');
+      var msg = document.getElementById(storefront+'ConnectionMessage');
+      btn.disabled = true;
+      btn.setAttribute('class', 'loading');
+      msg.innerHTML = '';
+      Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.cc_avalara_ctrl_Diagnostic.testConnection}',
+        JSON.stringify({'storefront':storefront}),
+        function(result, event) {
+          if (window.console) console.log(result);
+          btn.disabled = false;
+          if (event.status) {
+            // Get DOM IDs for HTML and Visualforce elements like this
+            if (result[storefront] && ('Success' == result[storefront]['ResultCode'])) {
+              if (btn) btn.setAttribute('class', 'success');
+            } else {
+              if (btn) btn.setAttribute('class', 'fail');
+              var msgs = result[storefront]['Messages'];
+              for(var i=0;i<msgs.length;i++) {
+                if (msg) msg.innerHTML += msgs[i].Summary + ' ';
+              }
+            }
+          } else if (event.type === 'exception') {
+            if (btn) btn.setAttribute('class', 'fail');
+            if (msg) msg.innerHTML = event.message + "<br/>\n<pre>" + event.where + "</pre>";
+          } else {
+            if (msg) msg.innerHTML = event.message;
+            if (btn) btn.setAttribute('class', 'fail');
+          }
+        },
+        {escape: true}
+      );
+    };
+
+    function validateAddress() {
+      var btn = document.getElementById('AddressTest');
+      var msg = document.getElementById('AddressMessage');
+      var data = {
+        storeName:document.getElementById('AddressStorefront').value,
+        Line1:document.getElementById('AddressLine1').value,
+        Line2:document.getElementById('AddressLine2').value,
+        Line3:document.getElementById('AddressLine3').value,
+        City:document.getElementById('AddressCity').value,
+        Region:document.getElementById('AddressRegion').value,
+        City:document.getElementById('AddressCity').value,
+        PostalCode:document.getElementById('AddressPostalCode').value
+      };
+      btn.disabled = true;
+      btn.setAttribute('class', 'loading');
+      msg.innerHTML = '';
+      msg.removeAttribute('class');
+      Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.cc_avalara_ctrl_Diagnostic.validateAddress}',
+        JSON.stringify(data),
+        function(result, event) {
+          if (window.console) console.log(result);
+          btn.disabled = false;
+          if (event.status) {
+            // Get DOM IDs for HTML and Visualforce elements like this
+            if (result) {
+              if (result['success'] && true == result['success']) {
+              	if (btn) btn.setAttribute('class', 'success');
+            	} else {
+             	  if (btn) btn.setAttribute('class', 'fail');
+            	}
+              if (result['messages']) {
+								var msgs = result['messages'];
+								for(var i=0;i<msgs.length;i++) {
+									if (msg) msg.innerHTML += msgs[i].message + '<br/>';
+								}
+							}
+							var addr = result['data']['Address'];
+              if (addr && msg) {
+								for(var k in addr) {
+									msg.innerHTML += '<strong>' + k + '</strong>: ' + addr[k] + '<br/>';
+								}
+              }
+            }
+          } else if (event.type === 'exception') {
+            if (btn) btn.setAttribute('class', 'fail');
+						if (msg) msg.innerHTML = event.message + "<br/>\n<pre>" + event.where + "</pre>";
+          } else {
+            if (btn) btn.setAttribute('class', 'fail');
+            if (msg) msg.innerHTML = event.message;
+          }
+        },
+        {escape: true}
+      );
+    };
+
+	</script>
+	<style type="text/css">
+    button.open::before { content: "&#9634; "; color:black; }
+    button.success::before { content: "&#9745; "; color:green; }
+    button.fail::before { content: "&#9746; "; color:red; }
+    button.loading::before { content: "&hellip; "; color:blue; }
+
+	</style>
+	<apex:pageMessages />
+
+	<apex:pageBlock id="testConnectionBlock">
+		<h3>AvaTax API Reachability</h3>
+		<apex:repeat value="{!storefronts}" var="sf" id="connectionStorefronts">
+			<apex:pageBlockSection id="blockSection" columns="1">
+				<apex:pageBlockSectionItem id="storefront">
+					<button class="open" onclick="javascript:testConnection('{!JSENCODE(sf)}')"
+									id="{!sf}ConnectionTest">{!sf}</button>
+					<span id="{!sf}ConnectionMessage"></span>
+				</apex:pageBlockSectionItem>
+				<apex:pageBlockSectionItem id="connectionStorefrontMessages">
+					<div id="{!sf}ConnectionMessage"></div>
+				</apex:pageBlockSectionItem>
+			</apex:pageBlockSection>
+		</apex:repeat>
+	</apex:pageBlock>
+
+	<apex:pageBlock id="testAddressBlock">
+		<h3>AvaTax API Address Validation</h3>
+		<form id="AddressForm" action="#" method="get" onsubmit="javascript:function(){return false;}">
+			<div>
+				<input type="text" id="AddressLine1" name="Line1" placeholder="Address 1"/><br/>
+				<input type="text" id="AddressLine2" name="Line2" placeholder="Address 2"/><br/>
+				<input type="text" id="AddressLine3" name="Line3" placeholder="Address 3"/><br/>
+				<input type="text" id="AddressCity" name="City" placeholder="City"/><br/>
+				<input type="text" id="AddressRegion" name="Region" placeholder="Region/State Code"/><br/>
+				<input type="text" id="AddressCountry" name="Country" placeholder="Country Code"/><br/>
+				<input type="text" id="AddressPostalCode" name="PostalCode" placeholder="Postal Code"/>
+			</div>
+			<div>
+				<label for="storefront">Storefront</label>
+				<select name="storefront" id="AddressStorefront">
+					<apex:repeat value="{!storefronts}" var="sf" id="addressStorefronts">
+						<option value="{!sf}">
+							<apex:outputText value="{!sf}"/>
+						</option>
+					</apex:repeat>
+				</select>
+			</div>
+		</form>
+		<button class="open" id="AddressTest" onclick="javascript:validateAddress()">Validate</button>
+		<hr/>
+		<div>
+			<div id="AddressMessage" name="AddressMessage"/>
+		</div>
+	</apex:pageBlock>
+</apex:page>

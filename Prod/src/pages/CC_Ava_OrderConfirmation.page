@@ -1,0 +1,98 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false" controller="cc_Ava_ctrl_OrderConfirmation">
+
+    <div class="Ava-OrderConfirmation-target"></div>
+ 
+    <script type="text/template" id="Ava-OrderConfirmation">
+        <div>
+        	{{#each productList}}
+        		<div><h3>Thanks for ordering {{sfdcName}}.</h3></div>
+        		<div style="margin-bottom: 30px">Special message for {{sfdcName}} goes here.</div>
+        	{{/each}}
+        </div>
+    </script>
+
+    <script type="text/javascript">
+
+		productsString = '{!$CurrentPage.parameters.productsOrdered}';
+		productsArray = productsString.split(',');
+
+        //@TODO: convert existing products data into appropriate products objects for ava_aa
+        ava_aa.track({
+            type: 'purchase'
+        });
+
+		CCRZ.uiProperties.AvaOrderConfirmation = {
+			tmpl: 'Ava-OrderConfirmation',
+			selector: '.Ava-OrderConfirmation-target',
+		};
+        jQuery(function($) {
+            CCRZ.subsc = CCRZ.subsc || {};
+            CCRZ.subsc.models = CCRZ.subsc.models || {};
+            CCRZ.subsc.views = CCRZ.subsc.views || {};
+ 
+            // Setup Model
+            CCRZ.subsc.models.AvaOrderConfirmationModel = CCRZ.CloudCrazeModel.extend({
+                className: 'cc_Ava_ctrl_OrderConfirmation',
+                fetch: function(callback) {
+                    var model = this;
+                    this.invokeContainerLoadingCtx(
+                            $('body'),
+                            'fetchProductsOrdered',
+                            productsArray,
+                            function(response, event) {
+                                if (event.status && response && response.data) {
+                                    model.set(model.parse(response.data));
+                                    model.set('loaded',true);
+                                    callback(response);
+                                }else{
+                                    model.set('loaded',false);
+                                    if(response && response.messages && _.isArray(response.messages) && response.messages.length){
+                                        CCRZ.console.log('got loaded');
+                                        callback(response);
+                                    }else{
+                                        CCRZ.console.log('got error');
+                                        callback(response);
+                                    }
+                                }
+                            }
+                            ,{nmsp: false});
+                }
+            });
+ 
+            // Setup View
+            CCRZ.subsc.views.AvaOrderConfirmationView = CCRZ.CloudCrazeView.extend({
+                viewName: 'AvaOrderConfirmationView',
+                templateBoth: CCRZ.util.template(CCRZ.uiProperties.AvaOrderConfirmation.tmpl),
+                managedSubView: true,
+                init: function() {
+                    var v = this;
+                    v.model.fetch(function() {
+                        v.render();
+                    });
+                },
+                doRender : function(theTemplate, theSelector) {
+                    this.setElement(theSelector);
+                    var v = this;
+                    v.$el.html(theTemplate(v.model.toJSON()));
+                },
+                renderDesktop: function() {
+                    this.doRender(this.templateBoth, $(CCRZ.uiProperties.AvaOrderConfirmation.selector));
+                },
+                renderPhone: function() {
+                    this.doRender(this.templateBoth, $(CCRZ.uiProperties.AvaOrderConfirmation.selector));
+                }
+            });
+ 
+            // Instantiate model
+            CCRZ.subsc.AvaOrderConfirmationData = new CCRZ.subsc.models.AvaOrderConfirmationModel();
+            // Pass model to view instantiation.
+            CCRZ.subsc.myAvaOrderConfirmationView = new CCRZ.subsc.views.AvaOrderConfirmationView({
+                model: CCRZ.subsc.AvaOrderConfirmationData
+            });
+ 
+        });
+    </script>
+
+{!blank}
+
+</apex:page>

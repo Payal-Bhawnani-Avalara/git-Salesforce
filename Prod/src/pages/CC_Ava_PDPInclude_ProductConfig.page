@@ -1,0 +1,543 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false" controller="cc_Ava_ctrl_PDP">
+   
+
+<!-- nb: product config code removed b/c now on separate subscriber page (and works differently) -->
+
+<script id="ProductDetail-Desktop-Ava" type="text/template">
+
+   
+  <div class="panel panel-default product_detail_container product_type_dk cc_panel cc_product_detail_container cc_product_type_dk product-container product-container-name-{{this.product.prodBean.productNameAfterIcon}} pdp-display">
+
+    <div class="content-container">
+      <div class="breadcrumbs">
+        <span><a href="/">Store</a></span>
+        <span>></span>
+        <span><a href="#" onClick="goToProducts(this);return false">Products</a></span>
+        <span>></span>
+        <span>{{this.product.prodBean.productNameAfterIcon}}</span>
+      </div>
+    </div>
+
+    <div class="content-container">
+      <div class="product-description">
+        <h3>
+          <img src="{{displayIcon this.mediaWrappers.[Product Icon]}}" />
+          {{this.product.prodBean.productNameAfterIcon}}
+        </h3>
+
+        <div class="subtitle">{{{this.product.prodBean.shortDesc}}}</div>
+
+        <div class="long-description text-to-html">
+          {{this.content.Description}}
+        </div>
+      </div>
+    </div>
+
+    <!-- target div for backbone view in transaction pricing component -->
+      <div class="Ava-ConfigFlow-target"></div>
+    
+      <div id="pdp-post-description-placeholder"></div>
+
+      <div class="panel-body product_detail cc_body cc_product_detail phoneProductItem">
+
+       <div class="messagingSection-Error" role="alert" style="display: none"></div>
+       <div class="messagingAction-Info" role="alert" style="display: none">
+        <button type="button" class="close cc_close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&#215;</span></button>
+       </div>
+          <!-- begin avalara-specific section -->
+
+          <div class="product-features-container">
+
+            <div class="content-container">
+              <h3 class="feature-title">{{this.product.prodBean.productNameAfterIcon}} Benefits</h3>
+              {{{this.product.prodBean.productFeatures}}}
+            </div>
+
+          </div>
+
+      </div>
+
+      <div id="pdp-post-product-features-placeholder"></div>
+
+    </div>
+
+      <!-- end avalara-specific section -->
+
+    <div class="transactions-anchor"></div>
+
+    {{#ifEquals this.product.prodBean.productNameAfterIcon 'Returns-temp-remove'}}
+      
+      <div class="transactionLevelContainer bundles-container single">
+
+        <div class="transactionLevelBox">
+          <div class="transaction-holder">
+            <div>
+              <h3 class="transaction-header">AvaTax + Returns</h3>
+              <div class="pricing-container">
+                <p><span class="annual-price">$35</span></p>
+                <p class="tagline">Starting cost per year</p>
+                <p>plus</p>
+                <p class="tagline">$35 per return, when filing</p>
+              </div>
+              <hr />
+              <div class="subscription-type">
+                <p class="monthly-description">Integrates with your AvaTax<br /> subscription.
+                <br />See more pricing details in cart</p>
+              </div>
+            </div>
+            <div class="select-action">
+              <a href="#" onClick="getReturnsModal(this);return false;" data-find=".returns-modal-content">
+                <button class="btn-blue btn-add-to-cart" data-sku="ATBDK001" data-skuaddon="{{this.product.prodBean.sku}}"></button>
+              </a>
+              <div class="modal-content-grab returns-modal-content">
+                <div class="returns-modal">
+                  <h3>Getting set up:</h3>
+                  <ul>
+                  <li>Configure AvaTax based on your tax registrations</li>
+                  <li>Specify which returns you want Avalara to file for you</li>
+                  <li>Provide Avalara with (secure) information on how to fund your tax payments</li>
+                  </ul>
+                  <h3>Before we file returns on your behalf:</h3>
+                  <ul>
+                  <li>AvaTax reconciles and approves your liabilities</li>
+                  <li>Avalara files your returns and facilitate funding of liabilities</li>
+                  <li>Avalara manages tax notices, if applicable</li>
+                  <li>Returns are processed and filed automatically whether or not you have any tax liability and you will be charged for those filings</li>
+                  </ul>
+                  <a href="https://help.avalara.com/003_Avalara_Returns/Get_Started_with_Avalara_Returns" class="more-link" title="More information on returns" rel="noopener noreferrer" target="_blank"><p>Find more information about Returns here</p></a>
+                  <div class="button-container">
+                    <button class="btn-reverse-blue" onClick="closeModal(this);return false;">Cancel</button>
+                    <a href="ccrz__CCPage?pageKey=configflow&sku=ATBDK001&transactionLevelSku=AT001&skuAddOn=AR0002&isCSRFlow=true&cclcl=en_US"><button class="btn-blue">Continue</button></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    {{/ifEquals}}
+
+    <div class="ava-guarantee-container" data-product="{{ this.product.prodBean.productNameAfterIcon }}">
+      <div id="ava-guarantee-placeholder"></div>
+    </div>
+
+    <div class="background-dark-grey save-cta">
+      <div class="content-container talignC">
+        <h2 class="container-title">Ready to save time and get back to business?</h2>
+
+        {{#ifEquals this.product.prodBean.sku 'AR0001' }}
+        <a href="#" class="" data-sku="ATBDK001" data-addon="AR0003" onclick="getReturnsModal(this);return false;">
+          <button class="btn-add-to-cart btn-add-to-cart"></button>
+        </a>
+        {{/ifEquals}}
+
+        {{#ifEquals this.product.prodBean.sku 'ATBDK001' }}
+        <a href="javascript:void(0)" class="productBuyButton" data-sku="{{ this.product.prodBean.sku }}">
+          <button class="btn-blue btn-add-to-cart"></button>
+        </a>
+        {{/ifEquals}}
+      </div>
+    </div>
+
+    {{#ifEquals this.product.prodBean.productNameAfterIcon 'Avalara Returns'}}
+      <!-- Start FAQs -->
+
+        <div class="faq-container" style="background:#f5f6fa;padding-top:35px;padding-bottom:35px">
+           
+          <div class="content-container">
+
+            <h2 class="fcolorTheme container-title">Frequently asked questions</h2>    
+            <p class="faq-sub-title fcolorTheme">Avalara Returns FAQs</p>
+            <a href="#" class="show-hide-all-expand show-all" onclick="showHideAllExpand(this);return false">Show all</a>
+
+            <div class="expand-container">
+                
+              <a href="#" class="expand"><p class="expand-title">How do you determine how often my business must file? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+              <div class="expand-content" aria-hidden="true">
+                  <p>The state determines your filing frequency.</p>
+              </div>
+
+            </div>
+
+            <div class="expand-container">
+                
+              <a href="#" class="expand"><p class="expand-title">What information do you need to file my returns? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+              <div class="expand-content" aria-hidden="true">
+                  <p>As a Returns customer, your tax liabilities are funded through an electronic withdrawal (ACH debit) from your bank account. Avalara initiates this withdrawal according to your Avalara funding power of attorney (POA) authorization.</p>
+              </div>
+
+            </div>
+
+            <div class="expand-container">
+                
+              <a href="#" class="expand"><p class="expand-title">I’m doing business in a state with local tax jurisdictions, does Avalara file those returns also? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+              <div class="expand-content" aria-hidden="true">
+                  <p>Yes. We can file both your state and local sales tax returns.</p>
+              </div>
+
+            </div>
+            
+            <div class="expand-container">
+                
+              <a href="#" class="expand"><p class="expand-title">Is the cost per state or per sales tax form filed? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+              <div class="expand-content" aria-hidden="true">
+                  <p>Cost is per form filed; some states may require multiple forms. </p>
+              </div>
+
+            </div>
+
+            <div class="expand-container">
+                
+              <a href="#" class="expand"><p class="expand-title">Can Avalara file my back taxes? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+              <div class="expand-content" aria-hidden="true">
+                  <p>Yes.</p>
+              </div>
+
+            </div>
+
+            <div class="expand-container">
+                
+              <a href="#" class="expand"><p class="expand-title">Does Avalara charge me to file $0 tax returns? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+              <div class="expand-content" aria-hidden="true">
+                  <p>Yes.</p>
+              </div>
+
+            </div>
+
+            <div class="expand-container">
+                
+              <a href="#" class="expand"><p class="expand-title">How do I do the filing and remittance? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+              <div class="expand-content" aria-hidden="true">
+                  <p>You must register with the Department of Revenue for each state or local jurisdiction. Then, log in to AvaTax to complete a filing calendar and power of attorney authorization.</p>
+              </div>
+
+            </div>
+
+            <div class="expand-container">
+                
+              <a href="#" class="expand"><p class="expand-title">When do I have to start? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+              <div class="expand-content" aria-hidden="true">
+                  <p>You control when you start filing with Avalara Returns. Once you start, your returns will be filed following the filing frequency of the states you're registered in.</p>
+              </div>
+
+            </div>
+
+            <div class="expand-container">
+                
+              <a href="#" class="expand"><p class="expand-title">Do I have to start with all returns? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+              <div class="expand-content" aria-hidden="true">
+                  <p>No, you can choose which states to use Avalara Returns for.</p>
+              </div>
+
+            </div>
+
+            <div class="expand-container">
+                
+              <a href="#" class="expand"><p class="expand-title">What do I do if I have back taxes? <span class="toggle"><span class="fa fa-plus"></span><span class="fa fa-minus"></span></span></p></a>
+
+              <div class="expand-content" aria-hidden="true">
+                  <p>Avalara Professional Services can provide help with registration and past liabilities. Give us a call!</p>
+              </div>
+
+            </div>
+
+          </div>
+              
+          </div>
+      <!-- End FAQs -->
+    {{/ifEquals}}
+
+    <div id="contact-us-cta" data-product="{{ this.product.prodBean.productNameAfterIcon }}">
+      <div class="content-container talignC">
+        <h3>Still have questions? Call us! (877) 780-4848</h3>
+        <a href="//www.avalara.com/store-contact-us/" target="_blank">
+          <button class="btn-blue">Contact us</button>
+        </a>
+      </div>
+    </div>
+
+    <div id="pdp-post-contact-us-placeholder"></div>
+  </script>
+
+    <script id="ProductDetail-Desktop-Ava_BOOTSTRAP2" type="text/template">
+    <div class="product_detail_container product_type_dk mxwidth1120 pdp-display product-name-{{this.product.prodBean.productNameAfterIcon}}">
+      <!-- NB: this == CCRZ.prodDetailView.model.attributes -->
+     <h2 class="product-page-title">{{this.product.prodBean.productNameAfterIcon}}</h2>
+
+         {{#ifEquals this.product.prodBean.ProductType 'Dynamic Kit'}}
+            <!-- dynamic kits dont need prepopulated composite products, so we only need to pass data-sku 
+            <a href="javascript:void(0);" class="productBuyButton" data-sku="{{this.product.prodBean.sku}}"><button type="button" class="btn-buy-now" style="margin: 20px; float: right"></button></a>-->
+         {{else}}
+            <!-- composite products do need to be prepopulated in the product configurator, so need to pass data-sku for parent dynamic kit AND data-addon for addon to be prepopulated (handled as url params in backbone view) -->
+            <a href="#" class="productBuyButtonAddon" data-sku="ATBDK001" data-addon="{{this.product.prodBean.sku}}" onclick="getReturnsModal(this);return false;"><button type="button" class="btn-buy-now" style="margin: 20px; float: right"></button></a>
+          {{/ifEquals}}
+
+     <div class="product_detail" >
+      <div class="alert alert-error messagingSection-Error" style="display: none"></div>
+      <div class="alert alert-info messagingAction-Info" style="display: none"></div>    
+      <div class="prod_media">
+       {{#if this.mediaWrappers.[SVG Interactive Diagram]}}
+        {{#each this.mediaWrappers.[SVG Interactive Diagram]}}
+         <div class="interactive">{{displaySVG this 'mainProdImage prodDetail' }}</div>
+        {{/each}}
+       {{/if}}
+       <div id="altImageModal" class="modal hide fade in" tabindex="-1" role="dialog">
+        <div class="modal-body">
+         <img class="modalImg" src=""/>
+         <p class="modalText"></p>
+        </div>
+       </div>
+        {{#ifDisplay 'PD.DsplSDesc'}}
+          <div class="shortDesc"><div class="pblock">{{{this.product.prodBean.shortDesc}}}</div></div>
+        {{/ifDisplay}}
+
+       {{#if this.product.mediaWrapper }}
+
+        <div class="product_detail_viewport" id="photoContainer">
+         <div>{{displayImage this.product.mediaWrapper 'mainProdImage prodDetail'}}</div>
+         {{#if this.mediaWrappers.[Alternate Images]}}
+          <div class="altImages">
+           {{#each this.mediaWrappers.[Product Image]}}
+            <img class="alternate" src="{{productImage this}}" data-id="{{this.uri}}"/>
+           {{/each}}
+           {{#each this.mediaWrappers.[Alternate Images]}}
+            <img class="alternate" src="{{productImage this}}" data-id="{{this.uri}}"/>
+           {{/each}}
+          </div>
+         {{/if}}
+        </div>
+
+       {{else}}
+
+        {{#if this.mediaWrappers.[SVG Interactive Diagram]}}
+        {{else}}
+
+         <div class="product_detail_viewport" id="photoContainer">
+          <div>{{displayImage this.product.mediaWrapper 'mainProdImage prodDetail'}}</div>
+         </div>
+
+        {{/if}}
+
+       {{/if}}
+
+      </div>
+      
+      <div class="product_detail_item phoneProductItem wishFinder" data-sku="{{this.product.prodBean.sku}}">
+
+    <!-- @dezbah does this need to stay, so that users can still turn on/off various datapoints/labels in cc admin?
+      <div class="product_title">{{this.product.prodBean.name}}</div>
+       {{#ifDisplay 'PD.DsplSku'}}
+        <div class="sku"><div class="label">{{pageLabelMap 'ProductDetailsInc_SKU'}}</div><div class="value">{{this.product.prodBean.sku}}</div></div>
+       {{/ifDisplay}}
+       
+       {{#ifDisplay 'PD.DsplUOM'}}
+        <div class="uom"><div class="label">{{pageLabelMap 'ProductDetails_UnitOfMeasure'}}</div><div class="value">{{pageLabelPrefixMap 'UOM_' this.product.prodBean.UnitOfMeasure}}</div></div>
+       {{/ifDisplay}}
+       {{#ifDisplay 'PD.DsplAvlb'}}
+        <div class="inventory">
+         <div class="label">{{pageLabelMap 'ProductDetails_Availability'}}</div>
+         {{#ifStoreSetting 'InventoryCheckFlag__c'}}
+          <div class="value">{{{this.product.inventory}}}</div>
+         {{else}}
+          <div class="value">{{{this.product.availMsg}}}</div>
+         {{/ifStoreSetting}}
+        </div>
+       {{/ifDisplay}}
+       {{#ifDisplay 'PR.Enabled'}}
+        <div id="avgRating" class="rateit" data-rateit-value="{{this.product.avgRating}}" data-rateit-ispreset="true" data-rateit-readonly="true">
+         <div class="label">{{pageLabelMap 'NumberofReviews' this.numberOfReviews }}</div>
+        </div>
+       {{/ifDisplay}}
+       {{#if this.product.showPricing}}
+        {{#ifDisplay 'PD.DsplPrc'}}
+         {{#if this.product.price}}
+          <div class="price_block">
+           {{#ifDisplay 'PD.DsplListPrc'}}
+            {{#if this.product.basePrice}}
+             <div class="baseprice"><div class="label">{{pageLabelMap 'ProductDetails_ListPrice'}}</div><div class="value">{{price this.product.basePrice}}</div></div>
+            {{/if}}
+           {{/ifDisplay}}
+           <div class="price"><div class="label">{{pageLabelMap 'Price'}}</div><div class="value">{{price this.product.price}}</div></div>
+           {{#ifDisplay 'PD.DsplSvPrc'}}
+            {{#if this.product.savings}}
+             <div class="savings"><div class="label">{{pageLabelMap 'YouSave'}}</div><div class="value">{{price this.product.savings}}</div></div>
+            {{/if}}
+           {{/ifDisplay}}
+          </div>
+         {{/if}}
+        {{/ifDisplay}}
+        
+       {{/if}}
+       {{#if this.product.canAddtoCart}}
+        <div class="quantity_block">
+         {{#if this.product.qtySkipIncrement}}
+          <input type="button" value="{{pageLabelMap 'Prod_QtyDecrFF'}}" class="plus_minus minusFF">
+         {{/if}}
+         {{#ifNotEquals this.product.qtySingleIncrement 1}}
+          <input type="button" value="{{pageLabelMap 'Prod_QtyDecrSingle'}}" class="plus_minus minus">
+             <input type="text" readonly="true" name="qty" value="0" class="entry plus_minus" />
+                <input type="button" value="{{pageLabelMap 'Prod_QtyIncrSingle'}}" class="plus_minus plus">
+               {{else}}
+                <div class="label">{{pageLabelMap 'Qty'}}</div><input type="text" id="qty" name="qty" value="1" class="input-text entry plus_minus" maxlength="7"/>
+               {{/ifNotEquals}}
+               {{#if this.product.qtySkipIncrement}}
+                <input type="button" value="{{pageLabelMap 'Prod_QtyIncrFF'}}" class="plus_minus plusFF">
+               {{/if}}
+               <input type="hidden" name="qtyIncrement" value="{{this.product.qtySingleIncrement}}" class="item_qtyIncrement" />
+               <input type="hidden" name="qtySkipIncrement" value="{{this.product.qtySkipIncrement}}" class="item_qtySkipIncrement" />
+        </div>
+        <div class="action" >
+         <button type="button" class="btn btn-primary addItem" data-sku="{{this.product.prodBean.sku}}">{{pageLabelMap 'Component_MiniwishList_AddToCart'}}</button>
+        </div>
+        <div class="wishButtons plus_minus"></div>
+       {{/if}} -->
+
+        {{#ifEquals this.product.prodBean.PDPImageWidth 'Half-width'}}
+          <div>{{{this.product.prodBean.longDesc}}}</div>
+        {{/ifEquals}}
+
+        </div>
+       </div>
+      </div>
+
+      <div class="product-features-container">
+        <h3 class="featured-title">PRODUCT FEATURES</h3>
+        {{{this.product.prodBean.productFeatures}}}
+      </div>
+
+      <!-- target div for backbone view in transaction pricing component -->
+      <div class="Ava-ConfigFlow-target"></div>
+        
+  </script>
+
+<!-- insert transaction level pricing component (internally checks whether transaction level pricing is available and displays nothing if not) -->
+<c:CC_Ava_TransactionLevelPricing />
+
+
+  <script>
+
+/********************************
+        START ICON LOOP
+*********************************/
+
+  var findCount = 0;
+  
+  function findPageTitle(){
+    $('.panel-title').length < 1 ? 
+      function(){
+        setTimeout(function(){
+
+          findCount++;
+
+          if(findCount == 50){
+
+            avalaraLoggingConsole(['title not found']);
+            return false;
+
+          }
+          
+          findPageTitle()
+
+        },200);
+
+      }()
+      : setAdditionalPageElements();
+  }
+
+  $(document).ready(function(){
+  
+    findPageTitle();
+    var checkUrl = window.location.href;
+
+    checkUrl.indexOf('sku=AR0001')!=-1 ?
+      function(){
+        
+        setTimeout(function(){
+          $('button.btn-view-pricing').remove()
+        },500)
+
+      }()
+      : '';
+
+    /* Convert text to HTML*/
+    checkHtmlConversion();
+
+    /* Recheck convert text to HTML*/
+    setTimeout(function(){
+      
+      $('body').find('.text-to-html').length > 0 ?
+        checkHtmlConversion()
+        : setTimeout(function(){/* Final recheck convert text to HTML*/
+    
+          $('body').find('.text-to-html').length > 0 ? 
+            checkHtmlConversion()
+            : '';
+    
+        },400);
+
+    },200);
+
+    jQuery(document).ready(function($){
+      $('.expand').attr({'onClick': 'expandContent(this); return false;'});
+    });
+
+
+  });
+
+  
+
+
+
+
+
+
+
+  function setAdditionalPageElements(){
+
+    var iconCount = 1;
+
+    $('.features-container.returns').find('.icon-container').each(function(){
+
+        var imageTitle = $(this).parent().find('.title').length > 0 ? 
+          $(this).parent().find('.title').text()+' '
+          : '';
+        var imageTemplate = '<img src="{!$Resource.CC_Ava_ProductImages}/returns-featured-container-'+iconCount+'.svg" alt="'+imageTitle+'Icon"/>';
+
+        $(this).append(imageTemplate);
+        iconCount++;
+
+    });
+
+    $('button[data-skuaddon="AR0001"],button[data-skuaddon="AR0002"],button[data-skuaddon="AR0003"]').attr('onClick', 'getReturnsModal(this);return false');
+    var checkTitle = $('.panel-title').text().toLowerCase();
+    checkTitle.indexOf('returns') == -1 ? 
+      $('button.btn-add-to-cart').first().parent().attr({'href':'#','onClick':''})
+      :'';
+
+  };
+
+/********************************
+        END ICON LOOP
+*********************************/
+
+  </script>
+
+  <apex:outputPanel >
+    <div data-component-replace="#ava-guarantee-placeholder" style="display:none;">
+     <c:CC_Ava_Guarantee />
+    </div>
+  </apex:outputPanel>
+
+
+{!blank}
+</apex:page>

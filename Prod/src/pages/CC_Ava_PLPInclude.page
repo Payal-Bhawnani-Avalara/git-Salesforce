@@ -1,0 +1,742 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false" controller="cc_Ava_ctrl_PLP"> 
+
+  <!-- only show the cleaned-up product list if this plp is a category -->
+  <apex:outputPanel rendered="{!$CurrentPage.parameters.categoryId!=null}">
+  <!-- begin handlebars template override: don't display search result details like response count, category, etc. -->
+
+<script id="productCatalogDesktop-AvaProducts" type="text/template">
+  <div class="prodCatContainer co-brand">
+    <div class="hero-banner jumbo-tron">
+		  <div class="dynamic-background-image"
+		    data-image="{!$Resource.CC_Avalara_Theme}/images/ProductPage-hero.png"
+		    data-position="top left"
+		    data-size="cover"
+		    data-repeat="no-repeat"
+		  ></div>
+		    <div class="content-container">
+		      <div class="promo-content-container">
+		        <h2 class="promo-title">Products</h2>
+		        <p class="promo-content">Fast, accurate end-to-end compliance software that scales with your business.</p>
+		        <button class="hero-button product-section-link" data-product="Avalara AvaTax">Avalara AvaTax</button>
+		        <button class="hero-button product-section-link" data-product="Pre Pay Returns Standalone">Avalara Returns</button>
+		      </div>
+		    </div>
+		</div>
+
+    <div class="content-container">
+      <div class="breadcrumbs">
+        <span><a href="/">Store</a></span>
+        <span>></span>
+        <span>Products</span>
+      </div>
+    </div>
+
+   <div class="products_1_row_medium_container">
+    <!-- this is the target div for the actual product list -->
+    <div class="prodListSec"></div>
+   </div>
+
+   <div class="quote-carousel-container">
+     <div class="content-container">
+       <div id="quote-carousel-placeholder"></div>
+     </div>
+   </div>
+
+   <div class="content-container">
+     <div id="as-seen-in-placeholder"></div>
+   </div>
+   
+   <div class="background-dark-grey save-cta">
+     <div class="content-container talignC">
+       <h2 class="container-title">Ready to save time and get back to business?</h2>
+       <a href="ccrz__CCPage?pageKey=configflow&cartID=&sku=ATBDK001&isCSRFlow=true&portalUser=&store=&cclcl=en_US" class="productBuyButton" data-sku="ATBDK001"><button type="button" class="hero-button btn-add-to-cart-generic" style="width:230px;">Get started</button></a>
+     </div>
+   </div>
+  </div>
+
+  <div id="ava-guarantee-placeholder"></div>
+
+  <div class="modal-content-grab returns-modal-grab" style="display:none">
+    <div class="returns-modal">
+      <h3>Getting set up:</h3>
+      <ul>
+      <li>Configure AvaTax based on your tax registrations</li>
+      <li>Specify which returns you want Avalara to file for you</li>
+      <li>Provide Avalara with (secure) information on how to fund your tax payments</li>
+      </ul>
+      <h3>Before we file returns on your behalf:</h3>
+      <ul>
+      <li>AvaTax reconciles and approves your liabilities</li>
+      <li>Avalara files your returns and facilitate funding of liabilities</li>
+      <li>Avalara manages tax notices, if applicable</li>
+      <li>Returns are processed and filed automatically whether or not you have any tax liability and you will be charged for those filings</li>
+      </ul>
+      <a href="https://help.avalara.com/003_Avalara_Returns/Get_Started_with_Avalara_Returns" class="more-link" title="More information on returns" rel="noopener noreferrer" target="_blank"><p>Find more information about Returns here</p></a>
+      <div class="button-container">
+        <button class="btn-reverse-blue" onClick="closeModel(this);return false;">Cancel</button>
+        <a href="ccrz__CCPage?pageKey=configflow&transactionLevelSku=AT001&tabState=add-ons&sku=ATBDK001&skuAddOn=AR0002&isCSRFlow=true&cclcl=en_US"><button class="btn-blue">Continue</button></a>
+      </div>
+    </div>
+  </div>
+ </script>
+ <!-- end handlebars template override to clear extraneous search result details -->
+
+ <script id="productListBrowser-AvaProducts" type="text/template">
+
+   <div class="panel panel-default cc_panel cc_product_list_panel plp-display">
+    <div class="zebra-container">
+     {{#each this.prods}}
+
+      {{#ifEquals this.prodBean.productNameAfterIcon 'BigCommerce Returns'}}
+      {{ else }}
+
+        <div data-search="{{this.prodBean.productNameAfterIcon}}">
+           <div class="messagingSection-{{this.prodBean.id}}-Error" style="display: none"></div>
+           <div class="messagingSection-{{this.prodBean.id}}-Info" style="display: none"></div>
+           <div class="content-container">
+            {{#ifDisplay 'PL.DsplShortDesc'}}
+             <div class="{{this.prodBean.id}}-short-desc-container">
+               <div class="col-sm-12 text-to-html">
+                 {{this.prodBean.shortDesc}}
+               </div>
+             </div>
+             {{/ifDisplay}}
+
+             <div class="row {{this.prodBean.id}} product-content-container">
+              <div class="col-sm-6">
+                
+                {{displayImage this.mediaWrapper 'prodList img-responsive center-block' alt=this.prodBean.name}}
+
+               <div class="rankDisplayWrapper cc_rank_display_wrapper">
+                <!--**************************************************-->
+                {{#ifStoreSetting 'DevMode__c'}}
+                 <span class="rankDisplay cc_rank_display">Rank: {{searchRanking}}{{sequence}}</span>
+                {{/ifStoreSetting}}
+                {{#ifDisplay 'PCP.Enabled'}}
+                {{#ifEquals this.prodBean.ProductType 'Product'}}
+                 {{#ifLessThan ../compareProds.length 4}}
+                  {{#if this.compareSelected}}
+                   <button type="button" class="btn btn-default btn-xs removeFromCompare active cc_remove_from_compare" aria-pressed="true" data-toggle="button" data-id="{{this.prodBean.id}}">{{pageLabelMap '- Compare'}}</button>
+                  {{else}}
+                   <button type="button" class="btn btn-default btn-xs add_to_compare_desktop_button cc_addto_compare" data-id="{{this.prodBean.id}}">{{pageLabelMap '+ Compare'}}</button>
+                  {{/if}}
+                 {{else}}
+                  {{#if this.compareSelected}}
+                   <button type="button" class="btn btn-default btn-xs removeFromCompare active cc_remove_from_compare" aria-pressed="true" data-toggle="button" data-id="{{this.prodBean.id}}">{{pageLabelMap '- Compare'}}</button>
+                  {{else}}
+                   <button type="button" class="btn btn-default disabled btn-xs add_to_compare_desktop_button cc_addto_compare" data-id="{{this.prodBean.id}}">{{pageLabelMap '+ Compare'}}</button>
+                  {{/if}}
+                 {{/ifLessThan}}
+                {{/ifEquals}}
+                {{/ifDisplay}}
+               </div>
+              </div>
+            <div class="col-sm-6">
+              <div>
+
+              {{#ifEquals this.prodBean.id this.catFeaturedProduct}}
+                <h3 class="featured-heading">{{pageLabelMap 'AvalaraFeaturedProduct'}}</h3>
+              {{/ifEquals}}
+              {{#ifEquals this.prodBean.id this.catFeaturedAddon}}
+                <h3 class="featured-heading">{{pageLabelMap 'AvalaraFeaturedAddon'}}</h3>
+              {{/ifEquals}}
+
+              <h4 class="product-title">
+                <a href="javascript:void(0);" class="productName" data-sku="{{this.prodBean.sku}}">
+                  <span class="product-icon">{{swapImage this.mediaWrapper.imageFullPath this.mediaWrapper.uri this.productIcon}}</span>
+                  <span class="product-title-text">{{this.prodBean.productNameAfterIcon}}</span>
+                </a>
+              </h4>
+
+              <div class="long-description text-to-html">{{{this.longDesc}}}</div>
+
+              <div>
+
+              {{#ifEquals this.prodBean.id this.catFeaturedProduct }}
+               
+                <a href="javascript:void(0);" class="productBuyButton" data-sku="{{this.prodBean.sku}}"><button type="button" class="btn-add-to-cart"></button></a>
+              
+              {{else}}
+
+                {{#ifEquals this.prodBean.productNameAfterIcon 'Returns'}}
+
+                  <a href="#" data-sku="{{featuredProductSku this.catFeaturedProduct this.prodBean.id this.prodBean.name}}" data-addon="{{this.prodBean.sku}}" onClick="getReturnsModal(this);return false;" data-product-name="{{this.prodBean.productNameAfterIcon}}"><button type="button" class="btn-add-to-cart"></button></a>
+
+                {{else ifEquals this.prodBean.productNameAfterIcon 'BigCommerce Returns'}}
+
+                   <a href="#" data-sku="{{featuredProductSku this.catFeaturedProduct this.prodBean.id this.prodBean.name}}" data-addon="{{this.prodBean.sku}}" onClick="getReturnsModal(this);return false;" data-product-name="{{this.prodBean.productNameAfterIcon}}"><button type="button" class="btn-add-to-cart"></button></a>
+
+                {{else ifEquals this.prodBean.productNameAfterIcon 'Pre Pay Returns Standalone'}}
+
+                   <a href="#" data-sku="{{featuredProductSku this.catFeaturedProduct this.prodBean.id this.prodBean.name}}" data-addon="{{this.prodBean.sku}}" onClick="getReturnsModal(this);return false;" data-product-name="{{this.prodBean.productNameAfterIcon}}"><button type="button" class="btn-add-to-cart"></button></a>
+
+                {{else}}
+
+                  <a href="javascript:void(0);" class="productBuyButtonAddon" data-sku="{{featuredProductSku this.catFeaturedProduct this.prodBean.id this.prodBean.name}}" data-addon="{{this.prodBean.sku}}"  data-product-name="{{this.prodBean.productNameAfterIcon}}"><button type="button" class="btn-add-to-cart"></button></a>
+
+                {{/ifEquals}}
+
+              {{/ifEquals}}
+                
+              {{#ifEquals this.prodBean.productNameAfterIcon 'BigCommerce Returns'}}
+
+                <a href="javascript:void(0);" class="productName" data-sku="AR0001"><button type="button" class="btn-reverse-blue btn-learn-more"></button></a>
+
+              {{else ifEquals this.prodBean.productNameAfterIcon 'Pre Pay Returns Standalone'}}
+
+                <a href="javascript:void(0);" class="productName" data-sku="AR0001"><button type="button" class="btn-reverse-blue btn-learn-more"></button></a>
+
+              {{else}}
+
+                <a href="javascript:void(0);" class="productName" data-sku="{{this.prodBean.sku}}"><button type="button" class="btn-reverse-blue btn-learn-more"></button></a>
+
+              {{/ifEquals}}
+                
+
+              </div>
+
+             {{#ifDisplay 'PL.DsplAddtInfo'}}
+             
+              <a class="included_items cc_included_items" href="#additional_info{{this.prodBean.sku}}" id="additionalInfoLink" data-toggle="modal">{{pageLabelMap 'ProductsInc_AdditionalInfo'}}</a>
+              <div id="additional_info{{this.prodBean.sku}}" class="modal fade cc_modal" tabindex="-1" role="dialog" aria-labelledby="ProductListItemLabel" aria-hidden="true">
+               <div class="modal-dialog cc_modal-dialog" role="document">
+                <div class="modal-content cc_modal-content">
+                 <div class="modal-header cc_modal-header">
+                  <button type="button" class="close cc_close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&#215;</span></button>
+                  <h3 class="cc_prod_list_item_label" id="ProductListItemLabel">{{this.prodBean.name}} {{pageLabelMap 'ProductsInc_MiscDetails'}}</h3>
+                 </div>
+                 <div class="modal-body cc_body">
+                  {{#if this.miscDetails}}
+                   <span class="cc_misc_details">{{unescape this.miscDetails}}</span>
+                  {{/if}}
+                  {{#ifDisplay 'PL.DsplAddtlSku'}}
+                   <span class="cc_sku">{{pageLabelMap 'SKU'}}:</span>&#160;{{this.prodBean.sku}}<br/><br/>
+                  {{/ifDisplay}}
+                  {{#ifDisplay 'PL.DsplAddtlShortDesc'}}
+                   <p class="cc_desc">{{unescape this.prodBean.shortDesc}}</p>
+                  {{/ifDisplay}}
+                 </div>
+                </div>
+               </div>
+              </div>
+
+             {{/ifDisplay}}
+             {{#ifDisplay 'PL.DsplSku'}}
+              <div class="cc_sku">
+               <span class="cc_sku_label">{{pageLabelMap 'SKU'}}</span>&#160;
+               <span class="cc_sku_value">{{this.prodBean.sku}}</span>
+              </div>
+             {{/ifDisplay}}
+             {{#ifDisplay 'PL.DsplUOM'}}
+              <div class="cc_uom">
+               <span class="cc_uom_label">{{pageLabelMap 'ProductDetails_UnitOfMeasure'}}:</span>&#160;
+               <span class="cc_uom_value">{{pageLabelPrefixMap 'UOM_' this.prodBean.UnitOfMeasure}}</span>
+              </div>
+             {{/ifDisplay}}
+             {{#ifDisplay 'PL.DsplSpec'}}
+              {{#each this.ccproduct.productSpecList}}
+               <div class="cc_prod_spec">
+                <span class="cc_prod_spec_label">{{this.specName}}</span>&#160;
+                <span class="cc_prod_spec_value">{{this.specValue}}</span>
+               </div>
+              {{/each}}
+             {{/ifDisplay}}
+             <div class="cc_price">
+              {{#ifDisplay 'PL.DsplListPrc'}}
+               {{#if this.showPricing}}
+                {{#if this.basePrice}}
+                 <span class="cc_base_price_label">{{pageLabelMap 'ProductsInc_ListPrice'}}</span>
+                 <span class="cc_base_price_value">{{price this.basePrice}}</span>
+                {{/if}}
+               {{/if}}
+              {{/ifDisplay}}
+              {{#ifDisplay 'PL.DsplPrc'}}
+               {{#if this.showNewSubscriptionSelection}}
+                <p class="price priceSubscription cc_subscr_price">{{pageLabelMap 'Prod_SubsListPrice' (price this.price) (price this.minSubPrice) (price this.maxSubPrice)}}</strong></p>
+               {{else}}
+                <!--********************************************************-->
+                {{#if this.maxPrice}}
+                 <span class="price cc_price_label">{{displayRangePrice 'ProductDetails_PriceRangeFormat' this.minPrice this.maxPrice}}</span>
+                {{else}}
+                 {{#if this.displayPrice}}
+                  <span class="price cc_price">{{pageLabelPrefixMap 'DisplayPrice_' this.displayPrice}}</span>
+                 {{else}}
+                  {{#if this.showPricing}}
+                   {{#if this.price}}
+                    <span class="price cc_price">{{price this.price}}</span>
+                    {{#if this.sellerName}}
+                     <span class="cc_sold_by">{{pageLabelMap 'Prod_SoldBy'}}: </span>
+                     <span class="cc_seller_name">{{this.sellerName}}</span>
+                    {{/if}}
+                   {{/if}}
+
+                  {{/if}}
+                 {{/if}}
+                {{/if}}
+               {{/if}}
+
+              {{/ifDisplay}}
+              {{#unless this.showNewSubscriptionSelection}}
+               {{#ifDisplay 'PL.DsplSvPrc'}}
+                {{#if this.showPricing}}
+                 {{#if this.savings}}
+                  <span class="cc_yousave_label">{{pageLabelMap 'ProductsInc_YouSave'}}</span>
+                  <span class="cc_yousave">{{price this.savings}}</span>
+                 {{/if}}
+                {{/if}}
+               {{/ifDisplay}}
+              {{/unless}}
+              {{#ifDisplay 'PL.DsplAvlb' }}
+               {{#ifEquals this.inventory '0'}}
+                <p class="cc_avail_disp">{{pageLabelMap 'ProductDetail_NotAvailable1'}} {{pageLabelMap 'ProductDetail_NotAvailable2'}}</p>
+               {{/ifEquals}}
+              {{/ifDisplay}}
+              <input type="hidden" value="{{this.inventory}}" id="qtyAvail_{{this.prodBean.id}}" name="qtyAvail_{{this.prodBean.id}}" />
+              <p class="included_items cc_included_items"></p>
+             </div>
+            </div>
+            <div class="col-md-5">
+             <div class="gp_quantity_block cc_quantity_block">
+              {{#unless this.showNewSubscriptionSelection}}
+               {{#if this.canAddtoCart}}
+                {{#ifDisplay 'PL.DsplAddCart' }}
+                 {{#if this.qtySkipIncrement}}
+                  <div class="row cc_qty_control_row">
+                   <div class="col-md-12">
+                    <div class="form-group">
+                     <div class="input-group cc_input_group">
+                      <span class="input-group-btn cc_input_group_btn">
+                       <input type="button" value="{{pageLabelMap 'Prod_QtyDecrFF'}}" class="btn btn-default btn-sm minusFF cc_minusff">
+                       <input type="button" value="{{pageLabelMap 'Prod_QtyDecrSingle'}}" class="btn btn-default btn-sm minus cc_minus">
+                      </span>
+                      <input type="text" readonly="true" name="quickadd[{{index}}].qty" class="qty entry form-control input-sm cc_entry" value="0" maxlength="7" />
+                      <span class="input-group-btn cc_input_group_btn">
+                       <input type="button" value="{{pageLabelMap 'Prod_QtyIncrSingle'}}" class="btn btn-default btn-sm plus cc_plus">
+                       <input type="button" value="{{pageLabelMap 'Prod_QtyIncrFF'}}" class="btn btn-default btn-sm plusFF cc_plusff">
+                      </span>
+                     </div>
+                    </div>
+                   </div>
+                  </div>
+                 {{else}}
+                  {{#ifEquals qtyIncrement 1}}
+                   <div class="row cc_qty_control_row">
+                    <div class="col-sm-6 col-md-offset-6">
+                     <div class="form-group">
+                      <div class="input-group cc_input_group">
+                       <span class="input-group-btn cc_input_group_btn">
+                        <input type="button" value="{{pageLabelMap 'Prod_QtyDecrSingle'}}" class="btn btn-default btn-sm minus cc_minus">
+                       </span>
+                       <input id="qty{{index}}" name="quickadd[{{index}}].qty" value="0" class="qty entry form-control input-sm cc_entry" maxlength="7" />
+                       <span class="input-group-btn cc_input_group_btn">
+                        <input type="button" value="{{pageLabelMap 'Prod_QtyIncrSingle'}}" class="btn btn-default btn-sm plus cc_plus">
+                       </span>
+                      </div>
+                     </div>
+                    </div>
+                   </div>
+                  {{else}}
+                   <div class="row cc_qty_control_row">
+                    <div class="col-md-5 col-md-offset-7">
+                     <div class="form-group">
+                      <input type="text" id="qty{{index}}" name="quickadd[{{index}}].qty" value="1" class="input-text qty entry plus_minus form-control cc_entry" maxlength="7" />
+                     </div>
+                    </div>
+                   </div>
+                  {{/ifEquals}}
+                 {{/if}}
+                 <input type="hidden" name="qtyIncrement" value="{{this.qtySingleIncrement}}" class="item_qtyIncrement" />
+                 <input type="hidden" name="qtySkipIncrement" value="{{this.qtySkipIncrement}}" class="item_qtySkipIncrement" />
+                 {{#if this.product.prodBean.showSubscriptionSelection}}
+                  <div class="row">
+                   <div class="col-md-12">
+                    <div class="cc_subscription_selection_div">
+                     <p class="subscription_selection cc_subscription_selection">
+                      <span class="subscriptionLabel cc_subscription_label">{{pageLabelMap 'Subscribe_And_Save_Label'}}</span>
+                      <select class="form-control subscriptionFrequencySelection cc_subscription_frequency_selection" data-subscription="{{this.prodBean.sku}}">
+                       {{#each this.product.prodBean.subscriptionFrequencies}}
+                        <option value="{{safeQuote this}}">{{pageLabelMapMultiString 'Subscribe_And_Save_' this}}</option>
+                       {{/each}}
+                      </select>
+                     </p>
+                    </div>
+                   </div>
+                  </div>
+                 {{/if}}
+                 {{#each this.prodBean.compositeSubscriptions}}
+                  <div class="row">
+                   <div class="col-md-12">
+                    <div class="cc_subscription_selection_div">
+                     <p class="subscription_selection cc_subscription_selection">
+                      <span class="subscriptionLabel cc_subscription_label">{{pageLabelMap 'Subscribe_And_Save_Label_Composite' this.name this.sku}}</span>
+                      <select class="form-control subscriptionFrequencySelection cc_subscription_frequency_selection" data-subscription="{{this.sku}}">
+                       {{#each this.product.prodBean.subscriptionFrequencies}}
+                        <option value="{{safeQuote this}}">{{pageLabelMapMultiString 'Subscribe_And_Save_' this}}</option>
+                       {{/each}}
+                      </select>
+                     </p>
+                    </div>
+                   </div>
+                  </div>
+                 {{/each}}
+                 {{#ifNotEquals this.prodBean.ProductType 'Aggregated'}}
+                  <div class="row">
+                   <div class="col-md-10 col-md-offset-2 wishFinder" data-sku="{{this.prodBean.sku}}">
+                    <div class="wishButtons plus_minus cc_plus_minus pull-right"></div>
+                   </div>
+                  </div>
+                 {{/ifNotEquals}}
+                 <div class="row">
+                  <div class="col-md-8 col-md-offset-4">
+                   <div class="action cc_action wishFinder" data-sku="{{this.prodBean.sku}}">
+                    <button type="button" class="btn btn-default btn-sm addItem cc_add_item pull-right" data-sku="{{this.prodBean.sku}}" data-id="{{this.prodBean.id}}" data-inventory="{{this.productInventory}}" data-seller="{{this.sellerID}}">{{pageLabelMap 'Component_MiniwishList_AddToCart'}}</button>
+                   </div>
+                  </div>
+                 </div>
+                {{/ifDisplay}}
+               {{else}}
+                {{#listFind this.prodBean.ProductType 'Aggregated|Dynamic Kit' false }}
+                 <div class="row">
+                  <div class="col-md-10 col-md-offset-2 wishFinder" data-sku="{{this.prodBean.sku}}">
+                   <div class="wishButtons plus_minus cc_plus_minus pull-right"></div>
+                  </div>
+                 </div>
+                {{/listFind}}
+               {{/if}}
+              {{/unless}}
+             </div>
+            </div>
+           </div>
+          </div>
+          </div>
+        </div>
+      {{/ifEquals}}
+
+    {{/each}}
+
+    </div>
+   </div>
+   {{#ifDisplay 'PCP.Enabled'}}
+     {{#if this.compareProds}}
+      <div class="navbar-fixed-bottom container cc_container col-sm-6 panel panel-info cc_navbar-fixed-bottom cc_panel cc_panel-info compareTray">
+       <div class="row collapse in compareCollapse">
+       {{#each this.compareProds}}
+        <div class="compareTrayProd col-xs-3 {{this.prodBean.sfid}}">
+         <div class="cc_compareTrayProdSku">
+         <button type="button" class="compareTrayRemButton removeFromCompare close cc_remove_from_compare" aria-label="Close" data-id="{{this.prodBean.id}}">&#215;</button>
+          <span class="cc_prodSku">{{this.prodBean.sku}}</span>
+         </div>
+         <div class="compareTrayProdImageSec cc_compare_tray_img">
+          {{displayImage this.mediaWrapper 'compareTrayImage img-responsive' alt=this.prodBean.name}}
+         </div>
+         <div class="compareTrayProdName cc_compare_tray_name">
+          {{this.prodBean.name}}
+         </div>
+        </div>
+       {{/each}}
+       </div>
+       {{#ifGreater this.compareProds.length 1}}
+       <div class="row collapse in compareCollapse">
+        <div class="compareTrayControls col-md-12 well-sm cc_compare_tray_controls">
+         <row>
+          <div class="col-xs-3">
+           <button type="button" class="btn btn-default btn-sm slim gotoProductCompare cc_goto_prod_compare" data-id="{{this.prodBean.id}}">{{pageLabelMap 'ProductCompare_CompareProducts'}}</button>
+          </div>
+          <div class="col-xs-3 col-xs-offset-6">
+           <a class="compareTrayClear clearCompare cc_clear_compare" href="javascript:void(0);">{{pageLabelMap 'ProductCompare_ClearAll'}}</a>
+          </div>
+        </div>
+       </div>
+       {{/ifGreater}}
+        </div>
+     {{/if}}
+     {{/ifDisplay}}
+    </script>
+
+
+
+    <!-- begin handlebars template override: display list of products in this category -->
+    <script id="productListBrowser-AvaProducts_BOOTSTRAP2" type="text/template">
+    <!-- in this handlebars template, this == CCRZ.prodView.items.models.[number].attributes -->
+      <div class="plp-container">
+        <!-- show every product in its own div-->
+        {{#each this.prods}}
+
+        <div class="products_1_row_medium_item {{this.prodBean.id}} content-container">
+        <!-- for in-page error messages -->
+        <div class="alert alert-error messagingSection-{{this.prodBean.id}}-Error" style="display: none"></div>
+        <div class="alert alert-info messagingSection-{{this.prodBean.id}}-Info" style="display: none"></div>
+       
+        <!-- alternate rows display images or videos on right or left -->
+        <div class="col-sm-6">
+          <!-- run through every associated CCProductMedia.MediaType and if there's a Video then display it (see host whitelist in helper) -->
+          {{#ifEquals this.videoEmbedCode 'no plp video'}}
+            <a href="javascript:void(0);" class="productName" data-sku="{{this.prodBean.sku}}">{{displayImageOrVideo this.mediaWrapper 'prodList' thesku=this.prodBean.sku}}</a>
+          {{else}}
+            <!-- currently does not allow unescaped embed iframes; maybe some secure future implementation possible, but for now going with salesforce escape practices -->
+            {{displayEmbed this.videoEmbedCode}}
+          {{/ifEquals}}
+          
+          {{#ifStoreSetting 'DevMode__c'}}
+          <!--**************************************************-->
+            <div class="rankDisplayWrapper"><span class="rankDisplay">Rank: {{searchRanking}}{{sequence}}</span></div>
+          {{/ifStoreSetting}}
+        </div>
+
+        <!-- begin content apart from video/image (title, subtitle, description.. -->
+        <!-- wrapper div to keep non-video/image column together -->
+        <div class="col-sm-6">
+          <!-- each CCCategory can have one Featured Product and one Featured Addon, both of which need to be labeled accordingly 
+          <div>
+          <h3 class="featured-heading">
+            {{#ifEquals this.prodBean.id this.catFeaturedProduct}}
+              FEATURED PRODUCT
+            {{/ifEquals}}
+            {{#ifEquals this.prodBean.id this.catFeaturedAddon}}
+              FEATURED ADDON
+            {{/ifEquals}}
+          </h3>
+          </div>-->
+
+          <!-- product title is displayed as icon + productNameAfterIcon because icon may have text in it -->
+          <div class="product-title">
+          <a href="javascript:void(0);" class="productName" data-sku="{{this.prodBean.sku}}">
+          <!-- show main product image/video..since path to all static resource product media is in mediaWrapper anyway, no need to store the same path in another property -->
+          {{swapImage this.mediaWrapper.imageFullPath this.mediaWrapper.uri this.productIcon}}
+          {{this.prodBean.productNameAfterIcon}} TESTING</a> {{this.prodBean.id}} {{this.catFeaturedProduct}}
+
+          <!-- begin all additional product description/detail info -->
+          <p class="description">
+            <!-- for avalara, shortDesc is just the one-sentence/phrase 'subtitle' that appears regularly under the product name (as of 2017-03-01) -->
+            {{#ifDisplay 'PL.DsplShortDesc'}}
+              {{this.prodBean.shortDesc}}
+            {{/ifDisplay}}
+          <br/>
+          <!-- begin optional product info beyond shortdesc (controlled in cc admin) --> 
+           {{#ifDisplay 'PL.DsplAddtInfo'}}
+            <a class="included_items" href="#additional_info{{this.prodBean.sku}}" id="additionalInfoLink" data-toggle="modal">{{pageLabelMap 'ProductsInc_AdditionalInfo'}}</a>
+            <div id="additional_info{{this.prodBean.sku}}" class="modal hide fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+             <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+              <h3 id="myModalLabel">{{this.prodBean.name}} {{pageLabelMap 'ProductsInc_MiscDetails'}}</h3>
+             </div>
+             <div class="modal-body">
+              {{#if this.miscDetails}}
+               {{this.miscDetails}}<br/><br/>
+              {{/if}}
+              {{#ifDisplay 'PL.DsplAddtlSku'}}
+               <strong>{{pageLabelMap 'SKU'}}:</strong>&#160;{{this.prodBean.sku}}<br/><br/>
+              {{/ifDisplay}}
+              {{#ifDisplay 'PL.DsplAddtlShortDesc'}}
+               {{unescape this.prodBean.shortDesc}}<br/><br/>
+              {{/ifDisplay}}
+             </div>
+            </div>
+           {{/ifDisplay}}
+           <!-- end optional product info -->
+          </p>
+        
+          <!-- for avalara, longDesc is the only product description longer than a sentence (as of 2017-03-01) -->
+          <div><p class="long-decription text-to-html">{{{this.longDesc}}}</p></div>
+          
+          <!-- begin BUY button and LEARN MORE section -->
+          <!-- above we displayed the correct label (FEATURED PRODUCT or FEATURED ADDON or nothing); her we need to decide whether the BUY button goes to (a) a product configurator for the FEATURED PRODUCT alone, with no addons selected, or (b) a product configurator for the FEATURED PRODUCT with FEATURED ADDON preselected -->
+          <div>
+            {{#ifEquals this.prodBean.id this.catFeaturedProduct }}
+              <!-- if the user clicks BUY in a FEATURED PRODUCT row, pass only data-sku for the current product -->
+              <a href="javascript:void(0);" class="productBuyButton" data-sku="{{this.prodBean.sku}}"><button type="button" class="btn-add-to-cart"></button></a>
+            {{else}}
+              <!-- if the user clicks BUY in a FEATURED ADDON ROW, pass the data-sku for the FEATURED PRODUCT and pass an additional datapoint (data-addon) for the FEATURED ADDON
+            the click handler (attached to the anchor class) appends both sku= and skuaddon=  parameters to url; the product configurator template handles url parameters appropriately -->
+              <a href="javascript:void(0);" class="productBuyButtonAddon" data-sku="{{featuredProductSku this.catFeaturedProduct this.prodBean.id this.prodBean.name}}" data-addon="{{this.prodBean.sku}}"><button type="button" class="btn-add-to-cart"></button></a>
+            {{/ifEquals}}
+            
+            <!-- LEARN MORE hardcoded right now; replace with pageLabelMap helper call once new pageLabels working -->
+            <a href="javascript:void(0);" class="productName" data-sku="{{this.prodBean.sku}}">LEARN MORE</a>
+          </div>
+
+          
+          <!-- end BUY button and LEARN MORE section -->
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+  </div>
+
+ </script>
+
+ <div data-component-replace="#quote-carousel-placeholder" style="display:none;">
+  <c:CC_AVA_QuoteCarousel />
+ </div>
+
+ <div data-component-replace="#ava-guarantee-placeholder" style="display:none;">
+  <c:CC_Ava_Guarantee />
+ </div>
+
+ <div data-component-replace="#as-seen-in-placeholder" style="display:none;">
+  <c:CC_AVA_AsSeenIn />
+ </div>
+
+ <div data-component-replace="#save-cta-placeholder" style="display:none;">
+  <c:CC_AVA_SaveCallToAction />
+ </div>
+
+</apex:outputPanel>
+
+  <script>
+    var returnsRemoveTimeout = '';
+    var zebraRemoveTimeout = '';
+    var removalTimeout = '';
+    var removeCount = 0;
+    var removalCount = 0;
+    function removePlpReturns(){
+      
+
+      if(!$('.zebra-container').is(':visible')){
+        zebraRemoveTimeout= setTimeout(function(){
+          
+          avalaraLoggingConsole(['Zebra not found. Checking again',removeCount])
+          removePlpReturns();
+          return;
+        
+        },500);
+        return;
+      }
+
+      removeCount = removeCount+1;
+      clearTimeout(zebraRemoveTimeout);
+
+      avalaraLoggingConsole($('[data-search="Returns"]'), $('[data-search="Avalara Returns"]'));
+
+      if($('[data-search="Returns"]').length > 0
+        || $('[data-search="Avalara Returns"]').length > 0){
+        
+        returnsRemoveTimeout = setTimeout(function(){
+
+          if(removeCount< 50){
+            
+            avalaraLoggingConsole(['Returns not found. Checking again',removeCount])
+            removePlpReturns();
+            return;
+
+          } else {
+
+            clearTimeout(returnsRemoveTimeout);
+            avalaraLoggingConsole(['Returns not found after 50. Not checking again',removeCount])
+
+          }
+
+        },200);
+
+      }
+
+
+      removalCount = removalCount+1; 
+      avalaraLoggingConsole(['Returns found. Removing',removeCount, removalCount])
+      clearTimeout(returnsRemoveTimeout);
+
+      $('div[data-search="Returns"],div[data-search="Avalara Returns"],div[data-search="BigCommerce Returns"]').remove();
+      
+      $('.product-title-text').each(function(){
+        if($(this).text().indexOf('BigCommerce') !== -1){
+          $(this).text($.trim($(this).text().replace('BigCommerce','')));
+          $(this).text().indexOf('Avalara') ==-1 ? 
+            $(this).text('Avalara '+$(this).text())
+            : '';
+          return;
+        }
+
+        if($(this).text().indexOf('Pre Pay Returns Standalone') !== -1){
+          $(this).text($.trim($(this).text().replace('Pre Pay','').replace('Standalone','')));
+          $(this).text().indexOf('Avalara') ==-1 ? 
+            $(this).text('Avalara '+$(this).text())
+            : '';
+          return;
+        }
+
+      });
+
+      removalTimeout = setTimeout(function(){
+       
+        if(removalCount > 40){
+            
+            clearTimeout(removalTimeout);
+            return;
+
+        }
+       
+        removePlpReturns();
+
+      },100)
+
+    }
+
+    setTimeout(function(){
+      removePlpReturns();
+    },50);
+
+    var dynamicBackgroundCount = 0;
+    var dynamicBackgroundTimeout = '';
+    function checkDynamicBackground(){
+
+      if($('.dynamic-background-image').length < 1){
+        
+        dynamicBackgroundTimeout = setTimeout(function(){
+
+          dynamicBackgroundCount = dynamicBackgroundCount +1;
+          dynamicBackgroundCount < 50 ? 
+            checkDynamicBackground()
+            : clearTimeout(dynamicBackgroundTimeout);
+
+        },200)
+
+        return false;
+      }
+
+      clearTimeout(dynamicBackgroundTimeout);
+
+      $('.dynamic-background-image').each(function(){
+
+        avalaraLoggingConsole(['Set dynamic background'])
+        $('head').append('<style type="text/css" id="dynamicBackgroundImages"></style>');
+
+        typeof setDynamicBackgroundImage == 'function' ? 
+          setDynamicBackgroundImage($(this))
+          : setTimeout(function(){
+            
+            /* Put on delay and wait for avail*/
+            checkDynamicBackground();
+            return;
+
+          },200)
+
+      });
+    }
+
+    checkDynamicBackground();
+
+    /* Convert text to HTML*/
+    typeof checkHtmlConversion !== undefined
+      && typeof checkHtmlConversion == 'function' ? 
+        checkHtmlConversion()
+        : '';
+
+    /* Recheck convert text to HTML*/
+    setTimeout(function(){
+      
+      $('body').find('.text-to-html').length > 0 ?
+        checkHtmlConversion()
+        : setTimeout(function(){/* Final recheck convert text to HTML*/
+    
+          $('body').find('.text-to-html').length > 0 ? 
+            checkHtmlConversion()
+            : '';
+    
+        },400);
+
+    },200);
+
+  </script>
+{!blank}
+</apex:page>

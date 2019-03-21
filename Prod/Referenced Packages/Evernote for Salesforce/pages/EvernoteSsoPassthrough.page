@@ -1,0 +1,21 @@
+<apex:page controller="Evernote.EvernotePassthroughController">
+<apex:stylesheet value="{!$Resource.Evernote__EnSfdcStyles}" />
+<apex:stylesheet value="{!$Resource.Evernote__WaitStyles}" />
+<c:EvernoteConstants />
+<c:EvernoteJsLibrary />
+<c:PopupWait />    
+<script type="text/javascript">
+	document.addEventListener("DOMContentLoaded", documentReady);
+
+	function documentReady(event) {
+        var enLibrary = new EvernoteLibrary();
+		var uid = enLibrary.getValueFromQueryString('uid');
+		openSsoLogin(uid, enLibrary);
+    }
+
+    function openSsoLogin(uid, enLibrary) {
+		var destination = enLibrary.getSsoLoginUrl(uid, '{!JSENCODE(baseUrl)}', '{!JSENCODE(longTokenCreated)}', '{!externalCallbackUrl}');            				
+    		window.top.location.replace(destination);
+	}
+</script>
+</apex:page>

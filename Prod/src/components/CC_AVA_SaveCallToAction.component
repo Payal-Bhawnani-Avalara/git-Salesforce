@@ -1,0 +1,8 @@
+<apex:component id="CC_AVA_SaveCallToAction">
+  <div class="background-dark-grey save-cta">
+    <div class="content-container talignC">
+      <h2 class="container-title">Ready to save time and get back to business?</h2>
+      <a href="#" onClick="goToProducts(this);return false;"><button class="hero-button">Get started</button></a>
+    </div>
+  </div>
+</apex:component>

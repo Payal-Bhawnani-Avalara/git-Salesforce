@@ -1,0 +1,3 @@
+<apex:page id="EvernoteCasePage" StandardController="Case" standardStylesheets="false" sidebar="false" showHeader="false" docType="html-5.0">
+        <c:EvernoteIframeComponent ObjectType="Case" SalesforceRecordId="{!Case.Id}" EvernoteURI=""/>   
+</apex:page>

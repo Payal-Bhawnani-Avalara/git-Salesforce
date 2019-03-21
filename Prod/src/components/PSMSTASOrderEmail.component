@@ -1,0 +1,14 @@
+<apex:component access="global" controller="PSMSTASOrderEmail">
+<apex:attribute name="oppId" description="" type="String" assignTo="{!opportunityId}"/> 
+<apex:attribute name="qId" description="" type="String" assignTo="{!quoteId}"/> 
+    Link to Quote: <a href="https://avalara--cameleoncpq.na57.visual.force.com/apex/CPQQuotePanel?id={!qId}&sfdc.override=1">Click Here</a><br/>
+    Link to Opportunity: <a href="https://avalara.my.salesforce.com/{!oppId}">Click Here</a><br/><br/> 
+    <apex:dataTable value="{!oppLineItems}" var="oli" style="border:1px solid;">
+		<apex:column value="{!oli.ProductName__c}" headerValue="Product Name" style="border:1px solid;"/>
+        <apex:column value="{!oli.Description}" headerValue="Description" style="border:1px solid;"/>
+        <apex:column value="{!oli.ItemType__c}" headerValue="Item Type" style="border:1px solid;"/>
+        <apex:column value="{!oli.CPQ_Quantity__c}" headerValue="Quantity" style="border:1px solid;"/>
+        <apex:column value="{!oli.ListPrice__c}" headerValue="List Price" style="border:1px solid;"/>
+        <apex:column value="{!oli.TotalPrice__c}" headerValue="Total Price" style="border:1px solid;"/>
+    </apex:dataTable>
+</apex:component>

@@ -1,0 +1,3 @@
+<apex:page StandardController="Opportunity">
+  <apex:outputText style="white-space: wrap" escape="false" value="{!Opportunity.Connector__r.Connector_EcoSystem_Test__c}" />
+</apex:page>

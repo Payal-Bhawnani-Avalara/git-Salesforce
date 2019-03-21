@@ -1,0 +1,72 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false">
+  <!-- Begin Default Content REMOVE THIS -->
+  <div class="confirmation-page">
+  	
+  	<div class="span co-brand content-container">
+	  	<div class="content-container">
+		  	<h2 class="confirm-title fcolorTheme">Getting Started</h2>
+		  	<p class="confirm-msg">Thank you for purchasing Avalara Returns<span class="set-first-name"></span>!</p>
+		  	<p>You're even closer to taking advantage of automated returns. To start, you’ll need to complete a one-time setup in the Returns section of AvaTax. Follow the link below to log in the your account and get started.</p>
+				<p>*It may take 2 minutes for your account to be provisioned with the Avalara Returns feature. If the Avalara Returns feature does not display, please log out and log back in.</p>
+			</div>
+		</div>
+
+		<div class="span co-brand content-container">
+	  	<div class="content-container">
+		  	<h2 class="confirm-title fcolorTheme">Initial Setup</h2>
+		  	<p class="confirm-msg">From within the Returns section of AvaTax, you’ll first need to complete a Power of Attorney (POA) and identify which tax returns you want Avalara to file, along with the frequency.</p><p>Make sure you have the following information available to complete setup:</p>
+		  	<ul>
+		  	&ndash; Tax registration documentation<br />
+				&ndash; Department of Revenue filing credentials, such as e-file logins<br />
+				&ndash; Bank account information (name/address) for the account used to fund your sales tax liabilities
+				</ul>
+				<p>Note: To start filing in a given month, you must complete all setup activities by the 25<sup>th</sup> of the preceding month. For example, if you want to start filing in November, you must complete all setup activities by the 25<sup>th</sup> of October.</p>
+			</div>
+		</div>
+
+		<div class="span co-brand content-container">
+	  	<div class="content-container">
+		  	<h2 class="confirm-title fcolorTheme">After Setup</h2>
+		  	<p class="confirm-msg">Avalara Returns will use your transaction data from BigCommerce to automatically prepare and file your returns. You'll have the opportunity to review and approve your returns for each period &mdash; monthly, quarterly, or annually.</p>
+		  	<p>Keep these key dates on your calendar:</p>
+		  	<ul>
+			  	&ndash; Review and approve each tax return between the 5<sup>th</sup> and 10<sup>th</sup> of the month in which you’re required to file<br />
+			  	&ndash; Avalara withdraws money to fund returns between the 11<sup>th</sup> and 15<sup>th</sup> of each month<br />
+			  	&ndash; Avalara will then automatically file each return between the 11<sup>th</sup> and 20<sup>th</sup> of each month
+		  	</ul>
+		  	<p>Find detailed help <a href="https://help.avalara.com/003_Avalara_Returns" title="Find help">here</a>.</p>
+			</div>
+		</div>
+
+		<div class="talignC">
+			<a href="https://admin.avalara.com/"><button class="btn-blue">Set up Returns now</button></a>
+		</div>	
+
+	  <div class="background-grey">
+			<c:CC_Ava_FAQ />
+		</div>
+
+	</div>
+
+	<script>
+		
+		var name = sessionStorageTest() ? 
+			sessionStorage.getItem('avalaraThankyou')
+			: '';
+
+		name !== ''
+			&& name !== 'null'
+			&& name !== null ? 
+				$('.set-first-name').text(', '+name)
+				: '';
+
+		setTimeout(function(){
+
+    	$('.expand').attr({'onClick': 'expandContent(this); return false;'});
+
+    },200);
+
+	</script>
+
+  <!-- End Default Content REMOVE THIS -->
+</apex:page>
