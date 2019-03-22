@@ -1,0 +1,17 @@
+<aura:component controller="CMTD_ParentWrapper"
+implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" access="global" >
+    <aura:attribute name="accountId" type="String" />  
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="showComponent" type="Boolean" default="false" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:if isTrue="{!v.showComponent}">
+        <CMTD:EnhancedRelatedList objectAPIName="Case" relatedListName="OpenImplementation"
+        parentField="AccountId" parentId="{!v.accountId}"
+        displayType="Tile 1" layoutType="3 Column"
+        sort="CreatedDate DESC" filter="isclosed=false AND RecordTypeID = '0120b000000YbHkAAK'"
+        defaultNumberofRecordsToDisplay="2" title="Open Implementation Cases"
+        iconName="standard:case"
+        showHeader="true" showRefreshButton="true" />
+    </aura:if>
+</aura:component>

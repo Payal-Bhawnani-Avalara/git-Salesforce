@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <description>Setting for redirect guest user to in maintenance page</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Turn_Off_Site_for_Maintenance__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Check this attribute if the site is in maintenance</description>
+        <externalId>false</externalId>
+        <label>Turn Off Site for Maintenance</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>URL_for_redirection__c</fullName>
+        <description>The URL use to redirect the site for maintenance</description>
+        <externalId>false</externalId>
+        <label>URL for redirection</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <label>Ava In Maintenance</label>
+    <visibility>Public</visibility>
+</CustomObject>

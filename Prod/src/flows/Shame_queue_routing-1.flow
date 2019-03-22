@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <constants>
+        <name>Stageduration1</name>
+        <dataType>Number</dataType>
+        <value>
+            <numberValue>1.0</numberValue>
+        </value>
+    </constants>
+    <interviewLabel>Shame queue routing {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Shame queue routing</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Shame_queue_rerouting_record_creation</name>
+        <label>Shame queue rerouting record creation</label>
+        <locationX>158</locationX>
+        <locationY>230</locationY>
+        <assignRecordIdToReference>varOppid</assignRecordIdToReference>
+        <inputAssignments>
+            <field>Opportunity__c</field>
+            <value>
+                <elementReference>varOppid</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Previous_Owner__c</field>
+            <value>
+                <elementReference>varPrevOwnerID</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Shame_Queue_Opportunity_Rerouting__c</object>
+    </recordCreates>
+    <startElementReference>Shame_queue_rerouting_record_creation</startElementReference>
+    <variables>
+        <name>varOppid</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>varPrevManager</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>varPrevOwnerID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

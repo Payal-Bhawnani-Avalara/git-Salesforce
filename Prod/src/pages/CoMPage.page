@@ -1,0 +1,10 @@
+<apex:page standardController="Opportunity" extensions="AccountProfile">
+   <apex:pageBlock >
+     <apex:pageBlockSection >
+    <apex:repeat value="{!fields}" var="f">
+                  <apex:outputField value="{!accPro[f.fieldPath]}" 
+                      />
+              </apex:repeat>
+    </apex:pageBlockSection>
+    </apex:pageBlock>      
+</apex:page>

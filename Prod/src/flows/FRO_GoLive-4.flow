@@ -1,0 +1,686 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignments>
+        <name>myVariable_waitStartTimeAssignment</name>
+        <label>myVariable_waitStartTimeAssignment</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>myVariable_waitStartTimeVariable</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>myDecision</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>myDecision</name>
+        <label>Primary Decision</label>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>default</defaultConnectorLabel>
+        <rules>
+            <name>myRule_1</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_1</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_pmetdec</targetReference>
+            </connector>
+            <label>Key Changes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>myRule_1_pmetdec</name>
+        <label>Previously Met Decision</label>
+        <locationX>100</locationX>
+        <locationY>100</locationY>
+        <defaultConnector>
+            <targetReference>myRule_1_A1</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Previously Met</defaultConnectorLabel>
+        <rules>
+            <name>myRule_1_pmetnullrule</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>myVariable_old</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>myRule_1_A1</targetReference>
+            </connector>
+            <label>Previously Met - Null</label>
+        </rules>
+        <rules>
+            <name>myRule_1_pmetrule</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_myRule_1_pmetrule</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Previously Met - Prev</label>
+        </rules>
+    </decisions>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>PRIORVALUE([GoLive_Implementation__c].Returns_Delay__c ) </stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_10_myRule_1_A1_Returns_Delay_Snaps_c</name>
+        <dataType>String</dataType>
+        <expression>PRIORVALUE({!myVariable_current.Returns_Delay__c} )</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>PRIORVALUE([GoLive_Implementation__c].Calc_Estimation__c ) </stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_2_myRule_1_A1_Calc_Date_Snap_c</name>
+        <dataType>Date</dataType>
+        <expression>PRIORVALUE({!myVariable_current.Calc_Estimation__c} )</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>PRIORVALUE([GoLive_Implementation__c].Calc_Status__c ) </stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_3_myRule_1_A1_Calc_Status_Snap_c</name>
+        <dataType>String</dataType>
+        <expression>PRIORVALUE({!myVariable_current.Calc_Status__c} )</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>PRIORVALUE([GoLive_Implementation__c].Delay__c ) </stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_4_myRule_1_A1_Calc_Delay_Snap_c</name>
+        <dataType>String</dataType>
+        <expression>PRIORVALUE({!myVariable_current.Delay__c} )</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>PRIORVALUE([GoLive_Implementation__c].Certs_Status__c ) </stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_5_myRule_1_A1_Certs_Status_Snap_c</name>
+        <dataType>String</dataType>
+        <expression>PRIORVALUE({!myVariable_current.Certs_Status__c} )</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>PRIORVALUE([GoLive_Implementation__c].Certs_Estimation__c ) </stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_6_myRule_1_A1_Certs_Estimation_Date_Snap_c</name>
+        <dataType>Date</dataType>
+        <expression>PRIORVALUE({!myVariable_current.Certs_Estimation__c} )</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>PRIORVALUE([GoLive_Implementation__c].CertCapture_Delay__c ) </stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_7_myRule_1_A1_Certs_Delay_Snap_c</name>
+        <dataType>String</dataType>
+        <expression>PRIORVALUE({!myVariable_current.CertCapture_Delay__c} )</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>PRIORVALUE([GoLive_Implementation__c].Returns_Status__c ) </stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_8_myRule_1_A1_Returns_Status_Snap_c</name>
+        <dataType>String</dataType>
+        <expression>PRIORVALUE({!myVariable_current.Returns_Status__c} )</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>PRIORVALUE([GoLive_Implementation__c].Returns_Estimation__c ) </stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_9_myRule_1_A1_Returns_Estimation_First_Filing_Date_c</name>
+        <dataType>Date</dataType>
+        <expression>PRIORVALUE({!myVariable_current.Returns_Estimation__c} )</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND
+([GoLive_Implementation__c].Account__c.Name= &quot;EMore&quot;,
+
+(
+OR(
+
+(OR(
+ISCHANGED([GoLive_Implementation__c].Calc_Est_Month__c),
+ISCHANGED([GoLive_Implementation__c].Calc_Status__c),
+ISCHANGED([GoLive_Implementation__c].Delay__c)
+)),
+
+(OR(
+ISCHANGED([GoLive_Implementation__c].Certs_Est_Month__c),
+ISCHANGED([GoLive_Implementation__c].Certs_Status__c),
+ISCHANGED([GoLive_Implementation__c].CertCapture_Delay__c)
+
+)),
+
+(OR(
+ISCHANGED([GoLive_Implementation__c].Returns_Est_Month__c),
+ISCHANGED([GoLive_Implementation__c].Returns_Status__c),
+ISCHANGED([GoLive_Implementation__c].Returns_Delay__c)
+
+))
+
+)
+)
+
+
+
+) 
+</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_1</name>
+        <dataType>Boolean</dataType>
+        <expression>AND
+({!myVariable_current.Account__c.Name}= &quot;EMore&quot;,
+
+(
+OR(
+
+(OR(
+ISCHANGED({!myVariable_current.Calc_Est_Month__c}),
+ISCHANGED({!myVariable_current.Calc_Status__c}),
+ISCHANGED({!myVariable_current.Delay__c})
+)),
+
+(OR(
+ISCHANGED({!myVariable_current.Certs_Est_Month__c}),
+ISCHANGED({!myVariable_current.Certs_Status__c}),
+ISCHANGED({!myVariable_current.CertCapture_Delay__c})
+
+)),
+
+(OR(
+ISCHANGED({!myVariable_current.Returns_Est_Month__c}),
+ISCHANGED({!myVariable_current.Returns_Status__c}),
+ISCHANGED({!myVariable_current.Returns_Delay__c})
+
+))
+
+)
+)
+
+
+
+)</expression>
+    </formulas>
+    <formulas>
+        <processMetadataValues>
+            <name>originalFormula</name>
+            <value>
+                <stringValue>AND
+([GoLive_Implementation__c].Account__c.Name= &quot;EMore&quot;,
+
+(
+OR(
+
+(OR(
+ISCHANGED([GoLive_Implementation__c].Calc_Est_Month__c),
+ISCHANGED([GoLive_Implementation__c].Calc_Status__c),
+ISCHANGED([GoLive_Implementation__c].Delay__c)
+)),
+
+(OR(
+ISCHANGED([GoLive_Implementation__c].Certs_Est_Month__c),
+ISCHANGED([GoLive_Implementation__c].Certs_Status__c),
+ISCHANGED([GoLive_Implementation__c].CertCapture_Delay__c)
+
+)),
+
+(OR(
+ISCHANGED([GoLive_Implementation__c].Returns_Est_Month__c),
+ISCHANGED([GoLive_Implementation__c].Returns_Status__c),
+ISCHANGED([GoLive_Implementation__c].Returns_Delay__c)
+
+))
+
+)
+)
+
+
+
+) 
+</stringValue>
+            </value>
+        </processMetadataValues>
+        <name>formula_myRule_1_pmetrule</name>
+        <dataType>Boolean</dataType>
+        <expression>AND
+({!myVariable_old.Account__c.Name}= &quot;EMore&quot;,
+
+(
+OR(
+
+(OR(
+ISCHANGED({!myVariable_old.Calc_Est_Month__c}),
+ISCHANGED({!myVariable_old.Calc_Status__c}),
+ISCHANGED({!myVariable_old.Delay__c})
+)),
+
+(OR(
+ISCHANGED({!myVariable_old.Certs_Est_Month__c}),
+ISCHANGED({!myVariable_old.Certs_Status__c}),
+ISCHANGED({!myVariable_old.CertCapture_Delay__c})
+
+)),
+
+(OR(
+ISCHANGED({!myVariable_old.Returns_Est_Month__c}),
+ISCHANGED({!myVariable_old.Returns_Status__c}),
+ISCHANGED({!myVariable_old.Returns_Delay__c})
+
+))
+
+)
+)
+
+
+
+)</expression>
+    </formulas>
+    <interviewLabel>FRO_GoLive-4_GoLive_Implementation__c</interviewLabel>
+    <label>FRO_GoLive</label>
+    <processMetadataValues>
+        <name>ObjectType</name>
+        <value>
+            <stringValue>GoLive_Implementation__c</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>ObjectVariable</name>
+        <value>
+            <elementReference>myVariable_current</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OldObjectVariable</name>
+        <value>
+            <elementReference>myVariable_old</elementReference>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>TriggerType</name>
+        <value>
+            <stringValue>onAllChanges</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Workflow</processType>
+    <recordCreates>
+        <name>myRule_1_A1</name>
+        <label>Create FRO</label>
+        <locationX>100</locationX>
+        <locationY>200</locationY>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Date</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Calc Date Snap</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Calc_Date_Snap__c</field>
+            <value>
+                <elementReference>formula_2_myRule_1_A1_Calc_Date_Snap_c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Calc Delay Snap</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Calc_Delay_Snap__c</field>
+            <value>
+                <elementReference>formula_4_myRule_1_A1_Calc_Delay_Snap_c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Calc Status Snap</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Calc_Status_Snap__c</field>
+            <value>
+                <elementReference>formula_3_myRule_1_A1_Calc_Status_Snap_c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Certs Delay Snap</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Certs_Delay_Snap__c</field>
+            <value>
+                <elementReference>formula_7_myRule_1_A1_Certs_Delay_Snap_c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Date</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Certs Estimation Date Snap</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Certs_Estimation_Date_Snap__c</field>
+            <value>
+                <elementReference>formula_6_myRule_1_A1_Certs_Estimation_Date_Snap_c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Certs Status Snap</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Certs_Status_Snap__c</field>
+            <value>
+                <elementReference>formula_5_myRule_1_A1_Certs_Status_Snap_c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>ID</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>true</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>GoLive Implementation</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Reference</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>GoLive_Implementation__c</field>
+            <value>
+                <elementReference>myVariable_current.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Returns Delay Snap</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Returns_Delay_Snaps__c</field>
+            <value>
+                <elementReference>formula_10_myRule_1_A1_Returns_Delay_Snaps_c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>Date</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Returns Est First Filing Date Snap</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Returns_Estimation_First_Filing_Date__c</field>
+            <value>
+                <elementReference>formula_9_myRule_1_A1_Returns_Estimation_First_Filing_Date_c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <processMetadataValues>
+                <name>dataType</name>
+                <value>
+                    <stringValue>String</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>isRequired</name>
+                <value>
+                    <booleanValue>false</booleanValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>leftHandSideLabel</name>
+                <value>
+                    <stringValue>Returns Status Snap</stringValue>
+                </value>
+            </processMetadataValues>
+            <processMetadataValues>
+                <name>rightHandSideType</name>
+                <value>
+                    <stringValue>Formula</stringValue>
+                </value>
+            </processMetadataValues>
+            <field>Returns_Status_Snap__c</field>
+            <value>
+                <elementReference>formula_8_myRule_1_A1_Returns_Status_Snap_c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Forecasting_Reporting_Object__c</object>
+    </recordCreates>
+    <startElementReference>myVariable_waitStartTimeAssignment</startElementReference>
+    <variables>
+        <name>myVariable_current</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>GoLive_Implementation__c</objectType>
+    </variables>
+    <variables>
+        <name>myVariable_old</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <objectType>GoLive_Implementation__c</objectType>
+    </variables>
+    <variables>
+        <name>myVariable_waitStartTimeVariable</name>
+        <dataType>DateTime</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <elementReference>$Flow.CurrentDateTime</elementReference>
+        </value>
+    </variables>
+</Flow>

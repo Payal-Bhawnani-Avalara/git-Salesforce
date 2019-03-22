@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Send Welcoem Letter</description>
+    <interviewLabel>AMZB_WelcomeLetter {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>AMZB_WelcomeLetter</label>
+    <processType>Flow</processType>
+    <screens>
+        <name>AMZB_Welcome_Letter_Form</name>
+        <label>AMZB_Welcome Letter Form</label>
+        <locationX>259</locationX>
+        <locationY>99</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>To</name>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>Receipient.ContactEmail</elementReference>
+            </defaultValue>
+            <fieldText>To:</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+        </fields>
+    </screens>
+    <startElementReference>AMZB_Welcome_Letter_Form</startElementReference>
+    <variables>
+        <name>Receipient</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Case</objectType>
+    </variables>
+</Flow>

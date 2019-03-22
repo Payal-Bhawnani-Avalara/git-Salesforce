@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>https://jira.avalara.com/browse/ITBSE-1212</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Booking_Issue_Resolved_By__c</fullName>
+        <externalId>false</externalId>
+        <label>Booking Issue Resolved By</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Akansha Gosain</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Alison Cain</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Brent Douma</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Clay Wiggins</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>David Halladay</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Mangal Pardeshi</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Navees Ahmed</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Priyanka Duggar</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Kyle Leyh</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Vaibhav Bandge</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Andrew Gill</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Booking_Issue_Resolved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Booking Issue Resolved Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Bookings_Root_Cause__c</fullName>
+        <externalId>false</externalId>
+        <label>Bookings Root Cause</label>
+        <length>5000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>JIRATicketURL__c</fullName>
+        <description>A link to the JIRA Ticket that captures the progress/status of resolving an identified Bookings Delta. ITBSX-306</description>
+        <externalId>false</externalId>
+        <formula>IF(ISBLANK(Opportunity__r.JIRATicketURL__c),&quot;&quot;,HYPERLINK( Opportunity__r.JIRATicketURL__c , &quot;Immediate Resolution Tracking&quot;))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>JIRA Ticket URL</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>NEW_Amount_SF__c</fullName>
+        <externalId>false</externalId>
+        <label>NEW Amount (SF)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>NEW_Booked_Value_EDW__c</fullName>
+        <externalId>false</externalId>
+        <label>NEW Booked Value (EDW)</label>
+        <precision>17</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Notes__c</fullName>
+        <externalId>false</externalId>
+        <label>Notes</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>OLD_Amount_SF__c</fullName>
+        <externalId>false</externalId>
+        <label>OLD Amount (SF)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>OLD_Booked_Value_EDW__c</fullName>
+        <externalId>false</externalId>
+        <label>OLD Booked Value (EDW)</label>
+        <precision>17</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Opportunity__c</fullName>
+        <externalId>false</externalId>
+        <label>Opportunity</label>
+        <referenceTo>Opportunity</referenceTo>
+        <relationshipLabel>BookingsDelta</relationshipLabel>
+        <relationshipName>BookingsDelta</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>SystemUpdated__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(AND(NEW_Amount_SF__c &lt;&gt; 0, NEW_Booked_Value_EDW__c &lt;&gt; 0, NOT(ISNULL(Booking_Issue_Resolved_Date__c)), OLD_Amount_SF__c &lt;&gt; NEW_Amount_SF__c, OLD_Booked_Value_EDW__c &lt;&gt; NEW_Booked_Value_EDW__c), &quot;EDW &amp; SFDC&quot;,
+
+IF(AND(NEW_Amount_SF__c &lt;&gt; 0, NEW_Booked_Value_EDW__c &lt;&gt; 0, NOT(ISNULL(Booking_Issue_Resolved_Date__c)), OLD_Amount_SF__c &lt;&gt; NEW_Amount_SF__c), &quot;SFDC&quot;,
+
+IF(AND(NEW_Amount_SF__c &lt;&gt; 0, NEW_Booked_Value_EDW__c &lt;&gt; 0, NOT(ISNULL(Booking_Issue_Resolved_Date__c)), OLD_Booked_Value_EDW__c &lt;&gt; NEW_Booked_Value_EDW__c), &quot;EDW&quot;,
+
+&quot;&quot;)))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>System Updated</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>BookingsDelta</label>
+    <nameField>
+        <displayFormat>BookingDelta#{00000}</displayFormat>
+        <label>BookingsDelta Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>BookingsDelta</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

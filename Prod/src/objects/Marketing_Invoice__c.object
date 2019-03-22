@@ -1,0 +1,1997 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Purpose: To track all Marketing related invoice against the campaigns, gl, &amp; budget codes
+Integrated: No
+Change: Level 2
+Custodian: Marketing: Saara Janmohamed</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableEnhancedLookup>true</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Additional_Invoice_Notes__c</fullName>
+        <description>Purpose: 
+Integrated: No 
+Change: Level 1 
+Custodian: Marketing</description>
+        <externalId>false</externalId>
+        <label>Additional Invoice Notes</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Campaign_Budgeted_Amount__c</fullName>
+        <externalId>false</externalId>
+        <formula>Related_Campaign__r.BudgetedCost</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Campaign Budgeted Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Campaign_Drayage_Cost__c</fullName>
+        <description>Purpose: Pulls from the actual Drayage cost field on the campaign
+Integrated: No 
+Change: Level 1 
+Custodian: Marketing</description>
+        <externalId>false</externalId>
+        <formula>Related_Campaign__r.DrayageActual__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Campaign Drayage Cost</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Campaign_Freight_Cost__c</fullName>
+        <externalId>false</externalId>
+        <formula>Related_Campaign__r.FreightActual__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Campaign Freight Cost</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Campaign_Invoice_Totals__c</fullName>
+        <description>Purpose: Pull the rollup field on campaign for total of all related marketing invoice amounts.
+Integrated: No 
+Change: Level 1 
+Custodian: Marketing - Saara</description>
+        <externalId>false</externalId>
+        <formula>Related_Campaign__r.Marketing_Invoice_Totals__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Campaign Invoice Totals</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Campaign_Labor_Cost__c</fullName>
+        <externalId>false</externalId>
+        <formula>Related_Campaign__r.LaborActual__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Campaign Labor Cost</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Campaign_Print_Cost__c</fullName>
+        <externalId>false</externalId>
+        <formula>Related_Campaign__r.Print_Cost_Actual__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Campaign Print Cost</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Campaign_Promotions_Cost__c</fullName>
+        <externalId>false</externalId>
+        <formula>Related_Campaign__r.Promotions_Actual__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Campaign Promotions Cost</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Campaign_Sponsorship_Fee__c</fullName>
+        <externalId>false</externalId>
+        <formula>Related_Campaign__r.SponsorshipFeeActual__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Campaign Sponsorship Fee</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Contract_Renewal_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Contract Renewal Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Count__c</fullName>
+        <description>Used for reporting to produce a count of invoices.</description>
+        <externalId>false</externalId>
+        <formula>1</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Credit_Card__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Credit Card</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Current_Approver__c</fullName>
+        <externalId>false</externalId>
+        <label>Current Approver</label>
+        <length>50</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Day_until_renewal_Due__c</fullName>
+        <externalId>false</externalId>
+        <formula>Contract_Renewal_Date__c -  TODAY()</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Day until renewal Due</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Department_Code__c</fullName>
+        <description>Purpose: Department charged for invoice
+Integrated: No 
+Change: Level 1 
+Custodian: Marketing</description>
+        <externalId>false</externalId>
+        <label>Department Code</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>241 - Developer Relations</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>300 - New Sales - Leaders &amp; Ops</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>350 - Existing Sales - Leaders &amp; Ops</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>400 - Marketing – Shared Services</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>407 - Marketing - Telecom</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>330 -Sales - Established</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>380 - Sales - Enterprise</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>304 - Sales - Emerging &amp; Launch</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>306 - Sales – SOHO</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>353 - Existing Sales - Sales</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>320 - Partner Sales</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>402 - Marketing - Leadership</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>465 - Marketing - Technology (MTG)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>470 - Marketing - Demand Gen &amp; Ops</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>471 - Marketing - CertCapture</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>472 - Marketing - SOHO</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>473 - Marketing – Accounting Channel Partner</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>474 - Marketing - Established &amp; SIG Partner</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>475 - Marketing - Emerging &amp; Launch Partner</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>476 - Marketing – SOHO Partner</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>477 - Marketing - Product Marketing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>478 - Marketing - Existing Customer</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>480 - Zytax Sales</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>EMEA_Invoice__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Purpose: Change the Approval process for EMEA Invoices and warn accounting of possible foreign currency issues</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Check this box to have invoice follow the EMEA Approval Process</inlineHelpText>
+        <label>EMEA Invoice</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Expected_Payment_Date__c</fullName>
+        <description>45 days after the manager approves the invoice will be the date, 
+Integrated: Populated by a field update in the approval process
+MKTG: Chance Pruitt</description>
+        <externalId>false</externalId>
+        <label>Expected Payment Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>GL_Code__c</fullName>
+        <description>Purpose: Actual GL Code for accounting to charge
+Integrated: No 
+Change: Level 1 
+Custodian: Marketing</description>
+        <externalId>false</externalId>
+        <label>GL Code</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>7010 Computer Supplies</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7011 Books &amp; Manuals</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7012 Expensed Hardware</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7015 Expensed Software</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7016 Computer Licenses</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7201 Advertising &amp; Marketing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7205 Association Dues</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7208 Marketing Systems/Automation</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7210 On-line Marketing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7217 Promotions/Partner Awards</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7225 Advertising - Print/Radio/TV/etc.</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7226 Advertising - Online</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7227 Advertising - SEM/PPC</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7228 Advertising - Direct Mail</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7229 Purchased Lists</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7230 Advertising Promotions</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7231 Partner Programs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7235 Video Production</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7240 Trade Show Booth (maintenance)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7245 Trade Show Costs (event)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7247 Channel Partner Events (User Groups)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7249 Specialty/Regional Events</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7255 Web Hosting</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7261 PR - Analysis, Awards, Reviews</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7262 PR - Agency/Consulting</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7263 - Other Marketing Spend</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7265 - Professional Services - Marketing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7270 Telemarketing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7271 Marketing Systems</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7280 International Marketing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7290 Outsourced Lead Generation</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7510 Office Supplies</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7545 Printing &amp; Reproduction</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7600 Professional Services</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7650 Outsourced Services</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7720 T&amp;E - Entertainment (100%)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7730 T&amp;E - Meals (100%)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7735 T&amp;E - Lodging</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7740 T&amp;E - Transportation</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7745 T&amp;E - Travel/Airfare</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Invoice_Amount__c</fullName>
+        <description>Purpose: Total Amount Stated on Invoice
+Integrated: No 
+Change: Level 1 
+Custodian: Marketing</description>
+        <externalId>false</externalId>
+        <label>Invoice Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Invoice_Date__c</fullName>
+        <description>Purpose: Date on Invoice
+Integrated: No 
+Change: Level 1 
+Custodian: Marketing</description>
+        <externalId>false</externalId>
+        <label>Invoice Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Invoice_Due_Date__c</fullName>
+        <description>Purpose: Date Payment of Invoice Due
+Integrated: No 
+Change: Level 1 
+Custodian: Marketing</description>
+        <externalId>false</externalId>
+        <label>Invoice Due Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Invoice_Number__c</fullName>
+        <description>Purpose: Number of Actual Invoice
+Integrated: No 
+Change: Level 1 
+Custodian: Marketing</description>
+        <externalId>false</externalId>
+        <label>Invoice Number</label>
+        <length>30</length>
+        <required>true</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Invoice_Paid_Date__c</fullName>
+        <description>Actual date the invoice was paid</description>
+        <externalId>false</externalId>
+        <label>Invoice Paid Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Invoice_Paid__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Automatically checked when final approval step complete by accounting.</description>
+        <externalId>false</externalId>
+        <label>Invoice Paid</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Invoice_Priority__c</fullName>
+        <externalId>false</externalId>
+        <label>Invoice Priority</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Urgent</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Normal</fullName>
+                    <default>true</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Invoice_Type__c</fullName>
+        <description>Used to identify what type of Invoice is to be paid. Used in separate our the approval process.
+Owner. Marketing Ops. Chance Pruitt, Jessica Davis</description>
+        <externalId>false</externalId>
+        <label>Invoice Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Marketing Invoice</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMEA Marketing Invoice</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Marketing Technology Contracts</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Marketing_Invoice_Name_Stamp__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <description>Use to prevent duplication of entry for Marketing invoices. prevent name duplication</description>
+        <externalId>false</externalId>
+        <label>Marketing Invoice Name Stamp</label>
+        <length>50</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Marketing_Manager__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Purpose: MKT mgr pulled from Campaign if there is a related campaign using Process builder, or manually input if not related to a campaign
+Integrated: No 
+Change: Level 1 
+Custodian: Marketing</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Mkt. Mgr. that is on the campaign. If invoice has no campaign, you can manually lookup a user record.</inlineHelpText>
+        <label>Marketing Manager</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Marketing_Invoices</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>PMMChangeEmailAlertTime__c</fullName>
+        <description>Stamped by process builder and used in email alert automation.</description>
+        <externalId>false</externalId>
+        <label>PMMChangeEmailAlertTime</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>PMMFirstEmailAlertSentTime__c</fullName>
+        <description>Stamped by process builder and used in email alert automation.</description>
+        <externalId>false</externalId>
+        <label>PMMFirstEmailAlertSentTime</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>PMM_Email__c</fullName>
+        <description>Purpose: To automate email alerts to PMM of new and updated marketing invoice associated with campaigns
+Integrated: Yes 
+Change: Level 1
+Custodian: Partner Marketing: Liz Anderson</description>
+        <externalId>false</externalId>
+        <label>PMM Email</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PMM__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>PMM</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Marketing_Invoices1</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Payment_Frequency__c</fullName>
+        <externalId>false</externalId>
+        <label>Payment Frequency</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Annually</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Monthly</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Negotiating</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>On Demand</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Priority_Flag__c</fullName>
+        <externalId>false</externalId>
+        <formula>IMAGE( 
+CASE(  Invoice_Priority__c , 
+&quot;Normal&quot;, &quot;/img/samples/flag_green.gif&quot;,
+&quot;Urgent&quot;, &quot;/img/samples/flag_red.gif&quot;, 
+&quot;/s.gif&quot;), 
+&quot;&quot;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Priority Flag</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Related_Campaign__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Purpose: Campaign which invoice is related to
+Integrated: No 
+Change: Level 1 
+Custodian: Marketing</description>
+        <externalId>false</externalId>
+        <label>Related Campaign</label>
+        <referenceTo>Campaign</referenceTo>
+        <relationshipLabel>Marketing Invoices</relationshipLabel>
+        <relationshipName>Marketing_Invoices</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Service_Month__c</fullName>
+        <description>Purpose: Month(s) in which invoiced service was completed
+Integrated: No 
+Change: Level 1 
+Custodian: Marketing</description>
+        <externalId>false</externalId>
+        <label>Service Month</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>January</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>February</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>March</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>April</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>May</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>June</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>July</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>August</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>September</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>October</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>November</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>December</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Service_Year__c</fullName>
+        <description>Purpose: Year of Invoice Service completed
+Integrated: No 
+Change: Level 1 
+Custodian: Marketing</description>
+        <externalId>false</externalId>
+        <label>Service Year</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>2014</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>2015</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>2016</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>2017</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>2018</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>2019</fullName>
+                    <default>true</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Stage__c</fullName>
+        <externalId>false</externalId>
+        <label>Stage</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>New</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pending Approval - Details</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pending Approval - Manager</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Approved Pending Payment</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Paid</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Rejected</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Time_Approved__c</fullName>
+        <externalId>false</externalId>
+        <label>Time Approved</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Time_Submitted__c</fullName>
+        <externalId>false</externalId>
+        <label>Time Submitted</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Vendor_Budgeted_Cost__c</fullName>
+        <externalId>false</externalId>
+        <label>Vendor Budgeted Cost</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Vendor_Description__c</fullName>
+        <externalId>false</externalId>
+        <label>Vendor Description</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Vendor_Name__c</fullName>
+        <description>Purpose: Which organization is sending us the invoice?
+Integrated: No 
+Change: Level 1 
+Custodian: Marketing</description>
+        <externalId>false</externalId>
+        <label>Vendor Name</label>
+        <length>50</length>
+        <required>true</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Year__c</fullName>
+        <description>https://jira.avalara.com/browse/IBST-8028</description>
+        <externalId>false</externalId>
+        <label>Year</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>2018</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>2019</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>Marketing Invoice</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>Approved_Invoices_Paid</fullName>
+        <columns>NAME</columns>
+        <columns>Invoice_Number__c</columns>
+        <columns>EMEA_Invoice__c</columns>
+        <columns>GL_Code__c</columns>
+        <columns>Invoice_Amount__c</columns>
+        <columns>Stage__c</columns>
+        <columns>Related_Campaign__c</columns>
+        <columns>Additional_Invoice_Notes__c</columns>
+        <columns>Invoice_Date__c</columns>
+        <columns>Invoice_Paid__c</columns>
+        <columns>Invoice_Paid_Date__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Invoice_Paid__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <label>Paid Invoices</label>
+    </listViews>
+    <listViews>
+        <fullName>EMEA_Invoices</fullName>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Additional_Invoice_Notes__c</columns>
+        <columns>Department_Code__c</columns>
+        <columns>EMEA_Invoice__c</columns>
+        <columns>GL_Code__c</columns>
+        <columns>Invoice_Amount__c</columns>
+        <columns>Invoice_Date__c</columns>
+        <columns>Vendor_Name__c</columns>
+        <columns>Stage__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>EMEA_Invoice__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <filters>
+            <field>GL_Code__c</field>
+            <operation>equals</operation>
+            <value>7280 International Marketing</value>
+        </filters>
+        <label>EMEA Invoices</label>
+    </listViews>
+    <listViews>
+        <fullName>Joy_s_Payment_View</fullName>
+        <columns>Invoice_Number__c</columns>
+        <columns>Invoice_Date__c</columns>
+        <columns>Invoice_Paid__c</columns>
+        <columns>NAME</columns>
+        <columns>Invoice_Amount__c</columns>
+        <columns>Related_Campaign__c</columns>
+        <columns>GL_Code__c</columns>
+        <columns>Additional_Invoice_Notes__c</columns>
+        <columns>Department_Code__c</columns>
+        <columns>Stage__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Invoice_Paid__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Stage__c</field>
+            <operation>equals</operation>
+            <value>Approved Pending Payment</value>
+        </filters>
+        <label>Joy&apos;s Payment View</label>
+    </listViews>
+    <listViews>
+        <fullName>Vendor_Contract_Renewals</fullName>
+        <columns>NAME</columns>
+        <columns>Contract_Renewal_Date__c</columns>
+        <columns>Invoice_Amount__c</columns>
+        <columns>Vendor_Description__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Marketing_Invoice__c.Vendor_Contract_Invoice</value>
+        </filters>
+        <label>Vendor Contract Renewals</label>
+    </listViews>
+    <nameField>
+        <label>Marketing Invoice Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Marketing Invoices</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Marketing_Invoice</fullName>
+        <active>true</active>
+        <description>Used for payment</description>
+        <label>Marketing Invoice</label>
+        <picklistValues>
+            <picklist>Department_Code__c</picklist>
+            <values>
+                <fullName>241 - Developer Relations</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>300 - New Sales - Leaders %26 Ops</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>304 - Sales - Emerging %26 Launch</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>306 - Sales %E2%80%93 SOHO</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>320 - Partner Sales</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>330 -Sales - Established</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>350 - Existing Sales - Leaders %26 Ops</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>353 - Existing Sales - Sales</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>380 - Sales - Enterprise</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>400 - Marketing %E2%80%93 Shared Services</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>402 - Marketing - Leadership</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>407 - Marketing - Telecom</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>465 - Marketing - Technology %28MTG%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>470 - Marketing - Demand Gen %26 Ops</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>471 - Marketing - CertCapture</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>472 - Marketing - SOHO</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>473 - Marketing %E2%80%93 Accounting Channel Partner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>474 - Marketing - Established %26 SIG Partner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>475 - Marketing - Emerging %26 Launch Partner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>476 - Marketing %E2%80%93 SOHO Partner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>477 - Marketing - Product Marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>478 - Marketing - Existing Customer</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>480 - Marketing - Excise</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>GL_Code__c</picklist>
+            <values>
+                <fullName>7010 Computer Supplies</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7011 Books %26 Manuals</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7012 Expensed Hardware</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7015 Expensed Software</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7016 Computer Licenses</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7201 Advertising %26 Marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7205 Association Dues</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7208 Marketing Systems%2FAutomation</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7210 On-line Marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7217 Promotions%2FPartner Awards</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7225 Advertising - Print%2FRadio%2FTV%2Fetc%2E</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7226 Advertising - Online</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7227 Advertising - SEM%2FPPC</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7228 Advertising - Direct Mail</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7229 Purchased Lists</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7230  Advertising Promotions</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7231 Partner Programs</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7235 Collateral</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7240 Trade Show Booth</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7245 Trade Show Costs %28event%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7247 -Events - Third Party</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7249 Events - Company Hosted</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7255 Web Hosting</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7261 PR - Analysis%2C Awards%2C Reviews</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7262 PR - Agency%2FConsulting</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7263 - Other Marketing Spend</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7265 - Professional Services - Marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7270 Telemarketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7271 Marketing Systems</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7280 International Marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7290 Outsourced Lead Generation</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7510 Office Supplies</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7545 Printing %26 Reproduction</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7600 Professional Services</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7650 Outsourced Services</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7720 T%26E - Entertainment %28100%25%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7730 T%26E - Meals %28100%25%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7735 T%26E - Lodging</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7740 T%26E - Transportation</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7745 T%26E - Travel%2FAirfare</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Invoice_Priority__c</picklist>
+            <values>
+                <fullName>Normal</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Urgent</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Invoice_Type__c</picklist>
+            <values>
+                <fullName>EMEA Marketing Invoice</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Marketing Invoice</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Marketing Technology Contracts</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Payment_Frequency__c</picklist>
+            <values>
+                <fullName>Annually</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Monthly</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Negotiating</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>On Demand</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Service_Month__c</picklist>
+            <values>
+                <fullName>April</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>August</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>December</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>February</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>January</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>July</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>June</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>March</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>May</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>November</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>October</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>September</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Service_Year__c</picklist>
+            <values>
+                <fullName>2014</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2015</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>2016</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2017</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2018</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2019</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Stage__c</picklist>
+            <values>
+                <fullName>Approved Pending Payment</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>New</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Paid</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pending Approval - Details</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pending Approval - Manager</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Year__c</picklist>
+            <values>
+                <fullName>2018</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2019</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Vendor_Contract_Invoice</fullName>
+        <active>true</active>
+        <label>Vendor Contract Invoice</label>
+        <picklistValues>
+            <picklist>Department_Code__c</picklist>
+            <values>
+                <fullName>241 - Developer Relations</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>300 - New Sales - Leaders %26 Ops</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>304 - Sales - Emerging %26 Launch</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>306 - Sales %E2%80%93 SOHO</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>320 - Partner Sales</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>330 -Sales - Established</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>350 - Existing Sales - Leaders %26 Ops</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>353 - Existing Sales - Sales</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>380 - Sales - Enterprise</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>400 - Marketing %E2%80%93 Shared Services</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>402 - Marketing - Leadership</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>407 - Marketing - Telecom</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>465 - Marketing - Technology %28MTG%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>470 - Marketing - Demand Gen %26 Ops</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>471 - Marketing - CertCapture</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>472 - Marketing - SOHO</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>473 - Marketing %E2%80%93 Accounting Channel Partner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>474 - Marketing - Established %26 SIG Partner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>475 - Marketing - Emerging %26 Launch Partner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>476 - Marketing %E2%80%93 SOHO Partner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>477 - Marketing - Product Marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>478 - Marketing - Existing Customer</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>480 - Marketing - Excise</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>GL_Code__c</picklist>
+            <values>
+                <fullName>7010 Computer Supplies</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7011 Books %26 Manuals</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7012 Expensed Hardware</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7015 Expensed Software</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7016 Computer Licenses</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7201 Advertising %26 Marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7205 Association Dues</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7208 Marketing Systems%2FAutomation</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7210 On-line Marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7217 Promotions%2FPartner Awards</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7225 Advertising - Print%2FRadio%2FTV%2Fetc%2E</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7226 Advertising - Online</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7227 Advertising - SEM%2FPPC</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7228 Advertising - Direct Mail</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7229 Purchased Lists</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7230  Advertising Promotions</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7231 Partner Programs</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7235 Collateral</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7240 Trade Show Booth</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7245 Trade Show Costs %28event%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7247 -Events - Third Party</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7249 Events - Company Hosted</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7255 Web Hosting</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7261 PR - Analysis%2C Awards%2C Reviews</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7262 PR - Agency%2FConsulting</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7263 - Other Marketing Spend</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7265 - Professional Services - Marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7270 Telemarketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7271 Marketing Systems</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7280 International Marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7290 Outsourced Lead Generation</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7510 Office Supplies</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7545 Printing %26 Reproduction</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7600 Professional Services</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7650 Outsourced Services</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7720 T%26E - Entertainment %28100%25%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7730 T%26E - Meals %28100%25%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7735 T%26E - Lodging</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7740 T%26E - Transportation</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>7745 T%26E - Travel%2FAirfare</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Invoice_Priority__c</picklist>
+            <values>
+                <fullName>Normal</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Urgent</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Invoice_Type__c</picklist>
+            <values>
+                <fullName>EMEA Marketing Invoice</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Marketing Invoice</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Marketing Technology Contracts</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Payment_Frequency__c</picklist>
+            <values>
+                <fullName>Annually</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Monthly</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Negotiating</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>On Demand</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Service_Month__c</picklist>
+            <values>
+                <fullName>April</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>August</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>December</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>February</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>January</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>July</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>June</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>March</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>May</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>November</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>October</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>September</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Service_Year__c</picklist>
+            <values>
+                <fullName>2014</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2015</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>2016</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2017</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2018</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2019</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Stage__c</picklist>
+            <values>
+                <fullName>Approved Pending Payment</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>New</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Paid</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pending Approval - Details</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pending Approval - Manager</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Year__c</picklist>
+            <values>
+                <fullName>2018</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>2019</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

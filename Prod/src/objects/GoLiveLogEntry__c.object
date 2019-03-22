@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>A sub-table of the GoLive object that allows users to create log entries recording comments regarding Notes, Phone Calls, Emails, Voicemails, or general GoLive updates</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableEnhancedLookup>true</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Comment__c</fullName>
+        <description>A comment box to record any pertinent notes related to the customer GoLive</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Record any pertinent notes related to the GoLive here</inlineHelpText>
+        <label>Comment</label>
+        <length>2500</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>CustomerContact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The customer contact that a log entry is related to</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The customer contact that a log entry is related to</inlineHelpText>
+        <label>Customer Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipName>GoLive_Log_Entries</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>EntryType__c</fullName>
+        <description>Indicates what type of log entry any particular comment refers to</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Indicates what type of log entry any particular comment refers to</inlineHelpText>
+        <label>Entry Type</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Note</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Phone Call</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Email</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Left Voicemail</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>GoLive__c</fullName>
+        <description>Parent object of a particular GoLive log</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This is the parent object of a particular GoLive log</inlineHelpText>
+        <label>GoLive</label>
+        <referenceTo>GoLive__c</referenceTo>
+        <relationshipName>GoLiveLogEntries</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <label>(Deprecated) GoLive Log</label>
+    <nameField>
+        <label>GoLive Log Entry Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>GoLive Log Entries</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

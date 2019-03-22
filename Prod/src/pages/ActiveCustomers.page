@@ -25,17 +25,14 @@
   				<apex:param value="{!SUBSTITUTE(SUBSTITUTE(a.name, "'", '' ),'&','')}"/>
 			</apex:outputText>
              <apex:outputText escape="true"  value="','"/>
-   			<apex:outputText value="{0}">
-  				<apex:param value="{!SUBSTITUTE(SUBSTITUTE(a.Type__c, "'", '' ),'&','')}"/>
-			</apex:outputText>
              <apex:outputText escape="true"  value="','"/>
    			<apex:outputText value="{0}">
   				<apex:param value="{!a.Id}"/>
 			</apex:outputText>
              <apex:outputText escape="true"  value="',"/>
-            <apex:outputText escape="true"  value="{!a.Latitude__c}"/>
+          
             <apex:outputText escape="true"  value=","/>            
-            <apex:outputText escape="true"  value="{!a.Longitude__c}"/>
+            
             <apex:outputText escape="true"  value="]);"/> 
         </apex:repeat>
 </script>

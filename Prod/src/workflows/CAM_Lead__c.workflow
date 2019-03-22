@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>Initial_Creation_Alert</fullName>
+        <description>Initial Creation Alert</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderAddress>customer.loyalty@avalara.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>CAM_email_Templates/CAM_Lead_Created_Alert</template>
+    </alerts>
+    <alerts>
+        <fullName>X48_hour_CAM_Lead_email_reminder</fullName>
+        <description>48 hour CAM Lead email reminder</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderAddress>customer.loyalty@avalara.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>CAM_email_Templates/CAM_Lead_Alert</template>
+    </alerts>
+    <alerts>
+        <fullName>day7_CAM_Lead_email_reminder</fullName>
+        <description>7 day CAM Lead email reminder</description>
+        <protected>false</protected>
+        <recipients>
+            <type>owner</type>
+        </recipients>
+        <senderAddress>customer.loyalty@avalara.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
+        <template>Cancellation_Templates/CAM_Lead_Alert7</template>
+    </alerts>
+    <fieldUpdates>
+        <fullName>CAM_Lead_Alert</fullName>
+        <field>Alert_Status__c</field>
+        <literalValue>Alert No Action within 48 Hours</literalValue>
+        <name>CAM Lead Alert</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Status_Converted</fullName>
+        <field>CAM_Lead_Status__c</field>
+        <literalValue>Converted</literalValue>
+        <name>Update Status Converted</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>X7_Day</fullName>
+        <field>Alert_Status__c</field>
+        <literalValue>Alert No Action within 7 Days</literalValue>
+        <name>7 Day</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <flowActions>
+        <fullName>Convert_CAM_Lead</fullName>
+        <flow>Convert_CAM_Lead</flow>
+        <flowInputs>
+            <name>Account</name>
+            <value>{!CAMLeadAccount__c}</value>
+        </flowInputs>
+        <flowInputs>
+            <name>CAM_Lead_ID</name>
+            <value>{!Id}</value>
+        </flowInputs>
+        <flowInputs>
+            <name>Campaign</name>
+            <value>{!CAM_Lead_Campaign__c}</value>
+        </flowInputs>
+        <flowInputs>
+            <name>CloseDate</name>
+            <value>{!Opp_Close_Date__c}</value>
+        </flowInputs>
+        <flowInputs>
+            <name>LeadSource</name>
+            <value>{!CAM_Lead_Source__c}</value>
+        </flowInputs>
+        <flowInputs>
+            <name>Opportunity_Name</name>
+            <value>{!Name}</value>
+        </flowInputs>
+        <flowInputs>
+            <name>Opportunity_Owner</name>
+            <value>{!CAMLeadAccount__r.Owner.Id}</value>
+        </flowInputs>
+        <flowInputs>
+            <name>Stage</name>
+            <value>{!CAM_Lead_Status__c}</value>
+        </flowInputs>
+        <flowInputs>
+            <name>User_Contact</name>
+            <value>{!CAM_Lead_Contact__c}</value>
+        </flowInputs>
+        <label>Convert CAM Lead</label>
+        <language>en_US</language>
+        <protected>false</protected>
+    </flowActions>
+    <rules>
+        <fullName>CAM Lead Alert V2</fullName>
+        <actions>
+            <name>Initial_Creation_Alert</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <formula>Text(CAM_Lead_Status__c)  = &quot;Prospect&quot;</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+        <workflowTimeTriggers>
+            <actions>
+                <name>day7_CAM_Lead_email_reminder</name>
+                <type>Alert</type>
+            </actions>
+            <actions>
+                <name>X7_Day</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <timeLength>7</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+        <workflowTimeTriggers>
+            <actions>
+                <name>X48_hour_CAM_Lead_email_reminder</name>
+                <type>Alert</type>
+            </actions>
+            <actions>
+                <name>CAM_Lead_Alert</name>
+                <type>FieldUpdate</type>
+            </actions>
+            <timeLength>2</timeLength>
+            <workflowTimeTriggerUnit>Days</workflowTimeTriggerUnit>
+        </workflowTimeTriggers>
+    </rules>
+    <rules>
+        <fullName>Convert CAM Lead</fullName>
+        <actions>
+            <name>Convert_CAM_Lead</name>
+            <type>FlowAction</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>CAM_Lead__c.ConvertCAMLead__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+</Workflow>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>RemoveMTArticle</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordDeletes>
+        <name>DeleteUse</name>
+        <label>DeleteUse</label>
+        <locationX>131</locationX>
+        <locationY>89</locationY>
+        <inputReference>varMTUseRecordID</inputReference>
+    </recordDeletes>
+    <startElementReference>DeleteUse</startElementReference>
+    <textTemplates>
+        <name>NewResolution</name>
+        <text>&lt;br&gt;&lt;br&gt;
+
+&lt;br&gt;
+&lt;a href=&quot;&quot;&gt;&lt;/a&gt;</text>
+    </textTemplates>
+    <variables>
+        <name>varMTUseRecordID</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>MindTouch_Use__c</objectType>
+    </variables>
+</Flow>

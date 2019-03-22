@@ -43,6 +43,7 @@ private class APIValidateRecordLockTest {
          	   update o;
         	}
         catch(Exception e){
+            System.debug('e.getMessage()======='+e.getMessage());
        	   Boolean expectedExceptionThrown =  e.getMessage().contains(objMDT.Error_Message__c) ? true : false;
            System.AssertEquals(expectedExceptionThrown, true);
         }
@@ -84,16 +85,21 @@ private class APIValidateRecordLockTest {
         		List<String> listFields=objMDT.Never_Editable_Fields__c.split(',');
         		Opportunity updateO=new Opportunity(Id=o.Id);
         		for(String field:listFields){
-        			updateO.put(field,null);
+        			if(field!='OwnerId'){
+        				updateO.put(field,null);
+        			}
         		}
 	       	try{
 	         	   update updateO;
 	        	}
 	        catch(Exception e){
+	        		System.debug('objMDT.Error_Message__c====='+e.getMessage());
 	       	   Boolean expectedExceptionThrown =  e.getMessage().contains(objMDT.Error_Message__c) ? true : false;
 	           System.AssertEquals(expectedExceptionThrown, true);
 	        }        		
-        }      
+        }
+		currentUser.Special_Permission__c='CanUpdateFrozenOpportunity';
+        update currentUser;         
         //freeze all data
         foce.EDW_Booking_Freeze_Date__c=DateTime.now();
         update foce;
@@ -109,8 +115,7 @@ private class APIValidateRecordLockTest {
        	   Boolean expectedExceptionThrown =  e.getMessage().contains(objMDT.Error_Message__c) ? true : false;
            System.AssertEquals(expectedExceptionThrown, true);
         }          
-		currentUser.Special_Permission__c='CanUpdateFrozenOpportunity';
-        update currentUser;     
+    
         o.Locked__c=false;
         update o;               
     }

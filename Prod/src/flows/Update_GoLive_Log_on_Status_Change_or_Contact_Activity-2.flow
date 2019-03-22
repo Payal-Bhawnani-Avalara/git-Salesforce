@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <decisions>
+        <name>Check_IsClosed</name>
+        <label>Check IsClosed</label>
+        <locationX>442</locationX>
+        <locationY>140</locationY>
+        <defaultConnectorLabel>IsClosed FALSE</defaultConnectorLabel>
+        <rules>
+            <name>IsClosed_TRUE</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>IsClosed</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Add_GoLive_Log_Entry_IsClosed_TRUE</targetReference>
+            </connector>
+            <label>IsClosed TRUE</label>
+        </rules>
+        <rules>
+            <name>IsClosed_FALSE</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>IsClosed</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Add_GoLive_Log_Entry_IsClosed_FALSE</targetReference>
+            </connector>
+            <label>IsClosed FALSE</label>
+        </rules>
+    </decisions>
+    <description>Purpose: Updates the GoLive log when related Case changes Status or has new Contact Activity 
+Integrated: No 
+Change: Level 0 
+Custodian: Golive Director</description>
+    <formulas>
+        <name>CaseURL</name>
+        <dataType>String</dataType>
+        <expression>&quot;https://na2.salesforce.com/&quot; &amp; {!CaseID}</expression>
+    </formulas>
+    <label>Update GoLive Log on Status Change or Contact Activity v2</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Add_GoLive_Log_Entry_IsClosed_FALSE</name>
+        <label>Add GoLive Log Entry - IsClosed FALSE</label>
+        <locationX>637</locationX>
+        <locationY>329</locationY>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>GLIId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Log_Entry__c</field>
+            <value>
+                <elementReference>StatusChangeLogEntry</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Log_Type__c</field>
+            <value>
+                <stringValue>Internal</stringValue>
+            </value>
+        </inputAssignments>
+        <object>GoLive_Implementation__c</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Add_GoLive_Log_Entry_IsClosed_TRUE</name>
+        <label>Add GoLive Log Entry - IsClosed TRUE</label>
+        <locationX>281</locationX>
+        <locationY>325</locationY>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>GLIId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Log_Entry__c</field>
+            <value>
+                <elementReference>CaseClosedLogEntry</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Log_Type__c</field>
+            <value>
+                <stringValue>Internal</stringValue>
+            </value>
+        </inputAssignments>
+        <object>GoLive_Implementation__c</object>
+    </recordUpdates>
+    <startElementReference>Check_IsClosed</startElementReference>
+    <textTemplates>
+        <name>CaseClosedLogEntry</name>
+        <text>A Case associated with this GoLive has just been CLOSED.
+
+Case Subject: {!CaseSubject}
+URL to the Case: https://na2.salesforce.com/{!CaseID}
+|</text>
+    </textTemplates>
+    <textTemplates>
+        <name>StatusChangeLogEntry</name>
+        <text>A Case associated with this GoLive has been updated:
+
+Case Subject:  {!CaseSubject} 
+Case Status:   {!CaseStatus} 
+URL to the Case:   https://na2.salesforce.com/{!CaseID}
+|</text>
+    </textTemplates>
+    <variables>
+        <name>CaseID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>CaseStatus</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>CaseSubject</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>GLIId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>IsClosed</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

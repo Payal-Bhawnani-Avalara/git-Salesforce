@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <interviewLabel>DeleteCaseProcess {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>DeleteCaseProcess</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordDeletes>
+        <name>DeleteCase</name>
+        <label>DeleteCase</label>
+        <locationX>260</locationX>
+        <locationY>48</locationY>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varCaseIDtobeDeleted</elementReference>
+            </value>
+        </filters>
+        <object>Case</object>
+    </recordDeletes>
+    <startElementReference>DeleteCase</startElementReference>
+    <variables>
+        <name>varCaseIDtobeDeleted</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

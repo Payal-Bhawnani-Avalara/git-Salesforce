@@ -14,8 +14,11 @@ public class WisePredictionTriggerHandler extends TriggerHandler  {
 	     	for (wisespt__WisePrediction__c wisepredict : (List<wisespt__WisePrediction__c>)Trigger.new) {
 	     	  	caseID.add(wisepredict.wisespt__CaseID__c);
 	     	}
+	     	Id supportCaseRecTypeId=Schema.SObjectType.Case.getRecordTypeInfosByName().get('Support Case v2').getRecordTypeId();
+	     	//Id myLodgeCaseRecTypeId=Schema.SObjectType.Case.getRecordTypeInfosByName().get('MyLodge').getRecordTypeId();
 	     	Map<Id,Case> caseMap = new Map<Id,Case>([Select id,CX_911_Support_Category__c,CX_911_Support_Reason_Detail__c,CX_911_Support_Product__c,
-	     	CX_911_Support_Business_Area__c,CX_911_Support_Reason__c,stopAssignmentRule__c from Case where id in :caseID AND Origin!='Chat' AND Origin!='Phone']);
+	     	CX_911_Support_Business_Area__c,CX_911_Support_Reason__c,stopAssignmentRule__c from Case where id in :caseID AND Origin!='Internal'  
+	        AND Origin!='Chat' AND Origin!='ICP Automation' AND Origin!='Email - Communications'AND Origin!='Phone' AND recordtypeID =: supportCaseRecTypeId AND CreatedById = '00540000002LujsAAC' ]);
 	     	if(caseMap.values().size()>0){
 	        for (wisespt__WisePrediction__c wiseprediction : (List<wisespt__WisePrediction__c>)Trigger.new){
 	        	try{

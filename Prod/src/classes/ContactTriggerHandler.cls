@@ -17,8 +17,6 @@ public class ContactTriggerHandler extends TriggerHandler {
     /*
     protected override void beforeDelete(){}
 
-
-
     private void beforeInsertUpdate(){} 
 
     protected override void afterDelete(){}
@@ -166,6 +164,54 @@ public class ContactTriggerHandler extends TriggerHandler {
                 }
             }
         }
+        //BATS-748 Get CampaignMembers related to Contact 
+        List<contact> updateCon = new  List<contact>();
+        Set<Id> campID = new  Set<Id>();
+        Set<Id> conId = new Set<Id>();
+        for(Contact con : (List<Contact>)Trigger.new){
+          if(con.Campaign_MostRecent__c != null){
+             campID.add(con.Campaign_MostRecent__c);
+             conId.add(con.id);
+             system.debug('campID>>'+campID);
+             system.debug('conId>>'+conId);
+          }
+        }
+        List<CampaignMember> cmList = [SELECT contactid,CampaignId,Initial_Response_Date__c,MQL_Date__c FROM CampaignMember WHERE CampaignId IN :campId AND contactid IN: conId AND Initial_Response_Date__c=LAST_N_DAYS:5];
+        Map<String,CampaignMember> mapCM=new Map<String,CampaignMember>();
+  	    for(CampaignMember cm: cmList){
+  		 if(cmList.size()>0 &&cm.CampaignId !=null &&cm.ContactId !=null){
+  		       mapCM.put(''+cm.CampaignId+cm.ContactId,cm); 
+               System.debug('mapCM>>'+mapCM);
+  		 }
+  	    }
+        Map<Id,Contact> oldContactMap;
+        if(Trigger.isUpdate){
+            oldContactMap=(Map<Id,Contact>) Trigger.oldMap;
+        }
+        for(Contact l: (List<Contact>)Trigger.new) {
+            if(String.isNotBlank(l.ContactStatus__c)){
+            	//MQL
+                if((Trigger.isInsert || (Trigger.isUpdate && oldContactMap.get(l.Id).ContactStatus__c!=Constants.CONTACT_STATUS_MQL)) && 
+                    l.ContactStatus__c==Constants.CONTACT_STATUS_MQL ){
+                    if(mapCM.containsKey(''+l.Campaign_MostRecent__c+l.id) && mapCM.get(''+l.Campaign_MostRecent__c+l.id).Initial_Response_Date__c.date() == Date.today()){
+                      l.MQL_Date_Most_Recent__c = DateTime.now();
+                      mapCM.get(''+l.Campaign_MostRecent__c+l.id).MQL_Date__c =  DateTime.now();
+                      system.debug('con>>'+l);
+                    }
+                }
+                //Working
+                if((Trigger.isInsert || (Trigger.isUpdate && oldContactMap.get(l.Id).ContactStatus__c!=Constants.CONTACT_STATUS_WORKING)) && 
+                    l.ContactStatus__c==Constants.CONTACT_STATUS_WORKING ){
+                    if(mapCM.containsKey(''+l.Campaign_MostRecent__c+l.id) && mapCM.get(''+l.Campaign_MostRecent__c+l.id).Initial_Response_Date__c.date()>=Date.today().addDays(-5) ){
+                      System.debug('Within 5 days>> '+ Date.today().addDays(-5));
+                      l.Working_Date_Most_Recent__c = DateTime.now();
+                      mapCM.get(''+l.Campaign_MostRecent__c+l.id).Working_Date__c =  DateTime.now();
+                      system.debug('con>>'+l);
+                    }
+                }
+            }
+        }
+        update mapCM.values();         
     }
     protected override void afterUpdate(){
         Set<Id> contactId = new Set<Id>();
@@ -189,7 +235,7 @@ public class ContactTriggerHandler extends TriggerHandler {
         }        
     }  
     public void afterInsertUpdate(){
-        afterInsertUpdateExecuted=true;
+         afterInsertUpdateExecuted=true;
         String ContactResponseVelocityOwnerChange='';
         // try{
         if(Test.isRunningTest()){
@@ -211,6 +257,8 @@ public class ContactTriggerHandler extends TriggerHandler {
                                              mapContactRV.put(rv.Contact__c,rv);
                                          }
         List<Response_Velocity__c> listRV=new List<Response_Velocity__c>();
+        
+        
         //Get Opportunity related to Contact 
         Map<Id,Id> conOppMap = new  Map<Id,Id>();
         for(OpportunityContactRole oCR : [Select id,contactId,opportunityId from OpportunityContactRole where 
@@ -264,7 +312,7 @@ public class ContactTriggerHandler extends TriggerHandler {
                     if(conOppMap.containskey(l.id)){
                         newResVel.Opportunity_Created__c = conOppMap.get(l.Id);
                     }
-                    listRV.add(newResVel);      
+                    listRV.add(newResVel);    
                 }
                 else if(
                     Trigger.isUpdate && 

@@ -12,6 +12,8 @@ public class AvalaraSearchCtrl {
             WHERE name LIKE :('%'+searchText+'%')
                 AND Vibrancy__c != 'Error'
                 AND Vibrancy__c != 'Marketing'
+                AND Vibrancy__c != 'Retired'
+                AND Vibrancy__c != 'dormant'
         ];
 
         List<Badge__c> badges = [
@@ -88,7 +90,7 @@ public class AvalaraSearchCtrl {
                 C_Implementation_Path__c,C_Company_Code__c,C_Configuration_Click_Path__c,C_Address_Validation_Click_Path__c,C_Product_Mapping_Click_Path__c,C_Timing_For_Tax_Calculation__c,
                 C_Client_Exemption_Click_Path__c,C_Timing_For_Recording_Committing_Tran__c,C_Location_Code_Click_Path__c,C_Line_Level_Addressing__c,C_API__c,Support_Support_Path__c,
                 Timing_for_recording_Committing_Transa__c,
-                	SI_Documentation__c,Connector_Training__c,Connector_Demo__c,Connector_Communication__c,Connector_Endorsed_by_UX__c,Connector_Download_Location__c,Market_Ready_Notes__c
+                    SI_Documentation__c,Connector_Training__c,Connector_Demo__c,Connector_Communication__c,Connector_Endorsed_by_UX__c,Connector_Download_Location__c,Market_Ready_Notes__c
             FROM Connector_KB__kav
             WHERE Version__c <> NULL
                 AND Version__c =:vId LIMIT 1

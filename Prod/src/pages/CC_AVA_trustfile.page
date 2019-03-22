@@ -1,18 +1,918 @@
 <apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false">
+	<style>
+		*, html, body {
+			margin: 0;
+			padding: 0;
+		}
 
-<!-- 
+		html, body {
+			font-size: 14px !important;
+			font-family: "Source Sans Pro", arial;
+			font-weight: 400;
+			color: #5F6062;
+		}
+
+		div {
+			box-sizing: border-box;
+		}
+		
+		h1, h2, h3, h4, h5, h6, p, input, span {
+			line-height: 1.285em;
+			margin-bottom: .9em;
+		}
+
+		h1, h2, h3, h4, h5, h6 {
+			font-weight: normal;
+		}
+
+		a:hover,
+		button:hover {
+			cursor: pointer;
+		}
+
+		.orange {
+			color: #F60 !important;
+		}
+
+		.banner {
+			background: #027FAD;
+			margin-bottom: 40px;
+			min-height: 160px;
+			padding: 35px;
+			position: relative;
+		}
+
+		.banner * {
+			color: #FFF;
+		}
+
+		.banner .title {
+			font-family: Apertura !important;
+			font-size: 30px !important;
+			font-weight: bold;
+			margin-bottom: 0;
+		}
+
+		.banner .title span {
+			font-weight: normal;
+			font-size: 30px !important;
+		}
+
+		.banner .title img {
+			margin-left: 10px;
+			vertical-align: baseline;
+		}
+
+		.banner .subtitle {
+			font-family: Apertura !important;
+			font-size: 36px !important;
+			line-height: 35px;
+			margin-bottom: 0;
+		}
+
+		.banner-container {
+			max-width: 65%;
+			padding-left: 30px;
+			padding-right: 30px;
+			position: relative;
+			width: 100%;
+			z-index: 2;
+		}
+
+		.banner .background-image {
+			position: absolute;
+			bottom: 0;
+			height: auto;
+			right: 0;
+			width: auto;
+			z-index: 1;
+		}
+
+		.bifurcation-content-container {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-evenly;
+			max-width: 1080px;
+			margin-bottom: 30px;
+			margin-left: auto;
+			margin-right: auto;
+			padding-left: 30px;
+			padding-right: 30px;
+			width: 100%
+		}
+
+		.bifurcation-content-container.removeba:before
+		.bifurcation-content-container.removeba:after {
+			clear: none;
+			display: none !important;
+			width: 0;
+		}
+
+		.bifurcation-content-container[data-column="2"] > div {
+			width: 50%;
+			margin-right: 30px;
+		}
+
+		.bifurcation-content-container[data-column="2"] > div:last-child {
+			margin-right: 0px;
+		}
+
+		.content-container-main {
+			max-width: 1080px;
+			margin-bottom: 30px;
+			margin-left: auto;
+			margin-right: auto;
+			padding-left: 30px;
+			padding-right: 30px;
+			width: 100%
+		}
+
+		.content-container-main button {
+			background-color: #027FAD;
+			border: none;
+			color: #FFF;
+			float: left;
+			font-size: 14px !important;
+			font-weight: bold;
+			margin-right: 10px;
+			padding: 7px 15px 6px;
+
+		}
+
+		.content-container-main button.prev {
+			font-weight: normal;
+		}
+
+		.italic {
+			font-style: italic;
+		}
+
+		.intro > div:first-child {
+			width :48%;
+			margin-right: 100px;
+		}
+
+		.intro > div h2 {
+			font-size: 18px !important;
+			font-weight: 600;
+			line-height: 24px;
+		}
+
+		.quote {
+			width: 110%;
+		}
+
+		.quote p {
+			color: #5F6062;
+			font-size: 24px !important;
+			font-style: italic;
+			font-weight: 300;
+			line-height: 31px;
+			margin-bottom: 0;
+		}
+
+		.quote p.name,
+		.quote p.company {
+			color: #919195;
+			font-size: 14px !important;
+			line-height: 18px;
+		}
+		.quote p.name {
+			font-weight: 600;
+			margin-top: 15px;
+		}
+		
+		.selection-container {
+			background: #F5F6FA;
+			border: 1px solid #E7E7E7;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-evenly;
+			margin-left: 90px;
+			min-height: 200px;
+			padding: 30px;
+			width: 90%;
+		}
+
+		.selection-container > div {
+			position: relative;
+		}
+
+		.selection-container > div:first-child .image-container {
+			background: #FFF;
+			border: 1px solid #CCCCCC;
+			border-radius: 500px;
+	    height: 116px;
+	    width: 116px;
+	    position: absolute;
+	    transform: translateX(-80%);
+		}
+
+		.selection-container > div:first-child .title {
+			color: #F60;
+			font-size: 24px !important;
+			font-weight: 300;
+			line-height: 31px;
+			margin-top: 20px;
+		}
+
+		.selection-container > div:first-child .title,
+		.selection-container > div:first-child p {
+			margin-left: 55px;
+		}
+
+		.selection-container > div:first-child p {
+			font-size: 16px;
+		}
+
+		.selection-container > div:first-child p:last-of-type {
+	    position: absolute;
+	    bottom: 0px;
+	    margin-left: 0;
+		}
+
+		.selection-container > div {
+			width: 50%;
+			margin-right: 30px;
+		}
+		.selection-container > div:last-child {
+			width: 60%;
+			margin-right: 0px;
+		}
+
+		.questions-container {
+			background: #FFF;
+			min-height: 200px;
+			padding: 40px 30px;
+			position: relative;
+		}
+
+		.questions-container.buying-options {
+			background: #FFF;
+			min-height: 10px;
+			padding: 30px;
+		}
+
+		.questions-container .buy-now {
+			display: none;
+			min-height: 10px;
+			width: 100%;
+		}
+
+		.questions-container .buy-now > div {
+			display: none;
+			width: 100%;
+		}
+
+		.questions-container .buy-now button {
+			background-color: #027FAD;
+			border: none;
+			color: #FFF;
+			float: left;
+			font-size: 14px !important;
+			font-weight: bold;
+			margin-right: 10px;
+			padding: 7px 15px 6px;
+
+		}
+
+		.questions-container .buy-now button.start-over,
+		.questions-container button.return {
+			background-color: #FFF;
+			border: none;
+			color: #027FAD;
+			float: right;
+			font-size: 14px !important;
+			font-weight: normal;
+			margin-top: 10px;
+			padding: 7px 15px 6px;
+		}
+
+		.questions-container button.return {
+			margin-top: 35px;
+		}
+
+		.questions-container .buy-now .product-container {
+			margin-bottom: 30px;
+			width: 100%;
+			clear: both;
+		}
+
+		.questions-container .buy-now .product-container {
+			clear: both;
+			content: "";
+			display: table;
+			width: 100%;
+		}
+
+		.questions-container .not-sure h2,
+		.questions-container .not-sure p {
+			color: #5F6062;
+			font-family: "Source Sans Pro";
+			font-size: 18px;
+			line-height: 23px;
+		}
+
+		.questions-container .buy-now .heading {
+			color: #919195;
+			font-size: 18px !important;
+			font-style: italic;
+			line-height: 23px;
+			margin-bottom: 20px;
+		}
+
+		.questions-container .buy-now .product-container .show-header {
+			align-content: center;
+			display: flex;
+			flex-direction: row;
+			margin-bottom: 5px;
+		}
+
+		.questions-container .buy-now .product-container .show-header > *:last-child {
+			width: 50%;
+		}
+
+		.questions-container .buy-now .product-container .show-header > *:last-child p {
+			width: 100%;
+			text-align: right;
+		}
+
+		.questions-container .buy-now .product-container .show-header > * {
+			align-content: center;
+			width: 50%;
+		}
+
+		.questions-container .buy-now .product-container .show-header * {
+			margin-bottom: 0;
+		}
+
+		.questions-container .buy-now .product-container .show-header h2 {
+			color: #FF6600;
+			font-family: "Source Sans Pro";
+			font-size: 18px !important;
+			line-height: 23px;
+		}
+
+		.questions-container .buy-now .product-container .show-header ~ p {
+			color: #919195;
+			font-size: 14px !important;
+			font-style: italic;
+			line-height: 18px;
+		}
+
+		.questions-container .buy-now .show-header > * {
+			display: inline-block;
+		}
+
+		.questions-container .buy-now .show-header > *:last-child{
+			display: flex;
+			flex-direction: row;
+			float: right;
+		}
+
+		.questions-container .buy-now .show-header {
+			clear: both;
+			margin-bottom: 10px;
+			width: 100%;
+		}
+
+		.questions-container .buy-now .show-header > *:last-child {
+			width: auto;
+			clear: right;
+		}
+
+		.questions-container .buy-now .show-header ~ .sub-title {
+			color: #5F6062;
+			font-size: 16px;
+			font-weight: 400;
+			line-height: 18px;
+		}
+
+		.questions-container .buy-now .show-header ~ p ~ p {
+			color: #919195;
+			font-style: italic;
+			line-height: 18px;
+		}
+
+		.questions-container .buy-now .show-header .price p {
+				color: #919195;
+				line-height: 1em;
+				margin-top: 3px;
+		}
+
+		.questions-container .buy-now .show-header .price .starting {
+			text-align: right;
+		}
+
+		.questions-container .buy-now .show-header .price p.orange {
+			color: #F60;
+			margin: 0 5px;
+			font-size: 36px !important;
+			line-height: 1em;
+		}
+
+		.questions-container .buy-now button.buynow {
+			background: #027FAD;
+			border: 2px solid #027FAD;
+			border-radius: 100px;
+			color: #FFF;
+			font-size: 18px !important;
+			font-weight: bold;
+			margin-top: 30px;
+			padding: 10px 15px;
+		}
+
+		.questions-container .questions {
+			clear: both;
+			min-height: 250px;
+			position: relative;
+			width: 100%;
+		}
+
+		.questions-container .questions > div {
+			display: none;
+		}
+
+		.questions-container .questions > div:first-child {
+			display: block;
+		}
+
+		.questions-container .questions .title {
+			color: inherit;
+			font-size: 18px !important;
+			line-height: 23px;
+		}
+
+		.questions-container .button-container {
+			position: absolute;
+			bottom: 0;
+			width: 100%;
+		}
+
+		.questions-container .button-container button {
+			background-color: #027FAD;
+			border: none;
+			color: #FFF;
+			float: left;
+			font-size: 14px !important;
+			font-weight: bold;
+			margin-right: 10px;
+			padding: 7px 15px 6px;
+
+		}
+
+		.questions-container .button-container button.prev {
+			font-weight: normal;
+		}
+
+		.questions-container .button-container button:last-child {
+			background: transparent;
+			border: none;
+			color: #027FAD;
+			float: right;
+		}
+
+		.questions-container .questions > div:first-child button:last-of-type {
+			display: none;
+		}
+
+		.state-list {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-start;
+		}
+
+		.state-list > div {
+			width: 25%;
+		}
+
+		.state-list p {
+			margin-bottom: 5px;
+		}
+
+		.need-help {
+			width: 100%;
+			padding: 40px;
+			text-align: center;
+		}
+
+		.need-help a,
+		.need-help button { 
+			width: auto;
+			margin: 0 auto;
+			float: none;
+		}
+
+		.need-help button { 
+			border-radius: 50px;
+		}
+
+		.need-help {
+			background: #FAFAFA;
+			color: #027FAD;
+			font-size: 18px !important;
+			margin-top: 50px;
+			line-height: 23px;
+			text-align: center;
+		}
+
+		.need-help h3 {
+			color: #F60;
+			margin-bottom: 15px;
+		}
+
+		.mobile-show {
+			display: none;
+		}
+
+		.add-border-bottom {
+				border-bottom: none;
+			}
+
+		@media (max-width:769px) {
+
+			.banner-container {
+				max-width: 100%;
+				padding: 0;
+			}
+
+			.banner-container .subtitle {
+				margin-top: .4em;
+			}
+
+			.background-image {
+				display: none;
+			}
+
+			.bifurcation-content-container.intro {
+				flex-direction: column;
+			}
+			.bifurcation-content-container > div,
+			.bifurcation-content-container.intro > div:first-child {
+				width: 100%;
+				margin-right: 0;
+				margin-bottom: 20px;
+			}
+
+			.selection-container {
+				margin-left: 40px;
+			}
+
+			.selection-container > div {
+				position: relative;
+			}
+
+			.selection-container > div:first-child .title, .selection-container > div:first-child p {
+				margin-left: 35px;
+			}
+
+			.selection-container > div:first-child p:last-of-type {
+				bottom: 0;
+			}
+
+			.state-list {
+				flex-wrap: wrap;
+			}
+
+			.state-list > div {
+				width: 50%;
+			}
+
+			.questions-container .button-container {
+				position: relative; 
+				margin-top: 20px;
+			}
+
+			.questions-container .button-container button:last-child {
+				margin-left: -20px;
+			}
+
+			.quote {
+				width: 100%;
+			}
+		}
+
+		@media (max-width:530px) {
+
+			.mobile-show {
+				display: block;
+			}
+
+			.mobile-hide {
+				display: none !important;
+			}
+
+			.bifurcation-content-container {
+				padding-left: 10px;
+				padding-right: 10px;
+			}
+
+			.selection-container {
+				flex-direction: column;
+				margin-left: 0;
+				padding: 15px;
+			}
+
+			.selection-container > div { 
+				width: 100% !important;
+				margin: 0 0 20px 0;
+			}
+
+			.selection-container > div:first-child .title {
+				margin-top: 0;
+			}
+
+			.selection-container > div:first-child p br {
+				display: none;
+			}
+
+			.selection-container > div:first-child .title, .selection-container > div:first-child p {
+				margin-left: 0;
+			}
+			.selection-container > div:first-child .image-container {
+				display: none;
+			}
+
+			.selection-container > div:first-child p:last-of-type {
+				position: relative;
+			}
+
+			.questions-container {
+				padding: 20px 15px;
+			}
+
+			.questions-container .questions {
+				min-height: 420px;
+			}
+
+			.state-list > div {
+				width: 50%;
+			}
+
+			.questions-container .button-container {
+				position: absolute; 
+				bottom: 0;
+			}
+
+			.split-container .content-container {
+				padding-bottom: 0px;
+			}
+
+			.info-container {
+		    margin: 30px auto;
+		    display: flex;
+		    max-width: 100%;
+		    flex-direction: column;
+			}
+
+			.info-container > div, 
+			.info-container > div:first-child {
+				width: 100% !important;
+				margin-top: 10px;
+				margin-bottom: 30px;
+			}
+
+			.info-container .logo-container {
+		    top: initial;
+		    left: initial;
+		    transform: initial;
+			}
+
+			.add-border-bottom {
+				border-bottom: 1px solid #E7E7E7;
+			}
+
+			.info-container {
+				margin: 10px auto;
+			}
+
+			.info-container > div:last-child {
+				margin-top: 0;
+			}
+
+			.need-help {
+		    margin-top: 25px;
+		    padding: 10px;
+			}
+
+			.footer-main > div > *,
+			.footer-text > * {
+		    width: 100% !important;
+		    float: none;
+		    clear: both;
+			}
+
+			.footer-main > div > * {
+		    margin-bottom: 20px;
+			}
+		}
+	</style>
+	<!-- 
 		Start dynamic model/view render
 		This following will render into the empty div "ExampleTemplate"
 	-->
    
-   	<script id="trustfile_container" type="text/template">
-			<div class="content-container header-info-container">
+  <script id="trustfile_container" type="text/template">
+		<div class="wizard">
+			<div class="banner">
+				<div class="banner-container">
+			    <p class="title">Avalara Returns <span>for</span><img src="{!$Resource.CC_Ava_ProductImages}/bigCommerce-banner.svg" alt="BigCommerce" /></p>
+			    <p class="subtitle">Tax compliance done right</p>
+				</div>
+				<img class="background-image" src="{!$Resource.CC_Ava_ProductImages}/graphic_books.svg" />
+			</div>
+
+	    <div class="bifurcation-content-container removeba intro">
+	      <div>
+	        <h2>Let Avalara automate your sales tax returns and filing.</h2>
+	        <p>Keeping on top of changing tax rules and filing requirements is a challenge you probably don’t need. Avalara has products to get this off your to-do list, so you can get back to growing your business.</p>
+	      </div>
+	      <div>
+	        <div class="quote">
+	          <p>We couldn't keep up with manually doing returns.</p>
+	          <p>Avalara helped us tremendously.</p>
+	          <p class="name">Linda Tom</p>
+	          <p class="company">Isilon Systems</p>
+	        </div>
+	      </div>
+	    </div>
+		  
+	    <div class="bifurcation-content-container removeba">
+	      <div class="selection-container">
+	        <div>
+	          <div class="image-container"><img src="{!$Resource.CC_Ava_ProductImages}/step1.svg"></div>
+	          <h3 class="title">Tell us about your business</h3>
+	          <p>We’ll recommend the best product to<br />manage your returns.</p>
+	          <p>Already know what you want? <a href="#" data-view="static" onClick="alreadyKnow(this);">Choose your plan</a></p>
+	        </div>
+	        <div class="questions-container">
+	            <div class="buy-now">
+	                <div class="mrs">
+	                    <p class="heading">We recommend...</p>
+	                    <div class="show-header">
+	                        <h2>Managed Returns</h2>
+	                        <div class="price">
+	                            <p class="orange">$35</p><p class="price-small">per<br />return</p>
+	                        </div>
+	                    </div>
+	                    <p class="sub-title">Avalara manages and files on your behalf</p>
+	                    <p>Avalara Returns helps merchants improve efficiency and ensure tax compliance by handling monthly sales and use tax filing, remittance, and notice management. With Avalara Returns managing your tax filing, you can lower costs, reduce errors, and stay focused on what matters — growing your business.</p>
+	                    <a data-link="avalara_account_link" href="http://account.avalara.com/#/goTo/add-returns" rel="noreferrer noopener" target="_blank" onClick="segmentTracking({ type: 'view', section: 'buy-option', product: 'mrs', click: true });"><button class="buynow">Get started with Managed Returns</button></a>
+	                    <button class="return" onClick="segmentTracking({ type: 'view', section: 'buy-option', product: 'both', click: 'Start over' });prevClick(this);">back</button>
+	                </div>
+	                <div class="tfo">
+	                    <p class="heading">We recommend...</p>
+	                    <div class="show-header">
+	                        <h2>TrustFile Returns</h2>
+	                        <div class="price">
+	                            <p class="starting">starting<br />at</p>
+	                            <p class="orange">$24</p>
+	                            <p class="price-small">per<br />month</p>
+	                        </div>
+	                    </div>
+	                    <p class="sub-title">Avalara simplifies when and how you file</p>
+	                    <p>TrustFile Returns uses your sales transaction data to automate the preparation of your returns while you manage filing them. TrustFile Returns saves you hours of work each month, allowing you to focus less on sales tax and more on growing your business.</p>
+	                    <a href="https://app.trustfile.avalara.com/#/signup?campaignID=7010b000001DmC6" onClick="segmentTracking({ type: 'view', section: 'buy-option', product: 'trustfile', click: true });" rel="noreferrer noopener" target="_blank"><button class="buynow">Get started with TrustFile Returns</button></a>
+	                    <button class="return" onClick="segmentTracking({ type: 'view', section: 'buy-option', product: 'both', click: 'Start over' });prevClick(this);">back</button>
+	                </div>
+
+	                <div class="both">
+	                    <p class="heading">Either of our returns products will work for you.</p>
+	                    
+	                    <div class="product-container">
+	                        <div class="show-header">
+	                            <h2>Managed Returns</h2>
+	                            <div class="price-both">
+	                                <p><span class="orange">$35</span> per return</p>
+	                            </div>
+	                        </div>
+	                        <p>We do the heavy lifting of filing all your returns while you keep control over changes and approvals</p>
+	                        <a data-link="avalara_account_link" href="http://account.avalara.com/#/goTo/add-returns" onClick="segmentTracking({ type: 'view', section: 'buy-option', product: 'mrs', click: true });" rel="noreferrer noopener" target="_blank"><button>Get started with Managed Returns</button></a>
+	                    </div>
+	                    <div class="product-container">
+	                        <div class="show-header">
+	                            <h2>TrustFile Returns</h2>
+	                            <div class="price-both">
+	                                <p>starting from <span class="orange">$24</span> per month</p>
+	                            </div>
+	                        </div>
+	                        <p>Our easiest filing service - we prepare the returns, you control the filing</p>
+	                        <a href="https://app.trustfile.avalara.com/#/signup?campaignID=7010b000001DmC6" onClick="segmentTracking({ type: 'view', section: 'buy-option', product: 'trustfile', click: true });" rel="noreferrer noopener" target="_blank"><button>Get started with TrustFile Returns</button></a>
+	                    </div>
+	                </div>
+
+	                <div class="not-sure">
+	                    <h2>Not registered yet, or not sure if you are collecting in the right places?</h2>
+	                    <p class="orange">Avalara can help!</p>
+	                    <a href="#">Contact your Account Manager about a Nexus Study.</a>
+	                </div>
+
+	            </div>
+	            <div class="questions">
+	                <!-- div class="active">
+	                    <h3 class="title" style="margin-bottom:0">Are you registered to collect sales tax?</h3>
+	                    <p>&nbsp;</p>
+	                    <div class="button-container">
+	                        <button class="yes" onClick="nextClick(this);">Yes</button>
+	                        <button class="no" data-show="not-sure" onCLick="buyNow(this);">No</button>
+	                        <button class="prev" onClick="prevClick(this);">Back</button>
+	                    </div>
+	                </div -->
+	                <div class="active">
+	                    <h3 class="title">Do you file in any of these states?</h3>
+	                    <p class="italic">These places may required you to remit directly to local jurisdictions as well as the state.</p>
+	                    <div class="state-list">
+	                        <div>
+	                            <p>Alabama</p>
+	                            <p>Alaska</p>
+	                        </div>
+	                        <div>
+	                            <p>Arizona</p>
+	                            <p>Colorado</p>
+	                        </div>
+	                        <div>
+	                            <p>Idaho</p>
+	                            <p>Louisiana</p>
+	                        </div>
+	                        <div>
+	                            <p>Mississippi</p>
+	                        </div>
+	                    </div>
+	                    <div class="button-container" data-question="1">
+	                        <button class="yes" data-show="mrs" onCLick="segmentTracking({type: 'view', section:'wizard', question: 1, answer: 'yes'});buyNow(this);">Yes</button>
+	                        <button class="no" onCLick="segmentTracking({type: 'view', section:'wizard', question: 1, answer: 'no'});nextClick(this);">No</button>
+	                        <button class="prev" onClick="segmentTracking({type: 'view', section:'wizard',question: 1, answer: 'back'});prevClick(this);">back</button>
+	                    </div>
+	                </div>
+	                <div>
+	                    <h3 class="title">Do you file for multiple locations within one of these states?</h3>
+	                    <p class="italic">These places may require multiple locations to be listed separately on one return.</p>
+	                    <div class="state-list">
+	                        <div>
+	                            <p>California</p>
+	                            <p>Colorado</p>
+	                            <p>Connecticut</p>
+	                            <p>Florida</p>
+	                        </div>
+	                        <div>
+	                            <p>Georgia</p>
+	                            <p>Illinois</p>
+	                            <p>Iowa</p>
+	                            <p>Minnesota</p>
+	                        </div>
+	                        <div>
+	                            <p>Mississippi</p>
+	                            <p>Missouri</p>
+	                            <p>Nebraska</p>
+	                            <p>Tennessee</p>
+	                        </div>
+	                        <div>
+	                            <p>Texas</p>
+	                            <p>Utah</p>
+	                        </div>
+	                    </div>
+	                    <div class="button-container" data-question="2">
+	                        <button class="yes" data-show="mrs" onCLick="segmentTracking({type: 'view', section:'wizard',question: 2, answer: 'yes'});buyNow(this);">Yes</button>
+	                        <button class="no" onCLick="segmentTracking({type: 'view', section:'wizard',question: 2, answer: 'no'});nextClick(this);">No</button>
+	                        <button class="prev" onClick="segmentTracking({type: 'view', section:'wizard',question: 2, answer: 'back'});prevClick(this);">back</button>
+	                    </div>
+	                </div>
+	                <div>
+	                    <h3 class="title" style="margin-bottom:0">Do you file outside the United States?</h3>
+	                    <div class="button-container" data-question="3">
+	                        <button class="yes" data-show="mrs" onCLick="segmentTracking({view:'wizard',question: 3, answer: 'yes'});buyNow(this);">Yes</button>
+	                        <button class="no" onCLick="segmentTracking({type: 'view', section:'wizard',question: 3, answer: 'no'});nextClick(this);">No</button>
+	                        <button class="prev" onClick="segmentTracking({type: 'view', section:'wizard',question: 3, answer: 'back'});prevClick(this);">back</button>
+	                    </div>
+	                </div>
+	                <div>
+	                    <h3 class="title">Do you sell in online marketplaces?</h3>
+	                    <p class="italic">Places like Amazon, etsy, eBay, etc...</p>
+	                    <div class="button-container" data-question="4">
+	                        <button class="yes" data-show="tfo" onCLick="segmentTracking({type: 'view', section:'wizard',question: 4, answer: 'yes'});buyNow(this);">Yes</button>
+	                        <button class="no" data-show="both" onCLick="segmentTracking({type: 'view', section:'wizard',question: 4, answer: 'no'});buyNow(this);">No</button>
+	                        <button class="prev" onClick="segmentTracking({type: 'view', section:'wizard',question: 4, answer: 'back'});prevClick(this);">back</button>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	      </div>
+	    </div>
+		  
+	    <!-- div class="need-help">
+	      <h3>Need help getting started?</h3>
+	      <p>Contact your Account Manager.<p>
+	    </div -->
+	  </div>
+
+    <div class="already-know" style="display:none;">
+    	<div class="content-container header-info-container">
 				<div class="info-container">
 					<div>
 						<h2 class="page-title fcolorTheme">Tax compliance done right</h2>
 						<h3 class="page-sub-title">Let Avalara automate your sales tax returns and filing.</h3>
 					</div>
-					<div>&nbsp;</div>
+					<div class="mobile-hide">&nbsp;</div>
 				</div>
 			</div>
 
@@ -39,7 +939,7 @@
 				</div>
 			</div>
 
-			<div class="content-container">
+			<div class="content-container mobile-hide">
 				<div class="info-container">
 					<div>
 						<div class="header-container">
@@ -58,56 +958,68 @@
 				<div class="content-container">
 					<div class="info-container">
 						<div style="border-bottom:none">
-							<div class="info-content">
-								<h5 class="info-title">Avalara simplifies when and how you file</h5>
-								<p class="info-sub-title">We prepare your returns and you manage filing them</p>
-								<p>Handle your cash flow by paying your taxes when you file </p>
-								<p>Ideal for companies selling general merchandise that file only in the U.S.</p>
-								<p>Connect to your sales data from popular marketplaces including Amazon, eBay, and Etsy</p>
+							<div class="header-container mobile-show">
+								<h4>TrustFile Returns</h4>
 							</div>
-							<div class="pricing-container trustfile-price">
+							<div class="add-border-bottom">
+								<div class="info-content">
+									<h5 class="info-title">Avalara simplifies when and how you file</h5>
+									<p class="info-sub-title">We prepare your returns and you manage filing them</p>
+									<p>Handle your cash flow by paying your taxes when you file </p>
+									<p>Ideal for companies selling general merchandise that file only in the U.S.</p>
+									<p>Connect to your sales data from popular marketplaces including Amazon, eBay, and Etsy</p>
+								</div>
+								<div class="pricing-container trustfile-price">
+									<div>
+										<p>Starting <br>from</p>
+									</div>
+									<div class="price-value">
+										<p>$24</p>
+									</div>
+									<div>
+										<p>per<br/>
+										month</p>
+									</div>
+								</div>
 								<div>
-									<p>Starting <br>from</p>
+									<a onClick="segmentTracking({ type: 'view', section: 'static', product: 'trustfile', click: true });"  href="https://app.trustfile.avalara.com/#/signup?campaignID=7010b000001DmC6"><button>Get started with Avalara TrustFile</button></a>
 								</div>
-								<div class="price-value">
-									<p>$24</p>
-								</div>
-								<div>
-									<p>per<br/>
-									month</p>
-								</div>
-							</div>
-							<div>
-								<a href="https://app.trustfile.avalara.com/#/signup?campaignID=7010b000001DmC6"><button>Get started with Avalara TrustFile</button></a>
 							</div>
 						</div>
 						<div>
-							<div class="info-content">
-								<h5 class="info-title">Avalara manages and files on your behalf</h5>
-								<p class="info-sub-title">We provide the heavy lifting to prepare and manage filing your returns and you keep control over changes and approvals</p>
-								<p>Make one automatic payment per period for all your filings</p>
-								<p>Taxability codes and rates for over 5,000 products types</p>
-								<p>Import data from most sources, including accounting and ecommerce software</p>
-							</div>
-							<div class="pricing-container">
-								<div style="min-width:20px;">
-									<p></p>
-								</div>
-								<div class="price-value">
-									<p>$35</p>
-								</div>
-								<div>
-									<p>per<br/>
-									return</p>
+							<div class="mobile-show">
+								<div class="header-container secondary">
+									<h4>Managed Returns</h4>
 								</div>
 							</div>
 							<div>
-								<a href="/ccrz__CCPage?pageKey=ldpg_bigcommerce" data-link="ldpg_bigcommerce"><button>Get started with Avalara Managed Returns</button></a>
+								<div class="info-content">
+									<h5 class="info-title">Avalara manages and files on your behalf</h5>
+									<p class="info-sub-title">We provide the heavy lifting to prepare and manage filing your returns and you keep control over changes and approvals</p>
+									<p>Make one automatic payment per period for all your filings</p>
+									<p>Taxability codes and rates for over 5,000 products types</p>
+									<p>Import data from most sources, including accounting and ecommerce software</p>
+								</div>
+								<div class="pricing-container">
+									<div style="min-width:20px;">
+										<p></p>
+									</div>
+									<div class="price-value">
+										<p>$35</p>
+									</div>
+									<div>
+										<p>per<br/>
+										return</p>
+									</div>
+								</div>
+								<div>
+									<a data-link="avalara_account_link" href="http://account.avalara.com/#/goTo/add-returns" onClick="segmentTracking({ type: 'view', section: 'static', product: 'mrs', click: true } );" data-link="ldpg_bigcommerce"><button>Get started with Avalara Managed Returns</button></a>
+								</div>
 							</div>
 						</div>
 					</div>
 
-					<div class="info-container ribbon">
+					<div class="info-container ribbon mobile-hide">
 						<div>
 							<img src="{!$Resource.CC_Avalara_Theme}/images/trustfile-ribbon.png" style="max-width: 100%;" />
 						</div>
@@ -118,16 +1030,21 @@
 				</div>
 			</div>
 
-			</div>
-
-		</script>
+			<div class="need-help" style="background:#FFF">
+				<div class="content-container-main">
+					<h3 class="title">Help me choose</h3>
+		    	<button data-view="wizard" onClick="alreadyKnow(this);">Help me choose</button>
+	    	</div>
+	    </div>
+    </div>
+	</script>
 
 
 	<!-- 
 		End dynamic model/view render
 	-->
 
-<!--
+	<!--
 		Define handlebars template for use in backbone view
 	-->
 
@@ -171,6 +1088,25 @@
       	return;
       }
 
+      function setAvalaraAccountLink(){
+
+      	var accountLink = 'http://account.avalara.com/#/goTo/add-returns';
+      	if(aaEnv !== 'avalaraprod') {
+      	 accountLink = 'http://localhost:3000/#/goTo/add-returns';
+      	}
+
+      	if($('a[data-link="avalara_account_link"]').length < 1){
+      		setLink = setTimeout(function(){
+      			setAvalaraAccountLink();
+      		},200);
+      		return;
+      	}
+      	clearTimeout(setLink);
+      	$('a[data-link="avalara_account_link"]').attr('href', accountLink);
+      	avalaraLoggingConsole(['Links set', $('a[data-link="avalara_account_link"]').attr('href')])
+      	return;
+      }
+
 
       $(document).ready(function(){
       	setLink = setTimeout(function(){
@@ -178,7 +1114,48 @@
     		},200);
       });
 
+      function alreadyKnow(event) {
+      	$('.wizard').toggle();
+      	$('.already-know').toggle();
+      	segmentTracking({
+      		type: 'view',
+      		section: $(event).data('view')
+      	});
+      	var isTop = 0;
+      	$('html,body').animate({scrollTop: 0}, 200);
+      }
+    
+    	function nextClick(){
+				$('.questions > div.active').addClass('hide').removeClass('active').hide();
+				$('.questions > div.hide').next('div').show().addClass('active').removeClass('hide');
+				$('.questions > div.hide').removeClass('hide');
+				return false;
+			}
 
+			function prevClick(event){
+				$('.buy-now').hide();
+				$('.questions-container').removeClass('buying-options');
+				$('.questions').show();
+				
+				if($(event).hasClass('return')){
+					return false;
+				}
+
+				$('.questions > div.active').addClass('hide').removeClass('active').hide();
+				$('.questions > div.hide').prev('div').show().addClass('active').removeClass('hide');
+				$('.questions > div.hide').removeClass('hide');
+				return false;
+			}
+
+			function buyNow(event) {
+				var show = '.'+$(event).data('show');
+				$('.questions').hide();
+				$('.buy-now').show();
+				$('.questions-container').addClass('buying-options');
+				$('.buy-now > div').hide();
+				$('.buy-now '+show).show();
+				segmentTracking({ type: 'view', section: 'buy-option', product: show.replace('.','') });
+			}
 		</script>
 
 

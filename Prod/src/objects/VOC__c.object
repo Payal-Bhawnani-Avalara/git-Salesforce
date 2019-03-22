@@ -1,0 +1,2030 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Account_CARR__c</fullName>
+        <externalId>false</externalId>
+        <label>Account CARR</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Account__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>VOCs</relationshipLabel>
+        <relationshipName>VOCs</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Area_Campaign_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>Area_Campaign__r.Name</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Area Campaign Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Area_Campaign__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Area</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>$Source.Owner_Campaign__c</field>
+                <operation>equals</operation>
+                <valueField>Campaign.ParentId</valueField>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Campaign</referenceTo>
+        <relationshipLabel>VOCs (Area Campaign)</relationshipLabel>
+        <relationshipName>VOCs</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Avg_Case_Time_to_First_Response__c</fullName>
+        <externalId>false</externalId>
+        <label>Avg. Case Time to First Response</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Avg_Case_Time_to_Resolve__c</fullName>
+        <externalId>false</externalId>
+        <label>Avg. Case Time to Resolve</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Business_Unit_Campaign_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>Business_Unit_Campaign__r.Name</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Business Unit Campaign Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Business_Unit_Campaign__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Business Unit</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>Campaign.Parent_Campaign_Name__c</field>
+                <operation>equals</operation>
+                <value>Voice of the Customer</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Campaign</referenceTo>
+        <relationshipLabel>VOC (Business Unit Campaign)</relationshipLabel>
+        <relationshipName>VOC</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Case__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Case</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>VOCs</relationshipLabel>
+        <relationshipName>VOCs</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Contact_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>Contact__r.FirstName &amp;&quot; &quot;&amp;Contact__r.LastName</formula>
+        <label>Contact Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>VOCs</relationshipLabel>
+        <relationshipName>VOCs</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>DetractorConversionVOC__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(NPS_Score__c +1=7,1,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>DetractorConversionVOC</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GSO_Escalation__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>GSO Escalation</label>
+        <referenceTo>GSO_Escalation__c</referenceTo>
+        <relationshipLabel>VOCs</relationshipLabel>
+        <relationshipName>VOCs</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>NPS_Score_Plus_Minus__c</fullName>
+        <externalId>false</externalId>
+        <formula>NPX_Survey_Records__r.NPS_Score__c</formula>
+        <label>NPS Score Plus/Minus</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>NPS_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>NPX_Survey_Records__r.Primary_Score__c</formula>
+        <label>NPS Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>NPX_Survey_Records__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>NPX Survey Records</label>
+        <referenceTo>NPX_Survey_Records__c</referenceTo>
+        <relationshipLabel>VOCs</relationshipLabel>
+        <relationshipName>VOCs</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Non_Specific_Ask__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Use this field for feedback that does not apply to a specific campaign</description>
+        <externalId>false</externalId>
+        <label>Non-Specific Ask</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Other__c</fullName>
+        <description>https://jira.avalara.com/browse/IBST-11718</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Used for miscellaneous filterable data inserted by Alex Stearns.</inlineHelpText>
+        <label>Other</label>
+        <length>131072</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Owner_Campaign_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>Owner_Campaign__r.Name</formula>
+        <label>Owner Campaign Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Owner_Campaign__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Owner</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>$Source.Business_Unit_Campaign__c</field>
+                <operation>equals</operation>
+                <valueField>Campaign.ParentId</valueField>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Campaign</referenceTo>
+        <relationshipLabel>VOCs (Owner Campaign)</relationshipLabel>
+        <relationshipName>VOCs1</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>PassiveConversionVOC__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(NPS_Score__c +1=9,1,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>PassiveConversionVOC</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Product_Summary__c</fullName>
+        <externalId>false</externalId>
+        <formula>Contact__r.Account.Product_Summary__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Product Summary</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Service_QA__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>https://jira.avalara.com/browse/IBST-11718</description>
+        <externalId>false</externalId>
+        <label>Service QA</label>
+        <referenceTo>Service_QA__c</referenceTo>
+        <relationshipLabel>VOC</relationshipLabel>
+        <relationshipName>VOC</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>SmartTask__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>SmartTask</label>
+        <referenceTo>SmartTask__c</referenceTo>
+        <relationshipLabel>VOCs</relationshipLabel>
+        <relationshipName>VOCs</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Survey_Response_Custom__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>https://jira.avalara.com/browse/IBST-14422</description>
+        <externalId>false</externalId>
+        <label>Survey Response (Custom)</label>
+        <referenceTo>SurveyResponse__c</referenceTo>
+        <relationshipLabel>VOC</relationshipLabel>
+        <relationshipName>VOC</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Survey_Response__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>https://jira.avalara.com/browse/IBST-11718</description>
+        <externalId>false</externalId>
+        <label>Survey Response</label>
+        <referenceTo>SurveyResponse</referenceTo>
+        <relationshipLabel>VOC</relationshipLabel>
+        <relationshipName>VOC</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Tags__c</fullName>
+        <externalId>false</externalId>
+        <label>Tags</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Task_Campaign_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>Task_Campaign__r.Name</formula>
+        <label>Task Campaign Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Task_Campaign__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Task</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>$Source.Area_Campaign__c</field>
+                <operation>equals</operation>
+                <valueField>Campaign.ParentId</valueField>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Campaign</referenceTo>
+        <relationshipLabel>VOCs (Ask Campaign)</relationshipLabel>
+        <relationshipName>VOCs2</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Too_Early__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Too Early?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Voice_of_the_Customer__c</fullName>
+        <externalId>false</externalId>
+        <label>Voice of the Customer</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>20</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Who_is_Avalara__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Who is Avalara?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>X1_NPS_Score_Plus_Minus__c</fullName>
+        <externalId>false</externalId>
+        <formula>NPX_Survey_Records__r.X1_NPS_Score__c</formula>
+        <label>+1 NPS Score Plus/Minus</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>VOC</label>
+    <listViews>
+        <fullName>Accounting1</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Accounting</value>
+        </filters>
+        <label>Accounting</label>
+    </listViews>
+    <listViews>
+        <fullName>Accounting_AR_Billing</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>AR Billing</value>
+        </filters>
+        <label>Accounting-AR Billing</label>
+    </listViews>
+    <listViews>
+        <fullName>Accounting_Collections</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Collections</value>
+        </filters>
+        <label>Accounting-Collections</label>
+    </listViews>
+    <listViews>
+        <fullName>Accounting_Corporate_Accounting</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Corporate Accounting</value>
+        </filters>
+        <label>Accounting-Corporate Accounting</label>
+    </listViews>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>All_No_NSA_TE_WIA</fullName>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>NPS_Score__c</columns>
+        <columns>Non_Specific_Ask__c</columns>
+        <columns>Who_is_Avalara__c</columns>
+        <columns>Too_Early__c</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Business_Unit_Campaign__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <columns>Task_Campaign_Name__c</columns>
+        <columns>Tags__c</columns>
+        <columns>Other__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Non_Specific_Ask__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Who_is_Avalara__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Too_Early__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>NAME</field>
+            <operation>contains</operation>
+            <value>2018-07</value>
+        </filters>
+        <label>All - No NSA/TE/WIA</label>
+    </listViews>
+    <listViews>
+        <fullName>All_No_NSA_TE_WIA1</fullName>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>Contact_Name__c</columns>
+        <columns>NPS_Score__c</columns>
+        <columns>Non_Specific_Ask__c</columns>
+        <columns>Who_is_Avalara__c</columns>
+        <columns>Too_Early__c</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Other__c</columns>
+        <columns>Business_Unit_Campaign__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <columns>Task_Campaign_Name__c</columns>
+        <columns>Tags__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Non_Specific_Ask__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Who_is_Avalara__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Too_Early__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>NAME</field>
+            <operation>contains</operation>
+            <value>2018</value>
+        </filters>
+        <label>All - No NSA/TE/WIA</label>
+    </listViews>
+    <listViews>
+        <fullName>All_No_NSA_TE_WIA_and_NO_BU_CAMPAIGN</fullName>
+        <booleanFilter>1 AND 2 AND 3 AND 4 and 5</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>NPS_Score__c</columns>
+        <columns>Non_Specific_Ask__c</columns>
+        <columns>Who_is_Avalara__c</columns>
+        <columns>Too_Early__c</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Other__c</columns>
+        <columns>Business_Unit_Campaign__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <columns>Task_Campaign_Name__c</columns>
+        <columns>Tags__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Non_Specific_Ask__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Who_is_Avalara__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Too_Early__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>NAME</field>
+            <operation>contains</operation>
+            <value>2018</value>
+        </filters>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+        </filters>
+        <label>All - No NSA/TE/WIA and NO BU CAMPAIGN</label>
+    </listViews>
+    <listViews>
+        <fullName>Business_Development</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Business Development</value>
+        </filters>
+        <label>Business Development</label>
+    </listViews>
+    <listViews>
+        <fullName>CK_No_NSA_TE_WIA</fullName>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>NPS_Score__c</columns>
+        <columns>Non_Specific_Ask__c</columns>
+        <columns>Who_is_Avalara__c</columns>
+        <columns>Too_Early__c</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Business_Unit_Campaign__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Non_Specific_Ask__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Who_is_Avalara__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Too_Early__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Tags__c</field>
+            <operation>equals</operation>
+            <value>Clint Knudsen</value>
+        </filters>
+        <label>CK - No NSA/TE/WIA</label>
+    </listViews>
+    <listViews>
+        <fullName>Channel_Sales</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Channel Sales</value>
+        </filters>
+        <label>Channel Sales</label>
+    </listViews>
+    <listViews>
+        <fullName>Compliance</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Compliance</value>
+        </filters>
+        <label>Compliance</label>
+    </listViews>
+    <listViews>
+        <fullName>Compliance_Compliance_Returns_Experience</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Compliance Returns Experience</value>
+        </filters>
+        <label>Compliance-Compliance Returns Experience</label>
+    </listViews>
+    <listViews>
+        <fullName>Compliance_Compliance_Returns_Management</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Compliance Returns Management</value>
+        </filters>
+        <label>Compliance-Compliance Returns Management</label>
+    </listViews>
+    <listViews>
+        <fullName>Compliance_SAS_Compliance_Returns_Mgt</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>SAS Compliance Returns Management</value>
+        </filters>
+        <label>Compliance-SAS Compliance Returns Mgt</label>
+    </listViews>
+    <listViews>
+        <fullName>Compliance_SST_Managed_Returns</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>SST Managed Returns</value>
+        </filters>
+        <label>Compliance-SST Managed Returns</label>
+    </listViews>
+    <listViews>
+        <fullName>Connector</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Connector</value>
+        </filters>
+        <label>Connector</label>
+    </listViews>
+    <listViews>
+        <fullName>Connector_Connector_Development</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Connector Development</value>
+        </filters>
+        <label>Connector-Connector Development</label>
+    </listViews>
+    <listViews>
+        <fullName>Connector_Connector_Engineering</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Connector Engineering</value>
+        </filters>
+        <label>Connector-Connector Engineering</label>
+    </listViews>
+    <listViews>
+        <fullName>Content</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Content</value>
+        </filters>
+        <label>Content</label>
+    </listViews>
+    <listViews>
+        <fullName>Content_NA_Tax_Research</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>NA Tax Research</value>
+        </filters>
+        <label>Content-NA Tax Research</label>
+    </listViews>
+    <listViews>
+        <fullName>Content_VAT_Content</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>VAT Content</value>
+        </filters>
+        <label>Content-VAT Content</label>
+    </listViews>
+    <listViews>
+        <fullName>Corporate_Communications</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Corporate Communications</value>
+        </filters>
+        <label>Corporate Communications</label>
+    </listViews>
+    <listViews>
+        <fullName>Corporate_Program_Marketing</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Corporate Program Marketing</value>
+        </filters>
+        <label>Corporate Program Marketing</label>
+    </listViews>
+    <listViews>
+        <fullName>Cust_Success_Customer_Success_Program</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Customer Success Program</value>
+        </filters>
+        <label>Cust Success-Customer Success Program</label>
+    </listViews>
+    <listViews>
+        <fullName>Cust_Success_Global_Support</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Global Support</value>
+        </filters>
+        <label>Cust Success-Global Support</label>
+    </listViews>
+    <listViews>
+        <fullName>Cust_Success_GoLive</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>GoLive</value>
+        </filters>
+        <label>Cust Success-GoLive</label>
+    </listViews>
+    <listViews>
+        <fullName>Cust_Success_Q</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Q</value>
+        </filters>
+        <label>Cust Success-Q</label>
+    </listViews>
+    <listViews>
+        <fullName>Cust_Success_QA_Engineering</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>QA Engineering</value>
+        </filters>
+        <label>Cust Success-QA Engineering</label>
+    </listViews>
+    <listViews>
+        <fullName>Cust_Success_Technical_Assistance_Center</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Technical Assistance Center</value>
+        </filters>
+        <label>Cust Success-Technical Assistance Center</label>
+    </listViews>
+    <listViews>
+        <fullName>Cust_Success_User_Learning</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>User Learning</value>
+        </filters>
+        <label>Cust Success-User Learning</label>
+    </listViews>
+    <listViews>
+        <fullName>Customer_Marketing</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Customer Marketing</value>
+        </filters>
+        <label>Customer Marketing</label>
+    </listViews>
+    <listViews>
+        <fullName>Customer_Success</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Customer Success</value>
+        </filters>
+        <label>Customer Success</label>
+    </listViews>
+    <listViews>
+        <fullName>Data_Strategy</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Data Strategy</value>
+        </filters>
+        <label>Data Strategy</label>
+    </listViews>
+    <listViews>
+        <fullName>Demand_Gen_Demand_Gen_Ops_Marketing</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Demand Generation Operations Marketing</value>
+        </filters>
+        <label>Demand Gen-Demand Gen Ops Marketing</label>
+    </listViews>
+    <listViews>
+        <fullName>Demand_Gen_Demand_Generation_Marketing</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Demand Generation Marketing</value>
+        </filters>
+        <label>Demand Gen-Demand Generation Marketing</label>
+    </listViews>
+    <listViews>
+        <fullName>Demand_Generation</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Demand Generation</value>
+        </filters>
+        <label>Demand Generation</label>
+    </listViews>
+    <listViews>
+        <fullName>Emerg_Sales_Emerging_Partner_Sales</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Emerging Partner Sales</value>
+        </filters>
+        <label>Emerg Sales-Emerging Partner Sales</label>
+    </listViews>
+    <listViews>
+        <fullName>Emerg_Sales_Emerging_SOHO_Sales</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Emerging SOHO Sales</value>
+        </filters>
+        <label>Emerg Sales-Emerging SOHO Sales</label>
+    </listViews>
+    <listViews>
+        <fullName>Emerging_Sales</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Emerging Sales</value>
+        </filters>
+        <label>Emerging Sales</label>
+    </listViews>
+    <listViews>
+        <fullName>HR_No_NSA_TE_WIA</fullName>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>NPS_Score__c</columns>
+        <columns>Non_Specific_Ask__c</columns>
+        <columns>Who_is_Avalara__c</columns>
+        <columns>Too_Early__c</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Business_Unit_Campaign__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Non_Specific_Ask__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Who_is_Avalara__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Too_Early__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Tags__c</field>
+            <operation>equals</operation>
+            <value>Holly Rutledge</value>
+        </filters>
+        <label>HR - No NSA/TE/WIA</label>
+    </listViews>
+    <listViews>
+        <fullName>India_Operations</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>India Operations</value>
+        </filters>
+        <label>India Operations</label>
+    </listViews>
+    <listViews>
+        <fullName>Inside_Sales</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Inside Sales</value>
+        </filters>
+        <label>Inside Sales</label>
+    </listViews>
+    <listViews>
+        <fullName>International_Tax_Compliance</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>International Tax Compliance</value>
+        </filters>
+        <label>International Tax Compliance</label>
+    </listViews>
+    <listViews>
+        <fullName>JW_No_NSA_TE_WIA</fullName>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>NPS_Score__c</columns>
+        <columns>Non_Specific_Ask__c</columns>
+        <columns>Who_is_Avalara__c</columns>
+        <columns>Too_Early__c</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Business_Unit_Campaign__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Non_Specific_Ask__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Who_is_Avalara__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Too_Early__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Tags__c</field>
+            <operation>equals</operation>
+            <value>Jeff Williams</value>
+        </filters>
+        <label>JW - No NSA/TE/WIA</label>
+    </listViews>
+    <listViews>
+        <fullName>KD_No_NSA_TE_WIA</fullName>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>NPS_Score__c</columns>
+        <columns>Non_Specific_Ask__c</columns>
+        <columns>Who_is_Avalara__c</columns>
+        <columns>Too_Early__c</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Business_Unit_Campaign__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Non_Specific_Ask__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Who_is_Avalara__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Too_Early__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Tags__c</field>
+            <operation>equals</operation>
+            <value>Ken Davis</value>
+        </filters>
+        <label>KD - No NSA/TE/WIA</label>
+    </listViews>
+    <listViews>
+        <fullName>Legal</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Legal</value>
+        </filters>
+        <label>Legal</label>
+    </listViews>
+    <listViews>
+        <fullName>Legal_Government_Relations</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Government Relations</value>
+        </filters>
+        <label>Legal-Government Relations</label>
+    </listViews>
+    <listViews>
+        <fullName>Loyalty</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Loyalty</value>
+        </filters>
+        <label>Loyalty</label>
+    </listViews>
+    <listViews>
+        <fullName>Loyalty_Customer_Experience</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Customer Experience</value>
+        </filters>
+        <label>Loyalty-Customer Experience</label>
+    </listViews>
+    <listViews>
+        <fullName>Loyalty_Customer_Loyalty</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Customer Loyalty</value>
+        </filters>
+        <label>Loyalty-Customer Loyalty</label>
+    </listViews>
+    <listViews>
+        <fullName>NS_No_NSA_TE_WIA</fullName>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>NPS_Score__c</columns>
+        <columns>Non_Specific_Ask__c</columns>
+        <columns>Who_is_Avalara__c</columns>
+        <columns>Too_Early__c</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Business_Unit_Campaign__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Non_Specific_Ask__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Who_is_Avalara__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Too_Early__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Tags__c</field>
+            <operation>equals</operation>
+            <value>Natasha Strickland</value>
+        </filters>
+        <label>NS - No NSA/TE/WIA</label>
+    </listViews>
+    <listViews>
+        <fullName>No_Rep_No_NSA_TE_WIA</fullName>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>NPS_Score__c</columns>
+        <columns>Non_Specific_Ask__c</columns>
+        <columns>Who_is_Avalara__c</columns>
+        <columns>Too_Early__c</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Business_Unit_Campaign__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Non_Specific_Ask__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Who_is_Avalara__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Too_Early__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Tags__c</field>
+            <operation>equals</operation>
+        </filters>
+        <label>No Rep - No NSA/TE/WIA</label>
+    </listViews>
+    <listViews>
+        <fullName>Operations_Engineering</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Operations Engineering</value>
+        </filters>
+        <label>Operations Engineering</label>
+    </listViews>
+    <listViews>
+        <fullName>PS_Tax_Advisory_Services</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Tax Advisory Services</value>
+        </filters>
+        <label>PS-Tax Advisory Services</label>
+    </listViews>
+    <listViews>
+        <fullName>Prod_AvaTax_Product_Management</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>AvaTax Product Management</value>
+        </filters>
+        <label>Prod-AvaTax Product Management</label>
+    </listViews>
+    <listViews>
+        <fullName>Prod_CertCapture_Development</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>CertCapture Development</value>
+        </filters>
+        <label>Prod-CertCapture Development</label>
+    </listViews>
+    <listViews>
+        <fullName>Prod_CloudConnect_Development</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>CloudConnect Development</value>
+        </filters>
+        <label>Prod-CloudConnect Development</label>
+    </listViews>
+    <listViews>
+        <fullName>Prod_Content_Development</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Content Development</value>
+        </filters>
+        <label>Prod-Content Development</label>
+    </listViews>
+    <listViews>
+        <fullName>Prod_Content_Product_Development</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Content Product Development</value>
+        </filters>
+        <label>Prod-Content Product Development</label>
+    </listViews>
+    <listViews>
+        <fullName>Prod_Excise_Product_Development</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <columns>Task_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Returns Excise Product Development</value>
+        </filters>
+        <label>Prod-Returns Excise Product Development</label>
+    </listViews>
+    <listViews>
+        <fullName>Prod_MyLodge_Product_Development</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>MyLodge Product Development</value>
+        </filters>
+        <label>Prod-MyLodge Product Development</label>
+    </listViews>
+    <listViews>
+        <fullName>Prod_Returns_Development</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Returns Development</value>
+        </filters>
+        <label>Prod-Returns Development</label>
+    </listViews>
+    <listViews>
+        <fullName>Prod_Returns_Engineering</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Returns Engineering</value>
+        </filters>
+        <label>Prod-Returns Engineering</label>
+    </listViews>
+    <listViews>
+        <fullName>Prod_Returns_Product_Management</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Returns Product Management</value>
+        </filters>
+        <label>Prod-Returns Product Management</label>
+    </listViews>
+    <listViews>
+        <fullName>Prod_Telco_Product</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Telco Product</value>
+        </filters>
+        <label>Prod-Telco Product</label>
+    </listViews>
+    <listViews>
+        <fullName>Prod_UX_Product_Management</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>UX Product Management</value>
+        </filters>
+        <label>Prod-UX Product Management</label>
+    </listViews>
+    <listViews>
+        <fullName>Product</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Product</value>
+        </filters>
+        <label>Product</label>
+    </listViews>
+    <listViews>
+        <fullName>Product_Marketing</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Product Marketing</value>
+        </filters>
+        <label>Product Marketing</label>
+    </listViews>
+    <listViews>
+        <fullName>Professional_Services</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Professional Services</value>
+        </filters>
+        <label>Professional Services</label>
+    </listViews>
+    <listViews>
+        <fullName>RT_No_NSA_TE_WIA</fullName>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>NPS_Score__c</columns>
+        <columns>Non_Specific_Ask__c</columns>
+        <columns>Who_is_Avalara__c</columns>
+        <columns>Too_Early__c</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Business_Unit_Campaign__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Non_Specific_Ask__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Who_is_Avalara__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Too_Early__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Tags__c</field>
+            <operation>equals</operation>
+            <value>Rose Tweit</value>
+        </filters>
+        <label>RT - No NSA/TE/WIA</label>
+    </listViews>
+    <listViews>
+        <fullName>SOHO_Online_Buying</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>SOHO Online Buying</value>
+        </filters>
+        <label>SOHO Online Buying</label>
+    </listViews>
+    <listViews>
+        <fullName>SaaS_Operations</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>SaaS Operations</value>
+        </filters>
+        <label>SaaS Operations</label>
+    </listViews>
+    <listViews>
+        <fullName>Sales</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Sales</value>
+        </filters>
+        <label>Sales</label>
+    </listViews>
+    <listViews>
+        <fullName>SalesForce_Engineering</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>SalesForce Engineering</value>
+        </filters>
+        <label>SalesForce Engineering</label>
+    </listViews>
+    <listViews>
+        <fullName>Sales_Development</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Sales Development</value>
+        </filters>
+        <label>Sales Development</label>
+    </listViews>
+    <listViews>
+        <fullName>Sales_Operations</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Sales Operations</value>
+        </filters>
+        <label>Sales Operations</label>
+    </listViews>
+    <listViews>
+        <fullName>Sales_Partner_Sales_Ecommerce</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Partner Sales Ecommerce</value>
+        </filters>
+        <label>Sales-Partner Sales Ecommerce</label>
+    </listViews>
+    <listViews>
+        <fullName>Sales_Sales_ERP</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Sales ERP</value>
+        </filters>
+        <label>Sales-Sales ERP</label>
+    </listViews>
+    <listViews>
+        <fullName>Sales_Sales_Engineering</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Sales Engineering</value>
+        </filters>
+        <label>Sales-Sales Engineering</label>
+    </listViews>
+    <listViews>
+        <fullName>Sales_Sales_Enterprise_Verticals</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Sales Enterprise / Verticals</value>
+        </filters>
+        <label>Sales-Sales Enterprise / Verticals</label>
+    </listViews>
+    <listViews>
+        <fullName>Sales_Sales_Learning</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Sales Learning</value>
+        </filters>
+        <label>Sales-Sales Learning</label>
+    </listViews>
+    <listViews>
+        <fullName>Sales_Sales_Learning_Development</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Sales Learning &amp; Development</value>
+        </filters>
+        <label>Sales-Sales Learning &amp; Development</label>
+    </listViews>
+    <listViews>
+        <fullName>Sales_Sales_POS</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Sales POS</value>
+        </filters>
+        <label>Sales-Sales POS</label>
+    </listViews>
+    <listViews>
+        <fullName>Sales_Strategic_Alliances</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Owner_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Strategic Alliances</value>
+        </filters>
+        <label>Sales-Strategic Alliances</label>
+    </listViews>
+    <listViews>
+        <fullName>Strategic_Planning</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Strategic Planning</value>
+        </filters>
+        <label>Strategic Planning</label>
+    </listViews>
+    <listViews>
+        <fullName>TW_No_NSA_TE_WIA</fullName>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>NPS_Score__c</columns>
+        <columns>Non_Specific_Ask__c</columns>
+        <columns>Who_is_Avalara__c</columns>
+        <columns>Too_Early__c</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Business_Unit_Campaign__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Non_Specific_Ask__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Who_is_Avalara__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Too_Early__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Tags__c</field>
+            <operation>equals</operation>
+            <value>Holly Rutledge</value>
+        </filters>
+        <label>HR - No NSA/TE/WIA</label>
+    </listViews>
+    <listViews>
+        <fullName>TW_No_NSA_TE_WIA1</fullName>
+        <booleanFilter>1 AND 2 AND 3 AND 4</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>NPS_Score__c</columns>
+        <columns>Non_Specific_Ask__c</columns>
+        <columns>Who_is_Avalara__c</columns>
+        <columns>Too_Early__c</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Business_Unit_Campaign__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <columns>Area_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Non_Specific_Ask__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Who_is_Avalara__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Too_Early__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <filters>
+            <field>Tags__c</field>
+            <operation>equals</operation>
+            <value>Tonya Winchester</value>
+        </filters>
+        <label>TW - No NSA/TE/WIA</label>
+    </listViews>
+    <listViews>
+        <fullName>Treasury</fullName>
+        <columns>NAME</columns>
+        <columns>Voice_of_the_Customer__c</columns>
+        <columns>Owner_Campaign__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Business_Unit_Campaign_Name__c</field>
+            <operation>equals</operation>
+            <value>Treasury</value>
+        </filters>
+        <label>Treasury</label>
+    </listViews>
+    <nameField>
+        <label>VoC Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>VOC</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>X1_NPS_Score_Plus_Minus__c</customTabListAdditionalFields>
+        <excludedStandardButtons>New</excludedStandardButtons>
+        <listViewButtons>Mass_Delete</listViewButtons>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <webLinks>
+        <fullName>Mass_Delete</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Mass Delete</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
+        <url>{!REQUIRESCRIPT(&apos;/soap/ajax/29.0/connection.js&apos;)}
+try
+{
+  var selectedRecords = {!GETRECORDIDS( $ObjectType.VOC__c )};
+  if(selectedRecords.length&lt;1)
+    alert(&apos;Please Select at Least One Row !&apos;);
+  else
+  {
+    userConsent = confirm(
+        selectedRecords.length + 
+        &apos; Record(s) will be Deleted. Continue ? &apos;
+      );
+    if(userConsent == true)
+    {
+      delResult = sforce.connection.deleteIds(selectedRecords);
+      if (delResult[0].getBoolean(&quot;success&quot;))
+      {
+        alert(&apos;The Record(s) were Deleted Successfully.&apos;); 
+        window.location.reload();
+      }
+      else
+        alert(
+          &apos;The Record(s) Could Not be Deleted. Error Message: &apos; + 
+          delResult[0].errors.message
+        );
+    }  
+  }
+}
+catch(e)
+{
+  alert(&apos;The Action Could not be Completed. Error Message: &apos; + e);
+}</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Mass_Delete_VOC</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Mass Delete</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
+        <url>{!REQUIRESCRIPT(&apos;/soap/ajax/29.0/connection.js&apos;)}
+try
+{
+  var selectedRecords = {!GETRECORDIDS( $ObjectType.VOC__c )};
+  if(selectedRecords.length&lt;1)
+    alert(&apos;Please Select at Least One Row !&apos;);
+  else
+  {
+    userConsent = confirm(
+        selectedRecords.length + 
+        &apos; Record(s) will be Deleted. Continue ? &apos;
+      );
+    if(userConsent == true)
+    {
+      delResult = sforce.connection.deleteIds(selectedRecords);
+      if (delResult[0].getBoolean(&quot;success&quot;))
+      {
+        alert(&apos;The Record(s) were Deleted Successfully.&apos;); 
+        window.location.reload();
+      }
+      else
+        alert(
+          &apos;The Record(s) Could Not be Deleted. Error Message: &apos; + 
+          delResult[0].errors.message
+        );
+    }  
+  }
+}
+catch(e)
+{
+  alert(&apos;The Action Could not be Completed. Error Message: &apos; + e);
+}</url>
+    </webLinks>
+</CustomObject>

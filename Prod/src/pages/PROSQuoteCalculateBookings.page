@@ -1,0 +1,2 @@
+<apex:page standardcontroller="CameleonCPQ__Quote__c" extensions="PROSQuoteCalculateBookings" action="{!calculateBookings}">
+</apex:page>

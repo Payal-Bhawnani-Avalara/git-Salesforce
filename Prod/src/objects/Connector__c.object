@@ -1,0 +1,4332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Connector_Record_Page1</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>Connector_Object_Default</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>Connector_Object_Default</fullName>
+        <fields>Name</fields>
+        <fields>OwnerId</fields>
+        <fields>Contract_On_File_With_Ops__c</fields>
+        <fields>Certified_Versions_Sumary__c</fields>
+        <fields>Author__c</fields>
+        <fields>DSP__c</fields>
+        <fields>SAM__c</fields>
+        <fields>PPM__c</fields>
+        <label>Connector Object Default</label>
+    </compactLayouts>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Used to track all Avalara connectors and associated data</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableEnhancedLookup>true</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>AIP_Enabled_Platform__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Restricted Edit Access 3.7.18: https://jira.avalara.com/browse/IBST-9151
+
+Permission Set: AIP Enabled Platform EDIT on Connector</description>
+        <externalId>false</externalId>
+        <label>AIP Enabled Platform</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ASP_Budget__c</fullName>
+        <externalId>false</externalId>
+        <label>ASP Budget</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Account_Budget_Status__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT(Budget__r.BudgetStatus__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Account Budget Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Account_Signed__c</fullName>
+        <externalId>false</externalId>
+        <formula>Budget__r.DSP_Agreement_Signed__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Account Signed</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Active_Subscriptions__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Rollup from subscription products &amp; charges where the subscription is active and the charge type is recurring.</inlineHelpText>
+        <label>Active Subscriptions</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Allow_Accelerated_QuickStart__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Reserved for those integrations where GoLive can install the connector.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If checked, this inegration can be installed by GoLive and is part of the Accelerated QuickStart program.</inlineHelpText>
+        <label>Allow Accelerated QuickStart</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Application__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <inlineHelpText>Plain and simple, no version numbers — e.g. Eclipse, Dynamics AX, WooCommerce</inlineHelpText>
+        <label>Business Application</label>
+        <referenceTo>Application__c</referenceTo>
+        <relationshipLabel>Connectors</relationshipLabel>
+        <relationshipName>Connectors</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Author__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Purpose: Track the original developer of the code associated with this connector
+Integrated: Yes 
+Change: Level 1 
+Custodian: Business Development / Greg Chapman</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Associate the account of the original developer of the code associated with this connector</inlineHelpText>
+        <label>Author</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Connectors (Author)</relationshipLabel>
+        <relationshipName>Connectors</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Avalara_Product__c</fullName>
+        <description>Purpose: Requested by Mark Wilhelm 
+Integrated: No 
+Change: Level 1 
+Custodian: Partner Launch Team/Mark Wilhelm</description>
+        <externalId>false</externalId>
+        <label>Avalara Product</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>AvaTax</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CertCapture</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Communications</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Excise - Fuel</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>LandedCost</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Lodging</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>TrustFile</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Avalara_Professional_Services_Required__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Partner Launch - Sara Simrell</description>
+        <externalId>false</externalId>
+        <label>Avalara Professional Services Required</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>BDNotes__c</fullName>
+        <externalId>false</externalId>
+        <label>BD Notes</label>
+        <length>3000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>BDSalesPipeline__c</fullName>
+        <externalId>false</externalId>
+        <label>BD Sales Pipeline</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>New</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Engaged</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sales #1</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sales #2</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Vibrancy Review</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Complete</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Dead</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>BD_Bookings_Budget__c</fullName>
+        <externalId>false</externalId>
+        <label>BD Bookings Budget</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>BD_Ding_Budget__c</fullName>
+        <externalId>false</externalId>
+        <label>BD Ding Budget</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Body_Copy_RTF__c</fullName>
+        <externalId>false</externalId>
+        <label>Body Copy RTF</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Body_Copy__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>A few paragraphs on the benefits of this integration:
+1) problem the software solves 
+2) tax problems still exist
+3) joy of AvaTax integration
+Optional:highlight any software features enabled by integrating AvaTax
+HTML allowed: &lt;b&gt;&lt;i&gt;&lt;ul&gt;&lt;li&gt;&lt;a href&gt;</inlineHelpText>
+        <label>Body Copy</label>
+        <length>5000</length>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Budget_Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Budget Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Budgeted</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Upside</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>New</fullName>
+                    <default>true</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Budget__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Purpose: Track the account for budget relationship purposes
+Integrated: No 
+Change: Level 0 
+Custodian: Pascal Van Dooren / Marshall Kushnarik</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Associate the account where the budget relationship for this connector is maintained (The connector may have been authored, is managed by, is commissioned to Avalara but Related to a partner for budgetary purposes)</inlineHelpText>
+        <label>Budget</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Connectors</relationshipLabel>
+        <relationshipName>Connectors2</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Calc_Velocity2__c</fullName>
+        <externalId>false</externalId>
+        <label>Calc Velocity</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CaseSafeID__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASESAFEID(Id)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Connector CaseSafeID</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Certified_Versions_Sumary__c</fullName>
+        <description>Purpose: Track 30 day delta between old calc estimation and new calc estimation 
+Integrated: No 
+Change: Level 0 
+Custodian: OEM Onboarding Team</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Textual roll up of all certified versions associated with this connector (RollUp Helper Controlled)</inlineHelpText>
+        <label>Certified Versions Sumary</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Certs_Velocity2__c</fullName>
+        <externalId>false</externalId>
+        <label>Certs Velocity</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Channel_Availability__c</fullName>
+        <externalId>false</externalId>
+        <label>Channel Availability</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Assisted Path</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ecommerce</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>API Direct</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Channel_Online__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Channel Online</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Channel_Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Channel Type</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>SOHO</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Emerging</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Direct</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Anchor</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Strategic</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Growth</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Strategic Initiatives Group</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>BD</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Co_Branded_One_Sheets_Ordered__c</fullName>
+        <externalId>false</externalId>
+        <label>Co Branded One Sheets Ordered</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Co_Branded_One_Sheets_Shipped__c</fullName>
+        <externalId>false</externalId>
+        <label>Co Branded One Sheets Shipped</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Commissions_Paid__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Commissions Paid</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Connectors (Commissions Paid)</relationshipLabel>
+        <relationshipName>Connectors5</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Competition__c</fullName>
+        <description>Create Request: IBST-13854</description>
+        <externalId>false</externalId>
+        <label>Competition</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>CCH</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sovos</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>TaxCloud</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Taxify</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Taxjar</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Thomson Reuters</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Vertex</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Connector_Certification_Date__c</fullName>
+        <description>Launch team would like to continue to use this field. Enables better reporting. 
+Was &quot;Undeprecated&quot; on 6.28.17 per request. Sara simrell</description>
+        <externalId>false</externalId>
+        <label>1st Version Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Connector_Description__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Enter a summary of the partner connector relationship, capabilities and any other pertinent information specific to this connector.</inlineHelpText>
+        <label>Connector Description</label>
+        <length>2000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Connector_Development_Cost__c</fullName>
+        <description>Purpose: Track up front payment made to the developer to facilitate the connector creation
+Integrated: No 
+Change: Level 0 
+Custodian: Business Development / Greg Chapman</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enter up front payment made to the developer to facilitate the connector creation</inlineHelpText>
+        <label>Connector Development Cost</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Connector_EcoSystem_Summary1__c</fullName>
+        <description>Purpose: Track partner ecosystem relative to this connector
+Integrated: No
+Change: Level 0
+Custodian: Partner Management / Liz Anderson</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Summarize the partner ecosystem relative to this connector.</inlineHelpText>
+        <label>(Deprecated)Connector EcoSystem Old</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Connector_EcoSystem_Test__c</fullName>
+        <externalId>false</externalId>
+        <label>Connector EcoSystem Summary</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Connector_Managed_By__c</fullName>
+        <description>Purpose: Track the summary level management relationship specific to this connector
+Integrated: No 
+Change: Level 0 
+Custodian: Business Development / Greg Chapman</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enter the summary level management relationship specific to this connector. The specific account should be designated in the &quot;Managed By&quot; Lookup field.</inlineHelpText>
+        <label>Connector Managed By</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Avalara</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>3rd Party</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Software Publisher</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Connector_OEM__c</fullName>
+        <description>Purpose: Track OEM relationship per connector
+Integrated: No
+Change: Level 0
+Custodian: Partner Management / Liz Anderson</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Use this field to identify whether or not this connector has an OEM</inlineHelpText>
+        <label>Connector OEM?</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Connector_Product_Manager__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Update: IBST-9220 - Label Changed to &quot;Connector Manager&quot;</description>
+        <externalId>false</externalId>
+        <label>Connector Manager</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Connectors4</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Connector_Setup_URL__c</fullName>
+        <defaultValue>&quot;https://help.avalara.com/004_AvaTax_Integrations&quot;</defaultValue>
+        <externalId>false</externalId>
+        <label>Connector Setup URL</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Connector_Solution_Model__c</fullName>
+        <description>Purpose: Track the solution model specific to this connector
+Integrated: No 
+Change: Level 0 
+Custodian:  Business Development / Greg Chapman</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enter the primary solution model(s) specific to this connector</inlineHelpText>
+        <label>Connector Solution Model</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Platform</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Recurring Billing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Complimentary</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Content</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>eCommerce</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ISPI</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Mobility</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Payment Procesor</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Franchise</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>POS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CRM</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sales/VAT ERP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Consumer Use (ERP)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Excise Tax</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Exemption Management</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Connector_Type__c</fullName>
+        <description>https://jira.avalara.com/browse/BATS-510</description>
+        <externalId>false</externalId>
+        <inlineHelpText>https://jira.avalara.com/browse/BATS-510</inlineHelpText>
+        <label>Connector Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Extractor_Connector__c</controllingField>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Pending Definition</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>CRM</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>eCommerce</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ERP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>OMS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Payment Processing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>POS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Subscription/Recurring Billing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Supplier Mgt/AP Automation</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Marketplace</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>GST</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sales Tax</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>VAT</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Consumer Use Tax</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Consumer Use Tax-Data File</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>No</controllingFieldValue>
+                <valueName>Pending Definition</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>No</controllingFieldValue>
+                <valueName>CRM</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>No</controllingFieldValue>
+                <valueName>eCommerce</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>No</controllingFieldValue>
+                <valueName>ERP</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>No</controllingFieldValue>
+                <valueName>OMS</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>No</controllingFieldValue>
+                <valueName>Payment Processing</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>No</controllingFieldValue>
+                <valueName>POS</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>No</controllingFieldValue>
+                <valueName>Subscription/Recurring Billing</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>No</controllingFieldValue>
+                <valueName>Supplier Mgt/AP Automation</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>No</controllingFieldValue>
+                <valueName>Marketplace</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Yes</controllingFieldValue>
+                <valueName>GST</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Yes</controllingFieldValue>
+                <valueName>Sales Tax</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Yes</controllingFieldValue>
+                <valueName>VAT</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Yes</controllingFieldValue>
+                <valueName>Consumer Use Tax</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Yes</controllingFieldValue>
+                <valueName>Consumer Use Tax-Data File</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Contract_Author__c</fullName>
+        <description>Which party is responsible for drawing up the contract. 
+Owner: Partner Launch - Sara Simrell</description>
+        <externalId>false</externalId>
+        <label>Contract Author</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Avalara</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Partner</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Contract_Non_Standard__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Purpose: Track whether or not the contract specific to this connector is standard
+Integrated: No 
+Change: Level 0 
+Custodian: Business Development / Greg Chapman</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Check this box if the contract associated with this connector is non-standard</inlineHelpText>
+        <label>Contract Non Standard</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Contract_On_File_With_Ops__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Purpose: Track whether or not the contract has been signed, countersigned and on file 
+Integrated: No 
+Change: Level 0 
+Custodian: Golive Director</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Check this box if the contract for this connector has been signed, countersigned and on file. This will trigger the connector signed alert. Currently, only Marshal, Greg or Pascal can check this box.</inlineHelpText>
+        <label>Contract On File With Ops</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Contract_Renewal_Date__c</fullName>
+        <description>Purpose: Track the contract renewal date specific to this connector
+Integrated: No 
+Change: Level 0 
+Custodian: Business Development / Greg Chapman</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enter the renewal date specific to this connector / amendment</inlineHelpText>
+        <label>Contract Renewal Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Contract_Renewal_Notice_Date__c</fullName>
+        <description>Purpose: Track the renewal notice date for the contract specific to this connector
+Integrated: No 
+Change: Level 0 
+Custodian: Business Development / Greg Chapman</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enter the renewal notice date for the contract date specific to this connector</inlineHelpText>
+        <label>Contract Renewal Notice Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Contract_Signed_Date__c</fullName>
+        <description>Purpose: Track connector level contract signed date
+Integrated: No 
+Change: Level 0 
+Custodian: VP Partner Managment</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The connector specific contract or amendment signature date</inlineHelpText>
+        <label>Contract Signed Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Contract_on_File_with_Ops_Notes__c</fullName>
+        <description>Purpose: Track any notes associated with the contract on file with ops boolean 
+Integrated: No 
+Change: Level 0 
+Custodian: Golive Director</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Notes related to the contract on file with ops boolean</inlineHelpText>
+        <label>Contract on File with Ops Notes</label>
+        <length>60</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Count__c</fullName>
+        <externalId>false</externalId>
+        <formula>1</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Count #</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Customer_Base__c</fullName>
+        <description>Purpose: Track the total number of customers applicable to this connector
+Integrated: No 
+Change: Level 0 
+Custodian: Business Development / Greg Chapman</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enter the total customer base specific to this connector</inlineHelpText>
+        <label>Connector Customer Base</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>DSPWebsite__c</fullName>
+        <description>The URL from the Account populated in the &apos;Managed By&apos; field</description>
+        <externalId>false</externalId>
+        <formula>IF(ISBLANK(Managed_By__r.Website), &quot;&quot;, IF(LEFT(Managed_By__r.Website,7)=&quot;http://&quot;,Managed_By__r.Website,&quot;http://&quot; &amp; Managed_By__r.Website))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>The URL from the Account populated in the &apos;Managed By&apos; field</inlineHelpText>
+        <label>DSP URL</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>DSP_PPM_ID__c</fullName>
+        <externalId>false</externalId>
+        <formula>PPM__r.CaseSafeID__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>DSP PPM ID</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>DSP_Partner_Number__c</fullName>
+        <externalId>false</externalId>
+        <formula>DSP__r.PartnerNumber__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>DSP Partner Number</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>DSP_SAM_ID__c</fullName>
+        <externalId>false</externalId>
+        <formula>SAM__r.CaseSafeID__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>DSP SAM ID</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>DSP__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Purpose: Track the account for which commissions will be paid for the sale of this connector
+Integrated: Yes 
+Change: Level 1 
+Custodian: Greg Chapman / Marshall Kushnarik</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Associate the account that will be paid commissions based upon the sale of this connector</inlineHelpText>
+        <label>DSP</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Connectors (DSP)</relationshipLabel>
+        <relationshipName>Connectors1</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Dedicated_800_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>Dedicated 800 Number</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Phone</type>
+    </fields>
+    <fields>
+        <fullName>Default_Free_Months__c</fullName>
+        <defaultValue>0</defaultValue>
+        <externalId>false</externalId>
+        <label>Default Free Months</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Default_Path__c</fullName>
+        <externalId>false</externalId>
+        <label>Default Path</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Development</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Certification</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Launch</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Emerging</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Core</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Retired</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Default_Self_Serve__c</fullName>
+        <externalId>false</externalId>
+        <label>Default Implementation Path</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Self-Serve</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Assisted</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Managed</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Professional Services</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Monitor</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Demo_Video_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Demo Video Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Dev_Info_RTF__c</fullName>
+        <externalId>false</externalId>
+        <label>Dev Info RTF</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Dev_Info__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>A paragraph (couple sentences) about the software developer identified above in ManagedBy/Author.  This is not about the software but rather the company that wrote/maintains the connector code.
+
+HTML allowed: &lt;b&gt;&lt;i&gt;&lt;ul&gt;&lt;li&gt;&lt;a href&gt;</inlineHelpText>
+        <label>Dev Info</label>
+        <length>5000</length>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Developer_Wiki__c</fullName>
+        <externalId>false</externalId>
+        <label>Developer Wiki</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Development_Available_Connector__c</fullName>
+        <externalId>false</externalId>
+        <label>Development Available Connector</label>
+        <summarizedField>Version__c.Count__c</summarizedField>
+        <summaryFilterItems>
+            <field>Version__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Existing - In Development, Existing - Not Certified, Certified</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Version__c.Connector__c</summaryForeignKey>
+        <summaryOperation>min</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Development_Available__c</fullName>
+        <externalId>false</externalId>
+        <label>Development Available</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Development_Partner__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Development Partner</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Connectors (Development Partner)</relationshipLabel>
+        <relationshipName>Connectors3</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Ding_BDOwner__c</fullName>
+        <externalId>false</externalId>
+        <formula>Author__r.BusDevOwner__r.FirstName&amp;&quot; &quot;&amp; Author__r.BusDevOwner__r.LastName</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Ding BD Owner</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Ding_CDM__c</fullName>
+        <externalId>false</externalId>
+        <formula>Author__r.CDM__r.FirstName &amp; &quot; &quot; &amp;  Author__r.CDM__r.LastName</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Ding CDM</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Ding_Owner__c</fullName>
+        <externalId>false</externalId>
+        <formula>Author__r.Owner.FirstName &amp; &quot; &quot; &amp;  Author__r.Owner.LastName</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Ding Owner</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Ding_Sales_Rep__c</fullName>
+        <externalId>false</externalId>
+        <formula>Author__r.Sales_Rep__r.FirstName &amp; &quot; &quot; &amp;  Author__r.Sales_Rep__r.LastName</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Ding Sales Rep</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ERP_Status__c</fullName>
+        <description>Used for Sales Opportunity Segmentation and Routing</description>
+        <externalId>false</externalId>
+        <label>ERP Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>ERP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Non-ERP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Either</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Early_Adopter_Sales_Owner__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Used to identify BD user who is managing the launch process in the early adoption phase
+Owner: Jesse Powell
+
+Updated 7.11.17 - Changed Field Lable to BD Sales Owner - Request by Alex DeBlois approved by Marshal K.
+
+https://jira.avalara.com/browse/IBST-4190</description>
+        <externalId>false</externalId>
+        <label>BD Sales Owner</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Connectors3</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Excerpt__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>A 2-3 sentence paragraph summarizing the body copy above -- it is to be keyword rich, specifically mentioning the partner software name, developer name if different, Avalara AvaTax, sales tax, etc.</inlineHelpText>
+        <label>Excerpt</label>
+        <length>5000</length>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Extractor_Connector__c</fullName>
+        <description>https://jira.avalara.com/browse/BATS-510</description>
+        <externalId>false</externalId>
+        <inlineHelpText>https://jira.avalara.com/browse/BATS-510</inlineHelpText>
+        <label>Extractor</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>No</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>FY_Actual_ASP__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(FY_Actual_Dings__c &gt; 0, FY_Actual_Bookings__c /  FY_Actual_Dings__c, 0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>FY Actual ASP</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>FY_Actual_Bookings__c</fullName>
+        <externalId>false</externalId>
+        <label>FY Actual Bookings</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>FY_Actual_Dings__c</fullName>
+        <externalId>false</externalId>
+        <label>FY Actual Dings</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Featured__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>A small number of Connectors are featured, for various reasons. Check only if you’re sure</inlineHelpText>
+        <label>Featured</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Growth_Category__c</fullName>
+        <description>Growth-Strategic: this is for the connectors that are 10, 20+ deals but not as productive as our ANCHOR partners
+Growth-Active: this is for the 1-10 deals producing partners
+Growth-Emerging: this is for the non-producing partners the last 18-24 months but who have been active in the past
+Growth-New: this is for new signed partner within the current year which BD transfers over to Pat as they are ignited partners (2 deals already, and engaged)
+Growth-Revived: this is for partners BD RE-engaged and have done 2 deals and are engaged again.</description>
+        <externalId>false</externalId>
+        <label>Growth Category</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Growth-Strategic</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Growth-Active</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Growth-Emerging</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Growth-New</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Growth-Revived</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Implementation_Team__c</fullName>
+        <description>Used when assigning a new customer to a GoLive / Implementation Support team.  Closely, but not identically, aligned with the Sales Group.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Used when assigning a new customer to a GoLive / Implementation Support team.  Closely, but not identically, aligned with the Sales Group.</inlineHelpText>
+        <label>Implementation Team</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>VSB</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ECOMM</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ERP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMERGING ERP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SDK</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CALC DASH</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>BIZ DEV</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Incubator_Team__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Incubator Team</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Integration_Category__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Most of our Integrations are accounting or ecommerce. Verify if you are unsure</inlineHelpText>
+        <label>Integration Category</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Accounting</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Billing and Recurring Payments Solutions</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CertCapture</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CMS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Communications</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CRM</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ecommerce</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Excise</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>POS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Trustfile</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Integration_Page__c</fullName>
+        <externalId>false</externalId>
+        <label>Integration Page</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Integration_URL__c</fullName>
+        <externalId>false</externalId>
+        <formula>&quot;https://avalara.com/integrations/&quot; &amp;  Slug__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Integration URL</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Integration_Video__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>If this Connector has an internally produced video, by all means list it here</inlineHelpText>
+        <label>Integration Video</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Kick_Off_Call_Date__c</fullName>
+        <description>Purpose: Track the date of this kick off call specific to this connector
+Integrated: No 
+Change: Level 0 
+Custodian: Business Development / Greg Chapman</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enter the date the kick off call for this connector was completed</inlineHelpText>
+        <label>Kick Off Call Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Legacy_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Legacy Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Logo__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>This is a fully specified URL, returned after you submit a 600+ pixel wide image to logo.upload@avalara.com. Never a link to the outside world!</inlineHelpText>
+        <label>Logo</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Managed_By__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Purpose: Track 30 day delta between old calc estimation and new calc estimation 
+Integrated: No 
+Change: Level 0 
+Custodian: Business Development / Greg Chapman</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Associate the account currently managing / responsible for the code associated with this connector</inlineHelpText>
+        <label>Managed By</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Connectors (Managed By)</relationshipLabel>
+        <relationshipName>Managed_Connectors</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Marketing_Business_Segment__c</fullName>
+        <externalId>false</externalId>
+        <label>Marketing Business Segment</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Business Development</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ecommerce/SDK</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EERP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ERP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>VSB</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Marketing_Notes__c</fullName>
+        <externalId>false</externalId>
+        <label>Marketing Notes</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Marketing_SubType__c</fullName>
+        <externalId>false</externalId>
+        <label>Marketing SubType</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>3dcart</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Business Development</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ecomm - Other</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EERP - Other</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Epicor</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Exact</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Infor</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Intacct</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Magento</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Microsoft</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NetSuite</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>PrestaShop</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>QuickBooks</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sage</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sage 50</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SAP Business One</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SDK</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SYSPRO</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>TaxNOW</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>VirtueMart</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>VSB - Other</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Marketplace_Name__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <externalId>false</externalId>
+        <inlineHelpText>This lets us simplify complex Connector Names, e.g. QuoteQuickly instead of QuoteQuickly 4.3 for Salesforce</inlineHelpText>
+        <label>Marketplace Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>No_Closed_Won_Opps__c</fullName>
+        <description>Using rollup helper to calculate number of opps that this connector has won.</description>
+        <externalId>false</externalId>
+        <label>No. Closed Won Opps</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>No_of_Certified_Versions__c</fullName>
+        <description>Count of the number of versions with status = Certified</description>
+        <externalId>false</externalId>
+        <label>No. of Certified Versions</label>
+        <summaryFilterItems>
+            <field>Version__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Certified</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Version__c.Connector__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>No_of_Live_GoLives__c</fullName>
+        <description>Using Rollup Helper to stamp the number of associated GoLives with either Calc, returns, or certs status = Live</description>
+        <externalId>false</externalId>
+        <label>No. of Live GoLives</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>OEM_Strategic_Owner__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>OEM Strategic Owner</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Connectors7</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>PLT_Owner__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Purpose: Requested by Mark Wilhelm
+Integrated: No 
+Change: Level 1 
+Custodian: Partner Launch Team/Mark Wilhelm
+
+Ticket: https://jira.avalara.com/browse/SFCOM-7079</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Partner Launch Team Owner</inlineHelpText>
+        <label>PLT Owner</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Connectors2</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>POS_enabled_platform__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>POS enabled platform</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>PPM_Manager__c</fullName>
+        <externalId>false</externalId>
+        <formula>PPM__r.Manager.Full_Name__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>PMM Manager</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PPM__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Purpose: Track PMM associated with this connector
+Integrated: No 
+Change: Level 0 
+Custodian: Partner Management</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enter the PMM associated with this connector</inlineHelpText>
+        <label>PMM</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Connectors1</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>PS_Base_Price__c</fullName>
+        <externalId>false</externalId>
+        <label>PS Base Price</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>PS_Required_Connector__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>PS Required Connector</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>PartnerLaunchSalesOwner__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Ticket: https://jira.avalara.com/browse/ITBSE-822</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Partner Launch Sales Owner</inlineHelpText>
+        <label>Partner Launch Sales Owner</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Connectors9</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Partner_Fee__c</fullName>
+        <description>Used by the Partner Launch Team for Partner comments
+Owner: Sara Simrell</description>
+        <externalId>false</externalId>
+        <label>Partner Fee</label>
+        <length>300</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Partner_Management_Type__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT(Managed_By__r.Partner_Managemen__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Partner Management Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Partner_Segment__c</fullName>
+        <description>Used for Sales Opportunity segmentation and routing</description>
+        <externalId>false</externalId>
+        <label>Partner Segment</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>1</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>2</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>3</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>4</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Partner_Signed_By__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Partner Signed By</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Connectors8</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Partner_Status_Summary__c</fullName>
+        <externalId>false</externalId>
+        <formula>Managed_By__r.Partner_Status_Summary__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Partner Status Summary</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Partner_Team_Grouping__c</fullName>
+        <description>Used for Sales Opportunity Segmentation and Routing.</description>
+        <externalId>false</externalId>
+        <label>Partner Team Grouping</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Ecomm</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Higher Ecomm</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NetSuite</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Mid-Market ERP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Microsoft</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SMB ERP 2 Vertical/MLM</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SMB ERP 1</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Enterprise</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Business Solutions</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Direct</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Billing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Non-Established</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Partner_Website_Link_back__c</fullName>
+        <externalId>false</externalId>
+        <label>Partner Website Link back</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Pay_Recurring__c</fullName>
+        <description>Purpose: Track recurring payment relationship per connector
+Integrated: No
+Change: Level 0
+Custodian: Partner Management / Liz Anderson</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Use this field to identify recurring payment responsibility</inlineHelpText>
+        <label>Pay Recurring?</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>No Recurring</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Avalara</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Partner</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>PlatformCategoryInteger__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(LEFT(TEXT( Platform_Cateogry__c ),5)=&quot;Level&quot;,VALUE(RIGHT(TEXT(Platform_Cateogry__c),1)),99)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Platform Category Integer</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Platform_Cateogry__c</fullName>
+        <description>Purpose: Track the platform category
+Integrated: Yes (DW, Zuora) 
+Change: Level 2 
+Custodian: VP Sales</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The platform category assigned to the connector designating its pricing structure. A value in this field will make it available for quoting workflows.</inlineHelpText>
+        <label>Platform Category</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>TBD</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Level 0</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Level 1</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Level 2</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Level 3</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Level 4</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Platform__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <inlineHelpText>Plain and simple — e.g. Epicor, Microsoft, WordPress</inlineHelpText>
+        <label>Business Platform</label>
+        <referenceTo>Platform__c</referenceTo>
+        <relationshipLabel>Connectors</relationshipLabel>
+        <relationshipName>Connectors</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Press_Release__c</fullName>
+        <externalId>false</externalId>
+        <label>Press Release</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Previous_PMM__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Field to track previous PMM assigned to Connector.  Requested by Asher Matthew.  Not integrated.  Populated by workflow.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The previous PMM assigned to Connector</inlineHelpText>
+        <label>Previous PMM</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Connectors6</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Previous_SAM__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Field to track previous SAM assigned to Connector.  Requested by Asher Matthew.  Not integrated.  Populated by Workflow.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The previous SAM assigned to Connector.</inlineHelpText>
+        <label>Previous SAM</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Connectors5</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Pricing_Schedule__c</fullName>
+        <externalId>false</externalId>
+        <label>Pricing Schedule</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>ERP1</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ERP2</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>eComm</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SDK</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>POS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>FastSigns</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>DataTrax</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CERTCAPTURE</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>PROSTORES</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CUSTOM</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Powerchord</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Unassisted</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ZT</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Non Connector Fees</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Basic</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Standard</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Professional</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Enterprise</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AvaTax SoHo</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Primary_Business_Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Primary Business Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Connectors (Primary Business Contact)</relationshipLabel>
+        <relationshipName>Connectors1</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Primary_Marketing_Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Primary Marketing Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Connectors</relationshipLabel>
+        <relationshipName>Connectors</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Primary_Sales_Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>A field to track primary sales contract associated with Partner/Connector.  Requested by Robin Conner. Not integrated.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Primary sales contract associated with Partner/Connector</inlineHelpText>
+        <label>Primary Sales Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Connectors (Primary Sales Contact)</relationshipLabel>
+        <relationshipName>Connectors3</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Primary_Technical_Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Primary Technical Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Connectors (Primary Technical Contact)</relationshipLabel>
+        <relationshipName>Connectors2</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>ProductName__c</fullName>
+        <description>The product related to the Connector.</description>
+        <externalId>false</externalId>
+        <label>Product Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Avalara AvaTax</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Projected_Connector_Completion__c</fullName>
+        <description>Purpose: Track the project completion date of this connector
+Integrated: No 
+Change: Level 0 
+Custodian: Business Development / Greg Chapman</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enter the projected completion date of this connector</inlineHelpText>
+        <label>Projected Connector Completion</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ProvisionEnvironmentOverride__c</fullName>
+        <externalId>false</externalId>
+        <label>ProvisionEnvironmentOverride</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>BOTH</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>PRODUCTION</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SDK</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Publish__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>This is the flag telling the Pub-Synch system that avalara.com should include this integration.This field is read only to everyone and only editable by system admins or if the permission set has been assigned to an individual user. Permission set = &quot;Connector Publish Checkbox&quot;</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This is the flag telling the Pub-Synch system that avalara.com should include this integration</inlineHelpText>
+        <label>Publish</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ReadyForPROS__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Ready For PROS</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Requires_Avalara_Professional_Services__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Requires Avalara Professional Services</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Returns_Velocity2__c</fullName>
+        <externalId>false</externalId>
+        <label>Returns Velocity</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Routing_Partner_Group__c</fullName>
+        <externalId>false</externalId>
+        <label>Partner Group</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Abas</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Acumatica</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Agility</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Americommerce</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Aptos</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Aria</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Broadleaf Commerce</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Chempax</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ConnectWise</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CorrigoNet</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>DATATRAX by InfoTrax</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Direct</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>eAutomate</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ECi</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ECI - eAutomate</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Enterprise Distributors Business System</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Epicor</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Exact</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>FIRESTORM by Trinity</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>GlobalEdge</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>GreyStar Solutions (Unity)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>IBM Corporation</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Infor</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Intacct</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>IQMS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Kentico</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Kerridge Commerical Systems</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Magento</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MarketPower PRO</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>marketvision</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Microsoft</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Miva Merchant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MLM ERP by IDSTC</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NetSuite</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>nopCommerce</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Open Systems- Traverse</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Oracle</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Oracle Commerce</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>OrbSix</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Plex</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Prowess (Thatcher)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>QAD</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Recurly</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>S4DS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sage</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sage Financials</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Salesforce</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Salesforce Billing &amp; Payments</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Salesforce Ecomm</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Salesforce ERP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SAP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SAP B1</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SAP ERP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SAP Hybris</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Solutions</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Spree Commerce</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Stone Edge Order Manager</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Stripe</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SYSPRO</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Technology Group International</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>VAI</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>WebJaguar</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>WebLinc</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>WinTeam</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Workday</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>WorldVu (Xennsoft)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Xdirect</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Zoho</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Zoyto Inc</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Zuora</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>SAM_Manager__c</fullName>
+        <externalId>false</externalId>
+        <formula>SAM__r.Manager.Full_Name__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>SAM Manager</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>SAM_Welcome_Call_Scheduled__c</fullName>
+        <externalId>false</externalId>
+        <label>SAM Welcome Call Scheduled</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>SAM__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Purpose: Track SAM associated with this connector
+Integrated: No 
+Change: Level 0 
+Custodian: Partner Management</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enter the SAM associated with this connector</inlineHelpText>
+        <label>SAM</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Connectors</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>SEO_SEM_Keywords_Sent__c</fullName>
+        <description>Field deprecated on 11/15/16 at the request of Robin Conner.</description>
+        <externalId>false</externalId>
+        <label>(DEPRECATED) SEO/SEM Keywords Sent</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>SEO_SEM_Keywords__c</fullName>
+        <externalId>false</externalId>
+        <label>(DEPRECATED) SEO/SEM Keywords</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sales_Actual_Dings__c</fullName>
+        <externalId>false</externalId>
+        <label>2014 Actual Dings</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sales_Available_Connector__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISBLANK(TEXT(Pricing_Schedule__c)) , 0 , 1)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Sales Available Connector</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sales_Available__c</fullName>
+        <externalId>false</externalId>
+        <label>Sales Available</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sales_Budget_Bookings__c</fullName>
+        <externalId>false</externalId>
+        <formula>ASP_Budget__c *  Sales_Director_Ding_Budget__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Sales Budget Bookings</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Sales_Director_Ding_Budget__c</fullName>
+        <externalId>false</externalId>
+        <label>Sales Director Ding Budget</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sales_Engineer_Required__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Owner: Partner Launch - Sara Simrell</description>
+        <externalId>false</externalId>
+        <label>Sales Engineer Required</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Sales_Field_Ding_Quota__c</fullName>
+        <externalId>false</externalId>
+        <label>Sales Field Ding Quota</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sales_Group__c</fullName>
+        <externalId>false</externalId>
+        <label>(Deprecated) Sales Group</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>eComm</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Emerging ERP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ERP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Microsoft</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>POS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sage</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>VSB</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SDK</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Business Development</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MISC</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Excise</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Communications</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>eComm West 1</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>eComm West 2</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>eComm East 1</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>eComm East 2</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Sales_Level__c</fullName>
+        <description>Sales level designation to determine size of potential opportunities, pulled on to the Opportunity record to determine routing direct to RSMs
+Level 1
+Integrated: Yes, used in formula field on opportunity and used for distribution engine routing to teams
+Owner: Jay Deubler/Katie Pelly</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Used by Distribution Engine to route opportunities created by Inside Sales. Values were determined by Sales Leaders.</inlineHelpText>
+        <label>Sales Level</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>SMALL</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MID</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ENT</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>UNK/API</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Sales_Quota_Bookings__c</fullName>
+        <externalId>false</externalId>
+        <formula>ASP_Budget__c *  Sales_Field_Ding_Quota__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Sales Quota Bookings</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Sales_Training_Account_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Sales Training Account Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Sales_Training_Partner_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Sales Training Partner Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>SlugUpdate__c</fullName>
+        <externalId>false</externalId>
+        <formula>SUBSTITUTE(LOWER(Marketplace_Name__c), &quot; &quot;, &quot;-&quot;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>SlugUpdate</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Slug__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <externalId>false</externalId>
+        <inlineHelpText>Think of this as the web site filename, avalara.com/integrations/slug — NOT to be changed after initial publication.</inlineHelpText>
+        <label>Slug</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Solution_Provider__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Solution Provider</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Connectors (Solution Provider)</relationshipLabel>
+        <relationshipName>Connectors4</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <externalId>false</externalId>
+        <label>X30_Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Not Started</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>In Development</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Deferred</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Delayed by Partner</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Existing - Not Certified</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Certified</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Suppress_Partner_Split__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Integrated Level 1 : Process Builder</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Suppresses the SAM/PPM split on the opportunity for a given connector</inlineHelpText>
+        <label>Suppress Partner Split</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>TAM_Total_Addressable_Market__c</fullName>
+        <description>Purpose: Track 30 day delta between old calc estimation and new calc estimation 
+Integrated: No 
+Change: Level 0 
+Custodian: Business Development / Greg Chapman</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enter the Total Addressable Market specific to this connector</inlineHelpText>
+        <label>Connector TAM</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>TEST_RTF_Body__c</fullName>
+        <externalId>false</externalId>
+        <label>TEST RTF Body</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Tagline__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Goes underneath integration page title of the format, &quot;Acumatica and Avalara AvaTax: Built in Sales Tax Accuracy”  or  &quot;Vineyard2door and Avalara AvaTax: Automated Sales Tax Calculation for the Wine Industry”</inlineHelpText>
+        <label>Tagline</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Teeter__c</fullName>
+        <externalId>false</externalId>
+        <label>Interface</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Temp_Success_Create__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Temp Success Create</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>UnManaged_Connector__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Purpose: Track whether or not this connector should be considered an &quot;unmanaged&quot; connector for reporting and workflow exclusion purposes.
+Integrated: No 
+Change: Level 0 
+Custodian: Golive Director</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Designate this connector as unmanaged for generic, placeholder, or non standard connectors that should be excluded from reporting and key connector onboarding activities.</inlineHelpText>
+        <label>UnManaged Connector</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Unpublished_Version_In_Dev__c</fullName>
+        <externalId>false</externalId>
+        <label>Unpublished Version In Dev</label>
+        <length>10</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Vibrancy_Active_Date__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>The date the connector was made Active.</inlineHelpText>
+        <label>Launch Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Vibrancy_Change_Date__c</fullName>
+        <description>used to record when the vibrancy of a field is changed</description>
+        <externalId>false</externalId>
+        <label>Vibrancy Change Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Vibrancy_Prior_Value__c</fullName>
+        <description>Purpose: To track the previous vibrancy value
+Integration: Yes
+Change Level: 1
+Custodian: Robin Conner/Marketing
+
+https://avalara.atlassian.net/browse/SFCOM-8018</description>
+        <externalId>false</externalId>
+        <label>Vibrancy Prior Value</label>
+        <length>50</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Vibrancy__c</fullName>
+        <description>Purpose: Track 30 day delta between old calc estimation and new calc estimation 
+Integrated: No 
+Change: Level 0 
+Custodian: VP Business Development</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The current vibrancy category of this connector relative to their engagement level indicating active (Sales), inactive(SAM) or revive(BiZdev).</inlineHelpText>
+        <label>Vibrancy</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Established</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Emerging</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Active</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Dormant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Retired</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Error</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Marketing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Launch</fullName>
+                    <default>true</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Welcome_Kit_Sent__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Welcome Kit Sent</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Who_papers_the_agreement__c</fullName>
+        <externalId>false</externalId>
+        <label>Who papers the agreement</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Avalara</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Partner</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>X1st_Certification_Date__c</fullName>
+        <description>Purpose: Track the 1st certification date of any related version
+Integrated: No 
+Change: Level 0 
+Custodian: OEM onbaording team</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Rollup field that identifies the first version certified this connector implying overall certification of the connector</inlineHelpText>
+        <label>1st Certification Date</label>
+        <summarizedField>Version__c.Date_Certified_Release__c</summarizedField>
+        <summaryForeignKey>Version__c.Connector__c</summaryForeignKey>
+        <summaryOperation>min</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>X2014_ASP__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(Sales_Actual_Dings__c &gt; 0, X2014_Actual_Bookings__c /  Sales_Actual_Dings__c, 0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>2014 ASP</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>X2014_Actual_Bookings__c</fullName>
+        <externalId>false</externalId>
+        <label>2014  Actual Bookings</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>X2015_ASP_Budget__c</fullName>
+        <description>Historical tracking of the ASP budget which is used to calculate the2015 Sales Budget Bookings
+INtegrated: No but used in a formula
+Owner: Liz Anderson via PV</description>
+        <externalId>false</externalId>
+        <label>2015 ASP Budget</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>X2015_Bookings__c</fullName>
+        <externalId>false</externalId>
+        <label>2015 Actual Bookings</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>X2015_Sales_Budget_Bookings__c</fullName>
+        <externalId>false</externalId>
+        <formula>X2015_ASP_Budget__c *  X2015_Sales_Director_Ding_Budget__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>2015 Sales Budget Bookings</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>X2015_Sales_Director_Ding_Budget__c</fullName>
+        <description>Populated via accounting spreadsheet, used to track historical value for Ding Budget
+used in formula to calculate the 2015 Sales Budget Bookings
+Owner: Liz Anderson via PVD</description>
+        <externalId>false</externalId>
+        <label>2015 Sales Director Ding Budget</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>X2016ActualBookings__c</fullName>
+        <externalId>false</externalId>
+        <label>2016 Actual Bookings</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>X2016_Budget_ASP__c</fullName>
+        <defaultValue>0</defaultValue>
+        <externalId>false</externalId>
+        <label>2016 Budget ASP</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>X2017_Bookings_Budget__c</fullName>
+        <externalId>false</externalId>
+        <label>2017 Bookings Budget</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>X2017_Dings_Budget__c</fullName>
+        <externalId>false</externalId>
+        <label>2017 Dings Budget</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>X2017_YTD_Opp_Actual__c</fullName>
+        <externalId>false</externalId>
+        <label>2017 YTD Opp Actual</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>YOY_Increase__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(X2016ActualBookings__c = 0, 0,FY_Actual_Bookings__c / X2016ActualBookings__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>YOY % Increase</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>YTD_Opp_Target__c</fullName>
+        <externalId>false</externalId>
+        <label>2017 YTD Opp Target</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Connector</label>
+    <listViews>
+        <fullName>AIP_Enabled_Platform</fullName>
+        <columns>NAME</columns>
+        <columns>Vibrancy__c</columns>
+        <columns>Routing_Partner_Group__c</columns>
+        <columns>Partner_Team_Grouping__c</columns>
+        <columns>OBJECT_ID</columns>
+        <columns>Default_Self_Serve__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>AIP_Enabled_Platform__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <label>AIP Enabled Platform</label>
+    </listViews>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Author__c</columns>
+        <columns>Connector_Certification_Date__c</columns>
+        <columns>Sales_Group__c</columns>
+        <columns>Managed_By__c</columns>
+        <columns>Default_Self_Serve__c</columns>
+        <columns>X1st_Certification_Date__c</columns>
+        <columns>Connector_Setup_URL__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Sales_Group__c</field>
+            <operation>equals</operation>
+            <value>Microsoft,Sage</value>
+        </filters>
+        <label>ERP Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>All_Connectors2</fullName>
+        <columns>NAME</columns>
+        <columns>Author__c</columns>
+        <columns>Managed_By__c</columns>
+        <columns>Platform_Cateogry__c</columns>
+        <columns>Implementation_Team__c</columns>
+        <columns>Integration_Category__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Implementation_Team__c</field>
+            <operation>equals</operation>
+            <value>ECOMM</value>
+        </filters>
+        <label>Oracle Commerce Cloud</label>
+    </listViews>
+    <listViews>
+        <fullName>All_Connectors4</fullName>
+        <columns>NAME</columns>
+        <columns>Vibrancy__c</columns>
+        <columns>Application__c</columns>
+        <columns>Channel_Availability__c</columns>
+        <columns>Marketing_Business_Segment__c</columns>
+        <columns>Marketing_SubType__c</columns>
+        <columns>UnManaged_Connector__c</columns>
+        <columns>Sales_Group__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Vibrancy__c</field>
+            <operation>notEqual</operation>
+            <value>Retired,Error</value>
+        </filters>
+        <label>All Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>Art_Duke_s_Connectors</fullName>
+        <columns>NAME</columns>
+        <columns>Default_Self_Serve__c</columns>
+        <columns>PPM__c</columns>
+        <columns>Customer_Base__c</columns>
+        <columns>TAM_Total_Addressable_Market__c</columns>
+        <columns>Author__c</columns>
+        <columns>X1st_Certification_Date__c</columns>
+        <columns>Early_Adopter_Sales_Owner__c</columns>
+        <columns>SAM__c</columns>
+        <columns>Connector_Product_Manager__c</columns>
+        <columns>Integration_Page__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Early_Adopter_Sales_Owner__c</field>
+            <operation>contains</operation>
+            <value>Jason Warren</value>
+        </filters>
+        <filters>
+            <field>NAME</field>
+            <operation>notContain</operation>
+            <value>(Do not sell)</value>
+        </filters>
+        <label>Emerging East - Round-Robin Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>Avalara_Connectors</fullName>
+        <columns>NAME</columns>
+        <columns>Vibrancy__c</columns>
+        <columns>Application__c</columns>
+        <columns>Channel_Availability__c</columns>
+        <columns>Marketing_Business_Segment__c</columns>
+        <columns>Marketing_SubType__c</columns>
+        <columns>UnManaged_Connector__c</columns>
+        <columns>Sales_Group__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Managed_By__c</field>
+            <operation>contains</operation>
+            <value>Avalara</value>
+        </filters>
+        <filters>
+            <field>Vibrancy__c</field>
+            <operation>notEqual</operation>
+            <value>Retired</value>
+        </filters>
+        <label>Avalara Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>Brandon_Cole_s_Connectors</fullName>
+        <columns>NAME</columns>
+        <columns>Platform_Cateogry__c</columns>
+        <columns>Default_Self_Serve__c</columns>
+        <columns>Connector_Type__c</columns>
+        <columns>No_Closed_Won_Opps__c</columns>
+        <columns>PPM__c</columns>
+        <columns>Customer_Base__c</columns>
+        <columns>PLT_Owner__c</columns>
+        <columns>OWNER.LAST_NAME</columns>
+        <columns>Author__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Early_Adopter_Sales_Owner__c</field>
+            <operation>equals</operation>
+            <value>Brandon Cole</value>
+        </filters>
+        <filters>
+            <field>Vibrancy__c</field>
+            <operation>notEqual</operation>
+            <value>Retired</value>
+        </filters>
+        <label>Brandon Cole&apos;s Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>Brian_McNeely_s_Connectors1</fullName>
+        <columns>NAME</columns>
+        <columns>Platform_Cateogry__c</columns>
+        <columns>Default_Self_Serve__c</columns>
+        <columns>Connector_Type__c</columns>
+        <columns>No_Closed_Won_Opps__c</columns>
+        <columns>Sales_Level__c</columns>
+        <columns>PPM__c</columns>
+        <columns>TAM_Total_Addressable_Market__c</columns>
+        <columns>Customer_Base__c</columns>
+        <columns>PLT_Owner__c</columns>
+        <columns>OWNER.LAST_NAME</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Early_Adopter_Sales_Owner__c</field>
+            <operation>equals</operation>
+            <value>Brian McNeely</value>
+        </filters>
+        <filters>
+            <field>Vibrancy__c</field>
+            <operation>notEqual</operation>
+            <value>Retired</value>
+        </filters>
+        <label>Brian McNeely&apos;s Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>Connectors2</fullName>
+        <columns>NAME</columns>
+        <columns>Account_Signed__c</columns>
+        <columns>Connector_Type__c</columns>
+        <columns>Integration_Category__c</columns>
+        <columns>Platform_Cateogry__c</columns>
+        <columns>Pricing_Schedule__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>Connectors_Active_New_Revive_only</fullName>
+        <columns>NAME</columns>
+        <columns>OBJECT_ID</columns>
+        <columns>Sales_Group__c</columns>
+        <columns>Vibrancy__c</columns>
+        <columns>Slug__c</columns>
+        <columns>Platform_Cateogry__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Vibrancy__c</field>
+            <operation>equals</operation>
+            <value>New,Active,Revive</value>
+        </filters>
+        <label>Connectors - Active,New,Revive only</label>
+    </listViews>
+    <listViews>
+        <fullName>Ecommerce_Connectors_Published</fullName>
+        <columns>NAME</columns>
+        <columns>Sales_Group__c</columns>
+        <columns>X1st_Certification_Date__c</columns>
+        <columns>Connector_Certification_Date__c</columns>
+        <columns>Publish__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Marketing_Business_Segment__c</field>
+            <operation>equals</operation>
+            <value>Ecommerce/SDK</value>
+        </filters>
+        <label>Ecommerce Connectors Published</label>
+    </listViews>
+    <listViews>
+        <fullName>Emerging_Connectors1</fullName>
+        <booleanFilter>1 AND 2 AND 3 AND 4 AND 5 and 6</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Early_Adopter_Sales_Owner__c</columns>
+        <columns>DSPWebsite__c</columns>
+        <columns>Customer_Base__c</columns>
+        <columns>Vibrancy__c</columns>
+        <columns>Integration_Category__c</columns>
+        <columns>Connector_Managed_By__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Early_Adopter_Sales_Owner__c</field>
+            <operation>contains</operation>
+            <value>pell,cole,foster,bourne,mcneely,moses,warren,knowlton,grew,mjelde,sims</value>
+        </filters>
+        <filters>
+            <field>Vibrancy__c</field>
+            <operation>notEqual</operation>
+            <value>Retired,Error</value>
+        </filters>
+        <filters>
+            <field>Pricing_Schedule__c</field>
+            <operation>notEqual</operation>
+            <value>ZT,Non Connector Fees,AvaTax SoHo</value>
+        </filters>
+        <filters>
+            <field>NAME</field>
+            <operation>notContain</operation>
+            <value>quickbooks,shopify,mozu</value>
+        </filters>
+        <filters>
+            <field>Early_Adopter_Sales_Owner__c</field>
+            <operation>notContain</operation>
+            <value>clayton,darryl</value>
+        </filters>
+        <filters>
+            <field>Connector_Type__c</field>
+            <operation>notEqual</operation>
+            <value>SOHO</value>
+        </filters>
+        <label>Emerging Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>Erin_M_s_Connectors</fullName>
+        <columns>NAME</columns>
+        <columns>Default_Self_Serve__c</columns>
+        <columns>PPM__c</columns>
+        <columns>Connector_Type__c</columns>
+        <columns>Platform_Cateogry__c</columns>
+        <columns>Customer_Base__c</columns>
+        <columns>No_Closed_Won_Opps__c</columns>
+        <columns>Sales_Level__c</columns>
+        <columns>PLT_Owner__c</columns>
+        <columns>OWNER.LAST_NAME</columns>
+        <columns>Author__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Early_Adopter_Sales_Owner__c</field>
+            <operation>equals</operation>
+            <value>Sarah Bourne</value>
+        </filters>
+        <filters>
+            <field>Vibrancy__c</field>
+            <operation>notEqual</operation>
+            <value>Retired</value>
+        </filters>
+        <label>Sarah B&apos;s Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>Erin_M_s_Connectors1</fullName>
+        <columns>NAME</columns>
+        <columns>Default_Self_Serve__c</columns>
+        <columns>PLT_Owner__c</columns>
+        <columns>Author__c</columns>
+        <columns>X1st_Certification_Date__c</columns>
+        <columns>X2015_Bookings__c</columns>
+        <columns>X2016ActualBookings__c</columns>
+        <columns>X2017_YTD_Opp_Actual__c</columns>
+        <columns>Integration_Page__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Early_Adopter_Sales_Owner__c</field>
+            <operation>contains</operation>
+            <value>mjelde</value>
+        </filters>
+        <filters>
+            <field>Vibrancy__c</field>
+            <operation>contains</operation>
+            <value>Emerging,Active</value>
+        </filters>
+        <label>Erin M&apos;s Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>Established</fullName>
+        <columns>NAME</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Vibrancy__c</field>
+            <operation>equals</operation>
+            <value>Established,Marketing</value>
+        </filters>
+        <label>Established</label>
+    </listViews>
+    <listViews>
+        <fullName>Hillary_Pell_s_Connector</fullName>
+        <columns>NAME</columns>
+        <columns>Default_Self_Serve__c</columns>
+        <columns>PLT_Owner__c</columns>
+        <columns>Author__c</columns>
+        <columns>X1st_Certification_Date__c</columns>
+        <columns>X2015_Bookings__c</columns>
+        <columns>X2016ActualBookings__c</columns>
+        <columns>X2017_YTD_Opp_Actual__c</columns>
+        <columns>Integration_Page__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Early_Adopter_Sales_Owner__c</field>
+            <operation>contains</operation>
+            <value>pell</value>
+        </filters>
+        <filters>
+            <field>Vibrancy__c</field>
+            <operation>contains</operation>
+            <value>Emerging,Active</value>
+        </filters>
+        <label>Hillary Pell&apos;s Connector</label>
+    </listViews>
+    <listViews>
+        <fullName>JC_s_Connectors</fullName>
+        <columns>NAME</columns>
+        <columns>Author__c</columns>
+        <columns>X1st_Certification_Date__c</columns>
+        <columns>X2015_Bookings__c</columns>
+        <columns>X2016ActualBookings__c</columns>
+        <columns>X2017_YTD_Opp_Actual__c</columns>
+        <columns>Integration_Page__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Early_Adopter_Sales_Owner__c</field>
+            <operation>contains</operation>
+            <value>clinton</value>
+        </filters>
+        <label>JC&apos;s Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>Jammahl_s_Connectors</fullName>
+        <columns>NAME</columns>
+        <columns>Default_Self_Serve__c</columns>
+        <columns>PLT_Owner__c</columns>
+        <columns>Author__c</columns>
+        <columns>X1st_Certification_Date__c</columns>
+        <columns>X2015_Bookings__c</columns>
+        <columns>X2016ActualBookings__c</columns>
+        <columns>X2017_YTD_Opp_Actual__c</columns>
+        <columns>Integration_Page__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Early_Adopter_Sales_Owner__c</field>
+            <operation>contains</operation>
+            <value>sims</value>
+        </filters>
+        <filters>
+            <field>Vibrancy__c</field>
+            <operation>contains</operation>
+            <value>Emerging,Active</value>
+        </filters>
+        <label>Jammahl&apos;s Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>Jeremy_C_Connectors</fullName>
+        <columns>NAME</columns>
+        <columns>Default_Self_Serve__c</columns>
+        <columns>PLT_Owner__c</columns>
+        <columns>Author__c</columns>
+        <columns>X1st_Certification_Date__c</columns>
+        <columns>X2015_Bookings__c</columns>
+        <columns>X2016ActualBookings__c</columns>
+        <columns>X2017_YTD_Opp_Actual__c</columns>
+        <columns>Integration_Page__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Early_Adopter_Sales_Owner__c</field>
+            <operation>contains</operation>
+            <value>knowlton</value>
+        </filters>
+        <filters>
+            <field>Vibrancy__c</field>
+            <operation>contains</operation>
+            <value>Emerging,Active</value>
+        </filters>
+        <label>JT&apos;s Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>Jesse_Managed_Connectors</fullName>
+        <booleanFilter>1</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Vibrancy__c</columns>
+        <columns>BDSalesPipeline__c</columns>
+        <columns>X1st_Certification_Date__c</columns>
+        <columns>Press_Release__c</columns>
+        <columns>SAM__c</columns>
+        <columns>BDNotes__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Early_Adopter_Sales_Owner__c</field>
+            <operation>equals</operation>
+            <value>Jesse Powell</value>
+        </filters>
+        <label>Jesse Managed Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>Launch_Connectors</fullName>
+        <columns>NAME</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Vibrancy__c</columns>
+        <columns>SAM__c</columns>
+        <columns>Partner_Team_Grouping__c</columns>
+        <columns>Marketing_Business_Segment__c</columns>
+        <columns>Early_Adopter_Sales_Owner__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Vibrancy__c</field>
+            <operation>equals</operation>
+            <value>Launch,Dormant,Retired</value>
+        </filters>
+        <label>Launch Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>Laura_Moses_Connectors</fullName>
+        <columns>NAME</columns>
+        <columns>Author__c</columns>
+        <columns>X1st_Certification_Date__c</columns>
+        <columns>X2015_Bookings__c</columns>
+        <columns>X2016ActualBookings__c</columns>
+        <columns>X2017_YTD_Opp_Actual__c</columns>
+        <columns>Integration_Page__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Early_Adopter_Sales_Owner__c</field>
+            <operation>contains</operation>
+            <value>moses</value>
+        </filters>
+        <label>Laura Moses&apos; Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>Magento_Connectors</fullName>
+        <columns>NAME</columns>
+        <columns>Vibrancy__c</columns>
+        <columns>Channel_Availability__c</columns>
+        <columns>Marketing_Business_Segment__c</columns>
+        <columns>Marketing_SubType__c</columns>
+        <columns>UnManaged_Connector__c</columns>
+        <columns>Sales_Group__c</columns>
+        <columns>Channel_Type__c</columns>
+        <columns>Platform_Cateogry__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>NAME</field>
+            <operation>contains</operation>
+            <value>Magento</value>
+        </filters>
+        <label>Magento Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>Mike_Foster_s_Connectors</fullName>
+        <columns>NAME</columns>
+        <columns>Default_Self_Serve__c</columns>
+        <columns>Primary_Sales_Contact__c</columns>
+        <columns>PLT_Owner__c</columns>
+        <columns>Connector_Type__c</columns>
+        <columns>Platform_Cateogry__c</columns>
+        <columns>No_Closed_Won_Opps__c</columns>
+        <columns>TAM_Total_Addressable_Market__c</columns>
+        <columns>PPM__c</columns>
+        <columns>Primary_Marketing_Contact__c</columns>
+        <columns>Customer_Base__c</columns>
+        <columns>Contract_Signed_Date__c</columns>
+        <columns>OWNER.LAST_NAME</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Early_Adopter_Sales_Owner__c</field>
+            <operation>contains</operation>
+            <value>foster</value>
+        </filters>
+        <filters>
+            <field>Vibrancy__c</field>
+            <operation>notEqual</operation>
+            <value>Retired</value>
+        </filters>
+        <label>Mike Foster&apos;s Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>PS_Connector_List</fullName>
+        <columns>NAME</columns>
+        <columns>Managed_By__c</columns>
+        <columns>Platform_Cateogry__c</columns>
+        <columns>Default_Self_Serve__c</columns>
+        <columns>Vibrancy__c</columns>
+        <columns>SAM__c</columns>
+        <columns>Connector_EcoSystem_Test__c</columns>
+        <columns>Dev_Info__c</columns>
+        <columns>Implementation_Team__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Vibrancy__c</field>
+            <operation>equals</operation>
+            <value>Established,Emerging,New,Active</value>
+        </filters>
+        <label>PS Connector List</label>
+    </listViews>
+    <listViews>
+        <fullName>Prestashop</fullName>
+        <columns>NAME</columns>
+        <columns>Author__c</columns>
+        <columns>Connector_Certification_Date__c</columns>
+        <columns>Sales_Group__c</columns>
+        <columns>Managed_By__c</columns>
+        <columns>Default_Self_Serve__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>NAME</field>
+            <operation>contains</operation>
+            <value>Prestashop</value>
+        </filters>
+        <label>Prestashop</label>
+    </listViews>
+    <listViews>
+        <fullName>Quickbooks</fullName>
+        <columns>NAME</columns>
+        <columns>Platform_Cateogry__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>NAME</field>
+            <operation>contains</operation>
+            <value>Quickbooks</value>
+        </filters>
+        <label>Quickbooks</label>
+    </listViews>
+    <listViews>
+        <fullName>Quickbooks1</fullName>
+        <columns>NAME</columns>
+        <columns>Platform_Cateogry__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>NAME</field>
+            <operation>contains</operation>
+            <value>Quickbooks</value>
+        </filters>
+        <label>Quickbooks</label>
+    </listViews>
+    <listViews>
+        <fullName>SOHO_ASP_Update</fullName>
+        <columns>NAME</columns>
+        <columns>X2016_Budget_ASP__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Connector_Type__c</field>
+            <operation>equals</operation>
+            <value>SOHO</value>
+        </filters>
+        <filters>
+            <field>Avalara_Product__c</field>
+            <operation>equals</operation>
+            <value>AvaTax</value>
+        </filters>
+        <filters>
+            <field>Publish__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <label>SOHO ASP Update</label>
+    </listViews>
+    <listViews>
+        <fullName>SOHO_Connectors</fullName>
+        <columns>Platform_Cateogry__c</columns>
+        <columns>Channel_Type__c</columns>
+        <columns>NAME</columns>
+        <columns>Managed_By__c</columns>
+        <columns>SAM__c</columns>
+        <columns>SAM_Manager__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Platform_Cateogry__c</field>
+            <operation>equals</operation>
+            <value>Level 1</value>
+        </filters>
+        <filters>
+            <field>NAME</field>
+            <operation>notContain</operation>
+            <value>Shopify,TrustFile,POS,Epicor,uAccept</value>
+        </filters>
+        <label>SOHO Connectors Available for OnLine Buy</label>
+    </listViews>
+    <listViews>
+        <fullName>SOHO_Connectors_Available_for_OnLine_Buy</fullName>
+        <columns>Platform_Cateogry__c</columns>
+        <columns>Channel_Type__c</columns>
+        <columns>NAME</columns>
+        <columns>Managed_By__c</columns>
+        <columns>SAM__c</columns>
+        <columns>SAM_Manager__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Platform_Cateogry__c</field>
+            <operation>equals</operation>
+            <value>Level 1</value>
+        </filters>
+        <filters>
+            <field>NAME</field>
+            <operation>notContain</operation>
+            <value>Shopify,TrustFile,POS,Epicor,uAccept</value>
+        </filters>
+        <label>SOHO Connectors Available for OnLine Buy</label>
+    </listViews>
+    <listViews>
+        <fullName>Tyler_G_s_Connectors</fullName>
+        <columns>NAME</columns>
+        <columns>Default_Self_Serve__c</columns>
+        <columns>Platform_Cateogry__c</columns>
+        <columns>No_Closed_Won_Opps__c</columns>
+        <columns>YOY_Increase__c</columns>
+        <columns>Sales_Level__c</columns>
+        <columns>PPM__c</columns>
+        <columns>TAM_Total_Addressable_Market__c</columns>
+        <columns>Customer_Base__c</columns>
+        <columns>PLT_Owner__c</columns>
+        <columns>OWNER.LAST_NAME</columns>
+        <columns>Contract_Signed_Date__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Early_Adopter_Sales_Owner__c</field>
+            <operation>contains</operation>
+            <value>grew</value>
+        </filters>
+        <filters>
+            <field>Vibrancy__c</field>
+            <operation>notEqual</operation>
+            <value>Retired</value>
+        </filters>
+        <label>Tyler G&apos;s Connectors</label>
+    </listViews>
+    <listViews>
+        <fullName>eCom_Connectors</fullName>
+        <booleanFilter>1 OR 2</booleanFilter>
+        <columns>NAME</columns>
+        <columns>Author__c</columns>
+        <columns>Managed_By__c</columns>
+        <columns>Platform_Cateogry__c</columns>
+        <columns>Implementation_Team__c</columns>
+        <columns>Integration_Category__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Implementation_Team__c</field>
+            <operation>equals</operation>
+            <value>ECOMM</value>
+        </filters>
+        <filters>
+            <field>NAME</field>
+            <operation>contains</operation>
+            <value>Comm,Cart,Store</value>
+        </filters>
+        <label>eCom Connectors</label>
+    </listViews>
+    <nameField>
+        <label>Connector Name</label>
+        <trackHistory>true</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Connectors</pluralLabel>
+    <searchLayouts>
+        <searchResultsAdditionalFields>Budget__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Author__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>X1st_Certification_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Pricing_Schedule__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Vibrancy__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Partner_Team_Grouping__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>ERP_Status__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <decisions>
+        <name>Account_found</name>
+        <label>Account found?</label>
+        <locationX>450</locationX>
+        <locationY>231</locationY>
+        <defaultConnectorLabel>[Default Outcome]</defaultConnectorLabel>
+        <rules>
+            <name>yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>varAccountid</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Treasury_Case</targetReference>
+            </connector>
+            <label>yes</label>
+        </rules>
+    </decisions>
+    <description>Treasury cases are created by avatax ID&apos;s so need to lookup related account and add it to the case.</description>
+    <interviewLabel>Treasury Case Account Lookup {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Treasury Case Account Lookup</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Account_Lookup_on_Treasury_Case</name>
+        <label>Account Lookup on Treasury Case</label>
+        <locationX>265</locationX>
+        <locationY>162</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Account_found</targetReference>
+        </connector>
+        <filters>
+            <field>ActiveCustomer__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>PROD_AvaTax_Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varPRODAccountnumber</elementReference>
+            </value>
+        </filters>
+        <object>Account</object>
+        <outputAssignments>
+            <assignToReference>varAccountid</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Treasury_Case</name>
+        <label>Update Treasury Case</label>
+        <locationX>269</locationX>
+        <locationY>272</locationY>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varCaseid</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>AccountId</field>
+            <value>
+                <elementReference>varAccountid</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <startElementReference>Account_Lookup_on_Treasury_Case</startElementReference>
+    <variables>
+        <name>varAccountid</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>varCaseid</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>varPRODAccountnumber</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

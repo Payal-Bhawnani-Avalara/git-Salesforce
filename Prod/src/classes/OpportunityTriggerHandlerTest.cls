@@ -8,6 +8,7 @@ public class OpportunityTriggerHandlerTest {
     private static Product2 prod;
     private static PricebookEntry priceEntry;   
     private static OpportunityLineItem oli;	
+    private static OpportunityContactRole oCR;
    static testMethod void testDeleteProsQuoteOrderComplete() {
     	Test.startTest();
 	  //Create an account
@@ -162,4 +163,25 @@ public class OpportunityTriggerHandlerTest {
                                       OpportunityLineItem  where OpportunityId = :o.id limit 1]; 
         System.assertEquals(oppLI.CX911_Opportunity_Line_Item_Booked_Date__c,o.Booked_Date__c);             
     } */   
+     static testMethod void testOppMKLeadScoreUpdate(){
+    	Test.startTest();
+    	//Create an account
+	    	Id customerAccountTypeId=[Select Id from RecordType where DeveloperName='Customer_Account_Type' limit 1].Id;
+	        a =TestUtil.createAccount(customerAccountTypeId,1,true)[0];
+    	    //create a contact 
+            c =TestUtil.createContact(a.Id,1,false)[0];
+            c.mk_customer_fit_avatax_score__c = 10;
+            c.MK_Customer_Fit_Score_CC__c = 10;
+            c.MK_Customer_Fit_Score_Comms__c = 10;
+            c.mk_lead_avatax_score__c = 10;
+            c.MK_Lead_Score_CC__c = 10;
+            c.MK_Lead_Score_Comms__c = 10;
+            insert c;
+	        //create Opportunity
+	        Id defaultOppRecTypeId=[Select Id from RecordType where DeveloperName='Default_OppRecType' limit 1].Id;
+	        o = TestUtil.createOpportunity(a.id,defaultOppRecTypeId,1,true)[0];
+	       //Create OpportunityContactRole
+	       oCR = TestUtil.createOpportunityContactRole(o.id,c.id,null,1,true)[0];	
+	  Test.stopTest();	
+    }  
 }

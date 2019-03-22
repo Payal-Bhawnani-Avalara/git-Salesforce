@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Rollup Nexus Study State Count</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Stamp_Nexus_Study_State_Count_on_Quote</name>
+        <label>Stamp Nexus Study State Count on Quote</label>
+        <locationX>362</locationX>
+        <locationY>232</locationY>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>QuoteID</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>NexusStudyStateCountRollup__c</field>
+            <value>
+                <elementReference>NexusStudyStateQuantity</elementReference>
+            </value>
+        </inputAssignments>
+        <object>zqu__Quote__c</object>
+    </recordUpdates>
+    <startElementReference>Stamp_Nexus_Study_State_Count_on_Quote</startElementReference>
+    <variables>
+        <name>NexusStudyStateQuantity</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <name>QuoteID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

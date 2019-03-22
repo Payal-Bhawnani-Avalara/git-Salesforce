@@ -1,0 +1,9 @@
+<apex:page showHeader="true" sidebar="false" cache="false">
+<span id="execvision_iframe_span">
+    <apex:iframe src="https://users.execvision.io/from_salesforce?salesforce_session_id={!$Api.Session_ID}&salesforce_user_id={!$User.Id}&salesforce_org_id={!$Organization.Id}" title="https://users.execvision.io/from_salesforce?salesforce_session_id={!$Api.Session_ID}&salesforce_user_id={!$User.Id}" frameborder="false" scrolling="true" />
+</span>
+<script type="text/javascript">
+var cachebuster = Math.round(new Date().getTime() / 1000);
+document.write('<scr'+'ipt type="text/javascript" src="https://users.execvision.io/ev_sf.js?cb='=' cachebuster'"></scr' + 'ipt>');
+</script>
+</apex:page>

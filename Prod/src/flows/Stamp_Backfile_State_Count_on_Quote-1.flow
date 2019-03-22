@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Stamp Backfile State Count on Quote</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Stamp_Backfile_State_Count_on_Quote</name>
+        <label>Stamp Backfile State Count on Quote</label>
+        <locationX>297</locationX>
+        <locationY>140</locationY>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>QuoteID</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>BackfileStateCountRollup__c</field>
+            <value>
+                <elementReference>BackfileStateCount</elementReference>
+            </value>
+        </inputAssignments>
+        <object>zqu__Quote__c</object>
+    </recordUpdates>
+    <startElementReference>Stamp_Backfile_State_Count_on_Quote</startElementReference>
+    <variables>
+        <name>BackfileStateCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <name>QuoteID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

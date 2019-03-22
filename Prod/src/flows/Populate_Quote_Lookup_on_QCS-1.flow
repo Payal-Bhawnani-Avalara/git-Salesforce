@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <assignments>
+        <name>Assign_QuoteID_to_Quote_Lookup_on_QCS_Instance</name>
+        <label>Assign QuoteID to Quote Lookup on QCS Instance</label>
+        <locationX>583</locationX>
+        <locationY>329</locationY>
+        <assignmentItems>
+            <assignToReference>QCSInstance.Quote__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>QuoteID</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_QCS_Record</targetReference>
+        </connector>
+    </assignments>
+    <label>Populate Quote Lookup on QCS</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Instantiate_Quote_Charge_Summary</name>
+        <label>Instantiate Quote Charge Summary</label>
+        <locationX>581</locationX>
+        <locationY>131</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_QuoteID_to_Quote_Lookup_on_QCS_Instance</targetReference>
+        </connector>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>QCSId</elementReference>
+            </value>
+        </filters>
+        <object>zqu__QuoteChargeSummary__c</object>
+        <outputReference>QCSInstance</outputReference>
+        <queriedFields>Id</queriedFields>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_QCS_Record</name>
+        <label>Update QCS Record</label>
+        <locationX>585</locationX>
+        <locationY>530</locationY>
+        <inputReference>QCSInstance</inputReference>
+    </recordUpdates>
+    <startElementReference>Instantiate_Quote_Charge_Summary</startElementReference>
+    <variables>
+        <name>QCSId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>QCSInstance</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>zqu__QuoteChargeSummary__c</objectType>
+    </variables>
+    <variables>
+        <name>QuoteID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

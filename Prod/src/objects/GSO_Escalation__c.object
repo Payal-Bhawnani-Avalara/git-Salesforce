@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Dynamic form that will be filled out when escalating a case.  Case is the parent record</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Avalara_Employee_Requesting_Escalation__c</fullName>
+        <externalId>false</externalId>
+        <formula>CreatedBy.Full_Name__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Avalara Employee Requesting Escalation</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Case_Number__c</fullName>
+        <externalId>false</externalId>
+        <formula>Case__r.CaseNumber</formula>
+        <label>Case Number</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Case_Owner_Role_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>Case__r.Owner:User.UserRole.Name</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Case Owner Role Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Case__c</fullName>
+        <externalId>false</externalId>
+        <label>Case</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>GSO Escalations</relationshipLabel>
+        <relationshipName>GSO_Escalations</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Current_Case_Owner__c</fullName>
+        <externalId>false</externalId>
+        <formula>Case__r.Owner:User.FirstName &amp; &quot; &quot; &amp; Case__r.Owner:User.LastName</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Current Case Owner</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Customer_Account_Contact_Email__c</fullName>
+        <externalId>false</externalId>
+        <formula>Case__r.Contact.Email</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Customer Account Contact Email</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Customer_Account_Contact__c</fullName>
+        <externalId>false</externalId>
+        <formula>Case__r.Contact.FirstName &amp;&quot; &quot;&amp; Case__r.Contact.LastName</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Customer Account Contact</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Customer_Account_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>Case__r.Account.Name</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Customer Account Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Escalation_Classification__c</fullName>
+        <externalId>false</externalId>
+        <label>Escalation Classification</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Failure - missed SLA, missed commitment, or given bad information</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Favor - Non-Failure</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Support Transfer -  For support use only</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Escalation_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>Case__r.Account.Name &amp;&quot; &quot;&amp; Case__r.Subject &amp;&quot; - &quot;&amp; Case_Number__c&amp;&quot;(&quot;&amp;Text( Case__r.Priority )&amp;&quot;)&quot;</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Escalation Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Escalation_Owner__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Escalation Owner</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>GSO_Escalations</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Failure_Subcategory__c</fullName>
+        <description>https://jira.avalara.com/browse/IBST-8929</description>
+        <externalId>false</externalId>
+        <label>Failure Subcategory</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Escalation_Classification__c</controllingField>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Case duration</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Responsiveness</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Agent misalignment</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Failure - missed SLA, missed commitment, or given bad information</controllingFieldValue>
+                <valueName>Case duration</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Failure - missed SLA, missed commitment, or given bad information</controllingFieldValue>
+                <valueName>Responsiveness</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Failure - missed SLA, missed commitment, or given bad information</controllingFieldValue>
+                <valueName>Agent misalignment</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Product__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( Case__r.RecordTypeId =&quot;01240000000Uc7D&quot;,&quot;Excise&quot;,TEXT( Case__r.Avalara_Product__c ))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Product</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Reason_for_Escalation__c</fullName>
+        <externalId>false</externalId>
+        <label>Reason for Escalation</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Requesting_Employee_Email_Address__c</fullName>
+        <externalId>false</externalId>
+        <formula>CreatedBy.Email</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Requesting Employee Email Address</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>GSO Escalation</label>
+    <nameField>
+        <displayFormat>{YYYY}{MM}-{0}</displayFormat>
+        <label>GSO Escalation Name</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>GSO Escalations</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Assignment_Lock</fullName>
+        <active>true</active>
+        <description>Only users Peter Ferrara, Earl Wright, Nigel Drinkwater, and Alex Stearns can change the Escalation Owner field. Added ISNEW to cover record insert 
+Update: IBST-8116, IBST-11004, IBST-11468</description>
+        <errorConditionFormula>AND( 
+$User.Id &lt;&gt; &quot;00533000004BWwo&quot;, 
+$User.Id &lt;&gt; &quot;00540000002fY9I&quot;, 
+$User.Id &lt;&gt; &quot;00533000003byBA&quot;, 
+$User.Id &lt;&gt; &quot;0053300000458DY&quot;, 
+$User.Id &lt;&gt; &quot;00540000001hPyJ&quot;, 
+$User.Id &lt;&gt; &quot;00540000001wMI5&quot;, 
+$User.Id &lt;&gt; &quot;00540000001gltF&quot;, 
+$User.Id &lt;&gt; &quot;0050b000004K0XG&quot;,
+
+$User.Id &lt;&gt; &quot;00540000001hPyY&quot;, 
+
+$User.Id &lt;&gt; &quot;00533000003RS4P&quot;, 
+
+$User.Id &lt;&gt; &quot;00533000003RabR&quot;, 
+
+$User.Id &lt;&gt; &quot;00533000003S4my&quot;, 
+OR( 
+ISCHANGED(Escalation_Owner__c )) 
+)</errorConditionFormula>
+        <errorMessage>You do not have the ability to assign the Escalation Owner.</errorMessage>
+    </validationRules>
+</CustomObject>

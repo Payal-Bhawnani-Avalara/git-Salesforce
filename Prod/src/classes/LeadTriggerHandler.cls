@@ -120,7 +120,55 @@ public class LeadTriggerHandler extends TriggerHandler {
                             l.Partner_Connector_Assigned_Rep__c=mapResellingPartnerRep.get(''+l.PartnerName__c+l.Connector__c);
                         }
                     }
-            }                           
+            }   
+            //BATS-748 Get CampaignMembers related to Contact 
+	        List<Lead> updateCon = new  List<Lead>();
+	        Set<Id> campID = new  Set<Id>();
+	        Set<Id> conId = new Set<Id>();
+	        for(Lead con : (List<Lead>)Trigger.new){
+	          if(con.Campaign_MostRecent__c != null){
+	             campID.add(con.Campaign_MostRecent__c);
+	             conId.add(con.id);
+	             system.debug('campID>>'+campID);
+	             system.debug('conId>>'+conId);
+	          }
+	        }
+	        List<CampaignMember> cmList = [SELECT leadid,contactid,CampaignId,Initial_Response_Date__c,MQL_Date__c FROM CampaignMember WHERE CampaignId IN :campId AND leadid IN: conId AND Initial_Response_Date__c=LAST_N_DAYS:5];
+	        Map<String,CampaignMember> mapCM=new Map<String,CampaignMember>();
+	  	    for(CampaignMember cm: cmList){
+	  		 if(cmList.size()>0 &&cm.CampaignId !=null &&cm.LeadId !=null){
+	  		       mapCM.put(''+cm.CampaignId+cm.LeadId,cm); 
+	               System.debug('mapCM>>'+mapCM);
+	  		 }
+	  	    }
+	        Map<Id,Lead> oldContactMap;
+	        if(Trigger.isUpdate){
+	            oldContactMap=(Map<Id,Lead>) Trigger.oldMap;
+	        }
+	        for(Lead l: (List<Lead>)Trigger.new) {
+	            if(String.isNotBlank(l.Status)){
+	            	//MQL
+	                if((Trigger.isInsert || (Trigger.isUpdate && oldContactMap.get(l.Id).Status!=Constants.LEAD_STATUS_MQL)) && 
+	                    l.Status==Constants.LEAD_STATUS_MQL ){
+	                    if(mapCM.containsKey(''+l.Campaign_MostRecent__c+l.id) && mapCM.get(''+l.Campaign_MostRecent__c+l.id).Initial_Response_Date__c.date() == Date.today()){
+	                      l.MQL_Date_Most_Recent__c = DateTime.now();
+	                      mapCM.get(''+l.Campaign_MostRecent__c+l.id).MQL_Date__c =  DateTime.now();
+	                      system.debug('con>>'+l);
+	                    }
+	                }
+	                //Working
+	                if((Trigger.isInsert || (Trigger.isUpdate && oldContactMap.get(l.Id).Status!=Constants.LEAD_STATUS_WORKING)) && 
+	                    l.Status==Constants.LEAD_STATUS_WORKING ){
+	                    if(mapCM.containsKey(''+l.Campaign_MostRecent__c+l.id) && mapCM.get(''+l.Campaign_MostRecent__c+l.id).Initial_Response_Date__c.date()>=Date.today().addDays(-5) ){
+	                      System.debug('Within 5 days>> '+ Date.today().addDays(-5));
+	                      l.Working_Date_Most_Recent__c = DateTime.now();
+	                      mapCM.get(''+l.Campaign_MostRecent__c+l.id).Working_Date__c =  DateTime.now();
+	                      system.debug('con>>'+l);
+	                    }
+	                }
+	            }
+	        }
+	        update mapCM.values();                         
         //}
     }
      //https://jira.avalara.com/browse/IBST-8008

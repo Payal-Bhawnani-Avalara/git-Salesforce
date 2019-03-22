@@ -301,7 +301,11 @@
 
 			if($('.header').length < 1
 				|| $('.main-phone').length < 1){
-				
+					
+					if ($('.main-phone').hasClass('edit')) {
+						clearTimeout(headerTimeOut);
+						return;
+					}
 					headerTimeOut = setTimeout(function(){
 
 						setHeaderAttributes();
@@ -312,9 +316,13 @@
 			}
 
 			clearTimeout(headerTimeOut);
+			if ($('.main-phone').hasClass('edit')) {
+				return;
+			}
 			avalaraLoggingConsole(['Set new header attributes'])
     	$('.header').addClass('cobrand');
-      $('.main-phone').text('Need help? Call us at '+$('.main-phone').text());
+    	$('.main-phone').attr('href', 'tel://1-877-759-6520')
+      $('.main-phone').text('Need help? Call us at (877) 759-6520');
      
 		}
 

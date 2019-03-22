@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>https://wiki.avalara.com/pages/viewpage.action?pageId=292769310</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>false</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Assignment_Date_Time__c</fullName>
+        <description>https://wiki.avalara.com/pages/viewpage.action?pageId=292769310</description>
+        <externalId>false</externalId>
+        <label>Assignment Date/Time</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Assignment_to_Nurture_Disqualified__c</fullName>
+        <externalId>false</externalId>
+        <formula>ROUND( 60*12 * (
+( 5 * FLOOR( ( DATEVALUE( Nurture_Disqualified_Date_Time__c) - DATE( 1900, 1, 8) ) / 7) +
+MIN(5, 
+MOD( DATEVALUE( Nurture_Disqualified_Date_Time__c ) - DATE( 1900, 1, 8), 7) +
+MIN( 1, 24 / 12 * ( MOD( Nurture_Disqualified_Date_Time__c - DATETIMEVALUE( &apos;1900-01-08 12:00:00&apos; ), 1 ) ) )
+) 
+)
+-
+( 5 * FLOOR( ( DATEVALUE( Assignment_Date_Time__c) - DATE( 1900, 1, 8) ) / 7) +
+MIN( 5,
+MOD( DATEVALUE( Assignment_Date_Time__c ) - DATE( 1996, 1, 1), 7 ) +
+MIN( 1, 24 / 12 * ( MOD( Assignment_Date_Time__c  - DATETIMEVALUE( &apos;1900-01-08 12:00:00&apos; ), 1) ) )
+)
+) 
+), 
+0 )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Assignment to Nurture/Disqualified</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Assignment_to_Working__c</fullName>
+        <externalId>false</externalId>
+        <formula>ROUND( 60*12 * (
+( 5 * FLOOR( ( DATEVALUE( Working_Date_Time__c ) - DATE( 1900, 1, 8) ) / 7) +
+MIN(5, 
+MOD( DATEVALUE( Working_Date_Time__c ) - DATE( 1900, 1, 8), 7) +
+MIN( 1, 24 / 12 * ( MOD( Working_Date_Time__c - DATETIMEVALUE( &apos;1900-01-08 12:00:00&apos; ), 1 ) ) )
+) 
+)
+-
+( 5 * FLOOR( ( DATEVALUE( Assignment_Date_Time__c) - DATE( 1900, 1, 8) ) / 7) +
+MIN( 5,
+MOD( DATEVALUE( Assignment_Date_Time__c) - DATE( 1996, 1, 1), 7 ) +
+MIN( 1, 24 / 12 * ( MOD( Assignment_Date_Time__c  - DATETIMEVALUE( &apos;1900-01-08 12:00:00&apos; ), 1) ) )
+)
+) 
+), 
+0 )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Assignment to Working</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Campaign_Most_recent__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>https://jira.avalara.com/browse/BATS-525</description>
+        <externalId>false</externalId>
+        <label>Campaign Most recent</label>
+        <referenceTo>Campaign</referenceTo>
+        <relationshipLabel>Response Velocities</relationshipLabel>
+        <relationshipName>Response_Velocities</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Response Velocities</relationshipLabel>
+        <relationshipName>Response_Velocities_Contact</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Lead__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Lead</label>
+        <referenceTo>Lead</referenceTo>
+        <relationshipLabel>Response Velocities</relationshipLabel>
+        <relationshipName>Response_Velocities_Lead</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>MK_Customer_Fit_Score__c</fullName>
+        <description>https://jira.avalara.com/browse/BATS-525</description>
+        <externalId>false</externalId>
+        <label>MK Customer Fit Score</label>
+        <precision>9</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MK_Lead_Score__c</fullName>
+        <description>https://jira.avalara.com/browse/BATS-525</description>
+        <externalId>false</externalId>
+        <label>MK Lead Score</label>
+        <precision>9</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MQL_Date_Time__c</fullName>
+        <description>https://wiki.avalara.com/pages/viewpage.action?pageId=292769310</description>
+        <externalId>false</externalId>
+        <label>MQL Date/Time</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>MQL_Outside_of_Business_Hours__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( 
+OR( 
+MOD(DATEVALUE(MQL_Date_Time__c) - DATE(1900, 1, 6), 7) &lt; 2, 
+VALUE(MID(TEXT(MQL_Date_Time__c),12,2))&lt;12, 
+VALUE(MID(TEXT(MQL_Date_Time__c),12,2))&gt;24), 
+true, false)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>MQL Outside of Business Hours</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>MQL_to_Assignment__c</fullName>
+        <externalId>false</externalId>
+        <formula>ROUND( 60*12 * (
+   ( 5 * FLOOR( ( DATEVALUE( Assignment_Date_Time__c ) - DATE( 1900, 1, 8) ) / 7) +
+    MIN(5, 
+     MOD( DATEVALUE( Assignment_Date_Time__c ) - DATE( 1900, 1, 8), 7) +
+     MIN( 1, 24 / 12 * ( MOD( Assignment_Date_Time__c - DATETIMEVALUE( &apos;1900-01-08 12:00:00&apos; ), 1 ) ) )
+    ) 
+   )
+ -
+   ( 5 * FLOOR( ( DATEVALUE( MQL_Date_Time__c ) - DATE( 1900, 1, 8) ) / 7) +
+     MIN( 5,
+      MOD( DATEVALUE( MQL_Date_Time__c ) - DATE( 1996, 1, 1), 7 ) +
+      MIN( 1, 24 / 12 * ( MOD( MQL_Date_Time__c - DATETIMEVALUE( &apos;1900-01-08 12:00:00&apos; ), 1) ) )
+    )
+   ) 
+  ), 
+0 )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>MQL to Assignment</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MQL_to_Nurture_Disqualified__c</fullName>
+        <externalId>false</externalId>
+        <formula>ROUND( 60*12 * (
+   ( 5 * FLOOR( ( DATEVALUE( Nurture_Disqualified_Date_Time__c) - DATE( 1900, 1, 8) ) / 7) +
+    MIN(5, 
+     MOD( DATEVALUE( Nurture_Disqualified_Date_Time__c ) - DATE( 1900, 1, 8), 7) +
+     MIN( 1, 24 / 12 * ( MOD( Nurture_Disqualified_Date_Time__c- DATETIMEVALUE( &apos;1900-01-08 12:00:00&apos; ), 1 ) ) )
+    ) 
+   )
+ -
+   ( 5 * FLOOR( ( DATEVALUE( MQL_Date_Time__c ) - DATE( 1900, 1, 8) ) / 7) +
+     MIN( 5,
+      MOD( DATEVALUE( MQL_Date_Time__c ) - DATE( 1996, 1, 1), 7 ) +
+      MIN( 1, 24 / 12 * ( MOD( MQL_Date_Time__c - DATETIMEVALUE( &apos;1900-01-08 12:00:00&apos; ), 1) ) )
+    )
+   ) 
+  ), 
+0 )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>MQL to Nurture/Disqualified</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MQL_to_Processing__c</fullName>
+        <externalId>false</externalId>
+        <formula>ROUND( 60*12 * (
+   ( 5 * FLOOR( ( DATEVALUE( Processing_Date_Time__c ) - DATE( 1900, 1, 8) ) / 7) +
+    MIN(5, 
+     MOD( DATEVALUE( Processing_Date_Time__c ) - DATE( 1900, 1, 8), 7) +
+     MIN( 1, 24 / 12 * ( MOD( Processing_Date_Time__c - DATETIMEVALUE( &apos;1900-01-08 12:00:00&apos; ), 1 ) ) )
+    ) 
+   )
+ -
+   ( 5 * FLOOR( ( DATEVALUE( MQL_Date_Time__c ) - DATE( 1900, 1, 8) ) / 7) +
+     MIN( 5,
+      MOD( DATEVALUE( MQL_Date_Time__c ) - DATE( 1996, 1, 1), 7 ) +
+      MIN( 1, 24 / 12 * ( MOD( MQL_Date_Time__c - DATETIMEVALUE( &apos;1900-01-08 12:00:00&apos; ), 1) ) )
+    )
+   ) 
+  ), 
+0 )</formula>
+        <label>MQL to Processing</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MQL_to_Working__c</fullName>
+        <externalId>false</externalId>
+        <formula>ROUND( 60*12 * (
+   ( 5 * FLOOR( ( DATEVALUE( Working_Date_Time__c ) - DATE( 1900, 1, 8) ) / 7) +
+    MIN(5, 
+     MOD( DATEVALUE( Working_Date_Time__c ) - DATE( 1900, 1, 8), 7) +
+     MIN( 1, 24 / 12 * ( MOD( Working_Date_Time__c - DATETIMEVALUE( &apos;1900-01-08 12:00:00&apos; ), 1 ) ) )
+    ) 
+   )
+ -
+   ( 5 * FLOOR( ( DATEVALUE( MQL_Date_Time__c ) - DATE( 1900, 1, 8) ) / 7) +
+     MIN( 5,
+      MOD( DATEVALUE( MQL_Date_Time__c ) - DATE( 1996, 1, 1), 7 ) +
+      MIN( 1, 24 / 12 * ( MOD( MQL_Date_Time__c - DATETIMEVALUE( &apos;1900-01-08 12:00:00&apos; ), 1) ) )
+    )
+   ) 
+  ), 
+0 )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>MQL to Working</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Method_of_Contact__c</fullName>
+        <description>https://jira.avalara.com/browse/BATS-525</description>
+        <externalId>false</externalId>
+        <label>Method of Contact</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Chat</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Email</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Phone</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Webform T1</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Webform T2</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>In Person</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Most_Recent_Conversion_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Most Recent Conversion Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Nurture_Disqualified_Date_Time__c</fullName>
+        <description>https://jira.avalara.com/browse/BATS-622</description>
+        <externalId>false</externalId>
+        <label>Nurture/Disqualified Date/Time</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Nurture_Disqualified_Reason_Text__c</fullName>
+        <externalId>false</externalId>
+        <label>Nurture/Disqualified Reason</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Nurture_Disqualified_Reason__c</fullName>
+        <description>https://jira.avalara.com/browse/BATS-622</description>
+        <externalId>false</externalId>
+        <label>Nurture/Disqualified Reason</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Nurture_Reasons</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Offer__c</fullName>
+        <externalId>false</externalId>
+        <label>Offer</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Blog</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Case Study</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CL Event</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Content Syndication Whitepaper</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Corporate Sponsored Event</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Direct to Rep</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Emergency Service Notice</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Free Rates</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Free Trial</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>General Contact</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Newsletter</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>OBTM</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Online Buying</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Partner Event</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Partner Training</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Product Offering</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Prospecting</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Referral Program</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Revive</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Roadshow</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Survey</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Through-partner syndication</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Tradeshow</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>User Group</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Video</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Webinar</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Website Visit</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Web Tools</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Whitepaper</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Opportunity_Created__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>https://jira.avalara.com/browse/BATS-525</description>
+        <externalId>false</externalId>
+        <label>Opportunity Created</label>
+        <referenceTo>Opportunity</referenceTo>
+        <relationshipLabel>Response Velocities</relationshipLabel>
+        <relationshipName>Response_Velocities</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Opportunity_SubType__c</fullName>
+        <externalId>false</externalId>
+        <label>Opportunity SubType</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>ACP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AvaTax</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>BizDev</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Brazil</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CertCapture</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Communications</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>DSP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMEA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Excise</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>India</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>LandedCost</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MatrixMaster</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MSP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MSP-Payroll</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MyLodge</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SOHO</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>TrustFile</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Included</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Owner_at_Assignment__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>https://jira.avalara.com/browse/BATS-622</description>
+        <externalId>false</externalId>
+        <label>Owner at Assignment</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Response_Velocities</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Processing_Date_Time__c</fullName>
+        <description>https://wiki.avalara.com/pages/viewpage.action?pageId=292769310
+https://jira.avalara.com/browse/ITBSE-563?filter=-1</description>
+        <externalId>false</externalId>
+        <label>Processing Date/Time</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Processing_to_Working__c</fullName>
+        <description>(Working_Date_Time__c - Processing_Date_Time__c)*24*60</description>
+        <externalId>false</externalId>
+        <formula>ROUND( 60*12 * (
+   ( 5 * FLOOR( ( DATEVALUE( Working_Date_Time__c ) - DATE( 1900, 1, 8) ) / 7) +
+    MIN(5, 
+     MOD( DATEVALUE( Working_Date_Time__c ) - DATE( 1900, 1, 8), 7) +
+     MIN( 1, 24 / 12 * ( MOD( Working_Date_Time__c - DATETIMEVALUE( &apos;1900-01-08 12:00:00&apos; ), 1 ) ) )
+    ) 
+   )
+ -
+   ( 5 * FLOOR( ( DATEVALUE( Processing_Date_Time__c ) - DATE( 1900, 1, 8) ) / 7) +
+     MIN( 5,
+      MOD( DATEVALUE( Processing_Date_Time__c ) - DATE( 1996, 1, 1), 7 ) +
+      MIN( 1, 24 / 12 * ( MOD( Processing_Date_Time__c - DATETIMEVALUE( &apos;1900-01-08 12:00:00&apos; ), 1) ) )
+    )
+   ) 
+  ), 
+0 )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Processing to Working</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Working_Date_Time__c</fullName>
+        <description>https://wiki.avalara.com/pages/viewpage.action?pageId=292769310
+https://jira.avalara.com/browse/ITBSE-563?filter=-1</description>
+        <externalId>false</externalId>
+        <label>Working Date/Time</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Working_to_Nurture_Disqualified__c</fullName>
+        <externalId>false</externalId>
+        <formula>ROUND( 60*12 * (
+   ( 5 * FLOOR( ( DATEVALUE( Nurture_Disqualified_Date_Time__c) - DATE( 1900, 1, 8) ) / 7) +
+    MIN(5, 
+     MOD( DATEVALUE( Nurture_Disqualified_Date_Time__c) - DATE( 1900, 1, 8), 7) +
+     MIN( 1, 24 / 12 * ( MOD( Nurture_Disqualified_Date_Time__c- DATETIMEVALUE( &apos;1900-01-08 12:00:00&apos; ), 1 ) ) )
+    ) 
+   )
+ -
+   ( 5 * FLOOR( ( DATEVALUE( Working_Date_Time__c ) - DATE( 1900, 1, 8) ) / 7) +
+     MIN( 5,
+      MOD( DATEVALUE( Working_Date_Time__c) - DATE( 1996, 1, 1), 7 ) +
+      MIN( 1, 24 / 12 * ( MOD( Working_Date_Time__c- DATETIMEVALUE( &apos;1900-01-08 12:00:00&apos; ), 1) ) )
+    )
+   ) 
+  ), 
+0 )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Working to Nurture/Disqualified</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Response Velocity</label>
+    <nameField>
+        <displayFormat>RV-{0000}</displayFormat>
+        <label>Response Velocity Number</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Response Velocities</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

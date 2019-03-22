@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>false</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Account__c</fullName>
+        <externalId>false</externalId>
+        <label>Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Zuora Billable Usage Credits</relationshipLabel>
+        <relationshipName>Zuora_Billable_Usage_Credits</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Approval_Date__c</fullName>
+        <description>https://jira.avalara.com/browse/IBST-12706</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This field is populated by the ZBUC approval process when the record is approved.</inlineHelpText>
+        <label>Approval Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Approval_Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Approval Status</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>New</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Pending</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Approved</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Rejected</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Approved_By__c</fullName>
+        <description>https://jira.avalara.com/browse/IBST-12706</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This field is populated by the ZBUC approval process when the record is approved.</inlineHelpText>
+        <label>Approved By</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CaseSafeID__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASESAFEID(Id)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Zuora Billable Usage Credit CaseSafeID</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Case__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Case</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>Zuora Billable Usage Credits</relationshipLabel>
+        <relationshipName>Zuora_Billable_Usage_Credits</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Credit_Related_Connector__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Credit Related Connector</label>
+        <referenceTo>Connector__c</referenceTo>
+        <relationshipLabel>Zuora Billable Usage Credits</relationshipLabel>
+        <relationshipName>Zuora_Billable_Usage_Credits</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Invoice_Credit_Amount__c</fullName>
+        <defaultValue>0.00</defaultValue>
+        <externalId>false</externalId>
+        <label>Invoice Credit $ Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Invoice_Credit_Transaction_Equivalent__c</fullName>
+        <externalId>false</externalId>
+        <formula>Invoice_Credit_Amount__c /  Account__r.AvaTax_Usage_Overage_Rate__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Invoice Credit Transaction Equivalent</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Invoice_Transaction_Credit_Amount__c</fullName>
+        <defaultValue>0.00</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>If an invoice has been issue for overage and that invoice was subsequently credited, enter the usage transactions that were included on the invoice otherwise enter 0</inlineHelpText>
+        <label>Invoice Transaction Credit Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Invoice__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <inlineHelpText>The invoice associated with the invoice credit for this event</inlineHelpText>
+        <label>Invoice</label>
+        <referenceTo>Zuora__ZInvoice__c</referenceTo>
+        <relationshipLabel>Zuora Billable Usage Credits</relationshipLabel>
+        <relationshipName>Zuora_Billable_Usage_Credits</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Next_Action_Owner__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Next Action Owner</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Zuora_Billable_Usage_Credits</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Processing_ID__c</fullName>
+        <externalId>false</externalId>
+        <label>Processing ID</label>
+        <length>50</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Subscription_End_Date__c</fullName>
+        <externalId>false</externalId>
+        <formula>Today()</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Subscription End Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Subscription_Start_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Subscription Start Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Subscription__c</fullName>
+        <deleteConstraint>Restrict</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Subscription</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>Zuora__Subscription__c.Zuora__Account__c</field>
+                <operation>equals</operation>
+                <valueField>$Source.Account__c</valueField>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Zuora__Subscription__c</referenceTo>
+        <relationshipLabel>Zuora Billable Usage Credits</relationshipLabel>
+        <relationshipName>Zuora_Billable_Usage_Credits</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Transaction_Credit_Amount__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Positive round number. Do not use a negative</inlineHelpText>
+        <label>Transaction Credit Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Transaction_Credit_Balance__c</fullName>
+        <defaultValue>0.00</defaultValue>
+        <externalId>false</externalId>
+        <label>Transaction Credit Balance</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Transaction_Credit_Description__c</fullName>
+        <externalId>false</externalId>
+        <label>Transaction Credit/Limit Summary</label>
+        <length>32768</length>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Transaction_Credit_End_Date__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Will be Auto Populated after the record is saved from the subscription term end date at the account level</inlineHelpText>
+        <label>Transaction Credit/Limit End Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Transaction_Credit_Reason__c</fullName>
+        <externalId>false</externalId>
+        <label>Transaction Credit/Limit Reason</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Upgrade occurred before invoicing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Downgraded after renewal date</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Conceding overages in lieu of upgrade</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Connector Issues</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Product Limitations/Configuration</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Customer Expectations</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Customer Service/Retention</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Services SOW</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Incorrect Billing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Transaction_Credit_Start_Date__c</fullName>
+        <defaultValue>Today()</defaultValue>
+        <externalId>false</externalId>
+        <label>Transaction Credit/Limit Start Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Transaction_Credit_UOM__c</fullName>
+        <externalId>false</externalId>
+        <label>Transaction Credit UOM</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Certificates</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Documents</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Global Documents</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Returns</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Transactions</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Transaction_Limit_Hold_Amount__c</fullName>
+        <externalId>false</externalId>
+        <formula>Account__r.AvaTax_Current_Plan_Tier__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Transaction Limit Hold Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Transaction_Limit_Hold__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Transaction Limit Hold</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Transaction_Subscription_Limit__c</fullName>
+        <externalId>false</externalId>
+        <label>Transaction Subscription Limit</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Zuora Billable Usage Credit</label>
+    <nameField>
+        <displayFormat>zbuc{0000}</displayFormat>
+        <label>Zuora Billable Usage Credit Name</label>
+        <trackHistory>true</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Zuora Billable Usage Credits</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Cannot_Add_Hold_and_Credit_Amount_Same</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(Transaction_Limit_Hold__c = TRUE,  Transaction_Credit_Amount__c &gt; 0)</errorConditionFormula>
+        <errorMessage>You cannot simultaneously add a credit and a limit on the same record</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Credit_Balance_Greater_Than_Amount</fullName>
+        <active>true</active>
+        <errorConditionFormula>Transaction_Credit_Balance__c &gt;  Transaction_Credit_Amount__c</errorConditionFormula>
+        <errorMessage>The transaction credit balance cannot be greater than the transaction credit amount</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Must_Select_Credit_Amount_or_Limit_Hold</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(
+ISBLANK(Transaction_Credit_Amount__c),
+Transaction_Limit_Hold__c = FALSE
+)</errorConditionFormula>
+        <errorMessage>You must enter a transaction credit amount or limit hold.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Transaction_Amount_after_Approval</fullName>
+        <active>true</active>
+        <description>https://jira.avalara.com/browse/IBST-12706</description>
+        <errorConditionFormula>AND(
+ISPICKVAL(Approval_Status__c, &quot;Approved&quot;),
+ISCHANGED( Transaction_Credit_Amount__c )
+)</errorConditionFormula>
+        <errorMessage>You can not change the transaction credit amount after the ZBUC has been approved.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Transaction_Credit_Amount_Must_Be_Positi</fullName>
+        <active>true</active>
+        <errorConditionFormula>Transaction_Credit_Amount__c &lt; 0</errorConditionFormula>
+        <errorDisplayField>Transaction_Credit_Amount__c</errorDisplayField>
+        <errorMessage>Please update Transaction Credit Amount to positive value.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Transaction_Credit_Amount_Required</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(
+Transaction_Limit_Hold__c = FALSE,  NOT(ISBLANK(Transaction_Credit_Amount__c )),
+Transaction_Credit_Amount__c &lt;= 0
+
+)</errorConditionFormula>
+        <errorMessage>You must enter a Transaction Credit Amount.</errorMessage>
+    </validationRules>
+</CustomObject>

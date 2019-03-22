@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <decisions>
+        <name>All_States_Check</name>
+        <label>All States Check</label>
+        <locationX>313</locationX>
+        <locationY>69</locationY>
+        <defaultConnectorLabel>All States False</defaultConnectorLabel>
+        <rules>
+            <name>All_States_True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>QCSName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Nexus Study - All States</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>All_States_True_Quote_Update</targetReference>
+            </connector>
+            <label>All States True</label>
+        </rules>
+        <rules>
+            <name>All_States_False</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>QCSName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Nexus Study - All States</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Stamp_Nexus_Study_State_Count_on_Quote</targetReference>
+            </connector>
+            <label>All States False</label>
+        </rules>
+    </decisions>
+    <interviewLabel>Rollup Nexus Study State Count {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Rollup Nexus Study State Count</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>All_States_True_Quote_Update</name>
+        <label>All States True Quote Update</label>
+        <locationX>130</locationX>
+        <locationY>227</locationY>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>QuoteID</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>NexusStudyStateCountRollup__c</field>
+            <value>
+                <numberValue>46.0</numberValue>
+            </value>
+        </inputAssignments>
+        <object>zqu__Quote__c</object>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Stamp_Nexus_Study_State_Count_on_Quote</name>
+        <label>Stamp Nexus Study State Count on Quote</label>
+        <locationX>496</locationX>
+        <locationY>230</locationY>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>QuoteID</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>NexusStudyStateCountRollup__c</field>
+            <value>
+                <elementReference>NexusStudyStateQuantity</elementReference>
+            </value>
+        </inputAssignments>
+        <object>zqu__Quote__c</object>
+    </recordUpdates>
+    <startElementReference>All_States_Check</startElementReference>
+    <variables>
+        <name>NexusStudyStateQuantity</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <name>QCSName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>QuoteID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

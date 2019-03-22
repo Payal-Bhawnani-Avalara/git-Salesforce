@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>AccountName__c</fullName>
+        <externalId>false</externalId>
+        <formula>Opportunity__r.Account.Name</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Account Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>AllLineItemsSKU_Item_Numbers__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Are SKU’s/Item Numbers assigned to all lines on the Purchase/Accounts Payable Invoice?</inlineHelpText>
+        <label>All Line Items SKU/Item Numbers</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>BatchAsynchronousProcess__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Is there a need/requirement to process use tax calculation and assessment using a batch/asynchronous process?</inlineHelpText>
+        <label>Batch/Asynchronous Process</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>CUTQuestionnaireContact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>CUT Questionnaire Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>CUT Questionnaire Results</relationshipLabel>
+        <relationshipName>CUT_Questionnaire_Results</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>EstimatedSalesTaxonPurchaseOrders__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Does your organization wish to apply an estimated sales tax on its Purchase Orders in advance of delivery of the order to the vendor?</inlineHelpText>
+        <label>Estimated Sales Tax on Purchase Orders</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Freight_ShippingUniqueLineItem__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Are freight and shipping charges identified as a unique line item during the entry of the invoice into your organization’s ERP/accounting system?</inlineHelpText>
+        <label>Freight/Shipping Unique Line Item</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>GeneralLedgeNumberCommodityCode__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>If SKU’s/Item Numbers are not assigned to all lines on the Purchase/Accounts Payable Invoice, is a General Ledger Number or Commodity Code assigned to the line?</inlineHelpText>
+        <label>General Ledge Number or Commodity Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>InventoryTransferTransactionTypes__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Which of the following types of Inventory Transfer transaction require (consumer) use tax calculation and accrual?
+Select all that apply</inlineHelpText>
+        <label>Inventory Transfer Transaction Types</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Transferred for internal use</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Transferred and consumed elsewhere</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>InventoryTransfersAdditionalInfo__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Additional information concerning Inventory Transfer-related use tax requirements:</inlineHelpText>
+        <label>Inventory Transfers Additional Info</label>
+        <length>2000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>ManualEditLineItemTaxability__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Does the purchase invoice review and approval process include manual changes to the taxability of a product or service at the line level? For example, editing a line on the purchase invoice changing the line from non-taxable to taxable?</inlineHelpText>
+        <label>Manual Edit Line Item Taxability</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>MultipleDepartmentsLineItem__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Is a line item on a supplier invoice allocated to multiple departments?</inlineHelpText>
+        <label>Multiple Departments per Line Item</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>MultipleDepartmentsSeperateLocations__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>If one line item on a supplier invoice is allocated to multiple departments, are those departments housed in separate physical locations?</inlineHelpText>
+        <label>Multiple Departments Seperate Locations</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>OneInventoryTransferMultipleLegalEntity__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Can inventory transfers identify more than one legal entity on a single transfer?</inlineHelpText>
+        <label>One Inv. Transfer Multiple Legal Entity</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>OneInvoiceMultipleBuyers__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Do suppliers generate invoices that identify more than one legal entity as the buyer on a single invoice, and if so, is the invoice processed as one, singular invoice?</inlineHelpText>
+        <label>One Invoice Multiple Buyers</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>OneSalesInvoiceMultipleLegalEntity__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Can sales invoices identify more than one legal entity as the seller on a single invoice?</inlineHelpText>
+        <label>One Sales Invoice Multiple Legal Entity</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>OpportunityOwnerEmail__c</fullName>
+        <externalId>false</externalId>
+        <label>Opportunity Owner Email</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Opportunity__c</fullName>
+        <externalId>false</externalId>
+        <label>Opportunity</label>
+        <referenceTo>Opportunity</referenceTo>
+        <relationshipLabel>CUT Questionnaire Results</relationshipLabel>
+        <relationshipName>CUT_Questionnaire_Results</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>OtherAdditionalInfo__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Please provide information concerning use tax needs and requirements below including: 
+•	Type of transactions driving use tax assessment and accrual
+•	Application used to process transactions
+o	Custom-built solution
+o	Excel worksheet
+o	Manual process</inlineHelpText>
+        <label>Other Additional Info</label>
+        <length>2000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>OtherTransactionTypesRequiringUseTax__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Which of the following types of transaction require (consumer) use tax calculation and accrual?  If Other is selected, then the qualifying input the prospect enters is captured here</inlineHelpText>
+        <label>Other Transaction Types Requiring UseTax</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>PurchaseOrdersforallAssessments__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Are Purchase Orders generated for all purchases requiring use tax assessment?</inlineHelpText>
+        <label>Purchase Orders for all Assessments</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>PurchaseTransferConsumptionUseTaxDue__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>If the “Assets/Supplies” transaction is selected, does your organization have scenarios for assets/supplies purchased and charged tax in one state, transfers asset/supplies for consumption in another state, and requires calculation of use tax due?</inlineHelpText>
+        <label>Purchase/Transfer/Consumption UseTax Due</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>PurchasesAPApplications__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>What type of application(s) is/are used to process purchases and payables? 
+Select all that apply</inlineHelpText>
+        <label>Purchases/AP Applications</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Accounts Payable module – Accounting or Enterprise Resource Planning (ERP) application</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Purchasing module – Accounting or ERP application</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Procure-to-Pay/Payables Automation application</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Purchases_APAdditionalInfo__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Additional information concerning Purchase/Accounts Payable-related use tax requirements</inlineHelpText>
+        <label>Purchases/AP Additional Info</label>
+        <length>2000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>ReciprocityAgreementsConsideration__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Does your organization encounter scenarios where use tax due in inter-state asset/supplies transfers that are associated with states with reciprocity agreements for sales and use taxes?</inlineHelpText>
+        <label>Reciprocity Agreements Consideration</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Unsure</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>SalesAdditionalInfo__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Additional information concerning Sales-related use tax requirements:</inlineHelpText>
+        <label>Sales Additional Info</label>
+        <length>2000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>SupplierMixExemptTaxablePurchases__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Do suppliers mix exempt purchases and taxable purchases on a single invoice? For example, purchase of janitorial supplies for resale and purchase of janitorial supplies for internal use.</inlineHelpText>
+        <label>Supplier Mix Exempt Taxable Purchases</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>SuppliersEvaluationExcluded__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Are there suppliers that should be summarily excluded from use tax evaluation?</inlineHelpText>
+        <label>Suppliers Evaluation Excluded</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Transaction_Types_Requiring_Use_Tax__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Which of the following types of transaction require (consumer) use tax calculation and accrual?  
+Select all that apply</inlineHelpText>
+        <label>Transaction Types Requiring Use Tax</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Purchases/Accounts Payable</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sales</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Inventory Transfers</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>TypesOfTransactions__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Which of the following types of Sales transaction require (consumer) use tax calculation and accrual?
+Select all that apply</inlineHelpText>
+        <label>Types of Transactions</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Zero Dollar Line Items</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Charged to Customer, Consumed by Seller</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>UseTaxAutomationApproach__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Which of the following scenarios does your organization wish to address through use tax automation?</inlineHelpText>
+        <label>Use Tax Automation Approach</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Calculate and Accrue</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Validate vendor-charged Tax</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>VendorChargedTaxAllocation__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>If YES, is the vendor-charged tax allocated to each applicable line on the supplier invoice?</inlineHelpText>
+        <label>Vendor-Charged Tax Allocation</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Allocated to each applicable line</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Recorded as one tax total for the document</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Vendor_chargedTaxUniqueLineItem__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>If “validate vendor-charged tax and accrue difference” is selected, is vendor-charged tax identified as a unique line item during the entry of the invoice into your organization’s ERP/accounting system?</inlineHelpText>
+        <label>Vendor-charged Tax Unique Line Item</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>WhereExclusionDecisionMade__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>If YES, where is the decision to exclude the supplier from use tax evaluation made? 
+Select all that apply</inlineHelpText>
+        <label>Where Exclusion Decision Made</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>On the Supplier record During the processing of the purchase invoice</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <label>CUT Questionnaire Results</label>
+    <nameField>
+        <label>CUT Questionnaire Results Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>CUT Questionnaire Results</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

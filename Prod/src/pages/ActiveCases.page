@@ -33,9 +33,9 @@
                 <apex:param value="{!a.Age_Bucket__c}"/>
             </apex:outputText>
              <apex:outputText escape="true"  value=","/>
-            <apex:outputText escape="true"  value="{!a.Account.Latitude__c}"/>
+            
             <apex:outputText escape="true"  value=","/>            
-            <apex:outputText escape="true"  value="{!a.Account.Longitude__c}"/>
+            
             <apex:outputText escape="true"  value="]);"/> 
         </apex:repeat>
 </script>

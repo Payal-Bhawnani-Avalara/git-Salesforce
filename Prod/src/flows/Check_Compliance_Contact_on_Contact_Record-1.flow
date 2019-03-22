@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label>Check Compliance Contact on Contact Record</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Check_Compliance_Contact</name>
+        <label>Check Compliance Contact</label>
+        <locationX>328</locationX>
+        <locationY>246</locationY>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ContactID</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>ComplianceContact__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>Contact</object>
+    </recordUpdates>
+    <startElementReference>Check_Compliance_Contact</startElementReference>
+    <variables>
+        <name>ContactID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

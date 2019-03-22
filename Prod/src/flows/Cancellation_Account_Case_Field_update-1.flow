@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Used to stamp the account id on a cancelletion case into the Cancellation Account Field. This will allow the creation of a related list on the account object specific to the account record.</description>
+    <interviewLabel>Cancellation Account Case Field update {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Cancellation Account Case Field update</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Cancellation_Account_Field_Stamp_on_Cancellation_Case_record</name>
+        <label>Cancellation Account Field Stamp on Cancellation Case record</label>
+        <locationX>354</locationX>
+        <locationY>143</locationY>
+        <filters>
+            <field>AccountId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varAccountid</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varCaseid</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Cancellation_Account__c</field>
+            <value>
+                <elementReference>varAccountid</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Case</object>
+    </recordUpdates>
+    <startElementReference>Cancellation_Account_Field_Stamp_on_Cancellation_Case_record</startElementReference>
+    <variables>
+        <name>varAccountid</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>varCaseid</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

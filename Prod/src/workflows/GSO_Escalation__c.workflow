@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <alerts>
+        <fullName>GSO_Escalation_Alert_Avalara_Returns</fullName>
+        <description>GSO Escalation Alert_ Avalara Returns</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>GSO_Avalara_Returns</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>alex.stearns@avalara.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SVM/GSO_Escalation</template>
+    </alerts>
+    <alerts>
+        <fullName>GSO_Escalation_Alert_Avalara_Returns_PS_TAC</fullName>
+        <description>GSO Escalation Alert Avalara Returns_PS_TAC</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>GSO_Avalara_Returns_PS_TAC</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>alex.stearns@avalara.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SVM/GSO_Escalation</template>
+    </alerts>
+    <alerts>
+        <fullName>GSO_Escalation_Alert_GSO_PS</fullName>
+        <description>GSO Escalation Alert_ GSO PS</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>GSO_PS_Leadership</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>alex.stearns@avalara.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SVM/GSO_Escalation</template>
+    </alerts>
+    <alerts>
+        <fullName>GSO_Escalation_Alert_New_Escalation_Owner</fullName>
+        <ccEmails>alex.stearns@avalara.com</ccEmails>
+        <description>GSO Escalation Alert New Escalation Owner</description>
+        <protected>false</protected>
+        <recipients>
+            <field>Escalation_Owner__c</field>
+            <type>userLookup</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SVM/GSO_Escalation_Owner_Change</template>
+    </alerts>
+    <alerts>
+        <fullName>GSO_Escalation_Alert_PS_TAC</fullName>
+        <description>GSO Escalation Alert PS_TAC</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>GSO_PS_TAC</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>alex.stearns@avalara.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SVM/GSO_Escalation</template>
+    </alerts>
+    <alerts>
+        <fullName>GSO_Escalation_Alert_TAC_Management</fullName>
+        <description>GSO Escalation Alert TAC Management</description>
+        <protected>false</protected>
+        <recipients>
+            <recipient>GSO_TAC_Management</recipient>
+            <type>group</type>
+        </recipients>
+        <recipients>
+            <recipient>alex.stearns@avalara.com</recipient>
+            <type>user</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SVM/GSO_Escalation</template>
+    </alerts>
+</Workflow>
