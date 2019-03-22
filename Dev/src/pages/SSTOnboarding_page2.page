@@ -1,6 +1,50 @@
 <apex:page showHeader="false">
-     <div style="text-align:center;">
+	<html>
+	      <head>
+	         <apex:includeLightning />
+	      </head>
+	      <body class="slds-scope">
+               <div style="text-align:center;">
         <apex:image url="{!$Resource.avalaralogo}" style="max-wiidth:70px;max-height:70px;" />
     </div>
-    <flow:interview name="SSTOnboarding" buttonStyle="color:#050; background-color:#fed; border:1px solid;"/>
+	         <div id="flowContainer" />
+	         <script>
+	            var statusChange = function (event) {
+	               if(event.getParam("status") === "FINISHED") {
+	                  // Control what happens when the interview finishes
+	 
+                       /*var outputVariables = event.getParam("outputVariables");
+	                  var key;
+	                  for(key in outputVariables) {
+	                     if(outputVariables[key].name === "myOutput") {
+	                        // Do something with an output variable
+	                     }
+	                  }*/
+	               }
+	            };
+	            $Lightning.use("c:SST", function() {
+	               // Create the flow component and set the onstatuschange attribute
+	               $Lightning.createComponent("lightning:flow", {"onstatuschange":statusChange},
+	                  "flowContainer",
+	                  function (component) {
+	                     // Set the input variables
+                          /*var inputVariables = [
+	                        {
+	                           name : 'myInput',
+	                           type : 'String',
+	                           value : "Hello, world"
+	                        }
+	                     ];*/
+	                     
+	                     // Start an interview in the flowContainer div, and 
+	                     // initializes the input variables.
+	                     component.startFlow("SSTOnboarding");
+	                  }
+	               );
+	            });
+	         </script>
+	      </body>
+	   </html>
+    
+    
 </apex:page>
