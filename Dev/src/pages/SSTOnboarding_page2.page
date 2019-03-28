@@ -4,9 +4,6 @@
 	         <apex:includeLightning />
 	      </head>
 	      <body class="slds-scope">
-               <div style="text-align:center;">
-        <apex:image url="{!$Resource.avalaralogo}" style="max-wiidth:70px;max-height:70px;" />
-    </div>
 	         <div id="flowContainer" />
 	         <script>
 	            var statusChange = function (event) {
@@ -22,7 +19,14 @@
 	                  }*/
 	               }
 	            };
-	            $Lightning.use("c:SST", function() {
+              $Lightning.use("c:SST", function() {
+                  $Lightning.createComponent("c:SSTWizardHeader",{"onstatuschange":statusChange},
+                     "flowContainer",                  
+                    function(cmp) {
+                        console.log('>>>>> App is hosted');
+                    }
+                    );
+                 
 	               // Create the flow component and set the onstatuschange attribute
 	               $Lightning.createComponent("lightning:flow", {"onstatuschange":statusChange},
 	                  "flowContainer",
@@ -41,6 +45,7 @@
 	                     component.startFlow("SSTOnboarding");
 	                  }
 	               );
+                    
 	            });
 	         </script>
 	      </body>
