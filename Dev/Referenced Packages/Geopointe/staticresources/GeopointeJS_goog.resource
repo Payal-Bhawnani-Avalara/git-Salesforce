@@ -4937,7 +4937,8 @@ var gp_calcRecordsUtils = {
 						field: field.field + '_converted',
 						label: field.label,
 						scale: gp_orgSettings.currencyDecimalPlaces[gp_userSettings.userInfo.userCurrency.isoCode],
-						type: field.type
+						type: field.type,
+						showMetrics: field.showMetrics
 					};
 				}
 			});

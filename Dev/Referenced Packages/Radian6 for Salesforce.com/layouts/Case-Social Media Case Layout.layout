@@ -237,6 +237,10 @@
         <fields>Total_Training_Score__c</fields>
         <relatedList>Service_QA__c.RelatedCase__c</relatedList>
     </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>SST_Onboarding__c.case__c</relatedList>
+    </relatedLists>
     <relatedObjects>ContactId</relatedObjects>
     <runAssignmentRulesDefault>false</runAssignmentRulesDefault>
     <showEmailCheckbox>true</showEmailCheckbox>

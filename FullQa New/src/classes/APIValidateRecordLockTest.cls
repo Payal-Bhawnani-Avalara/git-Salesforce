@@ -43,6 +43,7 @@ private class APIValidateRecordLockTest {
          	   update o;
         	}
         catch(Exception e){
+            System.debug('e.getMessage()======='+e.getMessage());
        	   Boolean expectedExceptionThrown =  e.getMessage().contains(objMDT.Error_Message__c) ? true : false;
            System.AssertEquals(expectedExceptionThrown, true);
         }
@@ -96,7 +97,9 @@ private class APIValidateRecordLockTest {
 	       	   Boolean expectedExceptionThrown =  e.getMessage().contains(objMDT.Error_Message__c) ? true : false;
 	           System.AssertEquals(expectedExceptionThrown, true);
 	        }        		
-        }      
+        }
+		currentUser.Special_Permission__c='CanUpdateFrozenOpportunity';
+        update currentUser;         
         //freeze all data
         foce.EDW_Booking_Freeze_Date__c=DateTime.now();
         update foce;
@@ -112,8 +115,7 @@ private class APIValidateRecordLockTest {
        	   Boolean expectedExceptionThrown =  e.getMessage().contains(objMDT.Error_Message__c) ? true : false;
            System.AssertEquals(expectedExceptionThrown, true);
         }          
-		currentUser.Special_Permission__c='CanUpdateFrozenOpportunity';
-        update currentUser;     
+    
         o.Locked__c=false;
         update o;               
     }

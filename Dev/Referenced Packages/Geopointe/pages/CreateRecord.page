@@ -226,6 +226,14 @@
 	</apex:outputPanel>
 	<!-- Bring Lightning Radio Button Syling to Classic experience -->
 
+	<style>
+		@media all and (-ms-high-contrast:none), (-ms-high-contrast: active) {
+			.ie-input {
+				min-height: 32px !important;
+			}
+		}
+	</style>
+
 	<div class="slds-scope" >
 		<div id="loadingSpinner" role="status" class="slds-spinner slds-spinner_large slds-spinner_brand">
 			<span class="slds-assistive-text">Loading</span>
@@ -283,7 +291,7 @@
 										<apex:outputLabel value="{!f.label}" rendered="{!AND(f.fieldPath != 'RecordTypeId',$ObjectType[action.geopointe__Create_Record_SObject__c].Fields[f.fieldPath].Createable)}" />
 									</div>
 									<div class="slds-form-element__control">
-										<apex:inputField styleClass="input" value="{!obj[f.fieldPath]}" required="{!OR(f.required, f.dbrequired)}" rendered="{!AND(f.fieldPath != 'RecordTypeId',$ObjectType[action.geopointe__Create_Record_SObject__c].Fields[f.fieldPath].Createable)}" html-autocomplete="{!IF( OR(f.type == 'datetime',  f.type == 'date'), 'OFF', 'ON' ) }" />
+										<apex:inputField styleClass="input ie-input" value="{!obj[f.fieldPath]}" required="{!OR(f.required, f.dbrequired)}" rendered="{!AND(f.fieldPath != 'RecordTypeId',$ObjectType[action.geopointe__Create_Record_SObject__c].Fields[f.fieldPath].Createable)}" html-autocomplete="{!IF( OR(f.type == 'datetime',  f.type == 'date'), 'OFF', 'ON' ) }" />
 									</div>
 								</div>
 							</apex:repeat>

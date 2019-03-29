@@ -8,8 +8,8 @@ public with sharing class FinanceOperationCloseEventTriggerHandler  extends Trig
     				}
     			}
 		    if(setIDs!=null && setIDs.size()>0 && !System.isBatch() && !System.isFuture() && !System.isQueueable() && !System.isScheduled()){
-		         JobOpportunityLock job = new JobOpportunityLock(setIDs);
-		         ID batchprocessid = Database.executeBatch(job,1); 		    	
+		         JobOpportunityFreeze job = new JobOpportunityFreeze(setIDs);
+		         ID batchprocessid = Database.executeBatch(job,20); 		    	
 		    }     			
     		}
    		

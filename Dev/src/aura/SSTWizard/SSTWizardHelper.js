@@ -94,5 +94,50 @@
             }
         });
         $A.enqueueAction(action);
+    },
+    fetchInReturns : function(component, event, helper){
+        var action = component.get("c.getPicklistvalues");
+        action.setParams({
+            'objectName': component.get("v.ObjectName"),
+            'field_apiname': component.get("v.inRetunrs"),
+            'nullRequired': false
+        });
+        action.setCallback(this, function(a) {
+            var state = a.getState();
+            if (state === "SUCCESS"){
+                component.set("v.inRetunrsPicklist", a.getReturnValue());
+            }
+        });
+        $A.enqueueAction(action);
+    },
+    fetcharSSTV : function(component, event, helper){
+        var action = component.get("c.getPicklistvalues");
+        action.setParams({
+            'objectName': component.get("v.ObjectName"),
+            'field_apiname': component.get("v.arSSTV"),
+            'nullRequired': false
+        });
+        action.setCallback(this, function(a) {
+            var state = a.getState();
+            if (state === "SUCCESS"){
+                component.set("v.arSSTVPicklist", a.getReturnValue());
+            }
+        });
+        $A.enqueueAction(action);
+    },
+    fetcharNV : function(component, event, helper){
+        var action = component.get("c.getPicklistvalues");
+        action.setParams({
+            'objectName': component.get("v.ObjectName"),
+            'field_apiname': component.get("v.arNV"),
+            'nullRequired': false
+        });
+        action.setCallback(this, function(a) {
+            var state = a.getState();
+            if (state === "SUCCESS"){
+                component.set("v.arNVPicklist", a.getReturnValue());
+            }
+        });
+        $A.enqueueAction(action);
     }
-    })
+})

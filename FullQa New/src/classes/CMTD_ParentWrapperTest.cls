@@ -18,12 +18,12 @@ public class CMTD_ParentWrapperTest {
 	    	//Create an account
 	    	Id customerAccountTypeId=[Select Id from RecordType where DeveloperName='Customer_Account_Type' limit 1].Id;
 	        a =TestUtil.createAccount(customerAccountTypeId,1,true)[0];
-	        Id implemetationCaseId=Schema.SObjectType.Account.getRecordTypeInfosByName().get('Implementation').getRecordTypeId();
+	        Id implemetationCaseId=Schema.SObjectType.Case.getRecordTypeInfosByName().get('Implementation').getRecordTypeId();
 	        Case  c =TestUtil.createCase(implemetationCaseId,1,false)[0];
 	        c.accountid = a.id;
 	        insert c;   
-	        String accID = a.id;
-	        System.assertEquals(accID,CMTD_ParentWrapper.getAccountId(c.id));
+	        Case ca = [Select accountid from Case where id =:c.id];
+	        System.assertEquals(ca.accountid,CMTD_ParentWrapper.getAccountId(c.id));
         Test.stopTest();		
 	}
 }

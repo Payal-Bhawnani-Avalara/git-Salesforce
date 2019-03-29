@@ -275,18 +275,17 @@ function gp_defineDataTableColumns(thisPOIC){
 		if (ds) {
 			var numberOfFieldsToDisplay = ds.numOfFieldsDisplayedInTable - 1;
 
+			let dsFieldsByName = {};
+			_.forEach(ds.fields, function(f) { dsFieldsByName[f.field] = f; });
+
 			for(var i = 0; i < thisPOIC.columnLabels.additionalFields.length; i++){
 				var additionalField = thisPOIC.columnLabels.additionalFields[i];
-				var actualField = ds.fields[i];
-				if (actualField && actualField.field != additionalField.name) {
-					//console.log('FD MISMATCH at '+i+': '+additionalField.name+' vs '+actualField.field);
-					actualField = null;
-				}
+				var dsField = additionalField.name.endsWith('_converted') ? dsFieldsByName[additionalField.name.slice(0, -10)] : dsFieldsByName[additionalField.name];
 
 				// Set isVisible attribute as configured in DataSet edit, also track if col is additional hidden field
 				var isVisible = true;
 				var isAdditionalHiddenField = false;
-				if ((actualField && actualField.inTable != undefined)? !actualField.inTable : (i > numberOfFieldsToDisplay)) {
+				if ((dsField && dsField.inTable != undefined)? !dsField.inTable : (i > numberOfFieldsToDisplay)) {
 					isVisible = false;
 					isAdditionalHiddenField = true;
 				}
@@ -296,8 +295,8 @@ function gp_defineDataTableColumns(thisPOIC){
 
 				// construct full relationName path if applicable
 				var pathLabel = '';
-				if (actualField && actualField.pathLabel && actualField.pathLabel.length) {
-					pathLabel = actualField.pathLabel.join(' ');
+				if (dsField && dsField.pathLabel && dsField.pathLabel.length) {
+					pathLabel = dsField.pathLabel.join(' ');
 				}
 				
 				var dataTableFieldOpts = {"sTitle" : additionalField.label, 

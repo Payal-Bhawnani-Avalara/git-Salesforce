@@ -1,80 +1,36 @@
-<apex:page showHeader="false" controller="SSTController" >
-    <div style="text-align:center;">
-    <apex:image url="{!$Resource.avalaralogo}" style="max-wiidth:70px;max-height:70px;" />
-    </div>
-  
-   <apex:pageblock >
-       <apex:pageblocksection >
-           <apex:pageblocksectionitem >
-               <apex:outputText style="font-size:19px;" value="Avalara Streamlined Sales Tax (SST) Registration Form"/>  
-           </apex:pageblocksectionitem>     
-       </apex:pageblocksection>    
-        
-       <apex:pageblocksection >
-           <p>  This form identifies the specific information required for Avalara to complete your SST registration and generate your tax profile. This form should be used if you anticipate using Avalara as your Certified 
-               Service Provider (CSP). All fields must be populated for the registration form to be considered complete.</p>
-       </apex:pageblocksection> 
-       
-       <apex:pageblocksection >
-           <apex:outputText style="font-size:15px;" value="SST Pre-Registration Requirements"/> 
-       </apex:pageblocksection>
-       <apex:pageblocksection >
-           <p> ·       Must Complete SST Registration Form <br/>
-               ·       Must Complete Avatax Integration with assigned go live manager<br/>
-               ·       Must map item codes to SST Certified AvaTax Codes
-               
-           </p>
-        </apex:pageblocksection>
-        <apex:pageblocksection >
-           <apex:outputText style="font-size:15px;" value="SST Post-Registration Requirements "/> 
-       </apex:pageblocksection>
-       <apex:pageblocksection >
-           <p> ·       All sales must be calculated in AvaTax   <br/>
-               ·       Must pass an invoice item description for each item sold <br/>
-               ·       Must pass a street level address for accurate tax calculations<br/>
-               ·       Must map item codes to SST Certified AvaTax Codes <br/>
-               ·       Must supply exemption certificate information into AvaTax prior to any exempt transaction being processed
-           </p>
-        </apex:pageblocksection>
-        <apex:pageblocksection >
-           <apex:outputText style="font-size:15px;" value="Filing Requirements "/> 
-       </apex:pageblocksection>
-       <apex:pageblocksection >
-           <p> Avalara, as your Certified Service Provider, is contractually required to file your SST returns monthly starting on SST go live date. 
-               Once integrated, your SST go live date will be confirmed by your assigned go live manager. If you are previously registered and already file 
-               on a quarterly, semi-annual, or annual basis, you must contact the SST state for the best practice on remitting taxes collected prior to joining SST.
-               Transactions will not be pulled forward into SST filed remittances.
-           </p>
-        </apex:pageblocksection>
-       <apex:pageblocksection >
-           <apex:outputText style="font-size:15px;" value="SST State Audits "/> 
-       </apex:pageblocksection>
-       <apex:pageblocksection >
-           <p> In states where you hold an SST status of Volunteer. Avalara acts as a liaison between you and the state during sales tax audits. 
-               If you hold a status of SST Non-Volunteer, the state will contact you directly for all sales tax audits.
-           </p>
-        </apex:pageblocksection>
-       <apex:pageblocksection >
-           <apex:outputText style="font-size:15px;" value="Payment and   Fees "/> 
-       </apex:pageblocksection>
-       <apex:pageblocksection >
-           <p> Returns filed in states where you have an SST status of volunteer are free of charge. SST states pay Avalara based on the amount of tax filed by 
-               volunteer sellers, per their agreement with all Certified Service Providers Returns filed where you have an SST status of non-volunteer carry a charge. 
-               If Avalara files returns for you in SST and non-SST states, then the price per SST non-volunteer return is your standard returns rate. If you are filing 
-               only in SST states, then the fee is $55 per return, per month.
-           </p>
-        </apex:pageblocksection>
-         <apex:pageblocksection >
-           <apex:outputText style="font-size:15px;" value="SST Volunteer Status and Economic Nexus "/> 
-       </apex:pageblocksection>
-       <apex:pageblocksection >
-           <p> Economic Nexus is a term that refers to the requirement to collect and pay sales tax on income derived in that state even though the business may lack a 
-               physical presence. Economic Nexus does not preclude you from having an SST status of volunteer. Economic Nexus is not a requirement when determining volunteer 
-               status, and should not be considered when completing the Volunteer Status section of this document.
-           </p>
-        </apex:pageblocksection>  
-        <flow:interview name="SSTOnboarding" buttonStyle="color:#050; background-color:#fed; border:1px solid;"/>  
-     </apex:pageblock>
-  
-                        
+<apex:page showHeader="false">
+	<html>
+	      <head>
+	         <apex:includeLightning />
+	      </head>
+	      <body class="slds-scope">
+	         <div id="flowContainer" />
+	         <script>
+	            var statusChange = function (event) {
+	               if(event.getParam("status") === "FINISHED") {
+	                  // Control what happens when the interview finishes
+	 
+                       /*var outputVariables = event.getParam("outputVariables");
+	                  var key;
+	                  for(key in outputVariables) {
+	                     if(outputVariables[key].name === "myOutput") {
+	                        // Do something with an output variable
+	                     }
+	                  }*/
+	               }
+	            };
+              $Lightning.use("c:SST", function() {
+                  $Lightning.createComponent("c:SSTWizard",{"onstatuschange":statusChange},
+                     "flowContainer",                  
+                    function(cmp) {
+                        console.log('>>>>> App is hosted');
+                    }
+                    );
+                    
+	            });
+	         </script>
+	      </body>
+	   </html>
+    
+    
 </apex:page>

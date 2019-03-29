@@ -13,6 +13,7 @@ public class AvalaraSearchCtrl {
                 AND Vibrancy__c != 'Error'
                 AND Vibrancy__c != 'Marketing'
                 AND Vibrancy__c != 'Retired'
+                AND Vibrancy__c != 'dormant'
         ];
 
         List<Badge__c> badges = [

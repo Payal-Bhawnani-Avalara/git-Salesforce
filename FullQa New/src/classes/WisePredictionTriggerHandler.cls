@@ -38,8 +38,13 @@ public class WisePredictionTriggerHandler extends TriggerHandler  {
 				                	}	
 		                	   }	
 		                }
-		               
-		                update caseMap.values(); 
+		                //by pass account trigger 
+						TriggerHandler.bypass('CaseTriggerHandler');
+						TriggerHandler.bypass('AccountTriggerHandler');
+						update caseMap.values();
+						TriggerHandler.clearBypass('CaseTriggerHandler');
+						TriggerHandler.clearBypass('AccountTriggerHandler');
+		                //update caseMap.values(); 
 		                /*Database.DMLOptions dmo = new Database.DMLOptions();
 	                    dmo.assignmentRuleHeader.useDefaultRule = false;
 				         if(caseMap.values().size() > 0){
