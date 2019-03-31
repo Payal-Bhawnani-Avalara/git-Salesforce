@@ -36,7 +36,7 @@ public with sharing class SyncSubTest {
  		insert testCampaign;
 
  		Opportunity testOpportunity = testData.createOpportunity(testAccount, testCampaign);
- 		insert testOpportunity;
+ 		//insert testOpportunity;
 
  		zqu__Quote__c testQuote = testData.createQuote(testContact, testOpportunity);
  		insert testQuote;

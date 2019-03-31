@@ -1,5 +1,15 @@
 public class SSTWizardController {
 	 @AuraEnabled
+    public static string save(SST_Onboarding__c sstData){
+        try{  
+            insert sstData;      
+        } 
+        catch(Exception ex){
+            return ex.getMessage();
+        }
+        return 'record successfully insert';  
+    }   
+	 @AuraEnabled
     public static List<String> getPicklistvalues(String objectName, String field_apiname,Boolean nullRequired){
         List<String> optionlist = new List<String>();
         
@@ -44,6 +54,6 @@ public class SSTWizardController {
             this.label=label;
             this.value=value;
         }
-    }      
+    }   
    
 }

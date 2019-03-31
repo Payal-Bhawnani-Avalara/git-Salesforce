@@ -1,4 +1,10 @@
 <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global">
+  <div class="slds-align_absolute-center" >
+                   <fieldset class="slds-box slds-theme--default slds-container_medium">
+                   <legend id="newdemform" class="slds-text-heading--small 
+	                  slds-p-vertical--medium">
+	               Avalara SST Application
+	               </legend>
 	 <p>  This form identifies the specific information required for Avalara to complete your SST registration and generate your tax profile. This form should be used if you anticipate using Avalara as your Certified 
 					               Service Provider (CSP). All fields must be populated for the registration form to be considered complete.
 					   </p>
@@ -56,4 +62,7 @@
 						               physical presence. Economic Nexus does not preclude you from having an SST status of volunteer. Economic Nexus is not a requirement when determining volunteer 
 						               status, and should not be considered when completing the Volunteer Status section of this document.
 						  </p>
+					</fieldset>
+					</div>
+					
 </aura:component>

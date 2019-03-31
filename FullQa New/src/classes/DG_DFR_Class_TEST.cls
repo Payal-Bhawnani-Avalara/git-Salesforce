@@ -121,7 +121,7 @@ private class DG_DFR_Class_TEST {
 	    l3.Rating = 'A';
 	    l4.Rating = 'A';
 	    
-	    database.update(listLead, true);
+	   // database.update(listLead, true);
 	}
 	
 	  
@@ -397,7 +397,7 @@ private class DG_DFR_Class_TEST {
 
 	    w1.Status = 'Nurture'; //Working to EOL
 	    
-	    database.update(listLead, true);
+	    //database.update(listLead, true);
     }
     
     static testMethod void DFR_OppCreationFromLead_TEST() {

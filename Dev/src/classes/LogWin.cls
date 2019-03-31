@@ -45,7 +45,7 @@ public with sharing class LogWin {
         User usr= [select id,name from User limit 1];
  
         Opportunity opp = new Opportunity(Type='New',Amount=123,CloseDate=date.newInstance(2070, 12, 31), Name = 'TestOpp',StageName = 'Closed Won');
-        insert opp;
+       // insert opp;
         opp.AccountId = acct.Id;
         opp.OwnerId=usr.Id;
         Account wonAccount = [select name from account where id=:opp.AccountId limit 1];

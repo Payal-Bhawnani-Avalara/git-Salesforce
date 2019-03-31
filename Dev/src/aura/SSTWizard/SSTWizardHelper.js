@@ -2,10 +2,7 @@
     saveData : function(component, event, helper) {
         var action = component.get("c.save");
         action.setParams({
-            accountData : component.get("v.accountData"),
-            contactData : component.get("v.contactData"),
-            opportunityData : component.get("v.opportunityData")}
-                        );
+            sstData : component.get("v.sstData")});
         action.setCallback(this, function(response){
             var state = response.getState();
                 var message = response.getReturnValue();

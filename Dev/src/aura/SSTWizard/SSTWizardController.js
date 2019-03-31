@@ -1,5 +1,16 @@
 ({
-    nextTab : function(component, event, helper) {
+	doInit : function(component, event, helper) {
+	        helper.fetchbusinessEntityTypePicklist(component) ; 
+	        helper.fetchstateOfInPicklist(component) ; 
+	        helper.fetchSStStatePicklist(component) ; 
+	        helper.fetcharRegisteredPicklist(component) ; 
+	        helper.fetcharFilPicklist(component) ; 
+	        helper.fetchInReturns(component) ;
+	        helper.fetcharSSTV(component) ;
+	        helper.fetcharNV(component) ;
+         
+     },
+  getStarted : function(component, event, helper) {
         component.set("v.setMessage", '');           
         var showIntro = component.get("v.showIntro");
         var showComInfo = component.get("v.showComInfo");
@@ -7,16 +18,7 @@
         var showNexus = component.get("v.showNexus");
         var showReg = component.get("v.showReg");
         var showData = component.get("v.showData");
-       
-        helper.fetchbusinessEntityTypePicklist(component) ; 
-        helper.fetchstateOfInPicklist(component) ; 
-        helper.fetchSStStatePicklist(component) ; 
-        helper.fetcharRegisteredPicklist(component) ; 
-        helper.fetcharFilPicklist(component) ; 
-        helper.fetchInReturns(component) ;
-        helper.fetcharSSTV(component) ;
-        helper.fetcharNV(component) ;
-         
+        
         if(showIntro == true){
           component.set("v.showIntro", false);
 	      component.set("v.showComInfo", true);
@@ -26,16 +28,47 @@
 	      component.set("v.showError", false);
 	      component.set("v.showData", false);
         }    
-        if(showComInfo == true){      
-		    component.set("v.showIntro", false);
-		    component.set("v.showComInfo", false);
-		    component.set("v.showSSTState", true);
-		    component.set("v.showNexus", false);
-		    component.set("v.showReg", false);
-		    component.set("v.showError", false);
-		    component.set("v.showData", false); 
-        }   
         
+   }, comTab : function(component, event, helper) {
+        component.set("v.setMessage", '');           
+        var showIntro = component.get("v.showIntro");
+        var showComInfo = component.get("v.showComInfo");
+        var showSSTState = component.get("v.showSSTState");
+        var showNexus = component.get("v.showNexus");
+        var showReg = component.get("v.showReg");
+        var showData = component.get("v.showData");
+        
+        if(showComInfo == true){
+           var validExpense = component.find('newSSTform').reduce(function (validSoFar, inputCmp) {
+	            // Displays error messages for invalid fields
+	            inputCmp.reportValidity();
+	            return validSoFar && inputCmp.checkValidity();
+	        }, true);
+	        
+	        // If we pass error checking, do some real work
+	        if(validExpense){
+	          component.set("v.showIntro", false);
+		      component.set("v.showComInfo", false);
+		      component.set("v.showSSTState", true); 
+		      component.set("v.showNexus", false);
+		      component.set("v.showReg", false);
+		      component.set("v.showError", false);
+		      component.set("v.showData", false);
+	        } else {
+	           alert('Please complete all required fields.');
+	        }   
+        }    
+        
+   },
+   nextTab : function(component, event, helper) {
+        component.set("v.setMessage", '');           
+        var showIntro = component.get("v.showIntro");
+        var showComInfo = component.get("v.showComInfo");
+        var showSSTState = component.get("v.showSSTState");
+        var showNexus = component.get("v.showNexus");
+        var showReg = component.get("v.showReg");
+        var showData = component.get("v.showData");
+      
         if(showSSTState == true){
 	        component.set("v.showSSTState", false);
 	        component.set("v.showNexus", true);
@@ -62,7 +95,7 @@
 	        component.set("v.showIntro", false)
 	        component.set("v.showError", false);
 	        component.set("v.showData", false);  
-        }     
+        }   
     },
     
     prevTab : function(component, event, helper) {
@@ -134,16 +167,13 @@
             component.set("v.showData", false);             
         }  
     },
-     doInit : function(component, event) {
-         
-     },
+     
     
     onSelectChange : function(component, event, helper) {
         var selected = component.find("StageName").get("v.value");
         component.set("v.OpportunityData.StageName",selected);
         console.log('opp::::'+JSON.stringify(selected));
     },
-    
     saveRecord : function(component, event, helper) {
         helper.saveData(component, event, helper);               
     },
@@ -364,6 +394,14 @@
 	      var nav=sel.get("v.value");
 	      if (nav=="False (SST Non-Volunteer)"){
 	         component.set("v.wyFalse", true);
+	     }
+	},sameAsMailing: function (component, event, helper) {
+	      var sel = component.find("sameAsMailing");
+	      var nav=sel.get("v.checked");
+	      if (!nav){
+	         component.set("v.sameAsMailing", true);
+	     }else if(nav){
+	        component.set("v.sameAsMailing", false);
 	     }
 	}
 })
