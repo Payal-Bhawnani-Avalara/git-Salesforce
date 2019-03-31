@@ -241,7 +241,7 @@
 	              component.set("v.showVe", true);
 	           }else if (nav[i] =="Washington"){
 	              component.set("v.showWa", true);
-	           }else if (nav[i] =="	West Virginia"){
+	           }else if (nav[i] =="West Virginia"){
 	              component.set("v.showWv", true);
 	           }else if (nav[i] =="Wisconsin"){
 	              component.set("v.showWi", true);
