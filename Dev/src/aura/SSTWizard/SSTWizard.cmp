@@ -3,15 +3,24 @@
     <aura:attribute name="sstData" type="SST_Onboarding__c" default="{ 'sobjectType': 'SST_Onboarding__c','Business_Entity_Type__c': ''}"/>
     <aura:attribute name="showIntro" type="boolean" default="true"/> 
     <aura:attribute name="showComInfo" type="boolean" default="false"/> 
+    <aura:attribute name="showRandom" type="boolean" default="false"/>
     <aura:attribute name="showSSTState" type="boolean" default="false"/>
     <aura:attribute name="showNexus" type="boolean" default="false"/>
     <aura:attribute name="showReg" type="boolean" default="false"/>
+    <aura:attribute name="showRegSSN" type="boolean" default="false"/>
+     <aura:attribute name="showAfInfo" type="boolean" default="false"/>
     <aura:attribute name="errors" type="List"/>
+    
+    <!-- Picklist  -->
     <aura:attribute name="businessEntityType" type="String"  default="Business_Entity_Type__c" access="global"/>
     <aura:attribute name="businessEntityTypePicklist" type="String[]"/>
     <aura:attribute name="sstState" type="String"  default="SST_State_Selection__c" access="global"/>
     <aura:attribute name="sstStatePicklist" type="List" default="[]"/>
     <aura:attribute name="sstStatePicklistselected" type="List" default="[]"/>
+    <aura:attribute name="regSST" type="String"  default="Registered_with_the_SST_Governing_Board__c" access="global"/>
+    <aura:attribute name="regSSTPicklist" type="String[]"/>
+    <aura:attribute name="typeBus" type="String"  default="Type_of_Business__c" access="global"/>
+    <aura:attribute name="typeBusPicklist" type="String[]"/>
     
     <aura:attribute name="stateOfIn" type="String"  default="State_of_Incorporation_or_Organization__c" access="global"/>
     <aura:attribute name="stateOfInPicklist" type="List" default="[]"/>
@@ -25,7 +34,7 @@
      <!-- AR SST Registration Information -->
     <aura:attribute name="arSSTV" type="String"  default="ArkansasSSTVolunteer__c" access="global"/>
     <aura:attribute name="arSSTVPicklist" type="List" default="[]"/>
-    <aura:attribute name="arNV" type="String"  default="Arkansas_Non_Volunteer__c" access="global"/>
+    <aura:attribute name="arNV" type="String"  default="Arkansas_NV_Reason__c" access="global"/>
     <aura:attribute name="arNVPicklist" type="List" default="[]"/>
     
     <!-- Georgia Nexus -->
@@ -160,34 +169,33 @@
 			                 </aura:if>
 			                 
 			                  <aura:if isTrue="{!v.showSP}">
-			                
-			                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                  <lightning:input aura:id="newSSTform" label="SSN" name="SSN" value="{!v.sstData.SSN__c}"  pattern="[0-9]{3}-[0-9]{2}-[0-9]{4}"  maxlength="11" 
-			                   messageWhenPatternMismatch="SSN must be in this format: 999-99-9999."  required="true" />
-			                   <aura:iteration items="{!v.errors}" var="error">{!errors}</aura:iteration>
-			                  </span>
-			                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                  <lightning:input aura:id="newSSTform" label="First Name" name="First Name" value="{!v.sstData.SP_First_Name__c}" maxlength="16"
-			                   pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input."    required="true"/>
-			                  </span>
-			                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                  <lightning:input aura:id="newSSTform" label="Middle Name" name="Middle Name" value="{!v.sstData.SP_Middle_Name__c}" maxlength="16" 
-			                   pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input."  required="true"/>
-			                  </span>
-			                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                  <lightning:input aura:id="newSSTform" label="Last Name" name="Last Name" value="{!v.sstData.SP_Last_Name__c}" maxlength="32" 
-			                   pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input."   required="true" />
-			                  </span>
+				                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+				                  <lightning:input aura:id="newSSTform" label="SSN" name="SSN" value="{!v.sstData.SSN__c}"  pattern="[0-9]{3}-[0-9]{2}-[0-9]{4}"  maxlength="11" 
+				                   messageWhenPatternMismatch="SSN must be in this format: 999-99-9999."  required="true" />
+				                   <aura:iteration items="{!v.errors}" var="error">{!errors}</aura:iteration>
+				                  </span>
+				                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+				                  <lightning:input aura:id="newSSTform" label="First Name" name="First Name" value="{!v.sstData.SP_First_Name__c}" maxlength="16"
+				                   pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input."    required="true"/>
+				                  </span>
+				                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+				                  <lightning:input aura:id="newSSTform" label="Middle Name" name="Middle Name" value="{!v.sstData.SP_Middle_Name__c}" maxlength="16" 
+				                   pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input."  required="true"/>
+				                  </span>
+				                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+				                  <lightning:input aura:id="newSSTform" label="Last Name" name="Last Name" value="{!v.sstData.SP_Last_Name__c}" maxlength="32" 
+				                   pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input."   required="true" />
+				                  </span>
 			                 </aura:if>
 			                   
 			                   <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
-			                        <lightning:select aura:id="stateId" name="stateOfIn" label="State of Incorporation or Organization" value="{!v.sstData.State_of_Incorporation_or_Organization__c}"  required="true" >
-			                            <aura:iteration var="option" items="{! v.stateOfInPicklist }">
-			                                <option value="{! option }" >{! option }</option>
-			                            </aura:iteration>
-			                        </lightning:select>                      
+		                        <lightning:select aura:id="stateId" name="stateOfIn" label="State of Incorporation or Organization" value="{!v.sstData.State_of_Incorporation_or_Organization__c}"  required="true" >
+		                            <aura:iteration var="option" items="{! v.stateOfInPicklist }">
+		                                <option value="{! option }" >{! option }</option>
+		                            </aura:iteration>
+		                        </lightning:select>                      
 			                    </span> 
-			                    
+		                    
 			                    <div class="slds-grid slds-wrap">
 			                    <div class="slds-col slds-size_1-of-1 ">Company Corporate Address</div> 
 			                    <br/>
@@ -292,6 +300,92 @@
 		            </div>
 	          </aura:renderIf>   
 	          
+	         <!-- SST Registration Information -->
+             <aura:renderIf isTrue="{!v.showRandom}">
+	             <div class="slds-align_absolute-center"  >
+	               <fieldset class="slds-box slds-theme--default slds-container_medium">
+		               <legend id="newdemform" class="slds-text-heading--small 
+		               slds-p-vertical--medium">  SST Registration Information   </legend>		          
+		               <div class="slds-grid slds-wrap" >
+		                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;" >
+		                      <lightning:select aura:id="regSSNId" name="regSSNId" label="Has your organization previously registered 
+		                      with the SST Governing Board?" required="true"  value="{!v.sstData.Registered_with_the_SST_Governing_Board__c}" onchange="{!c.showRegSSN}">
+		                          <aura:iteration var="option" items="{! v.regSSTPicklist}">
+		                              <option value="{! option }" >{! option }</option>
+		                          </aura:iteration>
+		                      </lightning:select>                      
+		                  </span> 
+		                  <aura:if isTrue="{!v.showRegSSN}">
+		                   <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
+			                     <lightning:input aura:id="newSSTreg" label="SST Identification Number" name="SST Identification Number" value="{!v.sstData.SST_Identification_Number__c}"  required="true" />
+			              </span>
+			              <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
+			                     <lightning:input aura:id="newSSTreg" label="Registration Effective Date" name="Registration Effective Date" value="{!v.sstData.Registration_Effective_Date__c}"  required="true" />
+			              </span>
+			               <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
+			                     <lightning:input aura:id="newSSTreg" label="SST password" name="SST password" value="{!v.sstData.SSTP_password__c}"  required="true" />
+			              </span>
+			            </aura:if>
+		                </div>
+		               </fieldset>
+		             </div>
+		             
+		           <div class="slds-align_absolute-center" >
+	               <fieldset class="slds-box slds-theme--default slds-container_medium">
+		               <legend id="newdemform" class="slds-text-heading--small 
+		               slds-p-vertical--medium">  Affiliated Businesses   </legend>		
+		                <div class="slds-col slds-size_1-of-1 ">Affiliated Businesses - Affiliated businesses would be companies with shared ownership or interests. 
+		                Also known as “related persons” under section 267(b) or 707(b) of the Internal Revenue Code.</div>
+			             <br/>
+			             <br/>          
+		               <div class="slds-grid slds-wrap" >
+		                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;" >
+		                      <lightning:select aura:id="affBus" name="entityValue" label="Is your company affiliated with any other company that is
+                              (currently, previously, or will be) a Streamlined Sales Tax (SST) Model 1 participant, who has engaged Avalara as its 
+                              Certified Service Provider (CSP)?" required="true"  value="{!v.sstData.Is_your_company_affiliated__c}" onchange="{!c.showAfInfo}">
+		                          <aura:iteration var="option" items="{! v.regSSTPicklist}">
+		                              <option value="{! option }" >{! option }</option>
+		                          </aura:iteration>
+		                      </lightning:select>                      
+		                  </span>
+		                  <aura:if isTrue="{!v.showAfInfo}">
+		                   <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
+			                     <lightning:input aura:id="newSSTreg" label="Affiliate Company Name" name="Affiliate Company Name" value="{!v.sstData.Affiliate_Company_Name__c}"  required="true" />
+			              </span>
+			              <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
+			                     <lightning:input aura:id="newSSTreg" label="SST Identification Number" name="SST Identification Number" value="{!v.sstData.AF_SST_Identification_Number__c}"  required="true" />
+			              </span>
+			            </aura:if> 
+		                </div>
+		               </fieldset>
+		             </div>
+		             
+		             <div class="slds-align_absolute-center" style="width:800px;" >
+		               <fieldset class="slds-box slds-theme--default slds-container_medium">
+			               <legend id="newdemform" class="slds-text-heading--small 
+			               slds-p-vertical--medium">  Product-Service Information   </legend>		          
+			               <div class="slds-grid slds-wrap" >
+			                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;">
+			                      <lightning:select aura:id="psInfo" name="Type of Business?" label="Type of Business?" required="true"  value="{!v.sstData.Type_of_Business__c}">
+			                          <aura:iteration var="option" items="{! v.typeBusPicklist}">
+			                              <option value="{! option }" >{! option }</option>
+			                          </aura:iteration>
+			                      </lightning:select>                      
+			                  </span> 
+			                   <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
+			                     <lightning:input aura:id="newSSTreg" label="Enter a NAICS code that best describes your primary source of business 
+			                     (www.naics.com for reference)" name="SST Identification Number" value="{!v.sstData.NAICS_Code__c}"  required="true" />
+			                  </span>
+			                   <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
+			                     <lightning:input aura:id="newSSTreg" label="Type of Product and Services offered for sale to customer base" 
+			                     name="Type of Product and Services offered for sale to customer base" value="{!v.sstData.Type_of_Product_and_Services__c}"  required="true" />
+			                  </span>
+			                </div>
+			               </fieldset>
+		             </div>
+		      </aura:renderIf>
+		                  
+			                  
 	          <!-- SST State -->
 	          <aura:renderIf isTrue="{!v.showSSTState}">
 	             <div class="slds-align_absolute-center" >
@@ -1193,6 +1287,11 @@
                 <aura:renderIf isTrue="{!v.showComInfo}">
                     <button class="slds-button slds-button--brand" onclick="{!c.prevTab}" >Back</button>
                     <button class="slds-button slds-button--brand" onclick="{!c.comTab}" >Next</button>
+                </aura:renderIf>
+                
+                <aura:renderIf isTrue="{!v.showRandom}">
+                    <button class="slds-button slds-button--brand" onclick="{!c.prevTab}" >Back</button>
+                    <button class="slds-button slds-button--brand" onclick="{!c.nextTab}" >Next</button>
                 </aura:renderIf>
                 
                 <aura:renderIf isTrue="{!v.showSSTState}">        

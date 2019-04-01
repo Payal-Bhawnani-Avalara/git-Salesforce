@@ -136,5 +136,35 @@
             }
         });
         $A.enqueueAction(action);
+    },
+    fetchregSSTPicklist : function(component, event, helper){
+        var action = component.get("c.getPicklistvalues");
+        action.setParams({
+            'objectName': component.get("v.ObjectName"),
+            'field_apiname': component.get("v.regSST"),
+            'nullRequired': false
+        });
+        action.setCallback(this, function(a) {
+            var state = a.getState();
+            if (state === "SUCCESS"){
+                component.set("v.regSSTPicklist", a.getReturnValue());
+            }
+        });
+        $A.enqueueAction(action);
+    },
+    fetchtypeBusPicklist : function(component, event, helper){
+        var action = component.get("c.getPicklistvalues");
+        action.setParams({
+            'objectName': component.get("v.ObjectName"),
+            'field_apiname': component.get("v.typeBus"),
+            'nullRequired': false
+        });
+        action.setCallback(this, function(a) {
+            var state = a.getState();
+            if (state === "SUCCESS"){
+                component.set("v.typeBusPicklist", a.getReturnValue());
+            }
+        });
+        $A.enqueueAction(action);
     }
 })
