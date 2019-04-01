@@ -779,7 +779,8 @@
             <field>UserContact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderType>CurrentUser</senderType>
+        <senderAddress>support@avalara.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Business_Development/Thank_You_Request_for_Review_QUICKBOOKS_DESKTOP</template>
     </alerts>
     <alerts>
@@ -790,7 +791,8 @@
             <field>UserContact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderType>CurrentUser</senderType>
+        <senderAddress>support@avalara.com</senderAddress>
+        <senderType>OrgWideEmailAddress</senderType>
         <template>Business_Development/Thank_You_Request_for_Review_QUICKBOOKS</template>
     </alerts>
     <alerts>
@@ -2003,6 +2005,16 @@ Owner: Marketing - Susan Norgaard</description>
         <name>Update SE Close Stamp</name>
         <notifyAssignee>false</notifyAssignee>
         <operation>Formula</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Update_Services_Opp_Checkbox</fullName>
+        <description>Updates Services Opp checkbox when product contains services</description>
+        <field>pse__Is_Services_Opportunity__c</field>
+        <literalValue>1</literalValue>
+        <name>Update Services Opp Checkbox</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
         <protected>false</protected>
     </fieldUpdates>
     <fieldUpdates>
@@ -3861,6 +3873,21 @@ https://jira.avalara.com/browse/IBST-6568</description>
         <triggerType>onAllChanges</triggerType>
     </rules>
     <rules>
+        <fullName>VFP Update Service Opp Check</fullName>
+        <actions>
+            <name>Update_Services_Opp_Checkbox</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Opportunity.pse__Services_Attached_From_Products__c</field>
+            <operation>greaterThan</operation>
+            <value>USD 0</value>
+        </criteriaItems>
+        <description>Updates the Services Opportunity Checkbox when an Opp product contains services</description>
+        <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
         <fullName>ZTBuy First Purchase Date</fullName>
         <actions>
             <name>Stamp_ZtBuy_First_Purchase_Date</name>
@@ -3961,30 +3988,6 @@ https://jira.avalara.com/browse/IBST-6568</description>
         <protected>false</protected>
         <status>Completed</status>
         <subject>Sales Enablement: Converted Email Sent</subject>
-    </tasks>
-    <tasks>
-        <fullName>Sales_Enablement_Demo_Complete_Email_Sent</fullName>
-        <assignedTo>mark.giddens@avalara.com</assignedTo>
-        <assignedToType>user</assignedToType>
-        <description>Sales Enablement: Demo Complete</description>
-        <dueDateOffset>0</dueDateOffset>
-        <notifyAssignee>false</notifyAssignee>
-        <priority>Normal</priority>
-        <protected>false</protected>
-        <status>Completed</status>
-        <subject>Sales Enablement: Demo Complete Email Sent</subject>
-    </tasks>
-    <tasks>
-        <fullName>Sales_Enablement_Engaged_Email_Sent</fullName>
-        <assignedTo>mark.giddens@avalara.com</assignedTo>
-        <assignedToType>user</assignedToType>
-        <description>Sales Enablement: Engaged Email Sent</description>
-        <dueDateOffset>0</dueDateOffset>
-        <notifyAssignee>false</notifyAssignee>
-        <priority>Normal</priority>
-        <protected>false</protected>
-        <status>Completed</status>
-        <subject>Sales Enablement: Engaged Email Sent</subject>
     </tasks>
     <tasks>
         <fullName>Sales_Enablement_Proposed_Email_Sent</fullName>

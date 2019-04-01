@@ -312,6 +312,15 @@
         <reevaluateOnChange>true</reevaluateOnChange>
     </fieldUpdates>
     <fieldUpdates>
+        <fullName>PSA_Set_IsServices_Flag_On_Opp_Products</fullName>
+        <field>pse__IsServicesProductLine__c</field>
+        <literalValue>1</literalValue>
+        <name>PSA Set IsServices Flag On Opp Products</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <fieldUpdates>
         <fullName>Remove_Native_Discount</fullName>
         <field>Discount</field>
         <formula>0</formula>
@@ -914,7 +923,7 @@ IF(ISPICKVAL(BillingFrequency__c , &quot;Monthly&quot;),27 - (27 *  RecurringDis
             <name>Update_List_Price_for_BG_Returns</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>false</active>
+        <active>true</active>
         <criteriaItems>
             <field>Opportunity.Connector_Name__c</field>
             <operation>equals</operation>
@@ -1459,6 +1468,17 @@ IF(ISPICKVAL(BillingFrequency__c , &quot;Monthly&quot;),27 - (27 *  RecurringDis
         <triggerType>onAllChanges</triggerType>
     </rules>
     <rules>
+        <fullName>PSA Set Opportunity Product IsServicesProductLine</fullName>
+        <actions>
+            <name>PSA_Set_IsServices_Flag_On_Opp_Products</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>false</active>
+        <description>Mark as Services Opp Product, if product is a Services Product</description>
+        <formula>Product2.pse__IsServicesProduct__c = TRUE</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
         <fullName>Per Unit Qty For Zuora</fullName>
         <actions>
             <name>Update_PDF_Quantity</name>
@@ -1774,7 +1794,7 @@ IF(ISPICKVAL(BillingFrequency__c , &quot;Monthly&quot;),27 - (27 *  RecurringDis
         <criteriaItems>
             <field>OpportunityLineItem.Description</field>
             <operation>notContain</operation>
-            <value>VAT Registration,VAT Returns,Fiscal,BusinessLicenses.com</value>
+            <value>VAT Registration,VAT Returns,Fiscal</value>
         </criteriaItems>
         <criteriaItems>
             <field>OpportunityLineItem.ServiceType__c</field>
@@ -1985,7 +2005,7 @@ IF(ISPICKVAL(BillingFrequency__c , &quot;Monthly&quot;),27 - (27 *  RecurringDis
             <name>Update_Sales_Price_on_Dropped_PP_Returns</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>false</active>
+        <active>true</active>
         <criteriaItems>
             <field>OpportunityLineItem.Description</field>
             <operation>equals</operation>

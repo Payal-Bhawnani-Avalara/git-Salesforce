@@ -227,6 +227,15 @@
         <protected>false</protected>
     </fieldUpdates>
     <fieldUpdates>
+        <fullName>Connector_Populate_External_Id</fullName>
+        <field>External_Id__c</field>
+        <formula>CaseSafeID__c</formula>
+        <name>Connector Populate External Id</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Formula</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <fieldUpdates>
         <fullName>Force_Channel_Type_SOHO_for_Level_1</fullName>
         <field>Channel_Type__c</field>
         <literalValue>SOHO</literalValue>
@@ -481,6 +490,16 @@
         <active>true</active>
         <formula>ISCHANGED(  Name  )</formula>
         <triggerType>onAllChanges</triggerType>
+    </rules>
+    <rules>
+        <fullName>Connector Populate External Id</fullName>
+        <actions>
+            <name>Connector_Populate_External_Id</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>true</formula>
+        <triggerType>onCreateOnly</triggerType>
     </rules>
     <rules>
         <fullName>Connector Priced Alerts</fullName>

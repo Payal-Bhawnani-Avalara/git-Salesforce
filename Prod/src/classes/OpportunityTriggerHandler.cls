@@ -218,7 +218,7 @@ public class OpportunityTriggerHandler extends TriggerHandler {
     public static void updateMKScoreFuture(Set<Id> setOppIDs){
     	List<Opportunity> oppList = [Select id,accountId,MK_Customer_Fit_Score_AvaTax__C,MK_Customer_Fit_Score_CC__c,MK_Customer_Fit_Score_Comms__c,MK_Lead_Score_AvaTax__c,
     	                             MK_Lead_Score_CC__c,MK_Lead_Score_Comms__c,(SELECT OpportunityId,ContactId,contact.mk_customer_fit_avatax_score__c,contact.MK_Customer_Fit_Score_CC__c,Contact.MK_Customer_Fit_Score_Comms__c,
-                                     Contact.mk_lead_avatax_score__c,contact.MK_Lead_Score_CC__c,contact.MK_Lead_Score_Comms__c FROM OpportunityContactRoles) from Opportunity where id In : setOppIDs];
+                                     Contact.mk_lead_avatax_score__c,contact.MK_Lead_Score_CC__c,contact.MK_Lead_Score_Comms__c FROM OpportunityContactRoles) from Opportunity where id In : setOppIDs AND  Locked__c = false];
     	                             system.debug('oppList>>>'+oppList);
         //To populate MK socre from Contact related to Account 
         Set<Id> accountID = new Set<Id>();

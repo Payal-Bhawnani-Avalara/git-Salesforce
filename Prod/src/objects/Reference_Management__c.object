@@ -208,6 +208,17 @@ Purpose: To display Account Owner&apos;s Full Name in Email Template - &quot;Ref
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>CAM_when_Published__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>CAM when Published</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Reference_Management</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>CaseSafeID__c</fullName>
         <externalId>false</externalId>
         <formula>CASESAFEID(Id)</formula>

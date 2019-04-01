@@ -1437,6 +1437,17 @@ https://jira.avalara.com/browse/IBST-4190</description>
         <visibleLines>3</visibleLines>
     </fields>
     <fields>
+        <fullName>External_Id__c</fullName>
+        <externalId>false</externalId>
+        <label>External_Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Extractor_Connector__c</fullName>
         <description>https://jira.avalara.com/browse/BATS-510</description>
         <externalId>false</externalId>

@@ -1422,7 +1422,7 @@
         <fullName>Send_TAM_Alert_Template</fullName>
         <ccEmails>nigel.drinkwater@avalara.com</ccEmails>
         <ccEmails>devayani.wandrekar@avalara.com</ccEmails>
-        <ccEmails>aishwarya.madhukar@avalara.com</ccEmails>
+        <ccEmails>manish.kumbalkar@avalara.com</ccEmails>
         <ccEmails>david.regan@avalara.com</ccEmails>
         <ccEmails>rasika.kher@avalara.com</ccEmails>
         <description>Send TAM Alert Template</description>

@@ -1750,6 +1750,20 @@ https://jira.avalara.com/browse/IBST-14804</description>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
     <rules>
+        <fullName>High Priority Responses on Active Customer Accounts</fullName>
+        <actions>
+            <name>Active_Customer_High_Priority_Response</name>
+            <type>Task</type>
+        </actions>
+        <active>true</active>
+        <description>https://jira.avalara.com/browse/ITBSE-1531</description>
+        <formula>AND( Account.ActiveCustomer__c = TRUE,  Most_Recent_Conversion_Date__c = TODAY(),
+TEXT(Method_of_Contact_Contact__c) = &quot;Webform T1&quot;,
+OR( TEXT(Offer__c) = &quot;General Contact&quot;,
+TEXT(Offer__c) = &quot;Product Offering&quot;, TEXT(Offer__c) = &quot;Referral Program&quot;, TEXT(Offer__c) = &quot;Free Trial&quot;, TEXT(Offer__c) = &quot;Online Buying&quot;))</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
         <fullName>Inside Sales Workflow - Chat Contact Us Form</fullName>
         <actions>
             <name>Chat_Contact_Us_Form_Follow_up</name>
@@ -2438,6 +2452,18 @@ ISPICKVAL(Cadence_Stage__c, &quot;Working&quot;))
         <protected>false</protected>
         <status>Not Started</status>
         <subject>Active Buying Nurture Response</subject>
+    </tasks>
+    <tasks>
+        <fullName>Active_Customer_High_Priority_Response</fullName>
+        <assignedTo>aaron.zapf@avalara.com</assignedTo>
+        <assignedToType>user</assignedToType>
+        <description>Active Customer - High Priority Response</description>
+        <dueDateOffset>1</dueDateOffset>
+        <notifyAssignee>true</notifyAssignee>
+        <priority>Normal</priority>
+        <protected>false</protected>
+        <status>Completed</status>
+        <subject>Active Customer - High Priority Response</subject>
     </tasks>
     <tasks>
         <fullName>AssignFollowupforAvaNewsLead</fullName>

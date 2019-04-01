@@ -2172,7 +2172,7 @@ https://jira.avalara.com/browse/IBST-4623</description>
             <name>Set_CX_Rep_to_Jeff_Williams</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Account.Manager__c</field>
             <operation>equals</operation>
@@ -2192,7 +2192,7 @@ https://jira.avalara.com/browse/IBST-4623</description>
             <name>Set_CX_Rep_to_Natasha_Strickland</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Account.Manager__c</field>
             <operation>equals</operation>
@@ -2212,7 +2212,7 @@ https://jira.avalara.com/browse/IBST-4623</description>
             <name>Set_CX_Rep_to_Tonya_Winchester</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Account.Manager__c</field>
             <operation>equals</operation>
@@ -2232,7 +2232,7 @@ https://jira.avalara.com/browse/IBST-4623</description>
             <name>Set_CX_Rep_to_Rose_Tweit</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Account.Manager__c</field>
             <operation>equals</operation>
@@ -2252,7 +2252,7 @@ https://jira.avalara.com/browse/IBST-4623</description>
             <name>Set_CX_Rep_to_Ken_Davis</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Account.Manager__c</field>
             <operation>equals</operation>
@@ -2272,7 +2272,7 @@ https://jira.avalara.com/browse/IBST-4623</description>
             <name>Set_CX_Rep_to_Clint_Knudsen</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Account.Manager__c</field>
             <operation>equals</operation>
@@ -2292,7 +2292,7 @@ https://jira.avalara.com/browse/IBST-4623</description>
             <name>Set_CX_Rep_to_Ken_Davis</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Account.Manager__c</field>
             <operation>equals</operation>
@@ -2312,7 +2312,7 @@ https://jira.avalara.com/browse/IBST-4623</description>
             <name>Set_CX_Rep_to_Holly_Rutledge</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Account.Owner_Role__c</field>
             <operation>contains</operation>
