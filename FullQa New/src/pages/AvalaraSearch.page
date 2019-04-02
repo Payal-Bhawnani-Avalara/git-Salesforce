@@ -219,58 +219,58 @@
             $scope.progressbar = ngProgressFactory.createInstance();
             $scope.progressbar.setHeight('5px');
 
-		    $scope.toggleSubVersion = function(parentId) {
-		    		var parentCSS=".versionid"+parentId;
-		    		var childCSS=".parentVersionId"+parentId;
-		    		var parentVersionIdSpan=".parentVersionIdSpan"+parentId;
-		    		var parentVersionIdSpanchevronright=".parentVersionIdSpanchevronright"+parentId;
-		    		var parentVersionIdSpanchevrondown=".parentVersionIdSpanchevrondown"+parentId;
-		    		var versionidspan=".versionidspan"+parentId;
-		        var clickedElement=$(document).find(parentCSS).find(versionidspan);
-		        var rightClass=$(parentVersionIdSpanchevronright).attr("class");
-		        var downClass=$(parentVersionIdSpanchevrondown).attr("class");
-		        //console.log("rightClass"+rightClass.indexOf("slds-hide"));
-		        //console.log("downClass"+downClass.indexOf("slds-hide"));
-		        if(rightClass.indexOf("slds-hide")==-1){
-		        		//console.log("11111111");
-		        		$(parentVersionIdSpanchevrondown).removeClass("slds-hide");
-		        		$(parentVersionIdSpanchevronright).addClass("slds-hide");	
-					$( childCSS ).each(function( index ) {
+            $scope.toggleSubVersion = function(parentId) {
+                    var parentCSS=".versionid"+parentId;
+                    var childCSS=".parentVersionId"+parentId;
+                    var parentVersionIdSpan=".parentVersionIdSpan"+parentId;
+                    var parentVersionIdSpanchevronright=".parentVersionIdSpanchevronright"+parentId;
+                    var parentVersionIdSpanchevrondown=".parentVersionIdSpanchevrondown"+parentId;
+                    var versionidspan=".versionidspan"+parentId;
+                var clickedElement=$(document).find(parentCSS).find(versionidspan);
+                var rightClass=$(parentVersionIdSpanchevronright).attr("class");
+                var downClass=$(parentVersionIdSpanchevrondown).attr("class");
+                //console.log("rightClass"+rightClass.indexOf("slds-hide"));
+                //console.log("downClass"+downClass.indexOf("slds-hide"));
+                if(rightClass.indexOf("slds-hide")==-1){
+                        //console.log("11111111");
+                        $(parentVersionIdSpanchevrondown).removeClass("slds-hide");
+                        $(parentVersionIdSpanchevronright).addClass("slds-hide");   
+                    $( childCSS ).each(function( index ) {
                         $(this).removeClass("slds-hide");
                         //$(this).css({ 'display': "none" });
-					});			        		
-		        		
-		        }
-		        else if(downClass.indexOf("slds-hide")==-1){
-					//console.log("222222222");
-		        		$(parentVersionIdSpanchevronright).removeClass("slds-hide");
-		        		$(parentVersionIdSpanchevrondown).addClass("slds-hide");	
+                    });                         
+                        
+                }
+                else if(downClass.indexOf("slds-hide")==-1){
+                    //console.log("222222222");
+                        $(parentVersionIdSpanchevronright).removeClass("slds-hide");
+                        $(parentVersionIdSpanchevrondown).addClass("slds-hide");    
 
-					
-					$( childCSS ).each(function( index ) {
+                    
+                    $( childCSS ).each(function( index ) {
                         $(this).addClass("slds-hide");
                         //$(this).css({ 'display': "auto" });
-					});							        			        		        
-		        }
-				$( parentVersionIdSpan ).each(function( index ) {
-				  $(this).addClass("slds-hide");
-				});			        
-		        /*var text=$(clickedElement).text();
-		        if(text=="+"){
-		        		$(clickedElement).html("-");
-					$( childCSS ).each(function( index ) {
+                    });                                                                     
+                }
+                $( parentVersionIdSpan ).each(function( index ) {
+                  $(this).addClass("slds-hide");
+                });                 
+                /*var text=$(clickedElement).text();
+                if(text=="+"){
+                        $(clickedElement).html("-");
+                    $( childCSS ).each(function( index ) {
                         $(this).removeClass("slds-hide");
                         //$(this).css({ 'display': "none" });
-					});		        		
-		        }
-		        else{
-		        		$(clickedElement).html("+");
-					$( childCSS ).each(function( index ) {
+                    });                     
+                }
+                else{
+                        $(clickedElement).html("+");
+                    $( childCSS ).each(function( index ) {
                         $(this).addClass("slds-hide");
                         //$(this).css({ 'display': "auto" });
-					});			        		
-		        }*/
-		    };
+                    });                         
+                }*/
+            };
             $scope.openRequestModal = function(vId, ownerId, connector) {
                 var modalInstance = $uibModal.open({
                     templateUrl: 'requestBadge.html',
@@ -389,13 +389,35 @@
                     var data = {};
                     for (var i = 0; i < r[0].connectors.length; i++) {
                         var c = r[0].connectors[i];
-                        if(c.Vibrancy__c == 'Launch' || c.Vibrancy__c == 'Dormant' || c.Vibrancy__c == 'Emerging' || c.Vibrancy__c == 'Active'){
-                            c.Avalara_Contact = c.Early_Adopter_Sales_Owner__r ? c.Early_Adopter_Sales_Owner__r.Name : '';
+                        if(c.Vibrancy__c == 'Launch'){
+                            if(c.PartnerLaunchSalesOwner__c!=null){
+                            c.Avalara_Contact = c.PartnerLaunchSalesOwner__r.Name ? c.PartnerLaunchSalesOwner__r.Name : '';
+                            c.Avalara_Contact_Id = c.PartnerLaunchSalesOwner__c || '';
+                            }
+                        }
+                         if(c.Vibrancy__c == 'Dormant'){
+                         if(c.PartnerLaunchSalesOwner__c!=null){
+                            c.Avalara_Contact = c.PartnerLaunchSalesOwner__r.Name ? c.PartnerLaunchSalesOwner__r.Name : '';
+                            c.Avalara_Contact_Id = c.PartnerLaunchSalesOwner__c || '';
+                            }
+                        }
+                        if(c.Vibrancy__c == 'Emerging'){
+                         if(c.Early_Adopter_Sales_Owner__c!=null){
+                            c.Avalara_Contact = c.Early_Adopter_Sales_Owner__r.Name ? c.Early_Adopter_Sales_Owner__r.Name : '';
                             c.Avalara_Contact_Id = c.Early_Adopter_Sales_Owner__c || '';
+                            }
+                        }
+                        if(c.Vibrancy__c == 'Active'){
+                         if(c.Early_Adopter_Sales_Owner__c!=null){
+                            c.Avalara_Contact = c.Early_Adopter_Sales_Owner__r.Name ? c.Early_Adopter_Sales_Owner__r.Name : '';
+                            c.Avalara_Contact_Id = c.Early_Adopter_Sales_Owner__c || '';
+                            }
                         }
                         if(c.Vibrancy__c == 'Established'){
+                         if(c.SAM__c!=null){
                             c.Avalara_Contact = c.SAM__r.Name ? c.SAM__r.Name : '';
                             c.Avalara_Contact_Id = c.SAM__c || '';
+                            }
                         }
                         if(c.Vibrancy__c == 'Retired'){
                             //TODO  assign BDM field value id and name
@@ -642,30 +664,30 @@
             };
         }
     function hideChildVersions(){
-    		
+            
         $( ".slds-hide1" ).each(function( index ) {
             $(this).addClass("slds-hide");
             //$(this).css({ 'display': "auto" });
-        });	
+        }); 
         $( ".parentVersion" ).each(function( index ) {
             //console.log('parentVersion classes===='+$(this).attr("class"));
             var pId=$(this).attr("class");
-			pId=pId.substring(pId.indexOf("versionid"));
-			pId=pId.substring(0,pId.indexOf(" "));
-			pId=pId.replace("versionid","");
-			var childClass=".parentVersionId"+pId;
-			var pClass=".versionidspan"+pId;
-			var totalC=0;
-			$( childClass ).each(function( index ) {
-				totalC=totalC+1;
-			});
-			if(totalC<=0){
-				$( pClass ).each(function( index ) {
-					$(this).addClass("slds-hide");
-				});			
-				
-			}
-        });	                 
+            pId=pId.substring(pId.indexOf("versionid"));
+            pId=pId.substring(0,pId.indexOf(" "));
+            pId=pId.replace("versionid","");
+            var childClass=".parentVersionId"+pId;
+            var pClass=".versionidspan"+pId;
+            var totalC=0;
+            $( childClass ).each(function( index ) {
+                totalC=totalC+1;
+            });
+            if(totalC<=0){
+                $( pClass ).each(function( index ) {
+                    $(this).addClass("slds-hide");
+                });         
+                
+            }
+        });                  
     }
     </script>
     <div class="slds-box" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ng-app="app" ng-controller="ctrl" ng-cloak="true">
@@ -797,19 +819,19 @@
                                         <div class="slds-grid slds-wrap parentVersion versionid{{v.Id}} parentVersionId{{v.Parent_Version__c}} {{v.Parent_Version__c?'slds-hide1':''}}" ng-style="v.Parent_Version__c && {'background-color':'#f8f8f8'}">
                                             <div class="slds-col slds-size_1-of-1 slds-p-horizontal_x-large" style="padding-right:0px;">
                                             
-                                        		<a class="slds-button slds-button_reset versionid{{v.Id}} parentVersionId{{v.Parent_Version__c}} parentVersionIdSpan{{v.Parent_Version__c}}" style="border-radius:0px;font-size: 150%;" ng-click="toggleSubVersion(v.Id)">
-                                        		
-                                        		<span class="versionidspan{{v.Id}} parentVersionIdSpanchevronright{{v.Id}}">
-	                                            <svg class="slds-button__icon slds-button__icon_chevronright" aria-hidden="true">
-	                                                <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#chevronright" />
-	                                            </svg>                                         		
-                                        		</span>
-                                        		<span class="versionidspan{{v.Id}} parentVersionIdSpanchevrondown{{v.Id}} slds-hide">
-	                                            <svg class="slds-button__icon slds-button__icon_chevrondown" aria-hidden="true">
-	                                                <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#chevrondown" />
-	                                            </svg>                                         		
-                                        		</span>                                        		
-                                        		</a>                                                                                     
+                                                <a class="slds-button slds-button_reset versionid{{v.Id}} parentVersionId{{v.Parent_Version__c}} parentVersionIdSpan{{v.Parent_Version__c}}" style="border-radius:0px;font-size: 150%;" ng-click="toggleSubVersion(v.Id)">
+                                                
+                                                <span class="versionidspan{{v.Id}} parentVersionIdSpanchevronright{{v.Id}}">
+                                                <svg class="slds-button__icon slds-button__icon_chevronright" aria-hidden="true">
+                                                    <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#chevronright" />
+                                                </svg>                                              
+                                                </span>
+                                                <span class="versionidspan{{v.Id}} parentVersionIdSpanchevrondown{{v.Id}} slds-hide">
+                                                <svg class="slds-button__icon slds-button__icon_chevrondown" aria-hidden="true">
+                                                    <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#chevrondown" />
+                                                </svg>                                              
+                                                </span>                                             
+                                                </a>                                                                                     
 
                                                 <a target="_blank" href="/{{v.Id}}" class="slds-badge slds-badge_inverse" style="border-radius:0px;font-size: 90%;"><b>Version : {{v.Name}}</b></a>
                                                 <hr style="margin-top:2px;border-top: 2px solid #d8dde6;"/>
@@ -1164,7 +1186,7 @@
                                         </label>
                                     </div>
                                     <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
-										<a target="_blank" href="{{article.Connector_Training__c}}">{{article.Connector_Training__c}}</a>
+                                        <a target="_blank" href="{{article.Connector_Training__c}}">{{article.Connector_Training__c}}</a>
                                     </div>
                                 </div>
                                 <div class="slds-grid slds-wrap">
@@ -1174,7 +1196,7 @@
                                         </label>
                                     </div>
                                     <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
-										<a target="_blank" href="{{article.Connector_Demo__c}}">{{article.Connector_Demo__c}}</a>
+                                        <a target="_blank" href="{{article.Connector_Demo__c}}">{{article.Connector_Demo__c}}</a>
                                     </div>
                                 </div>
                                 <div class="slds-grid slds-wrap">
@@ -1184,7 +1206,7 @@
                                         </label>
                                     </div>
                                     <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
-										<a target="_blank" href="{{article.Connector_Communication__c}}">{{article.Connector_Communication__c}}</a>
+                                        <a target="_blank" href="{{article.Connector_Communication__c}}">{{article.Connector_Communication__c}}</a>
                                     </div>
                                 </div>
                                 <div class="slds-grid slds-wrap">
@@ -1194,7 +1216,7 @@
                                         </label>
                                     </div>
                                     <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
-										<input type="checkbox" disabled="true" value="{{article.Connector_Endorsed_by_UX__c}}" ng-checked="article.Connector_Endorsed_by_UX__c"/>
+                                        <input type="checkbox" disabled="true" value="{{article.Connector_Endorsed_by_UX__c}}" ng-checked="article.Connector_Endorsed_by_UX__c"/>
                                     </div>
                                 </div>
                                 <div class="slds-grid slds-wrap">
@@ -1204,7 +1226,7 @@
                                         </label>
                                     </div>
                                     <div class="slds-col slds-size_6-of-12 slds-p-horizontal_x-small">
-										<a target="_blank" href="{{article.Connector_Download_Location__c}}">{{article.Connector_Download_Location__c}}</a>
+                                        <a target="_blank" href="{{article.Connector_Download_Location__c}}">{{article.Connector_Download_Location__c}}</a>
                                     </div>
                                 </div>
                                 <div class="slds-grid slds-wrap">
@@ -1217,8 +1239,8 @@
                                         {{article.Market_Ready_Notes__c}}
                                     </div>
                                 </div>
-							</div>
-							<br/>
+                            </div>
+                            <br/>
 
                             <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_offline" role="alert">
                                 <h2>Connector Notes</a></h2>

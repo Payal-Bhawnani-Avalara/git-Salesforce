@@ -1,7 +1,8 @@
 public class SSTWizardController {
 	 @AuraEnabled
-    public static string save(SST_Onboarding__c sstData){
-        try{  
+    public static string save(SST_Onboarding__c sstData, List<String> sstStatePicklistselected){
+        try{ 
+        	sstData.SST_State_Selection__c=String.join(sstStatePicklistselected, ';');
             insert sstData;      
         } 
         catch(Exception ex){

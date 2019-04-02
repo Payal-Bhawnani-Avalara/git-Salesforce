@@ -1,10 +1,13 @@
 ({
     saveData : function(component, event, helper) {
+        var sstStatePicklistselected;
+        sstStatePicklistselected=component.find("sstStateId").get("v.value");
         var action = component.get("c.save");
         action.setParams({
-            sstData : component.get("v.sstData")});
+            sstData : component.get("v.sstData"),
+            sstStatePicklistselected : sstStatePicklistselected});
         action.setCallback(this, function(response){
-            var state = response.getState();
+                var state = response.getState();
                 var message = response.getReturnValue();
                 console.log("message>>>>>>>>" +JSON.stringify(message));
                 component.set("v.message", message);
@@ -163,6 +166,66 @@
             var state = a.getState();
             if (state === "SUCCESS"){
                 component.set("v.typeBusPicklist", a.getReturnValue());
+            }
+        });
+        $A.enqueueAction(action);
+    },
+    fetchsstProgPicklist : function(component, event, helper){
+        var action = component.get("c.getPicklistvalues");
+        action.setParams({
+            'objectName': component.get("v.ObjectName"),
+            'field_apiname': component.get("v.sstProg"),
+            'nullRequired': false
+        });
+        action.setCallback(this, function(a) {
+            var state = a.getState();
+            if (state === "SUCCESS"){
+                component.set("v.sstProgPicklist", a.getReturnValue());
+            }
+        });
+        $A.enqueueAction(action);
+    },
+    fetchjoinSSTProgPicklist : function(component, event, helper){
+        var action = component.get("c.getPicklistvalues");
+        action.setParams({
+            'objectName': component.get("v.ObjectName"),
+            'field_apiname': component.get("v.joinSSTProg"),
+            'nullRequired': false
+        });
+        action.setCallback(this, function(a) {
+            var state = a.getState();
+            if (state === "SUCCESS"){
+                component.set("v.joinSSTProgPicklist", a.getReturnValue());
+            }
+        });
+        $A.enqueueAction(action);
+    },
+    fetchsstRemotePicklist : function(component, event, helper){
+        var action = component.get("c.getPicklistvalues");
+        action.setParams({
+            'objectName': component.get("v.ObjectName"),
+            'field_apiname': component.get("v.sstRemote"),
+            'nullRequired': false
+        });
+        action.setCallback(this, function(a) {
+            var state = a.getState();
+            if (state === "SUCCESS"){
+                component.set("v.sstRemotePicklist", a.getReturnValue());
+            }
+        });
+        $A.enqueueAction(action);
+    },
+    fetchwaBOCPicklist : function(component, event, helper){
+        var action = component.get("c.getPicklistvalues");
+        action.setParams({
+            'objectName': component.get("v.ObjectName"),
+            'field_apiname': component.get("v.waBOC"),
+            'nullRequired': false
+        });
+        action.setCallback(this, function(a) {
+            var state = a.getState();
+            if (state === "SUCCESS"){
+                component.set("v.waBOCPicklist", a.getReturnValue());
             }
         });
         $A.enqueueAction(action);

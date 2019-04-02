@@ -10,7 +10,10 @@
 	        helper.fetcharNV(component) ;
 	        helper.fetchregSSTPicklist(component) ;
 	        helper.fetchtypeBusPicklist(component) ;
-         
+	        helper.fetchsstProgPicklist(component) ;    
+	        helper.fetchjoinSSTProgPicklist(component) ;
+	        helper.fetchsstRemotePicklist(component) ;
+	        helper.fetchwaBOCPicklist(component) ;
      },
   getStarted : function(component, event, helper) {
         component.set("v.setMessage", '');           
@@ -19,7 +22,9 @@
         var showRandom = component.get("v.showRandom");
         var showSSTState = component.get("v.showSSTState");
         var showNexus = component.get("v.showNexus");
+        var showRemoteState = component.get("v.showRemoteState");
         var showReg = component.get("v.showReg");
+        var showStats = component.get("v.showStats");
         var showData = component.get("v.showData");
         
         if(showIntro == true){
@@ -28,7 +33,9 @@
 	      component.set("v.showRandom", false);
 	      component.set("v.showSSTState", false); 
 	      component.set("v.showNexus", false);
+	      component.set("v.showRemoteState", false);
 	      component.set("v.showReg", false);
+	      component.set("v.showStats", false);
 	      component.set("v.showError", false);
 	      component.set("v.showData", false);
         }    
@@ -40,7 +47,9 @@
         var showRandom = component.get("v.showRandom");
         var showSSTState = component.get("v.showSSTState");
         var showNexus = component.get("v.showNexus");
+        var showRemoteState = component.get("v.showRemoteState");
         var showReg = component.get("v.showReg");
+        var showStats = component.get("v.showStats");
         var showData = component.get("v.showData");
         
         if(showComInfo == true){
@@ -57,7 +66,9 @@
 		      component.set("v.showRandom", true);
 		      component.set("v.showSSTState", false); 
 		      component.set("v.showNexus", false);
+		      component.set("v.showRemoteState", false);
 		      component.set("v.showReg", false);
+		      component.set("v.showStats", false);
 		      component.set("v.showError", false);
 		      component.set("v.showData", false);
 	        } else {
@@ -73,7 +84,9 @@
         var showRandom = component.get("v.showRandom");
         var showSSTState = component.get("v.showSSTState");
         var showNexus = component.get("v.showNexus");
+        var showRemoteState = component.get("v.showRemoteState");
         var showReg = component.get("v.showReg");
+        var showStats = component.get("v.showStats");
         var showData = component.get("v.showData");
         
         
@@ -81,7 +94,9 @@
             component.set("v.showRandom", false);
 	        component.set("v.showSSTState", true);
 	        component.set("v.showNexus", false);
+	        component.set("v.showRemoteState", false);
 	        component.set("v.showReg", false);
+	        component.set("v.showStats", false);
 	        component.set("v.showComInfo", false);
 	        component.set("v.showIntro", false)
 	        component.set("v.showError", false);
@@ -91,7 +106,9 @@
         if(showSSTState == true){
 	        component.set("v.showSSTState", false);
 	        component.set("v.showNexus", true);
+	        component.set("v.showRemoteState", false);
 	        component.set("v.showReg", false);
+	        component.set("v.showStats", false);
 	        component.set("v.showComInfo", false);
 	        component.set("v.showIntro", false)
 	        component.set("v.showError", false);
@@ -101,7 +118,21 @@
         if(showNexus == true){
 	        component.set("v.showSSTState", false);
 	        component.set("v.showNexus", false);
+	        component.set("v.showRemoteState", true);
+	        component.set("v.showReg", false);
+	        component.set("v.showStats", false);
+	        component.set("v.showComInfo", false);
+	        component.set("v.showIntro", false)
+	        component.set("v.showError", false);
+	        component.set("v.showData", false);
+	        component.set("v.showRandom", false);  
+        } 
+         if(showRemoteState == true){
+	        component.set("v.showSSTState", false);
+	        component.set("v.showNexus", false);
+	        component.set("v.showRemoteState", false);
 	        component.set("v.showReg", true);
+	        component.set("v.showStats", false);
 	        component.set("v.showComInfo", false);
 	        component.set("v.showIntro", false)
 	        component.set("v.showError", false);
@@ -111,7 +142,9 @@
          if(showReg == true){
 	        component.set("v.showSSTState", false);
 	        component.set("v.showNexus", false);
+	        component.set("v.showRemoteState", false);
 	        component.set("v.showReg", false);
+	        component.set("v.showStats", true);
 	        component.set("v.showComInfo", false);
 	        component.set("v.showIntro", false)
 	        component.set("v.showError", false);
@@ -126,7 +159,9 @@
         var showRandom = component.get("v.showRandom");
         var showSSTState = component.get("v.showSSTState");
         var showNexus = component.get("v.showNexus");
+        var showRemoteState = component.get("v.showRemoteState");
         var showReg = component.get("v.showReg");
+        var showStats = component.get("v.showStats");
         var showData = component.get("v.showData");
         
         
@@ -134,20 +169,24 @@
             component.set("v.showIntro", true);
             component.set("v.showComInfo", false);
             component.set("v.showSSTState", false);
-             component.set("v.showNexus", false);
+            component.set("v.showNexus", false);
+            component.set("v.showRemoteState", false);
             component.set("v.showError", false);
             component.set("v.showData", false); 
-            component.set("v.showRandom", false);     
+            component.set("v.showRandom", false); 
+            component.set("v.showStats", false);    
         }    
         if(showRandom == true){
             component.set("v.showIntro", false);
             component.set("v.showComInfo", true);
             component.set("v.showSSTState", false);
             component.set("v.showNexus", false);
+            component.set("v.showRemoteState", false);
             component.set("v.showReg", false);
             component.set("v.showError", false);
             component.set("v.showData", false);    
             component.set("v.showRandom", false); 
+            component.set("v.showStats", false);
         } 
          if(showSSTState == true){
             component.set("v.showIntro", false);
@@ -155,7 +194,9 @@
             component.set("v.showRandom", true); 
             component.set("v.showSSTState", false);
             component.set("v.showNexus", false);
+            component.set("v.showRemoteState", false);
             component.set("v.showReg", false);
+            component.set("v.showStats", false);
             component.set("v.showError", false);
             component.set("v.showData", false);    
         } 
@@ -164,7 +205,20 @@
             component.set("v.showComInfo", false);
             component.set("v.showSSTState", true);
             component.set("v.showNexus", false);
+            component.set("v.showRemoteState", false);
             component.set("v.showReg", false); 
+            component.set("v.showStats", false);
+            component.set("v.showError", false);
+            component.set("v.showData", false);             
+        }  
+         if(showRemoteState == true){
+            component.set("v.showIntro", false);
+            component.set("v.showComInfo", false);
+            component.set("v.showSSTState", false);
+            component.set("v.showNexus", true);
+            component.set("v.showRemoteState", false);
+            component.set("v.showReg", false); 
+            component.set("v.showStats", false);
             component.set("v.showError", false);
             component.set("v.showData", false);             
         }  
@@ -172,8 +226,22 @@
             component.set("v.showIntro", false);
             component.set("v.showComInfo", false);
             component.set("v.showSSTState", false);
-            component.set("v.showNexus", true);
+            component.set("v.showNexus", false);
+            component.set("v.showRemoteState", true);
             component.set("v.showReg", false); 
+            component.set("v.showStats", false);
+            component.set("v.showError", false);
+            component.set("v.showData", false);             
+        }  
+        if(showStats == true){
+            component.set("v.showIntro", false);
+            component.set("v.showComInfo", false);
+            component.set("v.showSSTState", false);
+            component.set("v.showNexus", false);
+            component.set("v.showRemoteState", false);
+            component.set("v.showReg", true); 
+            component.set("v.showStats", false);
+            component.set("v.showStats", false);
             component.set("v.showError", false);
             component.set("v.showData", false);             
         }  
@@ -182,7 +250,9 @@
             component.set("v.showComInfo", false);
             component.set("v.showSSTState", false);
             component.set("v.showNexus", false);
-            component.set("v.showReg", true); 
+            component.set("v.showRemoteState", false);
+            component.set("v.showReg", false); 
+            component.set("v.showStats", true);
             component.set("v.showError", false);
             component.set("v.showData", false);             
         }  
@@ -218,7 +288,6 @@
 	         for(var i = 0; i < nav.length; i++) {
 	           if(nav[i] =="Arkansas"){
 	               component.set("v.showAr", true); 
-	           
 	           }else if (nav[i] =="Georgia"){
 	              component.set("v.showGe", true);
 	           }else if (nav[i] =="Indiana"){
@@ -436,6 +505,22 @@
 	         component.set("v.showAfInfo", true);
 	     }else if(nav=="No"){
 	        component.set("v.showAfInfo", false);
+	     }
+	},showSSTProgOther: function (component, event, helper) {
+	      var sel = component.find("showStatsIntro");
+	      var nav=sel.get("v.value");
+	      if (nav=="Other"){
+	         component.set("v.showSSTProgOther", true);
+	     }else{
+	         component.set("v.showSSTProgOther", false);
+	     }
+	},showSSTJoinOther: function (component, event, helper) {
+	      var sel = component.find("showJoinStats");
+	      var nav=sel.get("v.value");
+	      if (nav=="Other"){
+	         component.set("v.showSSTJoinOther", true);
+	     }else{
+	         component.set("v.showSSTJoinOther", false);
 	     }
 	}
 })
