@@ -1,4 +1,5 @@
 public class SSTWizardController {
+	 @AuraEnabled public List<KeyPairValue> sstStatePicklistselected {get;set;}
 	 @AuraEnabled
     public static string save(SST_Onboarding__c sstData, List<String> sstStatePicklistselected){
         try{ 
