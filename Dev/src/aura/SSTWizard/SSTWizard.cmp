@@ -6,7 +6,7 @@
     <aura:attribute name="showRandom" type="boolean" default="false"/>
     <aura:attribute name="showSSTState" type="boolean" default="false"/>
     <aura:attribute name="showNexus" type="boolean" default="false"/>
-     <aura:attribute name="showRemoteState" type="boolean" default="false"/>
+    <aura:attribute name="showRemoteState" type="boolean" default="false"/>
     <aura:attribute name="showReg" type="boolean" default="false"/>
     <aura:attribute name="showRegSSN" type="boolean" default="false"/>
     <aura:attribute name="showAfInfo" type="boolean" default="false"/>
@@ -21,6 +21,8 @@
     <aura:attribute name="sstStatePicklistselected" type="List" default="[]"/>
     <aura:attribute name="regSST" type="String"  default="Registered_with_the_SST_Governing_Board__c" access="global"/>
     <aura:attribute name="regSSTPicklist" type="String[]"/>
+    <aura:attribute name="comAff" type="String"  default="Is_your_company_affiliated__c" access="global"/>
+    <aura:attribute name="comAffPicklist" type="String[]"/>
     <aura:attribute name="typeBus" type="String"  default="Type_of_Business__c" access="global"/>
     <aura:attribute name="typeBusPicklist" type="String[]"/>
     <aura:attribute name="sstProg" type="String"  default="introduced_to_the_SST_program__c" access="global"/>
@@ -160,7 +162,7 @@
 			               slds-p-vertical--medium">  Company Information   </legend>		          
 			               <div class="slds-grid slds-wrap" >
 			                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
-			                      <lightning:select aura:id="fieldId" name="entityValue" label="Business Entity Type" required="true"  value="{!v.sstData.Business_Entity_Type__c}" onchange="{!c.beType}">
+			                      <lightning:select aura:id="entityTypeId" name="entityValue" label="Business Entity Type" required="true"  value="{!v.sstData.Business_Entity_Type__c}" onchange="{!c.beType}">
 			                          <aura:iteration var="option" items="{! v.businessEntityTypePicklist }">
 			                              <option value="{! option }" >{! option }</option>
 			                          </aura:iteration>
@@ -223,7 +225,7 @@
 			                     maxlength="35"/>
 			                    </span>
 			                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="City" name="City" value="{!v.sstData.Company_Corporate_Address_City__c}" maxlength="22" required="true"/>
+			                    <lightning:input aura:id="newSSTform" label="City" name="City"  pattern="^[a-zA-Z]*$" messageWhenPatternMismatch="Please provide valid input." value="{!v.sstData.Company_Corporate_Address_City__c}" maxlength="22" required="true"/>
 			                    </span>
 			                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
 			                        <lightning:select aura:id="stateCopId" name="stateOfIn" label="State" value="{!v.sstData.Company_Corporate_Address_State__c}" required="true" >
@@ -233,16 +235,17 @@
 			                        </lightning:select>                      
 			                    </span> 
 			                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="Zip" name="Zip" value="{!v.sstData.Company_Corporate_Address_Zip_Code__c}"  required="true" />
+			                    <lightning:input aura:id="newSSTform" label="Zip" name="Zip" maxlength="9" value="{!v.sstData.Company_Corporate_Address_Zip_Code__c}"  required="true" />
 			                    </span>
 			                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="Country" name="Country" value="{!v.sstData.Company_Corporate_Address_Country__c}"  required="true" />
+			                    <lightning:input aura:id="newSSTform" label="Country" pattern="^[a-zA-Z]*$"  maxlength="2" messageWhenPatternMismatch="Please provide valid input." name="Country" value="{!v.sstData.Company_Corporate_Address_Country__c}"  required="true" />
+			                     <lightning:helptext content="Please provide two letter country code." iconName="utility:info"/>
 			                    </span>
 			                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="Phone Number" name="Phone Number" value="{!v.sstData.Company_Corporate_Phone_Number__c}"  required="true" />
+			                    <lightning:input aura:id="newSSTform" label="Phone Number" name="Phone Number" pattern="^[0-9]*$" messageWhenPatternMismatch="Please provide valid input." maxlength="10" value="{!v.sstData.Company_Corporate_Phone_Number__c}"  required="true" />
 			                    </span>
 			                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="Phone Extension" name="Phone Extension" value="{!v.sstData.Company_Corporate_Phone_Extension__c}"  />
+			                    <lightning:input aura:id="newSSTform" label="Phone Extension" name="Phone Extension" pattern="^[0-9]*$" messageWhenPatternMismatch="Please provide valid input." maxlength="5" value="{!v.sstData.Company_Corporate_Phone_Extension__c}"  />
 			                    </span>
 			                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
 			                    <lightning:input aura:id="sameAsMailing" type="checkbox" label="Same as mailing address?" name="sameAsMailing" checked="true" value="{!v.sstData.Same_as_mailing_address__c}"
@@ -264,7 +267,7 @@
 			                     maxlength="35"/>
 			                    </span>
 			                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="City" name="City" value="{!v.sstData.Company_Mailing_Address_City__c}" maxlength="22" required="true"/>
+			                    <lightning:input aura:id="newSSTform" label="City" name="City" value="{!v.sstData.Company_Mailing_Address_City__c}" pattern="^[a-zA-Z]*$" messageWhenPatternMismatch="Please provide valid input." maxlength="22" required="true"/>
 			                    </span>
 			                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
 			                        <lightning:select aura:id="stateCopId" name="stateOfIn" label="State" value="{!v.sstData.Company_Mailing_Address_State__c}"  required="true" >
@@ -274,16 +277,17 @@
 			                        </lightning:select>                      
 			                    </span> 
 			                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="Zip" name="Zip" value="{!v.sstData.Company_Mailing_Address_Zip_Code__c}"  required="true" />
+			                    <lightning:input aura:id="newSSTform" label="Zip" name="Zip" maxlength="9" value="{!v.sstData.Company_Mailing_Address_Zip_Code__c}"  required="true" />
 			                    </span>
 			                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="Country" name="Country" value="{!v.sstData.Company_Mailing_Address_Country__c}"  required="true" />
+			                    <lightning:input aura:id="newSSTform" label="Country" pattern="^[a-zA-Z]*$"  maxlength="2" messageWhenPatternMismatch="Please provide valid input." name="Country" value="{!v.sstData.Company_Mailing_Address_Country__c}"  required="true" />
+			                    <lightning:helptext content="Please provide two letter country code." iconName="utility:info"/>
 			                    </span>
 			                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="Phone Number" name="Phone Number" value="{!v.sstData.Company_Mailing_Phone_Extension__c}"  required="true" />
+			                    <lightning:input aura:id="newSSTform" label="Phone Number" pattern="^[0-9]*$" messageWhenPatternMismatch="Please provide valid input." maxlength="10" name="Phone Number" value="{!v.sstData.Company_Mailing_Phone_Extension__c}"  required="true" />
 			                    </span>
 			                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="Phone Extension" name="Phone Extension" value="{!v.sstData.Company_Corporate_Phone_Extension__c}"  />
+			                    <lightning:input aura:id="newSSTform" label="Phone Extension" pattern="^[0-9]*$" messageWhenPatternMismatch="Please provide valid input." maxlength="5" name="Phone Extension" value="{!v.sstData.Company_Corporate_Phone_Extension__c}"  />
 			                    </span>
 			                   </div>
 			                   </aura:if>
@@ -294,19 +298,30 @@
 			                  <br/>
 			                  <br/>                    
 			                     <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                     <lightning:input aura:id="newSSTform" label="First Name" name="First Name" value="{!v.sstData.Contact_First_Name__c}"  required="true"/>
+			                     <lightning:input aura:id="newSSTform" label="First Name" name="First Name"  maxlength="16" 
+			                     pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input." value="{!v.sstData.Contact_First_Name__c}"  required="true"/>
 			                     </span>
 			                     <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                     <lightning:input aura:id="newSSTform" label="Middle Name" name="Middle Name" value="{!v.sstData.Contact_Middle_Name__c}"  required="true"/>
+			                     <lightning:input aura:id="newSSTform" label="Middle Name" name="Middle Name" maxlength="16"
+			                      pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input."  value="{!v.sstData.Contact_Middle_Name__c}"  required="true"/>
 			                     </span>
 			                     <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                     <lightning:input aura:id="newSSTform" label="Last Name" name="Last Name" value="{!v.sstData.Contact_Last_Name__c}"  required="true" />
+			                     <lightning:input aura:id="newSSTform" label="Last Name" name="Last Name" maxlength="32"
+			                      pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input."  value="{!v.sstData.Contact_Last_Name__c}"  required="true" />
+			                     </span>
+			                     <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                     <lightning:input aura:id="newSSTform" label="Title" name="Title" maxlength="32"
+			                      pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input."  value="{!v.sstData.Contact_Title__c}"  required="true" />
+			                     </span>
+			                     <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                     <lightning:input aura:id="newSSTform" label="Email" name="Email" maxlength="32"
+			                      pattern="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$" messageWhenPatternMismatch="Please provide valid input."  value="{!v.sstData.Contact_Email__c}"  required="true" />
 			                     </span>
 			                      <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                     <lightning:input aura:id="newSSTform" label="Phone Number" name="Phone Number" value="{!v.sstData.Contact_Phone_Number__c}"  required="true" />
+			                     <lightning:input aura:id="newSSTform" label="Phone Number" pattern="^[0-9]*$" messageWhenPatternMismatch="Please provide valid input." maxlength="10" name="Phone Number" value="{!v.sstData.Contact_Phone_Number__c}"  required="true" />
 			                     </span>
 			                      <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                     <lightning:input aura:id="newSSTform" label="Phone Extension" name="Phone Extension" value="{!v.sstData.Contact_Phone_Extension__c}"  />
+			                     <lightning:input aura:id="newSSTform" label="Phone Extension" pattern="^[0-9]*$" messageWhenPatternMismatch="Please provide valid input." maxlength="5" name="Phone Extension" value="{!v.sstData.Contact_Phone_Extension__c}"  />
 			                     </span>   
 			                </div>
 			               </div>
@@ -344,6 +359,7 @@
 		               </fieldset>
 		             </div>
 		             
+		           <!-- Affiliated BusinessesInformation -->   
 		           <div class="slds-align_absolute-center" >
 	               <fieldset class="slds-box slds-theme--default slds-container_medium">
 		               <legend id="newdemform" class="slds-text-heading--small 
@@ -357,7 +373,7 @@
 		                      <lightning:select aura:id="affBus" name="entityValue" label="Is your company affiliated with any other company that is
                               (currently, previously, or will be) a Streamlined Sales Tax (SST) Model 1 participant, who has engaged Avalara as its 
                               Certified Service Provider (CSP)?" required="true"  value="{!v.sstData.Is_your_company_affiliated__c}" onchange="{!c.showAfInfo}">
-		                          <aura:iteration var="option" items="{! v.regSSTPicklist}">
+		                          <aura:iteration var="option" items="{! v.comAffPicklist}">
 		                              <option value="{! option }" >{! option }</option>
 		                          </aura:iteration>
 		                      </lightning:select>                      
@@ -374,6 +390,7 @@
 		               </fieldset>
 		             </div>
 		             
+		             <!--   Product-Service Information -->
 		             <div class="slds-align_absolute-center" style="width:800px;" >
 		               <fieldset class="slds-box slds-theme--default slds-container_medium">
 			               <legend id="newdemform" class="slds-text-heading--small 
@@ -1589,7 +1606,7 @@
                 
                 <aura:renderIf isTrue="{!v.showRandom}">
                     <button class="slds-button slds-button--brand" onclick="{!c.prevTab}" >Back</button>
-                    <button class="slds-button slds-button--brand" onclick="{!c.nextTab}" >Next</button>
+                    <button class="slds-button slds-button--brand" onclick="{!c.randomTab}" >Next</button>
                 </aura:renderIf>
                 
                 <aura:renderIf isTrue="{!v.showSSTState}">        

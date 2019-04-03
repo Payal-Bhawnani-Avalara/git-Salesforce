@@ -155,6 +155,21 @@
         });
         $A.enqueueAction(action);
     },
+    fetchcomAffPicklist : function(component, event, helper){
+        var action = component.get("c.getPicklistvalues");
+        action.setParams({
+            'objectName': component.get("v.ObjectName"),
+            'field_apiname': component.get("v.comAff"),
+            'nullRequired': false
+        });
+        action.setCallback(this, function(a) {
+            var state = a.getState();
+            if (state === "SUCCESS"){
+                component.set("v.comAffPicklist", a.getReturnValue());
+            }
+        });
+        $A.enqueueAction(action);
+    },
     fetchtypeBusPicklist : function(component, event, helper){
         var action = component.get("c.getPicklistvalues");
         action.setParams({

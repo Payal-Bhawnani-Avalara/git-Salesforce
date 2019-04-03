@@ -9,6 +9,7 @@
 	        helper.fetcharSSTV(component) ;
 	        helper.fetcharNV(component) ;
 	        helper.fetchregSSTPicklist(component) ;
+	        helper.fetchcomAffPicklist(component) 
 	        helper.fetchtypeBusPicklist(component) ;
 	        helper.fetchsstProgPicklist(component) ;    
 	        helper.fetchjoinSSTProgPicklist(component) ;
@@ -52,10 +53,10 @@
         var showStats = component.get("v.showStats");
         var showData = component.get("v.showData");
         
-        if(showComInfo == true){
+           if(showComInfo == true){
            var validExpense = component.find('newSSTform').reduce(function (validSoFar, inputCmp) {
 	            // Displays error messages for invalid fields
-	            inputCmp.reportValidity();
+	            inputCmp.showHelpMessageIfInvalid();
 	            return validSoFar && inputCmp.checkValidity();
 	        }, true);
 	        
@@ -76,6 +77,42 @@
 	        }   
         }    
         
+   },randomTab : function(component, event, helper) {
+        component.set("v.setMessage", '');           
+        var showIntro = component.get("v.showIntro");
+        var showComInfo = component.get("v.showComInfo");
+        var showRandom = component.get("v.showRandom");
+        var showSSTState = component.get("v.showSSTState");
+        var showNexus = component.get("v.showNexus");
+        var showRemoteState = component.get("v.showRemoteState");
+        var showReg = component.get("v.showReg");
+        var showStats = component.get("v.showStats");
+        var showData = component.get("v.showData");
+        
+           if(showRandom == true){
+           var validExpense = component.find('newSSTreg').reduce(function (validSoFar, inputCmp) {
+	            // Displays error messages for invalid fields
+	            inputCmp.showHelpMessageIfInvalid();
+	            return validSoFar && inputCmp.checkValidity();
+	        }, true);
+	        
+	        // If we pass error checking, do some real work
+	        if(validExpense){
+	            component.set("v.showRandom", false);
+		        component.set("v.showSSTState", true);
+		        component.set("v.showNexus", false);
+		        component.set("v.showRemoteState", false);
+		        component.set("v.showReg", false);
+		        component.set("v.showStats", false);
+		        component.set("v.showComInfo", false);
+		        component.set("v.showIntro", false)
+		        component.set("v.showError", false);
+		        component.set("v.showData", false);  
+	        } else {
+	           alert('Please complete all required fields.');
+	        }   
+        }    
+        
    },
    nextTab : function(component, event, helper) {
         component.set("v.setMessage", '');           
@@ -89,20 +126,7 @@
         var showStats = component.get("v.showStats");
         var showData = component.get("v.showData");
         
-        
-        if(showRandom == true){
-            component.set("v.showRandom", false);
-	        component.set("v.showSSTState", true);
-	        component.set("v.showNexus", false);
-	        component.set("v.showRemoteState", false);
-	        component.set("v.showReg", false);
-	        component.set("v.showStats", false);
-	        component.set("v.showComInfo", false);
-	        component.set("v.showIntro", false)
-	        component.set("v.showError", false);
-	        component.set("v.showData", false);  
-        }     
-      
+       
         if(showSSTState == true){
 	        component.set("v.showSSTState", false);
 	        component.set("v.showNexus", true);
@@ -266,20 +290,21 @@
         helper.saveData(component, event, helper);               
     },
 	beType: function (component, event, helper) {
-	      var sel = component.find("fieldId");
-	      var nav=sel.get("v.value");
-	      if (nav=="GO - Government" || nav=="CO - Corporation" || nav=="LL - Limited Liability" || nav=="PA - Partnership" || nav=="TR - Trusts" ){
-	         component.set("v.showCo", true);
-	         component.set("v.showSP", false);
-	      }    
-	       else if(nav == "OT - Other"){
-            component.set("v.showCo", false);
-            component.set("v.showSP", false);
-         }
-	 else if(nav == "SP - Sole proprietor"){
-            component.set("v.showCo", false);
-            component.set("v.showSP", true);
-         }
+      var sel = component.find("entityTypeId");
+      var nav=sel.get("v.value");   
+      if (nav=="GO - Government" || nav=="CO - Corporation" || nav=="LL - Limited Liability" || nav=="PA - Partnership" || nav=="TR - Trusts" ){
+         component.set("v.showCo", true);
+         component.set("v.showSP", false);
+      }    
+       else if(nav == "OT - Other"){
+        component.set("v.showCo", false);
+        component.set("v.showSP", false);
+        component.find("stateId").set("OT");
+      }
+      else if(nav == "SP - Sole proprietor"){
+        component.set("v.showCo", false);
+        component.set("v.showSP", true);
+      }
     },
     sstNexus: function (component, event, helper) {
 	      var sel = component.find("sstStateId");
