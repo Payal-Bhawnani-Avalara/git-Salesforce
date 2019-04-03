@@ -580,4 +580,15 @@ public class TestUtil {
         }
         return listWisePrediction;
     } 
+    public static List<SST_Onboarding__c> createSSTOnboarding(Integer numberOfRecords,Boolean isInsert) {
+        List<SST_Onboarding__c> listSSTOnboarding=new List<SST_Onboarding__c>();
+        for(Integer i=0;i<numberOfRecords;i++){
+	        SST_Onboarding__c testSSTOnboarding = new SST_Onboarding__c();
+	        listSSTOnboarding.add(testSSTOnboarding);          
+        }
+        if(isInsert){
+            insert listSSTOnboarding;
+        }
+        return listSSTOnboarding;
+    } 
 }

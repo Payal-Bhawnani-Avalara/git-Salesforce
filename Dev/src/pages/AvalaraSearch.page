@@ -389,25 +389,13 @@
                     var data = {};
                     for (var i = 0; i < r[0].connectors.length; i++) {
                         var c = r[0].connectors[i];
-                        if(c.Vibrancy__c == 'Launch'){
+                        if(c.Vibrancy__c == 'Launch' || c.Vibrancy__c == 'Dormant'){
                             if(c.PartnerLaunchSalesOwner__c!=null){
                             c.Avalara_Contact = c.PartnerLaunchSalesOwner__r.Name ? c.PartnerLaunchSalesOwner__r.Name : '';
                             c.Avalara_Contact_Id = c.PartnerLaunchSalesOwner__c || '';
                             }
                         }
-                         if(c.Vibrancy__c == 'Dormant'){
-                         if(c.PartnerLaunchSalesOwner__c!=null){
-                            c.Avalara_Contact = c.PartnerLaunchSalesOwner__r.Name ? c.PartnerLaunchSalesOwner__r.Name : '';
-                            c.Avalara_Contact_Id = c.PartnerLaunchSalesOwner__c || '';
-                            }
-                        }
-                        if(c.Vibrancy__c == 'Emerging'){
-                         if(c.Early_Adopter_Sales_Owner__c!=null){
-                            c.Avalara_Contact = c.Early_Adopter_Sales_Owner__r.Name ? c.Early_Adopter_Sales_Owner__r.Name : '';
-                            c.Avalara_Contact_Id = c.Early_Adopter_Sales_Owner__c || '';
-                            }
-                        }
-                        if(c.Vibrancy__c == 'Active'){
+                        if(c.Vibrancy__c == 'Emerging' || c.Vibrancy__c == 'Active'){
                          if(c.Early_Adopter_Sales_Owner__c!=null){
                             c.Avalara_Contact = c.Early_Adopter_Sales_Owner__r.Name ? c.Early_Adopter_Sales_Owner__r.Name : '';
                             c.Avalara_Contact_Id = c.Early_Adopter_Sales_Owner__c || '';
