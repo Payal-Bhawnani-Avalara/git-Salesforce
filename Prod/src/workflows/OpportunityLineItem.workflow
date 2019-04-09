@@ -1473,7 +1473,7 @@ IF(ISPICKVAL(BillingFrequency__c , &quot;Monthly&quot;),27 - (27 *  RecurringDis
             <name>PSA_Set_IsServices_Flag_On_Opp_Products</name>
             <type>FieldUpdate</type>
         </actions>
-        <active>false</active>
+        <active>true</active>
         <description>Mark as Services Opp Product, if product is a Services Product</description>
         <formula>Product2.pse__IsServicesProduct__c = TRUE</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>

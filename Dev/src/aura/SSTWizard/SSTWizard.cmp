@@ -90,6 +90,32 @@
     <aura:attribute name="showWi" type="boolean" default="false" access="global"/>
     <aura:attribute name="showWy" type="boolean" default="false" access="global"/> 
     
+    <!-- Show Filling Frequency -->
+    <aura:attribute name="showArFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showGeFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showInFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showIoFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showKaFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showKeFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showMiFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showMnFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showNeFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showNvFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showNjFF" type="boolean" default="false" access="global"/> 
+    <aura:attribute name="showNcFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showNdFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showOhFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showOkFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showRiFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showSdFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showTeFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showUtFF" type="boolean" default="false" access="global"/> 
+    <aura:attribute name="showVeFF" type="boolean" default="false" access="global"/> 
+    <aura:attribute name="showWaFF" type="boolean" default="false" access="global"/> 
+    <aura:attribute name="showWvFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showWiFF" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showWyFF" type="boolean" default="false" access="global"/> 
+    
     <!-- Volunteer False -->
     <aura:attribute name="arFalse" type="boolean" default="false" access="global"/>
     <aura:attribute name="geFalse" type="boolean" default="false" access="global"/>
@@ -116,6 +142,14 @@
     <aura:attribute name="wiFalse" type="boolean" default="false" access="global"/>
     <aura:attribute name="wyFalse" type="boolean" default="false" access="global"/> 
     
+     <!-- Remote Volunteer  -->
+     <aura:attribute name="showArV" type="boolean" default="false" access="global"/>
+    
+    <!-- Volunteer selection -->
+    <aura:attribute name="showArVol" type="boolean" default="false" access="global"/>
+    
+    <aura:attribute name="showCoV" type="boolean" default="false" access="global"/>
+    
     <!-- Statistical  Other -->
     <aura:attribute name="showSSTProgOther" type="boolean" default="false" access="global"/>
     <aura:attribute name="showSSTJoinOther" type="boolean" default="false" access="global"/>
@@ -124,6 +158,8 @@
     <aura:attribute name="showError" type="boolean" default="false"/>
     <aura:attribute name="showData" type="boolean" default="false"/>
     <aura:attribute name="message" type="String" default="NoError"/> 
+    
+     <aura:attribute name="isAllSelected"  type="Boolean"  default="false"/>
    
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     
@@ -162,7 +198,8 @@
 			               slds-p-vertical--medium">  Company Information   </legend>		          
 			               <div class="slds-grid slds-wrap" >
 			                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
-			                      <lightning:select aura:id="entityTypeId" name="entityValue" label="Business Entity Type" required="true"  value="{!v.sstData.Business_Entity_Type__c}" onchange="{!c.beType}">
+			                      <lightning:select aura:id="newSSTform" name="entityValue" label="Business Entity Type" required="true"  value="{!v.sstData.Business_Entity_Type__c}" onchange="{!c.beType}" >
+			                          <option value = "">Select</option>     
 			                          <aura:iteration var="option" items="{! v.businessEntityTypePicklist }">
 			                              <option value="{! option }" >{! option }</option>
 			                          </aura:iteration>
@@ -205,7 +242,8 @@
 			                 </aura:if>
 			                   
 			                   <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
-		                        <lightning:select aura:id="stateId" name="stateOfIn" label="State of Incorporation or Organization" value="{!v.sstData.State_of_Incorporation_or_Organization__c}"  required="true" >
+		                        <lightning:select aura:id="newSSTform" name="stateOfIn" label="State of Incorporation or Organization" value="{!v.sstData.State_of_Incorporation_or_Organization__c}" required="true" >
+		                            <option value = "">Select</option>     
 		                            <aura:iteration var="option" items="{! v.stateOfInPicklist }">
 		                                <option value="{! option }" >{! option }</option>
 		                            </aura:iteration>
@@ -228,7 +266,8 @@
 			                    <lightning:input aura:id="newSSTform" label="City" name="City"  pattern="^[a-zA-Z]*$" messageWhenPatternMismatch="Please provide valid input." value="{!v.sstData.Company_Corporate_Address_City__c}" maxlength="22" required="true"/>
 			                    </span>
 			                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
-			                        <lightning:select aura:id="stateCopId" name="stateOfIn" label="State" value="{!v.sstData.Company_Corporate_Address_State__c}" required="true" >
+			                        <lightning:select aura:id="newSSTform" name="stateCo" label="State" value="{!v.sstData.Company_Corporate_Address_State__c}" required="true">
+			                            <option value = "">Select</option>  
 			                            <aura:iteration var="option" items="{! v.stateOfInPicklist }">
 			                                <option value="{! option }" >{! option }</option>
 			                            </aura:iteration>
@@ -270,7 +309,8 @@
 			                    <lightning:input aura:id="newSSTform" label="City" name="City" value="{!v.sstData.Company_Mailing_Address_City__c}" pattern="^[a-zA-Z]*$" messageWhenPatternMismatch="Please provide valid input." maxlength="22" required="true"/>
 			                    </span>
 			                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
-			                        <lightning:select aura:id="stateCopId" name="stateOfIn" label="State" value="{!v.sstData.Company_Mailing_Address_State__c}"  required="true" >
+			                        <lightning:select aura:id="newSSTform" name="stateOfIn" label="State" value="{!v.sstData.Company_Mailing_Address_State__c}"  required="true" >
+			                             <option value = "">Select</option>  
 			                            <aura:iteration var="option" items="{! v.stateOfInPicklist }">
 			                                <option value="{! option }" >{! option }</option>
 			                            </aura:iteration>
@@ -303,7 +343,7 @@
 			                     </span>
 			                     <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
 			                     <lightning:input aura:id="newSSTform" label="Middle Name" name="Middle Name" maxlength="16"
-			                      pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input."  value="{!v.sstData.Contact_Middle_Name__c}"  required="true"/>
+			                      pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input."  value="{!v.sstData.Contact_Middle_Name__c}" />
 			                     </span>
 			                     <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
 			                     <lightning:input aura:id="newSSTform" label="Last Name" name="Last Name" maxlength="32"
@@ -337,8 +377,9 @@
 		               slds-p-vertical--medium">  SST Registration Information   </legend>		          
 		               <div class="slds-grid slds-wrap" >
 		                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;" >
-		                      <lightning:select aura:id="regSSNId" name="regSSNId" label="Has your organization previously registered 
+		                      <lightning:select aura:id="newSSTreg" name="regSSNId" label="Has your organization previously registered 
 		                      with the SST Governing Board?" required="true"  value="{!v.sstData.Registered_with_the_SST_Governing_Board__c}" onchange="{!c.showRegSSN}">
+		                          <option value = "">Select</option>  
 		                          <aura:iteration var="option" items="{! v.regSSTPicklist}">
 		                              <option value="{! option }" >{! option }</option>
 		                          </aura:iteration>
@@ -346,13 +387,14 @@
 		                  </span> 
 		                  <aura:if isTrue="{!v.showRegSSN}">
 		                   <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
-			                     <lightning:input aura:id="newSSTreg" label="SST Identification Number" name="SST Identification Number" value="{!v.sstData.SST_Identification_Number__c}"  required="true" />
+			                     <lightning:input aura:id="newSSTreg" label="SST Identification Number"  maxlength="9" name="SST Identification Number" value="{!v.sstData.SST_Identification_Number__c}"  required="true" />
 			              </span>
 			              <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
-			                     <lightning:input aura:id="newSSTreg" label="Registration Effective Date" name="Registration Effective Date" value="{!v.sstData.Registration_Effective_Date__c}"  required="true" />
+			                     <lightning:input aura:id="newSSTreg" label="Registration Effective Date" name="Registration Effective Date" value="{!v.sstData.Registration_Effective_Date__c}" 
+			                      pattern="^0[1-9]|^(11)|^(12)[0-9][0-9]$" messageWhenPatternMismatch="Please provide date MMYYYY format." required="true" />
 			              </span>
 			               <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
-			                     <lightning:input aura:id="newSSTreg" label="SST password" name="SST password" value="{!v.sstData.SSTP_password__c}"  required="true" />
+			                     <lightning:input aura:id="newSSTreg" label="SST password" name="SST password"  maxlength="10" value="{!v.sstData.SSTP_password__c}" />
 			              </span>
 			            </aura:if>
 		                </div>
@@ -370,9 +412,10 @@
 			             <br/>          
 		               <div class="slds-grid slds-wrap" >
 		                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;" >
-		                      <lightning:select aura:id="affBus" name="entityValue" label="Is your company affiliated with any other company that is
+		                      <lightning:select aura:id="newSSTreg" name="affBus" label="Is your company affiliated with any other company that is
                               (currently, previously, or will be) a Streamlined Sales Tax (SST) Model 1 participant, who has engaged Avalara as its 
                               Certified Service Provider (CSP)?" required="true"  value="{!v.sstData.Is_your_company_affiliated__c}" onchange="{!c.showAfInfo}">
+                                  <option value = "">Select</option>  
 		                          <aura:iteration var="option" items="{! v.comAffPicklist}">
 		                              <option value="{! option }" >{! option }</option>
 		                          </aura:iteration>
@@ -380,10 +423,10 @@
 		                  </span>
 		                  <aura:if isTrue="{!v.showAfInfo}">
 		                   <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
-			                     <lightning:input aura:id="newSSTreg" label="Affiliate Company Name" name="Affiliate Company Name" value="{!v.sstData.Affiliate_Company_Name__c}"  required="true" />
+			                     <lightning:input aura:id="newSSTreg"  maxlength="75" label="Affiliate Company Name" name="Affiliate Company Name" value="{!v.sstData.Affiliate_Company_Name__c}"  required="true" />
 			              </span>
 			              <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
-			                     <lightning:input aura:id="newSSTreg" label="SST Identification Number" name="SST Identification Number" value="{!v.sstData.AF_SST_Identification_Number__c}"  required="true" />
+			                     <lightning:input aura:id="newSSTreg" label="SST Identification Number" name="SST Identification Number"  maxlength="9" value="{!v.sstData.AF_SST_Identification_Number__c}"  required="true" />
 			              </span>
 			            </aura:if> 
 		                </div>
@@ -397,7 +440,8 @@
 			               slds-p-vertical--medium">  Product-Service Information   </legend>		          
 			               <div class="slds-grid slds-wrap" >
 			                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;">
-			                      <lightning:select aura:id="psInfo" name="Type of Business?" label="Type of Business?" required="true"  value="{!v.sstData.Type_of_Business__c}">
+			                      <lightning:select aura:id="newSSTreg" name="typeBu" label="Type of Business?" required="true"  value="{!v.sstData.Type_of_Business__c}">
+			                           <option value = "">Select</option>  
 			                          <aura:iteration var="option" items="{! v.typeBusPicklist}">
 			                              <option value="{! option }" >{! option }</option>
 			                          </aura:iteration>
@@ -426,18 +470,109 @@
 	              SST State Selection
 	              </legend>
 	            <div class="slds-grid slds-wrap" >
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	            <!--<span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
 	                <lightning:checkboxGroup aura:id="sstStateId" name="sstStatePicklistselected"
 	                   label="Select the states in which you want to register as part of the SST program:"
 	                   options="{! v.sstStatePicklist }" value = "{! v.sstStatePicklistselected}" onchange= "{!c.sstNexus}"
-	                   required="true"/>
-	            </span>
-	            <aura:if isTrue="{!v.showTe}">
-	             <br/>
-	             <br/>
-	             <div class="slds-col slds-size_1-of-1 ">If you have a physical location in TN, we are unable to support TN as part of the SST Program.</div>
+	                   required="true" />
+	            </span>  -->
+	            <div class="slds-col slds-size_1-of-1 ">Select the states in which you want to register as part of the SST program:</div>
+			    <br/>
+			    <br/> 
+	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="allStates" type="checkbox" label="Select All" name="allStates" checked="false" 
+			                     value="{!v.isAllSelected}"  onchange="{! c.selectAll}"/>
+			    </span>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Arkansas" name="Arkansas" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Georgia" name="Georgia" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Indiana" name="Indiana" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Indiana" name="Indiana" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Iowa" name="Iowa" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Kansas" name="Kansas" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Kentucky" name="Kentucky" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Michigan" name="Michigan" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Minnesota" name="Minnesota" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Nebraska" name="Nebraska" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Nevada" name="Nevada" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="New Jersey" name="New Jersey" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="North Carolina" name="North Carolina" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="North Dakota" name="North Dakota" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Ohio" name="Ohio" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Oklahoma" name="Oklahoma" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Rhode Island" name="Rhode Island" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="South Dakota" name="South Dakota" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Tennessee" name="Tennessee" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <aura:if isTrue="{!v.showTe}">
+			     <span class="slds-size_1-of-1 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+	              <p>If you have a physical location in TN, we are unable to support TN as part of the SST Program.</p>
+	              </span>
 	             </aura:if>   
-	            </div>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Utah" name="Utah" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Vermont" name="Vermont" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Washington" name="Washington" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <aura:if isTrue="{!v.showWa}">
+			    <span class="slds-size_1-of-1 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			    <lightning:select aura:id="fieldId" name="entityValue" label="File the monthly WA B and O?" value = "{! v.sstData.Washington_monthly_WA_B_O__c}" required="true">
+	                          <aura:iteration var="option" items="{! v.waBOCPicklist }">
+	                              <option value="{! option }" >{! option }</option>
+	                          </aura:iteration>
+	             </lightning:select> 
+	             </span> 
+	             </aura:if>
+			     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="West Virginia" name="West Virginia" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Wisconsin" name="Wisconsin" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Wyoming" name="Wyoming" checked="false" onchange= "{!c.sstNexus}"/>
+			    </span>
+			    </div>
 	           </fieldset>
 	          </div>
 	         </aura:renderIf>  
@@ -454,647 +589,525 @@
 	             <div class="slds-col slds-size_1-of-1 ">Please select the current registration status and filing frequencies for the selected SST states.</div>
 	             <br/>
 	             <br/>
-	             <aura:if isTrue="{!v.showAr}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Arkansas - Registered" value = "{!v.sstData.Arkansas_Registered__c}" required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Arkansas Filing Frequency" value = "{! v.sstData.Arkansas_Filing_Frequency__c}" required="true">
+	             <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                  <thead>
+                    <tr class="slds-line-height_reset">
+                       <th class="" scope="col">
+                       		<div class="slds-truncate" title="SST States">SST States</div>
+                       </th>
+                       <th class="" scope="col">
+                       		<div class="slds-truncate" title="Registered">Registered</div>
+                       </th>
+                       <th class="" scope="col">
+                       		<div class="slds-truncate" title="Remote">Remote</div>
+                       </th> 
+                       <!-- <th class="" scope="col">
+                       		<div class="slds-truncate" title="Other">Other</div>
+                       </th>  -->
+				    </tr>
+				  </thead>
+                  <tbody>
+                    <aura:if isTrue="{!v.showAr}">
+                    <tr class="slds-hint-parent">
+                    <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Arkansas">Arkansas</div>
+                    </th>
+                     <th data-label="Registered" scope="row">
+                       <lightning:input aura:id="tableId" type="checkbox" name="ArkansasReg" checked="false" onchange= "{!c.sstFF}"/>  
+                       <aura:if isTrue="{!v.showArFF}">
+                        <lightning:select aura:id="tableId" name="ArkansasFF" label="Filing Frequency" value = "{! v.sstData.Arkansas_Filing_Frequency__c}" required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select>   
+	                    </aura:if> 
+	                </th>
+	                 <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="ArkansasRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                 </th>   
+	               </tr>  
+	                
 	            </aura:if>
 	            <aura:if isTrue="{!v.showGe}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Georgia - Registered" value = "{! v.sstData.Georgia_Registered__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Georgia Filing Frequency" value = "{! v.sstData.Georgia_Filing_Frequency__c}" required="true">
+	             <tr class="slds-hint-parent">
+	             <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Georgia">Georgia</div>
+                 </th>
+                 <th data-label="Registered" scope="row">
+                    <lightning:input aura:id="tableId" type="checkbox" name="GeorgiaReg" checked="false" onchange= "{!c.sstFF}"/>
+                    <aura:if isTrue="{!v.showGeFF}">
+	                  <lightning:select aura:id="tableId" name="GeorgiaFF" label="Filing Frequency" value = "{! v.sstData.Georgia_Filing_Frequency__c}" required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	             <aura:if isTrue="{!v.showIn}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Indiana - Registered" value = "{! v.sstData.Indiana_Registered__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Indiana Filing Frequency" value = "{! v.sstData.Indiana_Filing_Frequency__c}" required="true">
-	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	             <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Please identify the collection allowance percentage that the state has notified you to include on your 
-	                 IN returns?" value = "{! v.sstData.IN_returns__c}" required="true">
+	                      </lightning:select>   
+	                </aura:if>
+	            </th>
+	             <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="GeorgiaRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	             </th>  
+	           </tr>
+	          </aura:if>
+	          <aura:if isTrue="{!v.showIn}">
+	            <tr class="slds-hint-parent">
+	             <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Indiana">Indiana</div>
+                 </th>
+                 <th data-label="Registered" scope="row">
+                        <lightning:input aura:id="tableId" type="checkbox" name="IndianaReg" checked="false" onchange= "{!c.sstFF}"/>
+                        <aura:if isTrue="{!v.showInFF}">
+		                    <lightning:select aura:id="tableId" name="IndianaFF" label="Filing Frequency"  value = "{! v.sstData.Indiana_Filing_Frequency__c}" required="true">
+		                          <aura:iteration var="option" items="{! v.arFilPicklist }">
+		                              <option value="{! option }" >{! option }</option>
+		                          </aura:iteration>
+		                      </lightning:select> 
+		                     
+	                         <lightning:select aura:id="fieldId" name="entityValue" label="IN returns?" value = "{! v.sstData.IN_returns__c}" required="true">
 	                          <aura:iteration var="option" items="{! v.inRetunrsPicklist}">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
-	            </span>
-	            
+	                   </aura:if>    
+	             </th>
+	               <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="IndianaRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	              </th>
+	              </tr>
 	            </aura:if>
-	             <aura:if isTrue="{!v.showIo}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Iowa - Registered"  value = "{! v.sstData.Iowa_Registered__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Iowa Filing Frequency"  value = "{! v.sstData.Iowa_Filing_Frequency__c}"   required="true">
+	            <aura:if isTrue="{!v.showIo}">
+	             <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Iowa">Iowa</div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                      <lightning:input aura:id="tableId" type="checkbox" name="IowaReg" checked="false" onchange= "{!c.sstFF}"/>
+                      <aura:if isTrue="{!v.showIoFF}">
+	                    <lightning:select aura:id="tableId" name="IowaFF" label="Filing Frequency" value = "{! v.sstData.Iowa_Filing_Frequency__c}"   required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select>  
+	                  </aura:if>  
+	              </th>
+	              <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="IowaRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	              </th>
+	             </tr>
 	            </aura:if>
 	            <aura:if isTrue="{!v.showKa}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Kansas - Registered"  value = "{! v.sstData.Kansas_Registered__c}" required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Kansas Filing Frequency" value = "{! v.sstData.Kansas_Filing_Frequency__c}" required="true">
+	            <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Kansas">Kansas</div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                     <lightning:input aura:id="tableId" type="checkbox" name="KansasReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <aura:if isTrue="{!v.showKaFF}">
+	                   <lightning:select aura:id="tableId" name="KansasFF" label="Filing Frequency" value = "{! v.sstData.Kansas_Filing_Frequency__c}" required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select>  
+	                </aura:if>
+	               </th>
+	               <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="KansasRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	              </th>
+	              </tr>
 	            </aura:if>
 	            <aura:if isTrue="{!v.showKe}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Kentucky - Registered" value = "{! v.sstData.Kentucky_Registered__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
+	            <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Kentucky">Kentucky</div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                     <lightning:input aura:id="tableId" type="checkbox" name="KentuckyReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <aura:if isTrue="{!v.showKeFF}">
+	                   <lightning:select aura:id="tableId" name="KentuckyFF" label="Filing Frequency" value = "{! v.sstData.Kentucky_Filing_Frequency__c}"  required="true">
+	                   <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Kentucky Filing Frequency" value = "{! v.sstData.Kentucky_Filing_Frequency__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select>   
+	                </aura:if>
+	              </th>
+	              <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="KentuckyRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	              </th>
+	             </tr>
 	            </aura:if>
 	            <aura:if isTrue="{!v.showMi}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Michigan - Registered" value = "{! v.sstData.Michigan_Registered__c}"   required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Michigan Filing Frequency"  value = "{! v.sstData.Michigan_Filing_Frequency__c}"  required="true">
+	            <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Michigan">Michigan</div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                    <lightning:input aura:id="tableId" type="checkbox" name="MichiganReg" checked="false" onchange= "{!c.sstFF}"/>
+                    <aura:if isTrue="{!v.showMiFF}"> 
+	                   <lightning:select aura:id="tableId" name="MichiganFF" label="Filing Frequency" value = "{! v.sstData.Michigan_Filing_Frequency__c}"  required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select>   
+	                  </aura:if>
+	              </th>
+	               <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="MichiganRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	              </th>
+	             </tr>
 	            </aura:if>
-	             <aura:if isTrue="{!v.showMn}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Minnesota - Registered" value = "{! v.sstData.Minnesota_Registered__c}" required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Minnesota Filing Frequency" value = "{! v.sstData.Minnesota_Filing_Frequency__c}"  required="true">
+	            <aura:if isTrue="{!v.showMn}">
+	             <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Minnesota">Minnesota</div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                     <lightning:input aura:id="tableId" type="checkbox" name="MinnesotaReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <aura:if isTrue="{!v.showMnFF}"> 
+	                     <lightning:select aura:id="tableId" name="MinnesotaFF" label="Filing Frequency" value = "{! v.sstData.Minnesota_Filing_Frequency__c}"  required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select>  
+	                 </aura:if>   
+	               </th>
+	                <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="MinnesotaRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	               </th>
+	             </tr>
 	            </aura:if>
 	           <aura:if isTrue="{!v.showNe}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Nebraska - Registered" value = "{! v.sstData.Nebraska_Registered__c}"   required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Nebraska Filing Frequency" value = "{! v.sstData.Nebraska_Filing_Frequency__c}" required="true">
+	           <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Nebraska">Nebraska</div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                     <lightning:input aura:id="tableId" type="checkbox" name="NebraskaReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <aura:if isTrue="{!v.showNeFF}"> 
+	                  <lightning:select aura:id="tableId" name="NebraskaFF" label="Filing Frequency" value = "{! v.sstData.Nebraska_Filing_Frequency__c}" required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select>  
+	               </aura:if>  
+	               </th>
+	               <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="NebraskaRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	               </th>
+	             </tr>
 	            </aura:if>
 	            <aura:if isTrue="{!v.showNv}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Nevada - Registered" value = "{! v.sstData.Nevada_Registered__c}" required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Nevada Filing Frequency" value = "{! v.sstData.Nevada_Filing_Frequency__c}"  required="true">
+	              <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Nevada">Nevada</div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                      <lightning:input aura:id="tableId" type="checkbox" name="NevadaReg" checked="false" onchange= "{!c.sstFF}"/>
+                      <aura:if isTrue="{!v.showNvFF}"> 
+	                     <lightning:select aura:id="tableId" name="NevadaFF"  label="Filing Frequency" value = "{! v.sstData.Nevada_Filing_Frequency__c}"  required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select>   
+	                  </aura:if>
+	               </th>
+	                <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="NevadaRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	               </th>
+	              </tr>
 	            </aura:if>
-	             <aura:if isTrue="{!v.showNj}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="New Jersey - Registered" value = "{! v.sstData.New_Jersey_Registered__c}"   required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="	New Jersey Filing Frequency"  value = "{! v.sstData.New_Jersey_Filing_Frequency__c}"   required="true">
+	            <aura:if isTrue="{!v.showNj}">
+	            <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="New Jersey">New Jersey</div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                     <lightning:input aura:id="tableId" type="checkbox" name="NJReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <aura:if isTrue="{!v.showNjFF}"> 
+	                    <lightning:select aura:id="tableId" name="NJFF" label="Filing Frequency" value = "{! v.sstData.New_Jersey_Filing_Frequency__c}" required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select>   
+	                </aura:if> 
+	              </th>
+	               <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="NJRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	               </th>
+	             </tr>
 	            </aura:if>
-	             <aura:if isTrue="{!v.showNc}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="North Carolina - Registered" value = "{! v.sstData.North_Carolina_Registered__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="North Carolina Filing Frequency" value = "{! v.sstData.North_Carolina_Filing_Frequency__c}"   required="true">
+	            <aura:if isTrue="{!v.showNc}">
+	             <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="North Carolina">North Carolina</div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                     <lightning:input aura:id="tableId" type="checkbox" name="NCReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <aura:if isTrue="{!v.showNcFF}"> 
+	                    <lightning:select aura:id="tableId" name="NCFF" label="Filing Frequency" value = "{! v.sstData.North_Carolina_Filing_Frequency__c}"   required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select> 
+	                 </aura:if>  
+	               </th>
+	               <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="NCRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	               </th>
+	             </tr>
 	            </aura:if>
-	             <aura:if isTrue="{!v.showNd}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="North Dakota - Registered" value = "{! v.sstData.North_Dakota_Registered__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="North Dakota Filing Frequency" value = "{! v.sstData.North_Dakota_Filing_Frequency__c}" required="true">
+	            <aura:if isTrue="{!v.showNd}">
+	             <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="North Dakota ">North Dakota </div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                      <lightning:input aura:id="tableId" type="checkbox" name="NDReg" checked="false" onchange= "{!c.sstFF}"/>
+                      <aura:if isTrue="{!v.showNdFF}"> 
+	                    <lightning:select aura:id="tableId" name="NDFF" label="Filing Frequency" value = "{! v.sstData.North_Dakota_Filing_Frequency__c}" required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select>
+	                  </aura:if>  
+	              </th>
+	               <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="NDRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	               </th>
+	             </tr>
 	            </aura:if>
 	            <aura:if isTrue="{!v.showOh}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Ohio - Registered" value = "{! v.sstData.Ohio_Registered__c}" required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Ohio Filing Frequency" value = "{! v.sstData.Ohio_Filing_Frequency__c}"   required="true">
+	             <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Ohio">Ohio </div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                     <lightning:input aura:id="tableId" type="checkbox" name="OhReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <aura:if isTrue="{!v.showOhFF}"> 
+	                   <lightning:select aura:id="tableId" name="OhFF" label="Filing Frequency" value = "{! v.sstData.Ohio_Filing_Frequency__c}"   required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select>  
+	                </aura:if>
+	               </th>
+	                <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="OhRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	               </th>
+	             </tr>
 	            </aura:if>
 	            <aura:if isTrue="{!v.showOk}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Oklahoma - Registered" value = "{! v.sstData.Oklahoma_Registered__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Oklahoma Filing Frequency" value = "{! v.sstData.Oklahoma_Filing_Frequency__c}" required="true">
+	            <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Oklahoma">Oklahoma </div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                      <lightning:input aura:id="tableId" type="checkbox" name="OkReg" checked="false" onchange= "{!c.sstFF}"/>
+                      <aura:if isTrue="{!v.showOkFF}"> 
+	                     <lightning:select aura:id="tableId" name="OkFF" label="Filing Frequency" value = "{! v.sstData.Oklahoma_Filing_Frequency__c}" required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select>   
+	               </aura:if>
+	               </th>
+	               <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="OhRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	               </th>
+	              </tr>
 	            </aura:if>
 	            <aura:if isTrue="{!v.showRi}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Rhode Island - Registered" value = "{! v.sstData.Rhode_Island_Registered__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Rhode Island Filing Frequency" value = "{! v.sstData.Rhode_Island_Filing_Frequency__c}"   required="true">
+	           <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Rhode Island ">Rhode Island  </div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                      <lightning:input aura:id="tableId" type="checkbox" name="RiReg" checked="false" onchange= "{!c.sstFF}"/>
+                      <aura:if isTrue="{!v.showRiFF}"> 
+	                     <lightning:select aura:id="tableId" name="RiFF" label="Filing Frequency" value = "{! v.sstData.Rhode_Island_Filing_Frequency__c}"   required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select>  
+	                 </aura:if>   
+	              </th>
+	               <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="RiRe" checked="false"  onchange= "{!c.sstNonVoluteer}"/>  
+	               </th>
+	               </tr>
 	            </aura:if>
-	             <aura:if isTrue="{!v.showSd}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="South Dakota - Registered" value = "{! v.sstData.South_Dakota_Registered__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="South Dakota Filing Frequency" value = "{! v.sstData.South_Dakota_Filing_Frequency__c}"  required="true">
+	            <aura:if isTrue="{!v.showSd}">
+	             <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="South Dakota">South Dakota</div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                     <lightning:input aura:id="tableId" type="checkbox" name="SdReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <aura:if isTrue="{!v.showSdFF}"> 
+	                   <lightning:select aura:id="tableId" name="SdFF" label="Filing Frequency" value = "{! v.sstData.South_Dakota_Filing_Frequency__c}"  required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select> 
+	               </aura:if>    
+	               </th>
+	               <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="RiRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	               </th>
+	             </tr>
 	            </aura:if>
 	            <aura:if isTrue="{!v.showTe}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Tennessee - Registered" value = "{! v.sstData.Tennessee_Registered__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Tennessee Filing Frequency" value = "{! v.sstData.Tennessee_Filing_Frequency__c}"  required="true">
+	             <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Tennessee">Tennessee</div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                     <lightning:input aura:id="tableId" type="checkbox" name="TnReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <aura:if isTrue="{!v.showTeFF}"> 
+	                   <lightning:select aura:id="tableId" name="TnFF" label="Filing Frequency" value = "{! v.sstData.Tennessee_Filing_Frequency__c}"  required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select>   
+	                 </aura:if>   
+	              </th>
+	             <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="TnRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	               </th>
+	             </tr>
 	            </aura:if>
-	           
 	            <aura:if isTrue="{!v.showUt}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Utah - Registered" value = "{! v.sstData.Utah_Registered__c}" required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Utah Filing Frequency" value = "{! v.sstData.Utah_Filing_Frequency__c}" required="true">
+	            <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Utah">Utah</div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                      <lightning:input aura:id="tableId" type="checkbox" name="UtReg" checked="false" onchange= "{!c.sstFF}"/>
+                      <aura:if isTrue="{!v.showUtFF}"> 
+	                    <lightning:select aura:id="tableId" name="UtFF" label="Filing Frequency" value = "{! v.sstData.Utah_Filing_Frequency__c}" required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select>   
+	                  </aura:if> 
+	              </th>
+	              <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="UtRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	               </th>
+	             </tr>
 	            </aura:if>
-	             <aura:if isTrue="{!v.showVe}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Vermont - Registered" value = "{! v.sstData.Vermont_Registered__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Vermont Filing Frequency" value = "{! v.sstData.Vermont_Filing_Frequency__c}"  required="true">
+	            <aura:if isTrue="{!v.showVe}">
+	             <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Vermont">Vermont</div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                    <lightning:input aura:id="tableId" type="checkbox" name="VeReg" checked="false" onchange= "{!c.sstFF}" />
+                    <aura:if isTrue="{!v.showVeFF}"> 
+	                 <lightning:select aura:id="tableId" name="VeFF" label="Filing Frequency" value = "{! v.sstData.Vermont_Filing_Frequency__c}"  required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select>  
+	              </aura:if>
+	              </th>
+	               <th data-label="Remote" scope="row"> 
+	                      <lightning:input aura:id="tableId" type="checkbox" name="VeRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	               </th>
+	             </tr>
 	            </aura:if>
 	            <aura:if isTrue="{!v.showWa}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Washington - Registered" value = "{! v.sstData.Washington_Registered__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Washington Filing Frequency" value = "{! v.sstData.Washington_Filing_Frequency__c}"   required="true">
+	            <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Washington">Washington</div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                     <lightning:input aura:id="tableId" type="checkbox" name="WaReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <aura:if isTrue="{!v.showWaFF}"> 
+	                   <lightning:select aura:id="tableId" name="WaFF" label="Filing Frequency" value = "{! v.sstData.Washington_Filing_Frequency__c}"   required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Do you want Avalara to file the monthly WA B and O on your behalf?" value = "{! v.sstData.Washington_monthly_WA_B_O__c}" required="true">
+	                      </lightning:select>
+	                </aura:if>    
+	               </th>
+	                <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="WaRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	               </th>
+                  <!--  <th data-label="Other" scope="row">
+	                 <lightning:select aura:id="fieldId" name="entityValue" label="File the monthly WA B and O?" value = "{! v.sstData.Washington_monthly_WA_B_O__c}" required="true">
 	                          <aura:iteration var="option" items="{! v.waBOCPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
-	            </span>
+	             </th>-->
+	             </tr>
 	            </aura:if>
 	            <aura:if isTrue="{!v.showWv}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="West Virginia - Registered" value = "{! v.sstData.West_Virginia_Registered__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="West Virginia Filing Frequency" value = "{! v.sstData.West_Virginia_Filing_Frequency__c}"  required="true">
+	             <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="West Virginia">West Virginia</div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                       <lightning:input aura:id="tableId" type="checkbox" name="WvReg" checked="false" onchange= "{!c.sstFF}"/>
+                      <aura:if isTrue="{!v.showWvFF}"> 
+	                   <lightning:select aura:id="tableId" name="WvFF" label="Filing Frequency" value = "{! v.sstData.West_Virginia_Filing_Frequency__c}"  required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
-	            </span>
+	                  </aura:if> 
+	              </th>
+	                <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="WvRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	               </th>
+	             </tr>
 	            </aura:if>
 	            <aura:if isTrue="{!v.showWi}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Wisconsin - Registered" value = "{! v.sstData.Wisconsin_Registered__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Wisconsin Filing Frequency" value = "{! v.sstData.Wisconsin_Filing_Frequency__c}"   required="true">
+	            <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Wisconsin">Wisconsin</div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                    <lightning:input aura:id="tableId" type="checkbox" name="WiReg" checked="false" onchange= "{!c.sstFF}"/>
+	                <aura:if isTrue="{!v.showWiFF}">  
+	                 <lightning:select aura:id="tableId" name="WiFF" label="Filing Frequency"  value = "{! v.sstData.Wisconsin_Filing_Frequency__c}"   required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select>     
+	               </aura:if>
+	               </th>
+	               <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="WiRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	               </th>
+	            </tr>
 	            </aura:if>
 	             <aura:if isTrue="{!v.showWy}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="arRegistered" label="Wyoming - Registered"  value = "{! v.sstData.Wyoming_Registered__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.arRegisteredPicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Wyoming Filing Frequency" value = "{! v.sstData.Wyoming_Filing_Frequency__c}"   required="true">
+	             <tr class="slds-hint-parent">
+	               <th data-label="SST States" scope="row">
+	                  <div class="slds-truncate" title="Wyoming">Wyoming</div>
+                   </th>
+                   <th data-label="Registered" scope="row">
+                      <lightning:input aura:id="tableId" type="checkbox" name="WyReg" checked="false" onchange= "{!c.sstFF}"/>
+                      <aura:if isTrue="{!v.showWyFF}"> 
+	                  <lightning:select aura:id="tableId" name="WyFF" label="Filing Frequency"  value = "{! v.sstData.Wyoming_Filing_Frequency__c}"   required="true">
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
+	                      </lightning:select> 
+	                  </aura:if> 
+	              </th>
+	                <th data-label="Remote" scope="row">
+	                      <lightning:input aura:id="tableId" type="checkbox" name="WyRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	               </th>
+	            </tr>
 	            </aura:if>
+	            </tbody>
+	            </table>
 	            </div>
-	           </fieldset>
-	          </div>
+	           </fieldset>	          
+	          </div>          
 	         </aura:renderIf> 
-	         
-	        <!-- REMOTE SELLER INFORMATION -->
-	          <aura:renderIf isTrue="{!v.showRemoteState}">
-	             <div class="slds-align_absolute-center" >
-	                 <fieldset class="slds-box slds-theme--default slds-container_medium">
-	                 <legend id="newdemform" class="slds-text-heading--small 
-	                 slds-p-vertical--medium">
-	              Remote Seller Information
-	              </legend>
-	           <div class="slds-grid slds-wrap" >
-	             <div class="slds-col slds-size_1-of-1 ">A Remote Seller is generally a seller that does not have a physical presence in a state, 
-	             but sells products or services for delivery into that state. A Remote Seller can have an economic nexus requirement.</div>
-	             <br/>
-	             <br/>
-	             <aura:if isTrue="{!v.showAr}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Arkansas" value = "{! v.sstData.Arkansas_Remote__c}" required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	            <aura:if isTrue="{!v.showGe}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Georgia" value = "{! v.sstData.Georgia_Remote__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	             <aura:if isTrue="{!v.showIn}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Indiana" value = "{! v.sstData.Indiana_Remote__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	             <aura:if isTrue="{!v.showIo}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Iowa"  value = "{! v.sstData.Iowa_Remote__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	            <aura:if isTrue="{!v.showKa}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Kansas"  value = "{! v.sstData.Kansas_Remote__c}" required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	            <aura:if isTrue="{!v.showKe}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Kentucky" value = "{! v.sstData.Kentucky_Remote__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	            <aura:if isTrue="{!v.showMi}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Michigan" value = "{! v.sstData.Michigan_Remote__c}"   required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	            <aura:if isTrue="{!v.showMn}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Minnesota" value = "{! v.sstData.Minnesota_Remote__c}" required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	           <aura:if isTrue="{!v.showNe}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Nebraska" value = "{! v.sstData.Nebraska_Remote__c}"   required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	            <aura:if isTrue="{!v.showNv}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Nevada" value = "{! v.sstData.Nevada_Remote__c}" required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	             <aura:if isTrue="{!v.showNj}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="New Jersey" value = "{! v.sstData.New_Jersey_Remote__c}"   required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	             <aura:if isTrue="{!v.showNc}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="North Carolina" value = "{! v.sstData.North_Carolina_Remote__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	             <aura:if isTrue="{!v.showNd}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="North Dakota" value = "{! v.sstData.North_Dakota_Remote__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	            <aura:if isTrue="{!v.showOh}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Ohio" value = "{! v.sstData.Ohio_Remote__c}" required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	            <aura:if isTrue="{!v.showOk}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Oklahoma" value = "{! v.sstData.Oklahoma_Remote__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	            <aura:if isTrue="{!v.showRi}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Rhode Island" value = "{! v.sstData.Rhode_Island_Remote__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	             <aura:if isTrue="{!v.showSd}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="South Dakota" value = "{! v.sstData.South_Dakota_Remote__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	            <aura:if isTrue="{!v.showTe}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Tennessee" value = "{! v.sstData.Tennessee_Remote__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	           
-	            <aura:if isTrue="{!v.showUt}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Utah" value = "{! v.sstData.Utah_Remote__c}" required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	             <aura:if isTrue="{!v.showVe}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Vermont" value = "{! v.sstData.Vermont_Remote__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	            <aura:if isTrue="{!v.showWa}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Washington" value = "{! v.sstData.Washington_Remote__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	            <aura:if isTrue="{!v.showWv}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="West Virginia" value = "{! v.sstData.West_Virginia_Remote__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	            <aura:if isTrue="{!v.showWi}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Wisconsin" value = "{! v.sstData.Wisconsin_Remote__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	             <aura:if isTrue="{!v.showWy}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:300px;">
-	                 <lightning:select aura:id="sstremoteID" name="arRegistered" label="Wyoming"  value = "{! v.sstData.Wyoming_Remote__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.sstRemotePicklist }">
-	                              <option value="{! option }" >{! option }</option>
-	                          </aura:iteration>
-	                      </lightning:select>    
-	            </span>
-	            </aura:if>
-	            </div>
-	           </fieldset>
-	          </div>
-	         </aura:renderIf>  
-	         
+	          
 	       <!-- SST STATE REGISTRATION INFORMATION -->
 	          <aura:renderIf isTrue="{!v.showReg}">
 	             <div class="slds-align_absolute-center" >
@@ -1113,10 +1126,10 @@
 		3. Our organization has less than $50,000 of payroll in the SST State. This includes total amount paid to employees for compensation (wages, salaries, commissions, etc.).<br/>
 		4. Our organization has less than twenty-five percent (25%) of its total property or total payroll in the SST State.<br/>
 	   <br/>
-	               <br/>
+	   <br/>
 	 </p>
-	           
-	             <aura:if isTrue="{!v.showAr}">
+	               
+	             <aura:if isTrue="{!v.showArVol}">      
 	             <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
 	                  <lightning:select aura:id="arSV" name="arSV" label="Arkansas" onchange="{!c.arFalse}" value = "{! v.sstData.ArkansasSSTVolunteer__c}" required="true">
 	                           <aura:iteration var="option" items="{! v.arSSTVPicklist }">
@@ -1134,6 +1147,8 @@
 	             </span>
 	            </aura:if>
 	            </aura:if>
+	         
+	            
 	            <aura:if isTrue="{!v.showGe}">
 	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
 	                 <lightning:select aura:id="geSV" name="arRegistered" label="Georgia" onchange="{!c.geFalse}" value = "{! v.sstData.Georgia_SST_Volunteer__c}" required="true">
@@ -1548,7 +1563,31 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	            </div>
+	            
+	            <div class="slds-col slds-size_1-of-1 "><h4>The following states are considered SST volunteer due to your remote seller selection :</h4></div> 
+	            <br/>
+	            <br/>
+	             <aura:if isTrue="{!v.showArV}">      
+	               <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Arkansas </p> </div>
+	              </span>
+	            <br/>
+	            <br/>
+	           </aura:if>
+	            <br/>
+	            <br/>
+	             <div class="slds-col slds-size_1-of-1 "><h4>The following states are considered SST Non-Volunteer due to your corporate and mailing address giving you a physical location in the state.</h4></div> 
+	             <br/>
+	            <br/>
+	             <aura:if isTrue="{!v.showCoV}">      
+	               <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Arkansas </p> </div>
+	              </span>
+	            </aura:if>
+	            <br/>
+	            <br/>
+	         
+	           </div>
 	           </fieldset>
 	          </div>
 	         </aura:renderIf> 
@@ -1588,7 +1627,50 @@
              </div>
              </fieldset>
             </div>
-            </aura:if>    
+            </aura:if>  
+            
+            <!-- Review all information -->
+            <aura:if isTrue="{!v.showData}">
+            <div class="slds-align_absolute-center" >
+              <fieldset class="slds-box slds-theme--default slds-container_medium">
+              <legend id="newdemform" class="slds-text-heading--small 
+              slds-p-vertical--medium"> Review Information</legend>
+               <div class="slds-grid slds-wrap" >
+                <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	               <label class="slds-form-element__label">Business Entity Type<span class="cmn_mandatory_indicator">*</span></label>
+	               <ui:outputText class="slds-output" value="{!v.sstData.Business_Entity_Type__c}"/>
+	            </span>
+                    
+	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                <label class="slds-form-element__label">State of Incorporation or Organization<span class="cmn_mandatory_indicator">*</span></label>
+	                <ui:outputText class="slds-output" value="{!v.sstData.State_of_Incorporation_or_Organization__c}"/>
+	            </span>
+	            <div class="slds-col slds-size_1-of-1 ">Confirmation Of Accuracy</div>
+			    <br/>
+			    <br/>  
+			    <div class="slds-grid slds-wrap" >
+		           <ltng:require afterScriptsLoaded="{!c.Init}"/>
+				    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
+				        <canvas aura:id="can" style="border:2px solid #ddd;background: transparent;"></canvas>
+				    </span>
+				     <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
+				      <lightning:input aura:id="expdate" label="Printed Name" name="Printed Name" maxlength="32"
+			              pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input."   required="true" />
+				    </span>
+				    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
+				         <lightning:input aura:id="expdate" label="Date" name="Title" maxlength="32"
+			             required="true" />
+				    </span>
+				     <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+			           <lightning:input aura:id="expdate" label="Title" name="Title" maxlength="32"
+			              pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input." required="true" />
+			        </span>
+			    </div>
+             </div>
+             </fieldset>
+            </div>
+            </aura:if> 
+              
 	        </table>
 	        </div>
             
@@ -1617,17 +1699,13 @@
                  <button class="slds-button slds-button--brand" onclick="{!c.prevTab}" >Back</button> 
                     <button class="slds-button slds-button--brand" onclick="{!c.nextTab}" >Next</button>
                 </aura:renderIf>
-                 <aura:renderIf isTrue="{!v.showRemoteState}">        
-                 <button class="slds-button slds-button--brand" onclick="{!c.prevTab}" >Back</button> 
-                    <button class="slds-button slds-button--brand" onclick="{!c.nextTab}" >Next</button>
-                </aura:renderIf>
                  <aura:renderIf isTrue="{!v.showReg}">        
                  <button class="slds-button slds-button--brand" onclick="{!c.prevTab}" >Back</button> 
                     <button class="slds-button slds-button--brand" onclick="{!c.nextTab}" >Next</button>
                 </aura:renderIf>
                 <aura:renderIf isTrue="{!v.showStats}">        
                     <button class="slds-button slds-button--brand" onclick="{!c.prevTab}" >Back</button> 
-                    <button class="slds-button slds-button--brand" onclick="{!c.saveRecord}" >Save</button>
+                    <button class="slds-button slds-button--brand" onclick="{!c.nextTab}" >Next</button>
                 </aura:renderIf>
                 <aura:renderIf isTrue="{!v.showData}">        
                     <button class="slds-button slds-button--brand" onclick="{!c.prevTab}" >Back</button> 

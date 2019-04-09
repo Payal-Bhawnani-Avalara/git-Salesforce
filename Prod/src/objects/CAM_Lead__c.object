@@ -2302,6 +2302,37 @@ Custodian: VP Loyalty / Andrea Anderson</description>
         <label>greg pinnix</label>
     </listViews>
     <listViews>
+        <fullName>jesse_s_leads</fullName>
+        <columns>NAME</columns>
+        <columns>CAMLeadAccount__c</columns>
+        <columns>Age__c</columns>
+        <columns>CAM_Lead_Type__c</columns>
+        <columns>Alert_Status__c</columns>
+        <columns>CAM_Lead_Status__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <columns>Made_1st_Call_to_Customer__c</columns>
+        <columns>Made_2nd_Call_to_Customer__c</columns>
+        <columns>Made_3rd_Call_to_Customer__c</columns>
+        <columns>Sent_Email_to_Customer__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>OWNER.LAST_NAME</field>
+            <operation>equals</operation>
+            <value>Broel</value>
+        </filters>
+        <filters>
+            <field>CAM_Lead_Status__c</field>
+            <operation>notContain</operation>
+            <value>Closed Lost,Converted</value>
+        </filters>
+        <filters>
+            <field>OWNER.FIRST_NAME</field>
+            <operation>equals</operation>
+            <value>Jesse</value>
+        </filters>
+        <label>jesse&apos;s leads</label>
+    </listViews>
+    <listViews>
         <fullName>kelsey_e_s_cam_leads</fullName>
         <columns>NAME</columns>
         <columns>CAMLeadAccount__c</columns>
@@ -2424,6 +2455,37 @@ Custodian: VP Loyalty / Andrea Anderson</description>
             <value>Ryan</value>
         </filters>
         <label>ryan g&apos;s leads</label>
+    </listViews>
+    <listViews>
+        <fullName>sara_s_leads</fullName>
+        <columns>NAME</columns>
+        <columns>CAMLeadAccount__c</columns>
+        <columns>Age__c</columns>
+        <columns>CAM_Lead_Type__c</columns>
+        <columns>Alert_Status__c</columns>
+        <columns>CAM_Lead_Status__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <columns>Made_1st_Call_to_Customer__c</columns>
+        <columns>Made_2nd_Call_to_Customer__c</columns>
+        <columns>Made_3rd_Call_to_Customer__c</columns>
+        <columns>Sent_Email_to_Customer__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>OWNER.LAST_NAME</field>
+            <operation>equals</operation>
+            <value>Achey</value>
+        </filters>
+        <filters>
+            <field>CAM_Lead_Status__c</field>
+            <operation>notContain</operation>
+            <value>Closed Lost,Converted</value>
+        </filters>
+        <filters>
+            <field>OWNER.FIRST_NAME</field>
+            <operation>equals</operation>
+            <value>Sara</value>
+        </filters>
+        <label>sara&apos;s leads</label>
     </listViews>
     <listViews>
         <fullName>thomas_leads</fullName>

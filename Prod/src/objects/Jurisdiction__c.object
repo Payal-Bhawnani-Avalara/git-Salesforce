@@ -67,7 +67,7 @@
         <fullName>Jurisdiction_Type__c</fullName>
         <externalId>false</externalId>
         <label>Jurisdiction Type</label>
-        <required>true</required>
+        <required>false</required>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>

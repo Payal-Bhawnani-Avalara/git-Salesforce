@@ -3294,6 +3294,11 @@ Custodian: Partner Management / Liz Anderson</description>
             <operation>equals</operation>
             <value>,USD 0</value>
         </criteriaItems>
+        <criteriaItems>
+            <field>Opportunity.Type</field>
+            <operation>notEqual</operation>
+            <value>Free Trial</value>
+        </criteriaItems>
         <triggerType>onCreateOnly</triggerType>
     </rules>
     <rules>

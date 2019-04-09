@@ -310,12 +310,6 @@ Owner:User.Booking_Quota_December__c,
     </fields>
     <label>Forecast Summary</label>
     <listViews>
-        <fullName>All_Forcast_Summaries</fullName>
-        <columns>NAME</columns>
-        <filterScope>Everything</filterScope>
-        <label>All Forecast Summaries</label>
-    </listViews>
-    <listViews>
         <fullName>My_Forecast_Summaries_This_Month</fullName>
         <columns>NAME</columns>
         <filterScope>Mine</filterScope>
@@ -406,18 +400,6 @@ Owner:User.Booking_Quota_December__c,
         <sharedTo>
             <group>Loyalty_Management</group>
         </sharedTo>
-    </listViews>
-    <listViews>
-        <fullName>My_Team_Next_Month</fullName>
-        <columns>NAME</columns>
-        <columns>Forecast_Date__c</columns>
-        <filterScope>Everything</filterScope>
-        <filters>
-            <field>Manager__c</field>
-            <operation>contains</operation>
-            <value>deblois</value>
-        </filters>
-        <label>Alex&apos;s Team Next Month</label>
     </listViews>
     <nameField>
         <label>Forecast Summary Name</label>

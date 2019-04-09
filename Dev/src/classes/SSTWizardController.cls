@@ -1,9 +1,8 @@
 public class SSTWizardController {
-	 @AuraEnabled public List<KeyPairValue> sstStatePicklistselected {get;set;}
 	 @AuraEnabled
-    public static string save(SST_Onboarding__c sstData, List<String> sstStatePicklistselected){
+    public static string save(SST_Onboarding__c sstData){
         try{ 
-        	sstData.SST_State_Selection__c=String.join(sstStatePicklistselected, ';');
+        	//sstData.SST_State_Selection__c=String.join(sstStatePicklistselected, ';');
             insert sstData;      
         } 
         catch(Exception ex){
@@ -28,34 +27,5 @@ public class SSTWizardController {
             optionlist.add(pv.getValue());
         }
         return optionlist;
-    }
-     @AuraEnabled
-      public static List<KeyPairValue> getPicklistKeyPairValue(String fld) {
-        List<KeyPairValue> output = new List <KeyPairValue> ();
-       
-        // Get the object type of the SObject.
-        Schema.sObjectType objType = SST_Onboarding__c.getSObjectType();
-        // Describe the SObject using its object type.
-        Schema.DescribeSObjectResult objDescribe = objType.getDescribe();
-        // Get a map of fields for the SObject
-        Map < String, Schema.SObjectField > fieldMap = objDescribe.fields.getMap();
-        // Get the list of picklist values for this field.
-        List < Schema.PicklistEntry > values = fieldMap.get(fld).getDescribe().getPickListValues();
-        // Add these values to the selectoption list.
-        for (Schema.PicklistEntry a: values) {
-            output.add(new KeyPairValue(a.getValue(),a.getValue()));
-        }
-        return output;
-    }    
-    public class KeyPairValue{
-        @AuraEnabled
-        public String label {get; set;}  
-        @AuraEnabled
-        public String value {get; set;} 
-        public KeyPairValue(String label,String value){
-            this.label=label;
-            this.value=value;
-        }
-    }   
-   
+    }  
 }

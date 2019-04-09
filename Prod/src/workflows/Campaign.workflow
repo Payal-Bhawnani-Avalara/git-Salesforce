@@ -69,7 +69,7 @@
         <description>Notify Marketing Manager of CDM Campaign Creation</description>
         <protected>false</protected>
         <recipients>
-            <recipient>robin.conner@avalara.com</recipient>
+            <recipient>kael.kelly@avalara.com</recipient>
             <type>user</type>
         </recipients>
         <senderType>CurrentUser</senderType>
@@ -80,7 +80,7 @@
         <description>Notify Robin Conner of CDM Campaign Creation</description>
         <protected>false</protected>
         <recipients>
-            <recipient>robin.conner@avalara.com</recipient>
+            <recipient>kael.kelly@avalara.com</recipient>
             <type>user</type>
         </recipients>
         <senderType>CurrentUser</senderType>
@@ -324,7 +324,7 @@
             <name>Notify_Marketing_Manager_of_CDM_Campaign_Creation</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Campaign.CreatedById</field>
             <operation>equals</operation>
@@ -338,7 +338,7 @@
             <name>Notify_Robin_Conner_of_CDM_Campaign_Creation</name>
             <type>Alert</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <criteriaItems>
             <field>Campaign.CreatedById</field>
             <operation>equals</operation>

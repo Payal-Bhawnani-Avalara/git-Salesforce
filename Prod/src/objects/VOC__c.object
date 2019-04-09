@@ -546,6 +546,8 @@
     </listViews>
     <listViews>
         <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Area_Campaign_Name__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>

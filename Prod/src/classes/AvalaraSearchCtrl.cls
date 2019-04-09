@@ -6,7 +6,8 @@ public class AvalaraSearchCtrl {
         List<Connector__c> connectorsSearch = [FIND :searchText IN NAME FIELDS RETURNING Connector__c(Id)][0];
         List<Connector__c> connectors =  [
             SELECT Id,Name,Vibrancy__c, Platform_Cateogry__c, SAM__r.Name, Author__c,SAM__r.Email,PLT_Owner__c,PLT_Owner__r.Name,PLT_Owner__r.Email,
-                Early_Adopter_Sales_Owner__r.Name, Early_Adopter_Sales_Owner__c, SAM__c,Early_Adopter_Sales_Owner__r.Email,
+                Early_Adopter_Sales_Owner__r.Name, Early_Adopter_Sales_Owner__c, SAM__c,Early_Adopter_Sales_Owner__r.Email,PartnerLaunchSalesOwner__r.Name,
+                PartnerLaunchSalesOwner__c,PartnerLaunchSalesOwner__r.Email,
                 (SELECT Id,Name,Parent_Version__c FROM Versions__r WHERE Status__c != 'Revoked/Terminated' Order By Sort_Order__c ASC NULLS FIRST)
             FROM Connector__c
             WHERE name LIKE :('%'+searchText+'%')

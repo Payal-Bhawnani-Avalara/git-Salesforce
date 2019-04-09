@@ -2098,7 +2098,7 @@ ISPICKVAL( Offer__c , &quot;Online Buying&quot;)
         <criteriaItems>
             <field>Contact.Opportunity_Sub_Type__c</field>
             <operation>equals</operation>
-            <value>AvaTax,SOHO,CertCapture,Communications,Excise,MatrixMaster</value>
+            <value>AvaTax,SOHO,CertCapture,Communications,Excise,MatrixMaster,Cross-border,Included</value>
         </criteriaItems>
         <criteriaItems>
             <field>Contact.Most_Recent_Conversion_Date__c</field>

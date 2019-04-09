@@ -193,16 +193,6 @@
         <template>unfiled$public/EMEALeadassignment</template>
     </alerts>
     <alerts>
-        <fullName>New_Landed_Cost_Lead_Assigned</fullName>
-        <description>New Landed Cost Lead Assigned</description>
-        <protected>false</protected>
-        <recipients>
-            <type>owner</type>
-        </recipients>
-        <senderType>CurrentUser</senderType>
-        <template>unfiled$public/Landed_Cost_New_Lead_Notification</template>
-    </alerts>
-    <alerts>
         <fullName>New_Partner_SignUp_Alert_TrustFile_Bharat</fullName>
         <ccEmails>TFBpartner@avalara.com</ccEmails>
         <description>New Partner SignUp Alert - TrustFile Bharat</description>
@@ -1459,21 +1449,6 @@ Updated: IBST-16982</description>
         <active>false</active>
         <description>Creates a Task for the new Lead Owner when a Lead is taken from the AvaTax SDR lead Routing Queue</description>
         <formula>AND(ischanged(OwnerId)=true,priorvalue(OwnerId)=&quot;00G33000001fPvO&quot;, ISPICKVAL( OpportunitySubType__c , &quot;AvaTax&quot;) )</formula>
-        <triggerType>onAllChanges</triggerType>
-    </rules>
-    <rules>
-        <fullName>AvaTax Task - Create Task When Lead is Taken fom the Landed Cost Queue</fullName>
-        <actions>
-            <name>New_Landed_Cost_Lead_Assigned</name>
-            <type>Alert</type>
-        </actions>
-        <actions>
-            <name>New_Landed_Cost</name>
-            <type>Task</type>
-        </actions>
-        <active>true</active>
-        <description>Creates a Task for the new Lead Owner when a Lead is taken from the Landed Cost Queue</description>
-        <formula>AND(ischanged(OwnerId)=true,priorvalue(OwnerId)=&quot;00G33000002N9T1&quot;,OR( ISPICKVAL(   OpportunitySubType__c  , &quot;AvaTax&quot;),ISPICKVAL(   OpportunitySubType__c  , &quot;LandedCost&quot;) ))</formula>
         <triggerType>onAllChanges</triggerType>
     </rules>
     <rules>
@@ -4378,17 +4353,6 @@ ISPICKVAL(Status, &quot;Converted &quot;)
         <protected>false</protected>
         <status>Not Started</status>
         <subject>New Excise Lead Assigned to You</subject>
-    </tasks>
-    <tasks>
-        <fullName>New_Landed_Cost</fullName>
-        <assignedToType>owner</assignedToType>
-        <description>You have a new landed cost Lead. Please follow up.</description>
-        <dueDateOffset>0</dueDateOffset>
-        <notifyAssignee>false</notifyAssignee>
-        <priority>Normal</priority>
-        <protected>false</protected>
-        <status>Not Started</status>
-        <subject>New Landed Cost Lead Assigned to you</subject>
     </tasks>
     <tasks>
         <fullName>New_Lead_Assigned_to_You</fullName>

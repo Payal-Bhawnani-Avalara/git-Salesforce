@@ -186,7 +186,7 @@
         <description>MM Assignment Needed</description>
         <protected>false</protected>
         <recipients>
-            <recipient>robin.conner@avalara.com</recipient>
+            <recipient>kael.kelly@avalara.com</recipient>
             <type>user</type>
         </recipients>
         <senderType>CurrentUser</senderType>
@@ -2050,7 +2050,7 @@ https://jira.avalara.com/browse/IBST-4623</description>
             <name>Alert_SOHO_Partner_Territory_Change_Event</name>
             <type>Task</type>
         </actions>
-        <active>true</active>
+        <active>false</active>
         <formula>AND(ISCHANGED( Partner_Territory__c ),  PRIORVALUE(Partner_Territory__c) = &quot;SOHO&quot;)</formula>
         <triggerType>onAllChanges</triggerType>
     </rules>
@@ -2682,7 +2682,7 @@ ISCHANGED(AvaTax_Current_Plan_End_Date__c)
     </tasks>
     <tasks>
         <fullName>Alert_SOHO_Partner_Territory_Change_Event</fullName>
-        <assignedTo>robin.conner@avalara.com</assignedTo>
+        <assignedTo>kael.kelly@avalara.com</assignedTo>
         <assignedToType>user</assignedToType>
         <description>Alert! - SOHO Partner Territory Change Event. See Account linked to this task. Please review and close as appropriate.</description>
         <dueDateOffset>0</dueDateOffset>
