@@ -1,0 +1,9 @@
+<!--This page will be displayed after evolve authentication success or called after the OpenID Connect authentication success
+showHeader,sidebar is set to false so that softphone and common header will not be displayed-->
+<apex:page sidebar="false" showHeader="false" readOnly="true" showChat="false" cache="false">
+<apex:stylesheet value="{!URLFOR($Resource.icAgentConsole__AgentConsoleApp, 'css/Authenticate.css')}"/>
+<div id="loginPanel">
+    <div class="loadingSpinner"><div class="progressDiv progress-bounce-middle"></div></div>
+</div>
+
+</apex:page>

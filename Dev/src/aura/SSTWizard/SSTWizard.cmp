@@ -143,12 +143,82 @@
     <aura:attribute name="wyFalse" type="boolean" default="false" access="global"/> 
     
      <!-- Remote Volunteer  -->
-     <aura:attribute name="showArV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showArV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showGeV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showInV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showIoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showKaV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showKeV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showMiV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showMnV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showNeV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showNvV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showNjV" type="boolean" default="false" access="global"/> 
+    <aura:attribute name="showNcV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showNdV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showOhV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showOkV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showRiV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showSdV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showTeV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showUtV" type="boolean" default="false" access="global"/> 
+    <aura:attribute name="showVeV" type="boolean" default="false" access="global"/> 
+    <aura:attribute name="showWaV" type="boolean" default="false" access="global"/> 
+    <aura:attribute name="showWvV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showWiV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showWyV" type="boolean" default="false" access="global"/> 
     
     <!-- Volunteer selection -->
     <aura:attribute name="showArVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showGeVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showInVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showIoVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showKaVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showKeVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showMiVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showMnVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showNeVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showNvVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showNjVol" type="boolean" default="false" access="global"/> 
+    <aura:attribute name="showNcVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showNdVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showOhVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showOkVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showRiVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showSdVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showTeVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showUtVol" type="boolean" default="false" access="global"/> 
+    <aura:attribute name="showVeVol" type="boolean" default="false" access="global"/> 
+    <aura:attribute name="showWaVol" type="boolean" default="false" access="global"/> 
+    <aura:attribute name="showWvVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showWiVol" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showWyVol" type="boolean" default="false" access="global"/> 
     
-    <aura:attribute name="showCoV" type="boolean" default="false" access="global"/>
+    <!--Co Vlounteer-->
+    <aura:attribute name="showArCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showGeCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showInCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showIoCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showKaCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showKeCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showMiCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showMnCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showNeCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showNvCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showNjCoV" type="boolean" default="false" access="global"/> 
+    <aura:attribute name="showNcCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showNdCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showOhCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showOkCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showRiCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showSdCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showTeCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showUtCoV" type="boolean" default="false" access="global"/> 
+    <aura:attribute name="showVeCoV" type="boolean" default="false" access="global"/> 
+    <aura:attribute name="showWaCoV" type="boolean" default="false" access="global"/> 
+    <aura:attribute name="showWvCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showWiCoV" type="boolean" default="false" access="global"/>
+    <aura:attribute name="showWyCoV" type="boolean" default="false" access="global"/>
     
     <!-- Statistical  Other -->
     <aura:attribute name="showSSTProgOther" type="boolean" default="false" access="global"/>
@@ -162,6 +232,7 @@
      <aura:attribute name="isAllSelected"  type="Boolean"  default="false"/>
    
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  
     
     <div class="slds-grid slds-grid--vertical forceListViewManager adapetr-config-main">
        <!--********* HEADER ********* -->
@@ -223,8 +294,9 @@
 			                 
 			                  <aura:if isTrue="{!v.showSP}">
 				                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-				                  <lightning:input aura:id="newSSTform" label="SSN" name="SSN" value="{!v.sstData.SSN__c}"  pattern="[0-9]{3}-[0-9]{2}-[0-9]{4}"  maxlength="11" 
-				                   messageWhenPatternMismatch="SSN must be in this format: 999-99-9999."  required="true" />
+				                  <lightning:input aura:id="ssn" label="SSN" name="SSN" value="{!v.sstData.SSN__c}"  pattern="[0-9]{3}-[0-9]{2}-[0-9]{4}"  maxlength="11" 
+				                   messageWhenPatternMismatch="SSN must be in this format: 999-99-9999." 
+                                    messageWhenBadInput='Phone number should be 11 chars max' required="true" />
 				                   <aura:iteration items="{!v.errors}" var="error">{!errors}</aura:iteration>
 				                  </span>
 				                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
@@ -484,61 +556,58 @@
 			                     value="{!v.isAllSelected}"  onchange="{! c.selectAll}"/>
 			    </span>
 			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Arkansas" name="Arkansas" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Arkansas" name="Arkansas" value="{!v.sstData.SS_Arkansas__c}" checked="{!v.sstData.SS_Arkansas__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Georgia" name="Georgia" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Georgia" name="Georgia" checked="{!v.sstData.SS_Georgia__c}" value="{!v.sstData.SS_Georgia__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Indiana" name="Indiana" checked="false" onchange= "{!c.sstNexus}"/>
-			    </span>
-			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Indiana" name="Indiana" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Indiana" name="Indiana" checked="{!v.sstData.SS_Indiana__c}" value="{!v.sstData.SS_Indiana__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
 			     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Iowa" name="Iowa" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Iowa" name="Iowa" checked="{!v.sstData.SS_Iowa__c}" value="{!v.sstData.SS_Iowa__c}"  onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Kansas" name="Kansas" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Kansas" name="Kansas" checked="{!v.sstData.SS_Kansas__c}" value="{!v.sstData.SS_Kansas__c}"  onchange= "{!c.sstNexus}"/>
 			    </span>
 			     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Kentucky" name="Kentucky" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Kentucky" name="Kentucky" checked="{!v.sstData.SS_Kentucky__c}"  value="{!v.sstData.SS_Kentucky__c}"  onchange= "{!c.sstNexus}"/>
 			    </span>
 			     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Michigan" name="Michigan" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Michigan" name="Michigan" checked="{!v.sstData.SS_Michigan__c}" value="{!v.sstData.SS_Michigan__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Minnesota" name="Minnesota" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Minnesota" name="Minnesota" checked="{!v.sstData.SS_Minnesota__c}" value="{!v.sstData.SS_Minnesota__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
 			     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Nebraska" name="Nebraska" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Nebraska" name="Nebraska" checked="{!v.sstData.SS_Nebraska__c}" value="{!v.sstData.SS_Nebraska__c}"  onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Nevada" name="Nevada" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Nevada" name="Nevada" checked="{!v.sstData.SS_Nevada__c}" value="{!v.sstData.SS_Nevada__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="New Jersey" name="New Jersey" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="New Jersey" name="New Jersey" checked="{!v.sstData.SS_New_Jersey__c}" value="{!v.sstData.SS_New_Jersey__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="North Carolina" name="North Carolina" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="North Carolina" name="North Carolina" checked="{!v.sstData.SS_North_Carolina__c}" value="{!v.sstData.SS_North_Carolina__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="North Dakota" name="North Dakota" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="North Dakota" name="North Dakota" checked="{!v.sstData.SS_North_Dakota__c}" value="{!v.sstData.SS_North_Dakota__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Ohio" name="Ohio" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Ohio" name="Ohio" checked="{!v.sstData.SS_Ohio__c}" value="{!v.sstData.SS_Ohio__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Oklahoma" name="Oklahoma" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Oklahoma" name="Oklahoma" checked="{!v.sstData.SS_Oklahoma__c}" value="{!v.sstData.SS_Oklahoma__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Rhode Island" name="Rhode Island" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Rhode Island" name="Rhode Island" checked="{!v.sstData.SS_Rhode_Island__c}"  value="{!v.sstData.SS_Rhode_Island__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="South Dakota" name="South Dakota" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="South Dakota" name="South Dakota" checked="{!v.sstData.SS_South_Dakota__c}" value="{!v.sstData.SS_South_Dakota__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Tennessee" name="Tennessee" checked="false" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Tennessee" name="Tennessee" checked="{!v.sstData.SS_Tennessee__c}" value="{!v.sstData.SS_Tennessee__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <aura:if isTrue="{!v.showTe}">
 			     <span class="slds-size_1-of-1 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
@@ -546,17 +615,18 @@
 	              </span>
 	             </aura:if>   
 			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Utah" name="Utah" checked="false" onchange= "{!c.sstNexus}"/>
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Utah" name="Utah" checked="{!v.sstData.SS_Utah__c}" value="{!v.sstData.SS_Utah__c}"  onchange= "{!c.sstNexus}"/>
 			    </span>
 			     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Vermont" name="Vermont" checked="false" onchange= "{!c.sstNexus}"/>
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Vermont" name="Vermont" value="{!v.sstData.SS_Vermont__c}" checked="{!v.sstData.SS_Vermont__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
 			     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Washington" name="Washington" checked="false" onchange= "{!c.sstNexus}"/>
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Washington" name="Washington" checked="{!v.sstData.SS_Washington__c}" value="{!v.sstData.SS_Washington__c}"  onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <aura:if isTrue="{!v.showWa}">
 			    <span class="slds-size_1-of-1 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			    <lightning:select aura:id="fieldId" name="entityValue" label="File the monthly WA B and O?" value = "{! v.sstData.Washington_monthly_WA_B_O__c}" required="true">
+			    <lightning:select aura:id="sstStateId" name="sstStateId" label="File the monthly WA B and O?" value = "{! v.sstData.Washington_monthly_WA_B_O__c}" required="true">
+	                           <option value = "">Select</option>     
 	                          <aura:iteration var="option" items="{! v.waBOCPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -564,13 +634,13 @@
 	             </span> 
 	             </aura:if>
 			     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="West Virginia" name="West Virginia" checked="false" onchange= "{!c.sstNexus}"/>
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="West Virginia" name="West Virginia" value="{!v.sstData.SS_West_Virginia__c}"  checked="{!v.sstData.SS_West_Virginia__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Wisconsin" name="Wisconsin" checked="false" onchange= "{!c.sstNexus}"/>
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Wisconsin" name="Wisconsin" checked="{!v.sstData.SS_Wisconsin__c}" value="{!v.sstData.SS_Wisconsin__c}"  onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Wyoming" name="Wyoming" checked="false" onchange= "{!c.sstNexus}"/>
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Wyoming" name="Wyoming" checked="{!v.sstData.SS_Wyoming__c}" value="{!v.sstData.SS_Wyoming__c}"  onchange= "{!c.sstNexus}"/>
 			    </span>
 			    </div>
 	           </fieldset>
@@ -613,9 +683,10 @@
 	                  <div class="slds-truncate" title="Arkansas">Arkansas</div>
                     </th>
                      <th data-label="Registered" scope="row">
-                       <lightning:input aura:id="tableId" type="checkbox" name="ArkansasReg" checked="false" onchange= "{!c.sstFF}"/>  
+                       <lightning:input aura:id="tableId" type="checkbox" name="ArkansasReg" checked="{!v.sstData.Reg_Arkansas__c}" onchange= "{!c.sstFF}"/>  
                        <aura:if isTrue="{!v.showArFF}">
                         <lightning:select aura:id="tableId" name="ArkansasFF" label="Filing Frequency" value = "{! v.sstData.Arkansas_Filing_Frequency__c}" required="true">
+	                            <option value = "">Select</option>     
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -623,7 +694,7 @@
 	                    </aura:if> 
 	                </th>
 	                 <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="ArkansasRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="ArkansasRe" checked="{!v.sstData.Remote_Arkansas__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	                 </th>   
 	               </tr>  
 	                
@@ -634,9 +705,10 @@
 	                  <div class="slds-truncate" title="Georgia">Georgia</div>
                  </th>
                  <th data-label="Registered" scope="row">
-                    <lightning:input aura:id="tableId" type="checkbox" name="GeorgiaReg" checked="false" onchange= "{!c.sstFF}"/>
+                    <lightning:input aura:id="tableId" type="checkbox" name="GeorgiaReg" checked="{!v.sstData.Reg_Georgia__c}" onchange= "{!c.sstFF}"/>
                     <aura:if isTrue="{!v.showGeFF}">
-	                  <lightning:select aura:id="tableId" name="GeorgiaFF" label="Filing Frequency" value = "{! v.sstData.Georgia_Filing_Frequency__c}" required="true">
+	                  <lightning:select aura:id="tableId" name="GeorgiaFF" label="Filing Frequency" value = "{!v.sstData.Georgia_Filing_Frequency__c}" required="true">
+	                            <option value = "">Select</option>     
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -644,7 +716,7 @@
 	                </aura:if>
 	            </th>
 	             <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="GeorgiaRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="GeorgiaRe" checked="{!v.sstData.Remote_Georgia__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	             </th>  
 	           </tr>
 	          </aura:if>
@@ -654,15 +726,17 @@
 	                  <div class="slds-truncate" title="Indiana">Indiana</div>
                  </th>
                  <th data-label="Registered" scope="row">
-                        <lightning:input aura:id="tableId" type="checkbox" name="IndianaReg" checked="false" onchange= "{!c.sstFF}"/>
+                        <lightning:input aura:id="tableId" type="checkbox" name="IndianaReg" checked="{!v.sstData.Reg_Indiana__c}" onchange= "{!c.sstFF}"/>
                         <aura:if isTrue="{!v.showInFF}">
-		                    <lightning:select aura:id="tableId" name="IndianaFF" label="Filing Frequency"  value = "{! v.sstData.Indiana_Filing_Frequency__c}" required="true">
+		                    <lightning:select aura:id="tableId" name="IndianaFF" label="Filing Frequency"  value = "{!v.sstData.Indiana_Filing_Frequency__c}" required="true">
+		                           <option value = "">Select</option>   
 		                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 		                              <option value="{! option }" >{! option }</option>
 		                          </aura:iteration>
 		                      </lightning:select> 
 		                     
-	                         <lightning:select aura:id="fieldId" name="entityValue" label="IN returns?" value = "{! v.sstData.IN_returns__c}" required="true">
+	                         <lightning:select aura:id="tableId" name="entityValue" label="IN returns?" value = "{! v.sstData.IN_returns__c}" required="true">
+	                           <option value = "">Select</option>  
 	                          <aura:iteration var="option" items="{! v.inRetunrsPicklist}">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -670,7 +744,7 @@
 	                   </aura:if>    
 	             </th>
 	               <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="IndianaRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="IndianaRe" checked="{!v.sstData.Remote_Indiana__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	              </th>
 	              </tr>
 	            </aura:if>
@@ -680,9 +754,10 @@
 	                  <div class="slds-truncate" title="Iowa">Iowa</div>
                    </th>
                    <th data-label="Registered" scope="row">
-                      <lightning:input aura:id="tableId" type="checkbox" name="IowaReg" checked="false" onchange= "{!c.sstFF}"/>
+                      <lightning:input aura:id="tableId" type="checkbox" name="IowaReg" checked="{!v.sstData.Reg_Iowa__c}" onchange= "{!c.sstFF}"/>
                       <aura:if isTrue="{!v.showIoFF}">
-	                    <lightning:select aura:id="tableId" name="IowaFF" label="Filing Frequency" value = "{! v.sstData.Iowa_Filing_Frequency__c}"   required="true">
+	                    <lightning:select aura:id="tableId" name="IowaFF" label="Filing Frequency" value = "{!v.sstData.Iowa_Filing_Frequency__c}"   required="true">
+	                           <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -690,7 +765,7 @@
 	                  </aura:if>  
 	              </th>
 	              <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="IowaRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="IowaRe" checked="{!v.sstData.Remote_Iowa__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	              </th>
 	             </tr>
 	            </aura:if>
@@ -700,9 +775,10 @@
 	                  <div class="slds-truncate" title="Kansas">Kansas</div>
                    </th>
                    <th data-label="Registered" scope="row">
-                     <lightning:input aura:id="tableId" type="checkbox" name="KansasReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <lightning:input aura:id="tableId" type="checkbox" name="KansasReg" checked="{!v.sstData.Reg_Kansas__c}" onchange= "{!c.sstFF}"/>
                      <aura:if isTrue="{!v.showKaFF}">
 	                   <lightning:select aura:id="tableId" name="KansasFF" label="Filing Frequency" value = "{! v.sstData.Kansas_Filing_Frequency__c}" required="true">
+	                           <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -710,7 +786,7 @@
 	                </aura:if>
 	               </th>
 	               <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="KansasRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="KansasRe" checked="{!v.sstData.Remote_Kansas__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	              </th>
 	              </tr>
 	            </aura:if>
@@ -720,9 +796,10 @@
 	                  <div class="slds-truncate" title="Kentucky">Kentucky</div>
                    </th>
                    <th data-label="Registered" scope="row">
-                     <lightning:input aura:id="tableId" type="checkbox" name="KentuckyReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <lightning:input aura:id="tableId" type="checkbox" name="KentuckyReg" checked="{!v.sstData.Reg_Kentucky__c}" onchange= "{!c.sstFF}"/>
                      <aura:if isTrue="{!v.showKeFF}">
 	                   <lightning:select aura:id="tableId" name="KentuckyFF" label="Filing Frequency" value = "{! v.sstData.Kentucky_Filing_Frequency__c}"  required="true">
+	                    <option value = "">Select</option>   
 	                   <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -730,7 +807,7 @@
 	                </aura:if>
 	              </th>
 	              <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="KentuckyRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="KentuckyRe" checked="{!v.sstData.Remote_Kentucky__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	              </th>
 	             </tr>
 	            </aura:if>
@@ -740,9 +817,10 @@
 	                  <div class="slds-truncate" title="Michigan">Michigan</div>
                    </th>
                    <th data-label="Registered" scope="row">
-                    <lightning:input aura:id="tableId" type="checkbox" name="MichiganReg" checked="false" onchange= "{!c.sstFF}"/>
+                    <lightning:input aura:id="tableId" type="checkbox" name="MichiganReg" checked="{!v.sstData.Reg_Michigan__c}" onchange= "{!c.sstFF}"/>
                     <aura:if isTrue="{!v.showMiFF}"> 
 	                   <lightning:select aura:id="tableId" name="MichiganFF" label="Filing Frequency" value = "{! v.sstData.Michigan_Filing_Frequency__c}"  required="true">
+	                         <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -750,7 +828,7 @@
 	                  </aura:if>
 	              </th>
 	               <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="MichiganRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="MichiganRe" checked="{!v.sstData.Remote_Michigan__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	              </th>
 	             </tr>
 	            </aura:if>
@@ -760,9 +838,10 @@
 	                  <div class="slds-truncate" title="Minnesota">Minnesota</div>
                    </th>
                    <th data-label="Registered" scope="row">
-                     <lightning:input aura:id="tableId" type="checkbox" name="MinnesotaReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <lightning:input aura:id="tableId" type="checkbox" name="MinnesotaReg" checked="{!v.sstData.Reg_Minnesota__c}" onchange= "{!c.sstFF}"/>
                      <aura:if isTrue="{!v.showMnFF}"> 
 	                     <lightning:select aura:id="tableId" name="MinnesotaFF" label="Filing Frequency" value = "{! v.sstData.Minnesota_Filing_Frequency__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -770,7 +849,7 @@
 	                 </aura:if>   
 	               </th>
 	                <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="MinnesotaRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="MinnesotaRe" checked="{!v.sstData.Remote_Minnesota__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	               </th>
 	             </tr>
 	            </aura:if>
@@ -780,9 +859,10 @@
 	                  <div class="slds-truncate" title="Nebraska">Nebraska</div>
                    </th>
                    <th data-label="Registered" scope="row">
-                     <lightning:input aura:id="tableId" type="checkbox" name="NebraskaReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <lightning:input aura:id="tableId" type="checkbox" name="NebraskaReg" checked="{!v.sstData.Reg_Nebraska__c}" onchange= "{!c.sstFF}"/>
                      <aura:if isTrue="{!v.showNeFF}"> 
 	                  <lightning:select aura:id="tableId" name="NebraskaFF" label="Filing Frequency" value = "{! v.sstData.Nebraska_Filing_Frequency__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -790,7 +870,7 @@
 	               </aura:if>  
 	               </th>
 	               <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="NebraskaRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="NebraskaRe" checked="{!v.sstData.Remote_Nebraska__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	               </th>
 	             </tr>
 	            </aura:if>
@@ -800,9 +880,10 @@
 	                  <div class="slds-truncate" title="Nevada">Nevada</div>
                    </th>
                    <th data-label="Registered" scope="row">
-                      <lightning:input aura:id="tableId" type="checkbox" name="NevadaReg" checked="false" onchange= "{!c.sstFF}"/>
+                      <lightning:input aura:id="tableId" type="checkbox" name="NevadaReg" checked="{!v.sstData.Reg_Nevada__c}" onchange= "{!c.sstFF}"/>
                       <aura:if isTrue="{!v.showNvFF}"> 
 	                     <lightning:select aura:id="tableId" name="NevadaFF"  label="Filing Frequency" value = "{! v.sstData.Nevada_Filing_Frequency__c}"  required="true">
+	                           <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -810,7 +891,7 @@
 	                  </aura:if>
 	               </th>
 	                <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="NevadaRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="NevadaRe" checked="{!v.sstData.Remote_Nevada__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	               </th>
 	              </tr>
 	            </aura:if>
@@ -820,9 +901,10 @@
 	                  <div class="slds-truncate" title="New Jersey">New Jersey</div>
                    </th>
                    <th data-label="Registered" scope="row">
-                     <lightning:input aura:id="tableId" type="checkbox" name="NJReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <lightning:input aura:id="tableId" type="checkbox" name="NJReg" checked="{!v.sstData.Reg_New_Jersey__c}" onchange= "{!c.sstFF}"/>
                      <aura:if isTrue="{!v.showNjFF}"> 
 	                    <lightning:select aura:id="tableId" name="NJFF" label="Filing Frequency" value = "{! v.sstData.New_Jersey_Filing_Frequency__c}" required="true">
+	                           <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -830,7 +912,7 @@
 	                </aura:if> 
 	              </th>
 	               <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="NJRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="NJRe" checked="{!v.sstData.Remote_New_Jersey__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	               </th>
 	             </tr>
 	            </aura:if>
@@ -840,9 +922,10 @@
 	                  <div class="slds-truncate" title="North Carolina">North Carolina</div>
                    </th>
                    <th data-label="Registered" scope="row">
-                     <lightning:input aura:id="tableId" type="checkbox" name="NCReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <lightning:input aura:id="tableId" type="checkbox" name="NCReg" checked="{!v.sstData.Reg_North_Carolina__c}" onchange= "{!c.sstFF}"/>
                      <aura:if isTrue="{!v.showNcFF}"> 
 	                    <lightning:select aura:id="tableId" name="NCFF" label="Filing Frequency" value = "{! v.sstData.North_Carolina_Filing_Frequency__c}"   required="true">
+	                           <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -850,7 +933,7 @@
 	                 </aura:if>  
 	               </th>
 	               <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="NCRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="NCRe" checked="{!v.sstData.Remote_North_Carolina__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	               </th>
 	             </tr>
 	            </aura:if>
@@ -860,9 +943,10 @@
 	                  <div class="slds-truncate" title="North Dakota ">North Dakota </div>
                    </th>
                    <th data-label="Registered" scope="row">
-                      <lightning:input aura:id="tableId" type="checkbox" name="NDReg" checked="false" onchange= "{!c.sstFF}"/>
+                      <lightning:input aura:id="tableId" type="checkbox" name="NDReg" checked="{!v.sstData.Reg_North_Dakota__c}" onchange= "{!c.sstFF}"/>
                       <aura:if isTrue="{!v.showNdFF}"> 
 	                    <lightning:select aura:id="tableId" name="NDFF" label="Filing Frequency" value = "{! v.sstData.North_Dakota_Filing_Frequency__c}" required="true">
+	                           <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -870,7 +954,7 @@
 	                  </aura:if>  
 	              </th>
 	               <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="NDRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="NDRe" checked="{!v.sstData.Remote_North_Dakota__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	               </th>
 	             </tr>
 	            </aura:if>
@@ -880,17 +964,18 @@
 	                  <div class="slds-truncate" title="Ohio">Ohio </div>
                    </th>
                    <th data-label="Registered" scope="row">
-                     <lightning:input aura:id="tableId" type="checkbox" name="OhReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <lightning:input aura:id="tableId" type="checkbox" name="OhReg" checked="{!v.sstData.Reg_Ohio__c}" onchange= "{!c.sstFF}"/>
                      <aura:if isTrue="{!v.showOhFF}"> 
 	                   <lightning:select aura:id="tableId" name="OhFF" label="Filing Frequency" value = "{! v.sstData.Ohio_Filing_Frequency__c}"   required="true">
-	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
+	                            <option value = "">Select</option>   
+                               <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>  
 	                </aura:if>
 	               </th>
 	                <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="OhRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="OhRe" checked="{!v.sstData.Remote_Ohio__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	               </th>
 	             </tr>
 	            </aura:if>
@@ -900,9 +985,10 @@
 	                  <div class="slds-truncate" title="Oklahoma">Oklahoma </div>
                    </th>
                    <th data-label="Registered" scope="row">
-                      <lightning:input aura:id="tableId" type="checkbox" name="OkReg" checked="false" onchange= "{!c.sstFF}"/>
+                      <lightning:input aura:id="tableId" type="checkbox" name="OkReg" checked="{!v.sstData.Reg_Oklahoma__c}" onchange= "{!c.sstFF}"/>
                       <aura:if isTrue="{!v.showOkFF}"> 
 	                     <lightning:select aura:id="tableId" name="OkFF" label="Filing Frequency" value = "{! v.sstData.Oklahoma_Filing_Frequency__c}" required="true">
+	                           <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -910,7 +996,7 @@
 	               </aura:if>
 	               </th>
 	               <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="OhRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="OkRe" checked="{!v.sstData.Remote_Oklahoma__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	               </th>
 	              </tr>
 	            </aura:if>
@@ -920,9 +1006,10 @@
 	                  <div class="slds-truncate" title="Rhode Island ">Rhode Island  </div>
                    </th>
                    <th data-label="Registered" scope="row">
-                      <lightning:input aura:id="tableId" type="checkbox" name="RiReg" checked="false" onchange= "{!c.sstFF}"/>
+                      <lightning:input aura:id="tableId" type="checkbox" name="RiReg" checked="{!v.sstData.Reg_Rhode_Island__c}" onchange= "{!c.sstFF}"/>
                       <aura:if isTrue="{!v.showRiFF}"> 
 	                     <lightning:select aura:id="tableId" name="RiFF" label="Filing Frequency" value = "{! v.sstData.Rhode_Island_Filing_Frequency__c}"   required="true">
+	                           <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -930,7 +1017,7 @@
 	                 </aura:if>   
 	              </th>
 	               <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="RiRe" checked="false"  onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="RiRe" checked="{!v.sstData.Remote_Rhode_Island__c}"  onchange= "{!c.sstNonVoluteer}"/>  
 	               </th>
 	               </tr>
 	            </aura:if>
@@ -940,9 +1027,10 @@
 	                  <div class="slds-truncate" title="South Dakota">South Dakota</div>
                    </th>
                    <th data-label="Registered" scope="row">
-                     <lightning:input aura:id="tableId" type="checkbox" name="SdReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <lightning:input aura:id="tableId" type="checkbox" name="SdReg" checked="{!v.sstData.Reg_South_Dakota__c}" onchange= "{!c.sstFF}"/>
                      <aura:if isTrue="{!v.showSdFF}"> 
 	                   <lightning:select aura:id="tableId" name="SdFF" label="Filing Frequency" value = "{! v.sstData.South_Dakota_Filing_Frequency__c}"  required="true">
+	                           <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -950,7 +1038,7 @@
 	               </aura:if>    
 	               </th>
 	               <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="RiRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="SdRe" checked="{!v.sstData.Remote_South_Dakota__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	               </th>
 	             </tr>
 	            </aura:if>
@@ -960,9 +1048,10 @@
 	                  <div class="slds-truncate" title="Tennessee">Tennessee</div>
                    </th>
                    <th data-label="Registered" scope="row">
-                     <lightning:input aura:id="tableId" type="checkbox" name="TnReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <lightning:input aura:id="tableId" type="checkbox" name="TnReg" checked="{!v.sstData.Reg_Tennessee__c}" onchange= "{!c.sstFF}"/>
                      <aura:if isTrue="{!v.showTeFF}"> 
 	                   <lightning:select aura:id="tableId" name="TnFF" label="Filing Frequency" value = "{! v.sstData.Tennessee_Filing_Frequency__c}"  required="true">
+	                           <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -970,7 +1059,7 @@
 	                 </aura:if>   
 	              </th>
 	             <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="TnRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="TnRe" checked="{!v.sstData.Remote_Tennessee__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	               </th>
 	             </tr>
 	            </aura:if>
@@ -980,9 +1069,10 @@
 	                  <div class="slds-truncate" title="Utah">Utah</div>
                    </th>
                    <th data-label="Registered" scope="row">
-                      <lightning:input aura:id="tableId" type="checkbox" name="UtReg" checked="false" onchange= "{!c.sstFF}"/>
+                      <lightning:input aura:id="tableId" type="checkbox" name="UtReg" checked="{!v.sstData.Reg_Utah__c}" onchange= "{!c.sstFF}"/>
                       <aura:if isTrue="{!v.showUtFF}"> 
 	                    <lightning:select aura:id="tableId" name="UtFF" label="Filing Frequency" value = "{! v.sstData.Utah_Filing_Frequency__c}" required="true">
+	                           <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -990,7 +1080,7 @@
 	                  </aura:if> 
 	              </th>
 	              <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="UtRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="UtRe" checked="{!v.sstData.Remote_Utah__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	               </th>
 	             </tr>
 	            </aura:if>
@@ -1000,9 +1090,10 @@
 	                  <div class="slds-truncate" title="Vermont">Vermont</div>
                    </th>
                    <th data-label="Registered" scope="row">
-                    <lightning:input aura:id="tableId" type="checkbox" name="VeReg" checked="false" onchange= "{!c.sstFF}" />
+                    <lightning:input aura:id="tableId" type="checkbox" name="VeReg" checked="{!v.sstData.Reg_Vermont__c}" onchange= "{!c.sstFF}" />
                     <aura:if isTrue="{!v.showVeFF}"> 
 	                 <lightning:select aura:id="tableId" name="VeFF" label="Filing Frequency" value = "{! v.sstData.Vermont_Filing_Frequency__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1010,7 +1101,7 @@
 	              </aura:if>
 	              </th>
 	               <th data-label="Remote" scope="row"> 
-	                      <lightning:input aura:id="tableId" type="checkbox" name="VeRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="VeRe" checked="{!v.sstData.Remote_Vermont__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	               </th>
 	             </tr>
 	            </aura:if>
@@ -1020,9 +1111,10 @@
 	                  <div class="slds-truncate" title="Washington">Washington</div>
                    </th>
                    <th data-label="Registered" scope="row">
-                     <lightning:input aura:id="tableId" type="checkbox" name="WaReg" checked="false" onchange= "{!c.sstFF}"/>
+                     <lightning:input aura:id="tableId" type="checkbox" name="WaReg" checked="{!v.sstData.Reg_Washington__c}" onchange= "{!c.sstFF}"/>
                      <aura:if isTrue="{!v.showWaFF}"> 
 	                   <lightning:select aura:id="tableId" name="WaFF" label="Filing Frequency" value = "{! v.sstData.Washington_Filing_Frequency__c}"   required="true">
+	                           <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1030,7 +1122,7 @@
 	                </aura:if>    
 	               </th>
 	                <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="WaRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="WaRe" checked="{!v.sstData.Remote_Washington__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	               </th>
                   <!--  <th data-label="Other" scope="row">
 	                 <lightning:select aura:id="fieldId" name="entityValue" label="File the monthly WA B and O?" value = "{! v.sstData.Washington_monthly_WA_B_O__c}" required="true">
@@ -1047,9 +1139,10 @@
 	                  <div class="slds-truncate" title="West Virginia">West Virginia</div>
                    </th>
                    <th data-label="Registered" scope="row">
-                       <lightning:input aura:id="tableId" type="checkbox" name="WvReg" checked="false" onchange= "{!c.sstFF}"/>
+                       <lightning:input aura:id="tableId" type="checkbox" name="WvReg" checked="{!v.sstData.Reg_West_Virginia__c}" onchange= "{!c.sstFF}"/>
                       <aura:if isTrue="{!v.showWvFF}"> 
 	                   <lightning:select aura:id="tableId" name="WvFF" label="Filing Frequency" value = "{! v.sstData.West_Virginia_Filing_Frequency__c}"  required="true">
+	                           <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1057,7 +1150,7 @@
 	                  </aura:if> 
 	              </th>
 	                <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="WvRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="WvRe" checked="{!v.sstData.Remote_West_Virginia__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	               </th>
 	             </tr>
 	            </aura:if>
@@ -1067,9 +1160,10 @@
 	                  <div class="slds-truncate" title="Wisconsin">Wisconsin</div>
                    </th>
                    <th data-label="Registered" scope="row">
-                    <lightning:input aura:id="tableId" type="checkbox" name="WiReg" checked="false" onchange= "{!c.sstFF}"/>
+                    <lightning:input aura:id="tableId" type="checkbox" name="WiReg" checked="{!v.sstData.Reg_Wisconsin__c}" onchange= "{!c.sstFF}"/>
 	                <aura:if isTrue="{!v.showWiFF}">  
 	                 <lightning:select aura:id="tableId" name="WiFF" label="Filing Frequency"  value = "{! v.sstData.Wisconsin_Filing_Frequency__c}"   required="true">
+	                           <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1077,7 +1171,7 @@
 	               </aura:if>
 	               </th>
 	               <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="WiRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="WiRe" checked="{!v.sstData.Remote_Wisconsin__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	               </th>
 	            </tr>
 	            </aura:if>
@@ -1087,9 +1181,10 @@
 	                  <div class="slds-truncate" title="Wyoming">Wyoming</div>
                    </th>
                    <th data-label="Registered" scope="row">
-                      <lightning:input aura:id="tableId" type="checkbox" name="WyReg" checked="false" onchange= "{!c.sstFF}"/>
+                      <lightning:input aura:id="tableId" type="checkbox" name="WyReg" checked="{!v.sstData.Reg_Wyoming__c}" onchange= "{!c.sstFF}"/>
                       <aura:if isTrue="{!v.showWyFF}"> 
 	                  <lightning:select aura:id="tableId" name="WyFF" label="Filing Frequency"  value = "{! v.sstData.Wyoming_Filing_Frequency__c}"   required="true">
+	                          <option value = "">Select</option>    
 	                          <aura:iteration var="option" items="{! v.arFilPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1097,7 +1192,7 @@
 	                  </aura:if> 
 	              </th>
 	                <th data-label="Remote" scope="row">
-	                      <lightning:input aura:id="tableId" type="checkbox" name="WyRe" checked="false" onchange= "{!c.sstNonVoluteer}"/>  
+	                      <lightning:input aura:id="tableId" type="checkbox" name="WyRe" checked="{!v.sstData.Remote_Wyoming__c}" onchange= "{!c.sstNonVoluteer}"/>  
 	               </th>
 	            </tr>
 	            </aura:if>
@@ -1130,16 +1225,18 @@
 	 </p>
 	               
 	             <aura:if isTrue="{!v.showArVol}">      
-	             <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                  <lightning:select aura:id="arSV" name="arSV" label="Arkansas" onchange="{!c.arFalse}" value = "{! v.sstData.ArkansasSSTVolunteer__c}" required="true">
+	             <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                  <lightning:select aura:id="sstReg" name="arSV" label="Arkansas" onchange="{!c.sstReg}" value = "{! v.sstData.ArkansasSSTVolunteer__c}" required="true">
+	                           <option value = "">Select</option>   
 	                           <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                               <option value="{! option }" >{! option }</option>
 	                           </aura:iteration>
 	                       </lightning:select>    
 	             </span>
 	            <aura:if isTrue="{!v.arFalse}">
-	             <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                  <lightning:select aura:id="fieldId" name="entityValue" label="Arkansas Non-Volunteer Reason" value = "{! v.sstData.Arkansas_NV_Reason__c}"  required="true">
+	             <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
+	                  <lightning:select aura:id="sstReg" name="entityValue" label="Arkansas Non-Volunteer Reason" value = "{! v.sstData.Arkansas_NV_Reason__c}"  required="true">
+	                         <option value = "">Select</option>   
 	                           <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                               <option value="{! option }" >{! option }</option>
 	                           </aura:iteration>
@@ -1149,17 +1246,19 @@
 	            </aura:if>
 	         
 	            
-	            <aura:if isTrue="{!v.showGe}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="geSV" name="arRegistered" label="Georgia" onchange="{!c.geFalse}" value = "{! v.sstData.Georgia_SST_Volunteer__c}" required="true">
+	            <aura:if isTrue="{!v.showGeVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="geSV" label="Georgia" onchange="{!c.sstReg}" value = "{! v.sstData.Georgia_SST_Volunteer__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.geFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Georgia Non-Volunteer Reason" value = "{! v.sstData.Georgia_NV_Reason__c}"  required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Georgia Non-Volunteer Reason" value = "{! v.sstData.Georgia_NV_Reason__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1167,17 +1266,19 @@
 	            </span>
 	             </aura:if>
 	            </aura:if>
-	             <aura:if isTrue="{!v.showIn}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="inSV" name="arRegistered" label="Indiana" onchange="{!c.inFalse}" value = "{! v.sstData.Indiana_v__c}"  required="true">
+	             <aura:if isTrue="{!v.showInVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
+	                 <lightning:select aura:id="sstReg" name="inSV" label="Indiana" onchange="{!c.sstReg}" value = "{! v.sstData.Indiana_v__c}"  required="true">
+	                         <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.inFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Indiana Non-Volunteer Reason" value = "{! v.sstData.Indiana_nv_reason__c}"   required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Indiana Non-Volunteer Reason" value = "{! v.sstData.Indiana_nv_reason__c}"   required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist}">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1185,17 +1286,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	            <aura:if isTrue="{!v.showIo}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="ioSV" name="arRegistered" label="Iowa" onchange="{!c.ioFalse}"  value = "{! v.sstData.Iowa_v__c}" required="true">
+	            <aura:if isTrue="{!v.showIoVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
+	                 <lightning:select aura:id="sstReg" name="ioSV" label="Iowa" onchange="{!c.sstReg}"  value = "{! v.sstData.Iowa_v__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.ioFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Iowa Non-Volunteer Reason" value = "{! v.sstData.Iowa_nv_reason__c}" required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Iowa Non-Volunteer Reason" value = "{! v.sstData.Iowa_nv_reason__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1203,17 +1306,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	            <aura:if isTrue="{!v.showKa}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="kaSV" name="arRegistered" label="Kansas" onchange="{!c.kaFalse}" value = "{! v.sstData.Kansas_V__c}" required="true">
+	            <aura:if isTrue="{!v.showKaVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="kaSV" label="Kansas" onchange="{!c.sstReg}" value = "{! v.sstData.Kansas_V__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist}">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.kaFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Kansas Non-Volunteer Reason" value = "{! v.sstData.Kansas_nv_reason__c}"  required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Kansas Non-Volunteer Reason" value = "{! v.sstData.Kansas_nv_reason__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1221,17 +1326,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	            <aura:if isTrue="{!v.showKe}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="keSV" name="arRegistered" label="Kentucky" onchange="{!c.keFalse}" value = "{! v.sstData.Kentucky_v__c}" required="true">
+	            <aura:if isTrue="{!v.showKeVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="keSV" label="Kentucky" onchange="{!c.sstReg}" value = "{! v.sstData.Kentucky_v__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.keFalse}">
-	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Kentucky Non-Volunteer Reason"  value = "{! v.sstData.Kentucky_nv_reason__c}"  required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Kentucky Non-Volunteer Reason"  value = "{! v.sstData.Kentucky_nv_reason__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1239,17 +1346,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	            <aura:if isTrue="{!v.showMi}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="miSV" name="arRegistered" label="Michigan" onchange="{!c.miFalse}" value = "{! v.sstData.Michigan_v__c}"  required="true">
+	            <aura:if isTrue="{!v.showMiVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="miSV" label="Michigan" onchange="{!c.sstReg}" value = "{! v.sstData.Michigan_v__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.miFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Michigan Non-Volunteer Reason"  value = "{! v.sstData.Michigan_nv_reason__c}"  required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Michigan Non-Volunteer Reason"  value = "{! v.sstData.Michigan_nv_reason__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist}">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1257,17 +1366,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	             <aura:if isTrue="{!v.showMn}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="mnSV" name="arRegistered" label="Minnesota" onchange="{!c.mnFalse}" value = "{! v.sstData.Minnesota_v__c}" required="true">
+	             <aura:if isTrue="{!v.showMnVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="mnSV" label="Minnesota" onchange="{!c.sstReg}" value = "{! v.sstData.Minnesota_v__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.mnFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Minnesota Non-Volunteer Reason"  value = "{! v.sstData.Minnesota_nv_reason__c}" required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Minnesota Non-Volunteer Reason"  value = "{! v.sstData.Minnesota_nv_reason__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1275,17 +1386,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	           <aura:if isTrue="{!v.showNe}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="neSV" name="arRegistered" label="Nebraska" onchange="{!c.neFalse}" value = "{! v.sstData.Nebraska_v__c}"  required="true">
+	           <aura:if isTrue="{!v.showNeVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="neSV" label="Nebraska" onchange="{!c.sstReg}" value = "{! v.sstData.Nebraska_v__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.neFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Nebraska Non-Volunteer Reason" value = "{! v.sstData.Nebraska_nv_reason__c}"  required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Nebraska Non-Volunteer Reason" value = "{! v.sstData.Nebraska_nv_reason__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist  }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1293,17 +1406,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	            <aura:if isTrue="{!v.showNv}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="nvSV" name="arRegistered" label="Nevada" onchange="{!c.nvFalse}" value = "{! v.sstData.Nevada_v__c}" required="true">
+	            <aura:if isTrue="{!v.showNvVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="nvSV" label="Nevada" onchange="{!c.sstReg}" value = "{! v.sstData.Nevada_v__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist}">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.nvFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Nevada Non-Volunteer Reason" value = "{! v.sstData.Nevada_nv_reason__c}"  required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Nevada Non-Volunteer Reason" value = "{! v.sstData.Nevada_nv_reason__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1311,17 +1426,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	            <aura:if isTrue="{!v.showNj}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="njSV" name="arRegistered" label="New Jersey" onchange="{!c.njFalse}" value = "{! v.sstData.New_Jersey_v__c}" required="true">
+	            <aura:if isTrue="{!v.showNjVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="njSV" label="New Jersey" onchange="{!c.sstReg}" value = "{! v.sstData.New_Jersey_v__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.njFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="	New Jersey Non-Volunteer Reason" value = "{! v.sstData.New_Jersey_nv_reason__c}" required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="	New Jersey Non-Volunteer Reason" value = "{! v.sstData.New_Jersey_nv_reason__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1329,17 +1446,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	             <aura:if isTrue="{!v.showNc}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="ncSV" name="arRegistered" label="North Carolina" onchange="{!c.ncFalse}" value = "{! v.sstData.North_Carolina_v__c}"  required="true">
+	             <aura:if isTrue="{!v.showNcVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="ncSV" label="North Carolina" onchange="{!c.sstReg}" value = "{! v.sstData.North_Carolina_v__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.ncFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="North Carolina Non-Volunteer Reason" value = "{! v.sstData.North_Carolina_nv_reason__c}"   required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="North Carolina Non-Volunteer Reason" value = "{! v.sstData.North_Carolina_nv_reason__c}"   required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1347,17 +1466,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	             <aura:if isTrue="{!v.showNd}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="ndSV" name="arRegistered" label="North Dakota" onchange="{!c.ndFalse}" value = "{! v.sstData.North_Dakota_v__c}"   required="true">
+	             <aura:if isTrue="{!v.showNdVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="ndSV" label="North Dakota" onchange="{!c.sstReg}" value = "{! v.sstData.North_Dakota_v__c}"   required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.ndFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="North Dakota Non-Volunteer Reason" value = "{! v.sstData.North_Dakota_nv_reason__c}"   required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="North Dakota Non-Volunteer Reason" value = "{! v.sstData.North_Dakota_nv_reason__c}"   required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1365,17 +1486,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	            <aura:if isTrue="{!v.showOh}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="ohSV" name="arRegistered" label="Ohio"  onchange="{!c.ohFalse}" value = "{! v.sstData.Ohio_v__c}" required="true">
+	            <aura:if isTrue="{!v.showOhVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="ohSV" label="Ohio"  onchange="{!c.sstReg}" value = "{! v.sstData.Ohio_v__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.ohFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Ohio Non-Volunteer Reason" value = "{! v.sstData.Ohio_nv_reason__c}" required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Ohio Non-Volunteer Reason" value = "{! v.sstData.Ohio_nv_reason__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1383,17 +1506,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	            <aura:if isTrue="{!v.showOk}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="okSV" name="arRegistered" label="Oklahoma"  onchange="{!c.okFalse}" value = "{! v.sstData.Oklahoma_v__c}" required="true">
+	            <aura:if isTrue="{!v.showOkVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="okSV" label="Oklahoma"  onchange="{!c.sstReg}" value = "{! v.sstData.Oklahoma_v__c}" required="true">
+	                         <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	             <aura:if isTrue="{!v.okFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Oklahoma Non-Volunteer Reason" value = "{! v.sstData.Oklahoma_nv_reason__c}"  required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Oklahoma Non-Volunteer Reason" value = "{! v.sstData.Oklahoma_nv_reason__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1401,17 +1526,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	            <aura:if isTrue="{!v.showRi}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="riSV" name="arRegistered" label="Rhode Island"  onchange="{!c.riFalse}" value = "{! v.sstData.Rhode_Island_v__c}"  required="true">
+	            <aura:if isTrue="{!v.showRiVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="riSV" label="Rhode Island"  onchange="{!c.sstReg}" value = "{! v.sstData.Rhode_Island_v__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist}">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.riFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Rhode Island Non-Volunteer Reason" value = "{! v.sstData.Rhode_Island_nv_reason__c}"  required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Rhode Island Non-Volunteer Reason" value = "{! v.sstData.Rhode_Island_nv_reason__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1419,17 +1546,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	             <aura:if isTrue="{!v.showSd}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="sdSV" name="arRegistered" label="South Dakota"  onchange="{!c.sdFalse}" value = "{! v.sstData.South_Dakota_v__c}" required="true">
+	             <aura:if isTrue="{!v.showSdVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="sdSV" label="South Dakota"  onchange="{!c.sstReg}" value = "{! v.sstData.South_Dakota_v__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.sdFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="South Dakota Non-Volunteer Reason" value = "{! v.sstData.South_Dakota_nv_reason__c}"  required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="South Dakota Non-Volunteer Reason" value = "{! v.sstData.South_Dakota_nv_reason__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1437,17 +1566,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	            <aura:if isTrue="{!v.showTe}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="teSV" name="arRegistered" label="Tennessee" onchange="{!c.tefalse}" value = "{! v.sstData.Tennessee_v__c}"  required="true">
+	            <aura:if isTrue="{!v.showTeVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="teSV" label="Tennessee" onchange="{!c.sstReg}" value = "{! v.sstData.Tennessee_v__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist}">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.tefalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Tennessee Non-Volunteer Reason"  value = "{! v.sstData.Tennessee_nv_reason__c}"  required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Tennessee Non-Volunteer Reason"  value = "{! v.sstData.Tennessee_nv_reason__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist}">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1455,17 +1586,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	            <aura:if isTrue="{!v.showUt}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="utSV" name="arRegistered" label="Utah"  onchange="{!c.utFalse}" value = "{! v.sstData.Utah_v__c}"  required="true">
+	            <aura:if isTrue="{!v.showUtVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="utSV" label="Utah"  onchange="{!c.sstReg}" value = "{! v.sstData.Utah_v__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist}">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.utFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Utah Non-Volunteer Reason" value = "{! v.sstData.Utah_nv_reason__c}"   required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Utah Non-Volunteer Reason" value = "{! v.sstData.Utah_nv_reason__c}"   required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1473,17 +1606,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	             <aura:if isTrue="{!v.showVe}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="veSV" name="arRegistered" label="Vermont"  onchange="{!c.veFalse}"  value = "{! v.sstData.Vermont_v__c}" required="true">
+	             <aura:if isTrue="{!v.showVeVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="veSV" label="Vermont"  onchange="{!c.sstReg}"  value = "{! v.sstData.Vermont_v__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist}">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.veFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Vermont Non-Volunteer Reason" value = "{! v.sstData.Vermont_nv_reason__c}" required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Vermont Non-Volunteer Reason" value = "{! v.sstData.Vermont_nv_reason__c}" required="true">
+	                         <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1491,17 +1626,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	            <aura:if isTrue="{!v.showWa}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="waSV" name="arRegistered" label="Washington"  onchange="{!c.waFalse}" value = "{! v.sstData.Washington_v__c}"  required="true">
+	            <aura:if isTrue="{!v.showWaVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="waSV" label="Washington"  onchange="{!c.sstReg}" value = "{! v.sstData.Washington_v__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.waFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Washington Non-Volunteer Reason" value = "{! v.sstData.Washington_nv_reason__c}" required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Washington Non-Volunteer Reason" value = "{! v.sstData.Washington_nv_reason__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1509,17 +1646,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	            <aura:if isTrue="{!v.showWv}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="wvSV" name="arRegistered" label="West Virginia"  onchange="{!c.wvFalse}" value = "{! v.sstData.West_Virginia_v__c}" required="true">
+	            <aura:if isTrue="{!v.showWvVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="wvSV" label="West Virginia"  onchange="{!c.sstReg}" value = "{! v.sstData.West_Virginia_v__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.wvFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="West Virginia Non-Volunteer Reason" value = "{! v.sstData.West_Virginia_nv_reason__c}" required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="West Virginia Non-Volunteer Reason" value = "{! v.sstData.West_Virginia_nv_reason__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist}">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1527,17 +1666,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	            <aura:if isTrue="{!v.showWi}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="wiSV" name="arRegistered" label="Wisconsin"  onchange="{!c.wiFalse}" value = "{! v.sstData.Wisconsin_v__c}"  required="true">
-	                          <aura:iteration var="option" items="{! v.arSSTVPicklist }">
+	            <aura:if isTrue="{!v.showWiVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="wiSV" label="Wisconsin"  onchange="{!c.sstReg}" value = "{! v.sstData.Wisconsin_v__c}"  required="true">
+	                         <option value = "">Select</option>   
+	                         <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.wiFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Wisconsin Non-Volunteer Reason" value = "{! v.sstData.Wisconsin_nv_reason__c}"  required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Wisconsin Non-Volunteer Reason" value = "{! v.sstData.Wisconsin_nv_reason__c}"  required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1545,17 +1686,19 @@
 	            </span>
 	            </aura:if>
 	            </aura:if>
-	             <aura:if isTrue="{!v.showWy}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="wySV" name="arRegistered" label="Wyoming"  onchange="{!c.wyFalse}" value = "{! v.sstData.Wyoming_v__c}"  required="true">
+	             <aura:if isTrue="{!v.showWyVol}">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
+	                 <lightning:select aura:id="sstReg" name="wySV" label="Wyoming"  onchange="{!c.sstReg}" value = "{! v.sstData.Wyoming_v__c}"  required="true">
+	                         <option value = "">Select</option>    
 	                          <aura:iteration var="option" items="{! v.arSSTVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
 	            </span>
 	            <aura:if isTrue="{!v.wyFalse}">
-	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:500px;">
-	                 <lightning:select aura:id="fieldId" name="entityValue" label="Wyoming Non-Volunteer Reason" value = "{! v.sstData.Wyoming_nv_reason__c}" required="true">
+	            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	                 <lightning:select aura:id="sstReg" name="entityValue" label="Wyoming Non-Volunteer Reason" value = "{! v.sstData.Wyoming_nv_reason__c}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1568,25 +1711,256 @@
 	            <br/>
 	            <br/>
 	             <aura:if isTrue="{!v.showArV}">      
-	               <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
 	                <div class="slds-col slds-size_1-of-1 "><p> Arkansas </p> </div>
 	              </span>
+                  </aura:if>
+                  <aura:if isTrue="{!v.showGeV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Georgia </p> </div>
+	              </span>
+                 </aura:if>
+                 <aura:if isTrue="{!v.showInV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Indiana </p> </div>
+	              </span>
+                 </aura:if>
+                 <aura:if isTrue="{!v.showIoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Iowa </p> </div>
+	              </span>
+                 </aura:if>
+                  <aura:if isTrue="{!v.showKaV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Kansas </p> </div>
+	              </span>
+                 </aura:if>
+                 <aura:if isTrue="{!v.showKeV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Kentucky </p> </div>
+	              </span>
+                 </aura:if>
+                  <aura:if isTrue="{!v.showMiV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Michigan </p> </div>
+	              </span>
+                 </aura:if>
+                 <aura:if isTrue="{!v.showMnV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Minnesota </p> </div>
+	              </span>
+                 </aura:if>
+                 <aura:if isTrue="{!v.showNeV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Nebraska </p> </div>
+	              </span>
+                 </aura:if>
+                  <aura:if isTrue="{!v.showNvV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Nevada </p> </div>
+	              </span>
+                 </aura:if>
+                  <aura:if isTrue="{!v.showNjV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> New Jersey </p> </div>
+	              </span>
+                 </aura:if>
+                  <aura:if isTrue="{!v.showNcV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> North Carolina </p> </div>
+	              </span>
+                 </aura:if>
+                 <aura:if isTrue="{!v.showNdV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> North Dakota </p> </div>
+	              </span>
+                 </aura:if>
+                 <aura:if isTrue="{!v.showOhV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Ohio</p> </div>
+	              </span>
+                 </aura:if>
+                 <aura:if isTrue="{!v.showOkV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Oklahoma</p> </div>
+	              </span>
+                 </aura:if>
+                  <aura:if isTrue="{!v.showRiV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Rhode Island</p> </div>
+	              </span>
+                 </aura:if>
+                  <aura:if isTrue="{!v.showSdV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> South Dakota</p> </div>
+	              </span>
+                 </aura:if>
+                  <aura:if isTrue="{!v.showTeV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Tennessee</p> </div>
+	              </span>
+                 </aura:if>
+                  <aura:if isTrue="{!v.showUtV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Utah</p> </div>
+	              </span>
+                 </aura:if>
+                 <aura:if isTrue="{!v.showVeV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Vermont</p> </div>
+	              </span>
+                 </aura:if>
+                 <aura:if isTrue="{!v.showWaV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Washington</p> </div>
+	              </span>
+                 </aura:if>
+                 <aura:if isTrue="{!v.showWvV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> West Virginia</p> </div>
+	              </span>
+                 </aura:if>
+                  <aura:if isTrue="{!v.showWiV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Wisconsin</p> </div>
+	              </span>
+                 </aura:if>
+                  <aura:if isTrue="{!v.showWyV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Wyoming</p> </div>
+	              </span>
+                 </aura:if>
 	            <br/>
 	            <br/>
-	           </aura:if>
+	          
 	            <br/>
 	            <br/>
 	             <div class="slds-col slds-size_1-of-1 "><h4>The following states are considered SST Non-Volunteer due to your corporate and mailing address giving you a physical location in the state.</h4></div> 
 	             <br/>
 	            <br/>
-	             <aura:if isTrue="{!v.showCoV}">      
-	               <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	             <aura:if isTrue="{!v.showArCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
 	                <div class="slds-col slds-size_1-of-1 "><p> Arkansas </p> </div>
+	              </span>
+	            </aura:if>
+                 <aura:if isTrue="{!v.showGeCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Georgia </p> </div>
+	              </span>
+	            </aura:if>
+                 <aura:if isTrue="{!v.showInCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Indiana </p> </div>
+	              </span>
+	            </aura:if>
+                 <aura:if isTrue="{!v.showIoCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Iowa </p> </div>
+	              </span>
+	            </aura:if>
+                 <aura:if isTrue="{!v.showKaCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Kansas </p> </div>
+	              </span>
+	            </aura:if>
+                 <aura:if isTrue="{!v.showKeCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Kentucky </p> </div>
+	              </span>
+	            </aura:if>
+                 <aura:if isTrue="{!v.showMiCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Michigan </p> </div>
+	              </span>
+	            </aura:if>
+                <aura:if isTrue="{!v.showMnCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Minnesota </p> </div>
+	              </span>
+	            </aura:if>
+                <aura:if isTrue="{!v.showNeCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Nebraska </p> </div>
+	              </span>
+	            </aura:if>
+                 <aura:if isTrue="{!v.showNvCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Nevada </p> </div>
+	              </span>
+	            </aura:if>
+                 <aura:if isTrue="{!v.showNjCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> New Jersey </p> </div>
+	              </span>
+	            </aura:if>
+                 <aura:if isTrue="{!v.showNcCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> North Carolina </p> </div>
+	              </span>
+	            </aura:if>
+                 <aura:if isTrue="{!v.showNdCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> North Dakota</p> </div>
+	              </span>
+	            </aura:if>
+                 <aura:if isTrue="{!v.showOhCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Ohio</p> </div>
+	              </span>
+	            </aura:if>
+                 <aura:if isTrue="{!v.showOkCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Oklahoma</p> </div>
+	              </span>
+	            </aura:if>
+                 <aura:if isTrue="{!v.showRiCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Rhode Island</p> </div>
+	              </span>
+	            </aura:if>
+                 <aura:if isTrue="{!v.showSdCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> South Dakota</p> </div>
+	              </span>
+	            </aura:if>
+                  <aura:if isTrue="{!v.showTeCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Tennessee</p> </div>
+	              </span>
+	            </aura:if>
+                   <aura:if isTrue="{!v.showUtCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Utah</p> </div>
+	              </span>
+	            </aura:if>
+                 <aura:if isTrue="{!v.showVeCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Vermont</p> </div>
+	              </span>
+	            </aura:if>
+                   <aura:if isTrue="{!v.showWaCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Washington</p> </div>
+	              </span>
+	            </aura:if>
+                  <aura:if isTrue="{!v.showWvCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> West Virginia</p> </div>
+	              </span>
+	            </aura:if>
+                <aura:if isTrue="{!v.showWiCoV}">      
+	               <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">  
+	                <div class="slds-col slds-size_1-of-1 "><p> Wisconsin</p> </div>
 	              </span>
 	            </aura:if>
 	            <br/>
 	            <br/>
-	         
+	          <br/>
+	            <br/>
+	          
+	            <br/>
+	            <br/>
+	           
 	           </div>
 	           </fieldset>
 	          </div>
@@ -1600,8 +1974,9 @@
               slds-p-vertical--medium"> Statistical Information</legend>
                <div class="slds-grid slds-wrap" >
 	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;">
-	                 <lightning:select aura:id="showStatsIntro" name="showStatsIntro" label="How were you introduced to the SST program?" 
-	                 value = "{! v.sstData.introduced_to_the_SST_program__c}" onchange="{!c.showSSTProgOther}" required="true">
+	                 <lightning:select aura:id="statsId" name="showStatsIntro" label="How were you introduced to the SST program?" 
+	                 value = "{! v.sstData.introduced_to_the_SST_program__c}" onchange="{!c.showSSTStat}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.sstProgPicklist}">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1609,11 +1984,12 @@
 	            </span>
                <aura:if isTrue="{!v.showSSTProgOther}">
 	                   <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
-		                     <lightning:input aura:id="showSSTSother" label="If other, please provide details below" name="Other" value="{!v.sstData.Introduction_SST_program_Other__c}"  required="true" />
+		                     <lightning:input aura:id="statsId" label="If other, please provide details below" name="Other" value="{!v.sstData.Introduction_SST_program_Other__c}"  required="true" />
 		              </span>
 		        </aura:if> 
 	            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;">
-	                 <lightning:select aura:id="showJoinStats" name="showStats" label="Why are you joining the SST program?" value = "{! v.sstData.Why_are_you_joining_the_SST_program__c}" onchange="{!c.showSSTJoinOther}" required="true">
+	                 <lightning:select aura:id="statsId" name="showStatsJoin" label="Why are you joining the SST program?" value = "{! v.sstData.Why_are_you_joining_the_SST_program__c}" onchange="{!c.showSSTStat}" required="true">
+	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.joinSSTProgPicklist}">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
@@ -1621,7 +1997,7 @@
 	            </span>
 	            <aura:if isTrue="{!v.showSSTJoinOther}">
 	                   <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
-		                     <lightning:input aura:id="showSSTSother" label="If other, please provide details below" name="Other" value="{!v.sstData.joining_Other_SST_program__c}"  required="true" />
+		                     <lightning:input aura:id="statsId" label="If other, please provide details below" name="Other" value="{!v.sstData.joining_Other_SST_program__c}"  required="true" />
 		              </span>
 		        </aura:if> 
              </div>
@@ -1693,19 +2069,19 @@
                 
                 <aura:renderIf isTrue="{!v.showSSTState}">        
                     <button class="slds-button slds-button--brand" onclick="{!c.prevTab}" >Back</button> 
-                    <button class="slds-button slds-button--brand" onclick="{!c.nextTab}" >Next</button>
+                    <button class="slds-button slds-button--brand" onclick="{!c.SSTStateTab}" >Next</button>
                 </aura:renderIf>
                 <aura:renderIf isTrue="{!v.showNexus}">        
                  <button class="slds-button slds-button--brand" onclick="{!c.prevTab}" >Back</button> 
-                    <button class="slds-button slds-button--brand" onclick="{!c.nextTab}" >Next</button>
+                    <button class="slds-button slds-button--brand" onclick="{!c.NexusTab}" >Next</button>
                 </aura:renderIf>
                  <aura:renderIf isTrue="{!v.showReg}">        
                  <button class="slds-button slds-button--brand" onclick="{!c.prevTab}" >Back</button> 
-                    <button class="slds-button slds-button--brand" onclick="{!c.nextTab}" >Next</button>
+                    <button class="slds-button slds-button--brand" onclick="{!c.RegTab}" >Next</button>
                 </aura:renderIf>
                 <aura:renderIf isTrue="{!v.showStats}">        
                     <button class="slds-button slds-button--brand" onclick="{!c.prevTab}" >Back</button> 
-                    <button class="slds-button slds-button--brand" onclick="{!c.nextTab}" >Next</button>
+                    <button class="slds-button slds-button--brand" onclick="{!c.statsTab}" >Next</button>
                 </aura:renderIf>
                 <aura:renderIf isTrue="{!v.showData}">        
                     <button class="slds-button slds-button--brand" onclick="{!c.prevTab}" >Back</button> 
