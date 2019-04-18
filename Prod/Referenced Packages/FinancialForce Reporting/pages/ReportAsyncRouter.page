@@ -1,0 +1,14 @@
+<apex:page showHeader="true" sidebar="false" controller="ffr.ReportAsyncRouterController">
+
+    <c:fflib_LoadIndicator startLoadFn="startLoadFs" stopLoadFn="stopLoadFs" asSlds="true"/>
+    <apex:form >    
+        <apex:actionFunction name="resumeRoutingProcess" action="{!resumeRoutingProcess}"/>
+    </apex:form>
+
+    <script src="{!URLFOR($Resource.ffr__front,'utils/pages.js')}" type="text/javascript"/>
+    <script>
+        var processingLabel = '{!JSINHTMLENCODE($Label.ffr__reportingdefinitionprocessing)}';
+        setupLoadIndicator(processingLabel);
+        window.onload = resumeRoutingProcess;
+    </script>
+</apex:page>

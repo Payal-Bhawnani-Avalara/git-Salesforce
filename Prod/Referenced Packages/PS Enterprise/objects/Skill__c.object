@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>Skill_Compact_Layout</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>Category_Compact_Layout</fullName>
+        <fields>Name</fields>
+        <fields>Type__c</fields>
+        <fields>Hierarchy_Path__c</fields>
+        <fields>Parent_Hierarchy_Level__c</fields>
+        <label>Category Compact Layout</label>
+    </compactLayouts>
+    <compactLayouts>
+        <fullName>Certification_Compact_Layout</fullName>
+        <fields>Name</fields>
+        <fields>Type__c</fields>
+        <fields>Hierarchy_Path__c</fields>
+        <fields>Hierarchy_Level__c</fields>
+        <label>Certification Compact Layout</label>
+    </compactLayouts>
+    <compactLayouts>
+        <fullName>Skill_Compact_Layout</fullName>
+        <fields>Name</fields>
+        <fields>Type__c</fields>
+        <fields>Hierarchy_Path__c</fields>
+        <fields>Hierarchy_Level__c</fields>
+        <label>Skill Compact Layout</label>
+    </compactLayouts>
+    <customHelpPage>SkillHelp</customHelpPage>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <description>Records a certain competency or accreditation. Use skills/certifications to describe staffing requirements for projects and to track individual resource competencies.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableEnhancedLookup>true</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Certification_Source__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Organization or institution that grants this certification.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Organization or institution that grants this certification.</inlineHelpText>
+        <label>Certification Source</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Salesforce.com</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Google</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Microsoft</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Cisco</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Text description of this skill or certification.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Text description of this skill or certification.</inlineHelpText>
+        <label>Description</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>External_Id__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The ID to identify this skill in an external system.</description>
+        <externalId>true</externalId>
+        <inlineHelpText>The ID to identify this skill in an external system.</inlineHelpText>
+        <label>External ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Group__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Picklist of certification groups.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Picklist of certification groups.</inlineHelpText>
+        <label>Group</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Microsoft</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Java</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Salesforce.com</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Hierarchy_Key_Path__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Path field for auto-generated concatenated ancestor IDs of the skill in the hierarchy.</description>
+        <externalId>false</externalId>
+        <formula>IF(ISBLANK(
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__c), &quot;&quot;,
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__c &amp; &quot;,&quot;)
+        	&amp;
+        	IF(ISBLANK(
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__c), &quot;&quot;,
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__c &amp; &quot;,&quot;)
+        	&amp;
+        	IF(ISBLANK(
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__c), &quot;&quot;,
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__c &amp; &quot;,&quot;)
+        	&amp;
+        	IF(ISBLANK(
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__c), &quot;&quot;,
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__c &amp; &quot;,&quot;)
+        	&amp;
+        	IF(ISBLANK(
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__c), &quot;&quot;,
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__c &amp; &quot;,&quot;)
+        	&amp;
+        	IF(ISBLANK(
+        		Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__c), &quot;&quot;,
+        		Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__c &amp; &quot;,&quot;)
+        	&amp;
+        	IF(ISBLANK(
+        		Parent_Category__r.Parent_Category__r.Parent_Category__c), &quot;&quot;,
+        		Parent_Category__r.Parent_Category__r.Parent_Category__c &amp; &quot;,&quot;)
+        	&amp;
+        	IF(ISBLANK(
+        		Parent_Category__r.Parent_Category__c), &quot;&quot;,
+        		Parent_Category__r.Parent_Category__c &amp; &quot;,&quot;)
+        	&amp;
+        	IF(ISBLANK(Parent_Category__c), &quot;&quot;, Parent_Category__c)</formula>
+        <label>Hierarchy Key Path</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Hierarchy_Level__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Indicates the level within the skills hierarchy.</description>
+        <externalId>false</externalId>
+        <formula>IF (
+    			ISBLANK ( Parent_Category__c ),
+    			0,
+    			( LEN ( Hierarchy_Key_Path__c ) + 1 ) / 16
+    		) + 1</formula>
+        <inlineHelpText>Indicates the level within the skills hierarchy.</inlineHelpText>
+        <label>Hierarchy Level</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Hierarchy_Path__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Path field for auto-generated concatenated ancestor names of the skill in the hierarchy.</description>
+        <externalId>false</externalId>
+        <formula>IF(ISBLANK(
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Name), &quot;&quot;,
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Name &amp; &quot; &gt; &quot;)
+        	&amp;
+        	IF(ISBLANK(
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Name), &quot;&quot;,
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Name &amp; &quot; &gt; &quot;)
+        	&amp;
+        	IF(ISBLANK(
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Name), &quot;&quot;,
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Name &amp; &quot; &gt; &quot;)
+        	&amp;
+        	IF(ISBLANK(
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Name), &quot;&quot;,
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Name &amp; &quot; &gt; &quot;)
+        	&amp;
+        	IF(ISBLANK(
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Name), &quot;&quot;,
+	        	Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Name &amp; &quot; &gt; &quot;)
+        	&amp;
+        	IF(ISBLANK(
+        		Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Name), &quot;&quot;,
+        		Parent_Category__r.Parent_Category__r.Parent_Category__r.Parent_Category__r.Name &amp; &quot; &gt; &quot;)
+        	&amp;
+        	IF(ISBLANK(
+        		Parent_Category__r.Parent_Category__r.Parent_Category__r.Name), &quot;&quot;,
+        		Parent_Category__r.Parent_Category__r.Parent_Category__r.Name &amp; &quot; &gt; &quot;)
+        	&amp;
+        	IF(ISBLANK(
+        		Parent_Category__r.Parent_Category__r.Name), &quot;&quot;,
+        		Parent_Category__r.Parent_Category__r.Name &amp; &quot; &gt; &quot;)
+        	&amp;
+        	IF(ISBLANK(Parent_Category__r.Name), &quot;&quot;, Parent_Category__r.Name)</formula>
+        <inlineHelpText>Path field for auto-generated concatenated ancestor names of the skill in the hierarchy.</inlineHelpText>
+        <label>Hierarchy Path</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Parent_Category__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <description>The parent of this skill in the skill hierarchy.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Lookup to the parent in the skills hierarchy. Parent must have a record type of category.</inlineHelpText>
+        <label>Parent Category</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>Skill__c.RecordType.DeveloperName</field>
+                <operation>equals</operation>
+                <value>Category</value>
+            </filterItems>
+            <isOptional>true</isOptional>
+        </lookupFilter>
+        <referenceTo>Skill__c</referenceTo>
+        <relationshipLabel>Category Children</relationshipLabel>
+        <relationshipName>Category_Children</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Parent_Hierarchy_Level__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Indicates at which level in the skills hierarchy the parent of this skill resides.</description>
+        <externalId>false</externalId>
+        <formula>IF ( ISBLANK ( Parent_Category__c ), NULL, Parent_Category__r.Hierarchy_Level__c )</formula>
+        <label>Parent Hierarchy Level</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Parent_Record_Type__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The parent record type for this skill.</description>
+        <externalId>false</externalId>
+        <formula>Parent_Category__r.RecordType.DeveloperName</formula>
+        <label>Parent Record Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Record_Type_Name__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The record type name for this skill.</description>
+        <externalId>false</externalId>
+        <formula>RecordType.DeveloperName</formula>
+        <label>Record Type Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Skill_Or_Certification__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Deprecated. See Record Type instead.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Deprecated. See Record Type instead.</inlineHelpText>
+        <label>Skill Or Certification</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Skill</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Certification</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Set of skill types. Used when grouping skills capacity reports.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Set of skill types. Used when grouping skills capacity reports.</inlineHelpText>
+        <label>Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Technical</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Business Analysis</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Technical &amp; Architecture</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Project Manager</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Programming</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Industry</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Strategy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Technical Architecture</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Unique_Name__c</fullName>
+        <caseSensitive>true</caseSensitive>
+        <deprecated>false</deprecated>
+        <description>The unique skill name.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The unique skill name.</inlineHelpText>
+        <label>Unique Name</label>
+        <length>80</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <label>Skill / Certification</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Group__c</columns>
+        <columns>Type__c</columns>
+        <columns>RECORDTYPE</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Skill / Certification Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Skills and Certifications</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Category</fullName>
+        <active>true</active>
+        <description>A level in a hierarchy. Skills and certifications can belong to a category.</description>
+        <label>Category</label>
+        <picklistValues>
+            <picklist>Certification_Source__c</picklist>
+            <values>
+                <fullName>Cisco</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Google</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Microsoft</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Salesforce%2Ecom</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Group__c</picklist>
+            <values>
+                <fullName>Java</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Microsoft</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Salesforce%2Ecom</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Skill_Or_Certification__c</picklist>
+            <values>
+                <fullName>Certification</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Skill</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Type__c</picklist>
+            <values>
+                <fullName>Business Analysis</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Industry</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Programming</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Project Manager</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Strategy</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Technical</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Technical %26 Architecture</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Certification</fullName>
+        <active>true</active>
+        <description>A document relating to a status or a level of achievement.</description>
+        <label>Certification</label>
+        <picklistValues>
+            <picklist>Certification_Source__c</picklist>
+            <values>
+                <fullName>Cisco</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Google</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Microsoft</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Salesforce%2Ecom</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Group__c</picklist>
+            <values>
+                <fullName>Java</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Microsoft</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Salesforce%2Ecom</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Skill_Or_Certification__c</picklist>
+            <values>
+                <fullName>Certification</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Type__c</picklist>
+            <values>
+                <fullName>Business Analysis</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Industry</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Programming</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Project Manager</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Strategy</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Technical</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Technical %26 Architecture</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Skill</fullName>
+        <active>true</active>
+        <description>An ability, proficiency, or expertise, in a subject area.</description>
+        <label>Skill</label>
+        <picklistValues>
+            <picklist>Certification_Source__c</picklist>
+            <values>
+                <fullName>Cisco</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Google</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Microsoft</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Salesforce%2Ecom</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Group__c</picklist>
+            <values>
+                <fullName>Java</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Microsoft</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Salesforce%2Ecom</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Skill_Or_Certification__c</picklist>
+            <values>
+                <fullName>Skill</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Type__c</picklist>
+            <values>
+                <fullName>Business Analysis</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Industry</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Programming</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Project Manager</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Strategy</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Technical</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Technical %26 Architecture</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts>
+        <customTabListAdditionalFields>Group__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Description__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Type__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>RECORDTYPE</customTabListAdditionalFields>
+        <lookupDialogsAdditionalFields>Certification_Source__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Type__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Group__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Hierarchy_Path__c</lookupDialogsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <webLinks>
+        <fullName>CascadeDelete</fullName>
+        <availability>online</availability>
+        <description>Delete a category and all of its descendants in the skills hierarchy.</description>
+        <displayType>button</displayType>
+        <height>200</height>
+        <linkType>page</linkType>
+        <masterLabel>Cascade Delete</masterLabel>
+        <openType>sidebar</openType>
+        <page>SkillCascadeDelete</page>
+        <protected>false</protected>
+    </webLinks>
+</CustomObject>

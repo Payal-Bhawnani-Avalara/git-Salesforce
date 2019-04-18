@@ -1,0 +1,47 @@
+<apex:page standardController="pse__Assignment__c" recordSetVar="assignRecs" title="{!$Label.pse__assignment_label_close_assignment}" extensions="pse.AssignmentCloserController" lightningStylesheets="true">
+<apex:outputPanel rendered="{!$User.UIThemeDisplayed == 'Theme4d'}" layout="none">
+	<style>
+		.pageTitleIcon {
+			border-radius: .25rem;
+		    background-color: #4dca76;
+		    background-image: url("{!URLFOR($Asset.SLDS, 'assets/icons/custom/custom18.svg')}");
+		    background-repeat: no-repeat;
+		    background-position: center;
+		    background-size: 2rem;
+			display: block !important;
+		}
+	</style>
+</apex:outputPanel>
+<apex:sectionHeader title="{!$Label.pse__assignment_label_close_assignment}s" help="{!$Page.pse__ClosingAssignmentsHelp}" />
+
+<apex:form >
+
+<apex:pageBlock >
+    <apex:pageMessages id="messages"/>
+    <apex:pageBlockButtons location="bottom">
+        <apex:commandButton action="{!doSave}" value="{!$Label.pse__common_label_save}" rendered="{!displayContent}"/>
+        <apex:commandButton action="{!cancel}" value="{!$Label.pse__common_label_cancel}" immediate="true"/>
+    </apex:pageBlockButtons>
+    <apex:pageBlockSection title="{!$Label.pse__common_label_information}" columns="2" collapsible="false" rendered="{!displayContent}">
+        <apex:inputField value="{!templateAssignment.pse__Status__c}"/>
+        <apex:inputField value="{!templateSchedule.pse__End_Date__c}"/>
+        <apex:inputField value="{!templateAssignment.pse__Closed_for_Time_Entry__c}"/>
+        <apex:inputField value="{!templateAssignment.pse__Closed_for_Expense_Entry__c}"/>
+        <apex:pageBlockSectionItem ><apex:outputText value=""/>{!$Label.pse__assignment_message_closed_note}</apex:pageBlockSectionItem>
+    </apex:pageBlockSection>
+
+</apex:pageBlock>
+
+<apex:pageBlock tabStyle="Assignment__c" title="{!$Label.pse__assignment_label_assignments_to_close}" rendered="{!displayContent}">
+    <apex:pageBlockTable value="{!selectedAssignments}" var="ar">
+        <apex:column value="{!ar.Name}"/>
+        <apex:column value="{!ar.pse__Status__c}"/>
+        <apex:column value="{!ar.Schedule__r.pse__End_Date__c}"/>
+        <apex:column value="{!ar.pse__Closed_for_Time_Entry__c}"/>
+        <apex:column value="{!ar.pse__Closed_for_Expense_Entry__c}"/>
+    </apex:pageBlockTable>
+</apex:pageBlock>
+
+</apex:form>
+
+</apex:page>

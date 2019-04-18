@@ -11,7 +11,7 @@
 </style>
 
 <div id="mobileCard" style="display:none;">
-<header class="bg-1 border-bottom border--3" style="padding:14px;" >
+<header class="bg-1 border-bottom border_3" style="padding:14px;" >
 <a href="https://www.google.com">
   <div class="icon icon--linkedin bgs-100 a-mid sq-30" style="margin-right: 14px;" ></div>
   <h1 class="dib thin a-mid">

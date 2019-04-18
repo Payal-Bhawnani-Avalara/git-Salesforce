@@ -325,6 +325,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Connection__c.Do_Not_Allow_Destination__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Connection__c.Expires_On__c</field>
         <readable>true</readable>
     </fieldPermissions>

@@ -151,7 +151,7 @@ function gp_newDataTableStructure(div, poiCollection){
 								'<input class="removeDataSetTabBtn btn" type="button" value="Remove Data Set Tab" data-collectionName="'+ poiCollection.collectionName +'"/>'+
 							'</div>'+
 							'<div class="chartPanel" id="chartPane-'+poiCollection.collectionName+'">Here goes the charts</div>'+
-							'<div class="dataTableScrollWrapper"></div>'+
+							'<div class="dataTableScrollWrapper" style="visibility:hidden;"></div>'+
 							'<table cellpadding="0" cellspacing="0" border="0" width="100%" class="list display gp_dataTable" id="' + poiCollection.collectionName + '"></table>'+
 						'</div>';
 
@@ -164,7 +164,7 @@ function gp_newDataTableStructure(div, poiCollection){
 }
 
 function gp_constructRecordActionsDD(thisPOIC, aData) {
-	return '<i class="fa fa-caret-square-o-down recordActionsDropDownIcon" title="View Record Actions" alt="View Record Actions" data-uniqueId="'+aData[gp_ColumnInfo.uniqueId]+'"></i>'
+	return '<i style="margin-top:-5px;margin-left:4px;margin-right:5px;" class="fa fa-caret-square-o-down recordActionsDropDownIcon" title="View Record Actions" alt="View Record Actions" data-uniqueId="'+aData[gp_ColumnInfo.uniqueId]+'"></i>'
 	  + '<div class="recordActionsDropDown" id="gpActionDD-' + aData[gp_ColumnInfo.uniqueId] + '">'
 	  + '<div class="actionPlaceholder">hi</div>'
 	  + '<a href="#" onclick="gp_zoomToStreet(' + aData[gp_ColumnInfo.latitude] + ',' + aData[gp_ColumnInfo.longitude] + ',16);event.preventDefault();">' + gp_translations.Zoom_and_Center+'</a>'
@@ -212,13 +212,13 @@ function gp_defineDataTableColumns(thisPOIC){
 							}
 							checkbox += "/>";
 
-							var mapIcon = "<div style=\"display:inline-block; width:"+markerHeight+"\"><img style=\"cursor: pointer; vertical-align:middle; height:"+markerHeight+"\" " +
+							var mapIcon = "<div style=\"display:inline-block;padding-left: 4px;margin-left:3px;margin-right:3px;width:"+markerHeight+"\"><img style=\"cursor: pointer; vertical-align:middle; height:"+markerHeight+"\" " +
 							"onclick=\"javascript:gp_openPoiInfoMarker(\'" + obj.aData[gp_ColumnInfo.uniqueId] + "\'); return false;\" " +
 							"src=\"" + (labelOnlySrcURL? labelOnlySrcURL : obj.aData[gp_ColumnInfo.mapIconURLDataTable]) + "\"  " +
 							"title=\"Open Info Bubble on map\" alt=\"Open Info Bubble on map\"" +
 							"onerror=\"onerror=null;src=gp_dataSetSearches['" + thisPOIC.collectionName + "'].icon;\"/></div>";
 							var recActions = gp_constructRecordActionsDD(thisPOIC, obj.aData) //obj.aData[gp_ColumnInfo.uniqueId]);
-							var removePOI = "<i class='fa fa-times removeRecord' onclick=\"javascript:gp_removeMarkerTable(\'" + obj.aData[gp_ColumnInfo.uniqueId] + "\',\'" + obj.oSettings.sTableId + "\'); "+
+							var removePOI = "<i style='margin-top:-5px;margin-left:5px;margin-right:5px;' class='fa fa-times removeRecord' onclick=\"javascript:gp_removeMarkerTable(\'" + obj.aData[gp_ColumnInfo.uniqueId] + "\',\'" + obj.oSettings.sTableId + "\'); "+
 											"gp_removeMarkerMap(\'" + obj.aData[gp_ColumnInfo.uniqueId] + "\'); "+
 											"updateChartAfterMarkerRemoval(\'" + obj.oSettings.sTableId + "\'); "+
 											"return false;\" title='Remove from Map' alt='Remove from Map'></i>";
@@ -275,18 +275,17 @@ function gp_defineDataTableColumns(thisPOIC){
 		if (ds) {
 			var numberOfFieldsToDisplay = ds.numOfFieldsDisplayedInTable - 1;
 
+			let dsFieldsByName = {};
+			_.forEach(ds.fields, function(f) { dsFieldsByName[f.field] = f; });
+
 			for(var i = 0; i < thisPOIC.columnLabels.additionalFields.length; i++){
 				var additionalField = thisPOIC.columnLabels.additionalFields[i];
-				var actualField = ds.fields[i];
-				if (actualField && actualField.field != additionalField.name) {
-					//console.log('FD MISMATCH at '+i+': '+additionalField.name+' vs '+actualField.field);
-					actualField = null;
-				}
+				var dsField = additionalField.name.endsWith('_converted') ? dsFieldsByName[additionalField.name.slice(0, -10)] : dsFieldsByName[additionalField.name];
 
 				// Set isVisible attribute as configured in DataSet edit, also track if col is additional hidden field
 				var isVisible = true;
 				var isAdditionalHiddenField = false;
-				if ((actualField && actualField.inTable != undefined)? !actualField.inTable : (i > numberOfFieldsToDisplay)) {
+				if ((dsField && dsField.inTable != undefined)? !dsField.inTable : (i > numberOfFieldsToDisplay)) {
 					isVisible = false;
 					isAdditionalHiddenField = true;
 				}
@@ -296,8 +295,8 @@ function gp_defineDataTableColumns(thisPOIC){
 
 				// construct full relationName path if applicable
 				var pathLabel = '';
-				if (actualField && actualField.pathLabel && actualField.pathLabel.length) {
-					pathLabel = actualField.pathLabel.join(' ');
+				if (dsField && dsField.pathLabel && dsField.pathLabel.length) {
+					pathLabel = dsField.pathLabel.join(' ');
 				}
 				
 				var dataTableFieldOpts = {"sTitle" : additionalField.label, 
@@ -604,7 +603,7 @@ function gp_formatOutputField(opts){
 		case "PERCENT":
 		case "DOUBLE":
 		case "INTEGER":
-			if(typeof opts.fieldValue != 'number' && (opts.fieldValue == null || typeof opts.fieldValue == 'undefined' || opts.fieldValue == '')){
+			if(typeof opts.fieldValue != 'number' && (opts.fieldValue == null || typeof opts.fieldValue == 'undefined' || opts.fieldValue === '')){
 				sReturn = '';
 			}else{
 				var decimalPlaces = opts.scale;
@@ -615,11 +614,32 @@ function gp_formatOutputField(opts){
 				}
 			}
 			break;
-		case "CURRENCY":
-			if(opts.fieldValue == null || typeof opts.fieldValue == 'undefined' || opts.fieldValue == ''){
+		case "CURRENCY_CONVERTED":
+			if(opts.fieldValue == null || typeof opts.fieldValue == 'undefined' || opts.fieldValue === ''){
 				sReturn = '';
 			}else{
-				sReturn = angular.injector(["ng"]).get("currencyFilter")(opts.fieldValue,gp_userSettings.userInfo.userCurrency.symbol);
+				let currIsoCode = gp_userSettings.userInfo.userCurrency.isoCode;
+				let decimalPlaces = gp_orgSettings.currencyDecimalPlaces[currIsoCode];
+				if (typeof decimalPlaces == 'undefined' || decimalPlaces == null)
+					decimalPlaces = 2;
+				sReturn = currIsoCode + ' ' + angular.injector(["ng"]).get("numberFilter")(opts.fieldValue, decimalPlaces);
+				opts.fieldValue = Number(opts.fieldValue);
+			}
+			break;
+		case "CURRENCY":
+			if(opts.fieldValue == null || typeof opts.fieldValue == 'undefined' || opts.fieldValue === ''){
+				sReturn = '';
+			} else if (gp_orgSettings.multiCurrency) {
+				let currIsoCode = opts.currencyIsoCode;
+				if (!currIsoCode) 
+					currIsoCode = opts.sObject && opts.sObject.currencyisocode ? opts.sObject.currencyisocode : '';
+				let decimalPlaces = gp_orgSettings.currencyDecimalPlaces[currIsoCode];
+				if (typeof decimalPlaces == 'undefined' || decimalPlaces == null)
+					decimalPlaces = 2;
+				sReturn =  currIsoCode + ' ' + angular.injector(["ng"]).get("numberFilter")(opts.fieldValue, decimalPlaces);
+				opts.fieldValue = Number(opts.fieldValue);
+			} else {
+				sReturn = angular.injector(["ng"]).get("currencyFilter")(opts.fieldValue,gp_userSettings.userInfo.userCurrency.symbol, opts.scale);
 				opts.fieldValue = Number(opts.fieldValue);
 			}
 			break;
@@ -886,7 +906,7 @@ function gp_initDataTable(thisPOIC, tableCols, tableData){
 		jQuery('#'+thisPOIC.collectionName).find('tr.headerRow').find('th:first').prepend('<input type="checkbox" id="toggleAllInDataTable'+thisPOIC.collectionName+'" onclick="gp_toggleAllInDataTable(\''+thisPOIC.collectionName+'\');"/>&nbsp;&nbsp;');
 	},1)
 	//Add a chart button to the table control pane
-	jQuery('#' + thisPOIC.collectionName + '_wrapper .gp_tablecontrols').append('<div class="gpButton gpButtonBasicSmall showChartBtn" onclick="showChartPane(\''+ thisPOIC.collectionName +'\');"><img src="'+chartIconURL+'"/></div>');
+	jQuery('#' + thisPOIC.collectionName + '_wrapper .gp_tablecontrols').append('<div class="gpButton gpButtonBasicSmall showChartBtn" onclick="showChartPane(\''+ thisPOIC.collectionName +'\');"><img style="height: 17px !important; width: 17px !important;" src="'+chartIconURL+'"/></div>');
 	
 	//Init the charting controls
 	buildChartControls(thisPOIC);
@@ -2060,23 +2080,21 @@ function gp_addToRouteMyLocationAsyncScript(){
 function gp_addToRouteMyLocation(locationId){
 
 	//Get the address from the location Id
-	var $addressElement = jQuery(".locationAddress[data-locationAddressId='"+locationId+"']");
-	var locationName = jQuery(".locationName[data-locationNameId='"+locationId+"']").text();
-
+	var location = _.find(angular.element('.dataSetController').scope().locations, { id: locationId }) || {};
 	//If lat/lng are present on the location, use these.
-	if($addressElement.attr('data-lat') && $addressElement.attr('data-lng') ){
+	if(location.latitude && location.longitude) {
 
 		//Build a route poi object 
 		routePOI = {
-			lat: Number($addressElement.attr('data-lat')),
-			lng: Number($addressElement.attr('data-lng')),
-			countryISO: $addressElement.attr('data-country'),
-			title: locationName,
-			street: $addressElement.attr('data-street'),
-			city: $addressElement.attr('data-city'),
-			state: $addressElement.attr('data-state'),
-			postalCode: $addressElement.attr('data-postalcode'),
-			country: $addressElement.attr('data-country'),
+			lat: Number(location.latitude),
+			lng: Number(location.longitude),
+			countryISO: location.country,
+			title: location.name,
+			street: location.street,
+			city: location.city,
+			state: location.state,
+			postalCode: location.postalCode,
+			country: location.country,
 			geocodeQuality: 'CUSTOM',
 			usesCustomerGeocode: '',
 			recordId: ''
@@ -2096,9 +2114,7 @@ function gp_addToRouteMyLocation(locationId){
 		}
 
 		//Do a geocode to get the lat lng
-		
-		var latlng = new google.maps.LatLng($addressElement.attr('data-lat'),$addressElement.attr('data-lng'));
-		searchReq = {'address': $addressElement.text()};
+		searchReq = {'address': location.singleLineAddress};
 
 		//Do a reverse geocode to get updated information and lat/lng
 		var geocoder = new google.maps.Geocoder();
@@ -2110,7 +2126,7 @@ function gp_addToRouteMyLocation(locationId){
 				var address = gp_parseGoogleGeocode(results[0]);
 
 				//Set the title as the location name
-				address.title = locationName;
+				address.title = location.name;
 				
 				//Build a route poi object
 				routePOI = {
@@ -2132,7 +2148,7 @@ function gp_addToRouteMyLocation(locationId){
 				gp_addToRouteSearchOrCenterPOI(routePOI,'location');
 
 			} else if(status == google.maps.GeocoderStatus.ZERO_RESULTS){
-				jQuery.jGrowl(gp_translations.Unable_to_locate_accurate_position_for +' '+ locationName +' '+ gp_translations.and_it_could_not_be_added_to_the_route, { life: 5000 });
+				jQuery.jGrowl(gp_translations.Unable_to_locate_accurate_position_for +' '+ location.name +' '+ gp_translations.and_it_could_not_be_added_to_the_route, { life: 5000 });
 
 			}else{
 				alert(gp_translations.Unable_to_route_location);
@@ -2359,54 +2375,14 @@ function gp_calcDriveTimes(tableId){ //tableId is same as collectionName
 }
 
 // Take user to the location selected
-function gp_goToMyLocationWrapper(locationId){
-	
-	//Get the address from the location Id
-	var $addressElement = jQuery(".locationAddress[data-locationAddressId='"+locationId+"']");
-
-	//Build gp_addressSearch object and update the map marker 
-	gp_searchAddress = {
-		city: $addressElement.attr('data-city'),
-		country: $addressElement.attr('data-country'),
-		fullAddress: "",
-		lat: Number($addressElement.attr('data-lat')),
-		lng: Number($addressElement.attr('data-lng')),
-		name: "",
-		postalCode: $addressElement.attr('data-postalCode'),
-		singleLineAddress: jQuery.trim($addressElement.text()),
-		state: $addressElement.attr('data-state'),
-		street: $addressElement.attr('data-street'),
-		title:  jQuery(".locationName[data-locationNameId='"+locationId+"']").text()
+function gp_goToMyLocationWrapper(layer, zoom){
+	if (zoom) {
+		var latLng = new google.maps.LatLng(layer.markerInfo.lat, layer.markerInfo.lng);
+		gp_map.panTo(latLng);
+		if(gp_getZoomLevel() < 13){
+			gp_map.setZoom(13);
+		}
 	}
-
-	buildMultilineAddress(gp_searchAddress);
-
-	//Update the gp_search poi object
-	gp_searchPOI = {
-		lat: Number($addressElement.attr('data-lat')),
-		lng: Number($addressElement.attr('data-lng')),
-		countryISO: gp_searchAddress.country,
-		title: gp_searchAddress.title,
-		street: gp_searchAddress.street,
-		city: gp_searchAddress.city,
-		state: gp_searchAddress.state,
-		postalCode: gp_searchAddress.postalCode,
-		country: gp_searchAddress.country,
-		geocodeQuality: 'CUSTOM',
-		usesCustomerGeocode: '',
-		recordId: ''
-	};
-
-	//If lat lng are present update the search marker
-	if(gp_searchAddress.lat && gp_searchAddress.lng){ 
-		gp_updateSearchMarker(gp_searchAddress,true);
-	}else{
-		//No lat lng on location record, need to geocode address to get lat lng, true flag means this is goto my location
-		gp_addressSearch(gp_searchAddress,true);
-	}
-
-	//Since user is mapping saved location make sure search center title reflects address of location
-	gp_centerPointKeepAddress = true;
 }
 
 function gp_addToMyLocationsRightClick(){
@@ -2431,7 +2407,8 @@ function gp_addToMyLocationsRightClick(){
 
 			//Parse google geocode
 			var address = gp_parseGoogleGeocode(results[0]);
-
+			address.lat = rightClickLatLng.lat;
+			address.lng = rightClickLatLng.lng;
 			//Add to location
 			gp_addToMyLocations(address);
 
@@ -2451,12 +2428,11 @@ function gp_addAddressToMyLocations(event,name,street,city,state,postalCode,coun
 	event.preventDefault();// Prevent normal link behavior
 
 	var addressParts = [];
-	addressParts.push(street);
-	addressParts.push(city);
-	addressParts.push(state);
-	addressParts.push(postalCode);
-	addressParts.push(country);
-
+	if (street) addressParts.push(street);
+	if (city) addressParts.push(city);
+	if (state) addressParts.push(state);
+	if (postalCode)	addressParts.push(postalCode);
+	if (country) addressParts.push(country);
 	gp_addToMyLocations({
 		name: name,
 		singleLineAddress: addressParts.join(', '),
@@ -2470,45 +2446,108 @@ function gp_addAddressToMyLocations(event,name,street,city,state,postalCode,coun
 	});
 }
 
-function gp_addToMyLocations(address){ //Receives a parsed google address geocode
+function gp_addToMyLocations(address, update){ //Receives a parsed google address geocode
 	//Ask the user for a location name
-	jQuery('<div></div>')
-			.append('<p>'+gp_translations.Please_enter_a_name_for_this_Location+': <input id="newLocationName" type="text" value="'+address.name+'" size="50"/></p>')
+	var folderService = angular.element('.dataSetController').injector().get('folderService');
+	folderService.getFolders(function(folders){
+		var saveFolderId = folderService.getPersonalFolder().id;
+		var buttonText = 'Save';
+		if (update) {
+			saveFolderId = address.folderId;
+			buttonText = 'Update';
+		}
+		var foldersHtml = '<a class="modal-style" id="gp_myLocationFolderId" data-id="' + saveFolderId + '">' + folderService.getFolderNameById(saveFolderId) + '</a>';
+		var body = '<div class="gp-modal-content location-modal">' + 
+						'<div class="location-modal-item modal-text-right">' +
+							'<div>' + 
+								'Location Name ' + 
+							'</div>' +
+							'<div>' + 
+								'Folder ' + 
+							'</div>' +
+							'<div>' + 
+								'Address ' +
+							'</div>' +
+						'</div>' +
+						'<div class="location-modal-item">' +
+							'<div>' + 
+								'<input id="newLocationName" type="text" value="'+address.name+'" size="50" style="width: 355px;"/> ' +
+							'</div>' + 
+							'<div class="location-modal-item-text">' + 
+								foldersHtml +
+							'</div>' + 
+							'<div class="location-modal-item-text" title="' + address.singleLineAddress + '">' + 
+								address.singleLineAddress + 
+							'</div>' +
+						'</div>' +
+					'</div>' + 
+					'<div class="gp-modal-footer">'+ 
+						'<input id="myLocationModalCancel" type="button" class="gp-btn btn-lg btn-primary modalButtonRight" value="Cancel"/>' + 
+						'<input id="myLocationModalSave" type="button" class="gp-btn btn-lg btn-primary modalButtonRight" value="' + buttonText + '"/>' + 
+						'<div class="clear"></div>'+
+					'</div>';
+
+		//Remove any existing save dialogs
+		jQuery('.gp_myLocationDialog').remove();
+		jQuery('<div class="gp_myLocationDialog"></div>')
+			.append(body)
 			.dialog({
 					modal: true, 
-					draggable: false, 
+					resizable: false,
+					draggable: false,
 					width: '515px', 
-					title: gp_translations.Save_Location + ' - ' + address.singleLineAddress, 
+					title: gp_translations.Save_Location,
+					dialogClass: 'dataSetEditModalWrapper gp-modal',
 					position: { my: "bottom", at: "center", of: window },
 					open: function() {
+						setGPmodalContentHeight(jQuery(this));
 				      	//Create Enter event listner
 				      	jQuery('#newLocationName').keypress(function(e) {
 						    if (e.keyCode == 13) {
 						    	//Click the first button in this modal, which is the OK button
-						    	jQuery(this).parents(".ui-dialog").find("button").first().click();
+						    	jQuery('#myLocationModalSave').click();
 						    }
 						});
-				    },
-					buttons: { 
-						OK: function() {
-								//Get name entered
-								var locationName = jQuery("#newLocationName").val();
-
-								if(locationName){
-									address.name = locationName;
-									
-									//Convert the object to a JSON string
-									var locationJSON = JSON.stringify(address);	
-
-									angular.element('#locationsPanel').scope().insertLocation(locationJSON);
-									
-									//Close this dialog
-									jQuery( this ).remove();
-
-								}	
-							}, 
-						Cancel: function() {jQuery( this ).remove();} }
-					});
+						// Save Button Click Listener
+						jQuery('#myLocationModalSave').click(function(e) {
+							var locationName = jQuery("#newLocationName").val();
+							var folderId = jQuery("#gp_myLocationFolderId").attr('data-id');
+							if(locationName){
+								address.name = locationName;
+								address.folderId = folderId;
+								//Convert the object to a JSON string
+								var locationJSON = JSON.stringify(address);
+								var dataSetControllerScope = angular.element('.dataSetController').scope();
+								dataSetControllerScope.locationsService
+									.insertLocation(locationJSON)
+									.then(function (locations) {
+										dataSetControllerScope.locations = locations;
+										dataSetControllerScope.$digest();
+										dataSetControllerScope.$broadcast('folderListChanged'); 
+										if (address.id && gp_layers[address.id]) {
+											dataSetControllerScope.locationsService.clearLayer(address);
+											var marker = dataSetControllerScope.locationsService.createMarker(address);
+											dataSetControllerScope.locationsService.addLayer(marker);
+										}
+									});
+								//Close this dialog
+								jQuery('.gp_myLocationDialog').remove();
+							}
+						})
+						// Cancel Button Click Listener
+						jQuery('#myLocationModalCancel').click(function(e) {
+							jQuery('.gp_myLocationDialog').remove();
+						})
+					}
+				});
+		jQuery('#gp_myLocationFolderId').on('click', function () {
+			angular.element('#main-folder-list').scope().openFolderSelect()
+				.then(function (parentFolder) {
+					jQuery('#gp_myLocationFolderId').text(parentFolder.name);
+					jQuery('#gp_myLocationFolderId').attr('data-id', parentFolder.id);
+				});
+		});
+	})
 }
 
 // Opens a jQuery Dialog with the record's related lists
@@ -3827,6 +3866,9 @@ function gp_updateDataSearchesObject(jsAction){
 				if (poic.ds && poic.ds.searchContext) {
 					dataSetSearch.searchContext = poic.ds.searchContext;
 				}
+
+				if (poic.ds && poic.ds.labelByField && poic.ds.labelByField.field)
+					dataSetSearch.labelMarkersByField = poic.ds.labelByField;
 
 				gp_dataSetSearches[poic.collectionName] = dataSetSearch; 
 			}

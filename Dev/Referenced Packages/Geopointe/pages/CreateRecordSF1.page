@@ -242,7 +242,7 @@
 						var uLocFieldsMapped = {!userLocationFieldsMapped};
 						var uLocRequired = {!userLocationRequiredForAction};
 						var uLocAvailable = false;
-						var formType = '{!formType}';
+						var formType = '{!JSENCODE(formType)}';
 
 						function getLatLng(){
 
@@ -309,8 +309,8 @@
 					<script>
 						function ltngCreateRecord(){
 							if(parent.sforce && parent.sforce.one && (!(uLocRequired && !uLocAvailable) || uLocRequired && !uLocFieldsMapped)){
-								var sObjectName = "{!action.geopointe__Create_Record_SObject__c}";
-								var recordTypeId = '{!selectedRecordTypId}' || null;
+								var sObjectName = '{!JSENCODE(entityName)}';
+								var recordTypeId = '{!JSENCODE(selectedRecordTypId)}' || null;
 								var defaultValues = '{!stringObj}';
 								if(defaultValues) defaultValues = JSON.parse(defaultValues);
 								delete defaultValues.attributes;

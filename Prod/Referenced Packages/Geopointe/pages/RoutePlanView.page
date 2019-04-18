@@ -338,7 +338,7 @@
 							<div class="slds-form-element slds-col slds-size_1-of-2 slds-max-small-size_1-of-1">
 								<label class="slds-form-element__label">Visit Duration (mins)</label>
 								<div class="slds-form-element__control slds-border_bottom">
-									<div class="slds-form-element__static">{{rp.visitDuration || ''}}</div>
+									<div class="slds-form-element__static">{{null == rp.visitDuration? '' : rp.visitDuration}}</div>
 								</div>
 							</div>
 							<div class="slds-form-element slds-col slds-size_1-of-2 slds-max-small-size_1-of-1">

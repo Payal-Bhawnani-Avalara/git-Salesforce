@@ -232,7 +232,16 @@
     <tab>standard-Contact</tab>
     <tab>standard-Macro</tab>
     <tab>WisePrediction__c</tab>
+    <tab>zisf__ZoomSessions__c</tab>
+    <tab>Connector_Dashboard</tab>
+    <tab>SST_Onboarding__c</tab>
     <workspaceMappings>
+        <mapping>
+            <tab>Connector_Dashboard</tab>
+        </mapping>
+        <mapping>
+            <tab>SST_Onboarding__c</tab>
+        </mapping>
         <mapping>
             <fieldName>CaseID__c</fieldName>
             <tab>WisePrediction__c</tab>
@@ -251,6 +260,9 @@
         </mapping>
         <mapping>
             <tab>standard-Macro</tab>
+        </mapping>
+        <mapping>
+            <tab>zisf__ZoomSessions__c</tab>
         </mapping>
     </workspaceMappings>
 </CustomApplication>

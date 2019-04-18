@@ -72,6 +72,12 @@
         <type>Region</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <componentInstances>
+            <componentName>QxQuoteProcess</componentName>
+        </componentInstances>
+        <componentInstances>
+            <componentName>QxReportGenerator</componentName>
+        </componentInstances>
         <mode>Replace</mode>
         <name>sidebar</name>
         <type>Region</type>

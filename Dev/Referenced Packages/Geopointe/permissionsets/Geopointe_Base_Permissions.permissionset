@@ -493,6 +493,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MapFlowAction_Controller</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MapLayer</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -3917,6 +3921,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>Map</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>MapFlowAction</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>

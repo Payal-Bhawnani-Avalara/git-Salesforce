@@ -143,15 +143,16 @@
 							jQuery("select[id$='mapObjectSelectList']").html(selectHTML); 
 
 							function populateInputField(e){
+								var inputedVal = jQuery(e.target).val();
 								jQuery("input[id$='selectedObjectInput']").val(jQuery(e.target).val());
-
 								//Call action function
-								setupCSObjects();
+								setupCSObjects(inputedVal.charAt(0).toUpperCase() + inputedVal.slice(1) + ' Data Set');
 							}
 						</script>
 
-						<apex:actionFunction name="setupCSObjects" action="{!setupCSObjects}" reRender="pentity,script,geocodeLocationBlock" oncomplete="createFieldSelectors();"/>
-
+						<apex:actionFunction name="setupCSObjects" action="{!setupCSObjects}" reRender="pentity,script,geocodeLocationBlock,createDataSetFolder" oncomplete="createFieldSelectors();">
+							<apex:param name="folerName" assignTo="{!FolderName}" value="" />
+						</apex:actionFunction>
 						<apex:outputPanel rendered="{!hasSelectedEntity && addrLocationSelection = 'self' && isExternalObject = false}" >
 							&nbsp;<apex:inputCheckbox value="{!initGeocodeJob}"/>&nbsp;<b>Geocode this object upon successful Save</b>
 						</apex:outputPanel>
@@ -223,8 +224,32 @@
 						</script>
 					</apex:outputPanel>
 				</apex:pageBlockSectionItem>
-				
 			</apex:pageBlockSection>
+
+			<apex:outputPanel id="createDataSetFolder" rendered="{!AND(IsSupported, hasSelectedEntity, moContext=='new')}">
+				<apex:pageBlockSection columns="1">
+						<apex:pageBlockSectionItem rendered="{!AND(hasSelectedEntity, moContext == 'new')}" helpText="Starter Data Sets to provide the blueprints for success">
+						<apex:outputPanel >
+							<b>Create Starter Data Sets</b>
+						</apex:outputPanel>
+						<apex:outputPanel >
+							<apex:inputCheckbox value="{!createDataSets}" >
+								<apex:actionsupport event="onchange" reRender="createDataSetFolder" />
+							</apex:inputCheckbox>
+						</apex:outputPanel>
+					</apex:pageBlockSectionItem>
+
+					<apex:pageBlockSectionItem rendered="{!AND(hasSelectedEntity, moContext == 'new', createDataSets == true)}" helpText="Name of the folder these new Data Sets will be placed">
+						<apex:outputPanel >
+							<b>Starter Data Sets Folder Name</b>
+						</apex:outputPanel>
+						<apex:outputPanel >
+							<apex:inputText id="folderName" value="{!FolderName}" style="width: 210px;" />
+							<apex:outputText value="" rendered="{!moContext == 'new'}" style="color: #797979;"/>
+						</apex:outputPanel>
+					</apex:pageBlockSectionItem>
+				</apex:pageBlockSection>
+			</apex:outputPanel>
 
 			<apex:pageBlockSection title="Campaign Member Setup" rendered="{!mapObjectSObjectName == 'campaignmember'}" collapsible="false" columns="1">
 
@@ -241,8 +266,8 @@
 				<apex:pageMessage severity="info" strength="2" summary="This is the main Geopointe Device Map Object. Some fields are not displayed and cannot be changed."/>
 			</apex:pageBlockSection>
 
-			<apex:pageBlockSection title="Where are the address fields located?" collapsible="false" columns="1" rendered="{!NOT(isPrimaryPulseObject) && hasSelectedEntity && NOT(showNoLeadContactMessage)}">
-				
+			<apex:pageBlockSection title="Where are the address fields located?" collapsible="false" columns="1" rendered="{!NOT(isPrimaryPulseObject) && hasSelectedEntity && NOT(showNoLeadContactMessage) && NOT(mapObjectSObjectName = 'geopointe__check_in__c') }">
+
 				<apex:pageBlockSectionItem >
 					<apex:outputLabel />
 					<apex:outputPanel layout="block" style="margin-bottom: -17px; position: relative;">

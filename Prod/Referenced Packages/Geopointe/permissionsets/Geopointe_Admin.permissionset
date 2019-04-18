@@ -61,6 +61,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AssignmentPlanCleanupHP_BatchJob</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>AssignmentPlanCleanup_BatchJob_Test</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -126,6 +130,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>AutoCheckIn</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AutoLoadMigration_BatchJob</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -501,6 +509,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MapLayerWms</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MapMaster_Controller</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -554,6 +566,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>MockHttpResponse</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MyLocationsMigration_BatchJob</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -757,6 +773,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>RoutePlanner_Queueable</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>RoutePlanner_Schedule</apexClass>
         <enabled>false</enabled>
     </classAccesses>
@@ -838,6 +858,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Shape_TriggerHandler_Test</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StarterDataSets</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
@@ -1108,6 +1132,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Action__c.Form_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Action__c.Link_URL__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1314,6 +1343,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Action__c.Record_Street__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Action__c.Record_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2823,6 +2857,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>GP_User_Settings__c.Auto_Load_Map_Items__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>GP_User_Settings__c.Auto_Load_Migration_Complete__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>GP_User_Settings__c.Auto_Load_Shapes__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2863,6 +2907,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>GP_User_Settings__c.Favorite_Map_Items__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>GP_User_Settings__c.Global_Business_Monthly_Limit__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2883,12 +2932,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>GP_User_Settings__c.Temperature_Unit__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Geo_Location__c.City__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Geo_Location__c.Country__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Geo_Location__c.Folder__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>

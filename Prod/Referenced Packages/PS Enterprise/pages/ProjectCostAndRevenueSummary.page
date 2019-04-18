@@ -1,0 +1,5 @@
+<apex:page standardController="pse__Proj__c" lightningStylesheets="true">
+<apex:form >
+	<c:CostAndRevenueSummary sobjectRecord="{!pse__Proj__c}"/>
+</apex:form>
+</apex:page>

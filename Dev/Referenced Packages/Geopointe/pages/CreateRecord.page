@@ -413,9 +413,9 @@
 	<apex:outputPanel rendered="{!AND(renderSection == 'fields', formType == 'Lightning Page Layout', hideForm == false)}">
 		<script type="text/javascript">
 			hideSpinner();
-			var actionId = '{!action.Id}';
-			var pointType = '{!pointType}';
-			var mapValues = JSON.parse(`{!mapValues}`);
+			var actionId = '{!JSENCODE(action.Id)}';
+			var pointType = '{!JSENCODE(pointType)}';
+			var mapValues = JSON.parse('{!mapValues}');
 			var userLocRequired = JSON.parse('{!userLocationRequiredForAction}');
 			var userLocMapped = JSON.parse('{!userLocationFieldsMapped}');
 			var preventRecordModal = false;
@@ -455,7 +455,8 @@
 					preventRecordModal = true;
 					var defaults = fieldDefaults;
 					if(defaults) delete defaults.attributes;
-					sforce.one.createRecord('{!action.Create_Record_SObject__c}', '{!selectedRecordTypId}', defaults);
+					var entityName = '{!JSENCODE(entityName)}';
+					sforce.one.createRecord(entityName, '{!JSENCODE(selectedRecordTypId)}', defaults);
 					setTimeout(function(){
 						showIllustration();
 						sforce.console.getEnclosingTabId(function(result){

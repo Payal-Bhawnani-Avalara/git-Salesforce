@@ -1,0 +1,13 @@
+<apex:page controller="ffrr.DeleteAdminBatchController" extensions="ffrr.HelpRedirectController">
+	<c:VFShim />
+	<apex:sectionHeader title="{!$Label.ffrr__manageavfssectionheader}" subtitle="{!$Label.ffrr__adminbatchdeletetitle}" />
+	<apex:form >
+		<apex:pageBlock helpTitle="{!$Label.ffrr__selectrevenuepagehelp}" helpUrl="{!AdminDeleteBatchHelp}">
+			<apex:pageMessages />
+				<apex:outputPanel >
+					  <apex:commandButton disabled="{!renderButton}" value="{!deleteButton}" action="{!startBatch}" />
+					  <apex:commandButton value="{!$Label.ffrr__gobackbuttontext}" action="{!cancel}" />
+				</apex:outputPanel>
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

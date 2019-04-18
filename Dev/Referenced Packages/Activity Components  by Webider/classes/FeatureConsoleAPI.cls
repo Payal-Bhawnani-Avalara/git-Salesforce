@@ -12,6 +12,9 @@ global class FeatureConsoleAPI {
     global static void changeACTProActiveStatus(Boolean status) {
 
     }
+    global static Boolean checkACTProActiveStatus() {
+        return null;
+    }
     global static Boolean checkACTProActiveStatus(Boolean status) {
         return null;
     }

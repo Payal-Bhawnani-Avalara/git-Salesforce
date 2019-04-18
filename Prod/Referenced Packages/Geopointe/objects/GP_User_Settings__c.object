@@ -93,6 +93,26 @@
         <visibleLines>3</visibleLines>
     </fields>
     <fields>
+        <fullName>Auto_Load_Map_Items__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Auto Load Map Items</label>
+        <length>131072</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Auto_Load_Migration_Complete__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <inlineHelpText>Set when starred map items have been recoded as Auto_Load_Map_Items__c</inlineHelpText>
+        <label>Auto Load Migration Complete</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Auto_Load_Shapes__c</fullName>
         <deprecated>false</deprecated>
         <externalId>false</externalId>
@@ -199,6 +219,16 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Favorite_Map_Items__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Favorite Map Items</label>
+        <length>131072</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
         <fullName>Global_Business_Monthly_Limit__c</fullName>
         <deprecated>false</deprecated>
         <externalId>false</externalId>
@@ -237,6 +267,19 @@
         <inlineHelpText>When set to &apos;currentLocation&apos;, appends Current Location (if available) to start of Route</inlineHelpText>
         <label>Start Location</label>
         <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Temperature_Unit__c</fullName>
+        <defaultValue>&quot;f&quot;</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <inlineHelpText>The unit used (f or c) to measure temperature. This setting is kept for each user.</inlineHelpText>
+        <label>Temperature Unit</label>
+        <length>20</length>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>

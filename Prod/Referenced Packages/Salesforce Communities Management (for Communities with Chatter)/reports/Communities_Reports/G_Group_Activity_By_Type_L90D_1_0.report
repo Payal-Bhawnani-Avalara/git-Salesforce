@@ -65,7 +65,7 @@
             <column>Network.NetworkActivityDailyMetrics$ParentType</column>
             <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
-            <value>0F9,aA6</value>
+            <value>0F9,aBr,aA6</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

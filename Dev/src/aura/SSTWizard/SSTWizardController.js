@@ -70,7 +70,8 @@
 		      component.set("v.showError", false);
 		      component.set("v.showData", false);
 	        } else {
-	           alert('Please complete all required fields.');
+	           
+            alert('Please complete all required fields.');
 	        }   
 	       
 	       
@@ -187,14 +188,15 @@
         
        
         if(showReg == true){
+          if(component.find('sstReg') !=null){
              var validExpense = component.find('sstReg').reduce(function (validSoFar, inputCmp) {
 	            // Displays error messages for invalid fields
 	            inputCmp.showHelpMessageIfInvalid();
 	            return validSoFar && inputCmp.checkValidity();
 	        }, true);
-	        
+	      }
 	        // If we pass error checking, do some real work
-	        if(validExpense){
+	        if(validExpense || component.find('sstReg') ==null ){
 	        component.set("v.showSSTState", false);
 	        component.set("v.showNexus", false);
 	        component.set("v.showRemoteState", false);
@@ -1352,82 +1354,114 @@
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showGeFF", true); 
+	       }else if(!nav){
+	           component.set("v.showGeFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='IndianaReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showInFF", true); 
+	       }else if(!nav){
+	           component.set("v.showInFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='IowaReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showIoFF", true); 
+	       }else if(!nav){
+	           component.set("v.showIoFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='KansasReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showKaFF", true); 
+	       }else if(!nav){
+	           component.set("v.showKaFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='KentuckyReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showKeFF", true); 
+	       }else if(!nav){
+	           component.set("v.showKeFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='MichiganReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showMiFF", true); 
+	       }else if(!nav){
+	           component.set("v.showMiFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='MinnesotaReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showMnFF", true); 
+	       }else if(!nav){
+	           component.set("v.showMnFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='NebraskaReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showNeFF", true); 
+	       }else if(!nav){
+	           component.set("v.showNeFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='NevadaReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showNvFF", true); 
+	       }else if(!nav){
+	           component.set("v.showNvFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='NJReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showNjFF", true); 
+	       }else if(!nav){
+	           component.set("v.showNjFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='NCReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showNcFF", true); 
+	       }else if(!nav){
+	           component.set("v.showNcFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='NDReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showNdFF", true); 
+	       }else if(!nav){
+	           component.set("v.showNdFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='OhReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showOhFF", true); 
+	       }else if(!nav){
+	           component.set("v.showOhFF", false); 
 	       }
 	    }
 	    if(component.find("tableId")[cmp].get("v.name")=='OkReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showOkFF", true); 
+	       }else if(!nav){
+	           component.set("v.showOkFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='RiReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showRiFF", true); 
+	       }else if(!nav){
+	           component.set("v.showRiFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='SdReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showSdFF", true); 
+	       }else if(!nav){
+	           component.set("v.showSdFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='TnReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
@@ -1440,11 +1474,15 @@
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showUtFF", true); 
+	       }else if(!nav){
+	           component.set("v.showUtFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='VeReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showVeFF", true); 
+	       }else if(!nav){
+	           component.set("v.showVeFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='WaReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
@@ -1457,16 +1495,22 @@
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showWvFF", true); 
+	       }else if(!nav){
+	           component.set("v.showWvFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='WiReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showWiFF", true); 
+	       }else if(!nav){
+	           component.set("v.showWiFF", false); 
 	       }
 	    }if(component.find("tableId")[cmp].get("v.name")=='WyReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showWyFF", true); 
+	       }else if(!nav){
+	           component.set("v.showWyFF", false); 
 	       }
 	    }
 	   }

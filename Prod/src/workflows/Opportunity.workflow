@@ -3984,7 +3984,7 @@ https://jira.avalara.com/browse/IBST-6568</description>
     </tasks>
     <tasks>
         <fullName>Sales_Enablement_Converted_Email_Sent</fullName>
-        <assignedTo>mark.giddens@avalara.com</assignedTo>
+        <assignedTo>greg.stivers@avalara.com</assignedTo>
         <assignedToType>user</assignedToType>
         <description>Sales Enablement: Converted Email Sent</description>
         <dueDateOffset>0</dueDateOffset>
@@ -3996,7 +3996,7 @@ https://jira.avalara.com/browse/IBST-6568</description>
     </tasks>
     <tasks>
         <fullName>Sales_Enablement_Proposed_Email_Sent</fullName>
-        <assignedTo>mark.giddens@avalara.com</assignedTo>
+        <assignedTo>greg.stivers@avalara.com</assignedTo>
         <assignedToType>user</assignedToType>
         <dueDateOffset>0</dueDateOffset>
         <notifyAssignee>false</notifyAssignee>

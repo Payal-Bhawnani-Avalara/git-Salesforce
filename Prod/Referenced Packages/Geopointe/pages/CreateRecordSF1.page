@@ -1,4 +1,4 @@
-<apex:page controller="geopointe.CreateRecord_Controller" extensions="geopointe.RemoteAction" standardStylesheets="false" showHeader="false" sidebar="true" docType="html-5.0" action="{!initSF1}">
+<apex:page controller="geopointe.CreateRecord_Controller" extensions="geopointe.RemoteAction" standardStylesheets="true" lightningStylesheets="true" showHeader="false" sidebar="true" docType="html-5.0" action="{!initSF1}">
 	
    	<link rel="stylesheet" href="{!URLFOR($Resource.jquery, 'sf1/css/mapMobile.css')}"/> <!-- Page / app styles -->
    	<link rel="stylesheet" href="{!URLFOR($Resource.jquery, 'sf1/lib/jquery/css/jquery-ui.min.css')}"/> <!-- Page / app styles -->
@@ -15,8 +15,13 @@
 
 	<link rel="stylesheet" href="{!URLFOR($Resource.jquery, 'sf1/css/androidSelect.css')}"/> <!-- SF1 Styling -->
    	<script src="{!URLFOR($Resource.jquery, 'sf1/js/androidSelect.js')}"></script> <!-- jQuery -->
-
+	   <script src="{!URLFOR($Resource.js_api_v1)}"></script> 
+	<apex:slds />
 	<script>
+		var uLat;
+		var uLng;
+		var runOnce = runOnce || false;
+
 		Localize.initialize({
 			key: '1SeX6sYAXWLng', 
 			rememberLanguage: true,
@@ -49,7 +54,7 @@
 		function selectRecordTypeJS(recordTypeId,event){
 			//Prevent button from submit apex:form
 			event.preventDefault();
-			
+
 			//Call the action function
 			selectRecordType(recordTypeId);
 			return false;
@@ -72,8 +77,29 @@
 				}
 			});
 		}
-	</script>
 
+		function adjustSuccessBtn(){
+			var btn = document.getElementById('cancelBack');
+			if(btn){
+				btn.setAttribute("style", "margin-top:10px;margin-left:15px;");
+				btn.innerText = 'Back';
+			}
+		}
+
+		function domHideForm(){
+			var form = document.querySelector('div .main');
+			if(form){
+				form.style.display = 'none';
+			}
+		}
+
+		function showError(msg){
+			var alertbox = document.getElementById('alertNotification');
+			var alertMsg = document.getElementById('alertMessage');
+			alertMsg.innerText = msg;
+			alertbox.style.display = 'block';
+		}
+	</script>
 
    	<style type="text/css">
    		.fieldList{
@@ -125,51 +151,201 @@
 		li:hover,a:hover{
 			background:#bbb;
 		}
-   	</style>
+		/* Fix SLDS conflicts with spinner */
+		.modalIndicatorContainer {
+			height: 90px;
+		}
+		.modalSpinner {
+			height: 35px !important;
+			width: auto !important; 
+			box-sizing: content-box !Important;
+		}
+		.modalMessage {
+			margin-bottom: 10px;
+			padding-bottom: 5px;
+		}
+	   </style>
 
 
-   	<apex:outputPanel layout="block" id="header" styleClass="header light">
-		<div class="headerTitle">
-			<apex:outputPanel rendered="{!renderSection == 'recordType'}">Select Record Type</apex:outputPanel>
+   	<apex:outputPanel layout="block" id="header" styleClass="slds-scope header light">
+		<div class="panel-header" style="display: flex;align-items: center;justify-content: flex-start;">
+
+			<button id="cancelBack" style="margin-left:15px;" class="slds-button slds-button_neutral" onclick="event.preventDefault();geopointe.api.closeAction();">
+				Cancel
+			</button>
+			
+			<div style="margin-left:auto;margin-right:auto;">
+				<apex:outputPanel rendered="{!renderSection == 'recordType'}">
+					<h2 class="slds-text-heading_medium slds-truncate">Select Record Type</h2>
+				</apex:outputPanel>
+				<apex:outputPanel rendered="{!renderSection == 'fields'}">
+					<h2 class="slds-text-heading_medium slds-truncate">{!action.name}</h2>
+				</apex:outputPanel>
+			</div>
+			
+			<apex:actionStatus id="saveStatus">
+				<apex:facet name="start">
+					<button class="slds-button slds-button_neutral" disabled="true" style="float: right; margin-right:15px; visibility: {!IF(AND(renderSection == 'fields', hideForm == false),'visible','hidden')}">Saving...</button>
+				</apex:facet>
+				<apex:facet name="stop">
+					<button class="slds-button slds-button_brand" onclick="save();" style="float: right; margin-right:15px; visibility: {!IF(AND(renderSection == 'fields', hideForm == false),'visible','hidden')}">{!$Label.site.save}</button>
+				</apex:facet>
+			</apex:actionStatus>
+
 		</div>
-		
-		<apex:actionStatus id="saveStatus">
-			<apex:facet name="start">
-				<button class="btn btn-primary" disabled="true" style="float: right; display: {!IF(renderSection == 'fields','block','none')}">Saving...</button>
-			</apex:facet>
-			<apex:facet name="stop">
-				<button class="btn btn-primary" onclick="save();" style="float: right; display: {!IF(renderSection == 'fields','block','none')}">{!$Label.site.save}</button>
-			</apex:facet>
-		</apex:actionStatus>
 
 		<div class="clear"/>
 	</apex:outputPanel>
 
-   	<div class="scrollableContent scrollableContentTouch" style="height: 0px;"> <!-- this height will be reset on load with script above -->
-	   	<apex:form >	
+	<!-- Error Message Display -->
+	<div class="slds-scope">
+		<div id="alertNotification" style="display:none;" class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+			<span class="slds-assistive-text">error</span>
+			<h2 id="alertMessage"></h2>
+		</div>
+	</div>
+	<!-- Error Message Display -->
+
+   	<div class="scrollableContent scrollableContentTouch" style="height: 0px;background:#fff;"> <!-- this height will be reset on load with script above -->
+	   	<apex:form >
+
+	   		<!-- Actions to server -->
+	   		<apex:actionFunction name="selectRecordType" action="{!selectRecordType}" reRender="pageBlocksWrapper,header" oncomplete="selectRecordTypeComplete();">
+				<apex:param name="selectedRecordTypId" value="test" assignTo="{!selectedRecordTypId}"/>	
+			</apex:actionFunction>	
+			<apex:actionFunction name="save" action="{!save}" status="saveStatus" reRender="pageBlocksWrapper,header"/>
+
+			<apex:actionFunction name="refreshMappedFields" action="{!selectRecordType}" immediate="true" reRender="fieldValues, ltng" oncomplete="ltngCreateRecord();">
+				<apex:param name="uLat" value="0.0" assignTo="{!userLat}"/>
+				<apex:param name="uLng" value="0.0" assignTo="{!userLng}" />
+			</apex:actionFunction>
+
+			<apex:actionFunction name="preventForm" action="{!blockForm}" immediate="true" reRender="header,fieldValues" />
+			<!-- Actions to server -->
+
 			<apex:outputPanel id="pageBlocksWrapper">
+				<apex:outputPanel layout="block" rendered="{!showPageMessages}">
+					<apex:pageMessages />
+				</apex:outputPanel>
 				<!-- Step 1, select record type if necessary -->
 				<apex:outputPanel rendered="{!renderSection == 'recordType'}">
 					<div class="main">
 						<div class="recordDetailActions" notranslate="notranslate">
 							<apex:repeat value="{!availableRecordTypes}" var="rt">
-								<button class="btn btn-secondary" onclick="selectRecordTypeJS('{!rt.id}',event)">{!rt.name}</button>
+								<button style="padding-top:7px;padding-bottom:7px;border-color: #dfe0e1;background: white;color: #5c7995 !important;box-shadow:1px 2px 4px 0px rgba(8,7,7,0.11);" class="btn btn-secondary" onclick="selectRecordTypeJS('{!rt.id}',event)">{!rt.name}</button>
 							</apex:repeat>
 						</div>
 					</div>
 				</apex:outputPanel>
+				<apex:outputPanel rendered="{!AND(renderSection == 'fields', hideForm == false)}">
+					<script type="text/javascript">
+						var uLocFieldsMapped = {!userLocationFieldsMapped};
+						var uLocRequired = {!userLocationRequiredForAction};
+						var uLocAvailable = false;
+						var formType = '{!JSENCODE(formType)}';
+
+						function getLatLng(){
+
+							sf1.showModalStatus({message:'Getting User Location....', isiOS:isIOS});
+
+							if(runOnce === false){
+
+								navigator.geolocation.getCurrentPosition(
+									function(position){
+										uLat = position.coords.latitude;
+										uLng = position.coords.longitude;
+										uLocAvailable = true;
+										refreshMappedFields(uLat, uLng);
+										sf1.hideModalStatus();
+										runOnce = true;
+									},
+									function(error){
+										console.log({error});
+										uLocAvailable = false;
+										runOnce = true;
+										sf1.hideModalStatus();
+
+										if(uLocRequired == false && uLocAvailable == false)
+											if(formType == 'Lightning Page Layout') {
+												ltngPageCreate(0);
+											}
+
+										if(uLocRequired == true && !uLocAvailable){
+											var errorMsg = 'Unable to perform action. Required user location data is not available. Please ensure GPS functionality is enabled for this device, or contact your Geopointe Administrator.';
+											showError(errorMsg);
+											preventForm();
+											domHideForm();
+										}
+									},
+									{
+										enableHighAccuracy: true, 
+										maximumAge        : 30000, 
+										timeout           : 30000
+									}
+								);
+							} else {
+								uLocAvailable = false;
+							}
+						}
+
+						if (uLocFieldsMapped && (uLat === undefined && uLng === undefined)) {
+							getLatLng();
+						} else {
+							//execute when all synchronous code has run
+							if(formType == 'Lightning Page Layout') ltngPageCreate(0);
+						}
+
+						function ltngPageCreate(timeout){
+							var duration = timeout || 0;
+							setTimeout(function(){
+								ltngCreateRecord();
+							}, duration);
+						}
+					</script>
+				</apex:outputPanel>
+
+				<!-- Step 2: (Page Layout) -->
+ 				<apex:outputPanel id="ltng" rendered="{!AND(renderSection == 'fields', formType == 'Lightning Page Layout', hideForm == false)}">
+					<script>
+						function ltngCreateRecord(){
+							if(parent.sforce && parent.sforce.one && (!(uLocRequired && !uLocAvailable) || uLocRequired && !uLocFieldsMapped)){
+								var sObjectName = '{!JSENCODE(entityName)}';
+								var recordTypeId = '{!JSENCODE(selectedRecordTypId)}' || null;
+								var defaultValues = '{!stringObj}';
+								if(defaultValues) defaultValues = JSON.parse(defaultValues);
+								delete defaultValues.attributes;
+								parent.sforce.one.createRecord(sObjectName, recordTypeId, defaultValues);
+								//close vf page once we launch sforce.one page
+								setTimeout(function(){
+									try {
+										geopointe.api.closeAction(); 
+									} catch (e) {}
+								}, 700);
+							}  
+						}
+
+						function ltngToastr(config){
+							//Available in API 45.0 Spring 2019
+							if(parent.sforce && parent.sforce.one){
+								parent.sforce.one.showToast({
+									"title": "Error",
+									"message": "hi",
+									"type": "info"
+								});
+							}
+						}
+					</script>
+				</apex:outputPanel>
+ 				<!-- Step 2: (Page Layout) -->
 
 				<!-- Step 2, enter fields -->
-				<apex:outputPanel rendered="{!renderSection == 'fields'}">
+				<apex:outputPanel id="fieldValues" rendered="{!AND(renderSection == 'fields', hideForm == false, OR(formType == '', formType == 'Field Set') )}">
 					<div class="main">
-						<apex:outputPanel layout="block" rendered="{!showPageMessages}">
-							<apex:pageMessages />
-						</apex:outputPanel>
 
 						<apex:repeat value="{!fieldSetToUse}" var="f">
-							<apex:outputPanel layout="block" styleClass="recordDetailField" rendered="{!AND(f.fieldPath != 'RecordTypeId',$ObjectType[action.geopointe__Create_Record_SObject__c].Fields[f.fieldPath].Createable)}">
+							<apex:outputPanel layout="block" styleClass="recordDetailField" style="border-top:none;" rendered="{!AND(f.fieldPath != 'RecordTypeId',$ObjectType[action.geopointe__Create_Record_SObject__c].Fields[f.fieldPath].Createable)}">
 								<div class="recordDetailFieldLabel" notranslate="notranslate">
-									{!f.label}<apex:outputPanel rendered="{!OR(f.required, f.dbrequired)}">*</apex:outputPanel>
+									{!f.label}<apex:outputPanel styleClass="slds-required" rendered="{!OR(f.required, f.dbrequired)}">*</apex:outputPanel>
 								</div>
 								<div class="recordDetailFieldValue" notranslate="notranslate">
 									<apex:inputField value="{!obj[f.fieldPath]}" required="{!OR(f.required, f.dbrequired)}" rendered="{!AND(f.type != 'reference',f.type != 'multipicklist')}"/>
@@ -192,20 +368,16 @@
 							</div>
 							<div class="infoBoxHeaderMessage">Record Created Successfully!</div>
 						</div>
-						<div class="infoBoxMessage">
-							<a onclick="parent.sf1.navigateToSObject('{!obj.id}')" style="font-size: 14px; font-weight: bold">New {!action.geopointe__Create_Record_SObject__c}</a>
-							&nbsp;
-							<a href="/{!obj.id}" target="_blank" style="font-size: 14px">(open in new window)</a>
+						<div class="infoBoxMessage" style="display:flex;justify-content:center;" >
+							<a onclick="parent.sf1.navigateToSObject('{!obj.id}')" style="font-size: 14px; font-weight: bold">{!newRecordName}</a>
 						</div>
 					</div>	
+					<script>
+						adjustSuccessBtn();
+					</script>
 				</apex:outputPanel>
 
 			</apex:outputPanel>
-
-			<apex:actionFunction name="selectRecordType" action="{!selectRecordType}" reRender="pageBlocksWrapper,header" oncomplete="selectRecordTypeComplete();">
-				<apex:param name="selectedRecordTypId" value="test" assignTo="{!selectedRecordTypId}"/>	
-			</apex:actionFunction>	
-			<apex:actionFunction name="save" action="{!save}" status="saveStatus" reRender="pageBlocksWrapper,header"/>
 
 		</apex:form>
 	</div>

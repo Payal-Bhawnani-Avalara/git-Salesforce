@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>Forecast_Calculation_Compact_Layout</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>Forecast_Calculation_Compact_Layout</fullName>
+        <fields>Name</fields>
+        <fields>Time_Period__c</fields>
+        <fields>Status__c</fields>
+        <label>Forecast Calculation Compact Layout</label>
+    </compactLayouts>
+    <customHelpPage>ForecastEnhancedCalculationHelp</customHelpPage>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <description>Stores the parameters used to run a forecast calculation against a Region, Practice, or Group.</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>false</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Backlog_Calculation__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <description>A lookup to the related backlog calculation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>A lookup to the related backlog calculation.</inlineHelpText>
+        <label>Backlog Calculation</label>
+        <referenceTo>Backlog_Calculation__c</referenceTo>
+        <relationshipLabel>Forecast Calculations</relationshipLabel>
+        <relationshipName>Forecast_Enhanced_Calculations</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Batch_Id__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The batch ID for the forecast calculation process.</description>
+        <externalId>true</externalId>
+        <inlineHelpText>The batch ID for the forecast calculation process.</inlineHelpText>
+        <label>Batch Id</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Batch_Process__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <description>The batch process used by this forecast calculation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The batch process used by this forecast calculation.</inlineHelpText>
+        <label>Batch Process</label>
+        <referenceTo>fflib_BatchProcess__c</referenceTo>
+        <relationshipLabel>Forecast Calculations</relationshipLabel>
+        <relationshipName>Forecast_Enhanced_Calculations</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Forecast_Setup__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <description>A lookup to the forecast setup values used in this forecast calculation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>A lookup to the forecast setup values used in this forecast calculation.</inlineHelpText>
+        <label>Forecast Setup</label>
+        <referenceTo>Forecast_Setup__c</referenceTo>
+        <relationshipLabel>Forecast Setup</relationshipLabel>
+        <relationshipName>Forecast_Enhanced_Calculations</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Group__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <description>The group for this forecast calculation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The group for this forecast calculation.</inlineHelpText>
+        <label>Group</label>
+        <referenceTo>Grp__c</referenceTo>
+        <relationshipLabel>Forecast Calculations</relationshipLabel>
+        <relationshipName>Forecast_Enhanced_Calculations</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Practice__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <description>The practice for this forecast calculation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The practice for this forecast calculation.</inlineHelpText>
+        <label>Practice</label>
+        <referenceTo>Practice__c</referenceTo>
+        <relationshipLabel>Forecast Calculations</relationshipLabel>
+        <relationshipName>Forecast_Enhanced_Calculations</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Region__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <description>The region for this forecast calculation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The region for this forecast calculation.</inlineHelpText>
+        <label>Region</label>
+        <referenceTo>Region__c</referenceTo>
+        <relationshipLabel>Forecast Calculations</relationshipLabel>
+        <relationshipName>Forecast_Enhanced_Calculations</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The forecast calculation status.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The forecast calculation status.</inlineHelpText>
+        <label>Status</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Time_Period__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <description>The time period for this forecast calculation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The time period for this forecast calculation.</inlineHelpText>
+        <label>Time Period</label>
+        <referenceTo>Time_Period__c</referenceTo>
+        <relationshipLabel>Forecast Calculations</relationshipLabel>
+        <relationshipName>Forecast_Enhanced_Calculations</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Total_Number_Of_Logs__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The total number of logs created as a result of errors occurring during the forecast calculation process.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The total number of logs created as a result of errors occurring during the forecast calculation process.</inlineHelpText>
+        <label>Total Number of Logs</label>
+        <summaryForeignKey>Forecast_Enhanced_Calculation_Log__c.Forecast_Enhanced_Calculation__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <label>Forecast Calculation</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Forecast Calculation Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Forecast Calculations</pluralLabel>
+    <searchLayouts>
+        <excludedStandardButtons>New</excludedStandardButtons>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <webLinks>
+        <fullName>View_Forecast</fullName>
+        <availability>online</availability>
+        <description>View the data for this forecast calculation.</description>
+        <displayType>button</displayType>
+        <linkType>page</linkType>
+        <masterLabel>View Forecast</masterLabel>
+        <openType>replace</openType>
+        <page>ForecastView</page>
+        <protected>false</protected>
+    </webLinks>
+</CustomObject>

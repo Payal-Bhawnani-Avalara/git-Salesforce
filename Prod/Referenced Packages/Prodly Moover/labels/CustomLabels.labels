@@ -162,6 +162,13 @@
         <value>Data set element not found. Moover will delete this entry on next save.</value>
     </labels>
     <labels>
+        <fullName>ERROR_DESTINATION_CONNECTION_NOT_ALLOWED</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ERROR_DESTINATION_CONNECTION_NOT_ALLOWED</shortDescription>
+        <value>The destination connection does not allow to be used as a destination.</value>
+    </labels>
+    <labels>
         <fullName>ERROR_ENFORCE_CORRECT_CONTROL_ORG</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -410,6 +417,13 @@
         <protected>true</protected>
         <shortDescription>LABEL_ADD_MAPPING</shortDescription>
         <value>Add Mapping</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_DO_NOT_ALLOW_AS_DESTINATION</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_DO_NOT_ALLOW_AS_DESTINATION</shortDescription>
+        <value>Do Not Allow As Destination</value>
     </labels>
     <labels>
         <fullName>LABEL_SETTINGS</fullName>
@@ -742,6 +756,13 @@
         <protected>true</protected>
         <shortDescription>TOOL_TIP_DESTINATION_SALESFORCE_ORGANIZATION</shortDescription>
         <value>Specifies the organization to copy data to. Use Ctrl+click to select up to five destinations.</value>
+    </labels>
+    <labels>
+        <fullName>TOOL_TIP_DO_NOT_ALLOW_FOR_DESTINATION</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TOOL_TIP_DO_NOT_ALLOW_FOR_DESTINATION</shortDescription>
+        <value>When selected, Moover does not list or allow the organization as a destination for data migration.</value>
     </labels>
     <labels>
         <fullName>TOOL_TIP_ELEMENT_DETAILS</fullName>

@@ -174,14 +174,41 @@ Description :-  Made UI changes to look Deployment Result page better.
         }
         
     }
-    //MD-1752
-    var dataSetInterval = setInterval(function() {
-        var timerFlag = '{!DeploymentResultValue.PDRI__Status__c}';
-        if (timerFlag == 'Finished'|| timerFlag == 'Timedout')//MD-2711
-            clearInterval(dataSetInterval);
-        else
-            refreshDataSet();
-    }, 5000);
+    //MD-3052 - STRAT
+    var dataSetInterval = setIntervalFunction();
+
+    function setIntervalFunction(){
+    	dataSetInterval = setInterval(function() {
+	        var timerFlag = '{!DeploymentResultValue.PDRI__Status__c}';
+	        if (timerFlag == 'Finished' || timerFlag == 'Timedout')//MD-2711
+	            clearInterval(dataSetInterval);
+	        else
+	            refreshDataSet();
+	    }, 5000);
+	    
+	    return dataSetInterval; 
+    }
+    
+    function setDeploymentResultCollapse(){
+    	clearInterval(dataSetInterval);
+    	toggleDeploymentResult();
+    }
+    
+    function setDeploymentDataSetResultCollapse(){
+   		clearInterval(dataSetInterval);
+    	toggleDeploymentDataSetResult();
+    }
+    
+    function setDeploymentPlanResultCollapse(){
+    	clearInterval(dataSetInterval);
+    	toggleDeploymentPlanResult();
+    }
+    
+    function setStepResultCollapse(){
+    	clearInterval(dataSetInterval);
+    	toggleDeploymentPlanStep();
+    }
+    //MD-3052 - END
     </script>
     <body>
         <!--MD-1404 Start-->
@@ -222,12 +249,12 @@ Description :-  Made UI changes to look Deployment Result page better.
                     
                     <apex:form id="mainForm">
                     	<!-- MD-2706 Start -->
-                    	<apex:actionFunction name="toggleDeploymentResult" action="{!setDeploymentResultCollapse}" reRender="deploymentResultplusimage,deploymentResultminusimage,deploymentResultSec,deploymentResultHederSec" />
-                    	<apex:actionFunction name="toggleDeploymentPlanResult" action="{!setDeploymentPlanResultCollapse}" reRender="deploymentPlanResultplusimage,deploymentPlanResultminusimage,deploymentplansec,deploymentPlanResultHeaderSec" />
-                    	<apex:actionFunction name="toggleDeploymentDataSetResult" action="{!setDeploymentDataSetResultCollapse}" reRender="deploymentDataSetResultplusimage,deploymentDataSetResultminusimage,dataSetResultSec,deploymentDataSetResultHeaderSec" />
+                    	<apex:actionFunction name="toggleDeploymentResult" action="{!setDeploymentResultCollapse}" reRender="deploymentResultplusimage,deploymentResultminusimage,deploymentResultSec,deploymentResultHederSec" oncomplete="setIntervalFunction();" /><!-- MD-3052 -->
+                    	<apex:actionFunction name="toggleDeploymentPlanResult" action="{!setDeploymentPlanResultCollapse}" reRender="deploymentPlanResultplusimage,deploymentPlanResultminusimage,deploymentplansec,deploymentPlanResultHeaderSec" oncomplete="setIntervalFunction();"/><!-- MD-3052 -->
+                    	<apex:actionFunction name="toggleDeploymentDataSetResult" action="{!setDeploymentDataSetResultCollapse}" reRender="deploymentDataSetResultplusimage,deploymentDataSetResultminusimage,dataSetResultSec,deploymentDataSetResultHeaderSec" oncomplete="setIntervalFunction();"/><!-- MD-3052 -->
                     	<!-- MD-2706 End -->
                         <!--MD-1701-->
-                        <apex:actionFunction name="toggleDeploymentPlanStep" action="{!setStepResultCollapse}" reRender="deploymentplanstepplusimage,deploymentplanstepminusimage,deployPlanStepResultSec,OuterDeploymentPlanPenel,deploymentPlanStepResultHeaderSec"/>
+                        <apex:actionFunction name="toggleDeploymentPlanStep" action="{!setStepResultCollapse}" reRender="deploymentplanstepplusimage,deploymentplanstepminusimage,deployPlanStepResultSec,OuterDeploymentPlanPenel,deploymentPlanStepResultHeaderSec" oncomplete="setIntervalFunction();"/><!-- MD-3052 -->
                         <!--MD-1752--><!--MD-2227--><!-- MD-1892 --><!-- MD-2311 --><!-- MD-2706 -->
                         <apex:actionFunction name="refreshDataSet" action="{!disablePollerFunction}" reRender="toastMessageID,dataSetResultSec,OuterDeploymentPlanPenel,deployPlanStepResultSec,deploymentplansec,deploymentResultSec,mainForm,valMSG,deploymentResultplusimage,deploymentResultminusimage,deploymentPlanResultplusimage,deploymentPlanResultminusimage"/>
                         <!-- MD-1229 Start-->
@@ -294,15 +321,16 @@ Description :-  Made UI changes to look Deployment Result page better.
         <apex:outputPanel id="deploymentResult"  layout="block">
         <!-- dataset result section delete from here MD-2706-->
         <!-- Deployment paln result section remoove from here MD-2706 -->
-            
-            <apex:outputPanel styleClass="relatedListSec" Id="deploymentResultHederSec" onclick="toggleDeploymentResult();"><!-- MD-2706 -->
-            	<!-- MD-2706 Start-->
-            	<apex:outputPanel layout="block"  id="deploymentResultplusimage" style="display:{!IF(NOT(deploymentResultVisibility), '', 'none')};" onclick="toggleDeploymentResult();">
+            <!-- MD-3052  added setDeploymentResultCollapse -->
+            <apex:outputPanel styleClass="relatedListSec" Id="deploymentResultHederSec" onclick="setDeploymentResultCollapse();"><!-- MD-2706 -->
+            	<!-- MD-2706 Start MD-3052-->
+            	<apex:outputPanel layout="block"  id="deploymentResultplusimage" style="display:{!IF(NOT(deploymentResultVisibility), '', 'none')};" >
                 	<div class="plusMinusImage" style="margin-top:14px; padding-left:1%">
                     	<apex:image url="{!$Resource.PDRI__Plus_Image}" />
                 	</div>
-                </apex:outputPanel> 
-               	<apex:outputPanel layout="block"  id="deploymentResultminusimage" style="display:{!IF(deploymentResultVisibility, '', 'none')};" onclick="toggleDeploymentResult();">
+                </apex:outputPanel>
+                <!-- MD-3052 --> 
+               	<apex:outputPanel layout="block"  id="deploymentResultminusimage" style="display:{!IF(deploymentResultVisibility, '', 'none')};">
                		<div class="plusMinusImage" style="margin-top:14px; padding-left:1%">
                     	<apex:image url="{!$Resource.PDRI__Minus_Image}" />
                  	</div> 
@@ -442,14 +470,16 @@ Description :-  Made UI changes to look Deployment Result page better.
             <apex:outputPanel rendered="{!deploymentPlanResult != null}">
                 
                 <apex:outputPanel styleClass="relatedListSec" id="deploymentPlanResultHeaderSec"  ><!-- MD-2706 -->
-                	<apex:outputPanel onclick="toggleDeploymentPlanResult();"> <!-- MD-2806 -->
-	                	<!-- MD-2706 Start-->
-		            	<apex:outputPanel layout="block"  id="deploymentPlanResultplusimage" style="display:{!IF(NOT(deploymentPlanResultVisibility), '', 'none')};" onclick="toggleDeploymentPlanResult();">
+                	<!-- MD-3052 Added setDeploymentPlanResultCollapse -->
+                  <apex:outputPanel onclick="setDeploymentPlanResultCollapse();"> <!-- MD-2806 -->
+	                	<!-- MD-2706 Start MD-3052 -->
+		            	<apex:outputPanel layout="block"  id="deploymentPlanResultplusimage" style="display:{!IF(NOT(deploymentPlanResultVisibility), '', 'none')};" >
 		                	<div class="plusMinusImage" style="margin-top:14px; padding-left:1%">
 		                    	<apex:image url="{!$Resource.PDRI__Plus_Image}" />
 		                	</div>
 		                </apex:outputPanel> 
-		               	<apex:outputPanel layout="block"  id="deploymentPlanResultminusimage" style="display:{!IF(deploymentPlanResultVisibility, '', 'none')};" onclick="toggleDeploymentPlanResult();">
+                    <!-- MD-3052 -->
+		               	<apex:outputPanel layout="block"  id="deploymentPlanResultminusimage" style="display:{!IF(deploymentPlanResultVisibility, '', 'none')};">
 		               		<div class="plusMinusImage" style="margin-top:14px; padding-left:1%">
 		                    	<apex:image url="{!$Resource.PDRI__Minus_Image}" />
 		                 	</div> 
@@ -544,15 +574,16 @@ Description :-  Made UI changes to look Deployment Result page better.
                 </apex:outputPanel>
                 <!-- MD-2706 Start plan step result -->
                 <apex:outputPanel styleClass="relatedListSec" id="deploymentPlanStepResultHeaderSec" ><!-- MD-2706 -->
-                	<!-- MD-2706 Start-->
-                	<apex:outputPanel onclick="toggleDeploymentPlanStep();"> <!-- MD-2806 -->
-	                	<!-- MD-2706 Start-->
-			           	<apex:outputPanel layout="block"  id="deploymentplanstepplusimage" style="display:{!IF(NOT(stepResultVisibility), '', 'none')};" onclick="toggleDeploymentPlanStep();">
+                	<!-- MD-2706 Start MD-3052 -->
+                	<apex:outputPanel onclick="setStepResultCollapse();"> <!-- MD-2806 -->
+	                	<!-- MD-2706 Start MD-3052 -->
+			           	<apex:outputPanel layout="block"  id="deploymentplanstepplusimage" style="display:{!IF(NOT(stepResultVisibility), '', 'none')};" >
 			               	<div class="plusMinusImage" style="margin-top:14px; padding-left:1%">
 			                   	<apex:image url="{!$Resource.PDRI__Plus_Image}" />
 			               	</div>
 			               </apex:outputPanel> 
-			              	<apex:outputPanel layout="block"  id="deploymentplanstepminusimage" style="display:{!IF(stepResultVisibility, '', 'none')};" onclick="toggleDeploymentPlanStep();">
+                     <!-- MD-3052  -->
+			              	<apex:outputPanel layout="block"  id="deploymentplanstepminusimage" style="display:{!IF(stepResultVisibility, '', 'none')};" >
 			              		<div class="plusMinusImage" style="margin-top:14px; padding-left:1%">
 			                   	<apex:image url="{!$Resource.PDRI__Minus_Image}" />
 			                	</div> 
@@ -653,14 +684,15 @@ Description :-  Made UI changes to look Deployment Result page better.
             </apex:outputPanel>
             <!--MD-1701 End-->
             <apex:outputPanel styleClass="relatedListSec" id="deploymentDataSetResultHeaderSec" ><!-- MD-2706 -->
-            	<apex:outputPanel onclick="toggleDeploymentDataSetResult();"> <!-- MD-2806 -->
-	            	<!-- MD-2706 Start-->
-	            	<apex:outputPanel layout="block"  id="deploymentDataSetResultplusimage" style="display:{!IF(NOT(deploymentDataSetResultVisibility), '', 'none')};" onclick="toggleDeploymentDataSetResult();">
+            	<apex:outputPanel onclick="setDeploymentDataSetResultCollapse();"> <!-- MD-2806 , MD-3052-->
+	            	<!-- MD-2706 Start MD-3052-->
+	            	<apex:outputPanel layout="block"  id="deploymentDataSetResultplusimage" style="display:{!IF(NOT(deploymentDataSetResultVisibility), '', 'none')};" >
 	                	<div class="plusMinusImage" style="margin-top:14px; padding-left:1%">
 	                    	<apex:image url="{!$Resource.PDRI__Plus_Image}" />
 	                	</div>
 	                </apex:outputPanel> 
-	               	<apex:outputPanel layout="block"  id="deploymentDataSetResultminusimage" style="display:{!IF(deploymentDataSetResultVisibility, '', 'none')};" onclick="toggleDeploymentDataSetResult();">
+                  <!-- MD-3052 -->
+	               	<apex:outputPanel layout="block"  id="deploymentDataSetResultminusimage" style="display:{!IF(deploymentDataSetResultVisibility, '', 'none')};">
 	               		<div class="plusMinusImage" style="margin-top:14px; padding-left:1%">
 	                    	<apex:image url="{!$Resource.PDRI__Minus_Image}" />
 	                 	</div> 

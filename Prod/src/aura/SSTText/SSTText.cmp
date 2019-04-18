@@ -1,0 +1,68 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global">
+  <div class="slds-align_absolute-center" >
+                   <fieldset class="slds-box slds-theme--default slds-container_medium">
+                   <legend id="newdemform" class="slds-text-heading--small 
+	                  slds-p-vertical--medium">
+	               Avalara SST Application
+	               </legend>
+	 <p>  This form identifies the specific information required for Avalara to complete your SST registration and generate your tax profile. This form should be used if you anticipate using Avalara as your Certified 
+					               Service Provider (CSP). All fields must be populated for the registration form to be considered complete.
+					   </p>
+					   <br/>
+					   <br/>
+					   <div class="slds-col slds-size_9-of-12 "><h4  class="slds-text-heading_small">SST Pre-Registration Requirements	</h4></div>
+					   <p> ·       Must Complete SST Registration Form <br/>
+					       ·       Must Complete Avatax Integration with assigned go live manager<br/>
+					       ·       Must map item codes to SST Certified AvaTax Codes
+					               
+					    </p>
+					    <br/>
+					    <br/>
+					    <div class="slds-col slds-size_9-of-12 "><h4  class="slds-text-heading_small">SST Post-Registration Requirements	</h4></div>
+					     <p> ·       All sales must be calculated in AvaTax   <br/>
+					         ·       Must pass an invoice item description for each item sold <br/>
+					         ·       Must pass a street level address for accurate tax calculations<br/>
+					         ·       Must map item codes to SST Certified AvaTax Codes <br/>
+					         ·       Must supply exemption certificate information into AvaTax prior to any exempt transaction being processed
+					    </p>
+					    <br/>
+					    <br/>
+					    <div class="slds-col slds-size_9-of-12 "><h4  class="slds-text-heading_small">Filing Requirements	</h4></div>
+					     <p> Avalara, as your Certified Service Provider, is contractually required to file your SST returns monthly starting on SST go live date. 
+					               Once integrated, your SST go live date will be confirmed by your assigned go live manager. If you are previously registered and already file 
+					               on a quarterly, semi-annual, or annual basis, you must contact the SST state for the best practice on remitting taxes collected prior to joining SST.
+					               Transactions will not be pulled forward into SST filed remittances.
+					      </p>
+					    <br/>
+					    <br/>
+					     <div class="slds-col slds-size_9-of-12 "><h4  class="slds-text-heading_small">SST State Audits </h4></div>
+					     <p> In states where you hold an SST status of Volunteer. Avalara acts as a liaison between you and the state during sales tax audits. 
+					               If you hold a status of SST Non-Volunteer, the state will contact you directly for all sales tax audits.
+					           </p>
+					    <br/>
+					    <br/>
+					     <div class="slds-col slds-size_9-of-12 "><h4  class="slds-text-heading_small">Payment and   Fees  </h4></div>
+					     <p> Returns filed in states where you have an SST status of volunteer are free of charge. SST states pay Avalara based on the amount of tax filed by 
+					               volunteer sellers, per their agreement with all Certified Service Providers Returns filed where you have an SST status of non-volunteer carry a charge. 
+					               If Avalara files returns for you in SST and non-SST states, then the price per SST non-volunteer return is your standard returns rate. If you are filing 
+					               only in SST states, then the fee is $55 per return, per month.
+					      </p>
+					    <br/>
+					    <br/>
+					    <div class="slds-col slds-size_9-of-12 "><h4  class="slds-text-heading_small">Payment and   Fees  </h4></div>
+					     <p> Returns filed in states where you have an SST status of volunteer are free of charge. SST states pay Avalara based on the amount of tax filed by 
+					               volunteer sellers, per their agreement with all Certified Service Providers Returns filed where you have an SST status of non-volunteer carry a charge. 
+					               If Avalara files returns for you in SST and non-SST states, then the price per SST non-volunteer return is your standard returns rate. If you are filing 
+					               only in SST states, then the fee is $55 per return, per month.
+					     </p>
+                     <br/>
+                     <br/>
+					 <div class="slds-col slds-size_9-of-12 "><h4  class="slds-text-heading_small">SST Volunteer Status and Economic Nexus  </h4></div>
+						  <p> Economic Nexus is a term that refers to the requirement to collect and pay sales tax on income derived in that state even though the business may lack a 
+						               physical presence. Economic Nexus does not preclude you from having an SST status of volunteer. Economic Nexus is not a requirement when determining volunteer 
+						               status, and should not be considered when completing the Volunteer Status section of this document.
+						  </p>
+					</fieldset>
+					</div>
+					
+</aura:component>

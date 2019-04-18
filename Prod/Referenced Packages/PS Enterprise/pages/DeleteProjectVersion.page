@@ -1,0 +1,38 @@
+<apex:page standardController="pse__Version__c"
+            tabStyle="pse__Version__c"
+            extensions="pse.DeleteProjectVersionController"
+            id="page">
+    <c:VFShim />
+    <apex:outputPanel layout="none" id="ouputPanel">
+    <apex:sectionHeader title="{!$Label.pse__delete_version}" help="{!$Page.pse__DeleteProjectVersionHelp}" id="sectionHeader" subtitle="{!versionName}"/>
+    <apex:form rendered="{!isDeletePermitted}" id="form">
+        <apex:pageBlock id="pageBlock1">
+            <apex:pageMessage id="errMsgs" summary="{!confirmationMessage}" severity="warning" strength="3" />
+            <apex:pageBlockButtons location="bottom" id="blockButtons">
+
+                <apex:actionStatus id="DeleteButtonStatus">
+                    <apex:facet name="stop">
+                        <apex:outputPanel >
+                            <apex:commandButton action="{!deleteVersion}" value="{!$Label.pse__delete_version}" status="DeleteButtonStatus" rerender="errMsgs"/>
+                            <apex:commandButton action="{!cancel}" value="{!$Label.pse__cancel}" immediate="true"/>
+                        </apex:outputPanel>
+                    </apex:facet>
+                    <apex:facet name="start">
+                        <apex:outputPanel >
+                            <apex:commandButton value="{!$Label.pse__delete_version}" disabled="true"/>
+                            <apex:commandButton value="{!$Label.pse__cancel}" disabled="true"/>
+                        </apex:outputPanel>
+                    </apex:facet>
+                </apex:actionStatus>
+
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+        <apex:outputLink value="/{!relatedProjectId}">{!$Label.pse__vpv_back_to_project_button}</apex:outputLink>
+    </apex:form>
+    <apex:pageBlock rendered="{!NOT(isDeletePermitted)}" id="pageBlock2">
+            <apex:pageMessages />
+            <p/>
+            <apex:outputLink value="/{!versionId}" rendered="{!NOT(ISBLANK(versionId))}">{!$Label.pse__back_to_version}</apex:outputLink>
+    </apex:pageBlock>
+    </apex:outputPanel>
+</apex:page>

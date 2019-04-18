@@ -1,0 +1,219 @@
+<apex:page standardController="fferpcore__FeatureConsoleFeature__mdt" extensions="fferpcore.FeatureConsoleDetailController" action="{!onPageLoad}" tabStyle="FeatureConsole__tab">
+        <c:VFShim />
+        <apex:stylesheet value="{!URLFOR($Resource.fferpcore__FeatureConsole,'featureconsoledetail.css')}"/>
+        <apex:sectionHeader subtitle="{!Feature.Record.MasterLabel}" title="{!$Label.fferpcore__featureconsole}" help="{!HelpUrl}"/>
+
+        <!-- LIGHTNING COMPONENT SUPPORT -->
+        <apex:includeLightning />
+        <div id="lightning_component_id" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"/>
+        <apex:includeScript value="{!URLFOR($Resource.fferpcore__s4e, '/svg4everybody.js')}"/>
+        <script>
+            svg4everybody();
+        </script>
+        <apex:includeScript value="{!URLFOR($Resource.fferpcore__FeatureConsole, 'es6-promise.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.fferpcore__FeatureConsole, 'es6-promise.auto.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.fferpcore__FeatureConsole, 'bundle.js')}"/>
+        <div class="ffdc-scope">
+            <div id="lightning-backdrop" class="slds-backdrop">
+                <div id="lightning-spinner" role="status" class="slds-spinner slds-spinner_brand slds-spinner_large">
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCRIPTS -->
+        <script>
+            window.addEventListener('load', function(){
+                window.FC = new FeatureConsoleDetailPage({
+                    endpoints : {
+                        PERFORM_WITH_OPTIONS : '{!$RemoteAction.FeatureConsoleDetailController.performWithOptions}',
+                        SKIP : '{!$RemoteAction.FeatureConsoleDetailController.skip}',
+                        MARK_AS_ERROR : '{!$RemoteAction.FeatureConsoleDetailController.markAsError}',
+                        GET_USER_INTERFACE_DATA : '{!$RemoteAction.FeatureConsoleDetailController.getUserInterfaceData}'
+                    },
+                    labels : {
+                       _MyLightningNamespace_ : '{!JSENCODE(MyLightningNamespace)}',
+                       FeatureConsoleLightingLaunchIncomplete : '{!JSENCODE($Label.FeatureConsoleLightingLaunchIncomplete)}',
+                       FeatureConsoleThereArePendingFeatures : '{!JSENCODE($Label.FeatureConsoleThereArePendingFeatures)}',
+                       FeatureConsoleLightningNotMoreThanOne : '{!JSENCODE($Label.FeatureConsoleLightningNotMoreThanOne)}',
+                       FeatureConsoleTsUnableToReportToServer : '{!JSENCODE($Label.FeatureConsoleTsUnableToReportToServer)}',
+                       FeatureConsoleTsOriginalError : '{!JSENCODE($Label.FeatureConsoleTsOriginalError)}',
+                       FeatureConsoleTsReportingError : '{!JSENCODE($Label.FeatureConsoleTsReportingError)}',
+                       FeatureConsoleTsErrorNoMessage : '{!JSENCODE($Label.FeatureConsoleTsErrorNoMessage)}'
+                    }
+                });
+            });
+        </script>
+
+        <apex:form >
+            <div id="ffdc-root-error-target" style="visibility:hidden"></div>
+            <apex:actionFunction name="refreshFeature"
+                action="{!refreshFeatureAfterOperation}"
+                oncomplete="FC.onRefreshed()"
+                rerender="featureBlock">
+                <apex:param name="monitorIds" assignTo="{!MonitorIdsJson}" value=""/>
+            </apex:actionFunction>
+
+            <apex:pageBlock id="featureBlock">
+                <span data-feature="{!featureClientData}" style="display:none"></span>
+
+                <!-- MESSAGES -->
+                <apex:pageMessages escape="false"/>
+
+                <!-- BUTTONS -->
+                <apex:pageBlockButtons location="top">
+                    <apex:commandButton value="{!$Label.fferpcore__featureconsoleback}" action="{!goToFeatureConsole}"/>
+                </apex:pageBlockButtons>
+
+                <!-- FEATURE DETAILS -->
+                <apex:pageBlockSection title="{!$ObjectType.fferpcore__FeatureConsoleFeature__mdt.Label}" columns="1">
+                    <apex:outputPanel styleClass="ffdc-fcd-feature-status">
+                        <apex:outputLabel value="{!$Label.fferpcore__featureconsoleenablementstatus}"/>
+                        <apex:outputPanel styleClass="ffdc-fcd-perform-button" html-data-ffdc-target-id="{!feature.Record.Id}" html-data-ffdc-in-progress="{!feature.IsInProgress}">
+                            <c:fflib_ToggleSwitch isOn="{!Feature.IsActive}"
+                                onClickFn="FC.performFeature('{!JSENCODE(Feature.Record.Id)}'); return false;"
+                                isToggleable="{!feature.CanToggle}"
+                            />
+                        </apex:outputPanel>
+                    </apex:outputPanel>
+                    <apex:outputLabel value="{!feature.Description}" escape="false"/>
+                </apex:pageBlockSection>
+
+                <!-- STEPS -->
+                <apex:pageBlockSection title="{!$ObjectType.fferpcore__FeatureConsoleFeatureStep__mdt.LabelPlural}" columns="1">
+                    <apex:variable var="steps" value="{!FeatureStepsForDisplay}"/>
+                    <apex:outputLabel rendered="{!steps == null}" value="{!$Label.fferpcore__featureconsolenosteps}" styleClass="ffdc-fcd-ghost-text"/>
+                    <apex:pageBlockTable styleClass="ffdc-fcd-steps" value="{!steps}" var="step" rendered="{!steps != null}">
+                        <apex:column headerValue="{!$ObjectType.fferpcore__FeatureConsoleFeatureStep__mdt.fields.fferpcore__StepNumber__c.Label}"
+                            styleClass="ffdc-fcd-step-number{!IF(step.IsRequired, ' ffdc-fcd-required-step', '')}"
+                            width="5%"
+                        />
+                        <apex:column headerValue="{!$ObjectType.fferpcore__FeatureConsoleFeatureStep__mdt.fields.fferpcore__StepDescription__c.Label}" width="60%" styleClass="ffdc-fcd-desc ffdc-fcd-revert-hidden" html-data-ffdc-target-id="{!step.StepId}">
+                            <apex:outputPanel layout="none" rendered="{!LEN(step.Title) > 0}">
+                                <p>
+                                    <apex:outputText escape="false" value="{!step.Title}"/>
+                                </p>
+                            </apex:outputPanel>
+                            <apex:outputPanel layout="none" rendered="{!LEN(step.Subtitle) > 0}">
+                                <p>
+                                    <apex:outputText value="{!step.Subtitle}"/>
+                                </p>
+                                <apex:outputPanel layout="none" rendered="{!step.HasPerformActions}">
+                                    <ul>
+                                        <apex:repeat value="{!step.PerformActions}" var="action">
+                                            <apex:outputPanel layout="none" rendered="{!!action.IsBlank}">
+                                                <li>
+                                                    <apex:outputText value="{!action.Title}"/>
+                                                    <apex:outputPanel layout="none" rendered="{!action.HasSubActions}">
+                                                        <ul>
+                                                            <apex:repeat value="{!action.Subactions}" var="subAction">
+                                                                <li>
+                                                                    <apex:outputText value="{!subAction}"/>
+                                                                </li>
+                                                            </apex:repeat>
+                                                        </ul>
+                                                    </apex:outputPanel>
+                                                </li>
+                                            </apex:outputPanel>
+                                            <apex:outputPanel layout="none" rendered="{!action.IsBlank}">
+                                                <br/>
+                                            </apex:outputPanel>
+                                        </apex:repeat>
+                                    </ul>
+                                </apex:outputPanel>
+                                <apex:outputPanel layout="none" rendered="{!step.HasRevertActions}">
+                                    <apex:commandLink rerender="."
+                                        onclick="FC.showRevertDesc('{!step.StepId}')"
+                                        value="{!$Label.fferpcore__featureconsolerevertdescshow}"
+                                        styleClass="ffdc-fcd-show-revert-link"
+                                    />
+                                    <apex:commandLink rerender="."
+                                        onclick="FC.hideRevertDesc('{!step.StepId}')"
+                                        value="{!$Label.fferpcore__featureconsolerevertdeschide}"
+                                        styleClass="ffdc-fcd-revert-desc"
+                                    />
+                                    <ul class="ffdc-fcd-revert-desc">
+                                        <apex:repeat value="{!step.RevertActions}" var="action">
+                                            <apex:outputPanel layout="none" rendered="{!!action.IsBlank}">
+                                                <li>
+                                                    <apex:outputText value="{!action.Title}"/>
+                                                    <apex:outputPanel layout="none" rendered="{!action.HasSubActions}">
+                                                        <ul>
+                                                            <apex:repeat value="{!action.Subactions}" var="subAction">
+                                                                <li>
+                                                                    <apex:outputText value="{!subAction}"/>
+                                                                </li>
+                                                            </apex:repeat>
+                                                        </ul>
+                                                    </apex:outputPanel>
+                                                </li>
+                                            </apex:outputPanel>
+                                            <apex:outputPanel layout="none" rendered="{!action.IsBlank}">
+                                                <br/>
+                                            </apex:outputPanel>
+                                        </apex:repeat>
+                                    </ul>
+                                </apex:outputPanel>
+                            </apex:outputPanel>
+                        </apex:column>
+                        <apex:column headerValue="{!$Label.fferpcore__featureconsoleaction}" width="15%">
+                            <apex:outputPanel styleClass="ffdc-fcd-perform-button ffdc-fcd-perform-step-button" html-data-ffdc-target-id="{!step.StepId}" html-data-ffdc-in-progress="{!step.IsStatusInProgress}">
+                                <apex:commandLink styleClass="ffdc-fcd-step-button-revert"
+                                    immediate="true"
+                                    value="{!$Label.fferpcore__featureconsolesteprevert}"
+                                    rendered="{!and(step.CanRevert, !step.RequiresUserData)}"
+                                    onClick="FC.performStep('{!JSENCODE(step.StepId)}', 'perform'); return false;"
+                                />
+                                <apex:commandLink styleClass="ffdc-fcd-step-button-markasdone"
+                                    immediate="true"
+                                    value="{!$Label.fferpcore__featureconsolestepmarkasdone}"
+                                    rendered="{!step.CanMarkAsDone}"
+                                    onClick="FC.performStep('{!JSENCODE(step.StepId)}', 'perform'); return false;"
+                                />
+                                <apex:commandLink styleClass="ffdc-fcd-step-button-perform"
+                                    immediate="true"
+                                    value="{!$Label.fferpcore__featureconsolestepperform}"
+                                    rendered="{!and(step.CanPerform, !step.RequiresUserData)}"
+                                    onClick="FC.performStep('{!JSENCODE(step.StepId)}', 'perform'); return false;"
+                                />
+                                <apex:commandLink styleClass="ffdc-fcd-step-button-launch-lightning-component"
+                                    immediate="true"
+                                    value="{!IF(step.IsStatusDone,$Label.fferpcore__featureconsolesteplaunchlightningdone,$Label.fferpcore__featureconsolesteplaunchlightning)}"
+                                    rendered="{!step.LaunchLightningComponent}"
+                                    onClick="FC.performStep('{!JSENCODE(step.StepId)}', 'perform'); return false;"
+                                />
+                                <apex:commandLink styleClass="ffdc-fcd-step-button-launch-lightning-component"
+                                    immediate="true"
+                                    value="{!IF(step.IsStatusDone, $Label.fferpcore__featureconsolesteprevert, $Label.fferpcore__featureconsolesteplaunchlightning)}"
+                                    rendered="{!step.RequiresUserData}"
+                                    onClick="FC.performStep('{!JSENCODE(step.StepId)}', 'perform'); return false;"
+                                />
+
+                                <apex:commandLink styleClass="ffdc-fcd-step-button-skip"
+                                    immediate="true"
+                                    value="{!$Label.fferpcore__featureconsolestepskip}"
+                                    rendered="{!step.CanSkip}"
+                                    onClick="FC.performStep('{!JSENCODE(step.StepId)}', 'skip'); return false;"
+                                />
+                            </apex:outputPanel>
+                        </apex:column>
+                        <apex:column headerValue="{!$Label.fferpcore__featureconsoleenablementstatus}"
+                            styleClass="ffdc-fcd-step-status"
+                            width="20%"
+                        >
+                            <apex:outputLabel value="{!$Label.fferpcore__featureconsolestepstatusnotdone}" styleClass="ffdc-fcd-step-status-not-done" rendered="{!step.IsStatusNotDone}"/>
+                            <apex:outputLabel value="{!$Label.fferpcore__featureconsolestepstatusinprogress}" styleClass="ffdc-fcd-step-status-in-progress" rendered="{!step.IsStatusInProgress}"/>
+                            <apex:outputLabel value="{!$Label.fferpcore__featureconsolestepstatusdone}" styleClass="ffdc-fcd-step-status-done" rendered="{!step.IsStatusDone}"/>
+                            <apex:outputLabel value="{!$Label.fferpcore__featureconsolestepstatusskipped}" styleClass="ffdc-fcd-step-status-skipped" rendered="{!step.IsStatusSkipped}"/>
+                            <span style="position: relative">
+                                <div tabindex="0" class="ffdc-fc-status-has-errors ffdc-fc-status" aria-describedby="errorTip_{!step.StepId}" data-error-icon-for-step-id="{!HTMLENCODE(step.StepId)}" style="visibility: {!IF(step.HasError,'visible','hidden')}"></div>
+                                <div class="ffdc-tip" role="tooltip" id="errorTip_{!step.StepId}">{!$Label.FeatureConsoleErrorOnStepActionTip}</div>
+                            </span>
+                        </apex:column>
+                    </apex:pageBlockTable>
+                </apex:pageBlockSection>
+            </apex:pageBlock>
+
+        </apex:form>
+    </apex:page>

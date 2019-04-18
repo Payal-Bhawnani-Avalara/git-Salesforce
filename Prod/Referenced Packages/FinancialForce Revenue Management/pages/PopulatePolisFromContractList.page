@@ -1,0 +1,12 @@
+<apex:page standardController="ffrr__RevenueContract__c" recordSetVar="things"  extensions="ffrr.PopulatePolisFromContractController" tabStyle="ffrr__RevenueContract__c">
+    <c:VFShim />
+	<c:GenericButtonConfirmation Title="{!$ObjectType.ffrr__RevenueContract__c.label}"
+		SubTitle="{!$Label.ffrr__populatepolispagesubtitle}"
+		CanRender="{!canRender}"
+		OkText="{!$Label.ffrr__revenuerecognitiondialogok}"
+		CancelText="{!$Label.ffrr__revenuerecognitiondialogcancel}"
+		ConfirmText="{!$Label.ffrr__revrecuiforecastsaveupdate}"
+		SaveMethod="{!Populate}"
+		CancelMethod="{!Cancel}"
+	/>
+</apex:page>

@@ -271,8 +271,8 @@
 
             </apex:pageBlockSection>
 
-            <apex:outputPanel id="createRecordConfig" rendered="{!geopointe__Action__c.geopointe__Action_Type__c == 'Create Record'}">
-                <apex:pageBlockSection title="Create Record Configuration" >
+            <apex:outputPanel id="createRecordConfig" rendered="{!geopointe__Action__c.geopointe__Action_Type__c == 'Create Record'}" >
+                <apex:pageBlockSection title="Create Record Configuration" columns="1">
                     <apex:pageBlockSectionItem >
                         <apex:outputLabel value="Object"/>
                         <apex:selectList size="1" value="{!geopointe__Action__c.geopointe__Create_Record_SObject__c}">
@@ -280,7 +280,24 @@
                             <apex:actionSupport event="onchange"  action="{!changeCreateRecordObject}" rerender="createRecordConfig"/>
                         </apex:selectList>
                     </apex:pageBlockSectionItem>
-                    <apex:pageBlockSectionItem />
+                    <apex:pageBlockSectionItem rendered="{!geopointe__Action__c.geopointe__Create_Record_SObject__c != ''}" helpText="{!$ObjectType.geopointe__Action__c.Fields.geopointe__Form_Type__c.InlineHelpText}">
+                        <apex:outputLabel value="Form Type" />
+                        <apex:selectList size="1" value="{!geopointe__Action__c.geopointe__Form_Type__c}">
+                            <apex:selectOptions value="{!formTypeOptions}" />
+                            <!-- action="{!changeCreateRecordObject}" -->
+                            <apex:actionSupport event="onchange" rerender="createRecordConfig"/>
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem rendered="{!AND(geopointe__Action__c.geopointe__Create_Record_SObject__c != '', sObjectRecordTypeOptions.size > 1)}">
+                        <apex:outputLabel value="Record Type"/>
+                        <apex:selectList size="1" value="{!geopointe__Action__c.geopointe__Record_Type__c}" >
+                            <apex:selectOptions value="{!sObjectRecordTypeOptions}" />
+                            <apex:actionSupport event="onchange" rerender="createRecordConfig"/>
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+                    <apex:pageBlockSectionItem rendered="{!IsCurrentRecTypeInactive}"> 
+                        <apex:outputText style="color:red;margin-left:50px;" value="This selected record type is Inactive. Please select 'User Selected' or a currently active record type" />
+                    </apex:pageBlockSectionItem>
                     <apex:pageBlockSectionItem labelStyle="padding-top:7px; padding-bottom:20px" dataStyle="padding-top:7px; padding-bottom:20px" rendered="{!OR(geopointe__Action__c.geopointe__Create_Record_SObject__c=='Lead', geopointe__Action__c.geopointe__Create_Record_SObject__c=='Case')}">
                         <apex:outputLabel value="{!$ObjectType.geopointe__Action__c.Fields.geopointe__Run_Assignment_Rule__c.Label}" />
                         <apex:inputCheckbox value="{!geopointe__Action__c.geopointe__Run_Assignment_Rule__c}" />
@@ -288,14 +305,14 @@
                 </apex:pageBlockSection>
                 
                 <div style="width: 61%; margin: auto; margin-top: 10px;">
-                    <apex:pageMessage title="Field Set Setup Required" severity="info" strength="1" rendered="{!AND(geopointe__Action__c.geopointe__Create_Record_SObject__c != '',sObjectFieldSetSelectOptions.size = 0)}">
+                    <apex:pageMessage title="Field Set Setup Required" severity="info" strength="1" rendered="{!AND(geopointe__Action__c.geopointe__Create_Record_SObject__c != '',sObjectFieldSetSelectOptions.size = 0, geopointe__Action__c.geopointe__Form_Type__c != 'Lightning Page Layout')}">
                         <div style="margin-left: 8px;">You must create at least one Field Set for the selected Object before proceeding.</div>
                     </apex:pageMessage>
                  </div>
 
-                <apex:outputPanel rendered="{!AND(geopointe__Action__c.geopointe__Create_Record_SObject__c != '',sObjectFieldSetSelectOptions.size > 0)}">
+                <apex:outputPanel rendered="{!AND(geopointe__Action__c.geopointe__Create_Record_SObject__c != '',OR(sObjectFieldSetSelectOptions.size > 0, geopointe__Action__c.geopointe__Form_Type__c == 'Lightning Page Layout'))}">
                     
-                    <div class="subSection">
+                    <div class="subSection" style="{!IF(OR(geopointe__Action__c.geopointe__Form_Type__c == 'Field Set',geopointe__Action__c.geopointe__Form_Type__c == ''), '', 'display:none;')}">
                         <div class="subSectionDivider">Field Set Mapping</div>
                         <div class="subSectionInstructions">
                             For each Record Type select the Field Set that should be used when creating the record. Only the fields in selected Field Set will be displayed to a user.
@@ -309,8 +326,8 @@
                                 <td class="tableHeader">Record Action</td>
                                 <td class="tableHeader">Route Stop Action</td>
                             </tr>
-                            <apex:repeat value="{!recordTypeFieldSetMappings}" var="fm">
-                                <tr>
+                            <apex:repeat value="{!recordTypeFieldSetMappings}" var="fm" >
+                                <tr style="{!IF(OR(fm.recordTypeId == geopointe__Action__c.geopointe__Record_Type__c, geopointe__Action__c.geopointe__Record_Type__c == '', recordTypeFieldSetMappings.size == 1), '', 'display: none;')}">
                                     <td class="tableLabel">{!fm.recordTypeName}</td>   
                                     <td>
                                         <apex:selectList value="{!fm.placeFieldSetAPIName}" size="1">

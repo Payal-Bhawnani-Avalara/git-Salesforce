@@ -113,6 +113,19 @@
         <type>Text</type>
         <unique>false</unique>
     </fields>
+    <fields>
+        <fullName>RefreshActionName__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <inlineHelpText>The name of the Refresh and Synchronize actions of the Quote Model. 
+Format : refreshActionName,syncActionName</inlineHelpText>
+        <label>Refresh/Synchronize Actions</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
     <label>PROS Setup</label>
     <listViews>
         <fullName>All</fullName>

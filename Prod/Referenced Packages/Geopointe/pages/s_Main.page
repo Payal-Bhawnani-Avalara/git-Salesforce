@@ -6,7 +6,6 @@
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/common/common.css')}"/> <!-- Common geopointe CSS -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/map/map.css')}"/> <!-- map css -->
     <apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/s_main.css')}"/> <!-- CSS for s_Main.page -->
-    <apex:stylesheet value="{!URLFOR($Resource.geopointe__SLDS, '/0.8.0/assets/styles/salesforce-lightning-design-system-vf.min.css')}"/> <!-- Salesforce Lightning Design System -->
 
     <style type="text/css">
         .rolodex a.listItemPad { padding: 0 5px; }
@@ -583,7 +582,7 @@
                     <apex:image url="{!URLFOR($Resource.geopointe__images, '/checkbox_checked.gif')}" rendered="{! ds.status = 'Active' }" />
                     <apex:image url="{!URLFOR($Resource.geopointe__images, '/checkbox_unchecked.gif')}" rendered="{! ds.status != 'Active' }" />
                 </apex:column>
-                <!- -<apex:column headerValue="{!$Label.Color_Markers_By}" value="{!ds.colorMarkersByFieldName}"/>
+                <!- -<apex:column headerValue="{!$Label.Color_Markers_By}" value="{!ds.colorByField.field}"/>
                 <apex:column headerValue="{!$Label.Available_in_Maps}" value="{!ds.availableInMaps}"/>
                 <apex:column headerValue="{!$Label.Available_in_Visualize}" value="{!ds.availableInVisualize}"/>
                 <apex:column headerValue="{!$Label.One_Column_Address}" value="{!ds.oneColumnAddress}"/>

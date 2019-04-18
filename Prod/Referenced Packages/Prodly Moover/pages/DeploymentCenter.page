@@ -383,7 +383,8 @@
 	                                            <!-- MD-1499 END -->
 	                                            <div class="slds-form-element__control slds-m-top--small">
 	                                                <apex:selectList value="{!selectedTargetConnectionIds}" size="3" required="false" styleClass="slds-select selectTarget" multiselect="true" > 
-	                                                    <apex:selectOptions value="{!connectionOptions}"/>
+	                                                     <!-- MD-2886 change selectoptions value -->
+	                                                    <apex:selectOptions value="{!destinationConnectionOptions}"/>
 	                                                </apex:selectList>
 	                                            </div>
 	                                        </div>

@@ -1,0 +1,39 @@
+<!-- Copyright (c) 2018 FinancialForce.com, inc.  All rights reserved. -->
+<apex:page showHeader="true" sidebar="false" title="{!$Label.pse__forecasting_label_view_title}" tabStyle="pse__Forecast_Enhanced_Calculation__c" standardController="pse__Forecast_Enhanced_Calculation__c" extensions="pse.ForecastViewController" lightningStylesheets="true" docType="html-5.0">
+    <apex:pageMessages />
+    <c:extjs_bootstrap applicationName="ESF" staticResource="{!$Resource.pse__ESF}" developmentPrefix="">
+
+        <c:extjs_labels />
+        <c:fflib_bridgeUserInfo />
+
+        <script type="text/javascript">
+            var Ext = Ext || {};
+
+            var $Params = $Params || {};
+            $Params.salesforceURL = '{!salesforceURL}';
+            $Params.detailRelatedTypeProject = '{!detailRelatedTypeProject}';
+            $Params.detailRelatedTypeOpportunity = '{!detailRelatedTypeOpportunity}';
+
+            var $Label = $Label || {};
+            $Label.data_view_title = '{!JSENCODE($Label.pse__forecasting_label_view_title)}';
+            $Label.calculation_id_missing = '{!JSENCODE($Label.pse__forecasting_error_data_view_no_calculation_selected)}';
+            $Label.calculation_record_loading = '{!JSENCODE($Label.pse__forecasting_label_data_loading)}';
+            $Label.forecast_summary_column_name = '{!JSENCODE($ObjectType.pse__Forecast_Enhanced_Summary__c.label)}';
+            $Label.forecasting_summary_empty_grid = '{!JSENCODE($Label.pse__forecasting_summary_empty_grid)}';
+            $Label.forecasting_detail_empty_grid = '{!JSENCODE($Label.pse__forecasting_detail_empty_grid)}';
+            $Label.common_label_currency = '{!JSENCODE($Label.pse__common_label_currency)}';
+            $Label.common_label_error = '{!JSENCODE($Label.pse__common_label_error)}';
+            $Label.forecasting_detail_column_projects_and_opportunities = '{!JSENCODE($Label.pse__forecasting_detail_column_projects_and_opportunities)}'
+
+            $RemoteAction = {
+                ForecastViewController : {
+                    getForecastCalculation: '{!$RemoteAction.ForecastViewController.getForecastCalculation}',
+                    getSummaryHierarchy: '{!$RemoteAction.ForecastViewController.getSummaryHierarchy}',
+                    getSetupCategories: '{!$RemoteAction.ForecastViewController.getSetupCategories}',
+                    getDetails: '{!$RemoteAction.ForecastViewController.getDetails}'
+                }
+            };
+
+       </script>
+    </c:extjs_bootstrap>
+</apex:page>
