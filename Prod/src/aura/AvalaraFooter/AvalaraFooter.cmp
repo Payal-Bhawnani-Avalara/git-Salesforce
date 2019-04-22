@@ -1,5 +1,5 @@
 <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" >
     <div  class="slds-border_top" style="    position: relative;">
-	© Avalara Inc. 2018
+	© Avalara Inc. 2019
     </div>	
 </aura:component>

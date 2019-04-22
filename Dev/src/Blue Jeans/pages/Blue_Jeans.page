@@ -1,0 +1,3 @@
+<apex:page sidebar="true" showHeader="true">
+    <apex:canvasApp namespacePrefix="bluejeans" developerName="Blue_Jeans" height="566px" width="1000px" />
+</apex:page>

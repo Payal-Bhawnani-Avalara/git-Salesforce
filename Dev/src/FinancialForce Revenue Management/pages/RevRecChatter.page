@@ -1,0 +1,6 @@
+<apex:page showHeader="false" sidebar="false">
+	<c:VFShim />
+	<div class="chatterContainer" id="chatterContainer">
+		<chatter:feedWithFollowers entityId="{!$CurrentPage.parameters.Id}" id="chatterRevRec"/>
+	</div>
+</apex:page>

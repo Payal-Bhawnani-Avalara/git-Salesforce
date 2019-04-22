@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>PROS Smart CPQ SF1</description>
+    <flexiPage>CameleonCPQApp</flexiPage>
+    <label>PROS Smart CPQ</label>
+    <mobileReady>false</mobileReady>
+    <motif>Custom290: TV Widescreen</motif>
+</CustomTab>

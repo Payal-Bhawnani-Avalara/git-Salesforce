@@ -1,0 +1,627 @@
+<apex:page standardController="pse__Proj__c" extensions="pse.CreateProjectFromTemplateController" action="{!init}" tabStyle="pse__Proj__c" recordSetVar="projects" id="page" lightningStylesheets="true">
+	<style>
+		.inputWidth_80{
+			width:80px;
+		}
+		.inputWidth_85{
+			width:85px;
+		}
+		.inputWidth_100{
+			width:100px;
+		}
+		.headerWidth_104 div{
+			width:102px; 
+			white-space: normal;
+		} 
+		
+		.headerWidth_93 div{
+			width:93px; 
+			white-space: normal;
+		} 
+		
+		.headerCheckBox {
+        	padding-left: 0px;
+        	vertical-align: top;
+        }
+        
+        .headerCheckBox input[id*=toggleControllerID] {
+        	margin-top: 0px !important;
+        }
+        
+        .pageBlockTableScroll {
+        	display: block;
+        	overflow: auto;
+        	margin-bottom: 5px;
+        	width: 93vw;
+        }
+        .pageBlockTableScroll table th.headerRow + th.headerRow {border-left: 1px solid #dedede;}
+        
+        .projectTaskHeader {
+        	margin-bottom: 5px;
+        }
+
+    </style>
+    <apex:outputText rendered="{!$User.UIThemeDisplayed == 'Theme4d'}">
+    	<style>
+        	.headerCheckBox + div { padding-top: 3px; }
+        </style>
+    </apex:outputText>
+    
+    <script type="text/javascript"> 
+    	var _dateOffSetCmp;
+        var _projectBillableFlagCmp;
+        
+        function hideBillRateAndBillableFlag(ele) {
+        	var projectBillable = document.getElementsByName(ele.name);
+        	
+        	var inputElem = document.getElementsByTagName("input");
+			for ( var i = 0; i < inputElem.length; i++) {
+        		if (inputElem[i].name != null && inputElem[i].name != '' ) {
+	        		if (inputElem[i].name.indexOf('billableField') != -1 || inputElem[i].name.indexOf('billRate') != -1 ) {
+		        		
+		        		if (projectBillable[0].checked) {
+		        			inputElem[i].style.display = 'inline-block' ;
+		        		} else {
+		        			inputElem[i].style.display = 'none' ;
+		        		}
+		        	}
+        		}
+        	}
+        	
+        	var inputElem2 = document.getElementsByTagName("div");
+        	for(var i = 0; i < inputElem2.length; i++) {
+        		if(inputElem2[i].className.indexOf('billRateCurrency') != -1) {
+        			if (projectBillable[0].checked) {
+	        			inputElem2[i].style.display = 'inline' ;
+	        		} else {
+	        			inputElem2[i].style.display = 'none' ;
+	        		}
+        		}
+        	}
+        }
+        
+        function setVisibility(name, visible) {
+          var e = document.getElementById(name);
+          if (e != null) {
+            if (visible) {
+              e.setAttribute("style", "display: inline");
+              e.style.cssText = "display: inline;width:65px";
+            } else {
+              e.setAttribute("style", "display: none");
+              e.style.cssText = "display: none";
+            }
+          }
+        }
+
+        function updateCostRate(id, id2, id3, value) {
+          setVisibility(id, !value);
+          setVisibility(id2, !value);
+          setVisibility(id3, value);
+        }
+        
+        function onapplyDateOffsetClick(projStartDateEle){
+        	var projectStartDate = document.getElementById(projStartDateEle).value;
+            jsApplyDateOffset(projectStartDate);
+        }
+        
+        function hideShowDateOffsetLink(startDateCmp) {
+        	var projStartDateEle = document.getElementById(startDateCmp).value;
+        	var tempStartDate = '{!formBean.templateProjectStartDate}';
+            var dateOffsetDiv = document.getElementById('dateOffsetDiv');
+        
+			if (projStartDateEle != '' && projStartDateEle.length > 0 && tempStartDate != '' && tempStartDate.length > 0) {
+            	dateOffsetDiv.style.visibility = 'visible';
+       		} else {
+            	dateOffsetDiv.style.visibility = 'hidden';
+        	}
+    	}
+             
+    </script>
+    <apex:outputPanel rendered="{!$User.UIThemeDisplayed == 'Theme4d'}" layout="none">
+		<style>
+			.pageTitleIcon {
+				border-radius: .25rem;
+			    background-color: #c8ca58;
+			    background-image: url("{!URLFOR($Asset.SLDS, 'assets/icons/custom/custom44.svg')}");
+			    background-repeat: no-repeat;
+			    background-position: center;
+			    background-size: 2rem;
+				display: block !important;
+			}
+		</style>
+	</apex:outputPanel>
+    <c:WaitComponent />
+    <script type="text/javascript">try{wait(true)}catch(e){};</script>
+    <c:projectPicker modelAttribute="{!projectPickerModel}" rendered="{!NOT(isProjectTemplateSelected)}" />
+    
+    <!-- Added as Fix for agile task : AT2197  Dated: 17 Sep,2012    -->
+    <c:selectAllCheckboxes functionName="selectAllResourceRequests" /> 
+     
+    <apex:outputPanel rendered="{!isProjectTemplateSelected}"> 
+    <apex:sectionHeader title="{!$Label.pse__create_project_page_title}" help="{!$Page.pse__ProjectHelp}" rendered="{!NOT(isCreateProjectFromTemplateCallerIsProject)}"/>
+    <apex:sectionHeader title="{!$Label.pse__common_label_copy_from_template}" help="{!$Page.pse__ProjectHelp}" rendered="{!isCreateProjectFromTemplateCallerIsProject}"/>
+    <!--Copy fields from the project template (as configured by your administrator) to create a new project.-->
+    <apex:outputText value="{!$Label.pse__create_project_from_template_message}" rendered="{!NOT(isCreateProjectFromTemplateCallerIsProject)}"/>
+    <apex:outputText value="{!$Label.pse__copy_from_temp_heading_text}"   rendered="{!isCreateProjectFromTemplateCallerIsProject}"/>
+    <p></p>
+	<!--For PSA-26638: Blocking Enter Key -->
+	<apex:form id="pageForm" onkeypress="blockEnterKey(event);">
+        <c:enterKeyBlocker />
+        <apex:actionFunction name="jsApplyDateOffset" action="{!applyDateOffset}" immediate="true" rerender="pageMessages,pageBlock, offesetDiv" status="counterStatus">
+         	<apex:param name="projectStartDate" value="" assignTo="{!projectStartDate}"/>
+         </apex:actionFunction>
+         <apex:actionStatus onstart="wait(true);" onstop="wait(false);" id="counterStatus"/>
+        
+        <apex:pageMessages id="pageMessages"/>
+        <apex:pageBlock title="{!$Label.pse__create_project_details}" mode="edit" id="pageBlock">
+            <apex:pageBlockButtons >
+                <apex:commandButton value="{!$Label.pse__common_label_cancel}" action="{!onCancelClick}" immediate="true"/>
+                <apex:commandButton value="{!$Label.pse__common_label_create}" action="{!onSaveClick}" rendered="{!NOT(isCreateProjectFromTemplateCallerIsProject)}"/>
+                <apex:commandButton value="{!$Label.pse__common_label_copy}" action="{!onSaveClick}" rendered="{!isCreateProjectFromTemplateCallerIsProject}"/>
+            </apex:pageBlockButtons>
+            <!-- Basic Header fields -->
+            <apex:pageBlockSection title="{!$Label.pse__create_project_details}" id="projectDetailSection1" rendered="{!isCreateProjectFromTemplateCallerIsProject}" >
+            	<apex:repeat value="{!formBean.createProjectFromOppAndTempProjColumns}" var="fName">
+            	
+	                <apex:outputField value="{!formBean.currentProject[fName.fieldPath]}" style="width:225px" 
+	                		rendered="{!(fName.Label == $ObjectType.pse__Proj__c.Fields.Name.Label)}" />
+	                
+	                <apex:outputField value="{!formBean.currentProject[fName.fieldPath]}"
+                        	rendered="{!(fName.Label == $ObjectType.pse__Proj__c.Fields.pse__Opportunity__c.Label)}" />
+	               
+	                <apex:outputField value="{!formBean.currentProject[fName.fieldPath]}" 
+	                        rendered="{!(fName.Label == $ObjectType.pse__Proj__c.Fields.pse__Account__c.Label)}" />
+	               
+	                <apex:outputField value="{!formBean.currentProject[fName.fieldPath]}" 
+	                		rendered="{!AND((fName.Label == $ObjectType.pse__Proj__c.Fields.CurrencyIsoCode.Label), formBean.showMultiCurrencySelector)}" />
+	                
+	                <apex:outputField value="{!formBean.currentProject[fName.fieldPath]}" rendered="{!(fName.Label == $ObjectType.pse__Proj__c.Fields.pse__Start_Date__c.Label)}" />
+	                
+	                <apex:outputText value="" rendered="{!(fName.Label == $ObjectType.pse__Proj__c.Fields.pse__Start_Date__c.Label)}" label="{!$Label.pse__common_label_offset_date}" >
+                        <div id="offesetDiv">
+                            <apex:inputField value="{!formBean.currentProject[fName.fieldPath]}" id="projStartDate1" onchange="hideShowDateOffsetLink('{!$Component.projStartDate1}');"
+	                        	rendered="{!(fName.Label == $ObjectType.pse__Proj__c.Fields.pse__Start_Date__c.Label)}" />
+                            <div id="dateOffsetDiv" style="display: flex;"><apex:outputLink id="dateOffset1" onclick="onapplyDateOffsetClick('{!$Component.projStartDate1}');return false;" >{!$Label.pse__common_label_apply_project_date_offset}</apex:outputLink>
+                            <c:helpLabel labelText="" spanId="dateOffsetHelp" helpText="{! $Label.copy_from_temp_offset_date_help_text}" labelFor="dateOffset1"/></div>
+                        </div>
+                        <script>
+                            _dateOffSetCmp = '{!$Component.dateOffset1}';
+                            var tempStartDate = "{!formBean.templateProjectStartDate}";
+                            var projStartDateEle = document.getElementById('{!$Component.projStartDate1}');
+                            if(projStartDateEle == null || tempStartDate.length == 0) {
+                                document.getElementById('offesetDiv').style.visibility = 'hidden';
+                                document.getElementById('offesetDiv').style.height = '0px';
+                            } else if(projStartDateEle.value.length > 0) {
+                                document.getElementById('dateOffsetDiv').style.visibility = 'visible';
+                            }
+                        </script>
+	                </apex:outputText>
+	                        
+	                <apex:outputField value="{!formBean.currentProject[fName.fieldPath]}" id="projectBillableFlag1"
+	                        rendered="{!(fName.Label == $ObjectType.pse__Proj__c.Fields.pse__Is_Billable__c.Label)}"  />
+	                	                     
+					<apex:outputField value="{!formBean.currentProject[fName.fieldPath]}" 
+	                					rendered="{!AND(NOT(fName.Label == $ObjectType.Proj__c.Fields.Name.Label), 
+	                							NOT(fName.Label == $ObjectType.Proj__c.Fields.Opportunity__c.Label),
+	            								NOT(fName.Label == $ObjectType.Proj__c.Fields.Account__c.Label),
+	            								NOT(fName.Label == $ObjectType.Proj__c.Fields.Start_Date__c.Label),
+	            								NOT(fName.Label == $ObjectType.Proj__c.Fields.CurrencyIsoCode.Label),
+	            								NOT(fName.Label == $ObjectType.Proj__c.Fields.Is_Billable__c.Label) )}"  />  
+				
+				</apex:repeat>  
+            </apex:pageBlockSection> 
+            <apex:pageBlockSection title="{!$Label.pse__create_project_page_title}" id="projectDetailSection" rendered="{! NOT(isCreateProjectFromTemplateCallerIsProject)}">
+            
+            	<apex:repeat value="{!formBean.createProjectFromOppAndTempProjColumns}" var="fName">
+            	
+	                <apex:inputField value="{!formBean.project[fName.fieldPath]}" required="{!OR(fName.required,fName.DBRequired)}" style="width:225px" 
+	                		rendered="{!(fName.Label == $ObjectType.pse__Proj__c.Fields.Name.Label)}" />
+	                
+	                <apex:outputField value="{!formBean.project[fName.fieldPath]}"
+                        	rendered="{!AND((fName.Label == $ObjectType.pse__Proj__c.Fields.pse__Opportunity__c.Label),NOT(ISNULL(formBean.project.pse__Opportunity__c)))}" />
+                	<apex:inputField value="{!formBean.project[fName.fieldPath]}" 
+                        	rendered="{!AND((fName.Label == $ObjectType.pse__Proj__c.Fields.pse__Opportunity__c.Label),ISNULL(formBean.project.pse__Opportunity__c))}" required="{!OR(fName.required,fName.DBRequired)}" />
+	                		
+	               
+	                <apex:outputField value="{!formBean.project[fName.fieldPath]}" 
+	                        rendered="{!AND((NOT(ISNULL(formBean.project.pse__Account__c))),(fName.Label == $ObjectType.pse__Proj__c.Fields.pse__Account__c.Label))}" />
+	                        
+	                <apex:inputField value="{!formBean.project[fName.fieldPath]}" 
+	                        rendered="{!AND(ISNULL(formBean.project.pse__Account__c),(fName.Label == $ObjectType.pse__Proj__c.Fields.pse__Account__c.Label) )}" required="{!OR(fName.required,fName.DBRequired)}"/>
+	                
+	                <apex:inputField value="{!formBean.project[fName.fieldPath]}" 
+	                		rendered="{!AND((fName.Label == $ObjectType.pse__Proj__c.Fields.CurrencyIsoCode.Label), formBean.showMultiCurrencySelector)}" />
+	                        
+	                <apex:inputField value="{!formBean.project[fName.fieldPath]}" id="projStartDate" onchange="hideShowDateOffsetLink('{!$Component.projStartDate}');" 
+	                        rendered="{!(fName.Label == $ObjectType.pse__Proj__c.Fields.pse__Start_Date__c.Label)}" required="{!OR(fName.required,fName.DBRequired)}"/> 
+	                <apex:outputText value="" rendered="{!(fName.Label == $ObjectType.pse__Proj__c.Fields.pse__Start_Date__c.Label)}"  />
+	                        
+				
+					<apex:outputText value="" rendered="{!(fName.Label == $ObjectType.pse__Proj__c.Fields.pse__Start_Date__c.Label)}" label="{!$Label.pse__create_project_from_template_label_template_project_start_date}" >
+                        <div id="offesetDiv">
+                            <apex:outputText value=" {!formBean.templateProjectStartDate}" id="tempStartDate" />
+                            <div id="dateOffsetDiv" style="display: flex;"><apex:outputLink id="dateOffset" onclick="onapplyDateOffsetClick('{!$Component.projStartDate}');return false;" >{!$Label.pse__common_label_apply_project_date_offset}</apex:outputLink>
+                            <c:helpLabel labelText="" spanId="dateOffsetHelp" helpText="{!$Label.pse__create_project_from_template_date_offset_helptext}" labelFor="dateOffset"/></div>
+                        </div>
+                        <script>
+                            _dateOffSetCmp = '{!$Component.dateOffset}';
+                            var tempStartDate = "{!formBean.templateProjectStartDate}";
+                            var projStartDateEle = document.getElementById('{!$Component.projStartDate}');
+                            if(projStartDateEle == null || tempStartDate.length == 0) {
+                                document.getElementById('offesetDiv').style.visibility = 'hidden';
+                                document.getElementById('offesetDiv').style.height = '0px';
+                            } else if(projStartDateEle.value.length > 0) {
+                                document.getElementById('dateOffsetDiv').style.visibility = 'visible';
+                            }
+                        </script>
+	                </apex:outputText>
+	                        
+	                <apex:inputField value="{!formBean.project[fName.fieldPath]}" id="projectBillableFlag"
+	                        rendered="{!(fName.Label == $ObjectType.pse__Proj__c.Fields.pse__Is_Billable__c.Label)}" onChange="hideBillRateAndBillableFlag(this);" >
+	                	<script>
+	                		_projectBillableFlagCmp = '{!$Component.projectBillableFlag}';
+	                	</script>
+	                </apex:inputField>
+	                         
+						
+					<apex:inputField value="{!formBean.project[fName.fieldPath]}" 
+	                					rendered="{!AND(NOT(fName.Label == $ObjectType.Proj__c.Fields.Name.Label), 
+	                							NOT(fName.Label == $ObjectType.Proj__c.Fields.Opportunity__c.Label),
+	            								NOT(fName.Label == $ObjectType.Proj__c.Fields.Account__c.Label),
+	            								NOT(fName.Label == $ObjectType.Proj__c.Fields.Start_Date__c.Label),
+	            								NOT(fName.Label == $ObjectType.Proj__c.Fields.CurrencyIsoCode.Label),
+	            								NOT(fName.Label == $ObjectType.Proj__c.Fields.Is_Billable__c.Label) )}" required="{!OR(fName.required,fName.DBRequired)}" />  
+				
+				</apex:repeat>  
+					                    
+            </apex:pageBlockSection>
+   
+           <!-- Resource request mappings to be copied from Project Template-->
+           <apex:pageBlockSection title="{!$Label.pse__create_project_from_template_rr_header}" columns="1" rendered="{!formBean.displayResourceRequests}" id="resourceRequestFromTemplateProject">                                  
+               <apex:actionRegion >
+               <div class="pageBlockTableScroll">
+               <apex:pageBlockTable value="{!ResRequests}" var="resReqWrapper" >
+                   <apex:column >
+                   		<!-- Updated as a fix for agile task : AT2197  Dated: 17 Sep,2012  -->
+                   		<apex:facet name="header">
+                            <input type="checkbox" onclick="selectAllResourceRequests(this, 'matchingResourceRequestFromTemplateSelector')" checked="true"/>
+                        </apex:facet>
+                        <apex:inputcheckbox value="{!resReqWrapper.copyFromOppToProj}" id="matchingResourceRequestFromTemplateSelector"/>
+                   </apex:column>
+					<apex:repeat value="{!formBean.CreateProjectFromTemplateRRColumns}" var="fName">
+						<apex:column rendered="{!AND(NOT(fName.Label == $ObjectType.pse__Resource_Request__c.Fields.pse__Notes__c.Label), NOT(fName.Label == $ObjectType.pse__Resource_Request__c.Fields.pse__Start_Date__c.Label),NOT(fName.Label == $ObjectType.pse__Resource_Request__c.Fields.pse__End_Date__c.Label))}" 
+									 value="{!resReqWrapper.resourceRequest[fName]}"/>
+						
+						<apex:column rendered="{!fName.Label == $ObjectType.pse__Resource_Request__c.Fields.pse__Start_Date__c.Label}">
+							<apex:facet name="header">{!$Label.pse__common_label_start_date}</apex:facet>
+							<apex:inputField value="{!resReqWrapper.resourceRequest.pse__Start_Date__c}"  /> 
+						</apex:column>
+						
+						<apex:column rendered="{!fName.Label == $ObjectType.pse__Resource_Request__c.Fields.pse__End_Date__c.Label}">
+							<apex:facet name="header">{!$Label.pse__common_label_end_date}</apex:facet>
+							<apex:inputField value="{!resReqWrapper.resourceRequest.pse__End_Date__c}" required="true"/> 
+						</apex:column>	       	
+					                       
+						<apex:column rendered="{!fName.Label == $ObjectType.pse__Resource_Request__c.Fields.pse__Notes__c.Label}">
+							<apex:facet name="header">{!$Label.pse__timecard_entry_label_notes}</apex:facet>
+							<apex:outputText value="{!resReqWrapper.resReqNotes}"/> 
+						</apex:column>
+					</apex:repeat>
+               </apex:pageBlockTable>
+               </div>
+               
+               <apex:outputPanel rendered="{!formBean.hasResourceRequests}" >
+               	 <c:Paginator pagenatorAttribute="{!resReqPagenator}" pageRerenderAttribute="resourceRequestFromTemplateProject"/> 
+			   </apex:outputPanel>
+		</apex:actionRegion>
+           </apex:pageBlockSection>
+           
+           <!-- Resource request mappings from Opportunity to be copied from Opportunity to Project 
+                Added this new section for agile task : AT1576  -->
+           <apex:pageBlockSection title="{!$Label.pse__create_project_from_template_opp_rr_header}" columns="1" rendered="{!formBean.displayOppResRequests}">
+               <apex:outputPanel styleClass="pageBlockTableScroll">
+               <apex:pageBlockTable value="{!formBean.oppResRequests}" var="resReqWrapper" >
+                   <apex:column >
+                   		<!-- Updated as fix for agile task : AT2197  Dated: 17 Sep,2012    -->
+                   		<apex:facet name="header">
+                            <input type="checkbox" onclick="selectAllResourceRequests(this, 'matchingResourceRequestFromOppSelector')"/>
+                        </apex:facet>
+                        <apex:inputcheckbox value="{!resReqWrapper.copyFromOppToProj}" id="matchingResourceRequestFromOppSelector"/>
+                   </apex:column>
+					
+					<apex:repeat value="{!formBean.CreateProjectOpportunityRRColumns}" var="fName">
+                        <apex:column rendered="{!NOT(fName.Label == $ObjectType.pse__Resource_Request__c.Fields.pse__Notes__c.Label)}" value="{!resReqWrapper.resourceRequest[fName.fieldPath]}"/>
+
+                        <apex:column rendered="{!(fName.Label == $ObjectType.pse__Resource_Request__c.Fields.pse__Notes__c.Label)}">
+                             <apex:facet name="header">{!$Label.pse__timecard_entry_label_notes}</apex:facet>
+                             <apex:outputText value="{!resReqWrapper.resReqNotes}"/> 
+                        </apex:column>
+                   </apex:repeat>
+                   
+                   <!-- check-box to create assignment from RR -->
+                   <apex:column rendered="{!formBean.AddAssignmentCheckboxToCreateProjectRRList}">
+                        <apex:facet name="header">{!$Label.pse__create_project_from_template_label_create_assignment}</apex:facet>
+                        <apex:inputcheckbox value="{!resReqWrapper.isSelectedForSchedule}" disabled="{!resReqWrapper.enabledForSchedule}" />
+                   </apex:column>
+               </apex:pageBlockTable>
+               </apex:outputPanel>
+           </apex:pageBlockSection>
+           
+           
+           <!-- Assignment Section.  Added section for agile task: AT9790  Dated: 22 Jan, 2013 -->
+            <apex:pageBlockSection title="{!$Label.pse__create_project_from_template_label_assignments}" columns="1"  rendered="{!formBean.hasAssignments}" id="assignmentFromTemplateProject">                                  
+				<apex:actionRegion >
+				<apex:outputPanel styleClass="headerCheckBox">
+					<apex:inputcheckbox value="{!formBean.ignoreHoliday}" /> {!$Label.Create_Project_From_Template_Label_Ignore_Holidays} &nbsp;&nbsp;&nbsp;
+					<apex:inputcheckbox value="{!formBean.shiftScheduleExceptions}" /> {!$Label.pse__create_project_from_template_label_shift_exception}
+				</apex:outputPanel>
+				
+				<div class="pageBlockTableScroll">
+				<apex:pageBlockTable value="{!Assignments}" var="assgWrapper" >
+                    <apex:column >
+                        <apex:facet name="header">
+                            <input type="checkbox" onclick="selectAllResourceRequests(this, 'templateProjectAssignmentsSelector')" checked="true"/>
+                        </apex:facet>
+                        <apex:inputcheckbox value="{!assgWrapper.isSelected}" id="templateProjectAssignmentsSelector"/>
+                    </apex:column>
+                    
+                    <apex:repeat value="{!formBean.CreateProjectFromTemplateAssignmentColumns}" var="fName">
+                    	<apex:column rendered="{!AND(NOT(fName.Label == $ObjectType.Assignment__c.fields.Bill_Rate__c.Label), 
+                    								NOT(fName.Label == $ObjectType.Assignment__c.fields.Cost_Rate__c.Label),
+                    								NOT(fName.Label == $ObjectType.Assignment__c.fields.Start_Date__c.Label),
+                    								NOT(fName.Label == $ObjectType.Assignment__c.fields.End_Date__c.Label),
+                    								NOT(fName.Label == $ObjectType.Assignment__c.fields.Is_Billable__c.Label),
+                    								NOT(fName.Label == $ObjectType.Assignment__c.fields.Resource__c.Label))}"  headerValue="{!fName.Label}" >
+                    		<apex:inputField value="{!assgWrapper.assignment[fName.fieldPath]}" />
+                    	</apex:column>
+                    	
+                    	<apex:column rendered="{!(fName.Label == $ObjectType.pse__Assignment__c.Fields.pse__Start_Date__c.Label)}" headerValue="{!fName.Label}">
+	                        <apex:inputField value="{!assgWrapper.schedule[fName.fieldPath]}"  /> 
+	                    </apex:column>
+	                    
+	                    <apex:column rendered="{!(fName.Label == $ObjectType.pse__Assignment__c.Fields.pse__End_Date__c.Label)}" headerValue="{!fName.Label}">
+	                        <apex:inputField value="{!assgWrapper.schedule[fName.fieldPath]}"  /> 
+	                    </apex:column>
+	                    
+	                    <apex:column rendered="{!(fName.Label == $ObjectType.pse__Assignment__c.Fields.pse__Is_Billable__c.Label)}" headerValue="{!fName.Label}">
+	                        <apex:inputField value="{!assgWrapper.assignment[fName.fieldPath]}" id="billableField"/> 
+	                    </apex:column>
+                    	
+                    	<apex:column rendered="{!(fName.Label == $ObjectType.pse__Assignment__c.Fields.pse__Bill_Rate__c.Label)}" headerValue="{!fName.Label}" style="min-width: 105px;">
+                    		<apex:inputField id="billRate" value="{!assgWrapper.assignment[fName.fieldPath]}" style="width:65px;" />
+                        	<div class="billRateCurrency"  style="width:40px; display: inline;"> {!assgWrapper.assignment.CurrencyIsoCode} </div>	
+                    	</apex:column>	
+                    	
+                    	<apex:column rendered="{!(fName.Label == $ObjectType.pse__Assignment__c.Fields.pse__Cost_Rate__c.Label)}" headerValue="{!fName.Label}" style="white-space: nowrap; min-width: 115px;">
+	                        <apex:inputField id="defaultCostRate" value="{!assgWrapper.assignment.pse__Use_Resource_Default_Cost_Rate__c}"
+	                          onclick="updateCostRate('{!$Component.costRateAmount}', '{!$Component.costRateCurrency}', '{!$Component.costRateDefaultlabel}', this.checked);" />
+	                        <apex:outputlabel id="costRateDefaultlabel" value="{!$Label.pse__create_project_from_template_label_use_default}"
+	                            style="{!IF(assgWrapper.assignment.pse__Use_Resource_Default_Cost_Rate__c, '', 'display: none')}" />
+	                        <apex:inputField id="costRateAmount" value="{!assgWrapper.assignment.pse__Cost_Rate_Amount__c}"
+	                            style="{!IF(assgWrapper.assignment.pse__Use_Resource_Default_Cost_Rate__c, 'display: none', '')}; width:65px" />
+	                        <apex:outputText id="costRateCurrency" value="{!formBean.project.CurrencyIsoCode}"
+	                            style="{!IF(assgWrapper.assignment.pse__Use_Resource_Default_Cost_Rate__c, 'display: none', '')}" />
+                    	</apex:column>
+                    	
+                    	<apex:column rendered="{!(fName.Label == $ObjectType.pse__Assignment__c.Fields.pse__Resource__c.Label)}" headerValue="{!fName.Label}">
+                    		<apex:inputField value="{!assgWrapper.assignment[fName]}" required="true" />	
+                    	</apex:column>
+                    			
+                    </apex:repeat>
+            	</apex:pageBlockTable>
+            	</div>
+            	
+            	<script>
+            		hideBillRateAndBillableFlag(_projectBillableFlagCmp);
+            	</script>
+            	
+	            	<apex:outputPanel rendered="{!formBean.hasAssignments}" >
+	               	 	<c:Paginator pagenatorAttribute="{!assignmentPagenator}" pageRerenderAttribute="assignmentFromTemplateProject"/> 
+				   </apex:outputPanel>
+				</apex:actionRegion>
+			</apex:pageBlockSection>
+           
+            <!-- Budget details-->
+           <apex:pageBlockSection title="{!$Label.pse__create_project_budget_details_header}"  >
+               <apex:outputPanel >
+               		<apex:actionRegion >
+		               <apex:outputPanel styleClass="headerCheckBox"> <!-- onchange="toggleBudgetSection(this)" -->
+							<apex:inputCheckbox value="{!formbean.createBudget}"  id="toggleControllerID" >
+								<apex:actionSupport event="onchange" action="{!showHideBudgetSection}" rerender="budgetDetailOP"  status="status" />
+				            </apex:inputCheckbox>
+							<b><apex:outputLabel value="{!$Label.pse__create_project_from_template_label_create_budget}" for="toggleControllerID"/></b>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			                <apex:actionStatus id="status" >
+				                <apex:facet name="start">
+				                  <span>{!$Label.common_message_processing_wait}</span> <img src="/img/loading.gif" />
+				                </apex:facet>
+				            </apex:actionStatus>
+			           </apex:outputPanel>
+			       </apex:actionRegion>
+	           </apex:outputPanel>
+			   <apex:outputLabel value="" />  
+		  </apex:pageBlockSection>
+	            
+	        <apex:outputPanel id="budgetDetailOP" >
+           	<apex:pageBlockSection id="budgetDetailPBS" rendered="{!formbean.createBudget}" >    
+	            <apex:repeat value="{!formBean.createProjectFromOppAndTempBudgetColumns}" var="fName" id="bdgRepId"  >
+           
+		           <apex:inputField value="{!formBean.budgetWrapper.budget[fName.fieldPath]}" id="budgetName"
+		                    rendered="{!(fName.Label == $ObjectType.pse__Budget__c.Fields.Name.Label)}" required="{!formBean.isBudgetNameRequired}" />
+		                    
+		            <apex:inputField value="{!formBean.budgetWrapper.budget[fName.fieldPath]}" id="budgetAmount"
+		                    rendered="{!(fName.Label == $ObjectType.pse__Budget__c.Fields.pse__Amount__c.Label)}" required="{!formBean.isBudgetAmountRequired}" />        
+		            	                    
+		            <apex:inputField value="{!formBean.budgetWrapper.budget[fName.fieldPath]}" id="budgetStatus"
+		                    rendered="{!(fName.Label == $ObjectType.pse__Budget__c.Fields.pse__Status__c.Label)}" required="{!formBean.isBudgetStatusRequired}"/>
+		                    
+		            <apex:pageBlockSectionItem labelStyle="left" rendered="{!(fName.Label == $ObjectType.pse__Budget__c.Fields.pse__Type__c.Label)}" id="btpbsi">
+		                <apex:outputLabel value="{!$Label.pse__create_project_from_template_label_budget_type}" for="budgetType" />
+		                <apex:selectList value="{!formBean.budgetWrapper.budget[fName.fieldPath]}" size="1" id="budgetType" >
+		                    <apex:selectOptions value="{!formBean.budgetWrapper.types}"/>
+		                </apex:selectList>
+		            </apex:pageBlockSectionItem>
+		            
+		            <apex:inputField value="{!formBean.budgetWrapper.budget[fName.fieldPath]}" id="budgetPrebilledAmountNew" required="{!formBean.isBudgetPreBilledAmountRequired}"
+		                     rendered="{!AND(USE_NEW_PREBILL_FIELD,CONTAINS(fName.fieldPath, 'Pre_Billed_Amount__c'))}"/>
+		            
+		            <apex:inputField value="{!formBean.budgetWrapper.budget[fName.fieldPath]}" id="budgetPrebilledAmountOld" required="{!formBean.isBudgetPreBilledAmountRequired}"
+		                     rendered="{!AND(NOT(USE_NEW_PREBILL_FIELD),CONTAINS(fName.fieldPath, 'PreBilledAmount__c'))}"/>
+		            
+		            <apex:inputField value="{!formBean.budgetWrapper.budget[fName.fieldPath]}" id="budgetEffectiveDate"
+		                    rendered="{!(fName.Label == $ObjectType.pse__Budget__c.Fields.pse__Effective_Date__c.Label)}" />
+		           
+		            <apex:pageBlockSectionItem labelStyle="left" id="bdpbsi" rendered="{!(fName.Label == $ObjectType.pse__Budget__c.Fields.pse__Description__c.Label)}" >
+		                <apex:outputLabel value="{!$Label.pse__common_label_description}"  />
+		                <apex:inputTextarea value="{!formBean.budgetWrapper.budget[fName.fieldPath]}"  cols="60" id="budgetDescription"/>
+		            </apex:pageBlockSectionItem> 
+		            
+		            
+		            <apex:inputField value="{!formBean.budgetWrapper.budget[fName.fieldPath]}" 
+		                					rendered="{!AND(NOT(fName.Label == $ObjectType.Budget__c.Fields.Name.Label), 
+		            								NOT(fName.Label == $ObjectType.Budget__c.Fields.Amount__c.Label),
+		            								NOT(fName.Label == $ObjectType.Budget__c.Fields.Status__c.Label),
+		            								NOT(fName.Label == $ObjectType.Budget__c.Fields.Type__c.Label),
+		            								NOT(fName.Label == $ObjectType.Budget__c.Fields.Pre_Billed_Amount__c.Label),
+		            								NOT(fName.Label == $ObjectType.Budget__c.Fields.PreBilledAmount__c.Label),
+		            								NOT(fName.Label == $ObjectType.Budget__c.Fields.Effective_Date__c.Label),
+		            								NOT(fName.Label == $ObjectType.Budget__c.Fields.Description__c.Label) )}"  />
+		            
+	            </apex:repeat>
+			</apex:pageBlockSection>
+			</apex:outputPanel>
+			
+            <!-- Milestones mappings to be copied from project template to new Project-->
+            <apex:pageBlockSection title="{!$Label.pse__create_project_from_template_label_milestones}" columns="1"  rendered="{!formBean.hasMilestones}" id="milestonesFromTemplateProject">
+				<apex:actionRegion >
+				<div class="pageBlockTableScroll">
+					<apex:pageBlockTable value="{!Milestones}" var="msWrapper" >
+	                   <apex:column >
+	                        <apex:inputcheckbox value="{!msWrapper.isSelected}" />
+	                   </apex:column>
+	                   <apex:repeat value="{!formBean.CreateProjectFromTemplateMilestoneColumns}" var="fName">
+	                   		<apex:column rendered="{!NOT(fName.Label == $ObjectType.pse__Milestone__c.fields.pse__Description__c.label)}" headerValue="{!fName.Label}">
+	                   			<apex:inputField value="{!msWrapper.milestone[fName.FieldPath]}"  />
+	                   		</apex:column>
+	                   		
+	                   		<apex:column rendered="{!fName.Label == $ObjectType.pse__Milestone__c.fields.pse__Description__c.label}" headerValue="{!fName.Label}">
+		                        <apex:inputTextArea rows="2" value="{!msWrapper.milestone[fName.fieldPath]}"/>
+		                   	</apex:column>
+	                   </apex:repeat>
+	               </apex:pageBlockTable>
+               </div>
+               <apex:outputPanel rendered="{!formBean.hasMilestones}" >
+	               	 	<c:Paginator pagenatorAttribute="{!milestonePagenator}" pageRerenderAttribute="milestonesFromTemplateProject"/> 
+				   </apex:outputPanel>
+				</apex:actionRegion>
+           </apex:pageBlockSection>
+           
+           <!-- Added code block for Agile Task 000011123 Dated : 17/8/2011  -->
+           <!-- Project Tasks mappings to be copied from project template to new Project-->
+          <!-- Modified code block for Agile Task 28961 Dated : 24/7/2014 : Apply Pagination  --> 
+         
+           <apex:pageBlockSection title="{!$Label.pse__create_project_task_details}" columns="1" rendered="{!formBean.hasProjectTasks}" id="projectsTasksFromTemplateProject">
+        	<apex:actionRegion >
+			<div class="projectTaskHeader">
+                <apex:outputLabel value="{!$Label.pse__create_project_from_template_label_copy_template_project_tasks}" />
+                <apex:inputcheckbox value="{!formBean.isProjectTasksSelected}" />
+                <apex:outputLabel value="{!$Label.pse__create_project_from_template_label_top_level_task_start_date}" />
+                <apex:inputField value="{!formBean.startDateUIHelper.pse__Date__c}" />
+			</div>
+			<div class="pageBlockTableScroll">
+	        <apex:pageBlockTable value="{!projectTasks}" var="ptw">
+	          <apex:repeat value="{!formBean.CreateProjectFromTemplateTaskColumns}" var="fName">
+					<apex:column rendered="{!NOT(fName.Label == $ObjectType.pse__Project_Task__c.Fields.pse__Description__c.Label)}" headerValue="{!fName.Label}">
+						<apex:outputField value="{!ptw.cloneProjTaskWithId[fName.fieldPath]}" />
+					</apex:column>
+					<apex:column rendered="{!fName.Label == $ObjectType.pse__Project_Task__c.Fields.pse__Description__c.Label}" headerValue="{!fName.Label}">
+						<apex:inputTextArea rows="1" value="{!ptw.cloneProjTaskWithId[fName.fieldPath]}" />	
+					</apex:column>
+				</apex:repeat>
+	        </apex:pageBlockTable>
+	        </div>
+	        <apex:outputPanel rendered="{!formBean.hasProjectTasks}" >
+	               	 	<c:Paginator pagenatorAttribute="{!projectTaskPagenator}" pageRerenderAttribute="projectsTasksFromTemplateProject"/> 
+		</apex:outputPanel>
+		</apex:actionRegion>
+      	</apex:pageBlockSection>
+      
+      
+		
+           <!-- Copy Project Location section -->
+           <apex:pageBlockSection title="{!$Label.pse__create_project_from_template_label_project_locations}" columns="1"  rendered="{!formBean.hasProjectLocations}" id="projLocationSec">
+           		<apex:actionRegion >
+           		<apex:outputPanel styleClass="headerCheckBox">
+						<apex:inputCheckbox value="{!formBean.isProjectLocationsSelected}" />
+						<b><apex:outputLabel value="{!$Label.pse__create_project_from_template_label_copy_project_locations}" /></b>
+	           </apex:outputPanel>
+	           <apex:outputText value="" />
+	           <div class="pageBlockTableScroll">
+			   <apex:pageBlockTable value="{!PrjLocations}" var="pl">
+			   		<apex:repeat value="{!formBean.CreateProjectFromTemplateLocationColumns}" var="fName">
+			   			<apex:column value="{!pl[fName.fieldPath]}" headerValue="{!fName.Label}" />
+			   		</apex:repeat>
+				</apex:pageBlockTable>
+				</div>
+				<apex:outputPanel rendered="{!formBean.hasProjectLocations}" >
+	               	 	<c:Paginator pagenatorAttribute="{!prjLocationPagenator}" pageRerenderAttribute="projLocationSec"/> 
+		</apex:outputPanel>
+		</apex:actionRegion>
+           </apex:pageBlockSection>
+           
+           <!-- Copy Project Methodology section -->
+           <apex:pageBlockSection title="{!$Label.pse__create_project_from_template_label_project_methodologies}" columns="1"  rendered="{!formBean.hasProjectMethodologys}" id="projMethodlogySec">
+           		<apex:actionRegion >
+           		<apex:outputPanel styleClass="headerCheckBox">
+						<apex:inputCheckbox value="{!formBean.isProjectMethodologysSelected}" />
+						<b><apex:outputLabel value="{!$Label.pse__create_project_from_template_label_copy_project_methodologies}" /></b>
+	           </apex:outputPanel>
+	           <apex:outputText value="" />
+	           <div class="pageBlockTableScroll">
+			   <apex:pageBlockTable value="{!PrjMethodologys}" var="pm">
+					<apex:repeat value="{!formBean.CreateProjectFromTemplateMethodologyColumns}" var="fName">
+			   			<apex:column value="{!pm[fName.fieldPath]}" headerValue="{!fName.Label}" />
+			   		</apex:repeat>
+				</apex:pageBlockTable>
+				</div>
+				<apex:outputPanel rendered="{!formBean.hasProjectMethodologys}" >
+	               	 	<c:Paginator pagenatorAttribute="{!prjMethodologyPagenator}" pageRerenderAttribute="projMethodlogySec"/> 
+		</apex:outputPanel>
+		</apex:actionRegion>
+           </apex:pageBlockSection>
+           
+           <!-- Copy Project Phase section -->
+           <apex:pageBlockSection title="{!$Label.pse__create_project_from_template_label_project_phases}" columns="1"  rendered="{!formBean.hasProjectPhases}" id="projPhaseSec">
+           		<apex:actionRegion >
+           		<apex:outputPanel styleClass="headerCheckBox">
+						<apex:inputCheckbox value="{!formBean.isProjectPhasesSelected}" />
+						<b><apex:outputLabel value="{!$Label.pse__create_project_from_template_label_copy_project_phases}" /></b>
+	           </apex:outputPanel>
+	           <apex:outputText value="" />
+	           <div class="pageBlockTableScroll">
+			   <apex:pageBlockTable value="{!PrjPhases}" var="pp"> 
+					<apex:repeat value="{!formBean.CreateProjectFromTemplatePhaseColumns}" var="fName">
+			   			<apex:column value="{!pp[fName.fieldPath]}" headerValue="{!fName.Label}" />
+			   		</apex:repeat>
+				</apex:pageBlockTable>
+				</div>
+				
+				<apex:outputPanel rendered="{!formBean.hasProjectPhases}" >
+	               	 	<c:Paginator pagenatorAttribute="{!prjPhasePagenator}" pageRerenderAttribute="projPhaseSec"/> 
+		</apex:outputPanel>
+		</apex:actionRegion>
+           </apex:pageBlockSection>
+           
+        </apex:pageBlock>
+    </apex:form>
+    </apex:outputPanel>
+    
+    <script type="text/javascript">
+    
+    window.addEventListener('load', 
+	  function() { 
+	    wait(false);
+	  }, false);
+		
+	</script>
+</apex:page>

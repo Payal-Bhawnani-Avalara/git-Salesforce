@@ -1,0 +1,2 @@
+<apex:page standardController="ffr__DataView__c" extensions="ffr.CannedDataviewUtility" recordSetVar="dataviews" action="{!createAllStandardDataviews}" lightningStylesheets="true" docType="html-5.0">
+</apex:page>

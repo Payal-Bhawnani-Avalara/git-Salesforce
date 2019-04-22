@@ -1,0 +1,102 @@
+<apex:page standardController="Lead" extensions="PFLSwagIQ.LeadInformationExtenstion" action="{!redirectIfValidated}" id="page">
+    <style>
+    .errorClass{
+    	border:1.5px solid #c00;
+    }
+    .msgIcon{
+    	background-image:url(/img/msg_icons/error24.png);
+
+    }
+    .errorBoxClass{
+    	width:95%;
+    	background-color:#ffc;
+    	border:1px solid #c00;
+    	padding:6px 8px 6px 6px;
+    	border-radius:5px;
+    	margin:2px 2px 2px 2px;
+    }
+    </style>
+
+    <apex:outputPanel rendered="{!canWriteLead = false}">
+        <div class="errorBoxClass">
+            To send Swag to a Lead, you must be able to modify that Lead's information.
+        </div>
+    </apex:outputPanel>
+
+    <apex:form id="form">
+        <apex:outputPanel rendered="{!canWriteLead}">
+        <apex:sectionHeader title="Send To Swag" subtitle="Validate Lead Details"/>
+        <div id="errorMessageDiv"> </div>
+        <br/>
+        <apex:pageBlock id="LeadDetails" title="Validate Lead Details">
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{!saveAndRedirect}" value="Send Swag" rerender="scriptPanel"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockSection id="LeadDetailsSection">
+                <apex:inputField value="{!leadDetail.Name}"/>
+                <apex:outputPanel />
+                <apex:inputField value="{!leadDetail.Street}" id="street"/>
+                <apex:inputField value="{!leadDetail.Phone}" id="phone"/>
+                <apex:inputField value="{!leadDetail.City}" id="city"/>
+                <apex:inputField value="{!leadDetail.PostalCode}"  id="postalcode"/>
+                <apex:inputField value="{!leadDetail.State}" id="state"/>
+                <apex:outputPanel />
+                <apex:inputField value="{!leadDetail.Country}" id="country"/>
+
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        </apex:outputPanel>
+    </apex:form>
+    <apex:outputPanel id="scriptPanel">
+    <apex:outputPanel rendered="{!isError}">
+	    <script>
+	    			var errorDiv=document.getElementById('errorMessageDiv');
+	    			errorDiv.innerHTML = '<table><tr><td><img alt="ERROR" class="msgIcon" src="/img/msg_icons/error24.png" title="ERROR"></td><td><h4 style="color:#c00;margin-left:10px;">To Send Swag, you must have :</h4></td></tr><tr><td></td><td><p style="margin-left:10px;">{!JSENCODE(errorString)}</p></td></tr></table>';
+	    			errorDiv.setAttribute("class", "errorBoxClass");
+
+	    			var street=document.getElementById('page:form:LeadDetails:LeadDetailsSection:street');
+	    			if(street.value.trim().length == 0){
+	    				street.setAttribute("class", "errorClass");
+	    			}else{
+	    				street.removeAttribute("class", "errorClass");
+	    			}
+
+	    			var phone=document.getElementById('page:form:LeadDetails:LeadDetailsSection:phone');
+	    			if(phone.value.trim().length == 0){
+	    				phone.setAttribute("class", "errorClass");
+	    			}else{
+	    				phone.removeAttribute("class", "errorClass");
+	    			}
+
+	    			var city=document.getElementById('page:form:LeadDetails:LeadDetailsSection:city');
+	    			if(city.value.trim().length == 0){
+	    				city.setAttribute("class", "errorClass");
+	    			}else{
+	    				city.removeAttribute("class", "errorClass");
+	    			}
+
+	    			var country=document.getElementById('page:form:LeadDetails:LeadDetailsSection:country');
+	    			if(country.value.trim().length == 0){
+	    				country.setAttribute("class", "errorClass");
+	    			}else{
+	    				country.removeAttribute("class", "errorClass");
+	    			}
+
+	    			var state=document.getElementById('page:form:LeadDetails:LeadDetailsSection:state');
+	    			if(state.value.trim().length == 0){
+	    				state.setAttribute("class", "errorClass");
+	    			}else{
+	    				state.removeAttribute("class", "errorClass");
+	    			}
+
+	    			var postalcode=document.getElementById('page:form:LeadDetails:LeadDetailsSection:postalcode');
+	    			if(postalcode.value.trim().length == 0){
+	    				postalcode.setAttribute("class", "errorClass");
+	    			}else{
+	    				postalcode.removeAttribute("class", "errorClass");
+	    			}
+
+	    </script>
+    </apex:outputPanel>
+    </apex:outputPanel>
+</apex:page>

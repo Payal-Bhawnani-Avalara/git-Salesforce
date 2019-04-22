@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <content>migrationsetedit</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Visualforce</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <content>migrationsetedit</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Visualforce</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <content>migrationsetedit</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Visualforce</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <customHelpPage>migrationsetonlinehelp</customHelpPage>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <description>This object defines the metadata and records that will be processed by a Migration Set Job.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>BundleJob__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <description>Holds the reference to the Bundle Job created for migration.</description>
+        <externalId>false</externalId>
+        <label>Bundle Job</label>
+        <referenceTo>BundleJob__c</referenceTo>
+        <relationshipLabel>Migration Sets</relationshipLabel>
+        <relationshipName>MigrationSets</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>EndDate__c</fullName>
+        <defaultValue>Now()</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Holds the date till which the migration changes will be captured.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The date till which the migration changes will be captured.</inlineHelpText>
+        <label>End Date</label>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>ExcludeUnmanagedItems__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <inlineHelpText>If selected, this migration set will not include changes for unmanaged entities in the org. Records for unmanaged objects or standard objects, and unmanaged metadata, will not be included.</inlineHelpText>
+        <label>Exclude Unmanaged and Standard Items</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>FilterByNamespace__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Filter By Namespace</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>c2g</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ob1</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ffbf</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SCMC</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ffr</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>pse</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ffap</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ffgl</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ffbilling</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ffpsai</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>VanaHCM</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ffqs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ffirule</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>appirio_core</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ffct</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>FilterOnUsers__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Holds the list of UserIds whose changes will be captured.</description>
+        <externalId>false</externalId>
+        <label>Filter On Users</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>None</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>StartDate__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Holds the date from which the migration changes will be captured.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The date from which the migration changes will be captured.</inlineHelpText>
+        <label>Start Date</label>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Holds the status of operations performed on MigrationSet</description>
+        <externalId>false</externalId>
+        <label>Status</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Created</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Prepared</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Bundled</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>TotalNumberOfMetadataMigrations__c</fullName>
+        <deprecated>false</deprecated>
+        <description>It will show the total count of Metadata Migrations in Migration Set</description>
+        <externalId>false</externalId>
+        <label>Total number of metadata items</label>
+        <summaryForeignKey>MetadataMigration__c.MigrationSet__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>TotalNumberOfRecordMigrations__c</fullName>
+        <deprecated>false</deprecated>
+        <description>It will show the total count of Record Migrations in Migration Set</description>
+        <externalId>false</externalId>
+        <label>Total number of records</label>
+        <summaryForeignKey>RecordMigration__c.MigrationSet__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <label>Migration Set</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>StartDate__c</columns>
+        <columns>EndDate__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+        <language>en_US</language>
+    </listViews>
+    <nameField>
+        <label>Migration Set Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Migration Sets</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <validationRules>
+        <fullName>EndDateShouldBeLessThanCurrentTime</fullName>
+        <active>true</active>
+        <description>The end date should be less than current time</description>
+        <errorConditionFormula>EndDate__c  &gt;  NOW()</errorConditionFormula>
+        <errorDisplayField>EndDate__c</errorDisplayField>
+        <errorMessage>The End Date must be earlier than the current time.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>StartDateShouldBeLessThanCurrentDate</fullName>
+        <active>true</active>
+        <description>The start date should be less than current Time</description>
+        <errorConditionFormula>StartDate__c   &gt;    NOW()</errorConditionFormula>
+        <errorDisplayField>StartDate__c</errorDisplayField>
+        <errorMessage>The Start Date must be earlier than the current time.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>StartDateShouldBeLessThanEndDate</fullName>
+        <active>true</active>
+        <description>The start date should be less end date.</description>
+        <errorConditionFormula>StartDate__c   &gt;   EndDate__c</errorConditionFormula>
+        <errorDisplayField>StartDate__c</errorDisplayField>
+        <errorMessage>The End Date must be later than the Start Date.</errorMessage>
+    </validationRules>
+    <webLinks>
+        <fullName>Migrate</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Migrate</masterLabel>
+        <openType>sidebar</openType>
+        <page>migrationset</page>
+        <protected>false</protected>
+    </webLinks>
+    <webLinks>
+        <fullName>Prepare</fullName>
+        <availability>online</availability>
+        <description>On clicking this button the Metadata and Records to be migrated will be captured in Record Migration and Metadata Migration</description>
+        <displayType>button</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Prepare</masterLabel>
+        <openType>noSidebar</openType>
+        <page>preparemigrationset</page>
+        <protected>false</protected>
+    </webLinks>
+</CustomObject>

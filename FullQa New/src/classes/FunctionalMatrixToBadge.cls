@@ -23,6 +23,7 @@ public class FunctionalMatrixToBadge {
                     );
                     b.put('Status__c', obj.get(s.Status_Field__c));
                     b.put('Date_Achieved__c', obj.get(s.Date_Achieved_Field__c));
+                    System.debug(' obj.get(s.Date_Achieved_Field__c)>>>>>'+ obj.get(s.Date_Achieved_Field__c));
                     badges.add(b);
                 }
                 else if(Trigger.isUpdate && obj.get(s.Status_Field__c) == null && oldMap.get(obj.Id).get(s.Status_Field__c) != obj.get(s.Status_Field__c)){

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>assignedToTypeField</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Rule Details Page Label</shortDescription>
+        <value>Who the task should be assigned to</value>
+    </labels>
+    <labels>
+        <fullName>assignedToTypeHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Name Help Text</shortDescription>
+        <value>The relationship to the \&quot;Assigned To\&quot; field</value>
+    </labels>
+    <labels>
+        <fullName>contactrolehelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>contactrolehelp</shortDescription>
+        <value>Select specific contact roles on Opportunity to whom order will be sent.</value>
+    </labels>
+    <labels>
+        <fullName>descriptionHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Name Help Text</shortDescription>
+        <value>Provide a description that will appear on the SwagiQ Rules Page</value>
+    </labels>
+    <labels>
+        <fullName>dueDateOffsetHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Name Help Text</shortDescription>
+        <value>The number of days after the trigger execution that the task due date will be set to</value>
+    </labels>
+    <labels>
+        <fullName>followUpTaskHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Name Help Text</shortDescription>
+        <value>Input helptext here</value>
+    </labels>
+    <labels>
+        <fullName>giftHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Rule Details Page Label</shortDescription>
+        <value>Select a gift to be sent</value>
+    </labels>
+    <labels>
+        <fullName>giftSenderUserHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Name Help Text</shortDescription>
+        <value>Enter the information below that you want to appear on the address label</value>
+    </labels>
+    <labels>
+        <fullName>isActiveHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Name Help Text</shortDescription>
+        <value>If checked, the rule will be active</value>
+    </labels>
+    <labels>
+        <fullName>nameHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Rule Details Page Label</shortDescription>
+        <value>Provide a descriptive name that will appear on the SwagiQ Rules Page</value>
+    </labels>
+    <labels>
+        <fullName>notifyAssigneeHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Rule Details Page Label</shortDescription>
+        <value>Check to notify assignee</value>
+    </labels>
+    <labels>
+        <fullName>offsetFromField</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Rule Details Page Label</shortDescription>
+        <value>Select from which date create task</value>
+    </labels>
+    <labels>
+        <fullName>priorityHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Name Help Text</shortDescription>
+        <value>The priority of the inserted task</value>
+    </labels>
+    <labels>
+        <fullName>recipientAddressHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>recipientAddressHelp</shortDescription>
+        <value>Select Recipient Address to send order</value>
+    </labels>
+    <labels>
+        <fullName>recipientTypeHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>recipientTypeHelp</shortDescription>
+        <value>Select task recipient to process rule</value>
+    </labels>
+    <labels>
+        <fullName>relatedToTypeHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>relatedToTypeHelp</shortDescription>
+        <value>Select task related object to process rule</value>
+    </labels>
+    <labels>
+        <fullName>restrictCreateTaskHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>restrictCreateTaskHelp</shortDescription>
+        <value>If checked, create task is not allowed</value>
+    </labels>
+    <labels>
+        <fullName>restrictManualHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>restrictManualHelp</shortDescription>
+        <value>If checked, manual send is not allowed</value>
+    </labels>
+    <labels>
+        <fullName>ruleApiObjectHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Rule Details Page Label</shortDescription>
+        <value>Select the object that this rule will be based on</value>
+    </labels>
+    <labels>
+        <fullName>ruleAutoSendHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Name Help Text</shortDescription>
+        <value>If checked, auto send is not allowed</value>
+    </labels>
+    <labels>
+        <fullName>ruleCriteriaHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Name Help Text</shortDescription>
+        <value>Select the evaluation criteria</value>
+    </labels>
+    <labels>
+        <fullName>ruleEvalWhenHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Name Help Text</shortDescription>
+        <value>Select when a rule will be evaluated</value>
+    </labels>
+    <labels>
+        <fullName>ruleTriggerHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Rule Details Page Label</shortDescription>
+        <value>Workflow will trigger based upon a change in data. Time-Based will, on a nightly basis, trigger based upon a date field. Universal will override all rules.</value>
+    </labels>
+    <labels>
+        <fullName>sendTypeHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Rule Details Page Label</shortDescription>
+        <value>Auto Send will automatically send the gift selected in the \&quot;Select Gift\&quot; field when the rule validates to true.  Create task will create a task as defined in the \&quot;Task Details\&quot; section.</value>
+    </labels>
+    <labels>
+        <fullName>statusHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Rule Details Page Label</shortDescription>
+        <value>The status of the inserted task</value>
+    </labels>
+    <labels>
+        <fullName>subjectHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Name Help Text</shortDescription>
+        <value>The subject of the inserted task</value>
+    </labels>
+    <labels>
+        <fullName>taskDescription</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Rule Details Page Label</shortDescription>
+        <value>The comments of the inserted task</value>
+    </labels>
+    <labels>
+        <fullName>taskNameHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Name Help Text</shortDescription>
+        <value>Input task Name</value>
+    </labels>
+    <labels>
+        <fullName>timeBasedDueDateOffsetHelp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Name Help Text</shortDescription>
+        <value>Select the date field and criteria that should be evaluated</value>
+    </labels>
+</CustomLabels>

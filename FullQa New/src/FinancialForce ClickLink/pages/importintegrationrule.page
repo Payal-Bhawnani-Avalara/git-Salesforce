@@ -1,0 +1,15 @@
+<apex:page standardController="ffirule__IntegrationRule__c" recordSetVar="var" extensions="ffirule.ImportIntegrationRuleController">
+  <apex:sectionHeader title="{!$Label.ffirule__irimporttitle}"  help="{!URLFOR('/apex/helploader?topicid=1072')}"  />
+  <apex:form >
+    <apex:pageMessages escape="false" />
+    <apex:panelGroup rendered="{!CanImport}" >
+        <apex:outputText value="{!$Label.ffirule__irimportsubtitle}" />
+        <br/><apex:outputLabel value="{!$Label.ffirule__irimportfiletoimport}" />
+        <apex:inputFile value="{!JSONInput}" fileName="{!InputFileName}"  />
+        <br/>
+        <apex:commandButton value="{!$Label.ffirule__irexportbackbtn}" action="{!cancel}"/>
+        <apex:commandButton value="{!$Label.ffirule__irexportimportbtn}" action="{!importRules}"/>
+    </apex:panelGroup>
+     <apex:commandButton value="{!$Label.ffirule__irexportbackbtn}" action="{!cancel}" rendered="{!NOT(CanImport)}"/>
+  </apex:form>
+</apex:page>

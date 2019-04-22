@@ -5,7 +5,7 @@
 	                  slds-p-vertical--medium">
 	               Avalara SST Application
 	               </legend>
-	              <!-- <iframe width="720" height="315" src="https://www.youtube.com/embed/Qf8DJzdIJjU" ></iframe>-->
+	               <iframe width="720" height="315" src="https://www.youtube.com/embed/Qf8DJzdIJjU" ></iframe>
 	                <br/>
 	 <p>  This form identifies the specific information required for Avalara to complete your SST registration and generate your tax profile. This form should be used if you anticipate using Avalara as your Certified 
 					               Service Provider (CSP). All fields must be populated for the registration form to be considered complete.
@@ -44,9 +44,9 @@
 					    <br/>
 					    <br/>
 					     <div class="slds-col slds-size_9-of-12 "><h4  class="slds-text-heading_small">Payment and   Fees  </h4></div>
-					     <p> Returns filed in states where you have an SST status of volunteer are free of charge. SST states pay Avalara based on the amount of tax filed by 
-					               volunteer sellers, per their agreement with all Certified Service Providers Returns filed where you have an SST status of non-volunteer carry a charge. 
-					               If Avalara files returns for you in SST and non-SST states, then the price per SST non-volunteer return is your standard returns rate. If you are filing 
+					     <p> Returns filed in states where you have an SST status of Volunteer are free of charge. SST states pay Avalara based on the amount of tax filed by 
+					               Volunteer sellers, per their agreement with all Certified Service Providers. Returns filed where you have an SST status of Non-Volunteer carry a charge. 
+					               If Avalara files returns for you in SST and non-SST states, then the price per SST Non-Volunteer return is your standard returns rate. If you are filing 
 					               only in SST states, then the fee is $55 per return, per month.
 					      </p>
 					    <br/>
@@ -54,7 +54,7 @@
 			
 					 <div class="slds-col slds-size_9-of-12 "><h4  class="slds-text-heading_small">SST Volunteer Status and Economic Nexus  </h4></div>
 						  <p> Economic Nexus is a term that refers to the requirement to collect and pay sales tax on income derived in that state even though the business may lack a 
-						               physical presence. Economic Nexus does not preclude you from having an SST status of volunteer. Economic Nexus is not a requirement when determining volunteer 
+						               physical presence. Economic Nexus does not preclude you from having an SST status of Volunteer. Economic Nexus is not a requirement when determining Volunteer 
 						               status, and should not be considered when completing the Volunteer Status section of this document.
 						  </p>
 					</fieldset>

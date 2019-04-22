@@ -1,0 +1,22 @@
+<apex:page standardController="ffrr__PerformanceObligation__c" extensions="ffrr.PopulatePolisFromPoController" tabStyle="ffrr__PerformanceObligation__c">
+	<c:VFShim />
+	<apex:sectionHeader title="{!$ObjectType.ffrr__PerformanceObligation__c.label}" subtitle="{!$Label.ffrr__populatepolispagesubtitle}"/>
+	<apex:form >
+		<apex:pageBlock rendered="{!CanPopulate}">
+			<apex:pageMessages />
+
+			<apex:pageBlockButtons location="bottom">
+				<apex:commandButton id="populateButton" value="{!$Label.ffrr__revrecuiforecastsaveupdate}" action="{!populatePOLIs}" />
+				<apex:commandButton value="{!$Label.ffrr__revenuerecognitiondialogcancel}" action="{!cancel}"/>
+			</apex:pageBlockButtons>
+		</apex:pageBlock>
+
+		<apex:pageBlock rendered="{!!CanPopulate}">
+			<apex:pageMessages />
+
+			<apex:pageBlockButtons location="bottom">
+				<apex:commandButton value="{!$Label.ffrr__revenuerecognitiondialogok}" action="{!cancel}" />
+			</apex:pageBlockButtons>
+		</apex:pageBlock>
+	</apex:form>
+</apex:page>

@@ -1,0 +1,73 @@
+<apex:page standardController="pse__Milestone__c" extensions="ffrr_exp.TransactionSummaryController" readOnly="true" >
+    <style>
+        .headerRow .hideHeader { display:none !important; }
+        .headerRow .rightHeader { text-align:right !important; white-space:pre-wrap !important; }
+        td.rightCell { text-align:right !important; white-space:pre-wrap !important; }
+    </style>
+
+    <apex:panelGrid rendered="{!displayAll}">
+    	<br/><h1 style="font-size:8pt; color:#4A4A56;">Project</h1>
+	    <br/><h2 style="font-size:14pt;">{!projectName}</h2><br/>
+    	<br/><h1 style="font-size:8pt; color:#4A4A56;">Milestone</h1>
+	    <br/><h2 style="font-size:14pt;">{!milestoneName}</h2><br/>
+	    <br/><h2>{!$Label.ffrr_exp__transactionsummarytitle}</h2>
+    </apex:panelGrid>
+    
+    <apex:pageBlock >
+        <apex:pageBlockTable headerclass="hideHeader" id="summaryTotalsHeader" value="{!summaryTotals}" var="o" rendered="{!displayAll}">
+            <apex:column style="width:150px"/>
+            <apex:column headerValue="" />
+            <apex:column style="width:150px" />
+            <apex:column style="width:120px;font-weight:bold;" styleClass="rightCell">
+				<apex:outputText value="{!o.currencyCode} {0, number, 0.00} ">
+					<apex:param value="{!o.total}" />
+				</apex:outputText>            
+            </apex:column>
+            <apex:column style="width:130px;font-weight:bold;">
+                <apex:outputLabel >{!o.status}</apex:outputLabel>
+            </apex:column>
+        </apex:pageBlockTable>
+    
+        <apex:pageBlockTable value="{!summaryResultsForMilestone}" var="o" rendered="{!NOT(ISNULL(summaryResultsForMilestone))}"> 
+            <apex:column style="width:150px" headerValue="Period">
+                <apex:outputLabel >{!o.ffrr__Period__c}</apex:outputLabel>
+            </apex:column>
+            <apex:column headerValue="Recognition Date">
+                 <apex:outputField value="{!o.ffrr__RecognizedDate__c}"/>
+            </apex:column>
+            <apex:column style="width:150px" headerValue="Expense">
+                <apex:outputLink target="_blank" value="{!redirectURL}{!o.ffrr_exp__Expense__c}">{!o.Expense__r.Name}</apex:outputLink>
+            </apex:column>
+            <apex:column style="width:150px" headerValue="Timecard Split">
+                <apex:outputLink target="_blank" value="{!redirectURL}{!o.ffrr_exp__TimecardSplit__c}">{!o.TimecardSplit__r.Name}</apex:outputLink>
+            </apex:column>
+            <apex:column style="width:150px" headerValue="Analysis">
+                <apex:outputLabel >{!o.ffrr__Account__c}</apex:outputLabel>
+            </apex:column>
+            <apex:column style="width:120px;" styleClass="rightCell" headerClass="rightHeader" headerValue="Amount ">
+				<apex:outputText value="{!o.CurrencyIsoCode} {0, number, 0.00} ">
+					<apex:param value="{!o.ffrr__InternalAmount__c}" />
+				</apex:outputText>            
+            </apex:column>
+            <apex:column style="width:130px" headerValue="Status">
+                <apex:outputLabel >{!o.ffrr__RevenueRecognitionMaster__r.ffrr__Status__c}</apex:outputLabel>
+            </apex:column>
+        </apex:pageBlockTable>
+        <apex:outputLabel rendered="{!extraRecords}"><a href="{!displayAllURL}" target="_blank">{!extraRecordText}</a></apex:outputLabel>
+
+        <apex:pageBlockTable headerclass="hideHeader" id="summaryTotals" value="{!summaryTotals}" var="o" rendered="{!NOT(ISNULL(summaryTotals))}">
+            <apex:column style="width:150px"/>
+            <apex:column headerValue="" />
+            <apex:column style="width:150px" />
+            <apex:column style="width:120px;font-weight:bold;" styleClass="rightCell">
+				<apex:outputText value="{!o.currencyCode} {0, number, 0.00} ">
+					<apex:param value="{!o.total}" />
+				</apex:outputText>            
+            </apex:column>
+            <apex:column style="width:130px;font-weight:bold;">
+                <apex:outputLabel >{!o.status}</apex:outputLabel>
+            </apex:column>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+    
+</apex:page>

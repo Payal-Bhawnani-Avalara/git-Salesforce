@@ -1,0 +1,25 @@
+<apex:page standardController="ffrr__PerformanceObligation__c" extensions="ffrr.AllocationFromPoController">
+    <c:VFShim />
+    <apex:sectionHeader title="{!$ObjectType.ffrr__PerformanceObligation__c.label}" subtitle="Allocate Revenue" />
+    <!-- Referencing the RevenueContract__c field makes it available in the Controller, but we don't need it on the page itself -->
+    <apex:pageBlock rendered="false" title="{!ffrr__PerformanceObligation__c.ffrr__RevenueContract__c}"/>
+    <apex:form >
+        <apex:pageBlock rendered="{!Allocatable}">
+            <apex:pageMessages />
+
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton id="allocateButton" value="Allocate Revenue" action="{!allocateRevenue}" />
+                <apex:commandButton value="{!$Label.ffrr__revenuerecognitiondialogcancel}" action="{!cancel}"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+
+        <apex:pageBlock rendered="{!!Allocatable}">
+            <apex:pageMessages />
+
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="{!$Label.ffrr__revenuerecognitiondialogok}" action="{!cancel}" />
+            </apex:pageBlockButtons>
+
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

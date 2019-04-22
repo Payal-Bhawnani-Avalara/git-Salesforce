@@ -1,0 +1,43 @@
+<!--
+    /******************************************************************************
+    *
+    *   Custom VisualForce Page for Training Course
+    *   Copyright 2006, 2007, 2008, 2009 (c) by SalesLogistix.com
+    *   All Rights Reserved, Modifications can only be made for your direct use and 
+    *   not for distribution without explicit permission from SalesLogistix.
+    *
+    ********************************************************************************/
+-->
+<apex:page StandardController="CLX__Training_Course__c" tabStyle="CLX__Training_Course__c" sidebar="true" standardStylesheets="true" showHeader="true" id="page">
+<apex:stylesheet value="{!URLFOR($Resource.CLX__VFResources, 'GeneralCss.css')}" />
+<style>
+.dim_a {width:300px; font-family: Verdana; font-size: 10px; font-weight: normal;}
+.tabletext {font-family: Verdana; font-size: 90%; font-weight: normal;}
+.activeTab {background-color: LightSlateGray; color:white; background-image:none}
+.inactiveTab { background-color: lightgrey; color:black; background-image:none}
+</style>
+
+<chatter:feedWithFollowers entityId="{!CLX__Training_Course__c.id}"/>
+
+<apex:form >
+<apex:detail relatedlist="false" inlineEdit="TRUE"/>
+</apex:form>
+
+<apex:tabPanel switchtype="client" selectedTab="tabA" inactiveTabClass="inactiveTab" activeTabClass="activeTab" width="100%">
+    <apex:tab label="Classes" name="tabA">
+        <apex:relatedList list="Training_Classes__r" subject="{!CLX__Training_Course__c.id}"/>
+    </apex:tab>
+    <apex:tab label="Certified Instructors" name="tabB">
+        <apex:relatedList list="Training_Certifications__r" subject="{!CLX__Training_Course__c.id}"/>
+    </apex:tab>
+    <apex:tab label="Open Activities" name="tabC">
+        <apex:relatedList list="OpenActivities" subject="{!CLX__Training_Course__c.id}"/>
+    </apex:tab>
+    <apex:tab label="Activity History" name="tabD">
+        <apex:relatedList list="ActivityHistories" subject="{!CLX__Training_Course__c.id}"/>
+    </apex:tab>
+    <apex:tab label="Notes and Attachments" name="tabE">
+        <apex:relatedList list="NotesAndAttachments" subject="{!CLX__Training_Course__c.id}"/>
+    </apex:tab>
+</apex:tabPanel>
+</apex:page>

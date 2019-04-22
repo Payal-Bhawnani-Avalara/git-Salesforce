@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>BTN_ADD_OBJECT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add an object</shortDescription>
+        <value>Add</value>
+    </labels>
+    <labels>
+        <fullName>BTN_CANCEL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cancel Button</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>BTN_CLONE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Clone Button</shortDescription>
+        <value>Clone</value>
+    </labels>
+    <labels>
+        <fullName>BTN_DELETE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delete Button</shortDescription>
+        <value>Delete</value>
+    </labels>
+    <labels>
+        <fullName>BTN_EXPORT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Export Mapping Set</shortDescription>
+        <value>Export</value>
+    </labels>
+    <labels>
+        <fullName>BTN_FULL_SCREEN</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Full Screen Button</shortDescription>
+        <value>FULL SCREEN</value>
+    </labels>
+    <labels>
+        <fullName>BTN_IMPORT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Import Mapping Set</shortDescription>
+        <value>Import</value>
+    </labels>
+    <labels>
+        <fullName>BTN_MINIMIZED_SCREEN</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Minimized Screen Button</shortDescription>
+        <value>MINIMIZED SCREEN</value>
+    </labels>
+    <labels>
+        <fullName>BTN_MORE_FIELDS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Display More Fields</shortDescription>
+        <value>Display More Fields</value>
+    </labels>
+    <labels>
+        <fullName>BTN_MORE_OBJECTS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>View More Objects</shortDescription>
+        <value>View More Objects</value>
+    </labels>
+    <labels>
+        <fullName>BTN_OK</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Ok Button</shortDescription>
+        <value>Ok</value>
+    </labels>
+    <labels>
+        <fullName>BTN_REMOVE_OBJECT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Remove an object</shortDescription>
+        <value>Remove</value>
+    </labels>
+    <labels>
+        <fullName>BTN_SAVE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Save Button</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>BTN_SELECT_ALL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select All</shortDescription>
+        <value>Select All</value>
+    </labels>
+    <labels>
+        <fullName>BTN_UNSELECT_ALL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Unselect All</shortDescription>
+        <value>Clear All</value>
+    </labels>
+    <labels>
+        <fullName>BTN_UPLOAD_MAPSET</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Upload Mapping Set</shortDescription>
+        <value>Upload Mapping Set</value>
+    </labels>
+    <labels>
+        <fullName>CLM_CONTRACT_END_DATE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Contract End Date</shortDescription>
+        <value>Contract End Date</value>
+    </labels>
+    <labels>
+        <fullName>CLM_CONTRACT_START_DATE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Contract Start Date</shortDescription>
+        <value>Contract Start Date</value>
+    </labels>
+    <labels>
+        <fullName>CLM_CONTRACT_TYPE</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Contract Type</shortDescription>
+        <value>Contract Type</value>
+    </labels>
+    <labels>
+        <fullName>CLM_CREATE_CONTRACT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create Contract</shortDescription>
+        <value>Create Contract</value>
+    </labels>
+    <labels>
+        <fullName>MP_CONTRACT_OUT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Mapping Type &lt;OUT&gt;</shortDescription>
+        <value>OUT (Contract Management)</value>
+    </labels>
+    <labels>
+        <fullName>MP_CPQ_COLUMN</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CPQ Column</shortDescription>
+        <value>CPQ Column</value>
+    </labels>
+    <labels>
+        <fullName>MP_CPQ_FIELD</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CPQ Field</shortDescription>
+        <value>CPQ Field</value>
+    </labels>
+    <labels>
+        <fullName>MP_IN</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Mapping Type &lt;IN&gt;</shortDescription>
+        <value>IN (Salesforce.com &gt; PROS Smart CPQ)</value>
+    </labels>
+    <labels>
+        <fullName>MP_MAPPED_ONLY</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Mapped fields only</shortDescription>
+        <value>View Mapped Fields Only</value>
+    </labels>
+    <labels>
+        <fullName>MP_OUT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Mapping Type &lt;OUT&gt;</shortDescription>
+        <value>OUT (PROS Smart CPQ &gt; Salesforce.com)</value>
+    </labels>
+    <labels>
+        <fullName>MP_SELECT_OBJ</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Select Object</shortDescription>
+        <value>Select Related Object</value>
+    </labels>
+    <labels>
+        <fullName>MP_SFDC_FIELD</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SFDC Field</shortDescription>
+        <value>SFDC Field</value>
+    </labels>
+    <labels>
+        <fullName>MP_SUBTITLE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Mapping Builder SubTitle</shortDescription>
+        <value>Builder</value>
+    </labels>
+    <labels>
+        <fullName>MP_SYNC_COLUMN</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Synchronization column</shortDescription>
+        <value>Using synchronization column :</value>
+    </labels>
+    <labels>
+        <fullName>MP_SYNC_DEL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sync OUT Delete Mode</shortDescription>
+        <value>‘Basic’ policy (Delete &amp; Re-Create All)</value>
+    </labels>
+    <labels>
+        <fullName>MP_SYNC_UPD</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sync OUT Update Mode</shortDescription>
+        <value>‘Advanced update (update/add)’ policy</value>
+    </labels>
+    <labels>
+        <fullName>MP_SYNC_UPDDEL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sync OUT Update/Delete Mode</shortDescription>
+        <value>‘Advanced update (delete/update/add)’ policy</value>
+    </labels>
+    <labels>
+        <fullName>MSG_CLM_CFQ_ERROR</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CLM error during contract creation</shortDescription>
+        <value>ERROR while creating contract from quote :</value>
+    </labels>
+    <labels>
+        <fullName>MSG_CLM_INVALID_DATES</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Contract end date &lt; Contract start date</shortDescription>
+        <value>Contract end date cannot be prior to contract start date</value>
+    </labels>
+    <labels>
+        <fullName>MSG_ERROR</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error</shortDescription>
+        <value>Unrecoverable error occured in PROS Smart CPQ. Please contact your customer support.</value>
+    </labels>
+    <labels>
+        <fullName>MSG_INVALID_DEVICE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Invalid Device</shortDescription>
+        <value>PROS Smart CPQ is not compatible with this type of mobile device.</value>
+    </labels>
+    <labels>
+        <fullName>MSG_LICENSE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>License</shortDescription>
+        <value>PROS Smart CPQ licence limit has been reached. Please contact your customer support.</value>
+    </labels>
+    <labels>
+        <fullName>MSG_MAINT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Maintenance</shortDescription>
+        <value>PROS Smart CPQ is temporarily down for maintenance. Please try again later.</value>
+    </labels>
+    <labels>
+        <fullName>MSG_MP_NOADDOBJ</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Add Object Not Allowed</shortDescription>
+        <value>You cannot specify mapping for Salesforce.com entities related to this object ( depth limit reached )</value>
+    </labels>
+    <labels>
+        <fullName>MSG_MP_NODELOBJ</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Delete Object Not Allowed</shortDescription>
+        <value>You can remove object dependencies at this level</value>
+    </labels>
+    <labels>
+        <fullName>MSG_NO_CUSTOM_SETTINGS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MSG_NO_CUSTOM_SETTINGS</shortDescription>
+        <value>No Custom Settings have been defined yet for PROS Smart CPQ (or existing Custom Settings are inconsistent). Go to Setup -&gt; Develop -&gt; Custom Settings -&gt; PROS Smart CPQ settings and click on &quot;Manage&quot; to define at least the application settings at Organization Level.</value>
+    </labels>
+    <labels>
+        <fullName>MSG_READ_ONLY_CONTENT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Read-Only content</shortDescription>
+        <value>Content is read-only. Action is not authorized.</value>
+    </labels>
+    <labels>
+        <fullName>MSG_SPRINGCM_ERROR</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>MSG_SPRINGCM_ERROR</shortDescription>
+        <value>An error has occured while sending PROS Smart CPQ documents to SpringCM</value>
+    </labels>
+    <labels>
+        <fullName>MSG_UNLOCK_FAIL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Unable to unlock quote</shortDescription>
+        <value>Unable to unlock quote</value>
+    </labels>
+    <labels>
+        <fullName>MSG_WAIT_SYNCHRONIZATION</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Wait for synchronization</shortDescription>
+        <value>Waiting for synchronization completion</value>
+    </labels>
+    <labels>
+        <fullName>NO_QR_CREATION</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create New Release Forbidden</shortDescription>
+        <value>You cannot create a new release before the initial release has been synchronized</value>
+    </labels>
+    <labels>
+        <fullName>NO_QR_DELETION</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Release Deletion Forbidden</shortDescription>
+        <value>You cannot delete the current active release</value>
+    </labels>
+    <labels>
+        <fullName>QX_CLONE_ERROR</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Clone Quote Error</shortDescription>
+        <value>An error has occurred while cloning the quote. Please contact PROS support.</value>
+    </labels>
+    <labels>
+        <fullName>QX_CLONE_LABEL_PREFIX</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cloned quote label prefix</shortDescription>
+        <value>Clone of</value>
+    </labels>
+    <labels>
+        <fullName>QX_CLONE_LABEL_SUFFIX</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cloned quote label suffix</shortDescription>
+        <value>.</value>
+    </labels>
+    <labels>
+        <fullName>QX_ERROR_MSG</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CPQx Error</shortDescription>
+        <value>An error has occurred while loading quote content. Please contact PROS support.</value>
+    </labels>
+    <labels>
+        <fullName>QX_REFRESH_ERROR</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Refresh Quote Error</shortDescription>
+        <value>An error has occurred while refreshing/synchronizing the quote. Please contact PROS support.</value>
+    </labels>
+    <labels>
+        <fullName>QX_STEPS_HELP_MSG</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Steps Selector Help Message</shortDescription>
+        <value>Please Select a Quote Step:</value>
+    </labels>
+    <labels>
+        <fullName>QX_STEPS_TITLE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Steps Selector Title</shortDescription>
+        <value>PROS Smart CPQ</value>
+    </labels>
+    <labels>
+        <fullName>SINGLE_QR_SELECTION</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Single release selection</shortDescription>
+        <value>Only one release must be selected</value>
+    </labels>
+    <labels>
+        <fullName>SYNCHRONIZATION</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Content to Overview Synchronization</shortDescription>
+        <value>Synchronization.....</value>
+    </labels>
+    <labels>
+        <fullName>TAB_CONTENT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Quote Panel Content Tab</shortDescription>
+        <value>Content</value>
+    </labels>
+    <labels>
+        <fullName>TAB_CONTENT2</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Quote Panel Content2 Tab</shortDescription>
+        <value>Proposal</value>
+    </labels>
+    <labels>
+        <fullName>TAB_CONTRACT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TAB_CONTRACT</shortDescription>
+        <value>Contract</value>
+    </labels>
+    <labels>
+        <fullName>TAB_OVERVIEW</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Quote Panel Overview Tab</shortDescription>
+        <value>Overview</value>
+    </labels>
+</CustomLabels>

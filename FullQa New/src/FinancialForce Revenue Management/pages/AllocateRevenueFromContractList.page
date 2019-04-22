@@ -1,0 +1,23 @@
+<apex:page standardController="ffrr__RevenueContract__c" recordSetVar="things"  extensions="ffrr.AllocationFromContractController">
+    <c:VFShim />
+    <apex:sectionHeader title="{!$ObjectType.ffrr__RevenueContract__c.labelPlural}" subtitle="Allocate Revenue" />
+    <apex:form >
+        <apex:pageBlock rendered="{!Allocatable}">
+            <apex:pageMessages />
+
+            <apex:pageBlockButtons id="buttons" location="bottom">
+                <apex:commandButton id="allocateButton" value="Allocate Revenue" action="{!allocateRevenue}" />
+                <apex:commandButton value="{!$Label.ffrr__revenuerecognitiondialogcancel}" action="{!cancel}"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+
+        <apex:pageBlock rendered="{!!Allocatable}">
+            <apex:pageMessages />
+
+            <apex:pageBlockButtons location="bottom">
+                <apex:commandButton value="{!$Label.ffrr__revenuerecognitiondialogok}" action="{!cancel}" />
+            </apex:pageBlockButtons>
+
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

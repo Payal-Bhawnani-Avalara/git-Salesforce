@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>RevenueContractCompactLayout</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>RevenueContractCompactLayout</fullName>
+        <fields>Name</fields>
+        <fields>Account__c</fields>
+        <fields>Description__c</fields>
+        <fields>TotalRevenue__c</fields>
+        <fields>StartDate__c</fields>
+        <fields>EndDate__c</fields>
+        <fields>AllocationStatus__c</fields>
+        <label>Revenue Contract Compact Layout</label>
+    </compactLayouts>
+    <customHelpPage>helprevenuecontract</customHelpPage>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <description>Represents a single revenue contract between a vendor and a customer.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>false</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>AccountName__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The name of the account for this Revenue Contract.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This will be shown in the Account column of the Recognize Revenue detail view. It does not have to be a Salesforce account.</inlineHelpText>
+        <label>Account Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Account__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Revenue Contracts</relationshipLabel>
+        <relationshipName>RevenueContracts</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>true</defaultValue>
+        <deprecated>false</deprecated>
+        <description>Indicates whether this Revenue Contract is active.</description>
+        <externalId>false</externalId>
+        <label>Active</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Allocatable__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Indicates whether allocation can be run successfully for this Revenue Contract.</description>
+        <externalId>false</externalId>
+        <formula>Revenue__c != 0 &amp;&amp; NullSSPCount__c = 0 &amp;&amp; TotalSSP__c != 0</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Indicates whether allocation can be run successfully for this Revenue Contract.</inlineHelpText>
+        <label>Ready for Allocation</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>AllocationRatio__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The ratio used to allocate revenue to linked Performance Obligations where the Allocated Revenue value has not been overridden.</description>
+        <externalId>false</externalId>
+        <formula>IF(NullSSPCount__c &lt;&gt; 0 || TotalSSPForAllocation__c = 0, null, (Revenue__c - TotalAllocatedRevenueOverride__c) / TotalSSPForAllocation__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>The ratio used to allocate revenue to linked Performance Obligations where the Allocated Revenue value has not been overridden.</inlineHelpText>
+        <label>Allocation Ratio</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>14</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>AllocationStatus__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Shows if the Revenue for this contract has been fully allocated, or needs reallocating.</description>
+        <externalId>false</externalId>
+        <formula>IF(
+    RevenueAllocated__c,
+    IMAGE(&apos;/img/msg_icons/confirm16.png&apos;, $Label.ffrr__revenueallocatedsuccessfully ) &amp; &apos; &apos; &amp; $Label.ffrr__revenueallocatedsuccessfully,
+    IMAGE(&apos;/img/msg_icons/error16.png&apos;, $Label.ffrr__revenuenotallocated ) &amp;
+    IF (
+        Revenue__c = 0,
+        &apos; &apos; &amp; $Label.ffrr__norevenuetoallocate,
+        IF (
+            NullSSPCount__c &gt; 0,
+            &apos; &apos; &amp; SUBSTITUTE($Label.ffrr__nullsspcountgreaterthanzero, &apos;{0}&apos;, TEXT( NullSSPCount__c ) ),
+            IF (
+                TotalSSP__c = 0,
+                &apos; &apos; &amp; $Label.ffrr__totalsspiszero,
+                IF (
+                    TotalNullAllocationRatioCount__c &gt; 0,
+                    &apos; &apos; &amp; $Label.ffrr__revenueallocationnotrun,
+                    &apos; &apos; &amp; $Label.ffrr__revenuenotallocated
+                )
+            )
+        )
+    )
+)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Shows if the Revenue for this contract has been fully allocated, or needs reallocating.</inlineHelpText>
+        <label>Allocation Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The description of this Revenue Contract.</description>
+        <externalId>false</externalId>
+        <label>Description</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>EndDate__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The end date of this Revenue Contract.</description>
+        <externalId>false</externalId>
+        <label>End Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>NullSSPCount__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The number of Performance Obligations relating to revenue that have at least one null SSP value.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Performance Obligations relating to revenue that have at least one null SSP value.</inlineHelpText>
+        <label>Null SSP Count</label>
+        <summaryFilterItems>
+            <field>PerformanceObligation__c.NullSSPCount__c</field>
+            <operation>notEqual</operation>
+            <value>0</value>
+        </summaryFilterItems>
+        <summaryFilterItems>
+            <field>PerformanceObligation__c.SSPOverride__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </summaryFilterItems>
+        <summaryForeignKey>PerformanceObligation__c.RevenueContract__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>POAllocatedRevenueOverrideCount__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The number of linked Performance Obligations where an Allocated Revenue Override value has been entered.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of linked Performance Obligations where an Allocated Revenue Override value has been entered.</inlineHelpText>
+        <label>PO Allocated Revenue Override Count</label>
+        <summaryFilterItems>
+            <field>PerformanceObligation__c.AllocatedRevenueOverride__c</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </summaryFilterItems>
+        <summaryForeignKey>PerformanceObligation__c.RevenueContract__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>PerformanceObligationsCount__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The number of Performance Obligations on this Contract.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Performance Obligations on this Contract.</inlineHelpText>
+        <label>Performance Obligations Count</label>
+        <summaryForeignKey>PerformanceObligation__c.RevenueContract__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>RevenueAllocated__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Indicates if the Revenue for this contract has been allocated successfully.</description>
+        <externalId>false</externalId>
+        <formula>ROUND(Revenue__c, 2) = ROUND(TotalAllocatedRevenue__c, 2) &amp;&amp; ROUND(TotalAllocatedRevenue__c, 2) &lt;&gt; 0 &amp;&amp; TotalNullAllocationRatioCount__c = 0</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Indicates if the Revenue for this contract has been allocated successfully.</inlineHelpText>
+        <label>Revenue Allocated</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>RevenueOverride__c</fullName>
+        <deprecated>false</deprecated>
+        <description>When populated this value is used in the Revenue field.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This field should only be populated if the contract&apos;s revenue is defined at the contract level instead of being calculated from the Performance Obligations. When populated, this value is used in the Revenue field.</inlineHelpText>
+        <label>Revenue Override</label>
+        <precision>16</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>RevenueRecognitionComplete__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Indicates whether this Revenue Contract is fully recognized and amortized.</description>
+        <externalId>false</externalId>
+        <formula>IF(Revenue__c = 0 &amp;&amp; TotalRecognizedToDate__c = 0 &amp;&amp; TotalCost__c = 0 &amp;&amp; TotalAmortizedToDate__c = 0, false, Revenue__c == TotalRecognizedToDate__c &amp;&amp; TotalCost__c == TotalAmortizedToDate__c)</formula>
+        <label>Fully Recognized and Amortized</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Revenue__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The value that will be allocated to the Performance Obligations. Uses Total Revenue, or Revenue Override if populated.</description>
+        <externalId>false</externalId>
+        <formula>ROUND(IF(ISBLANK(RevenueOverride__c), TotalRevenue__c, RevenueOverride__c), 2)</formula>
+        <inlineHelpText>The value that will be allocated to the Performance Obligations. Uses Total Revenue, or Revenue Override if populated.</inlineHelpText>
+        <label>Revenue</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>StartDate__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The start date for this Revenue Contract.</description>
+        <externalId>false</externalId>
+        <label>Start Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>TotalAllocatedRevenueOverride__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Sum of Allocated Revenue Override values from all linked Performance Obligations.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Sum of Allocated Revenue Override values from all linked Performance Obligations.</inlineHelpText>
+        <label>Total Allocated Revenue Override</label>
+        <summarizedField>PerformanceObligation__c.AllocatedRevenueOverride__c</summarizedField>
+        <summaryForeignKey>PerformanceObligation__c.RevenueContract__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>TotalAllocatedRevenue__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Total Allocated Revenue for this Revenue Contract.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Sum of Allocated Revenue values from all linked Performance Obligations.</inlineHelpText>
+        <label>Total Allocated Revenue</label>
+        <summarizedField>PerformanceObligation__c.AllocatedRevenue__c</summarizedField>
+        <summaryForeignKey>PerformanceObligation__c.RevenueContract__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>TotalAmortizedToDate__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Total Amortized To Date for this Revenue Contract.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Sum of Amortized to Date values from all linked Performance Obligations.</inlineHelpText>
+        <label>Total Amortized To Date</label>
+        <summarizedField>PerformanceObligation__c.AmortizedToDate__c</summarizedField>
+        <summaryForeignKey>PerformanceObligation__c.RevenueContract__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>TotalCost__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Sum of Cost values from all linked Performance Obligations.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Sum of Cost values from all linked Performance Obligations.</inlineHelpText>
+        <label>Total Cost</label>
+        <summarizedField>PerformanceObligation__c.Cost__c</summarizedField>
+        <summaryForeignKey>PerformanceObligation__c.RevenueContract__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>TotalNullAllocationRatioCount__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The number of linked Performance Obligations where the Allocation Ratio and Allocated Revenue Override fields are null.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of linked Performance Obligations where the Allocation Ratio and Allocated Revenue Override fields are null.</inlineHelpText>
+        <label>Null Allocation Ratio Count</label>
+        <summaryFilterItems>
+            <field>PerformanceObligation__c.AllocationRatio__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </summaryFilterItems>
+        <summaryFilterItems>
+            <field>PerformanceObligation__c.AllocatedRevenueOverride__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </summaryFilterItems>
+        <summaryFilterItems>
+            <field>PerformanceObligation__c.HasRevenue__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </summaryFilterItems>
+        <summaryForeignKey>PerformanceObligation__c.RevenueContract__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>TotalRecognizedToDate__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Total Recognized To Date for this Revenue Contract.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Sum of Recognized to Date values from all linked Performance Obligations.</inlineHelpText>
+        <label>Total Recognized To Date</label>
+        <summarizedField>PerformanceObligation__c.RecognizedToDate__c</summarizedField>
+        <summaryForeignKey>PerformanceObligation__c.RevenueContract__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>TotalRevenue__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Sum of Revenue values from all linked Performance Obligations.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Sum of Revenue values from all linked Performance Obligations.</inlineHelpText>
+        <label>Total Revenue</label>
+        <summarizedField>PerformanceObligation__c.Revenue__c</summarizedField>
+        <summaryForeignKey>PerformanceObligation__c.RevenueContract__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>TotalSSPForAllocation__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Sum of SSP values for linked Performance Obligations where the Allocated Revenue value has not been overridden.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Sum of SSP values for linked Performance Obligations where the Allocated Revenue value has not been overridden.</inlineHelpText>
+        <label>Total SSP for Allocation</label>
+        <summarizedField>PerformanceObligation__c.SSP__c</summarizedField>
+        <summaryFilterItems>
+            <field>PerformanceObligation__c.AllocatedRevenueOverride__c</field>
+            <operation>equals</operation>
+            <value></value>
+        </summaryFilterItems>
+        <summaryForeignKey>PerformanceObligation__c.RevenueContract__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>TotalSSP__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Sum of Standalone Selling Prices from all linked Performance Obligations.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Sum of Standalone Selling Prices from all linked Performance Obligations.</inlineHelpText>
+        <label>Total SSP</label>
+        <summarizedField>PerformanceObligation__c.SSP__c</summarizedField>
+        <summaryForeignKey>PerformanceObligation__c.RevenueContract__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>ZeroSSPCount__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The number of Performance Obligations relating to revenue where SSP is zero.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Performance Obligations relating to revenue where SSP is zero.</inlineHelpText>
+        <label>Zero SSP Count</label>
+        <summaryFilterItems>
+            <field>PerformanceObligation__c.SSP__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </summaryFilterItems>
+        <summaryFilterItems>
+            <field>PerformanceObligation__c.HasRevenue__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </summaryFilterItems>
+        <summaryForeignKey>PerformanceObligation__c.RevenueContract__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>ffrrtemplate__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Template</label>
+        <referenceTo>Template__c</referenceTo>
+        <relationshipLabel>Revenue Contracts</relationshipLabel>
+        <relationshipName>RevenueContracts</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <label>Revenue Contract</label>
+    <listViews>
+        <fullName>AllRevenueAllocation</fullName>
+        <columns>NAME</columns>
+        <columns>AccountName__c</columns>
+        <columns>Description__c</columns>
+        <columns>PerformanceObligationsCount__c</columns>
+        <columns>RevenueAllocated__c</columns>
+        <columns>Revenue__c</columns>
+        <columns>TotalCost__c</columns>
+        <columns>TotalAllocatedRevenue__c</columns>
+        <columns>TotalSSP__c</columns>
+        <columns>NullSSPCount__c</columns>
+        <columns>ZeroSSPCount__c</columns>
+        <columns>Active__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All - Revenue Allocation</label>
+        <language>en_US</language>
+    </listViews>
+    <listViews>
+        <fullName>AllRevenueRecognition</fullName>
+        <columns>NAME</columns>
+        <columns>AccountName__c</columns>
+        <columns>Description__c</columns>
+        <columns>PerformanceObligationsCount__c</columns>
+        <columns>TotalAllocatedRevenue__c</columns>
+        <columns>TotalRecognizedToDate__c</columns>
+        <columns>TotalCost__c</columns>
+        <columns>TotalAmortizedToDate__c</columns>
+        <columns>RevenueRecognitionComplete__c</columns>
+        <columns>Active__c</columns>
+        <columns>RevenueAllocated__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All - Revenue Recognition</label>
+        <language>en_US</language>
+    </listViews>
+    <listViews>
+        <fullName>RevenueNotAllocated</fullName>
+        <columns>NAME</columns>
+        <columns>Description__c</columns>
+        <columns>AccountName__c</columns>
+        <columns>AllocationStatus__c</columns>
+        <columns>Revenue__c</columns>
+        <columns>TotalSSP__c</columns>
+        <columns>TotalAllocatedRevenue__c</columns>
+        <columns>PerformanceObligationsCount__c</columns>
+        <columns>ZeroSSPCount__c</columns>
+        <columns>NullSSPCount__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>RevenueAllocated__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <label>Revenue not allocated</label>
+        <language>en_US</language>
+    </listViews>
+    <nameField>
+        <displayFormat>RC-{000000}</displayFormat>
+        <label>Revenue Contract Number</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Revenue Contracts</pluralLabel>
+    <searchLayouts>
+        <listViewButtons>ListAllocateRevenue</listViewButtons>
+        <listViewButtons>ListUpdatePerformanceObligations</listViewButtons>
+        <searchResultsAdditionalFields>AccountName__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Active__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>StartDate__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>EndDate__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>TotalSSP__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>TotalAllocatedRevenue__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>TotalRecognizedToDate__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>RevenueRecognitionComplete__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <webLinks>
+        <fullName>AllocateRevenue</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Allocate Revenue</masterLabel>
+        <openType>sidebar</openType>
+        <page>AllocateRevenueFromContractDetail</page>
+        <protected>false</protected>
+    </webLinks>
+    <webLinks>
+        <fullName>ListAllocateRevenue</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Allocate Revenue</masterLabel>
+        <openType>sidebar</openType>
+        <page>AllocateRevenueFromContractList</page>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
+    </webLinks>
+    <webLinks>
+        <fullName>ListUpdatePerformanceObligations</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Update Performance Obligations</masterLabel>
+        <openType>sidebar</openType>
+        <page>PopulatePolisFromContractList</page>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
+    </webLinks>
+    <webLinks>
+        <fullName>ManageObligations</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Manage Obligations</masterLabel>
+        <openType>sidebar</openType>
+        <page>RevenueContract</page>
+        <protected>false</protected>
+    </webLinks>
+    <webLinks>
+        <fullName>UpdatePerformanceObligations</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Update Performance Obligations</masterLabel>
+        <openType>sidebar</openType>
+        <page>PopulatePolisFromContractDetail</page>
+        <protected>false</protected>
+    </webLinks>
+</CustomObject>

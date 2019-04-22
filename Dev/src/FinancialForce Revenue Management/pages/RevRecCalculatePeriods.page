@@ -1,0 +1,14 @@
+<!--
+    Copyright (c) 2018 FinancialForce.com, inc. All rights reserved.
+-->
+<apex:page standardController="ffrr__RecognitionYear__c" extensions="ffrr.RevRecCalendarController" action="{!calculatePeriods}">
+    <c:VFShim />
+    <c:GenericButtonConfirmation Title="Revenue Recognition - Calculate Periods"
+                                 SubTitle="Calculating Periods"
+                                 CanRender="{!!hasErrorMessages}"
+                                 OkText="{!$Label.ffrr__revenuerecognitiondialogok}"
+                                 CancelText="{!$Label.ffrr__revenuerecognitiondialogcancel}"
+                                 ConfirmText="{!$Label.ffrr__revenuerecognitiondialogcreate}"
+                                 SaveMethod="{!createPeriods}"
+                                 CancelMethod="{!cancel}"/>
+</apex:page>

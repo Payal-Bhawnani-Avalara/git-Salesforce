@@ -1,0 +1,11 @@
+<apex:page tabStyle="RecognizeRevenue__tab">
+	<c:VFShim />
+	<apex:sectionHeader title="{!$Label.ffrr__revrecuirevenuerecognitiontitle}" subtitle="{!$Label.ffrr__revrecuipagemoved}"/>
+	<apex:pageBlock >
+		<apex:pageMessage summary="{!$Label.ffrr__revrecuiupdatebookmarks}" escape="true" severity="warning" strength="3"></apex:pageMessage>
+	</apex:pageBlock>
+	<apex:outputPanel >Your browser should redirect automatically. If it does not, please click&nbsp;<apex:outputLink value="{!$Page.ffrr__RevenueActuals}" id="redirectLink">this link</apex:outputLink>.</apex:outputPanel>
+	<script type="text/javascript">
+		window.setTimeout(function(){window.location.href='{!URLFOR($Page.RevenueActuals)}';},3000);
+	</script>
+</apex:page>

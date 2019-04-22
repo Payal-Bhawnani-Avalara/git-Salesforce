@@ -1,0 +1,1 @@
+<apex:page standardController="Contact" title="Contact: {!Contact.Name}" id="pg"><apex:Detail subject="{!$CurrentPage.parameters.Id}" relatedList="true" inLineEdit="true" relatedListHover="true" showChatter="true"  title="true" /><c:HighlighterScript /></apex:page>

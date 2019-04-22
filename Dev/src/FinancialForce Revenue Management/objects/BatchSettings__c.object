@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>AVFCreateFromActualsBatchSize__c</fullName>
+        <defaultValue>200</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of committed Revenue Recognition Transaction Lines per batch processed for which Actual vs. Forecast Lines will be created.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of committed Revenue Recognition Transaction Lines per batch processed for which Actual vs. Forecast Lines will be created.</inlineHelpText>
+        <label>Actual vs. Forecast Actuals Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>AVFCreateFromForecastBatchSize__c</fullName>
+        <defaultValue>200</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of Revenue Forecast Transaction Lines per batch processed for which Actual vs. Forecast Lines will be created.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Revenue Forecast Transaction Lines per batch processed for which Actual vs. Forecast Lines will be created.</inlineHelpText>
+        <label>Actual vs. Forecast Forecast Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>AVFDeleteLinesBatchSize__c</fullName>
+        <defaultValue>1000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of Actual vs. Forecast Lines per batch processed.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Actual vs. Forecast Lines per batch processed.</inlineHelpText>
+        <label>Actual vs. Forecast Delete Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ActualsRetrieveLinesBatchSize__c</fullName>
+        <defaultValue>1000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of source/staging records to be processed/deleted per batch processed.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of source/staging records to be processed/deleted per batch processed.</inlineHelpText>
+        <label>Actuals Old Staging Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ActualsTransactionCommitBatchSize__c</fullName>
+        <defaultValue>1</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of Revenue Recognition Transactions committed per batch processed.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Revenue Recognition Transactions committed per batch processed.</inlineHelpText>
+        <label>Actuals Transaction Commit Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ActualsTransactionSaveBatchSize__c</fullName>
+        <defaultValue>500</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of source records for which Revenue Recognition Transaction Lines are created per batch processed.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of source records for which Revenue Recognition Transaction Lines are created per batch processed.</inlineHelpText>
+        <label>Actuals Transaction Save Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ActualsTransactionSummaryBatchSize__c</fullName>
+        <defaultValue>1000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of Revenue Recognition Transaction Lines summarized per batch processed.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Revenue Recognition Transaction Lines summarized per batch processed.</inlineHelpText>
+        <label>Actuals Transaction Summary Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ForecastDraftTransactionDeleteBatchSize__c</fullName>
+        <defaultValue>50</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Forecast Draft Transaction Delete Batch</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ForecastTransactionSaveBatchSize__c</fullName>
+        <defaultValue>200</defaultValue>
+        <deprecated>false</deprecated>
+        <description>This is the batch size for the save batch that creates Forecast and Forecast Lines from Draft Lines.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This is the batch size for the save batch that creates Forecast and Forecast Lines from Draft Lines.</inlineHelpText>
+        <label>Forecast Transaction Save Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GenerateForecastsBatchSize__c</fullName>
+        <defaultValue>200</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Generate Forecasts Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GroupingBTCDeleteBatchSize__c</fullName>
+        <defaultValue>1000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of Batch Tracking Control records with Action &apos;Create Grouping&apos; that will be deleted per batch processed when running the GroupingDeleteBatch batch process.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Batch Tracking Control records with Action &apos;Create Grouping&apos; that will be deleted per batch processed when running the GroupingDeleteBatch batch process.</inlineHelpText>
+        <label>Grouping BTC Delete Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GroupingCreateBatchSize__c</fullName>
+        <defaultValue>1000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of Staging records that will be processed to create the Grouping Summary records per batch processed.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Staging records that will be processed to create the Grouping Summary records per batch processed.</inlineHelpText>
+        <label>Grouping Create Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GroupingCreateSynchronousLimit__c</fullName>
+        <defaultValue>3000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The maximum number of source records that can be grouped synchronously.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The maximum number of source records that can be grouped synchronously.</inlineHelpText>
+        <label>Grouping Create Synchronous Limit</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GroupingDeleteSynchronousLimit__c</fullName>
+        <defaultValue>2000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The maximum number of grouping records that can be deleted synchronously.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The maximum number of grouping records that can be deleted synchronously.</inlineHelpText>
+        <label>Grouping Delete Synchronous Limit</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GroupingSummaryDeleteBatchSize__c</fullName>
+        <defaultValue>1000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of Grouping Summary records that will be deleted per batch processed when running the GroupingDeleteBatch batch process.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Grouping Summary records that will be deleted per batch processed when running the GroupingDeleteBatch batch process.</inlineHelpText>
+        <label>Grouping Summary Delete Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>LastOpportunityProductMirrorBatch__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Opportunity Product Scheduler Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>OpportunityProductMirrorBatchSize__c</fullName>
+        <defaultValue>1000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of Opportunity Product records for which Opportunity Product Mirror records will be created or updated per batch processed.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Opportunity Product records for which Opportunity Product Mirror records will be created or updated per batch processed.</inlineHelpText>
+        <label>Opportunity Product Mirror Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>OpportunityProductMirrorDeleteBatchSize__c</fullName>
+        <defaultValue>2000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of Opportunity Product Mirror records to be deleted per batch processed.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Opportunity Product Mirror records to be deleted per batch processed.</inlineHelpText>
+        <label>Opp Product Mirror Delete Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ProcessControlDeleteBatchSize__c</fullName>
+        <defaultValue>2000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of Process Control records that will be deleted per batch processed when running the Staging Delete batch process.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Process Control records that will be deleted per batch processed when running the Staging Delete batch process.</inlineHelpText>
+        <label>Process Control Delete Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>StagingBTCDeleteBatchSize__c</fullName>
+        <defaultValue>1000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of Batch Tracking Control records with Action &apos;Create Staging&apos; that will be deleted per batch processed when running the StagingDeleteBatch batch process.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Batch Tracking Control records with Action &apos;Create Staging&apos; that will be deleted per batch processed when running the StagingDeleteBatch batch process.</inlineHelpText>
+        <label>Staging BTC Delete Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>StagingCreateBatchSize__c</fullName>
+        <defaultValue>1000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of staging records that will be processed per batch processed to create grouping summaries.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of staging records that will be processed per batch processed to create grouping summaries.</inlineHelpText>
+        <label>Staging Create Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>StagingCreateSynchronousLimit__c</fullName>
+        <defaultValue>1000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The maximum number of source records that can be processed synchronously.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The maximum number of source records that can be processed synchronously.</inlineHelpText>
+        <label>Staging Create Synchronous Limit</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>StagingDeleteSynchronousLimit__c</fullName>
+        <defaultValue>1000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The maximum number of staging records and grouping records that can be deleted synchronously. At and above this limit Batch Apex is used.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The maximum number of staging records and grouping records that can be deleted synchronously. At and above this limit Batch Apex is used.</inlineHelpText>
+        <label>Staging Delete Synchronous Limit</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>StagingDetailDeleteBatchSize__c</fullName>
+        <defaultValue>1000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of Staging Detail records that will be deleted per batch processed when running the StagingDeleteBatch batch process.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Staging Detail records that will be deleted per batch processed when running the StagingDeleteBatch batch process.</inlineHelpText>
+        <label>Staging Detail Delete Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>StagingSaveBatchSize__c</fullName>
+        <defaultValue>1000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of records that will be processed to create Revenue Recognition Transaction from staging data per batch processed.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of records that will be processed to create Revenue Recognition Transaction from staging data per batch processed.</inlineHelpText>
+        <label>Staging Save Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>StagingSaveSynchronousLimit__c</fullName>
+        <defaultValue>1000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The maximum number of staging records that can be saved synchronously.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The maximum number of staging records that can be saved synchronously.</inlineHelpText>
+        <label>Staging Save Synchronous Limit</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>StagingSummaryDeleteBatchSize__c</fullName>
+        <defaultValue>600</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of Staging Summary records that will be deleted per batch processed when running the StagingDeleteBatch batch process.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Staging Summary records that will be deleted per batch processed when running the StagingDeleteBatch batch process.</inlineHelpText>
+        <label>Staging Summary Delete Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>StagingVersionDeleteBatchSize__c</fullName>
+        <defaultValue>1000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of Staging Version records that will be deleted per batch processed when running the StagingDeleteBatch batch process.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of Staging Version records that will be deleted per batch processed when running the StagingDeleteBatch batch process.</inlineHelpText>
+        <label>Staging Version Delete Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>TransferPreviouslyRecognizedBatchSize__c</fullName>
+        <defaultValue>1000</defaultValue>
+        <deprecated>false</deprecated>
+        <description>The number of performance obligation line items that will be processed per batch when the Transfer Previously Recognized process runs.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of performance obligation line items that will be processed per batch when the Transfer Previously Recognized process runs.</inlineHelpText>
+        <label>Transfer Prev. Recognized Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Revenue Management Batch Settings</label>
+    <visibility>Public</visibility>
+</CustomObject>
