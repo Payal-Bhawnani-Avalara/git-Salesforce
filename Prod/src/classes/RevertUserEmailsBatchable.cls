@@ -1,7 +1,7 @@
 /**
- * When sandboxes refresh, all users' email addresses have @example.com appended to them.
+ * When sandboxes refresh, all users' email addresses have .invalid appended to them.
  * This is a safety feature to prevent unexpected or unwanted emails to be sent from sandbox to users.
- * This class reverts all active users' email addresses by removing the @example.com.
+ * This class reverts all active users' email addresses by removing the .invalid.
  * https://help.salesforce.com/HTViewSolution?id=000193090&language=en_US
  */
 public with sharing class RevertUserEmailsBatchable implements Database.Batchable<SObject> {
@@ -28,9 +28,9 @@ public with sharing class RevertUserEmailsBatchable implements Database.Batchabl
     public void execute( Database.BatchableContext context, List<User> users ) {
       if(users!=null && users.size()>0){
         for ( User u : users ) {
-        	  u.Email = u.Email.replace('=','@'); 
+        	//u.Email = u.Email.replace('=','@'); 
           //to remove appended domain 
-          String addedPhrase = '@example.com'; 
+          String addedPhrase = '.invalid'; 
           u.Email = u.Email.remove(addedPhrase); 
           System.debug( 'user sandbox email: ' + u.email );
           //u.email = u.email.replace('@example.com', '').replace('=', '@');

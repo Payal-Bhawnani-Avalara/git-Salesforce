@@ -1764,6 +1764,20 @@ TEXT(Offer__c) = &quot;Product Offering&quot;, TEXT(Offer__c) = &quot;Referral P
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
     <rules>
+        <fullName>High Priority Responses on Active Opps</fullName>
+        <actions>
+            <name>Open_Opp_High_Priority_Response</name>
+            <type>Task</type>
+        </actions>
+        <active>true</active>
+        <description>https://jira.avalara.com/browse/ITBSE-1531</description>
+        <formula>AND(  No_of_Open_Opportunities__c &gt; 0,  Most_Recent_Conversion_Date__c = TODAY(),
+TEXT(Method_of_Contact_Contact__c) = &quot;Webform T1&quot;,
+OR( TEXT(Offer__c) = &quot;General Contact&quot;,
+TEXT(Offer__c) = &quot;Product Offering&quot;, TEXT(Offer__c) = &quot;Referral Program&quot;, TEXT(Offer__c) = &quot;Free Trial&quot;, TEXT(Offer__c) = &quot;Online Buying&quot;))</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
         <fullName>Inside Sales Workflow - Chat Contact Us Form</fullName>
         <actions>
             <name>Chat_Contact_Us_Form_Follow_up</name>
@@ -2093,7 +2107,7 @@ ISPICKVAL( Offer__c , &quot;Online Buying&quot;)
         <criteriaItems>
             <field>Contact.Offer__c</field>
             <operation>equals</operation>
-            <value>Referral Program,General Contact,Product Offering,Blog,Case Study,Video,Survey,Webinar,Web Tools,Whitepaper,Free Rates,Road Show,Tradeshow,Corporate Sponsored Event,User Group,Partner Event,Partner Training,Content Syndication Whitepaper</value>
+            <value>Referral Program,General Contact,Product Offering,Blog,Case Study,Video,Survey,Webinar,Web Tools,Whitepaper,Free Rates,Road Show,Tradeshow,Corporate Sponsored Event,User Group,Partner Event,Partner Training,Content Syndication Whitepaper,Website Visit</value>
         </criteriaItems>
         <criteriaItems>
             <field>Contact.Opportunity_Sub_Type__c</field>
@@ -3254,6 +3268,18 @@ ISPICKVAL(Cadence_Stage__c, &quot;Working&quot;))
         <protected>false</protected>
         <status>Not Started</status>
         <subject>OBTM</subject>
+    </tasks>
+    <tasks>
+        <fullName>Open_Opp_High_Priority_Response</fullName>
+        <assignedTo>aaron.zapf@avalara.com</assignedTo>
+        <assignedToType>user</assignedToType>
+        <description>Open Opp - High Priority Response</description>
+        <dueDateOffset>0</dueDateOffset>
+        <notifyAssignee>true</notifyAssignee>
+        <priority>Normal</priority>
+        <protected>false</protected>
+        <status>Not Started</status>
+        <subject>Open Opp - High Priority Response</subject>
     </tasks>
     <tasks>
         <fullName>Participated_in_Marketing_Re_engagement_campaign</fullName>

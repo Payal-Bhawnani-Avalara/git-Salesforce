@@ -289,7 +289,7 @@
         <fullName>Assignment_Lock</fullName>
         <active>true</active>
         <description>Only users Peter Ferrara, Earl Wright, Nigel Drinkwater, and Alex Stearns can change the Escalation Owner field. Added ISNEW to cover record insert 
-Update: IBST-8116, IBST-11004, IBST-11468</description>
+Update: IBST-8116, IBST-11004, IBST-11468, IBST-19614</description>
         <errorConditionFormula>AND( 
 $User.Id &lt;&gt; &quot;00533000004BWwo&quot;, 
 $User.Id &lt;&gt; &quot;00540000002fY9I&quot;, 
@@ -306,7 +306,9 @@ $User.Id &lt;&gt; &quot;00533000003RS4P&quot;,
 
 $User.Id &lt;&gt; &quot;00533000003RabR&quot;, 
 
-$User.Id &lt;&gt; &quot;00533000003S4my&quot;, 
+$User.Id &lt;&gt; &quot;00533000003S4my&quot;,
+
+$User.Id &lt;&gt; &quot;00533000003ke0U&quot;, 
 OR( 
 ISCHANGED(Escalation_Owner__c )) 
 )</errorConditionFormula>

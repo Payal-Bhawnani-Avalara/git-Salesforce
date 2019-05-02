@@ -188,6 +188,10 @@ Custodian: Partner Launch Team/Mark Wilhelm</description>
             <valueSetDefinition>
                 <sorted>false</sorted>
                 <value>
+                    <fullName>Avalara Consumer Use</fullName>
+                    <default>false</default>
+                </value>
+                <value>
                     <fullName>AvaTax</fullName>
                     <default>false</default>
                 </value>
@@ -3845,6 +3849,30 @@ Owner: Liz Anderson via PVD</description>
         <label>Connectors - Active,New,Revive only</label>
     </listViews>
     <listViews>
+        <fullName>Coy_s_Connectors1</fullName>
+        <columns>NAME</columns>
+        <columns>Default_Self_Serve__c</columns>
+        <columns>PLT_Owner__c</columns>
+        <columns>Author__c</columns>
+        <columns>X1st_Certification_Date__c</columns>
+        <columns>X2015_Bookings__c</columns>
+        <columns>X2016ActualBookings__c</columns>
+        <columns>X2017_YTD_Opp_Actual__c</columns>
+        <columns>Integration_Page__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Early_Adopter_Sales_Owner__c</field>
+            <operation>contains</operation>
+            <value>Nelson</value>
+        </filters>
+        <filters>
+            <field>Vibrancy__c</field>
+            <operation>contains</operation>
+            <value>Emerging,Active</value>
+        </filters>
+        <label>Coy&apos;s Connectors</label>
+    </listViews>
+    <listViews>
         <fullName>Ecommerce_Connectors_Published</fullName>
         <columns>NAME</columns>
         <columns>Sales_Group__c</columns>
@@ -3962,30 +3990,6 @@ Owner: Liz Anderson via PVD</description>
             <value>Established,Marketing</value>
         </filters>
         <label>Established</label>
-    </listViews>
-    <listViews>
-        <fullName>Hillary_Pell_s_Connector</fullName>
-        <columns>NAME</columns>
-        <columns>Default_Self_Serve__c</columns>
-        <columns>PLT_Owner__c</columns>
-        <columns>Author__c</columns>
-        <columns>X1st_Certification_Date__c</columns>
-        <columns>X2015_Bookings__c</columns>
-        <columns>X2016ActualBookings__c</columns>
-        <columns>X2017_YTD_Opp_Actual__c</columns>
-        <columns>Integration_Page__c</columns>
-        <filterScope>Everything</filterScope>
-        <filters>
-            <field>Early_Adopter_Sales_Owner__c</field>
-            <operation>contains</operation>
-            <value>pell</value>
-        </filters>
-        <filters>
-            <field>Vibrancy__c</field>
-            <operation>contains</operation>
-            <value>Emerging,Active</value>
-        </filters>
-        <label>Hillary Pell&apos;s Connector</label>
     </listViews>
     <listViews>
         <fullName>JC_s_Connectors</fullName>

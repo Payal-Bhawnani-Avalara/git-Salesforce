@@ -4784,7 +4784,7 @@ ISBLANK(Queue_Validation_Value__c)
             <name>GetCustIntelforCase</name>
             <type>FlowAction</type>
         </actions>
-        <active>false</active>
+        <active>true</active>
         <description>Workflow triggers the customer intelligence widget</description>
         <formula>AND
 (
@@ -4921,8 +4921,8 @@ NOT(ISBLANK(Issue_Number__c))
             <type>FieldUpdate</type>
         </actions>
         <active>true</active>
-        <description>Updated: IBST-14676</description>
-        <formula>AND(  NOT(IsClosed = true),  (OR(  ISCHANGED(Adjusted_Fix_Date__c),  (AND(  ISCHANGED(Issue_Status__c),  Issue_Status__c = &quot;Open&quot;)  ))  )  )</formula>
+        <description>Updated: IBST-14676, IBST-19545</description>
+        <formula>AND( NOT(IsClosed = true), (OR( ISCHANGED(Adjusted_Fix_Date__c), (AND( ISCHANGED(Issue_Status__c), OR(Issue_Status__c = &quot;Open&quot;, Issue_Status__c = &quot;Waiting on Support&quot;)) )) ) )</formula>
         <triggerType>onAllChanges</triggerType>
     </rules>
     <rules>

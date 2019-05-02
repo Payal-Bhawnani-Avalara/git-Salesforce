@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Retrieves/replaces the sandbox version of a Connector ID to populate on an Opp Line Item on PROS sync and close in a sandbox environment where the record ID&apos;s don&apos;t match the production ID&apos;s</description>
+    <interviewLabel>OLI Swap Sandbox Connector ID {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>OLI Swap Sandbox Connector ID</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Select ID from Connector__c WHERE External_Id__c = OpportunityLineItem.ConnectorID__C</description>
+        <name>Retrieve_Connector_ID</name>
+        <label>Retrieve Connector ID</label>
+        <locationX>130</locationX>
+        <locationY>312</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_oli_with_sandbox_conn_id</targetReference>
+        </connector>
+        <filters>
+            <field>External_Id__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>oliConnectorID</elementReference>
+            </value>
+        </filters>
+        <object>Connector__c</object>
+        <outputAssignments>
+            <assignToReference>outputConnIDv2</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_oli_with_sandbox_conn_id</name>
+        <label>Update oli with sandbox conn id</label>
+        <locationX>351</locationX>
+        <locationY>300</locationY>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>oliIDv2</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>ConnectorID__c</field>
+            <value>
+                <elementReference>outputConnIDv2</elementReference>
+            </value>
+        </inputAssignments>
+        <object>OpportunityLineItem</object>
+    </recordUpdates>
+    <startElementReference>Retrieve_Connector_ID</startElementReference>
+    <variables>
+        <description>OpportunityLineItem.ConnectorID__c</description>
+        <name>oliConnectorID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue></stringValue>
+        </value>
+    </variables>
+    <variables>
+        <description>Opportunity Line Item ID</description>
+        <name>oliID</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>OpportunityLineItem</objectType>
+    </variables>
+    <variables>
+        <name>oliIDv2</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue></stringValue>
+        </value>
+    </variables>
+    <variables>
+        <description>output variable</description>
+        <name>outputConnID</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Connector__c</objectType>
+    </variables>
+    <variables>
+        <name>outputConnIDv2</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue></stringValue>
+        </value>
+    </variables>
+</Flow>

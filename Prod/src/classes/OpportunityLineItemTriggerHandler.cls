@@ -64,7 +64,7 @@ public with sharing class OpportunityLineItemTriggerHandler  extends TriggerHand
    // protected override void beforeDelete(){}
 
     protected override void afterInsert(){
-    		calculateBookingValue(Trigger.new);
+    		//calculateBookingValue(Trigger.new); //Disabled per IBST-19902
         logHistory((Map<Id,OpportunityLineItem>)Trigger.newMap,null,'Insert');
         TriggerHandler.bypass('OpportunityLineItemTriggerHandler');
     }
@@ -75,16 +75,18 @@ public with sharing class OpportunityLineItemTriggerHandler  extends TriggerHand
     }
 
     protected override void afterUndelete(){
-    		calculateBookingValue(Trigger.new);
+    		//calculateBookingValue(Trigger.new); //Disabled per IBST-19902
         logHistory((Map<Id,OpportunityLineItem>)Trigger.newMap,null,'UnDelete');  
         TriggerHandler.bypass('OpportunityLineItemTriggerHandler');      
     }
 	protected override void afterUpdate(){
-		calculateBookingValue(Trigger.new);
+		//calculateBookingValue(Trigger.new); //Disabled per IBST-19902
         logHistory((Map<Id,OpportunityLineItem>)Trigger.newMap,(Map<Id,OpportunityLineItem>)Trigger.oldMap,'Update');  
         TriggerHandler.bypass('OpportunityLineItemTriggerHandler');      
     }
     //Helper Methods   
+    
+    /* Method below disabled per IBST-19902
     public void calculateBookingValue(List<OpportunityLineItem> listOLI){
     		if(listOLI!=null && listOLI.size()>0){
     			Boolean calculateBooking=false;
@@ -109,6 +111,7 @@ public with sharing class OpportunityLineItemTriggerHandler  extends TriggerHand
     			APIBookings.calculateBookings(oppIDs);
     		}
     }
+	*/
     public void beforeInsertUpdate(){
     		//https://jira.avalara.com/browse/ITBSE-1018
     		List<OpportunityLineItem> oliList=(List<OpportunityLineItem>)Trigger.new;

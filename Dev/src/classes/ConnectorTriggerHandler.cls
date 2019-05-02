@@ -21,9 +21,11 @@ public class ConnectorTriggerHandler extends TriggerHandler{
       for( Connector__c conn : (List<Connector__c>)Trigger.new)
       {
           Connector__c oldConn = (Connector__c)trigger.oldMap.get(Conn.Id);
-          if(Conn.Connector_EcoSystem_Test__c != oldConn.Connector_EcoSystem_Test__c || Conn.Connector_Description__c != oldConn.Connector_Description__c){
-              connectorId.add(conn.id);
-           }
+          if(conn.Vibrancy__c !=null && conn.Vibrancy__c != 'Retired'){
+	          if(Conn.Connector_EcoSystem_Test__c != oldConn.Connector_EcoSystem_Test__c || Conn.Connector_Description__c != oldConn.Connector_Description__c){
+	              connectorId.add(conn.id);
+	           }
+          }
       }
       List<Version__c> verList = [Select Id,Name,Connector__c, Version_KB__r.Account__c, Version_KB__r.Title__c, Version_KB__r.User_Guide_Documentation__c,
                 Version_KB__r.Submit_Demo_Video_url__c,

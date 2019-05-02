@@ -11,10 +11,17 @@ public class EventTriggerHandler extends TriggerHandler {
       Set<Id> contactId = new Set<Id>();
       Set<Id> accountID = new Set<Id>();
       Map<Id,Id> accConMap = new Map<Id,Id>(); 
+      String[] nameFilters = new String[]{'%Sale%', '%SDR%', '%ADR%'};
+      Map<Id, User> ownerOppMap = new Map<Id, User>([ Select Id, ProfileId, Profile.Name From User where Profile.Name like :nameFilters]);
+      System.debug('ownerOppMap>>>>'+ownerOppMap);
+      Map<Id, User> ownerJXMap = new Map<Id, User>([ Select Id, ProfileId, Profile.Name From User where Profile.Name like '%GoLive%' ]);
+      System.debug('ownerJXMap>>>>'+ownerJXMap);
+   
       for( Event e : (List<Event>)Trigger.new)
       {
-         if (e.whoid!=null&&e.whoid.getsobjecttype()==Contact.sObjectType){
-          	contactId.add(e.WhoId);   
+         if (e.whoid!=null&&e.whoid.getsobjecttype()==Contact.sObjectType && e.OwnerId!=null){
+          	contactId.add(e.WhoId);  
+               System.debug('contactId>>>>'+contactId);
           	//accountID.add(e.WhoId.AccountID);
          }
       }
@@ -35,6 +42,7 @@ public class EventTriggerHandler extends TriggerHandler {
                                          Opportunity.SubType__c = :listOppSubType AND Opportunity.isClosed=false AND ContactId = : contactId ORDER BY CreatedDate DESC]){
     
               mapContactOpp.put(oCR.ContactId,oCR.OpportunityId); 
+              System.debug('mapContactOpp>>>>'+mapContactOpp);
         }
         Id implementationCaseRecTypeId=[Select Id from RecordType where DeveloperName='Activation' limit 1].Id;
         for(JX_Data_Feed__c jx: [Select id,Account__c from JX_Data_Feed__c where Account__c=:accountID ]){
@@ -44,15 +52,16 @@ public class EventTriggerHandler extends TriggerHandler {
       
         for( Event e : (List<Event>)Trigger.new)
          {          
-             if (e.WhoId != null && mapContactOpp.containsKey(e.WhoId))
+             if (e.WhoId != null && mapContactOpp.containsKey(e.WhoId) && e.ownerId !=null && ownerOppMap.containsKey(e.ownerId))
              {         
-                e.WhatID = mapContactOpp.get(e.WhoId);        
-             }
-             //BATS-729
-             else if(e.WhoId != null && mapContactJX.containsKey(e.WhoId)/*&& Meeting_Type_CP__c*/){
+                e.WhatID = mapContactOpp.get(e.WhoId);  
+                  System.debug('e.Owner.ProfileID>>>>'+e.Owner.ProfileID);
+                 //BATS-729      
+             }else if(e.WhoId != null && mapContactJX.containsKey(e.WhoId)&& e.OwnerId!=null && ownerJXMap.containsKey(e.ownerId) /*&& Meeting_Type_CP__c*/){
                  e.WhatID =mapContactJX.get(e.WhoId);
-             }   
-         }
+             }  
+           
+         } 
       }
   	}
 

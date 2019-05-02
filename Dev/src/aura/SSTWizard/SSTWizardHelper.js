@@ -1,28 +1,46 @@
 ({
     saveData: function(component, event, helper) {
-        var pad = component.find('can').getElement();
-        var dataUrl = pad.toDataURL();
-        console.log('dataUrl:=' + dataUrl);
-        var strDataURI = dataUrl.replace(/^data:image\/(png|jpg);base64,/, "");
-        var action = component.get("c.save");
-        action.setParams({
-            sstData: component.get("v.sstData"),
-            signatureBody: strDataURI
-        });
-        action.setCallback(this, function(response) {
-            var state = response.getState();
-            var message = response.getReturnValue();
-            console.log("message>>>>>>>>" + JSON.stringify(message));
-            if (message == 'record successfully insert') {
-                document.getElementById("showErrorrTractConfig").style.display = "none";
-                document.getElementById("showMessageTractConfig").style.display = "block";
-
-            } else {
-                document.getElementById("showMessageTractConfig").style.display = "none";
-                document.getElementById("showErrorrTractConfig").style.display = "block";
-            }
-        });
-        $A.enqueueAction(action);
+       var ShowModule = component.get("v.ShowModule");
+       var validExpense = component.find('expdate').reduce(function (validSoFar, inputCmp) {
+            // Displays error messages for invalid fields
+            inputCmp.showHelpMessageIfInvalid();
+            return validSoFar && inputCmp.checkValidity();
+        }, true);
+       
+        if(validExpense){
+	        var pad = component.find('can').getElement();
+	        var dataUrl = pad.toDataURL();
+	        console.log('dataUrl:=' + dataUrl);
+	        var strDataURI = dataUrl.replace(/^data:image\/(png|jpg);base64,/, "");
+	        var action = component.get("c.save");
+	        action.setParams({
+	            sstData: component.get("v.sstData"),
+	            signatureBody: strDataURI
+	        });
+	        action.setCallback(this, function(response) {
+	            var state = response.getState();
+	            var message = response.getReturnValue();
+	            console.log("message>>>>>>>>" + JSON.stringify(message));
+	            if (message == 'record successfully insert') {
+	                document.getElementById("showErrorrTractConfig").style.display = "none";
+	                document.getElementById("showMessageTractConfig").style.display = "block";
+	                component.set("v.ShowModule", true);
+	                component.find('btnSubmit').set("v.disabled", true);
+	                component.find('btnPrev').set("v.disabled", true);
+	                var cmpTarget = component.find('Modalbox1');
+                    var cmpBack = component.find('Modalbackdrop');
+                    $A.util.addClass(cmpTarget, 'slds-fade-in-open');
+                    $A.util.addClass(cmpBack, 'slds-backdrop--open');
+	
+	            } else {
+	                document.getElementById("showMessageTractConfig").style.display = "none";
+	                document.getElementById("showErrorrTractConfig").style.display = "block";
+	            }
+	        });
+	        $A.enqueueAction(action);
+	    } else {
+	           alert('Please complete all required fields.');
+	        }  
     },
     fetchbusinessEntityTypePicklist: function(component, event, helper) {
         var action = component.get("c.getPicklistvalues");
@@ -230,6 +248,21 @@
             var state = a.getState();
             if (state === "SUCCESS") {
                 component.set("v.waBOCPicklist", a.getReturnValue());
+            }
+        });
+        $A.enqueueAction(action);
+    },
+    fetchConPicklist: function(component, event, helper) {
+        var action = component.get("c.getPicklistvalues");
+        action.setParams({
+            'objectName': component.get("v.ObjectName"),
+            'field_apiname': component.get("v.corpCo"),
+            'nullRequired': false
+        });
+        action.setCallback(this, function(a) {
+            var state = a.getState();
+            if (state === "SUCCESS") {
+                component.set("v.corpCoPicklist", a.getReturnValue());
             }
         });
         $A.enqueueAction(action);
