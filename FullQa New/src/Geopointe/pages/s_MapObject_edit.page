@@ -3,24 +3,26 @@
 	<script src="{!URLFOR($Resource.jquery, '/js/lib/jsforce/jsforce.1.7.0.min.js')}"></script> <!-- Angular jQuery UI sortable-->
 
 	<apex:stylesheet value="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700"/> <!-- open sans font -->
-	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/css/smoothness/jquery-ui-1.9.2.custom.min.css')}"/> <!-- jQuery UI CSS -->
+	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/1.12.1/jquery-ui.structure.min.css')}"/> <!-- jQuery UI CSS -->
+	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/1.12.1/jquery-ui.min.css')}"/> <!-- jQuery UI CSS -->
+	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/1.12.1/jquery-ui.theme.min.css')}"/> <!-- jQuery UI CSS -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/fieldSelector/css/fieldselector.css')}"/> <!-- FieldSelector plugin CSS -->
     <apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/plugins/minicolor/jquery.minicolors.css')}"/> <!-- Color picker plugin CSS -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/common/common.css')}"/> <!-- Common geopointe CSS -->
     <apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/lib/maki/maki-sprite.css')}"/> <!-- Maki icon css -->
 	
 	<apex:includeScript value="{!URLFOR($Page.geopointe__translations)}"/> <!-- Geopointe translations -->
-	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/jquery-2.2.4.min.js')}" /> <!-- core jQuery (was 1.8.3 before Icon Picker assets added below)-->
-	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/ui/js/jquery-ui-1.9.2.custom.min.js')}" /> <!-- jQuery UI -->
+	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/jquery-3.3.1.min.js')}" /> <!-- core jQuery (was 1.8.3 before Icon Picker assets added below)-->
+	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/ui/1.12.1/jquery-ui.min.js')}" /> <!-- jQuery UI -->
     <apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/fieldSelector/jquery.fieldselector.js')}"/> <!-- fieldSelector plugin -->
 	<apex:includeScript value="{!$Resource.geopointe__GeopointeJS}" /> <!-- Geopointe universal functions -->
 	<apex:includeScript value="{!$Page.geopointe__js_GA}" /> <!-- Google Analytics -->	
 	<c:walkMeSnippet />
 	
 	<!-- Icon picker assets -->
-    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-1.5.8.min.js')}"></script> <!-- Angular -->
-    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-animate-1.5.8.min.js')}"></script>
-    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-cookies-1.5.8.min.js')}"></script> <!-- Angular -->
+    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-1.6.9.min.js')}"></script> <!-- Angular -->
+    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-animate-1.6.9.min.js')}"></script>
+    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-cookies-1.6.9.min.js')}"></script> <!-- Angular -->
     <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/locales/angular-locale_'& angularLocaleForCurrentUser &'.js')}"></script> <!-- Angular -->
     <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/lib/date.js')}"></script>  <!-- Angular jQuery UI date picker-->
     <script src="{!URLFOR($Resource.jquery, '/js/lib/moment/moment.min.js')}"></script> <!-- Moment.js for time formatting -->

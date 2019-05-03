@@ -5,8 +5,8 @@
    	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat"/><!-- Custom font to match sf1 style -->
    	<link rel="stylesheet" href="{!URLFOR($Resource.jquery, 'sf1/css/sf1.css')}"/> <!-- SF1 Styling -->
 
-   	<script src="{!URLFOR($Resource.jquery, 'sf1/lib/jquery/jquery-2.1.0.min.js')}"></script> <!-- jQuery -->
-   	<script src="{!URLFOR($Resource.jquery, 'sf1/lib/jquery/jquery-ui-1.11.4.custom.min.js')}"></script> <!-- jQuery UI -->
+   	<script src="{!URLFOR($Resource.jquery, '/jquery-3.3.1.min.js')}"></script> <!-- core jQuery -->
+	<script src="{!URLFOR($Resource.jquery, '/ui/1.12.1/jquery-ui.min.js')}"></script> <!-- jQuery UI -->
    	<script src="{!URLFOR($Resource.jquery, 'sf1/js/sf1.js')}"></script> <!-- Geopointe sf1 functions -->
 
    	<!-- localize.js -->

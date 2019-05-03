@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <columns>
+        <field>Account.HGToAccount__r$product__c</field>
+    </columns>
+    <columns>
+        <field>Account.HGToAccount__r$vendor__c</field>
+    </columns>
+    <columns>
+        <field>Account.HGToAccount__r$category__c</field>
+    </columns>
+    <columns>
+        <field>Account.HGToAccount__r$categoryParent__c</field>
+    </columns>
+    <columns>
+        <field>Account.HGToAccount__r$countryConfidenceScore__c</field>
+    </columns>
+    <columns>
+        <field>Account.HGToAccount__r$countryDateLastVerified__c</field>
+    </columns>
+    <columns>
+        <field>Account.HGToAccount__r$Name</field>
+    </columns>
+    <description>All Accounts with HG Data Technologies identified</description>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Account$Name</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>All Accounts with HG Data Technologies</name>
+    <params>
+        <name>co</name>
+        <value>1</value>
+    </params>
+    <reportType>Accounts_with_HG_Data_Technologies__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>Account$CreatedDate</dateColumn>
+        <interval>INTERVAL_CUSTOM</interval>
+    </timeFrameFilter>
+</Report>

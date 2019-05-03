@@ -1,0 +1,19 @@
+<apex:page controller="HG_Data_Connect.HG_AppSettings_Controller" lightningStylesheets="true">
+    <apex:slds />
+    <div class="slds-scope">
+        <apex:sectionHeader title="HG Data for Salesforce" subtitle="Settings"/>
+        <apex:form >
+            <apex:pageBlock title="Commercial Control Functions" id="ccFunctions">
+                <apex:commandButton value="Check HG Credits" action="{!updateCreditAllocations}"/>
+                <apex:commandButton value="Check HG Permissions" action="{!updateDataPermissions}"/>
+            </apex:pageBlock>
+
+            <apex:pageBlock title="HG Permissions">
+                <apex:pageBlockTable value="{!CurrentDataPermissions}" var="permission">
+                    <apex:column value="{!permission.Name}"/>
+                    <apex:column value="{!permission.HG_Data_Connect__Filter_Field_Value__c}"/>
+                </apex:pageBlockTable>
+            </apex:pageBlock>
+        </apex:form>
+    </div>
+</apex:page>

@@ -1,0 +1,26 @@
+<aura:component extends="c:LCC_GenericLightningComponent" implements="force:hasRecordId,force:lightningQuickActionWithoutHeader" controller="QQButton_Controller">
+   <aura:set attribute="partially" value="false"></aura:set>
+    <!-- User Interface -->
+    <aura:attribute name="Opportunity" type="Object" />	
+    <aura:attribute name="recordId" type="String" />
+    
+    <div class="slds-modal__header">
+            <h2 class="slds-text-heading_medium slds-hyphenate">QQ Add Custom SOW to Oder</h2>
+    </div>
+        
+    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+            <p>You are about to create custom SOW Order.</p>
+            <br/>
+            <p>Are you sure you want to continue?</p>
+        </div>
+        <div class="slds-modal__footer">
+            <lightning:button class="slds-button_neutral" onclick="{!c.addSOW}" label="Confirm" />
+            <lightning:button class="slds-button_brand" onclick="{!c.cancel}" label="Cancel"/> 
+        </div>
+        
+    
+    <!-- The height of the modal is defined in salesforce, when you create the new action. -->
+    <!-- Recommended height size: 250px -->
+	
+	
+</aura:component>

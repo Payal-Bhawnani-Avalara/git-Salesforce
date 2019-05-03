@@ -3837,12 +3837,9 @@ function gp_saveShape(uniqueId,isSaveAs){
 	//Set isSaveAs to false if it is undefined, Javascript rempoting requiers false value
 	if(!isSaveAs) isSaveAs = false;
 
-	var title = 'Save';
+	var title = 'Save Shape';
 	if(isSaveAs){
-		title = 'Save As';
-	}
-	if(polygon.gpProperties.sfdcName){
-		title += ' - <span notranslate>' + gp_escapeHtml(polygon.gpProperties.sfdcName) + '</span>';
+		title = 'Save As Shape';
 	}
 
 	//Get access to the Folder Service
@@ -3862,7 +3859,7 @@ function gp_saveShape(uniqueId,isSaveAs){
 
 		var body = gp_translations.Enter_a_Name_and_Short_Description_for_the_shape +'<br/>'+
 					'<table>'+
-					'<tr><td class="saveShapeLabel">'+gp_translations.Name+'</td><td><input type="text" value="'+gp_escapeHtml(polygon.gpProperties.sfdcName)+'" id="gp_saveShapeName"/></td></tr>'+
+					'<tr><td class="saveShapeLabel">'+gp_translations.Name+'</td><td><input type="text" value="'+gp_escapeHtml(polygon.gpProperties.sfdcName)+'" id="gp_saveShapeName" style="width: 300px;"/></td></tr>'+
 					'<tr><td class="saveShapeLabel">Folder</td><td>'+foldersHtml+'</td></tr>'+
 					'<tr><td class="saveShapeLabel">Show Label</td><td><input type="checkbox" id="gp_saveShapeShowLabel"/></td></tr>' +
 					'<tr><td class="saveShapeLabel alignTop">'+gp_translations.Description+'</td><td><textarea maxlength="255" style="height: 50px; width: 200px;" id="gp_saveShapeDescription">'+gp_escapeHtml(polygon.gpProperties.sfdcDescription)+'</textarea></td></tr>'+
@@ -4442,7 +4439,7 @@ function gp_deleteShapeConfirm(uniqueId){
 	}
 
 	//Set the dialog title and body
-	var title = gp_translations.Delete_Shape + '<var> - ' + gp_escapeHtml(polygon.gpProperties.sfdcName) + '</var>';
+	var title = gp_translations.Delete_Shape;
 	
 	var body = '<div class="gp-modal-content">';
 
@@ -4452,6 +4449,7 @@ function gp_deleteShapeConfirm(uniqueId){
 		body+= '<b>'+gp_translations.Shape_Field + '</b>: <var>' + gp_escapeHtml(polygon.gpProperties.relatedRecordFieldLabel) + '</var>';
 	}else{
 		body+= gp_translations.This_will_DELETE_the_selected_Shape_and_remove_it_from_your_list;
+		body+= '<br/><br/><b>'+gp_translations.Name + '</b>: <var>' + gp_escapeHtml(polygon.gpProperties.sfdcName) + '</var>';
 	}
 
 	body += '</div>'+
@@ -4522,7 +4520,7 @@ function gp_deleteShape(shapeId){
 		} else {
 			//Show error message
 			jQuery.extend(toastr.options,{ timeOut: 60000 });
-			toastr.error('Uh oh. Something didn\'t work quite right. '+ event.message);
+			toastr.error('Uh oh. Something didn\'t work quite right. '+ gp_escapeHtml(event.message));
 		
 			//Track the error
 			gp_track('Error', {'Language': 'JavaScript', 'Type':'Remoting', 'Function':'dataShape', 'Message':event.message});
@@ -4932,9 +4930,10 @@ var gp_calcRecordsUtils = {
 						type: field.type,
 						showMetrics: field.showMetrics
 					};
-				} else if (field.type === 'CURRENCY' && gp_orgSettings.multiCurrency) {
-					aggregateFields[field.field + '_converted'] = {
-						field: field.field + '_converted',
+				} else if (gp_orgSettings.multiCurrency && gp_isConvertibleCurrField(field, gp_dataSetSearches[collectionName].qo.moNew)) {
+					let alias = gp_convCurrAlias(field.field)
+					aggregateFields[alias] = {
+						field: alias,
 						label: field.label,
 						scale: gp_orgSettings.currencyDecimalPlaces[gp_userSettings.userInfo.userCurrency.isoCode],
 						type: field.type,

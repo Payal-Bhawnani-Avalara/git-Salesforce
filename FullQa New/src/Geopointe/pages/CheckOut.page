@@ -8,7 +8,7 @@
 	<apex:stylesheet value="https://fonts.googleapis.com/css?family=Montserrat"/><!-- Custom font to match sf1 style -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/sf1/css/sf1.css')}"/><!-- Geopointe sf1 css -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/sf1/css/checkin.css')}"/><!-- Geopointe sf1 check in css -->
-	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/sf1/lib/jquery-2.0.3.min.js')}"/><!-- jQuery -->
+	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/jquery-3.3.1.min.js')}"/><!-- jQuery -->
 	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/sf1/js/sf1.js')}"/><!-- Geopointe sf1 functions -->
 	<apex:includeScript value="/canvas/sdk/js/publisher.js"/> <!-- Interact with sf1 wrapper -->
 	<apex:includeScript value="{!URLFOR($Resource.geopointe__js_api_v1)}"/> <!-- Geopointe Javascript api -->

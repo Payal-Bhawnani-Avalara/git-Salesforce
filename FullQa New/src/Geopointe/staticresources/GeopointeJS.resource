@@ -280,7 +280,7 @@ function gp_defineDataTableColumns(thisPOIC){
 
 			for(var i = 0; i < thisPOIC.columnLabels.additionalFields.length; i++){
 				var additionalField = thisPOIC.columnLabels.additionalFields[i];
-				var dsField = additionalField.name.endsWith('_converted') ? dsFieldsByName[additionalField.name.slice(0, -10)] : dsFieldsByName[additionalField.name];
+				var dsField = gp_isConvCurrAlias(additionalField.name) ? dsFieldsByName[gp_getCurrFieldFromAlias(additionalField.name)] : dsFieldsByName[additionalField.name];
 
 				// Set isVisible attribute as configured in DataSet edit, also track if col is additional hidden field
 				var isVisible = true;
@@ -680,6 +680,11 @@ function gp_formatOutputField(opts){
 						if(typeof(Sfdc) != "undefined"){
 							if(typeof(Sfdc.cti) != "undefined"){
 								sReturn = '<a href="javascript:sendCTIMessage(\'/CLICK_TO_DIAL?DN=' + encodeURIComponent(currVal) + '&ID=' + opts.sfdcRecordId + '&ENTITY_NAME=' + gp_objNameByKeyPref[prefix] + '&OBJECT_NAME=' + encodeURIComponent(opts.recordName) + '\')">' + 
+								currVal + 
+								'<img width="16" height="10" title="Click to dial" alt="Click to dial" src="/img/btn_dial_inline.gif">' + 
+								'</a>';
+							} else if (typeof Sfdc.lightningClickToDial !== 'undefined' && typeof Sfdc.lightningClickToDial.dial !== 'undefined' && gp_isCtiEnabled()) {
+								sReturn = '<a href="javascript:Sfdc.lightningClickToDial.dial(\'' + currVal + '\', \'' +  opts.sfdcRecordId + '\')">' + 
 								currVal + 
 								'<img width="16" height="10" title="Click to dial" alt="Click to dial" src="/img/btn_dial_inline.gif">' + 
 								'</a>';
@@ -1747,7 +1752,7 @@ function gp_addToRouteFromDataTable(markerId, dataSetSearchId){
 	}
 	else {
 		jQuery.extend(toastr.options,{ timeOut: 60000 });
-    	toastr.error(error);
+    	toastr.error(gp_escapeHtml(error));
 	}
 
 
@@ -1835,7 +1840,7 @@ function gp_addToRouteSearchOrCenterPOI(poi,type){
 			}
 		} else {
 			jQuery.extend(toastr.options,{ timeOut: 60000 });
-			toastr.error(error);
+			toastr.error(gp_escapeHtml(error));
 		}
 
 		// if user prefers, close info window originating the add
@@ -2061,7 +2066,7 @@ function gp_addToRouteExternalPOI(name,street,city,state,zip,country,lat,lng,src
 	}
 	else {
 		jQuery.extend(toastr.options,{ timeOut: 60000 });
-		toastr.error(error);
+		toastr.error(gp_escapeHtml(error));
 	}
 
 	// if user prefers, close info window originating the add
@@ -2691,7 +2696,7 @@ function gp_displayRelatedRecords(recordId, sfdcObject, recordTypeId){
 			var divs='';
 			html +='<div id="relatedListsTabs" style="display: none; font-size: 9pt; font-family: Arial;"><ul notranslate>';
 			for(var i = 0; i < relatedLists.length; i++){
-				lis +='<li><a href="#relatedListsTabs-' + (i+1) + '">' + gp_cleanStringForHTML(relatedLists[i].label) + '</a></li>';
+				lis +='<li data-gptabindex="'+i+'"><a href="#relatedListsTabs-' + (i+1) + '">' + gp_cleanStringForHTML(relatedLists[i].label) + '</a></li>';
 				divs +='<div id="relatedListsTabs-' + (i+1) + '"></div>';
 			}
 			html += lis;
@@ -2730,7 +2735,7 @@ function gp_displayRelatedRecords(recordId, sfdcObject, recordTypeId){
 			modal: true, 
 			draggable: true, 
 			width: '1000px', 
-			position:['middle',125],
+			position: { my: "center top-250", at: "center", of: window },
 			title: 'Related Data', 
 			buttons: { 
 				Close: function() { 
@@ -2740,89 +2745,95 @@ function gp_displayRelatedRecords(recordId, sfdcObject, recordTypeId){
 			open: function(event, ui) {
 				jQuery( "#relatedListsTabs" ).tabs({
 													selected: 0,
-													show: function(event, ui) {
-														if(jQuery(ui.panel).html() == ''){
-															
-															try{
-																var rl = relatedLists[ui.index];
-
-																var html = '';
-																var noResultsText = gp_translations.No_records_were_found;
-																var records = [];
-																var labels = [];
-																var fields = [];
-																var formats = [];
-
-																jQuery.each(rl.getArray("columns"), function(key, value) {
-																	labels.push(value.label);
-																	fields.push(value.name);
-																	formats.push(value.format);
-																});
-
-																if(results.records[rl.name] != null){
-																	records = results.records[rl.name].getArray("records");
-																}
-
-																html += '<table width="100%" class="list display"><thead><tr class="headerRow">';
-																jQuery.each(labels, function(key, value) { 
-																	html += '<th class="dataCell"><b>' + gp_cleanStringForHTML(value) + '</b></th>';
-																});
-																html += '</tr></thead><tbody>';
-
-																if (records.length > 0){
-																	var langTag = gp_getUsersLangTag();
-
-																	jQuery.each(records, function(key, value) {
-																		html += '<tr class="dataRow">';
-																		jQuery.each(fields, function(key2, value2) {
-																			//__c. replacement is for describe bug http://success.salesforce.com/issues_view?id=a1p30000000SYkZAAW
-																			value2 = value2.replace("toLabel","").replace("convertCurrency","").replace("(","").replace(")","").replace('__c.','__r.');
-																			try{
-																				var linkKey=0;
-																				var linkVal=value.Id;
-																				if(rl.sobject=="NoteAndAttachment"){linkKey=1;}
-																				if(rl.sobject=="AccountContactRelation" && sfdcObject=="account"){linkVal=value.ContactId;}
-																				if(rl.sobject=="AccountContactRelation" && sfdcObject=="contact"){linkVal=value.AccountId;}
-																				if(rl.sobject=="AccountTeamMember"){linkVal=value.UserId;}
-																				if(rl.sobject=="OpportunityContactRole"){linkVal=value.ContactId;}
-																				if(rl.sobject=="OpportunityCompetitor" 
-																					|| rl.name.indexOf('Histories') != -1 
-																					|| rl.sobject=="EmailStatus" 
-																					|| rl.sobject=="ProcessInstanceHistory" 
-																					){ linkKey=1000; }
-																				if(rl.sobject=="ActivityHistory"){linkKey=0;}
-																				var tmp = '<td class="dataCell">';
-																				if(eval("value." + value2) == null){
-																					tmp += '&nbsp;';
-																				} else {
-																					if (key2 == linkKey){ tmp += '<a href="/' + linkVal + '" target="_blank" style="cursor:pointer; text-decoration:underline;">'; }
-																					tmp += gp_displayRelatedRecordsValue(gp_cleanStringForHTML(eval("value." + value2)), formats[key2], langTag);
-																					if (key2 == linkKey){ tmp += '</a>'; }
-																				}
-																				tmp += '</td>';
-																				html += tmp;
-																			} catch(e) { html += '<td class="dataCell">&nbsp;</td>'; }
-																		});
-																		html += '</tr>';
-																	});
-																} else {
-																	html += '<tr><td colspan="' + labels.length + '">' + noResultsText + '</td></tr>';
-																}
-																html += '</tbody></table>';
-																if (records.length > 10){
-																	html += '<p>'+gp_translations.There_are_more_related_records_than_displayed_here+'<br/><br/><a href="/' + recordId + '" target="_blank">View Parent Record</a></p>';
-																}
-																jQuery(ui.panel).html(html);
-															} catch (e) {
-																jQuery(ui.panel).html('<p>'+gp_translations.Error_loading_related_data+'</p>');
-															}
-														}
+													create:  function(event, ui) {
+														loadTabContent(ui.tab,ui.panel);
+													},
+													activate: function(event, ui) {
+														loadTabContent(ui.newTab,ui.newPanel);
 													}
 				});
 				jQuery( "#relatedListsTabs" ).show();
 			}
 	});
-	
+
+	function loadTabContent(tab,panel){
+		if(!jQuery(panel).html() == '') return false;
+		
+		try{
+			var rl = relatedLists[ jQuery(tab).attr('data-gptabindex')];
+
+			var html = '';
+			var noResultsText = gp_translations.No_records_were_found;
+			var records = [];
+			var labels = [];
+			var fields = [];
+			var formats = [];
+
+			jQuery.each(rl.getArray("columns"), function(key, value) {
+				labels.push(value.label);
+				fields.push(value.name);
+				formats.push(value.format);
+			});
+
+			if(results.records[rl.name] != null){
+				records = results.records[rl.name].getArray("records");
+			}
+
+			html += '<table width="100%" class="list display"><thead><tr class="headerRow">';
+			jQuery.each(labels, function(key, value) { 
+				html += '<th class="dataCell"><b>' + gp_cleanStringForHTML(value) + '</b></th>';
+			});
+			html += '</tr></thead><tbody>';
+
+			if (records.length > 0){
+				var langTag = gp_getUsersLangTag();
+
+				jQuery.each(records, function(key, value) {
+					html += '<tr class="dataRow">';
+					jQuery.each(fields, function(key2, value2) {
+						//__c. replacement is for describe bug http://success.salesforce.com/issues_view?id=a1p30000000SYkZAAW
+						value2 = value2.replace("toLabel","").replace("convertCurrency","").replace("(","").replace(")","").replace('__c.','__r.');
+						try{
+							var linkKey=0;
+							var linkVal=value.Id;
+							if(rl.sobject=="NoteAndAttachment"){linkKey=1;}
+							if(rl.sobject=="AccountContactRelation" && sfdcObject=="account"){linkVal=value.ContactId;}
+							if(rl.sobject=="AccountContactRelation" && sfdcObject=="contact"){linkVal=value.AccountId;}
+							if(rl.sobject=="AccountTeamMember"){linkVal=value.UserId;}
+							if(rl.sobject=="OpportunityContactRole"){linkVal=value.ContactId;}
+							if(rl.sobject=="OpportunityCompetitor" 
+								|| rl.name.indexOf('Histories') != -1 
+								|| rl.sobject=="EmailStatus" 
+								|| rl.sobject=="ProcessInstanceHistory" 
+								){ linkKey=1000; }
+							if(rl.sobject=="ActivityHistory"){linkKey=0;}
+							var tmp = '<td class="dataCell">';
+							if(eval("value." + value2) == null){
+								tmp += '&nbsp;';
+							} else {
+								if (key2 == linkKey){ tmp += '<a href="/' + linkVal + '" target="_blank" style="cursor:pointer; text-decoration:underline;">'; }
+								tmp += gp_displayRelatedRecordsValue(gp_cleanStringForHTML(eval("value." + value2)), formats[key2], langTag);
+								if (key2 == linkKey){ tmp += '</a>'; }
+							}
+							tmp += '</td>';
+							html += tmp;
+						} catch(e) { html += '<td class="dataCell">&nbsp;</td>'; }
+					});
+					html += '</tr>';
+				});
+			} else {
+				html += '<tr><td colspan="' + labels.length + '">' + noResultsText + '</td></tr>';
+			}
+			html += '</tbody></table>';
+			if (records.length > 10){
+				html += '<p>'+gp_translations.There_are_more_related_records_than_displayed_here+'<br/><br/><a href="/' + recordId + '" target="_blank">View Parent Record</a></p>';
+			}
+			jQuery(panel).html(html);
+		} catch (e) {
+			console.log(e);
+			jQuery(panel).html('<p>'+gp_translations.Error_loading_related_data+'</p>');
+		}
+	}
 }
 
 function gp_getUsersLangTag() {

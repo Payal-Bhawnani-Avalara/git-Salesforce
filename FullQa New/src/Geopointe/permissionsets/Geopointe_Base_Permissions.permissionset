@@ -3860,6 +3860,10 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
+        <apexPage>CloseActionModal</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
         <apexPage>CorrectLocation</apexPage>
         <enabled>true</enabled>
     </pageAccesses>

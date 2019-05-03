@@ -3,5 +3,5 @@
     <description>PROS CPQ</description>
     <disableProtocolSecurity>false</disableProtocolSecurity>
     <isActive>true</isActive>
-    <url>https://pr005601.proscloud.com</url>
+    <url>https://ts005601.proscloud.com</url>
 </RemoteSiteSetting>

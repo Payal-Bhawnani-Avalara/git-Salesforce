@@ -2,10 +2,10 @@
 
 	<script src="{!googJSsrc}"></script> <!-- Google JavaScript API -->
 
-	<script src="{!URLFOR($Resource.jquery, '/jquery-2.2.4.min.js')}"></script> <!-- core jQuery -->
-	<script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-1.5.8.min.js')}"></script> <!-- Angular -->
-	<script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-animate-1.5.8.min.js')}"></script>
-	<script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-cookies-1.5.8.min.js')}"></script> <!-- Angular -->
+	<script src="{!URLFOR($Resource.jquery, '/jquery-3.3.1.min.js')}"></script> <!-- core jQuery -->
+	<script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-1.6.9.min.js')}"></script> <!-- Angular -->
+	<script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-animate-1.6.9.min.js')}"></script>
+	<script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-cookies-1.6.9.min.js')}"></script> <!-- Angular -->
     <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/locales/angular-locale_'& angularLocaleForCurrentUser &'.js')}"></script> <!-- Angular -->
     <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/lib/date.js')}"></script>  <!-- Angular jQuery UI date picker-->
     <script src="{!URLFOR($Resource.jquery, '/js/lib/moment/moment.min.js')}"></script> <!-- Moment.js for time formatting -->

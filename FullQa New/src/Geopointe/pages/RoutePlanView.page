@@ -5,7 +5,7 @@
 	<script type="text/javascript" src="{!GOOGJsApiUrl}"></script>
 
 	<script src="{!URLFOR($Page.translations)}"></script> <!-- Geopointe translations -->
-    <script src="{!URLFOR($Resource.jquery, '/jquery-2.2.4.min.js')}"></script> <!-- core jQuery -->
+    <script src="{!URLFOR($Resource.jquery, '/jquery-3.3.1.min.js')}"></script> <!-- core jQuery -->
     <script src="{!URLFOR($Resource.jquery, '/mixpanel/mixpanel.js')}"></script><!-- Mix Panel -->
     <script src="{!URLFOR($Resource.jquery, '/fieldSelector/jquery.fieldselector.js')}"></script> <!-- fieldSelector plugin -->
     <script src="{!URLFOR($Resource.jquery, '/js/common.js')}"></script> <!-- Generic JS use across entire app -->
@@ -18,10 +18,10 @@
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/common/common.css')}"/> <!-- Common geopointe CSS -->
     <apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/lib/maki/maki-sprite.css')}"/> <!-- Maki icon css -->
     
-    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-1.5.8.min.js')}"></script> <!-- Angular -->
-    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-animate-1.5.8.min.js')}"></script>
+    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-1.6.9.min.js')}"></script> <!-- Angular -->
+    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-animate-1.6.9.min.js')}"></script>
     <script src="{!URLFOR($Resource.jquery, '/js/lib/angular-ui-bootstrap/ui-bootstrap-tpls.js')}"></script>
-    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-cookies-1.5.8.min.js')}"></script> <!-- Angular -->
+    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-cookies-1.6.9.min.js')}"></script> <!-- Angular -->
     <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/locales/angular-locale_'& angularLocaleForCurrentUser &'.js')}"></script> <!-- Angular -->
     <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/lib/ui.sortable.min.js')}"></script> <!-- Angular jQuery UI sortable-->
     <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/lib/date.js')}"></script> <!-- Angular jQuery UI date picker-->

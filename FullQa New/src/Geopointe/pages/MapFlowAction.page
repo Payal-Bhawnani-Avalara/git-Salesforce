@@ -265,7 +265,7 @@
             }
 
             /* Load lightning framework/MapFlowAction Container */
-            $Lightning.use("c:MapFlowAction", function(){
+            $Lightning.use("geopointe:MapFlowAction", function(){
                 //Create base component lightning:flow and pass an event handler, 
                 // root to mount to, and callback to create the flow and pass in variables dynamically
                 $Lightning.createComponent("lightning:flow", { "onstatuschange": statusChangeHandler },

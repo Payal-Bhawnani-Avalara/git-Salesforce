@@ -2,5 +2,5 @@
 <FeatureParameterInteger xmlns="http://soap.sforce.com/2006/04/metadata">
     <dataflowDirection>SubscriberToLmo</dataflowDirection>
     <masterLabel>ACTPro Active User</masterLabel>
-    <value>1132</value>
+    <value>2051867</value>
 </FeatureParameterInteger>

@@ -5,31 +5,28 @@
 	<script type="text/javascript" src="{!GOOGJsApiUrl}"></script>
 
 	<script src="{!URLFOR($Page.translations)}"></script> <!-- Geopointe translations -->
-	<script src="{!URLFOR($Resource.jquery, '/jquery-2.2.4.min.js')}"></script> <!-- core jQuery -->
-	<script src="{!URLFOR($Resource.jquery, '/ui/js/jquery-ui-1.9.2.custom.min.js')}"></script> <!-- jQuery UI -->
+
+	<script src="{!URLFOR($Resource.jquery, '/jquery-3.3.1.min.js')}"></script> <!-- core jQuery -->
 	<script src="{!URLFOR($Resource.jquery, '/mixpanel/mixpanel.js')}"></script><!-- Mix Panel -->
 	<script src="{!URLFOR($Resource.jquery, '/fieldSelector/jquery.fieldselector.js')}"></script> <!-- fieldSelector plugin -->
 	<script src="{!URLFOR($Resource.jquery, '/js/common.js')}"></script> <!-- Generic JS use across entire app -->
 	<script src="{!URLFOR($Resource.jquery, '/js/lib/lodash.js')}"></script> <!-- lodash.js JavaScript utility library -->
 	<script src="{!URLFOR($Resource.js_api_v1)}"></script> <!-- Geopointe Javascript api -->
 
-	<link href="{!URLFOR($Resource.jquery, '/js/lib/jqueryui-editable/css/jqueryui-editable.css')}" rel="stylesheet"/>
 	<apex:stylesheet value="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700"/> <!-- open sans font -->
-	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/css/smoothness/jquery-ui-1.9.2.custom.min.css')}"/> <!-- jQuery UI CSS -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/fieldSelector/css/fieldselector.css')}"/> <!-- FieldSelector plugin CSS -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/plugins/minicolor/jquery.minicolors.css')}"/> <!-- Color picker plugin CSS -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/lib/maki/maki-sprite.css')}"/> <!-- Maki icon css -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__FontAwesome, '/css/font-awesome.min.css')}"/> <!--Font awesome library for icons and such -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/sf1/css/mapMobile.css')}"/><!-- Geopointe sf1 css -->
-	<script src="{!URLFOR($Resource.jquery, '/js/lib/jqueryui-editable/js/jqueryui-editable.min.js')}"></script>
 	<script src="{!URLFOR($Resource.jquery, '/sf1/js/sf1.js')}"/><!-- Geopointe sf1 functions -->
 	<script src="/canvas/sdk/js/publisher.js"/> <!-- Interact with sf1 wrapper -->
 	<script src="{!URLFOR($Resource.js_api_v1)}"/> <!-- Geopointe Javascript api -->
 
-	<script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-1.5.8.min.js')}"></script> <!-- Angular -->
-	<script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-animate-1.5.8.min.js')}"></script>
+	<script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-1.6.9.min.js')}"></script> <!-- Angular -->
+	<script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-animate-1.6.9.min.js')}"></script>
 	<script src="{!URLFOR($Resource.jquery, '/js/lib/angular-ui-bootstrap/ui-bootstrap-tpls.js')}"></script>
-	<script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-cookies-1.5.8.min.js')}"></script> <!-- Angular -->
+	<script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-cookies-1.6.9.min.js')}"></script> <!-- Angular -->
 	<script src="{!URLFOR($Resource.jquery, '/js/lib/angular/locales/angular-locale_'& angularLocaleForCurrentUser &'.js')}"></script> <!-- Angular -->
 	<script src="{!URLFOR($Resource.jquery, '/js/lib/angular/lib/ui.sortable.min.js')}"></script> <!-- Angular jQuery UI sortable-->
 	<script src="{!URLFOR($Resource.jquery, '/js/lib/angular/lib/date.js')}"></script> <!-- Angular jQuery UI date picker-->
@@ -81,7 +78,7 @@
 	</style>
 
 	<script type="text/javascript">
-		var gpRecordId = '{!recordId}';
+		var gpRecordId = '{!JSENCODE(recordId)}';
 		var gpResourceJquery = '{!URLFOR($Resource.jquery)}';
 		var gpAssetSldsSprites = {utility:'{!URLFOR($Asset.SLDS, "assets/icons/utility-sprite/svg/symbols.svg")}',standard:'{!URLFOR($Asset.SLDS, "assets/icons/standard-sprite/svg/symbols.svg")}'};
 		var gpRemoteAction = '{!$RemoteAction.RemoteAction.doRemoteAction}';
