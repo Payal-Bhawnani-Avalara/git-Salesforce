@@ -1,12 +1,14 @@
 <apex:page sideBar="false" standardController="Opportunity" extensions="LeanData.OpportunityToCampaignMembersController" docType="html-5.0">
     <c:loadingBox />
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'css/magellan.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'scss/magellan.css')}"/>
     <style>
     .dateFormat{
         display:none;
     }
     .sectionHeader{
-        background: #348FDA;
-        color:white;
+        background: var(--lt-grey-2);
+        color:var(--dk-grey-2);
         height:25px;
         width:100%;
         font-weight:bold;
@@ -14,9 +16,9 @@
         padding-left:10px;
         display: table; 
         overflow: hidden;
-        vertical-align: center;
         margin-bottom:5px;
         margin-top:5px;
+        text-shadow: none;
     }
     .centerSectionHeader{
         display: table-cell; 
@@ -30,25 +32,52 @@
     .statsTable .statsHeader td{
         color: white;
     }
-    .statsTable .statsHeader{
-        background: #348FDA;
+    .statsTable .statsHeader th{
+        background: var(--lt-grey-2);
+        padding: 7px;
+        border: 1px solid var(--lt-grey-2);
+        color: #000;
     }
     .statsTable tr td{
-        border: solid 1px gray;   
+        border: solid 1px var(--lt-grey-2);   
         padding: 10px;     
     }
+
+    /* copy of ld-tertiary-small-button from style.resource since attributes have to be !important to override apex standard button stylesheet*/
+    .tertiary-small-button{
+        line-height: 20px !important; 
+        display: inline-block !important;
+        cursor: pointer !important;
+        border: solid thin !important;
+        font-size: 12px !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        border-color: var(--lt-grey-2) !important;
+        border-radius: 5px !important;
+        vertical-align: top !important;
+        margin-right: 5px !important;
+        color: var(--dk-grey-1) !important;
+        text-decoration: none !important;
+        background: var(--white) !important;
+        font-weight: var(--regular) !important;
+    }
+
+    .tertiary-small-button:hover{
+        background: var(--lt-grey-1_5) !important;
+    }
+
     </style>
     <apex:form >
-        <img src="{!$Resource.leandata_logo}" class="leandata_logo_header" height="30px;" style="margin-bottom:5px;"/>
+        <img src="{!URLFOR($Resource.DashboardImages,'LD-logo_2x.png')}" class="leandata_logo_header" height="30px;" style="margin-bottom:5px;"/>
         <apex:pageBlock id="reportingOff" rendered="{!NOT(isReportingOn)}">
             <apex:outputPanel id="pageMessagePanel">
                     <apex:pageMessages />
             </apex:outputPanel>               
         </apex:pageBlock>
         <apex:outputPanel rendered="{!isReportingOn}">
-            <apex:pageBlock title="Opportunity Selection" >
+            <apex:pageBlock title="Opportunity Selection">
                 <apex:pageBlockButtons location="bottom"> 
-                    <apex:commandButton action="{!runInitialReport}" value="Run Initial Report" rerender="pageMessagePanel,resultsPanel" status="loadStatus"/>
+                    <apex:commandButton action="{!runInitialReport}" value="Run Initial Report" rerender="pageMessagePanel,resultsPanel" status="loadStatus" styleClass="tertiary-small-button"/>
                 </apex:pageBlockButtons>
                 <apex:outputPanel layout="block" style="width:300px;align:center;">           
                     <apex:inputField value="{!dummyOCM.LeanData__Opportunity__c}" style="width:300px;" onChange="selectOpportunityAF();" required="true"/>
@@ -58,7 +87,14 @@
             <apex:outputPanel id="resultsPanel">
                 <apex:pageBlock id="opportunityBlock" title="Opportunity Details" rendered="{!isInitialRun}">
                     <table class="statsTable" style="text-align:center">
-                    <tr class="statsHeader"><td><b>Number of Related Campaigns</b></td><td><b>Created Date</b></td><td><b>Close Date</b></td><td><b>Stage</b></td><td><b>Amount</b></td><td><b>Owner</b></td></tr>
+                        <tr class="statsHeader">
+                            <th>Number of Related Campaigns</th>
+                            <th>Created Date</th>
+                            <th>Close Date</th>
+                            <th>Stage</th>
+                            <th>Amount</th>
+                            <th>Owner</th>
+                        </tr>
                     <tr>
                     <td><apex:outputText value="{!NumberofRelatedCampaigns}" /></td>
                     <td>
@@ -75,7 +111,7 @@
                 </apex:pageBlock>
                 <apex:pageBlock id="filterBlock" title="Set Filters" rendered="{!isInitialRun}">
                 <apex:pageBlockButtons location="bottom">
-                    <apex:commandButton action="{!runFilteredReport}" value="Filter Report" rerender="pageMessagePanel,resultsPanel" status="loadStatus"/>                
+                    <apex:commandButton action="{!runFilteredReport}" value="Filter Report" rerender="pageMessagePanel,resultsPanel" status="loadStatus" styleClass="tertiary-small-button"/>                
                 </apex:pageBlockButtons>
                 <ul>
                     <li>Found {!NumberOfContacts} Contacts connected to this Opportunity.</li>
@@ -139,7 +175,7 @@
                 </apex:outputPanel> 
                 <apex:pageBlock id="resultsBlock" title="Results" rendered="{!isInitialRun}">
                     <apex:pageBlockButtons location="top">`
-                        <apex:commandButton action="{!saveOpportunityToCampaignMembers}" value="Save Results" rerender="pageMessagePanel" status="loadStatus"/>                
+                        <apex:commandButton action="{!saveOpportunityToCampaignMembers}" value="Save Results" rerender="pageMessagePanel" status="loadStatus" styleClass="tertiary-small-button"/>                
                     </apex:pageBlockButtons>
                     <ul><li><b>{!TotalConnectedCampaignMembers} Campaign Members.</b></li></ul>
                     <apex:pageBlockTable value="{!opportunityCampaignMembers}" var="C" id="CampaignMembersTable" rendered="{!opportunityCampaignMembers != null}" style="margin-bottom:10px;">

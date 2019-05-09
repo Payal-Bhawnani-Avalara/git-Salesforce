@@ -8,4 +8,5 @@
     <tab>ReportingDefinition__c</tab>
     <tab>ReportingFilter__c</tab>
     <tab>Reporting</tab>
+    <tab>SST_Onboarding__c</tab>
 </CustomApplication>

@@ -77,7 +77,7 @@
                                             <tr>
                                                 <td> {!ck} </td>
                                                 <td>
-                                                    <apex:inputText html-type="number" styleClass="costInputField" value="{!campaignCostsMap[ck]}" /> </td>
+                                                    <apex:inputText html-type="number" styleClass="costInputField ld-input-small" value="{!campaignCostsMap[ck]}" /> </td>
                                             </tr>
                                         </apex:repeat>
                                     </tbody>

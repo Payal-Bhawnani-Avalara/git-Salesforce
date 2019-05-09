@@ -134,7 +134,6 @@
           }
 
           convertLink += customConvertParametersString( pageObj );
-          console.log( convertLink );
 
           convertActionString = '<a target="_blank" data-leadid="' + objId.substring(0,15) + '" data-accountid="' + rec["Id"].substring(0,15) + '" class="customTarget action_link convert_link" href="' + convertLink +'">Convert</a>';
         }
@@ -150,8 +149,6 @@
           }
 
           convertLink += customConvertParametersString( currentObj );
-
-          console.log( convertLink );
 
           // If header contains checkbox, then the all rows in this column should contain checkbox too
           // Checkbox existence check is rather loose here
@@ -317,12 +314,10 @@
     }
     
     function changeSingleLead (leadId, newStatus) {
-      console.log('change');
       OnDemandView.updateLeadStatus(leadId, newStatus,function (result, event) {});
     }
 
     function changeLead () {
-       // console.log(selectedLists);
        var selectedLists = j$('.inline_editable').get();
         [].forEach.call(selectedLists, function(selectList){
           var toJ = j$(selectList);
@@ -402,8 +397,16 @@
               if( numDupes == 0 ) totalNoResultSections++;
             }
         }
-        
-        sectionHeight = ( totalHeight - ( totalSections - 1 )*10 - totalNoResultSections*85 ) / ( totalSections - totalNoResultSections);
+        if (totalSections - totalNoResultSections === 0) {
+          if (type == "Lead") {
+            sectionHeight = 460;
+          } else {
+            sectionHeight = 350;
+          }
+        } else {
+          var availableHeight = (totalHeight - totalNoResultSections*140);
+          sectionHeight = availableHeight / (totalSections - totalNoResultSections)
+        }
         
         //hide section when is unselected by dashboard
         if(!isDuplicatesOnLeadViewOn){
@@ -426,23 +429,22 @@
         }
         
         
-        console.log( ' Section Height ' + sectionHeight );
         if(type == "Lead"){
             if(isDuplicatesOnLeadViewOn){
                 if( numDupes == 0 )
-                    dupeHeightLead = 75;
+                    dupeHeightLead = 135;
                 else
                     dupeHeightLead = sectionHeight;
             }
             if(isMatchedAccountsViewOn){
                 if( numAccountMatched == 0 )
-                    matchedHeight = 75;
+                    matchedHeight = 135;
                 else
                     matchedHeight = sectionHeight;
             }
             if(isRelatedLeadViewOn){
                 if( numLeadMatched == 0 )
-                    a2bHeight = 75;
+                    a2bHeight = 135;
                 else
                     a2bHeight = sectionHeight;
             }
@@ -450,40 +452,27 @@
             heights['dupeHeightLead'] = dupeHeightLead;
             heights['matchedHeight'] = matchedHeight;
             heights['a2bHeight'] = a2bHeight;
-            console.log('dupeHeight: ' + dupeHeightLead);
-            console.log('matchedHeight: ' + matchedHeight);
-            console.log('a2bHeight: ' + a2bHeight);
         }    
         else if(type == "Account"){
             if( isDuplicatesViewOn ){
                 if( numAccountMatched == 0 )
-                    accountDupeHeight = 75;
+                    accountDupeHeight = 135;
                 else
                     accountDupeHeight = sectionHeight;
             }
             if( isMatchedLeadsViewOn ){
                 if( numLeadMatched == 0 )
-                    accountMatchedHeight = 75;
+                    accountMatchedHeight = 135;
                 else
                     accountMatchedHeight = sectionHeight;
             }
             heights['accountDupeHeight'] = accountDupeHeight;
             heights['accountMatchedHeight'] = accountMatchedHeight;
-            console.log('accountDupeHeight: ' + accountDupeHeight);
-            console.log('accountMatchedHeight: ' + accountMatchedHeight);
         }
         else{
             heights['sectionHeight'] = sectionHeight;
         }
       return heights;
-    }
-
-    //This function will set .outer-panel's height to it's parent. This is used to make the view layouts fit correctly.
-    function setOuterPanelHeights(){
-        j$('.outer-panel').each(function() {
-            var p = j$(this).parent();
-            j$(this).height(p.height() - 15 - (j$(this).offset().top  - p.offset().top));
-        });
     }
 
     function initializeDataTable(tableSelector, tableIdentifier, options){
@@ -566,9 +555,11 @@
       // paginate and show "Showing M of N entries" if we have more than 10 entries (by default)
       // pagination is on by default
       var pageLength = options["pageLength"] || 10;
+      var bFilter = options["bFilter"] || false;
+      var emptyTableText = options["emptyTableText"] || "No Data Available";
       var doPagination = (options["pagination"] != false) && (tableSelector.find('tbody tr').length > pageLength);
       var paginatedTable = tableSelector.dataTable({
-        "bFilter" : false,
+        "bFilter" : bFilter,
         "pageLength" : pageLength,
         "bPaginate" : doPagination,
         "bInfo" : doPagination,
@@ -578,6 +569,9 @@
         "stateSave": true,
         "columnDefs": columnDefs,
         "dom": "Zlfrtip", // 'lfrtip' is default Datatables initialization.  'Z' initializes ColResize
+        "language": {
+          "emptyTable": emptyTableText,
+        },
         "colResize": {
            "handleWidth": 10, 
            "tableWidthFixed": false,

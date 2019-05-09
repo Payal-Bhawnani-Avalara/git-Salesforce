@@ -27,4 +27,5 @@
     <tab>Region_Plan__c</tab>
     <tab>Practice_Plan__c</tab>
     <tab>Group_Plan__c</tab>
+    <tab>SST_Onboarding__c</tab>
 </CustomApplication>

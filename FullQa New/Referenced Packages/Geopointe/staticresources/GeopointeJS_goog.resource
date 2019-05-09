@@ -30,6 +30,8 @@ var gp_heatmaps = {}; //Object that contains heatmaps with key as the POIC uniqu
 var gp_remapHidden = [];
 var gp_dragMarker;
 
+var gp_isFullScreen = false;
+
 //Info about the jQuery Tabs
 var gp_JQTabs = {
 	"mapDataSets": 0,
@@ -39,6 +41,9 @@ var gp_JQTabs = {
 	"currentRoute": 4,
 	"mySettings": 5
 }
+
+// Legend metrics aggregation by type
+gp_supportedAggrFieldTypes = ['CURRENCY', 'DOUBLE', 'INTEGER', 'PERCENT'];
 
 var GP_POLYLINE_STROKE = 5;
 
@@ -409,8 +414,9 @@ function gp_mapConstructor(jsAction){
             	position: google.maps.ControlPosition.RIGHT_BOTTOM
             },
             fullscreenControlOptions: {
-            	position: google.maps.ControlPosition.TOP_RIGHT
-            },
+				position: google.maps.ControlPosition.TOP_RIGHT
+			},
+			fullscreenControl: false,
             clickableIcons: false,
             scaleControl: true,
 			scrollwheel: useScrollWheelZoom,
@@ -640,9 +646,70 @@ function gp_mapConstructor(jsAction){
         var dz = gp_map.getDragZoomObject();
         google.maps.event.addListener(dz, 'dragend', function (bnds) {
         	gp_mapManualMove();
-        });
-		
-		
+		});
+
+		// Fullscreen Control
+		// Below are the expand and collaspe icons from google in inline svg format
+		var fullScreenControlIcons = {
+			expand: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2218%22%20height%3D%2218%22%20viewBox%3D%220%20018%2018%22%3E%0A%20%20%3Cpath%20fill%3D%22%23666%22%20d%3D%22M0%2C0v2v4h2V2h4V0H2H0z%20M16%2C0h-4v2h4v4h2V2V0H16z%20M16%2C16h-4v2h4h2v-2v-4h-2V16z%20M2%2C12H0v4v2h2h4v-2H2V12z%22%2F%3E%0A%3C%2Fsvg%3E%0A",
+			collapse: "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2218%22%20height%3D%2218%22%20viewBox%3D%220%200%2018%2018%22%3E%0A%20%20%3Cpath%20fill%3D%22%23666%22%20d%3D%22M4%2C4H0v2h6V0H4V4z%20M14%2C4V0h-2v6h6V4H14z%20M12%2C18h2v-4h4v-2h-6V18z%20M0%2C14h4v4h2v-6H0V14z%22%2F%3E%0A%3C%2Fsvg%3E%0A"
+		}
+
+		var fullScreenControl = jQuery('<div class="fullscreen-control-wrapper">' + 
+					'<img src="' + fullScreenControlIcons.expand + '"/>' + 
+					'</div>')
+					.css({
+						"margin": "10px 10px 10px 0px",
+						"cursor": "pointer",
+						"position": "relative",
+						"height": "40px",
+						"width": "40px",
+						"background-color":"white"
+					})
+		// set the icon to the top right
+		fullScreenControl[0].index = 0;
+		gp_map.controls[google.maps.ControlPosition.TOP_RIGHT].push(fullScreenControl[0]);
+
+		google.maps.event.addDomListener(fullScreenControl[0], 'click', function() {
+			var element = document.getElementById('mapWrapper');
+			if (isFullscreen(element)) toggleFullscreen(true);
+			else toggleFullscreen();
+			
+			function toggleFullscreen(collapse) {
+				if (collapse) {
+					if (document.exitFullscreen) document.exitFullscreen();
+					
+				} else {
+					var element = document.getElementById('mapWrapper');
+					if (element.requestFullscreen) element.requestFullscreen();
+					else gp_alert('Fullscreen functionality is not supported in this browser');
+				}
+			}
+		});
+
+		// After the screen enters or leaves the fullscreen the fullscreenchange event fires
+		// In here we toggle the icons and change the global gp_isFullScreen
+		document.onfullscreenchange = function() {
+			var element = document.getElementById('mapWrapper');
+			if (isFullscreen(element)) {
+				gp_isFullScreen = true;
+				fullScreenControl[0].firstChild.src = fullScreenControlIcons.collapse;
+				setTimeout(function() {
+					gp_setMapHeight('auto'); // set it to auto because it will remove the space for the table
+				}, 1)
+			} else {
+				gp_isFullScreen = false;
+				fullScreenControl[0].firstChild.src = fullScreenControlIcons.expand;
+				gp_setMapHeight(jQuery('#mySettingsMapHeight').val()); // set the map back to its previous height
+			}
+		};
+
+		// Detects if the screen is fullscreen by the element that is passed, 
+		// usually this will be the mapWrapper element but we can pass any in case of the future
+		function isFullscreen(element) {
+			return (document.fullscreenElement == element);
+		}
+
 		// My Location Control
 		if (navigator.geolocation != null){
 			var mlControl = jQuery('<div class="locationArrowWrapper"><i class="fa fa-location-arrow"></i></div>').css({
@@ -737,7 +804,6 @@ function gp_mapConstructor(jsAction){
 
 	//After map is created set the max height of the route table, my locations table, and layers table
 	setRouteTabHeights();
-	setMyLocationsTableMaxHeight();
 	setDataSetTabMaxHeight();
 	setLayersTableMaxHeight();
 	setSearchTabMaxHeight();
@@ -783,6 +849,12 @@ function gp_showCurrentLocationInfoWindow() {
 			if(recordActions){
 				htmlStr += '<div class="poiTooltipButtons"><span style="font-size: 10pt;"><b>'+gp_translations.Record_Actions+':</b></span><br/>';
 				htmlStr += 		recordActions;
+				htmlStr += '</div>';
+			}
+			var recordLinkActions = buildPOIActions(null, aPOI, 'link', 'map', true);
+			if(recordLinkActions){
+				htmlStr += '<div class="poiTooltipActions"><span style="font-size: 10pt;"><b>'+gp_translations.Record_Actions+':</b></span><br/>';
+				htmlStr += 		recordLinkActions;
 				htmlStr += '</div>';
 			}
 			// Map Actions
@@ -942,38 +1014,52 @@ function gp_poiCollections(jsAction){
 					testImg.src = useIconImgUrl;
 				}
 
-				for(var i = 0; i < value.POIs.length; i++){
-					
-					thisPOI = gp_finishPOIObject(value.POIs[i]); //TODO perf 2500ms
-					thisPOI.poicCollectionName = thisPOIC.collectionName;
-					thisPOIC.sfdcObject = thisPOI.sfdcObject;
+				try {
+					for(var i = 0; i < value.POIs.length; i++){
+						
+						thisPOI = gp_finishPOIObject(value.POIs[i]); //TODO perf 2500ms
+						thisPOI.poicCollectionName = thisPOIC.collectionName;
+						thisPOIC.sfdcObject = thisPOI.sfdcObject;
 
-					//Set center pin icon if necesssary
-					if(thisPOI.mapIconURL == 'centerPin'){
-						thisPOI.mapIconURL = gpImg.center_pin2;
-					}
-					else if (mapObjDefaultIconUrl) {
-						thisPOI.mapIconURL = mapObjDefaultIconUrl;
-					}
-					
-					// Archive off the centerPOI
-					if (thisPOI.uniqueId == gp_centerPOICollectionName) { 
-						gp_centerPOI = thisPOI; 
-						gp_radialSearchCenter = {lat: gp_centerPOI.lat, 
-												 lng: gp_centerPOI.lng, 
-												 recordId: gp_centerPOI.recordId};
-					}
+						//Set center pin icon if necesssary
+						if(thisPOI.mapIconURL == 'centerPin'){
+							thisPOI.mapIconURL = gpImg.center_pin2;
+						}
+						else if (mapObjDefaultIconUrl) {
+							thisPOI.mapIconURL = mapObjDefaultIconUrl;
+						}
+						
+						// Archive off the centerPOI
+						if (thisPOI.uniqueId == gp_centerPOICollectionName) { 
+							gp_centerPOI = thisPOI; 
+							gp_radialSearchCenter = {lat: gp_centerPOI.lat, 
+													lng: gp_centerPOI.lng, 
+													recordId: gp_centerPOI.recordId};
+						}
 
-					//poisToHandle.push({poi:thisPOI, poiCollection:thisPOIC});
-					gp_handlePOI(thisPOIC, thisPOI);
-												
-					// Add a row of data to the data table array
-					if(createTable){ tableData.push(gp_defineDataTableRow(thisPOIC, thisPOI)); }
-					thisPOI.tableData.rowIndex = i;
-					thisPOI.tableData.tableCols = tableCols;
+						//poisToHandle.push({poi:thisPOI, poiCollection:thisPOIC});
+						gp_handlePOI(thisPOIC, thisPOI);
+													
+						// Add a row of data to the data table array
+						if(createTable){ tableData.push(gp_defineDataTableRow(thisPOIC, thisPOI)); }
+						thisPOI.tableData.rowIndex = i;
+						thisPOI.tableData.tableCols = tableCols;
 
-					thisPOI = null;
-				}// end of loop through each poi
+						thisPOI = null;
+					}// end of loop through each poi
+				}
+				catch(exc) {
+					if (thisPOI) {
+						var poiErrMsg = 'Error on record ';
+						if (thisPOI.title) poiErrMsg += '\'' + thisPOI.title + '\'';
+						else if (thisPOI.sObject) poiErrMsg += 'ID ' + thisPOI.sObject.id;
+
+						if (exc.message) {
+							poiErrMsg += ': ' + exc.message;
+						}
+					}
+					throw new Error(poiErrMsg);
+				}
 			}
 		}
 		
@@ -1034,7 +1120,7 @@ function gp_poiCollections(jsAction){
 		thisPOICollections.forEach(function(objCollection) {
 			//Restoring a data set search is the same as adding it so we can use this method of initial add after search is performed
 			if (objCollection.collectionName) {
-				gp_restoreDataSetSearchOnMap(objCollection.collectionName);
+				gp_restoreDataSetSearchOnMap(objCollection.collectionName, true);
 			}
 		});
 	},50);
@@ -1237,27 +1323,28 @@ function gp_handlePOI(thisPOIC, thisPOI){
 				} else if (isGeoshape) { //This are currently only geoshape fields
 					var suppressToastAndZoom = true;
 					gp_addShapeIdToMap(shape.sfdcId, function(result){
-
 						//Loop through all the polygons on the map and update the properties
-						for(key in polygonObjects){
-							var shapeOverlay = polygonObjects[key];
-							if (shapeOverlay.gpProperties.groupLayerId != result.groupLayerId)
-								continue;
-							
-							shapeOverlay.gpProperties.sfdcId = shape.sfdcId;
-							shapeOverlay.gpProperties.sfdcName = shape.name;
-							shapeOverlay.gpProperties.sfdcDescription = shape.description ? shape.description : '';
-							shapeOverlay.gpProperties.relatedRecordName = thisPOI.title;
-							shapeOverlay.gpProperties.relatedRecordId = thisPOI.recordId;
-							shapeOverlay.gpProperties.usageType = 'Shape Field';
-							shapeOverlay.gpProperties.gpCollectionName = thisPOIC.collectionName;
-							shapeOverlay.gpProperties.relatedRecordFieldName = shape.relatedRecordFieldName;
-							shapeOverlay.gpProperties.relatedRecordFieldLabel = shape.relatedRecordFieldLabel;
-							shapeOverlay.gpProperties.readOnly = shape.readOnly;
-							shapeOverlay.gpProperties.units = shape.units;
-							shapeOverlay.gpProperties.recordLat = thisPOI.lat;
-							shapeOverlay.gpProperties.recordLng =  thisPOI.lng;
-							shapeOverlay.gpProperties.gpPoiId = thisPOI.uniqueId;
+						if (result) {
+							for(key in polygonObjects){
+								var shapeOverlay = polygonObjects[key];
+								if (!shapeOverlay.gpProperties || (shapeOverlay.gpProperties.groupLayerId != result.groupLayerId))
+									continue;
+								
+								shapeOverlay.gpProperties.sfdcId = shape.sfdcId;
+								shapeOverlay.gpProperties.sfdcName = shape.name;
+								shapeOverlay.gpProperties.sfdcDescription = shape.description ? shape.description : '';
+								shapeOverlay.gpProperties.relatedRecordName = thisPOI.title;
+								shapeOverlay.gpProperties.relatedRecordId = thisPOI.recordId;
+								shapeOverlay.gpProperties.usageType = 'Shape Field';
+								shapeOverlay.gpProperties.gpCollectionName = thisPOIC.collectionName;
+								shapeOverlay.gpProperties.relatedRecordFieldName = shape.relatedRecordFieldName;
+								shapeOverlay.gpProperties.relatedRecordFieldLabel = shape.relatedRecordFieldLabel;
+								shapeOverlay.gpProperties.readOnly = shape.readOnly;
+								shapeOverlay.gpProperties.units = shape.units;
+								shapeOverlay.gpProperties.recordLat = thisPOI.lat;
+								shapeOverlay.gpProperties.recordLng =  thisPOI.lng;
+								shapeOverlay.gpProperties.gpPoiId = thisPOI.uniqueId;
+							}
 						}
 					}, suppressToastAndZoom);
 
@@ -1626,7 +1713,7 @@ function gp_showSameLocationMarkerInfoWindow(marker){
 						infoWindowHTML += '<img src="' + GEOPOINTE_API + '/v1/markers/pin-m+' + dsController.baseColorPalette[0] + '.png" height="32px"/>';
 					}
 					else {
-						infoWindowHTML += '<img src="'+row[gp_ColumnInfo.mapIconURL]+'" height="32px" ' +
+						infoWindowHTML += '<img src="'+row[gp_ColumnInfo.mapIconURL]+'" height="32px" ' + 'style="height: 32px !important;" '  +
 											'onerror="this.onerror=null;this.src=\''+gp_dataSetSearches[collectionName].icon+'\'"/>';
 					}
 					infoWindowHTML+=	'</a></td>'+
@@ -1831,7 +1918,6 @@ function gp_setMapHeight(height){
 	}
 
 	setRouteTabHeights();
-	setMyLocationsTableMaxHeight();
 	setDataSetTabMaxHeight();
 	setLayersTableMaxHeight();
 	setSearchTabMaxHeight();
@@ -2272,6 +2358,10 @@ function gp_openPoiInfoMarker(markerID,sameLocationMarker) {
 
 			marker.infoWindowHTML = tmpInfoContentHTML.replace('<div class="poiActions"></div>',actionsHTML);
 		}
+		// Check if it is a my locations marker and set the poi to the saved property. 
+		if (marker.markerInfo) {
+			gp_searchPOI = marker.markerInfo;
+		} 
 	}
 
 	gp_infoWindow.setContent(marker.infoWindowHTML);
@@ -2405,7 +2495,9 @@ function gp_buildPoiHtml(marker){
 
 // Remove the marker from the map
 function gp_removeMarkerMap(markerID) {
-
+	if (typeof markerID === 'object') {
+		if (markerID.type === 'Location') return angular.element('.dataSetController').scope().locationsService.clearLayer(markerID);
+	}
 	var marker = gp_markers[markerID];
 
 	if(!marker) return;
@@ -2432,14 +2524,14 @@ function gp_removeMarkerMap(markerID) {
 }
 
 //Given a data set search collection name, remove those markers from the map
-function gp_removeDataSetSearchFromMap(collectionName){
+function gp_removeDataSetSearchFromMap(collectionName, forHeatMap){
 
 	//Loop through markers collection and remove those from map for the specified collection
 	for(key in gp_markers){
 		if(gp_markers[key].collectionName == collectionName){
 			gp_markers[key].setMap(null);
 
-			gp_markers[key].visible = false;
+			if (!forHeatMap) gp_markers[key].visible = false;
 
 			// Close info window if applicable
 			if (gp_markers[key].uniqueID == gp_infoWindow.markerId){
@@ -2543,7 +2635,7 @@ function gp_removeDataSetSearchTab(collectionName){
 	}
 }
 
-function gp_restoreDataSetSearchOnMap(collectionName){
+function gp_restoreDataSetSearchOnMap(collectionName, restoreMarkers){
 	//If markers where visibile before data set was removed from map, add them back
 	var dataSetSearch = gp_dataSetSearches[collectionName];
 	if (!dataSetSearch) return;
@@ -2562,7 +2654,7 @@ function gp_restoreDataSetSearchOnMap(collectionName){
 			marker.visible = true;
 		}
 
-		if(marker.collectionName == collectionName && !marker.hiddenByLegend){
+		if(marker.collectionName == collectionName && !marker.hiddenByLegend && restoreMarkers){
 			if(useCluster){
 				dataSetSearch.markerClusterer.addMarker(marker,true); //True is a noDraw option, we will do this once all markers have been added
 			}else{
@@ -2614,7 +2706,7 @@ function gp_restoreDataSetSearchOnMap(collectionName){
 	}
 
 	//Set markers visible flag to true for this search
-	if(gp_dataSetSearches[collectionName]){
+	if(gp_dataSetSearches[collectionName] && restoreMarkers){
 		gp_dataSetSearches[collectionName].markersVisible = true;
 	}
 
@@ -3278,53 +3370,6 @@ function gp_updateBoundsOnOverlay(overlay){
 	}
 }
 
-function getShapeBubbleDistanceHtml(overlay) {
-	var html = '<div id="shapeDistance" style="margin-bottom: 6px; font-size: 12px;">';
-	html += '<div style="margin-bottom: 2px;"><span style="font-weight:bold;">Distance</span>: '
-		if (gp_userDistanceUnit.startsWith('k')) {
-			html += overlay.gpProperties.distance.metric;
-		}
-		else {
-			html += overlay.gpProperties.distance.us;
-		}
-	html += '</div></div>';
-
-	return html;
-}
-
-function getShapeBubbleRecordCountHtml(overlay){
-
-	var html = '<div id="shapeRecordCounts" style="margin-bottom: 6px; font-size: 12px;">';
-
-	var dataLayerService = angular.element('#dataLayerDirective').injector().get('dataLayerService');
-
-	//Record Counts
-	for(key in overlay.gpProperties.recordCounts){
-		//Get the label
-		var objectLablePlural = 'Selected Records';		// idArray markers won't have objectMeta available this way
-		if (gp_objectMeta[key]) {
-			objectLablePlural = gp_objectMeta[key].objectLablePlural;
-		} else if (dataLayerService.dataLayerDefaults[key]) { 
-			objectLablePlural = dataLayerService.dataLayerDefaults[key].label;
-		}
-		html += '<div style="margin-bottom: 2px;"><span style="font-weight:bold;">' + objectLablePlural + '</span>: ' + overlay.gpProperties.recordCounts[key] + '</div>';
-	}
-
-	//Aggregations
-	for(key in overlay.gpProperties.aggregations){
-		//Get the label
-		var amount = overlay.gpProperties.aggregations[key].amount;
-		var formattedAmount = angular.injector(["ng"]).get("currencyFilter")(amount,gp_userSettings.userInfo.userCurrency.symbol);
-
-		//Append to html
-		html += '<div style="margin-bottom: 2px;"><span style="font-weight:bold;">' + overlay.gpProperties.aggregations[key].label + '</span>: ' + formattedAmount + '</div>';
-	}
-
-	html += '</div>';
-
-	return html;
-}
-
 function showShapeActions(shapeId){
 	//Get the shape
 	var shape = polygonObjects[shapeId];
@@ -3792,12 +3837,9 @@ function gp_saveShape(uniqueId,isSaveAs){
 	//Set isSaveAs to false if it is undefined, Javascript rempoting requiers false value
 	if(!isSaveAs) isSaveAs = false;
 
-	var title = 'Save';
+	var title = 'Save Shape';
 	if(isSaveAs){
-		title = 'Save As';
-	}
-	if(polygon.gpProperties.sfdcName){
-		title += ' - <span notranslate>' + gp_escapeHtml(polygon.gpProperties.sfdcName) + '</span>';
+		title = 'Save As Shape';
 	}
 
 	//Get access to the Folder Service
@@ -3817,7 +3859,7 @@ function gp_saveShape(uniqueId,isSaveAs){
 
 		var body = gp_translations.Enter_a_Name_and_Short_Description_for_the_shape +'<br/>'+
 					'<table>'+
-					'<tr><td class="saveShapeLabel">'+gp_translations.Name+'</td><td><input type="text" value="'+gp_escapeHtml(polygon.gpProperties.sfdcName)+'" id="gp_saveShapeName"/></td></tr>'+
+					'<tr><td class="saveShapeLabel">'+gp_translations.Name+'</td><td><input type="text" value="'+gp_escapeHtml(polygon.gpProperties.sfdcName)+'" id="gp_saveShapeName" style="width: 300px;"/></td></tr>'+
 					'<tr><td class="saveShapeLabel">Folder</td><td>'+foldersHtml+'</td></tr>'+
 					'<tr><td class="saveShapeLabel">Show Label</td><td><input type="checkbox" id="gp_saveShapeShowLabel"/></td></tr>' +
 					'<tr><td class="saveShapeLabel alignTop">'+gp_translations.Description+'</td><td><textarea maxlength="255" style="height: 50px; width: 200px;" id="gp_saveShapeDescription">'+gp_escapeHtml(polygon.gpProperties.sfdcDescription)+'</textarea></td></tr>'+
@@ -4060,79 +4102,113 @@ function gp_addShapeToMap(shape, callback, isFolderAddShapesToMap){
 		}
 	}
 
+	if (checkShapeInvalid(shape)) {
+		if (callback) callback();
+		return;
+	}
+
 	//Shape was not already on the map, add it
-	gp_addShapeIdToMap(shape.sfdcId, callback, isFolderAddShapesToMap);
+	try {
+		gp_addShapeIdToMap(shape.sfdcId, callback, isFolderAddShapesToMap);
+	}
+	catch (exc) {
+		jQuery.extend(toastr.options, { timeOut: 60000 });
+		var toast = 'Error in Shape \'' + shape.name + '\': ' + (exc.message? exc.message : 'Cannot be added to map');
+		toast += '  If this error continues please contact Geopointe support.'
+		toastr.error(toast)
+	}
 }
 
-function gp_addShapeIdToMap(sfdcShapeId,callback,isFolderAddShapesToMap){
+function checkShapeInvalid(shape) {
+ 	// check and alert whether shape has a problem before trying to add to map
+ 	if (shape.invalid) {
+ 		var useName = shape.name? shape.name : (shape.relatedRecordName + ' - ' + shape.relatedRecordFieldLabel);
+ 		if (!useName) {
+ 			// wow, they're really putting us through the wringer...
+ 			useName = 'record ' + shape.relatedRecordId;
+ 		}
+ 		jQuery.extend(toastr.options, { timeOut: 60000 });
+ 		toastr.error(shape.invalidReason? shape.invalidReason : 'Coordinates JSON for shape "' + useName + '" failed a deserialize check');
+ 
+  		return true;
+ 	}
+ 
+  	return false;
+ }
+ 
+ function gp_addShapeIdToMap(sfdcShapeId,callback,isFolderAddShapesToMap){
 
 	//Get the shape coordinates
 	Visualforce.remoting.Manager.invokeAction(gpRemoteAction,'Map_Controller.getShapeLatLng',{shapeId: sfdcShapeId},function(result, event){
 		if (event.status) {
-			result = JSON.parse(result);
+			try {
+				result = JSON.parse(result);
 
-			if (!result.color)  // If no color, set default color
-				result.color = '#00C414';
-			else if (result.color.indexOf('#') != 0)  //Make sure color starts with #
-				result.color = '#' + result.color;
-			
-			if (!result.opacity)
-				result.opacity = 0.4;
-
-			//Special handing for Geo Shapes
-			if(result.usageType == 'GeoShape' || (result.usageType == 'Shape Field' && result.type == 'MultiPolygon')){
+				if (!result.color)  // If no color, set default color
+					result.color = '#00C414';
+				else if (result.color.indexOf('#') != 0)  //Make sure color starts with #
+					result.color = '#' + result.color;
 				
-				//Set user the Angular geoShapeService to add shapes to the map
-				var geoShapeService = angular.element('.dataSetController').injector().get('geoShapeService');
+				if (!result.opacity)
+					result.opacity = 0.4;
 
-				//Build a list of Geo Shape URLs that should be used to add shapes to the map
-				var geoShapeIds = JSON.parse(result.coordinates);
+				//Special handing for Geo Shapes
+				if(result.usageType == 'GeoShape' || (result.usageType == 'Shape Field' && result.type == 'MultiPolygon')){
+					
+					//Set user the Angular geoShapeService to add shapes to the map
+					var geoShapeService = angular.element('.dataSetController').injector().get('geoShapeService');
 
-				geoShapeService.GETgeoShapes({
-					addToMap: true,
-					color: result.color,
-					opacity: result.opacity,
-					dissolve: result.dissolve,
-					layerName: result.name,
-					layerDescription: result.description,
-					sfdcId: result.sfdcId,
-					folderId: result.folderId,
-					folderName: result.folderName,
-					usedInAssignments: result.usedInAssignments,
-					shapeIds: geoShapeIds,
-					isFolderAddShapesToMap: isFolderAddShapesToMap,
-					showLabel: result.showLabel,
-					onComplete: function(result){
-						
-						//Zoom and fit map to shape
-						gp_bounds = new google.maps.LatLngBounds();
+					//Build a list of Geo Shape URLs that should be used to add shapes to the map
+					var geoShapeIds = JSON.parse(result.coordinates);
 
-						for(key in polygonObjects){
-							var overlay = polygonObjects[key];
+					geoShapeService.GETgeoShapes({
+						addToMap: true,
+						color: result.color,
+						opacity: result.opacity,
+						dissolve: result.dissolve,
+						layerName: result.name,
+						layerDescription: result.description,
+						sfdcId: result.sfdcId,
+						folderId: result.folderId,
+						folderName: result.folderName,
+						usedInAssignments: result.usedInAssignments,
+						shapeIds: geoShapeIds,
+						isFolderAddShapesToMap: isFolderAddShapesToMap,
+						showLabel: result.showLabel,
+						onComplete: function(result){
+							
+							//Zoom and fit map to shape
+							gp_bounds = new google.maps.LatLngBounds();
 
-							if(overlay.gpProperties.groupLayerId == result.groupLayerId){
+							for(key in polygonObjects){
+								var overlay = polygonObjects[key];
 
-								var paths = overlay.getPaths();
+								if(overlay.gpProperties.groupLayerId == result.groupLayerId){
 
-								for (var p = 0; p < paths.getLength(); p++) {
-									var path = paths.getAt(p);
-									for (var i = 0; i < path.getLength(); i++) {
-										gp_bounds.extend(path.getAt(i));
+									var paths = overlay.getPaths();
+
+									for (var p = 0; p < paths.getLength(); p++) {
+										var path = paths.getAt(p);
+										for (var i = 0; i < path.getLength(); i++) {
+											gp_bounds.extend(path.getAt(i));
+										}
 									}
 								}
 							}
-						}
 
-						//Readjust the map
-						if(!isFolderAddShapesToMap) gp_centerZoom();
+							//Readjust the map
+							if(!isFolderAddShapesToMap) gp_centerZoom();
 
-						//Call the supplied callback
-						if(callback){
-							callback(result);
-						}
+							//Call the supplied callback
+							if(callback){
+								callback(result);
+							}
 
 						//Notify shape layer controller that layers on map changed
 						angular.element('#ngApp').scope().$broadcast('layersChanged',{doApply: true}); 
+					},
+					onFail: function() {
+						return callback();
 					}
 				});
 			
@@ -4140,190 +4216,197 @@ function gp_addShapeIdToMap(sfdcShapeId,callback,isFolderAddShapesToMap){
 				if (!result.type || !result.type.toLowerCase)
 					throw 'Unknown shape type: ' + result.type;
 
-				var type = result.type.toLowerCase();
-				var shape;
-				var labelPoint = { lat: result.labelPointLat, lng: result.labelPointLng };
-				var coordArrays = null;
+					var type = result.type.toLowerCase();
+					var shape;
+					var labelPoint = { lat: result.labelPointLat, lng: result.labelPointLng };
+					var coordArrays = null;
 
-				if (type == 'polygon' || type == 'polyline') {
-					var latLngs = [];
-					if (result.coordinates && result.coordinates.search(/^\s*\[\s*\[\s*\[/) == 0){ //Stored in GeoJSON format
-						coordArrays = JSON.parse(result.coordinates);
-						var lngLatArray = coordArrays[0];	// first array of lng lats is the outer ring of the main shape
-						for(var j = 0; j < lngLatArray.length; j++){
-							latLngs.push(new google.maps.LatLng(lngLatArray[j][1],lngLatArray[j][0]));
+					if (type == 'polygon' || type == 'polyline') {
+						var latLngs = [];
+						if (result.coordinates && result.coordinates.search(/^\s*\[\s*\[\s*\[/) == 0){ //Stored in GeoJSON format
+							coordArrays = JSON.parse(result.coordinates);
+							var lngLatArray = coordArrays[0];	// first array of lng lats is the outer ring of the main shape
+							for(var j = 0; j < lngLatArray.length; j++){
+								latLngs.push(new google.maps.LatLng(lngLatArray[j][1],lngLatArray[j][0]));
+							}
+						} else {
+							//Decode the lat lng string stored in sfdc, multiple lat lng fields are combined into Lat_Lng_1__c
+							latLngs = google.maps.geometry.encoding.decodePath(result.coordinates);
 						}
-					} else {
-						//Decode the lat lng string stored in sfdc, multiple lat lng fields are combined into Lat_Lng_1__c
-						latLngs = google.maps.geometry.encoding.decodePath(result.coordinates);
-					}
 
-					if ('polyline' == type) {
-						shape = new google.maps.Polyline({
-							path: latLngs,
-							strokeColor: result.color,
-							strokeOpacity: result.opacity,
-							strokeWeight: GP_POLYLINE_STROKE
-						});
-					}
-					else {
-						shape = new google.maps.Polygon({
-							paths: latLngs,
-							fillColor: result.color,	// these are restated here because of an apparent bug in google.maps.Polygon code,
+						if ('polyline' == type) {
+							shape = new google.maps.Polyline({
+								path: latLngs,
+								strokeColor: result.color,
+								strokeOpacity: result.opacity,
+								strokeWeight: GP_POLYLINE_STROKE
+							});
+						}
+						else {
+							shape = new google.maps.Polygon({
+								paths: latLngs,
+								fillColor: result.color,	// these are restated here because of an apparent bug in google.maps.Polygon code,
+								fillOpacity: result.opacity,	// whereby if you update value between ctor and setMap() call, new value is ignored.
+								strokeWeight: 1
+							});
+
+							if (coordArrays && coordArrays.length > 1) {	// if there were holes / extra pieces, set up to display them
+								shape.gpProperties = {};
+								shape.gpProperties.innerRings = {};
+								shape.gpProperties.outerRingsToInnerRings = {};
+								shape.gpProperties.outerRingsToInnerRings[0] = [];
+								var paths = [];
+								paths.push(latLngs);
+
+								for (var cdx = 1; cdx < coordArrays.length; cdx++) {
+									shape.gpProperties.outerRingsToInnerRings[cdx] = [];
+									var innerRingArray = coordArrays[cdx];
+									var innerLatLngs = [];
+									for (var ix = 0; ix < innerRingArray.length; ix++) {
+										innerLatLngs.push(new google.maps.LatLng(innerRingArray[ix][1], innerRingArray[ix][0]));
+										gp_bounds.extend(innerLatLngs[innerLatLngs.length-1]);
+									}
+									paths.push(innerLatLngs);
+									shape.gpProperties.innerRings[paths.length - 1] = true;
+									shape.gpProperties.outerRingsToInnerRings[cdx].push(paths.length - 1);
+								}
+
+								shape.setPaths(paths);
+							}
+						}
+						//Make sure bounds of map include the shape
+						for (var i = 0; i < latLngs.length; i++) {
+							gp_bounds.extend(latLngs[i]);
+						}
+
+					} else if (type == 'circle') {
+						// radius needs to be in meters.  convert from km or mi.  if not either of those, just use the radius
+						var units = result.units.toLowerCase();
+						var radius = (units == 'kilometers' || units == 'km' || units == 'k') ? result.radius * 1000 : (units == 'miles' || units == 'mi' || units == 'm') ? result.radius * 1609.344 : result.radius;
+
+						shape = new google.maps.Circle({ 
+							center: new google.maps.LatLng(result.centerLat, result.centerLng),
+							fillColor: result.color,		// these are restated here because of an apparent bug in google.maps.Circle code,
 							fillOpacity: result.opacity,	// whereby if you update value between ctor and setMap() call, new value is ignored.
+							radius:  radius,
+							strokeWeight: 1,
+						});
+
+						labelPoint = { lat: result.centerLat, lng: result.centerLng };
+
+						//Make sure bounds of map include the shape
+						var circleBounds = shape.getBounds();
+						gp_bounds.extend(circleBounds.getNorthEast());
+						gp_bounds.extend(circleBounds.getSouthWest());
+
+					} else if (type == 'rectangle') {
+						// Rectangles are stored in GeoJSON, SW point then NE point.
+						var lngLatArray = JSON.parse(result.coordinates)[0]; //Doesn't support holes so first array of lng lats is the shape
+						var sw = new google.maps.LatLng(lngLatArray[0][1], lngLatArray[0][0]);
+						var ne = new google.maps.LatLng(lngLatArray[1][1], lngLatArray[1][0]);
+
+						shape = new google.maps.Rectangle({
+							bounds: new google.maps.LatLngBounds(sw, ne),
+							fillColor: result.color,	// these are restated here because of an apparent bug in google.maps.Rectangle code,
+							fillOpacity: result.opacity, // whereby if you update value between ctor and setMap() call, new value is ignored.
 							strokeWeight: 1
 						});
 
-						if (coordArrays && coordArrays.length > 1) {	// if there were holes / extra pieces, set up to display them
-							shape.gpProperties = {};
-							shape.gpProperties.innerRings = {};
-							shape.gpProperties.outerRingsToInnerRings = {};
-							shape.gpProperties.outerRingsToInnerRings[0] = [];
-							var paths = [];
-							paths.push(latLngs);
+						var eastEnd = ne.lng() + (sw.lng() > ne.lng()? 360 : 0);
+						var westEnd = sw.lng();
+						var midLng = (westEnd + eastEnd) * 0.5;
+						labelPoint = {	lat: (sw.lat() + ne.lat()) * 0.5,
+										lng: midLng - (midLng > 180? 360 : 0) };
 
-							for (var cdx = 1; cdx < coordArrays.length; cdx++) {
-								shape.gpProperties.outerRingsToInnerRings[cdx] = [];
-								var innerRingArray = coordArrays[cdx];
-								var innerLatLngs = [];
-								for (var ix = 0; ix < innerRingArray.length; ix++) {
-									innerLatLngs.push(new google.maps.LatLng(innerRingArray[ix][1], innerRingArray[ix][0]));
-									gp_bounds.extend(innerLatLngs[innerLatLngs.length-1]);
-								}
-								paths.push(innerLatLngs);
-								shape.gpProperties.innerRings[paths.length - 1] = true;
-								shape.gpProperties.outerRingsToInnerRings[cdx].push(paths.length - 1);
+						//Make sure bounds of map include the shape
+						gp_bounds.extend(sw);
+						gp_bounds.extend(ne);
+
+					} else {
+						if(callback) callback(true);
+						throw 'Unknown shape type: ' + result.type;
+					}
+
+					// set common properties to all types of shape overlays
+					shape.setOptions({
+						clickable: true,
+						zIndex: 1,
+						editable: false,
+						draggable: false
+					});
+					if ('polyline' == type) {
+						shape.strokeColor = result.color;
+						shape.strokeOpacity = result.opacity;
+						shape.strokeWeight = GP_POLYLINE_STROKE;
+					}
+					else {
+						shape.fillColor = result.color;
+						shape.fillOpacity = result.opacity;
+						shape.strokeWeight = 1.5;
+					}
+
+					// always calculate labelPoint for polygons, in case user-entered coordinate data (supported in 17.x) has changed
+					if ('polygon' == type && coordArrays && coordArrays.length) {
+						var polyFeature = turf.polygon(coordArrays);
+						var useLabelPoint = turf.pointOnSurface(polyFeature);
+						labelPoint = { lat: useLabelPoint.geometry.coordinates[1], lng: useLabelPoint.geometry.coordinates[0] };
+					}
+					shape.centroid = labelPoint;
+
+					//Set the saved properties on the overlay shape object
+					shape.gpProperties = {};
+					shape.gpProperties.sfdcId = result.sfdcId;
+					shape.gpProperties.sfdcName = result.name;
+					shape.gpProperties.sfdcDescription = result.description;
+					shape.gpProperties.folderId = result.folderId;
+					shape.gpProperties.folderName = result.folderName;
+					var shapeFromList = _.find(angular.element('.dataSetController').scope().shapes, ['id', sfdcShapeId]);
+
+					shape.gpProperties.accessLevel = shapeFromList && shapeFromList.accessLevel;
+					shape.gpProperties.usedInAssignments = result.usedInAssignments;
+					shape.gpProperties.originalOpacity = parseFloat(result.opacity);
+					shape.gpProperties.originalColor = result.color;
+					shape.gpProperties.gpType = type;
+					shape.gpProperties.showLabel = result.showLabel;
+
+					//Add the shape to map
+					shape.setMap(gp_map);
+
+					if (result.showLabel) {
+						if (!(labelPoint.lat && labelPoint.lng)) {
+							// polygon labelPoint already calculated above, if possible
+							if ('polyline' == type) {
+								var midPt = Math.floor(lngLatArray.length / 2);
+								labelPoint = { 'lat': lngLatArray[midPt][1], 'lng': lngLatArray[midPt][0] };
 							}
-
-							shape.setPaths(paths);
 						}
+						var shapeService = angular.element('.dataSetController').injector().get('shapeService');
+						shape.mapLabel = shapeService.createShapeMapLabel(result.name, labelPoint);
+
+						shape.mapLabel.setMap(shape.gpProperties.showLabel? gp_map : null);
 					}
-					//Make sure bounds of map include the shape
-					for (var i = 0; i < latLngs.length; i++) {
-						gp_bounds.extend(latLngs[i]);
+					// mapPane will be behind polygons unless its Canvas is lifted
+					if (shape.mapLabel) {
+						jQuery(shape.mapLabel.getPanes().mapPane).css('z-index', shape.mapLabel.zIndex);
 					}
 
-				} else if (type == 'circle') {
-					// radius needs to be in meters.  convert from km or mi.  if not either of those, just use the radius
-					var units = result.units.toLowerCase();
-					var radius = (units == 'kilometers' || units == 'km' || units == 'k') ? result.radius * 1000 : (units == 'miles' || units == 'mi' || units == 'm') ? result.radius * 1609.344 : result.radius;
+					//Call polygon added to map method, make sure it is added to polygon Objects array
+					gp_shapeAddedToMap(shape, type);
 
-					shape = new google.maps.Circle({ 
-						center: new google.maps.LatLng(result.centerLat, result.centerLng),
-						fillColor: result.color,		// these are restated here because of an apparent bug in google.maps.Circle code,
-						fillOpacity: result.opacity,	// whereby if you update value between ctor and setMap() call, new value is ignored.
-						radius:  radius,
-						strokeWeight: 1,
-					});
+					//Track in mixpanel that a geo shape was added to the map
+					gp_track('Shape Added',{"Type": "Standard", "Number of Sub Shapes": 1});
+					
+					//Readjust the map
+					if(!isFolderAddShapesToMap) gp_centerZoom();
 
-					labelPoint = { lat: result.centerLat, lng: result.centerLng };
-
-					//Make sure bounds of map include the shape
-					var circleBounds = shape.getBounds();
-					gp_bounds.extend(circleBounds.getNorthEast());
-					gp_bounds.extend(circleBounds.getSouthWest());
-
-				} else if (type == 'rectangle') {
-					// Rectangles are stored in GeoJSON, SW point then NE point.
-					var lngLatArray = JSON.parse(result.coordinates)[0]; //Doesn't support holes so first array of lng lats is the shape
-					var sw = new google.maps.LatLng(lngLatArray[0][1], lngLatArray[0][0]);
-					var ne = new google.maps.LatLng(lngLatArray[1][1], lngLatArray[1][0]);
-
-					shape = new google.maps.Rectangle({
-						bounds: new google.maps.LatLngBounds(sw, ne),
-						fillColor: result.color,	// these are restated here because of an apparent bug in google.maps.Rectangle code,
-						fillOpacity: result.opacity, // whereby if you update value between ctor and setMap() call, new value is ignored.
-						strokeWeight: 1
-					});
-
-					var eastEnd = ne.lng() + (sw.lng() > ne.lng()? 360 : 0);
-					var westEnd = sw.lng();
-					var midLng = (westEnd + eastEnd) * 0.5;
-					labelPoint = {	lat: (sw.lat() + ne.lat()) * 0.5,
-									lng: midLng - (midLng > 180? 360 : 0) };
-
-					//Make sure bounds of map include the shape
-					gp_bounds.extend(sw);
-					gp_bounds.extend(ne);
-
-				} else {
-					if(callback) callback(true);
-					throw 'Unknown shape type: ' + result.type;
+					if (callback) callback();
 				}
-
-				// set common properties to all types of shape overlays
-				shape.setOptions({
-					clickable: true,
-					zIndex: 1,
-					editable: false,
-					draggable: false
-				});
-				if ('polyline' == type) {
-					shape.strokeColor = result.color;
-					shape.strokeOpacity = result.opacity;
-					shape.strokeWeight = GP_POLYLINE_STROKE;
-				}
-				else {
-					shape.fillColor = result.color;
-					shape.fillOpacity = result.opacity;
-					shape.strokeWeight = 1.5;
-				}
-
-				// always calculate labelPoint for polygons, in case user-entered coordinate data (supported in 17.x) has changed
-				if ('polygon' == type && coordArrays && coordArrays.length) {
-					var polyFeature = turf.polygon(coordArrays);
-					var useLabelPoint = turf.pointOnSurface(polyFeature);
-					labelPoint = { lat: useLabelPoint.geometry.coordinates[1], lng: useLabelPoint.geometry.coordinates[0] };
-				}
-				shape.centroid = labelPoint;
-
-				//Set the saved properties on the overlay shape object
-				shape.gpProperties = {};
-				shape.gpProperties.sfdcId = result.sfdcId;
-				shape.gpProperties.sfdcName = result.name;
-				shape.gpProperties.sfdcDescription = result.description;
-				shape.gpProperties.folderId = result.folderId;
-				shape.gpProperties.folderName = result.folderName;
-				var shapeFromList = _.find(angular.element('.dataSetController').scope().shapes, ['id', sfdcShapeId]);
-
-				shape.gpProperties.accessLevel = shapeFromList && shapeFromList.accessLevel;
-				shape.gpProperties.usedInAssignments = result.usedInAssignments;
-				shape.gpProperties.originalOpacity = parseFloat(result.opacity);
-				shape.gpProperties.originalColor = result.color;
-				shape.gpProperties.gpType = type;
-				shape.gpProperties.showLabel = result.showLabel;
-
-				//Add the shape to map
-				shape.setMap(gp_map);
-
-				if (result.showLabel) {
-					if (!(labelPoint.lat && labelPoint.lng)) {
-						// polygon labelPoint already calculated above, if possible
-						if ('polyline' == type) {
-							var midPt = Math.floor(lngLatArray.length / 2);
-							labelPoint = { 'lat': lngLatArray[midPt][1], 'lng': lngLatArray[midPt][0] };
-						}
-					}
-					var shapeService = angular.element('.dataSetController').injector().get('shapeService');
-					shape.mapLabel = shapeService.createShapeMapLabel(result.name, labelPoint);
-
-					shape.mapLabel.setMap(shape.gpProperties.showLabel? gp_map : null);
-				}
-				// mapPane will be behind polygons unless its Canvas is lifted
-				if (shape.mapLabel) {
-					jQuery(shape.mapLabel.getPanes().mapPane).css('z-index', shape.mapLabel.zIndex);
-				}
-
-				//Call polygon added to map method, make sure it is added to polygon Objects array
-				gp_shapeAddedToMap(shape, type);
-
-				//Track in mixpanel that a geo shape was added to the map
-				gp_track('Shape Added',{"Type": "Standard", "Number of Sub Shapes": 1});
-
-				//Readjust the map
-				if(!isFolderAddShapesToMap) gp_centerZoom();
-
-				if(callback) callback();
+			}
+			catch (exc) {
+				jQuery.extend(toastr.options, { timeOut: 60000 });
+				var toast = 'Error in Shape \'' + result.name + '\': ' + (exc.message? exc.message : 'Cannot be added to map');
+				toast += '  If this error continues please contact Geopointe support.'
+				toastr.error(toast);
 			}
 
 		} else {
@@ -4356,7 +4439,7 @@ function gp_deleteShapeConfirm(uniqueId){
 	}
 
 	//Set the dialog title and body
-	var title = gp_translations.Delete_Shape + '<var> - ' + gp_escapeHtml(polygon.gpProperties.sfdcName) + '</var>';
+	var title = gp_translations.Delete_Shape;
 	
 	var body = '<div class="gp-modal-content">';
 
@@ -4366,6 +4449,7 @@ function gp_deleteShapeConfirm(uniqueId){
 		body+= '<b>'+gp_translations.Shape_Field + '</b>: <var>' + gp_escapeHtml(polygon.gpProperties.relatedRecordFieldLabel) + '</var>';
 	}else{
 		body+= gp_translations.This_will_DELETE_the_selected_Shape_and_remove_it_from_your_list;
+		body+= '<br/><br/><b>'+gp_translations.Name + '</b>: <var>' + gp_escapeHtml(polygon.gpProperties.sfdcName) + '</var>';
 	}
 
 	body += '</div>'+
@@ -4436,7 +4520,7 @@ function gp_deleteShape(shapeId){
 		} else {
 			//Show error message
 			jQuery.extend(toastr.options,{ timeOut: 60000 });
-			toastr.error('Uh oh. Something didn\'t work quite right. '+ event.message);
+			toastr.error('Uh oh. Something didn\'t work quite right. '+ gp_escapeHtml(event.message));
 		
 			//Track the error
 			gp_track('Error', {'Language': 'JavaScript', 'Type':'Remoting', 'Function':'dataShape', 'Message':event.message});
@@ -4674,7 +4758,13 @@ var gp_aggregates = {
 		var formattedNumber = '';
 
 		if (type === 'CURRENCY') {
-			formattedNumber += angular.injector(['ng']).get('currencyFilter')(num, gp_userSettings.userInfo.userCurrency.symbol);
+			if (gp_orgSettings.multiCurrency) {
+				// Only converted fields get aggregated, so use the user's currency
+				let decimalPlaces = gp_orgSettings.currencyDecimalPlaces[gp_userSettings.userInfo.userCurrency.isoCode];
+				formattedNumber += gp_userSettings.userInfo.userCurrency.isoCode + ' ' + angular.injector(['ng']).get('numberFilter')(num, decimalPlaces);
+			} else {
+				formattedNumber += angular.injector(['ng']).get('currencyFilter')(num, gp_userSettings.userInfo.userCurrency.symbol, scale);
+			}
 		} else {
 			formattedNumber += angular.injector(['ng']).get('numberFilter')(num, scale);
 		}
@@ -4694,10 +4784,14 @@ var gp_aggregates = {
 		try {
 			aggregateType = gp_aggregates.cache[layerId + '__' + field].selected;
 		} catch (err) {
-			aggregateType = 'sum';
-
-			if (fieldType === 'PERCENT') {
-				aggregateType = 'avg';
+			if (gp_aggregates.dataSets[layerId] && gp_aggregates.dataSets[layerId].aggregates &&
+				gp_aggregates.dataSets[layerId].aggregates[field] && gp_aggregates.dataSets[layerId].aggregates[field].showMetrics)
+			{
+				aggregateType = gp_aggregates.dataSets[layerId].aggregates[field].showMetrics;
+			}
+			else {
+				// user hasn't specified metric, default per datatype
+				aggregateType = ('PERCENT' === fieldType? 'avg' : 'sum');
 			}
 		}
 
@@ -4731,7 +4825,7 @@ var gp_aggregates = {
 
 				value = aggregate[gp_aggregates.getFieldSummaryType(layerId, field, type)];
 
-				scale = aggregate[scale];
+				scale = aggregate.scale;
 			}
 		} catch (err) {}
 
@@ -4772,7 +4866,7 @@ var gp_aggregates = {
 
 				value = aggregate[gp_aggregates.getLegendSummaryType(layerId, field, type)];
 
-				scale = aggregate[scale];
+				scale = aggregate.scale;
 			}
 		} catch (err) {}
 
@@ -4827,13 +4921,23 @@ var gp_calcRecordsUtils = {
 
 			// Loop through fields to determine currency fields for this object
 			_.forEach(gp_dataSetSearches[collectionName].qo.dataSetFields, function (field) {
-				// Only aggregate numeric fields
-				if (field.type === 'CURRENCY' || field.type === 'INTEGER' || field.type === 'DOUBLE' || field.type === 'PERCENT') {
+				// Only aggregate numeric fields w/ special handling of currency fields
+				if ((field.type === 'CURRENCY' && !gp_orgSettings.multiCurrency) || field.type === 'INTEGER' || field.type === 'DOUBLE' || field.type === 'PERCENT') {
 					aggregateFields[field.field] = {
 						field: field.field,
 						label: field.label,
 						scale: field.scale,
-						type: field.type
+						type: field.type,
+						showMetrics: field.showMetrics
+					};
+				} else if (gp_orgSettings.multiCurrency && gp_isConvertibleCurrField(field, gp_dataSetSearches[collectionName].qo.moNew)) {
+					let alias = gp_convCurrAlias(field.field)
+					aggregateFields[alias] = {
+						field: alias,
+						label: field.label,
+						scale: gp_orgSettings.currencyDecimalPlaces[gp_userSettings.userInfo.userCurrency.isoCode],
+						type: field.type,
+						showMetrics: field.showMetrics
 					};
 				}
 			});
@@ -4982,7 +5086,14 @@ var gp_calcRecordsUtils = {
 
 		_.forEach(aggregateData.points, function (point) {
 			_.forEach(point.properties.values, function (aggregateFieldValue, aggregateFieldName) {
-				aggregateData.aggregates[aggregateFieldName] = _.clone(gp_aggregates.dataSets[point.properties.collectionName].aggregateFields[aggregateFieldName]);
+				// skip aggregation for datatypes which do not aggregate, subfields of compound values,
+				//   and fields for which the user has configured aggregation metrics off.
+				var aggField = gp_aggregates.dataSets[point.properties.collectionName].aggregateFields[aggregateFieldName];
+				if (aggField.showMetrics === 'exclude' || aggregateFieldName.endsWith('__s') ||
+					gp_supportedAggrFieldTypes.indexOf(aggField.type) == -1) {
+						return;
+				} 
+				aggregateData.aggregates[aggregateFieldName] = _.clone(aggField);
 			});
 		});
 
@@ -5517,7 +5628,7 @@ function toggleHeatMap(layer){
 			if(gp_dataSetSearches[collectionName]){
 				gp_dataSetSearches[collectionName].markersVisible = true;
 			}
-			gp_restoreDataSetSearchOnMap(collectionName);
+			gp_restoreDataSetSearchOnMap(collectionName, true);
 		}
 
 	}else{ //Need to add to map
@@ -5544,7 +5655,7 @@ function toggleHeatMap(layer){
 
 		//Remove the marker pins on the map
 		if(!layer.showHeatMapMarkers){
-			gp_removeDataSetSearchFromMap(collectionName);
+			gp_removeDataSetSearchFromMap(collectionName, true);
 			gp_dataSetSearches[collectionName].markersVisible = false;
 		}else{
 			gp_dataSetSearches[collectionName].markersVisible = true
@@ -5611,7 +5722,7 @@ function toggleMapMarkers(collectionName){
 	if(gp_dataSetSearches[collectionName]){
 		
 		if(gp_dataSetSearches[collectionName].markersVisible != false){
-			gp_removeDataSetSearchFromMap(collectionName);
+			gp_removeDataSetSearchFromMap(collectionName, true);
 
 			//Update the gp_dataSetSearches object with state of marker visibility
 			if(gp_dataSetSearches[collectionName]){

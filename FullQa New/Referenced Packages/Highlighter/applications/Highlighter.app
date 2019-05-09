@@ -11,4 +11,7 @@
     <tab>Contact_Us</tab>
     <tab>LeanData__LD_Log__c</tab>
     <tab>LeanData__LD_Long_Log__c</tab>
+    <tab>zisf__ZoomSessions__c</tab>
+    <tab>Connector_Dashboard</tab>
+    <tab>SST_Onboarding__c</tab>
 </CustomApplication>

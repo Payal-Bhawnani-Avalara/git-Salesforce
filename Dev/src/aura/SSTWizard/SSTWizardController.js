@@ -14,8 +14,7 @@
 	        helper.fetchjoinSSTProgPicklist(component) ;
 	        helper.fetchsstRemotePicklist(component) ;
 	        helper.fetchwaBOCPicklist(component) ; 
-	        helper.fetchConPicklist(component) ; 
-	      
+	        helper.fetchConPicklist(component) ;     
      },
   getStarted : function(component, event, helper) {
         component.set("v.setMessage", '');           
@@ -38,7 +37,7 @@
 	      component.set("v.showStats", false);
 	      component.set("v.showError", false);
 	      component.set("v.showData", false);
-        }    
+        }
         
    }, comTab : function(component, event, helper) {
         component.set("v.setMessage", '');           
@@ -58,7 +57,8 @@
 		            inputCmp.showHelpMessageIfInvalid();
 		            return validSoFar && !inputCmp.get('v.validity').valueMissing;
 		        }, true);
-		        
+		      
+
 		        // If we pass error checking, do some real work
 		        if(validExpense){
 		          component.set("v.showIntro", false);
@@ -75,9 +75,7 @@
 	            alert('Please complete all required fields.');
 		        }   
 		       }
-	       
         }    
-        
    },randomTab : function(component, event, helper) {
         component.set("v.setMessage", '');           
         var showIntro = component.get("v.showIntro");
@@ -784,7 +782,7 @@
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showWi", true);
-               component.set("v.showiaVol", true);
+               component.set("v.showWiVol", true);
                 for(var cmp in component.find('newSSTform')) { 
                  if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
                       var nav = component.find("newSSTform")[cmp].get("v.value");    
@@ -797,7 +795,7 @@
 	         }  
 	       }else if(!nav){
 	           component.set("v.showWi", false); 
-	           component.set("v.showiaVol", false);
+	           component.set("v.showWiVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Wyoming'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1425,7 +1423,7 @@
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showWi", true);
-               component.set("v.showiaVol", true);
+               component.set("v.showWiVol", true);
                 for(var cmp in component.find('newSSTform')) { 
                  if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
                       var nav = component.find("newSSTform")[cmp].get("v.value");    

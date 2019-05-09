@@ -145,7 +145,7 @@
             <useReportChart>false</useReportChart>
         </components>
     </rightSection>
-    <runningUser>ffonboarding.logins@avalara.com</runningUser>
+    <runningUser>ffonboarding.logins@ava.com</runningUser>
     <textColor>#000000</textColor>
     <title>Current FQ Utilization v1</title>
     <titleColor>#000000</titleColor>

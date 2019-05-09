@@ -67,6 +67,7 @@ Run utilization reports on the information stored in this object to understand h
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fields>
         <fullName>Batch_Id_Unheld_Calc__c</fullName>
         <deprecated>false</deprecated>

@@ -1,6 +1,8 @@
-<apex:page standardController="Contact" showHeader="false" extensions="LeanData.OnDemandView,LeanData.InLineEditable" action="{! initializeIsAllowed}">
-    <c:accessCheck isAllowed="{! isAllowed}">   
-    <c:style /  >
+<apex:page standardController="Contact" showHeader="false" extensions="LeanData.OnDemandView,LeanData.InLineEditable" action="{!initializeIsAllowed}">
+    <c:accessCheck isAllowed="{!isAllowed}">
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'css/magellan.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'scss/magellan.css')}"/>
+    <c:style />
 
     <div class="view">
         <div class="pageLoading">
@@ -13,20 +15,20 @@
         </div>
 
         <div class="timeoutMessage" style="display:none;">
-            <p style="font-size:16px; color:Red; padding:15px">There was a problem loading your Lead2Account View, please refresh the page to try again.</p>
+            <p style="font-size:16px; color:Red; padding:15px">There was a problem loading your Lead-to-Account View, please refresh the page to try again.</p>
         </div>
 
         <div class="pageBody" >
             <div class="duplicatesTable section-wrapper">
                 <div class="wrapper">
                     <div class="left" style="width:65%;" >
-                        <span class="table_title"><img class="leandata_logo" src="#LEANDATALOGORESOURCELINK"/>&nbsp;&nbsp;&nbsp;<h3>Duplicate Leads and Contacts</h3></span>
-                        <span class="dupesCountContainer"><span>|</span> <a href="#LINKTOA2BMUSTBEGENERATEDBACKENDANDSERVEDUP" target="_blank" class="customTarget action_link duplicatesContactViewLink">See All (Leads:<span class="leadsCount"></span> | Contacts: <span class="contactsCount"/>) »</a></span>
+                        <span class="table_title"><img class="leandata_logo" src="{!URLFOR($Resource.DashboardImages,'LD-logo_2x.png')}"/>&nbsp;&nbsp;&nbsp;<h3>Duplicate Leads and Contacts</h3></span>
+                        <span class="dupesCountContainer"><span>|</span> <a href="#LINKTOA2BMUSTBEGENERATEDBACKENDANDSERVEDUP" target="_blank" class="customTarget action_link duplicatesContactViewLink ld-green">See All (Leads:<span class="leadsCount"></span> | Contacts: <span class="contactsCount"/>) »</a></span>
                     </div>
                     <div class="right setting_panel">
-                        <span><a href="#RELATEDLEADSSETTINGSLINKS" target="_blank" class="customTarget action_link dupeLeadSettingsLink">Lead Settings</a>
+                        <span><a href="#RELATEDLEADSSETTINGSLINKS" target="_blank" class="customTarget action_link dupeLeadSettingsLink ld-green">Lead Settings</a>
                             <span> | </span>
-                            <a href="#CONTACTSETTINGSLINKS" target="_blank" class="customTarget action_link dupeContactSettingsLink">Contact Settings</a>
+                            <a href="#CONTACTSETTINGSLINKS" target="_blank" class="customTarget action_link dupeContactSettingsLink ld-green">Contact Settings</a>
                         </span>
                     </div>
                 </div>
@@ -89,7 +91,8 @@
 
             initializePage(viewObject);
 
-            var totalHeight = j$('.pageBody').height();
+            // var totalHeight = j$('.pageBody').height();
+            var totalHeight = 360;
             var heights = calculateHeights( totalHeight, "Contact", {           
               "leadMatches" :   viewObject["leadMatches"].length,
               "contactMatches" : viewObject["contactMatches"].length,
@@ -98,7 +101,7 @@
             
             var dupesHeight  = heights['sectionHeight'];
             
-            j$('.leandata_logo').attr('src', viewObject['logoURL']);
+            // [ZH Tbd] j$('.leandata_logo').attr('src', viewObject['logoURL']);
             j$('.duplicatesTable').css('height',''+ dupesHeight + 'px' );
 
             
@@ -106,46 +109,29 @@
               j$('.duplicatesTable').hide();
               j$('.settingMessage').show();
             }
-            
-            
+
             if(viewObject["isDuplicatesOnContactViewOn"])  {
-                if(viewObject["contactMatches"].length ==0 && viewObject["leadMatches"].length == 0) {
-                    j$('.duplicatesTable .inner-panel').html("No records to display");
-                    j$('.duplicatesContactViewLink').hide();
-                    j$('.dupesCountContainer').hide();
+                j$('.duplicatesContactViewLink').attr('href', viewObject['duplicatesContactViewLink'] + '?id=' + objId + '&type=Contact&detail=true');
+
+                if(viewObject['hasColumnSettingAccess'] || viewObject['enableAllowUserColumnCustomizations']) {
+                    j$('.dupeContactSettingsLink').attr('href', viewObject['dupeContactSettingsLink']);
+                    j$('.dupeLeadSettingsLink').attr('href', viewObject['dupeLeadSettingsLink']);
+                } else {
                     j$('.setting_panel').hide();
                 }
-                else{
-                    j$('.duplicatesContactViewLink').attr('href', viewObject['duplicatesContactViewLink'] + '?id=' + objId + '&type=Contact&detail=true');
 
-                    if(viewObject['hasColumnSettingAccess'] || viewObject['enableAllowUserColumnCustomizations']) {
-                        j$('.dupeContactSettingsLink').attr('href', viewObject['dupeContactSettingsLink']);
-                        j$('.dupeLeadSettingsLink').attr('href', viewObject['dupeLeadSettingsLink']);
-                    } else {
-                        j$('.setting_panel').hide();
-                    }
+                j$('.dupesCountContainer .leadsCount').html(viewObject["leadMatches"].length);
+                j$('.dupesCountContainer .contactsCount').html(viewObject["contactMatches"].length);
 
-                    j$('.dupesCountContainer .leadsCount').html(viewObject["leadMatches"].length);
-                    j$('.dupesCountContainer .contactsCount').html(viewObject["contactMatches"].length);
-                    if (viewObject["leadMatches"].length > 0) {
-                        initializeSection('Lead', viewObject["leadCols"], viewObject["leadColsMap"], viewObject["leadMatches"]);
-                        j$('.duplicatesLeadTableHead').html(generateHeader());
-                        j$('.duplicatesLeadTableBody').html(generateSObjectRows());
-                    } else {
-                        j$('.content_table').hide();
-                    }
-                    if (viewObject["contactMatches"].length > 0 ) {
-                        initializeSection('Contact', viewObject["contactCols"], viewObject["contactColsMap"], viewObject["contactMatches"]);
-                        var hasStatus = false;
-                        j$('.duplicatesContactTableHead').html(generateHeader(hasStatus));
-                        j$('.duplicatesContactTableBody').html(generateSObjectRows());
-                    } else {
-                        j$('.content_table_1').hide();
-                    }
-                }
+                initializeSection('Lead', viewObject["leadCols"], viewObject["leadColsMap"], viewObject["leadMatches"]);
+                j$('.duplicatesLeadTableHead').html(generateHeader());
+                j$('.duplicatesLeadTableBody').html(generateSObjectRows());
+
+                initializeSection('Contact', viewObject["contactCols"], viewObject["contactColsMap"], viewObject["contactMatches"]);
+                var hasStatus = false;
+                j$('.duplicatesContactTableHead').html(generateHeader(hasStatus));
+                j$('.duplicatesContactTableBody').html(generateSObjectRows());
             }
-
-
            
             var selectedLists = j$('.inline_editable').get();
             [].forEach.call(selectedLists, function(selectList){
@@ -174,14 +160,9 @@
 
             setTarget();
 
-            if(viewObject['leadMatches'].length>0) {
-                initializeDataTable(j$('.content_table_lead'), 'lead', {"pagination" : false});
-            }
-            if(viewObject['contactMatches'].length>0) {
-                initializeDataTable(j$('.content_table_contact'), 'contact', {"pagination" : false});
-            }
-
-            setOuterPanelHeights();
+            var dataTableOptions = {"pagination" : false, "emptyTableText": "No records to display"};
+            initializeDataTable(j$('.content_table_lead'), 'lead', dataTableOptions);
+            initializeDataTable(j$('.content_table_contact'), 'contact', dataTableOptions);
 
             var leadWidth = j$('.content_table_lead').width();
             var contactWidth =  j$('.content_table_contact').width();
@@ -189,6 +170,9 @@
             var maxWidth = Math.max( leadWidth, contactWidth );
             j$('.content_table_lead').width( maxWidth );
             j$('.content_table_contact').width( maxWidth );
+            
+            // Override extra border added
+            j$('.pageBody th').css({'border-right': 'none'})
     }
     </script>
 

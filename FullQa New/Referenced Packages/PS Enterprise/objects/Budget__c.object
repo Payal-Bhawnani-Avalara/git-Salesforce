@@ -65,6 +65,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fieldSets>
         <fullName>CreateProjectFromOppAndTempBudgetColumns</fullName>
         <availableFields>
@@ -138,6 +139,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Expense_Amount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Expense_Transaction__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -183,6 +189,16 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>PreBilledAmount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Pre_Billed_Amount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Pre_Billed_Transaction__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -214,22 +230,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Expense_Amount__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>Type__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>PreBilledAmount__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Pre_Billed_Amount__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -822,31 +823,7 @@ Project Exclude From Billing = false</description>
                     <default>true</default>
                 </value>
                 <value>
-                    <fullName>Vendor Purchase Order</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Work Order</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Internal Budget</fullName>
-                    <default>false</default>
-                </value>
-                <value>
                     <fullName>Customer Purchase Order Change Request</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Vendor Purchase Order Change Request</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Work Order Change Request</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Internal Budget Change Request</fullName>
                     <default>false</default>
                 </value>
             </valueSetDefinition>

@@ -3,24 +3,26 @@
 	<script src="{!URLFOR($Resource.jquery, '/js/lib/jsforce/jsforce.1.7.0.min.js')}"></script> <!-- Angular jQuery UI sortable-->
 
 	<apex:stylesheet value="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700"/> <!-- open sans font -->
-	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/css/smoothness/jquery-ui-1.9.2.custom.min.css')}"/> <!-- jQuery UI CSS -->
+	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/1.12.1/jquery-ui.structure.min.css')}"/> <!-- jQuery UI CSS -->
+	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/1.12.1/jquery-ui.min.css')}"/> <!-- jQuery UI CSS -->
+	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/1.12.1/jquery-ui.theme.min.css')}"/> <!-- jQuery UI CSS -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/fieldSelector/css/fieldselector.css')}"/> <!-- FieldSelector plugin CSS -->
     <apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/plugins/minicolor/jquery.minicolors.css')}"/> <!-- Color picker plugin CSS -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/common/common.css')}"/> <!-- Common geopointe CSS -->
     <apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/lib/maki/maki-sprite.css')}"/> <!-- Maki icon css -->
 	
 	<apex:includeScript value="{!URLFOR($Page.geopointe__translations)}"/> <!-- Geopointe translations -->
-	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/jquery-2.2.4.min.js')}" /> <!-- core jQuery (was 1.8.3 before Icon Picker assets added below)-->
-	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/ui/js/jquery-ui-1.9.2.custom.min.js')}" /> <!-- jQuery UI -->
+	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/jquery-3.3.1.min.js')}" /> <!-- core jQuery (was 1.8.3 before Icon Picker assets added below)-->
+	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/ui/1.12.1/jquery-ui.min.js')}" /> <!-- jQuery UI -->
     <apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/fieldSelector/jquery.fieldselector.js')}"/> <!-- fieldSelector plugin -->
 	<apex:includeScript value="{!$Resource.geopointe__GeopointeJS}" /> <!-- Geopointe universal functions -->
 	<apex:includeScript value="{!$Page.geopointe__js_GA}" /> <!-- Google Analytics -->	
 	<c:walkMeSnippet />
 	
 	<!-- Icon picker assets -->
-    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-1.5.8.min.js')}"></script> <!-- Angular -->
-    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-animate-1.5.8.min.js')}"></script>
-    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-cookies-1.5.8.min.js')}"></script> <!-- Angular -->
+    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-1.6.9.min.js')}"></script> <!-- Angular -->
+    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-animate-1.6.9.min.js')}"></script>
+    <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/angular-cookies-1.6.9.min.js')}"></script> <!-- Angular -->
     <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/locales/angular-locale_'& angularLocaleForCurrentUser &'.js')}"></script> <!-- Angular -->
     <script src="{!URLFOR($Resource.jquery, '/js/lib/angular/lib/date.js')}"></script>  <!-- Angular jQuery UI date picker-->
     <script src="{!URLFOR($Resource.jquery, '/js/lib/moment/moment.min.js')}"></script> <!-- Moment.js for time formatting -->
@@ -143,15 +145,16 @@
 							jQuery("select[id$='mapObjectSelectList']").html(selectHTML); 
 
 							function populateInputField(e){
+								var inputedVal = jQuery(e.target).val();
 								jQuery("input[id$='selectedObjectInput']").val(jQuery(e.target).val());
-
 								//Call action function
-								setupCSObjects();
+								setupCSObjects(inputedVal.charAt(0).toUpperCase() + inputedVal.slice(1) + ' Data Set');
 							}
 						</script>
 
-						<apex:actionFunction name="setupCSObjects" action="{!setupCSObjects}" reRender="pentity,script,geocodeLocationBlock" oncomplete="createFieldSelectors();"/>
-
+						<apex:actionFunction name="setupCSObjects" action="{!setupCSObjects}" reRender="pentity,script,geocodeLocationBlock,createDataSetFolder" oncomplete="createFieldSelectors();">
+							<apex:param name="folerName" assignTo="{!FolderName}" value="" />
+						</apex:actionFunction>
 						<apex:outputPanel rendered="{!hasSelectedEntity && addrLocationSelection = 'self' && isExternalObject = false}" >
 							&nbsp;<apex:inputCheckbox value="{!initGeocodeJob}"/>&nbsp;<b>Geocode this object upon successful Save</b>
 						</apex:outputPanel>
@@ -223,8 +226,32 @@
 						</script>
 					</apex:outputPanel>
 				</apex:pageBlockSectionItem>
-				
 			</apex:pageBlockSection>
+
+			<apex:outputPanel id="createDataSetFolder" rendered="{!AND(IsSupported, hasSelectedEntity, moContext=='new')}">
+				<apex:pageBlockSection columns="1">
+						<apex:pageBlockSectionItem rendered="{!AND(hasSelectedEntity, moContext == 'new')}" helpText="Starter Data Sets to provide the blueprints for success">
+						<apex:outputPanel >
+							<b>Create Starter Data Sets</b>
+						</apex:outputPanel>
+						<apex:outputPanel >
+							<apex:inputCheckbox value="{!createDataSets}" >
+								<apex:actionsupport event="onchange" reRender="createDataSetFolder" />
+							</apex:inputCheckbox>
+						</apex:outputPanel>
+					</apex:pageBlockSectionItem>
+
+					<apex:pageBlockSectionItem rendered="{!AND(hasSelectedEntity, moContext == 'new', createDataSets == true)}" helpText="Name of the folder these new Data Sets will be placed">
+						<apex:outputPanel >
+							<b>Starter Data Sets Folder Name</b>
+						</apex:outputPanel>
+						<apex:outputPanel >
+							<apex:inputText id="folderName" value="{!FolderName}" style="width: 210px;" />
+							<apex:outputText value="" rendered="{!moContext == 'new'}" style="color: #797979;"/>
+						</apex:outputPanel>
+					</apex:pageBlockSectionItem>
+				</apex:pageBlockSection>
+			</apex:outputPanel>
 
 			<apex:pageBlockSection title="Campaign Member Setup" rendered="{!mapObjectSObjectName == 'campaignmember'}" collapsible="false" columns="1">
 
@@ -241,8 +268,8 @@
 				<apex:pageMessage severity="info" strength="2" summary="This is the main Geopointe Device Map Object. Some fields are not displayed and cannot be changed."/>
 			</apex:pageBlockSection>
 
-			<apex:pageBlockSection title="Where are the address fields located?" collapsible="false" columns="1" rendered="{!NOT(isPrimaryPulseObject) && hasSelectedEntity && NOT(showNoLeadContactMessage)}">
-				
+			<apex:pageBlockSection title="Where are the address fields located?" collapsible="false" columns="1" rendered="{!NOT(isPrimaryPulseObject) && hasSelectedEntity && NOT(showNoLeadContactMessage) && NOT(mapObjectSObjectName = 'geopointe__check_in__c') }">
+
 				<apex:pageBlockSectionItem >
 					<apex:outputLabel />
 					<apex:outputPanel layout="block" style="margin-bottom: -17px; position: relative;">

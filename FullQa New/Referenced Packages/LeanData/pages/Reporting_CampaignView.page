@@ -3,8 +3,10 @@
     <apex:stylesheet value="{!URLFOR($Resource.LeanData__bootstrap_v3_3_4, 'css/bootstrap.css')}" />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'css/magellan.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'scss/magellan.css')}"/>
     <!-- Fonts -->
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:100,200,300,400,500,600' rel='stylesheet' type='text/css' />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:100,200,300,400,500,600,700' rel='stylesheet' type='text/css' />
     <apex:stylesheet value="{!URLFOR($Resource.LeanData__DataTables, 'DataTables/2.0.2-responsive.dataTables.min.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.LeanData__DataTables, 'DataTables/1.10.4-jquery.dataTables.css')}"/>
     <apex:includeScript value="{!$Resource.LeanData__viewJSResource}"/>
@@ -32,17 +34,11 @@
             min-width: 1000px;
         }
 
-        .bs .header {
-            background-color: white;
-            height: 50px;
-            width: 100%;
-        }
-
         .bs .header-title {
             font-size: 12pt;
             font-family: 'Open Sans';
             line-height: 50px;
-            margin-left: 67.5px;
+            margin-left: 20px;
             float:left;
             color: #555555;
         }
@@ -67,7 +63,6 @@
         }
 
         .bs .main-content {
-            background: #eeefef;
             width: 100%;
             padding: 7.5px;
         }
@@ -75,7 +70,7 @@
         .bs .inner-wrapper {
             width: 100%;
             background: white;
-            border: 1.5px solid #8da8bf;
+            border: 1px solid var(--lt-grey-2);
             border-radius: 7.5px;     
             padding-bottom: 35px;    
         }
@@ -96,7 +91,7 @@
             margin-top: 12.5px;
             margin-right: 12.5px;
             font-size: 10pt;
-            color: #1b527f;
+            color: var(--lt-grey-2);
         }
 
         .bs .timeline{
@@ -217,7 +212,7 @@
         }
 
         .bs .dg_inner-wrapper-content:not(:last-child) {
-            border-bottom: 1px solid #8da8bf;
+            border-bottom: 1px solid var(--lt-grey-2);
         }
 
         .bs .dg_inner-wrapper-content:after {
@@ -231,7 +226,7 @@
         }
         .bs .active-toggle{
             color:white !important;
-            background:#54cdb5 !important;
+            background: var(--ld-lt-green-2) !important;
         }
         .bs .view-toggle, .bs .attribution-toggle{
             color:#555;
@@ -252,6 +247,14 @@
             margin: 0 auto;
             text-align: center;
             margin-bottom: 12.5px;
+            background:var(--lt-grey-1);
+            border-radius:7.5px; 
+            width: 92px;
+            height:20px;
+            padding:3px;
+            position: fixed;
+            left:50%;
+            transform: translateX(-50%);
         }
 
         .bs .metrics{
@@ -262,16 +265,16 @@
             display: inline-block;
         }
         .bs .stage-breakdown{
-            border: 1px solid #8da8bf;
+            border: 1px solid var(--lt-grey-2);
             text-align: center;
             border-radius : 7.5px;
         }
 
         .bs .stage-breakdown-title{
-            background: #e1f0fb;
+            background: var(--lt-grey-2);
             padding: 10px;
-            margin: 0 auto;
             margin-top: -15px;
+            margin-left: 20px;
             width: 210px;
             font-size: 11pt;
             border-radius: 7.5px;
@@ -289,7 +292,7 @@
             float:left;
         }
         .bs .campaign-metrics, .bs .top-opportunities{
-            border: 1px solid #8da8bf;
+            border: 1px solid var(--lt-grey-2);
             text-align: center;
             border-radius : 7.5px;
         }
@@ -305,7 +308,7 @@
             margin-top: 7.5px;
             border-radius: 3px;
             width:100%;
-            background: #1abc9c;
+            background: var(--lt-green);
             padding: 7px 0px;
             text-align: center;
             color:white;
@@ -322,7 +325,7 @@
             text-align: left;
         }
         .bs .top-opportunities-table tr{
-            border-bottom: 2px solid #E1E1E1;
+            border-bottom: 1px solid var(--lt-grey-1);
         }
         .bs .top-opportunities-table td, .bs .top-opportunities-table th{
             padding: 5px;
@@ -333,20 +336,18 @@
             padding-bottom: 10px;
         }
         .bs .top-opportunities-table th{
-            background: #e9f8f5;
+            background: var(--lt-grey-2);
         }
-        .bs .top-opportunities-table tr:nth-child(odd) {
-            background: #F5F5F5;
-        }
-        .bs .dark-blue{
-            color: #1b527f;
+
+        .bs .dark-grey-2{
+            color: var(--dk-grey-2);
         }
         .bs .stage-bar .tool-tip {
             display: none;
-            color: #1b527f;
+            color: var(--dk-grey-2);
             text-decoration: none;
             padding: 3px;
-            border: 1px solid #1b527f;
+            border: 1px solid var(--lt-grey-2);
             border-radius: 5px;
             width: 200px;
             font-size: 9pt;
@@ -379,7 +380,7 @@
         }
         .tool-tip:before {
             border-color: rgba(27, 82, 127, 0);
-            border-top-color: #1b527f;
+            border-top-color: var(--lt-grey-2);
             border-width: 11px;
             margin-left: -11px;
         }
@@ -413,17 +414,23 @@
             transform: rotate(270deg);
             cursor: pointer;
             cursor: hand;
+            background: var(--ld-green);
 
         }
 
+        .closedFilterLabel {
+            background: var(--ld-green);
+            color: var(--white);
+        }
+
         .sidenav {
-            height: 25%;
+            height: 30%;
             width: 0;
             position: fixed; /* Stay in place */
             z-index: 1; /* Stay on top */
             top: 0;
             left: 10px;
-            background-color: #e1f0fb;
+            background-color: var(--white);
             overflow-x: hidden; /* Disable horizontal scroll */
             margin-top: 200px;
             padding-top: 20px; /* Place content 60px from the top */
@@ -451,13 +458,20 @@
         }
 
         .sidenav .closebtn:hover {
-            color: #fff;
+            color: var(--ld-green);
         }
 
         @media screen and (max-height: 450px) {
             .sidenav {padding-top: 15px;}
             .sidenav a {font-size: 18px;}
         }
+
+        .select-list-color {
+            border: 1px solid var(--lt-grey-2);
+            background: var(--white);
+            color: var(--dk-grey-2);
+        }
+
 
     </style>
 
@@ -472,20 +486,20 @@
             <apex:outputPanel id="pagePanel">
                 <apex:pageMessages id="pm" />
                 <div id="closedFilter" onclick="openNav()">
-                    <div class="closedFilterLabel">Filter &#9662;</div>
+                    <div class="closedFilterLabel">Filter</div>
                 </div>
                 <div id="mySidenav" class="sidenav">
                     <div class="closebtn" onclick="closeNav()">&times;</div>
                     <div>
                         <div class="filterLabel">Opportunity Record Type Filter:</div>
-                        <apex:selectList styleclass="recordFilterClass" value="{!recordTypeFilter}" size="1" style="border-radius:0px; border: 1px solid #1b527f; color: #1b527f; font-size: 12px; position:absolute; left: 32px; padding-top: 10px;">
+                        <apex:selectList styleclass="recordFilterClass select-list-color" value="{!recordTypeFilter}" size="1" style="border-radius:0px; font-size: 12px; position:absolute; left: 32px; padding-top: 10px;">
                             <apex:selectOptions value="{!recordTypeFilterOptions}" />
                             <apex:actionSupport action="{!calculateMetrics}" event="onchange" rerender="fullPanel" onsubmit="testSettingTableFalse();" oncomplete="removeEmptyCells();"/>
                         </apex:selectList>
                     </div>
                     <div>
                         <div class="filterLabel" style="padding-top: 35px;">Opportunity Type Filter:</div>
-                        <apex:selectList styleclass="oppFilterClass" value="{!opportunityTypeFilter}" size="1" style="border-radius:0px; border: 1px solid #1b527f; color: #1b527f; font-size: 12px; position:absolute; left: 32px;">
+                        <apex:selectList styleclass="oppFilterClass select-list-color" value="{!opportunityTypeFilter}" size="1" style="border-radius:0px; font-size: 12px; position:absolute; left: 32px;">
                             <apex:selectOptions value="{!opportunityTypeFilterOptions}" />
                             <apex:actionSupport action="{!calculateMetrics}" event="onchange" rerender="fullPanel" onsubmit="testSettingTableFalse();" oncomplete="removeEmptyCells();"/>
                         </apex:selectList>
@@ -495,7 +509,7 @@
                 <div class="page-content" style="min-width:900px;">
                     <div class="header">
                         <div class="logo">
-                            <img width="119.5" height="24" src="{!URLFOR($Resource.Reporting_Images, 'LD_logo.png')}" alt="Logo" />
+                            <img height="24" src="{!URLFOR($Resource.DashboardImages,'LD-logo_2x.png')}" alt="Logo" />
                         </div>
                         <div class="header-title salesforce-sans">
                             Opportunities Influenced by {!selectedCampaign.Name}
@@ -511,9 +525,6 @@
                             <div class="metrics">
                                 <div class="stage-breakdown" >
                                     <div class="stage-breakdown-title" style="position:relative;">
-                                        <div class="opps-icon" style="left:-25px;bottom:-2px;position:absolute;">
-                                            <apex:image style="width:40px;height:40px;" value="{!URLFOR($Resource.LeanData__Reporting_Images, 'Flag_Icon.png')}" />
-                                        </div>
                                         Opportunities by Stage
                                     </div>
 
@@ -535,7 +546,7 @@
                                                 <apex:repeat value="{!stageNames}" var="S" >
                                                     <td>
                                                     <apex:outputPanel rendered="{!stageMetricsMap[S].totalCount > 0}" >
-                                                        <div class="stage-bar" style="{!IF( stageMetricsMap[S].totalCount>(highestCount*1/3),'color:white;' ,'color:black;')}{!IF(stageMetricsMap[S].totalCount>(highestCount*2/3),'background:#1abc9c', IF( stageMetricsMap[S].totalCount>(highestCount*1/3), 'background:#8CDDCD','background:#E3F7F3' ))}">{!stageMetricsMap[S].totalCount}
+                                                        <div class="stage-bar" style="{!IF( stageMetricsMap[S].totalCount>(highestCount*1/3),'color:white;' ,'color:var(--dk-grey-2);')}{!IF(stageMetricsMap[S].totalCount>(highestCount*2/3),'background:var(--ld-lt-green-2)', IF( stageMetricsMap[S].totalCount>(highestCount*1/3), 'background:#8CDDCD','background:var(--ld-lt-green-1)' ))}">{!stageMetricsMap[S].totalCount}
                                                             <div class="tool-tip">
                                                                 <div style="width:100%;text-align:left;" > <apex:image style="width:10px;height:10px;margin-right:5px;" value="{!URLFOR($Resource.LeanData__Reporting_Images, 'Green_Arrow_Icon.png')}" /> # Opps - {!stageMetricsMap[S].totalCount}</div>
                                                                 <div style="margin-top:5px;width:100%;text-align:left;" > <apex:image style="width:10px;height:10px;margin-right:5px;" value="{!URLFOR($Resource.LeanData__Reporting_Images, 'Green_Arrow_Icon.png')}" /> Opp Amount -<apex:outputText value="${0, number,###,##0.00}"><apex:param value="{!stageMetricsMap[S].totalAmount}"/> </apex:outputText></div>
@@ -555,9 +566,6 @@
                                     <div class="bottom-column" style="padding-right: 12.5px;width:40%">
                                         <div class="campaign-metrics" style="padding-bottom:6px;height:250px;">
                                             <div class="stage-breakdown-title" style="position:relative;" >
-                                                <div class="opps-icon" style="left:-25px;bottom:-2px;position:absolute;">
-                                                    <apex:image style="width:40px;height:40px;" value="{!URLFOR($Resource.LeanData__Reporting_Images, 'Report_Card_Icon.png')}" />
-                                                </div>
                                                 Campaign Metrics
                                             </div>
                                             <apex:outputPanel id="metricsPanel">
@@ -567,7 +575,7 @@
                                                         <td>
                                                         </td>
                                                         <td style="text-align:center;">
-                                                            <apex:selectList value="{!attributionMode}" size="1" style="border-radius:0px;padding-top:3px;padding-bottom:3px;margin-left: 10px; border: 1px solid #1b527f; color: #1b527f;padding-left: 10px;margin-top: 23px;">
+                                                            <apex:selectList value="{!attributionMode}" size="1" style="border-radius:0px;padding-top:3px;padding-bottom:3px;margin-left: 10px;padding-left: 10px;margin-top: 23px;" styleClass="select-list-color">
                                                                 <apex:selectOptions value="{!attributionModeOptions}" />
                                                                 <apex:actionSupport event="onchange" rerender="metricsPanel" action="{!calculateMetrics}" oncomplete="removeEmptyCells();"/>
                                                             </apex:selectList>      
@@ -575,7 +583,7 @@
                                                         <td style="text-align:center;">
                                                             <div class="rankFilter">
                                                                 <b>Rank vs. {!selectedCampaign.Type}s</b>
-                                                                <apex:selectList value="{!timeFrame}" size="1" style="border-radius:0px;padding-top:3px;padding-bottom:3px;margin-left: 10px; border: 1px solid #1b527f; color: #1b527f;padding-left: 10px;">
+                                                                <apex:selectList styleClass="select-list-color" value="{!timeFrame}" size="1" style="border-radius:0px;padding-top:3px;padding-bottom:3px;margin-left: 10px; padding-left: 10px;">
                                                                     <apex:selectOptions value="{!timeFrameOptions}" />
                                                                     <apex:actionSupport action="{!calculateRanks}" event="onchange" rerender="metricsPanel" oncomplete="removeEmptyCells();"/>
                                                                 </apex:selectList>
@@ -583,7 +591,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="dark-blue">
+                                                        <td class="dark-grey-2">
                                                             <b>Pipeline Attribution</b>
                                                         </td>
                                                         <td>
@@ -596,7 +604,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="dark-blue">
+                                                        <td class="dark-grey-2">
                                                             <b>Bookings Attribution</b>
                                                         </td>
                                                         <td>
@@ -612,7 +620,7 @@
                                                         </td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="dark-blue">
+                                                        <td class="dark-grey-2">
                                                             <b>ROI</b>
                                                         </td>
                                                         <td>
@@ -632,9 +640,6 @@
                                     <div class="bottom-column" style="padding-left: 12.5px;width:60%;">
                                         <div class="top-opportunities" style="height:250px;" >
                                             <div class="stage-breakdown-title" style="position:relative;" >
-                                                <div class="opps-icon" style="left:-25px;bottom:-2px;position:absolute;">
-                                                    <apex:image style="width:40px;height:40px;" value="{!URLFOR($Resource.LeanData__Reporting_Images, 'Dollar_Sign_Icon.png')}" />
-                                                </div>
                                                 Top Opportunities
                                             </div>
 
@@ -644,8 +649,8 @@
                                                         <th>Name</th>
                                                         <th>Stage</th>
                                                         <th>Amount</th>
-                                                        <th>FT<br/>Attribution</th>
-                                                        <th>MT<br/>Attribution</th>
+                                                        <th>FT Attribution</th>
+                                                        <th>MT Attribution</th>
                                                     </tr>
                                                     <apex:repeat value="{!topOpportunities}" var="O" >
                                                         <tr>
@@ -681,7 +686,7 @@
 
                             <span class="clear"></span>
                             <div style="margin-top:10px;">
-                                <div class="toggle-mode-div" style="background:#dddddd; border-radius:7.5px; width: 92px;height:20px;padding:3px; position: fixed; left:50%; transform: translateX(-50%);">
+                                <div class="toggle-mode-div">
                                     <div onClick="toggleView();" class="view-metrics-toggle view-toggle active-toggle" >
                                         METRICS
                                     </div>

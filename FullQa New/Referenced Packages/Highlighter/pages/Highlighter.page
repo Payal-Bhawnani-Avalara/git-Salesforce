@@ -136,26 +136,7 @@
                         elements.disabled=true;
                     }
                     elements.value = colorVal;
-                    
-                    
-                    var fontelements = document.getElementById('{!$Component.frm.newblock.section3.fontcolorvalues.fontcolorValue}');
-                    
-                    var fontcolorVal = '';
-                    if(updatecolor == 'highlightButton'){
-                        fontcolorVal= '#C5908E';
-                        fontelements.disabled=false;
-                    }
-                    else if(updatecolor == 'highlightField'){
-                        fontcolorVal = '#7FFFD4';
-                        fontelements.disabled=false;
-                    }else{
-                        fontcolorVal  = '';
-                        elements.value = colorVal;
-                        fontelements.disabled=true;
-                    }
-                    fontelements.value = fontcolorVal;
-                    colorValue(colorVal,fontcolorVal);
-                    
+                    colorValue(colorVal);
                 }
                 function DynamicDatePicker(d_id)
                         {
@@ -297,7 +278,6 @@
                 
                 <apex:actionFunction ReRender="sections2,sections1" name="colorValue" action="{!selectcomponent}" status="Status2">
                     <apex:param value="" assignTo="{!pageAction.highlighter__Color__c}" name="color"/>
-                    <apex:param value="" assignTo="{!pageAction.highlighter__Font_Color__c}" name="fontcolor"/>
                 </apex:actionFunction>
                 
                 <apex:actionFunction name="selectObject" action="{!selectObject}" reRender="sections2,sections1,panal,messagePanel" status="Status2">
@@ -448,9 +428,6 @@
                                 <apex:column headerValue="Action Value" style="background:{!IF(sheet.pageAction.highlighter__Color__c != null && sheet.pageAction.highlighter__Color__c != '',JSENCODE(sheet.pageAction.highlighter__Color__c),'')};">
                                     <apex:outputField value="{!sheet.pageAction.highlighter__New_Value__c}" rendered="{!sheet.pageAction.highlighter__New_Value__c != null && sheet.pageAction.highlighter__New_Value__c != ''}"/>
                                     <apex:outputField value="{!sheet.pageAction.highlighter__Color__c}" rendered="{!sheet.pageAction.highlighter__Color__c != null && sheet.pageAction.highlighter__Color__c != ''}"/>
-                                </apex:column>
-                                 <apex:column headerValue="Font Color" style="background:{!IF(sheet.pageAction.highlighter__Font_Color__c != null && sheet.pageAction.highlighter__Font_Color__c != '',JSENCODE(sheet.pageAction.highlighter__Font_Color__c),'')};">                                   
-                                    <apex:outputField value="{!sheet.pageAction.highlighter__Font_Color__c}" rendered="{!sheet.pageAction.highlighter__Font_Color__c != null && sheet.pageAction.highlighter__Font_Color__c != ''}"/>
                                 </apex:column>
                             </apex:pageBlockTable>
                         
@@ -726,24 +703,8 @@
                                                             </div>
                                                         </div>
                                                     </apex:outputPanel>
-                                                </Apex:pageblockSectionItem>                                            
+                                                </Apex:pageblockSectionItem>
                                                 </apex:pageblockSection>
-                                                
-                                                <apex:pageblockSection columns="1" id="section3">
-                                                    <Apex:pageblockSectionItem id="fontcolorvalues">
-                                                        <apex:outputPanel >
-                                                            <div class="slds-form--horizontal">
-                                                                <div class="slds-form-element">
-                                                                    <label class="slds-form-element__label" for="Color:">Font Color:</label>
-                                                                    <div class="slds-form-element__control">
-                                                                        <apex:inputText id="fontcolorValue" html-placeholder="Color" styleClass="slds-input color" value="{!pageAction.highlighter__Font_Color__c}" disabled="{!if(OR(pageAction.highlighter__Action__c == 'highlightButton',pageAction.highlighter__Action__c == 'highlightField'),false,true)}" />
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </apex:outputPanel>
-                                                    </Apex:pageblockSectionItem>                                            
-                                                </apex:pageblockSection>
-                                                
                                                 <apex:pageblockSection columns="1" id="sections2">
                                                 <Apex:pageblockSectionItem id="nextValue">
                                                     <apex:outputPanel id="sections21">

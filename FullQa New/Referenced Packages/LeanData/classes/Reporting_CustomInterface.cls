@@ -21,7 +21,7 @@ global virtual class Reporting_CustomInterface {
     global virtual Map<String,Object> buildOppQueryLocator(Map<String,Object> params) {
         return null;
     }
-    global virtual Boolean determineCampaignMemberRelevance(Map<Id,LeanData.Reporting_OpportunityAttribution.OpportunityMetricWrapper> oppWrapperMap, Boolean currentValidity, CampaignMember campaignMember, Opportunity opp, Datetime relevantCampaignMemberDateTime, Date relevantCampaignMemberDate, Date opportunityCreateDate, Date opportunityCloseDate, LeanData.Reporting_Utility.Reporting_Context Reporting_Context) {
+    global virtual Boolean determineCampaignMemberRelevance(Map<Id,LeanData.Reporting_OpportunityAttribution.OpportunityMetricWrapper> oppWrapperMap, Boolean valid, CampaignMember campaignMember, Opportunity opp, Datetime relevantCampaignMemberDateTime, Date relevantCampaignMemberDate, Date opportunityCreateDate, Date opportunityCloseDate, LeanData.Reporting_Utility.Reporting_Context Reporting_Context) {
         return null;
     }
     global virtual Map<String,Object> determineCampaignMemberRelevance(Map<String,Object> params) {

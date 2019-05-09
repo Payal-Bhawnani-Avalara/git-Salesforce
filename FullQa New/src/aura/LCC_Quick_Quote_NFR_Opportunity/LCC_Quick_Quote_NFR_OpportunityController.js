@@ -22,19 +22,19 @@
                     resultsToast.fire();
                 	var refreshPageAction = $A.get("e.force:refreshView").fire();
                 	var closeModalAction = $A.get("e.force:closeQuickAction").fire();
-            	}else{
-                    //This is a common way to handle possible errors.
-                	var errors = response.getError();
-                    if(errors){
-                        if(errors[0] && errors[0].message){
-                            console.log("Error Message: " + errors[0].message);
-                        }else{
-                            console.log("Unknown error");
-                        }
-                    }
-            	}
-        	}
-        );
+            	} else if (state === "ERROR") {
+                  var errors = response.getError();
+                    if (errors) {
+                        if (errors[0] && errors[0].message) {
+                            console.log("Error message: " + errors[0].message);
+                            component.set("v.message", errors[0].message);
+                        }else if (errors[0] && errors[0].pageErrors) {
+                           component.set("v.message", errors[0].pageErrors[0].message);
+
+                       }  
+                    }               
+                }
+   			});
         //This executes the function in the APEX controller
         $A.enqueueAction(action);
 	},
@@ -42,5 +42,4 @@
     cancel : function(component, event, helper){
         $A.get("e.force:closeQuickAction").fire();
     }
-    
 })

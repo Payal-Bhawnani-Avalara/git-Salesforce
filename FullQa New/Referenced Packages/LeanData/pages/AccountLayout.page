@@ -1,5 +1,7 @@
-<apex:page standardController="Account" showHeader="false" extensions="LeanData.OnDemandView" action="{! initializeIsAllowed}">
-    <c:accessCheck isAllowed="{! isAllowed}">
+<apex:page standardController="Account" showHeader="false" extensions="LeanData.OnDemandView" action="{!initializeIsAllowed}">
+    <c:accessCheck isAllowed="{!isAllowed}">
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'css/magellan.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'scss/magellan.css')}"/>
     <c:style />
         
     <div class="view" >
@@ -13,7 +15,7 @@
         </div>
         
         <div class="timeoutMessage" style="display:none;">
-            <p style="font-size:16px; color:Red; padding:15px">There was a problem loading your Lead2Account View, please refresh the page to try again.</p>
+            <p style="font-size:16px; color:Red; padding:15px">There was a problem loading your Lead-to-Account View, please refresh the page to try again.</p>
         </div>
         
         <div class="pageBody">
@@ -21,19 +23,19 @@
                 <div class="wrapper">
                     <div class="left" >
                         <span class="table_title">
-                            <img class="leandata_logo" src="#LEANDATALOGORESOURCELINK"/>&nbsp;&nbsp;&nbsp;
+                            <img class="leandata_logo" src="{!URLFOR($Resource.DashboardImages,'LD-logo_2x.png')}"/>&nbsp;&nbsp;&nbsp;
                             <h3>Potential Duplicate Accounts</h3>
                          </span>
                         <span class="duplicateAccountsCountContainer">
                             <span>|</span> 
-                            <a href="#LINKTOA2BMUSTBEGENERATEDBACKENDANDSERVEDUP" target="_blank" class="customTarget action_link duplicateAccountsViewLink">
+                            <a href="#LINKTOA2BMUSTBEGENERATEDBACKENDANDSERVEDUP" target="_blank" class="customTarget action_link duplicateAccountsViewLink ld-green">
                                 See All 
                                 (Accounts:<span class="accountsCount"/>) »
                             </a>
                         </span>
                     </div>
                      <div class="right">                                                 
-                         <span><a href="#RELATEDLEADSSETTINGSLINKS" target="_blank" class="customTarget action_link duplicateAccountsViewSettingsLink">Account Settings</a>
+                         <span><a href="#RELATEDLEADSSETTINGSLINKS" target="_blank" class="customTarget action_link duplicateAccountsViewSettingsLink ld-green">Account Settings</a>
                          </span>                                                       
                      </div>
                 </div>                
@@ -55,32 +57,32 @@
                 <div class="wrapper">
                     <div class="left">
                         <span class="table_title">
-                            <img class="leandata_logo" src="#LEANDATALOGORESOURCELINK"/>&nbsp;&nbsp;&nbsp;
+                            <img class="leandata_logo" src="{!URLFOR($Resource.DashboardImages,'LD-logo_2x.png')}"/>&nbsp;&nbsp;&nbsp;
                             <h3>Matched Leads</h3>
                          </span>
                         <span class="matchedLeadsCountContainer">
                             <span>|</span> 
-                            <a href="#LINKTOA2BMUSTBEGENERATEDBACKENDANDSERVEDUP" target="_blank" class="customTarget action_link matchedLeadsViewLink">
+                            <a href="#LINKTOA2BMUSTBEGENERATEDBACKENDANDSERVEDUP" target="_blank" class="customTarget action_link matchedLeadsViewLink ld-green">
                                 See All 
                                 (Leads:<span class="leadsCount"/>) »
                             </a>
                             
                             <span>|</span> 
                             <span  class="mass_convert_link">
-                              <a href="#LINKTOA2BMUSTBEGENERATEDBACKENDANDSERVEDUP" target="_blank" class="customTarget action_link massConvertLink">
+                              <a href="#LINKTOA2BMUSTBEGENERATEDBACKENDANDSERVEDUP" target="_blank" class="customTarget action_link massConvertLink ld-green">
                                 Mass Convert »
                               </a>
                             
                               <span>|</span> 
                             </span>
-                            <a href="#LINKTOA2BMUSTBEGENERATEDBACKENDANDSERVEDUP" target="_blank" class="customTarget action_link leadActivityLink">
+                            <a href="#LINKTOA2BMUSTBEGENERATEDBACKENDANDSERVEDUP" target="_blank" class="customTarget action_link leadActivityLink ld-green">
                                 See Lead Activity »
                             </a>
                             
                         </span>
                     </div>
                     <div class="right" style="line-height:20px;">
-                        <span><a href="#RELATEDLEADSSETTINGSLINKS" target="_blank" class="customTarget action_link leadsViewSettingsLink">Lead Settings</a>
+                        <span><a href="#RELATEDLEADSSETTINGSLINKS" target="_blank" class="customTarget action_link leadsViewSettingsLink ld-green">Lead Settings</a>
                         </span>
                     </div>
                 </div>
@@ -135,12 +137,12 @@
             
             initializePage(viewObject);
                 
-            j$('.leandata_logo').attr('src', viewObject['logoURL']);
+            // [ZH tbd] j$('.leandata_logo').attr('src', viewObject['logoURL']);
 
-            var totalHeight = j$('.pageBody').height();
-            if( '{!$User.UIThemeDisplayed}' == 'Theme4d' )
-                totalHeight = totalHeight-70;
-                
+            // var totalHeight = j$('.pageBody').height();
+            // if( '{!$User.UIThemeDisplayed}' == 'Theme4d' )
+            //     totalHeight = totalHeight-70;
+            var totalHeight = 350;
             var heights = calculateHeights( totalHeight, "Account", {           
               "accountMatches" :   viewObject["accountMatches"].length,
               "isDuplicatesViewOn" : viewObject["isDuplicatesViewOn"],
@@ -154,7 +156,7 @@
             
             j$('.duplicateAccounts').css('height',''+ dupesHeight + 'px' );
             j$('.matchedLeads').css('height',''+ matchedHeight + 'px' );
-            //j$('.view').css('height',''+ totalHeight + 'px' );
+
             var counter = 0;
             if(dupesHeight == 0){
                j$('.duplicateAccounts').hide();
@@ -169,7 +171,7 @@
             if(counter ==2)
                j$('.settingMessage').show();
 
-            if (viewObject["leadMatches"].length > 0 && viewObject["isMatchedLeadsViewOn"]) {
+            if (viewObject["isMatchedLeadsViewOn"]) {
                 initializeSection('Lead', viewObject["leadCols"], viewObject["leadColsMap"], viewObject["leadMatches"]);
                 j$('.matchedLeadsTableHead').html(generateHeader());
                 j$('.matchedLeadsTableBody').html(generateSObjectRows());
@@ -189,13 +191,12 @@
                 j$('.leadActivityLink').attr('href', jDecode(viewObject['leadActivityLink']));
                 
             } else {
-                j$('.matchedLeads .inner-panel').html("No records to display");                   
                 j$('.matchedLeadsCountContainer').hide();
                 j$('.matchedLeadsViewLink').hide();
                 j$('.leadsViewSettingsLink').hide();
             }
             
-            if (viewObject["accountMatches"].length > 0 && viewObject["isDuplicatesViewOn"]) {
+            if (viewObject["isDuplicatesViewOn"]) {
                 initializeSection('Account', viewObject["accountCols"], viewObject["accountColsMap"], viewObject["accountMatches"]);
                 var hasStatus = false;
                 j$('.duplicateAccountsTableHead').html(generateHeader(hasStatus));
@@ -207,7 +208,6 @@
                 else
                   j$('.duplicateAccountsViewSettingsLink').hide();
             } else {
-                j$('.duplicateAccounts .inner-panel').html("No records to display");                
                 j$('.duplicateAccountsCountContainer').hide();
                 j$('.duplicateAccountsViewLink').hide();
                 j$('.duplicateAccountsViewSettingsLink').hide();
@@ -241,15 +241,15 @@
 
             setTarget();
 
-            if(viewObject['accountMatches'].length>0 && viewObject["isDuplicatesViewOn"]) {
-                initializeDataTable(j$('.content_table_account'), 'account', {"pagination" : false});
-            }
-           
-            if(viewObject['leadMatches'].length>0 && viewObject["isMatchedLeadsViewOn"]) {
-                initializeDataTable(j$('.content_table_lead'), 'lead', {"pagination" : false});
-            }
+            var dataTableOptions = {"pagination" : false, "emptyTableText": "No records to display"};
+            if (viewObject["isDuplicatesViewOn"]) initializeDataTable(j$('.content_table_account'), 'account', dataTableOptions);
+            if (viewObject["isMatchedLeadsViewOn"]) initializeDataTable(j$('.content_table_lead'), 'lead', dataTableOptions);
        
-            setOuterPanelHeights();
+            // Re-adjust table height after container is made
+            j$('.duplicateAccountsHeightDiv').css('height',''+ (dupesHeight - 35) + 'px' );
+            j$('.matchedLeadsHeightDiv').css('height',''+ (matchedHeight - 35) + 'px' );
+            // Override extra border added
+            j$('.pageBody th').css({'border-right': 'none'})
         }
     
     </script>

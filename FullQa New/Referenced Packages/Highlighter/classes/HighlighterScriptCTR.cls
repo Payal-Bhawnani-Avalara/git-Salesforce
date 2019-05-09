@@ -6,13 +6,4 @@ methods, variables, and properties.
 To enable code to compile, all methods return null.
 */
 global class HighlighterScriptCTR {
-    @RemoteAction
-    global static highlighter.HighlighterScriptCTR.result getActions(String recId) {
-        return null;
-    }
-global class result {
-    global result() {
-
-    }
-}
 }

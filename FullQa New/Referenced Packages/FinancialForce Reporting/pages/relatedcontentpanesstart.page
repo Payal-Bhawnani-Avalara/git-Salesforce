@@ -23,7 +23,7 @@
 				</tr>
 			</table>
 			<apex:panelGrid styleClass="headerButtons">
-				<apex:commandButton action="{!getRelatedContentPaneEditorPage}" value="{!$Label.ffr__relatedcontentpanenewbutton}" rendered="{!$Permission.ffr__RelatedContentPaneCreate || $Setup.ReportingSettings__c.DisableCustomPermissions__c}"/>
+				<apex:commandButton action="{!getRelatedContentPaneEditorPage}" value="{!$Label.ffr__relatedcontentpanenewbutton}" rendered="{!$Permission.RelatedContentPaneCreate || $Setup.ReportingSettings__c.DisableCustomPermissions__c}"/>
 			</apex:panelGrid>
 			<apex:pageBlockTable value="{!RcpSummaries}" var="summary" id="theTable">
 				<apex:column >

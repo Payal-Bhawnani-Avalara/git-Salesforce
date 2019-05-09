@@ -67,6 +67,7 @@ Run utilization reports on the information stored in this object to understand h
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <fields>
         <fullName>Group__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>

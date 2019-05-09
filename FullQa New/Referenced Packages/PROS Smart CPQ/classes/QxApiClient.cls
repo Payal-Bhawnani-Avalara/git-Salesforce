@@ -18,6 +18,9 @@ global class QxApiClient {
     global static CameleonCPQ.QxApiClient.CreateQuoteResponse createQuote(CameleonCPQ.QxApiClient.CreateQuoteRequest request) {
         return null;
     }
+    global static CameleonCPQ.QxApiClient.ExecuteQuoteActionResponse executeQuoteAction(CameleonCPQ.QxApiClient.ExecuteQuoteActionRequest request) {
+        return null;
+    }
     global static CameleonCPQ.QxApiClient.GenerateQuoteReportResponse generateQuoteReport(CameleonCPQ.QxApiClient.GenerateQuoteReportRequest request) {
         return null;
     }
@@ -151,6 +154,31 @@ global class DebugFactory {
 
     }
 }
+global class ExecuteQuoteActionRequest {
+    global String actionName {
+        get;
+        set;
+    }
+    global CameleonCPQ.QxApiClient.QuoteActionType actionType {
+        get;
+        set;
+    }
+    global CameleonCPQ.QxApiClient.QxRequestContext qxReqCtx {
+        get;
+        set;
+    }
+    global ExecuteQuoteActionRequest() {
+
+    }
+}
+global class ExecuteQuoteActionResponse extends CameleonCPQ.QxApiClient.QxResponse {
+    global String qxApiResponse {
+        get;
+    }
+    global ExecuteQuoteActionResponse() {
+
+    }
+}
 global class GenerateQuoteReportBody {
     global String actionName {
         get;
@@ -178,6 +206,17 @@ global class GenerateQuoteReportResponse extends CameleonCPQ.QxApiClient.QxRespo
         get;
     }
     global GenerateQuoteReportResponse() {
+
+    }
+}
+global class GetCommandStatusResponse extends CameleonCPQ.QxApiClient.QxResponse {
+    global Object additionalInfo {
+        get;
+    }
+    global String status {
+        get;
+    }
+    global GetCommandStatusResponse() {
 
     }
 }
@@ -515,6 +554,15 @@ global class QxCreateQuoteRequest {
         set;
     }
     global QxCreateQuoteRequest() {
+
+    }
+}
+global class QxExecuteActionRequest {
+    global String actionName {
+        get;
+        set;
+    }
+    global QxExecuteActionRequest() {
 
     }
 }

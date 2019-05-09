@@ -365,6 +365,13 @@
         <value>An error has occurred while loading quote content. Please contact PROS support.</value>
     </labels>
     <labels>
+        <fullName>QX_REFRESH_ERROR</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Refresh Quote Error</shortDescription>
+        <value>An error has occurred while refreshing/synchronizing the quote. Please contact PROS support.</value>
+    </labels>
+    <labels>
         <fullName>QX_STEPS_HELP_MSG</fullName>
         <language>en_US</language>
         <protected>true</protected>

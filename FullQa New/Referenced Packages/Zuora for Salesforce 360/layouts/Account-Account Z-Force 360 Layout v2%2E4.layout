@@ -49,6 +49,14 @@
                 <field>Date_Compare_MSP_DSP__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>NAICS_6_Digit__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>NAICS_6_Digit_Description__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Required</behavior>
                 <field>CurrencyIsoCode</field>
             </layoutItems>
@@ -75,6 +83,26 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>CUP_Beta_Participant_Cohort__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CUP_Active_Push_Date__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Service_Contacts_Formatted__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>ServiceContactLength__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>OneReturns_Migration__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CUP_As_Default__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -287,10 +315,18 @@
         <fields>Current_Obligation_Start__c</fields>
         <fields>Current_Obligation_End__c</fields>
         <fields>End_of_Agreement_Behavior__c</fields>
-        <fields>Product_Class__c</fields>
         <relatedList>Current_Obligation__c.Account__c</relatedList>
         <sortField>ProductName__c</sortField>
         <sortOrder>Asc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <fields>Hours_Purchased__c</fields>
+        <fields>Hours_Fulfilled__c</fields>
+        <fields>CREATED_DATE</fields>
+        <relatedList>Success_Plan_Fulfillment__c.Account__c</relatedList>
+        <sortField>CREATED_DATE</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedObjects>ParentId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

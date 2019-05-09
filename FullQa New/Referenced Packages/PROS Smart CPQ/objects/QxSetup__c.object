@@ -53,6 +53,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fields>
         <fullName>ContextDataProviderName__c</fullName>
         <deprecated>false</deprecated>
@@ -109,6 +110,19 @@
         <label>Quote Model Name</label>
         <length>50</length>
         <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>RefreshActionName__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <inlineHelpText>The name of the Refresh and Synchronize actions of the Quote Model. 
+Format : refreshActionName,syncActionName</inlineHelpText>
+        <label>Refresh/Synchronize Actions</label>
+        <length>100</length>
+        <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>

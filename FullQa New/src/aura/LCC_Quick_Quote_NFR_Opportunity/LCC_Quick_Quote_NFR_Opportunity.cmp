@@ -1,7 +1,6 @@
 <aura:component extends="c:LCC_GenericLightningComponent" implements="force:hasRecordId,force:lightningQuickActionWithoutHeader" controller="QQButton_Controller">
-     <aura:set attribute="partially" value="false"></aura:set>
+   
     <!-- User Interface -->
-    <aura:attribute name="Opportunity" type="Object" />	
     <aura:attribute name="recordId" type="String" />
     
     <div class="slds-modal__header">
@@ -17,7 +16,13 @@
             <lightning:button class="slds-button_neutral" onclick="{!c.qqNFR}" label="Confirm" />
             <lightning:button class="slds-button_brand" onclick="{!c.cancel}" label="Cancel"/> 
         </div>
-        
+         <aura:if isTrue="{!not(empty(v.recordError))}">
+        <div class="recordError">
+            <ui:message title="Error" severity="error" closable="true">
+                {!v.recordError}
+            </ui:message>
+        </div>
+    </aura:if>
     
     <!-- The height of the modal is defined in salesforce, when you create the new action. -->
     <!-- Recommended height size: 250px -->

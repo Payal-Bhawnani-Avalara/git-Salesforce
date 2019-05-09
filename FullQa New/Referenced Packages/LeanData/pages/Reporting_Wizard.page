@@ -1,5 +1,7 @@
 <apex:page controller="LeanData.Reporting_WizardController" extensions="LeanData.Reporting_Utility" sidebar="false" standardStylesheets="false" docType="html-5.0">
     <c:googleAnalytics analyticsCategory="Reporting" />
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'css/magellan.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'scss/magellan.css')}"/>
     <style>
         .noSidebarCell {
             padding: 0;
@@ -18,9 +20,19 @@
         }
         
         .bs .header {
-            background-color: #6ab4c9;
-            height: 60px;
+            font-size: 19px;
+            background-color: white;
+            height: 55px;
             width: 100%;
+        }
+
+        .header-title {
+            font-size: 21.5px;
+            line-height: 55px;
+            margin-left: 180px;
+            float: left;
+            position: absolute;
+            color: var(--dk-grey-2);
         }
         
         .bs .logo {
@@ -53,7 +65,7 @@
             padding: 3px 8px;
             float: left;
             background: #ebeeef;
-            width: 186px;
+            width: 232px;
             color: #b3b3b3;
             line-height: 25px;
         }
@@ -100,7 +112,7 @@
         
         .navBarStep:hover,
         .navBarStepVisited:hover {
-            background: #45b7e6 !important;
+            background: var(--ld-green) !important;
             position: relative;
             color: white;
         }
@@ -108,7 +120,7 @@
         .arrow_box:hover:after,
         .navBarStepActive:after {
             border-color: rgba(136, 183, 213, 0);
-            border-left-color: #45b7e6;
+            border-left-color: var(--ld-green);
             border-width: 16px;
             margin-top: -16px;
             z-index: 1;
@@ -123,25 +135,25 @@
         }
         
         .navBarStepActive {
-            background: #45b7e6 !important;
+            background: var(--ld-green) !important;
             color: white !important;
         }
         
         .navBarStep:hover .stepCircle,
         .navBarStepActive .stepCircle,
         .navBarStepVisited .stepCircle {
-            background: #1b527e;
-            color: white;
+            background: var(--white);
+            color: var(--ld-green);
         }
         
         .navBarStepVisited {
-            background: #a2dbf2 !important;
-            color: #1b527e !important;
+            background: var(--ld-lt-green-2) !important;
+            color: var(--white) !important;
         }
         
         .navBarStepVisited:after {
             border-color: rgba(136, 183, 213, 0);
-            border-left-color: #a2dbf2;
+            border-left-color: var(--ld-lt-green-2);
             border-width: 16px;
             margin-top: -16px;
             z-index: 1;
@@ -152,8 +164,7 @@
             behavior: url(PIE.htc);
             width: 25px;
             height: 25px;
-            color: white;
-            background: #b3b3b3;
+            background: var(--white);
             float: left;
             text-align: center;
             line-height: 25px;
@@ -171,7 +182,7 @@
         }
         
         .content-header {
-            background: #45b7e6;
+            background: var(--med-grey-2);
             color: white;
             font-size: 16px;
             letter-spacing: .05em;
@@ -184,9 +195,9 @@
         
         .content-panel {
             font-size: 20px;
-            color: #043e57;
+            color: var(--dk-grey-2);
             padding: 20px;
-            background: #e1f0fb;
+            background: var(--lt-grey-1_5);
             font-weight: 100;
             text-align: center;
         }
@@ -236,10 +247,11 @@
             line-height: 53px;
             margin: 2px;
             float: left;
-            width: 100px;
+            width: 102px;
             height: 53px;
-            background: #e3e7e8;
-            color: #b3b3b3;
+            background: var(--lt-grey-1_5);
+            color: var(--med-grey-2);
+            border: 2px solid var(--white);
             cursor: pointer;
             transition: height 0.5s;
             /* Animation time */
@@ -248,6 +260,17 @@
             position: relative;
             overflow: hidden;
         }
+
+        .select-grid-active:hover{
+            background: var(--ld-green) !important;
+        }
+
+        .select-grid:hover {
+            background: var(--ld-green);
+            color: var(--white) !important;
+        }
+
+        .select-grid
         
         .select-grid-active .glyphicon-check {
             top: 3px !important;
@@ -263,21 +286,19 @@
         }
         
         .select-grid-active {
-            background: #6bd3bb;
+            background: var(--ld-lt-green-2);
             position: relative;
-            color: #1b527e !important;
-        }
-
-        .green-background {
-            background: #6bd3bb;
+            color: var(--white) !important;
+            border: none;
         }
 
         .grey-background {
             background: #e3e7e8;
         }
 
-        .yellow-background {
-            background: #ffd852;
+        .light-green-1-background {
+            background: var(--ld-lt-green-1);
+            color: var(--med-grey-2) !important;
         }
         
         . .select-grid:hover {
@@ -299,33 +320,6 @@
         .bs::-webkit-scrollbar-thumb:hover {
             background-color: #aaa;
         }
-        
-        .bs .navButton {
-            border-radius: 7px;
-            font-size: 14px !important;
-            font-weight: 600 !important;
-            padding: 7px 20px;
-            text-decoration: none !important;
-            cursor: pointer;
-        }
-        
-        .bs .navButton:hover {
-            opacity: .7;
-        }
-        
-        .bs .navButton-dark {
-            color: #ffffff !important;
-            background-color: #003c57;
-            border: 2px solid #003c57;
-        }
-        
-        .bs .navButton-light {
-            color: #337ab7 !important;
-            background-color: #ffffff;
-            border: 2px solid #c4cfd1;
-        }
-        
-        .bs .campaignSelector {}
         
         .bs .date-select {
             -webkit-appearance: none;
@@ -433,7 +427,7 @@
         
         .infoPanel {
             font-size: 14px;
-            background: #f0f8fd;
+            background: var(--lt-grey-2);
             padding: 20px 30px;
             margin-top: 10px;
             margin-bottom: 10px;
@@ -493,6 +487,28 @@
         
         .searchBox:focus {
             border: none;
+        }
+
+        .navButtons {
+            margin-top:521px;
+            margin-left: 400px;
+            clear:both;
+            z-index:2;
+        }
+
+        .settingsLinkLabel {
+            display:block;
+            width: 150px;
+            float:left;
+            text-align:center;
+            cursor: pointer;
+            text-decoration: underline;
+            color: var(--med-grey-2);
+            text-align: right;
+        }
+
+        .settingsLinkLabel:hover {
+            opacity: 0.5;
         }
         
         textarea,
@@ -698,7 +714,21 @@
             width: -moz-max-content;
         }
         .bs #modalDiv .modal-header{
-            border-bottom: 1px solid #9da8bf;
+            border-bottom: 1px solid var(--lt-grey-2);
+        }
+        .dg_inner-wrapper {
+            width: 1000px;
+            background: white;    
+            border-top: none;
+            margin-left: 20px;
+        }
+
+        .bs .dg_inner-wrapper-header {
+            border-bottom: none;
+        }
+
+        .toggleText {
+            color: var(--dk-grey-2);
         }
     </style>
     <!-- Bootstrap Core CSS -->
@@ -711,45 +741,15 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,600,700,800,300' rel='stylesheet' type='text/css' />
     <apex:composition template="LeanData__Reporting_Template">
         <apex:define name="mainContent">
-            <div class="dg_outer-wrapper" style="margin-left:-120px">
+            <div style="margin-left:35px">
                 <div class="dg_outer-wrapper-content">
                     <div class="dg_inner-wrapper">
-                        <div class="dg_inner-wrapper-header">
+                        <div class="ld-subheader" style="text-align:center">
                             Campaign Influence Wizard
                         </div>
                         <div class="dg_inner-wrapper-content">
                             <apex:outputPanel layout="block">
                                 <script>
-                                    function checkForRunningJobs() {
-                                        j$('.loading').css("display", "block");
-                                        if (j$('.runReportCheckbox').prop('checked')) {
-                                            Visualforce.remoting.Manager.invokeAction(
-                                                '{!$RemoteAction.Reporting_WizardController.checkForRunningJob}',
-                                                function(result, event) {
-                                                    if (event.status) {
-                                                        // Get DOM IDs for HTML and Visualforce elements like this
-                                                        if (result == true) {
-                                                            j$('.loading').css("display", "none");
-                                                            alert('Wizard run already in process. Please unclick \"Run Report Now\" button');
-                                                        } else {
-                                                            saveSettingsAndRunWizard();
-
-                                                        }
-                                                    } else if (event.type === 'exception') {
-                                                        document.getElementById("responseErrors").innerHTML =
-                                                            event.message + "<br/>\n<pre>" + event.where + "</pre>";
-                                                    } else {
-                                                        document.getElementById("responseErrors").innerHTML = event.message;
-                                                    }
-                                                }, {
-                                                    escape: true
-                                                }
-                                            );
-                                        } else {
-                                            saveSettingsAndRunWizard();
-                                        }
-                                    }
-
                                     function successMessage() {
                                         j$('.loading').css("display", "none");
                                         j$(".myModal2").modal("show");
@@ -768,7 +768,7 @@
                                 <apex:actionFunction name="setCampaignStartDateAF" rerender="x">
                                     <apex:param value="" name="sd" assignTo="{!campaignStartDateString}" />
                                 </apex:actionFunction>
-                                <apex:actionFunction name="runWizardAF" action="{!saveBulkSettings}" rerender="x" onComplete="successMessage();" />
+                                <apex:actionFunction name="saveBulkSettingsAF" action="{!saveBulkSettings}" rerender="x" onComplete="successMessage();" />
                                 
                                 <apex:actionFunction action="{!initializeCMS}" name="initializeCMSAF" rerender="campaignMemberStatusPanel" oncomplete="bindJSActionFunction();" status="loading">
                                     <apex:param name="firstParam" assignTo="{!cmsByTypeSelectorJSON}" value="" />
@@ -782,7 +782,7 @@
                                     
                                     <div class="page-content">
                                         <div class="customHeaderContent-right">
-                                            <span id="generate_csv_button" class="settingsLinkLabel" style="display:block;width: 150px;float:left;text-align:center;cursor: pointer;text-decoration: underline;color: #0000ff;text-align: right;" onclick="generateCsv();"> Download CSV</span> 
+                                            <span id="generate_csv_button" class="settingsLinkLabel" style="display:block;width: 150px;float:left;text-align:center;cursor: pointer;text-decoration: underline;color: var(--ld-green);text-align: right;" onclick="generateCsv();"> Download CSV</span> 
                                         </div>
                                         <section class="section-2">
                                             <div class="navBar-panel">
@@ -792,10 +792,8 @@
                                                     <div class="stepCircle">2</div>CAMPAIGNS</div>
                                                 <div class="navBarStep navBarStep-3 arrow_box left_padding30" onClick="goToStep(3);">
                                                     <div class="stepCircle">3</div>CAMPAIGN MEMBERS</div>
-                                                <div class="navBarStep navBarStep-4 arrow_box left_padding30" onClick="goToStep(4);">
+                                                <div class="navBarStep navBarStep-4 left_padding30" onClick="goToStep(4);">
                                                     <div class="stepCircle">4</div>OPPORTUNITIES</div>
-                                                <div class="navBarStep navBarStep-5 left_padding30" onClick="goToStep(5);">
-                                                    <div class="stepCircle">5</div>REPORT</div>
                                             </div>
                                         </section>
                                         <div style="clear:both;" />
@@ -816,15 +814,15 @@
                                                                                 <div class="campaign-date-div">
                                                                                     <input style="height:0px; top:-1000px; position:absolute" type="text" value="" />
                                                                                     <input placeholder="mm/dd/yyyy" id="startDate" class="date-picker date-input" style="float:left;" onChange="setCampaignStartDate(this);" />
-                                                                                    <div class="calendar-container">
-                                                                                        <label for="startDate" class="add-on"><i class="glyphicon glyphicon-calendar"></i></label>
-                                                                                    </div>
                                                                                 </div>
                                                                                 <br/>
                                                                                 <br/>
                                                                                 <br/>
-                                                                                <apex:image StyleClass="IncludeBlankStartDatesCheckboxImage" value="{!URLFOR($Resource.LeanData__Reporting_Images, 'Checkmark_Unselected_Icon.png')}" width="25" height="25" />
-                                                                                <apex:inputCheckbox StyleClass="includeBlankStartDatesCheckbox" onClick="toggleCheckbox('.IncludeBlankStartDatesCheckboxImage', this);" /><h4 id="IncludeBlankStartDatesLabel"> Include Campaigns with blank start date.</h4>
+                                                                                <label class="cb-container-small">
+                                                                                  <span class="toggleText" style="font-size:16px;position:relative;bottom:2px">Include Campaigns with blank start date</span>
+                                                                                  <input type="checkbox" id="includeBlankStartDatesCheckbox"/>
+                                                                                  <span class="checkmark"></span>
+                                                                                </label>
                                                                             </div>
                                                                         </div>
                                                                     </td>
@@ -851,8 +849,12 @@
                                                                                 </div>
                                                                             </apex:outputPanel>
                                                                         </div>
-                                                                        <apex:image styleClass="IncludeInactiveCampaignTypesCheckboxImage" value="{!URLFOR($Resource.LeanData__Reporting_Images, 'Checkmark_Unselected_Icon.png')}" width="25" height="25" style="margin-left:10px;" />
-                                                                        <apex:inputCheckbox StyleClass="includeInactiveCampaignTypesCheckbox" onClick="toggleCheckbox('.IncludeInactiveCampaignTypesCheckboxImage', this); toggleInactiveCampaignType(this);" /><span> Include Inactive Campaign Types</span>
+                                                                        <label class="cb-container-small" style="margin-top:10px;margin-left:10px">
+                                                                          <span class="toggleText">Include Inactive Campaign Types</span>
+                                                                          <input type="checkbox" id="includeInactiveCampaignTypesCheckbox" onClick="toggleInactiveCampaignType(this)"/>
+                                                                          <span class="checkmark"></span>
+                                                                        </label>
+
                                                                     </td>
                                                                 </tr>
                                                             </table>
@@ -869,9 +871,12 @@
                                                                         <div style="width:100%;text-align: left; margin-bottom:10px;"> <b>Eligible Campaigns:</b> Select which campaigns to <b>include</b> in your report. </div>
                                                                         <div class="campaignsTopBlock">
                                                                             <div class="campaignsFilterSort">
-                                                                                <div style="float:left">
-                                                                                    <apex:image id="CheckboxImage" styleClass="CheckboxImage" value="{!URLFOR($Resource.LeanData__Reporting_Images, 'Checkmark_Unselected_Icon.png')}" width="25" height="25" />
-                                                                                    <apex:inputCheckbox StyleClass="selectAllCheckBox" onClick="toggleCheckbox('.CheckboxImage', this); toggleSelectedCampaigns(this);"/><span id='SelectAllLabel'> Select All</span> 
+                                                                                <div style="float:left; position:relative;top: 6px">
+                                                                                    <label class="cb-container-small">
+                                                                                      <span class="toggleText">Select All</span>
+                                                                                      <input type="checkbox" id="selectAllCheckBox" onClick="toggleSelectedCampaigns(this)"/>
+                                                                                      <span class="checkmark"></span>
+                                                                                    </label>
                                                                                 </div>
                                                                                 <div class="dg_styled-select" style="float:left;background-position: right 10px top 10px;">
                                                                                     <select id="sortCampaignSelect" onchange="sortCampaigns(this.value);" style="outline: none;height: 25px">
@@ -882,7 +887,7 @@
                                                                                     </select>
                                                                                 </div>
                                                                                 <div style="float:right">
-                                                                                    <div style="background: url({!URLFOR($Resource.images, 'Search_Bar.png')}) no-repeat;background-size: 120px 20px;margin-left:30px;height:25px">
+                                                                                    <div style="background: url({!URLFOR($Resource.DashboardImages, 'Search_Icon_2.png')}) no-repeat 10px;background-size: 15px 15px; background-color:var(--white);line-height:22px;margin-left:30px;height:25px">
                                                                                         <input type="text" class="searchBox" style="margin-top:4px;margin-left:30px;margin-right:20px" id="searchBox" onkeyup="filterCampaigns();" />
                                                                                     </div>
                                                                                 </div>
@@ -894,17 +899,10 @@
                                                                             <div class="campaignsLoading">
                                                                                 <img src="/img/loading.gif" style="margin-top: 20px; margin-left: 20px;" />
                                                                             </div>
-                                                                            <div class="campaignResults">
+                                                                            <div class="campaignResults" style="margin-top:20px">
                                                                                 <apex:outputPanel id="showBulkCampaigns" layout="block" style="height:335px">
                                                                                     <div class="campaignResultsJS">
                                                                                     </div>
-                                                                                    <!--
-                                                                                    <apex:repeat value="{!PagedBulkCampaignSelector}" var="BC">
-                                                                                        <div style="width:215px;height:50px;" class="{!IF(BC.isSelected == true,'select-grid-active' ,'')} select-grid eligCampaign" id="{!BC.obj['Name']}">{!BC.obj['Name']}
-                                                                                            <apex:inputCheckbox value="{!BC.isSelected}" style="visibility:hidden;position:absolute;" /><i class="glyphicon glyphicon-check" style="position:absolute;visibility:hidden; color: white;" /> </div>
-                                                                                    </apex:repeat>
-                                                                                    -->
-
                                                                                 </apex:outputPanel>
                                                                                 <apex:outputPanel id="pagination">
                                                                                     <div style="float:left">
@@ -955,8 +953,8 @@
                                                                                     </script>
                                                                                 </apex:outputPanel>
                                                                             </apex:outputPanel>
-                                                                            <div style="width:100%;">
-                                                                                <div class="navButton CMButton navButton-light" onclick="showResetConfirmation();">Reset To Responded Status</div>
+                                                                            <div style="width:100%; margin-top: 20px">
+                                                                                <div class="ld-primary-large-button CMButton navButton-light" onclick="showResetConfirmation();">Reset To Responded Status</div>
                                                                             </div>
                                                                         </div>
                                                                     </td>
@@ -1045,53 +1043,16 @@
                                                                             </apex:outputPanel>
                                                                         </div>
                                                                         <div style="margin-top: 10px">
-                                                                            <apex:image id="include-inactive-opp-stages" styleClass="includeInactiveOppStagesCheckboxImage" value="{!URLFOR($Resource.LeanData__Reporting_Images, 'Checkmark_Unselected_Icon.png')}" width="25" height="25" />
-                                                                            <apex:inputCheckbox StyleClass="includeInactiveOppStagesCheckbox" onClick="toggleCheckbox('.includeInactiveOppStagesCheckboxImage', this); toggleInactiveOppStage(this);" /><span id='IncludeInactiveOppStagesLabel'> Include Inactive Opportunity Stages</span> 
+                                                                            <label class="cb-container-small">
+                                                                              <span class="toggleText">Include Inactive Opportunity Stages</span>
+                                                                              <input type="checkbox" id="includeInactiveOppStagesCheckbox" onClick="toggleInactiveOppStage(this)"/>
+                                                                              <span class="checkmark"></span>
+                                                                            </label>
+
                                                                         </div>
                                                                     </td>
                                                                 </tr>
                                                             </table>
-                                                        </section>
-                                                    </td>
-                                                    <td>
-                                                        <section class="section-step5 section-content" style="position: absolute; display:none;">
-                                                            <div class="content-container" style="width: 930px;">
-                                                                <div class="content-header">
-                                                                    SCHEDULE RUN
-                                                                </div>
-                                                                <apex:outputPanel layout="block" id="scheduleRunPanel" styleClass="content-panel" style="font-size:16px;width:100%; padding:20px; height: 100px; overflow:auto;">
-                                                                    Run campaign influence reports
-                                                                    <apex:selectList value="{!scheduleType}" size="1" styleClass="form-control input-lg date-select schedule-input" style="margin-left:7px;margin-right:7px;">
-                                                                        <apex:selectOptions value="{!scheduleTypeOptions}" />
-                                                                        <apex:actionSupport event="onchange" reRender="scheduleDayPanel" />
-                                                                    </apex:selectList>
-                                                                    <apex:outputPanel id="scheduleDayPanel">
-                                                                        <apex:outputPanel rendered="{!scheduleType == 'Weekly'}">
-                                                                            on
-                                                                            <apex:selectList value="{!scheduleDay}" size="1" styleClass="form-control input-lg date-select schedule-input" style="width:135px;margin-left:7px;margin-right:7px;">
-                                                                                <apex:selectOptions value="{!scheduleDayOptions}" />
-                                                                            </apex:selectList>
-                                                                        </apex:outputPanel>
-                                                                        <apex:outputPanel rendered="{!scheduleType == 'Monthly'}">
-                                                                            on the
-                                                                            <apex:selectList value="{!scheduleDate}" size="1" styleClass="form-control input-lg date-select schedule-input" style="margin-left:7px;margin-right:7px;">
-                                                                                <apex:selectOptions value="{!scheduleDateOptions}" />
-                                                                            </apex:selectList>
-                                                                        </apex:outputPanel>
-                                                                    </apex:outputPanel>
-                                                                    at
-                                                                    <apex:selectList value="{!scheduleTime}" size="1" styleClass="form-control input-lg date-select schedule-input" style="margin-left:7px;margin-right:7px;">
-                                                                        <apex:selectOptions value="{!scheduleTimeOptions}" />
-                                                                    </apex:selectList>
-                                                                    <apex:selectList value="{!scheduleTimePeriod}" size="1" styleClass="form-control input-lg date-select schedule-input" style="margin-left:7px;margin-right:7px;">
-                                                                        <apex:selectOptions value="{!scheduleTimePeriodOptions}" />
-                                                                    </apex:selectList>
-                                                                </apex:outputPanel>
-                                                                <div style="float:left;margin-top:20px;">
-                                                                    <apex:image id="RunReportCheckboxImage" styleClass="RunReportCheckboxImage" value="{!URLFOR($Resource.LeanData__Reporting_Images, 'Checkmark_Unselected_Icon.png')}" width="25" height="25" />
-                                                                    <apex:inputCheckbox StyleClass="runReportCheckbox" value="{!runReportNow}" onClick="toggleCheckbox('.RunReportCheckboxImage', this);" /><span id='RunReportLabel'> Run Report Now</span>
-                                                                </div>
-                                                            </div>
                                                         </section>
                                                     </td>
                                                 </tr>
@@ -1102,9 +1063,9 @@
                                                 </div>
                                             </div>
                                             <div class="navButtons" style="margin-top:530px; margin-left: 400px; clear:both; z-index:2;">
-                                                <a class="previous-step navButton navButton-light "> BACK </a>
-                                                <a class="next-step navButton navButton-dark" style="margin-left:5px;"> NEXT </a>
-                                                <apex:commandLink onClick="checkForRunningJobs();" rerender="x, msgs" style="margin-left:5px;border:2px solid #6bd3bb;background:#6bd3bb !important; color:white; display:none;" id="saveSettings" value="Save Wizard" styleClass="navButton saveSettingsButton" />
+                                                <div class="previous-step ld-tertiary-large-button "> Back </div>
+                                                <div class="next-step ld-primary-large-button" style="margin-left:5px;"> Next </div>
+                                                <div onClick="saveSettings();" rerender="x, msgs" style="display:none;" id="saveSettings" value="Save Wizard" class="ld-primary-large-button saveSettingsButton">Save Wizard</div>
                                             </div>
                                         </div>
                                     </div>
@@ -1155,7 +1116,7 @@
             } else {
                 if (filteredCampaignObjs)
                     unselectedCampaignCount = filteredCampaignObjs.length;
-                obj.src = "{!URLFOR($Resource.LeanData__Reporting_Images, 'Checkmark_Unselected_Icon.png')}";
+                obj.src = "{!URLFOR($Resource.Reporting_Images, 'Checkmark_Unselected_Icon.png')}";
             }
         }
 
@@ -1245,11 +1206,8 @@
                 changeYear: true
             });
 
-            j$('.includeBlankStartDatesCheckbox')[0].checked = {!includeBlankCampaignStartDate};
-            toggleCheckbox('.IncludeBlankStartDatesCheckboxImage', j$('.includeBlankStartDatesCheckbox')[0]);
-
-            j$('.selectAllCheckBox')[0].checked = true;
-            toggleCheckbox('.CheckboxImage', j$('.selectAllCheckBox')[0]);
+            j$('#includeBlankStartDatesCheckbox').prop('checked', {!includeBlankCampaignStartDate});
+            j$('#selectAllCheckBox').prop('checked', true);
 
             bindJS();
             j$(".next-step").click(function() {
@@ -1298,10 +1256,10 @@
                 }
             });
             initCampaignStartDate();
-            j$(".includeInactiveOppStagesCheckbox")[0].checked = {!includeInactiveOppStage};
-            toggleCheckbox('.includeInactiveOppStagesCheckboxImage', j$('.includeInactiveOppStagesCheckbox')[0]);
-            j$(".includeInactiveCampaignTypesCheckbox").attr("checked", {!includeInactiveCampaignType});
-            toggleCheckbox('.IncludeInactiveCampaignTypesCheckboxImage', j$('.includeInactiveCampaignTypesCheckbox')[0]);
+
+            j$('#includeInactiveOppStagesCheckbox').prop('checked', {!includeInactiveOppStage});
+            
+            j$('#includeInactiveCampaignTypesCheckbox').prop('checked', {!includeInactiveCampaignType});
         });
 
         function initCampaignStartDate(){
@@ -1410,7 +1368,7 @@
             
             if (oldStepNum == 3){ campaignPageLoadedBefore = true; }
 
-            if (newStepNum == 5) {
+            if (newStepNum == 4) {
                 if(campaignObjs == undefined) {
                     initializeCampaigns();
                 }
@@ -1418,7 +1376,7 @@
                 j$('.saveSettingsButton').show();
                 j$('.next-step').hide();
             }
-            if (oldStepNum == 5) {
+            if (oldStepNum == 4) {
                 j$('.saveSettingsButton').hide();
                 j$('.next-step').show();
             }
@@ -1494,7 +1452,7 @@
         function initializeCampaigns() {
             var selectedCampaignTypes = [];
             j$('.campaign-type-panel').find('.select-grid-active').each(function(){ selectedCampaignTypes.push(this.dataset.title); });
-            var includeBlankStartDates = j$('.includeBlankStartDatesCheckbox')[0].checked;
+            var includeBlankStartDates = j$('#includeBlankStartDatesCheckbox').is(':checked');
             j$('#sortCampaignSelect').val(defaultSort);
 
             Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.Reporting_WizardController.getCampaigns}', includeBlankStartDates, campaignStartDate, selectedCampaignTypes, 
@@ -1587,13 +1545,10 @@
         }
         
         function setSelectAll(){
-            var obj = j$(".CheckboxImage")[0];
             if (unselectedCampaignCount == 0){
-                j$(".selectAllCheckBox").prop('checked', true);
-                obj.src = "{!URLFOR($Resource.Reporting_Images, 'Checkmark_Selected_Icons.png')}";
+                j$("#selectAllCheckBox").prop('checked', true);
             } else {
-                j$(".selectAllCheckBox").prop('checked', false);
-                obj.src = "{!URLFOR($Resource.LeanData__Reporting_Images, 'Checkmark_Unselected_Icon.png')}";
+                j$("#selectAllCheckBox").prop('checked', false);
             }
         }
 
@@ -1699,15 +1654,15 @@
             populateCampaigns(1);
         }   
 
-        function saveSettingsAndRunWizard() {
+        function saveSettings() {
             // Take out selected campaigns.
             for(var i = campaignObjs.length - 1; i >= 0; i--) {
                 if(campaignObjs[i].isSelected) {
                     campaignObjs.splice(i, 1);
                 }
             }
-            
-            var includeBlankStartDates = j$('.includeBlankStartDatesCheckbox')[0].checked;
+
+            var includeBlankStartDates = j$('#includeBlankStartDatesCheckbox').is(':checked');
             
             Visualforce.remoting.Manager.invokeAction('{!$RemoteAction.Reporting_WizardController.saveUncheckedCampaigns}', campaignObjs, includeBlankStartDates, inverseContentPanelOptions,
                 function(result, event) {
@@ -1715,7 +1670,7 @@
                         console.log("exception - unchecked campaigns not saved");
                         console.log(event);
                     } else if (event.status) {
-                        runWizardAF();
+                        saveBulkSettingsAF();
                     }
                 });
         }

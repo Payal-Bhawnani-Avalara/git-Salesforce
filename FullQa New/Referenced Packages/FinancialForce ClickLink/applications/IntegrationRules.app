@@ -7,4 +7,5 @@
     <tab>IntegrationRuleJob__c</tab>
     <tab>IntegrationRuleLog__c</tab>
     <tab>IntegrationRule__c</tab>
+    <tab>SST_Onboarding__c</tab>
 </CustomApplication>

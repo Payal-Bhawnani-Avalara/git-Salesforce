@@ -3,7 +3,7 @@
     <apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/common/common.css')}"/><!-- Geopointe common css -->
     <apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/common/common-lightning.css')}"/> <!-- Common geopointe CSS for lightning styled pages--> 
     <apex:stylesheet value="{!URLFOR($Resource.geopointe__FontAwesome, '/css/font-awesome.min.css')}"/> <!--Font awesome library for icons and such -->
-    <apex:stylesheet value="{!URLFOR($Resource.geopointe__SLDS, '/0.8.0/assets/styles/salesforce-lightning-design-system-vf.min.css')}"/> <!-- Salesforce Lightning Design System -->
+    <apex:slds />
     <style>
         .updateTargetLayout div {display:inline;}
         .slds-button { text-align: center; }
@@ -54,7 +54,7 @@
     <apex:includeScript value="{!$Resource.geopointe__GeopointeJS}" /> <!-- Geopointe universal functions -->
     <apex:includeScript value="{!$Page.geopointe__js_GA}" /> <!-- Google Analytics --> 
 
-    <div class="slds">
+    <div class="slds-scope">
         <apex:form >
         <apex:outputPanel id="renderAll">
             <apex:inputTextarea id="recordIds" style="display:none"/>
@@ -129,7 +129,7 @@
                                 </button>
                             </apex:outputPanel>
                             <apex:outputPanel rendered="{!AND(processingComplete, recCountSuccess == recCountTotal)}">
-                                <div class="slds-card slds-m-bottom--medium">
+                                <div class="slds-card slds-m-bottom--medium slds-p-top_small">
                                     <section class="slds-card__body slds-p-horizontal--medium">
                                         <div><i class="fa fa-check-circle"></i> <b>Update was successful!</b></div>
                                         <div>

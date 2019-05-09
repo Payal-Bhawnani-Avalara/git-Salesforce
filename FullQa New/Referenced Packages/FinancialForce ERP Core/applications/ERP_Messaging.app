@@ -8,4 +8,5 @@
     <tab>MessageType__c</tab>
     <tab>DataTransformationTable__c</tab>
     <tab>ErpMessaging</tab>
+    <tab>SST_Onboarding__c</tab>
 </CustomApplication>

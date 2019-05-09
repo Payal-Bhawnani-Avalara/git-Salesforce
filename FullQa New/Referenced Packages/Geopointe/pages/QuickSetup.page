@@ -4,17 +4,18 @@
 	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/mixpanel/mixpanel.js')}" /> <!-- Mix Panel -->
 	
 	<!-- Custom CSS -->
-	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/css/smoothness/jquery-ui-1.9.2.custom.min.css')}"/> <!-- jQuery UI CSS -->
+	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/1.12.1/jquery-ui.structure.min.css')}"/> <!-- jQuery UI CSS -->
+	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/1.12.1/jquery-ui.min.css')}"/> <!-- jQuery UI CSS -->
+	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/1.12.1/jquery-ui.theme.min.css')}"/> <!-- jQuery UI CSS -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/fieldSelector/css/fieldselector.css')}"/> <!-- FieldSelector plugin CSS -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/map/map.css')}"/> <!-- map css -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/common/common.css')}"/><!-- Geopointe common css -->
     <apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/common/common-lightning.css')}"/> <!-- Common geopointe CSS for lightning styled pages--> 
     <apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/s_main.css')}"/> <!-- CSS for s_Main.page -->
-    <apex:stylesheet value="{!URLFOR($Resource.geopointe__SLDS, '/0.8.0/assets/styles/salesforce-lightning-design-system-vf.css')}"/> <!-- Salesforce Lightning Design System -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, 'js/lib/toastr/toastr.min.css')}"/> <!-- toastr popup css -->
 	
 	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/jquery-3.3.1.min.js')}" /> <!-- core jQuery -->
-	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/ui/js/jquery-ui-1.12.1.min.js')}" /> <!-- jQuery UI -->
+	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/ui/1.12.1/jquery-ui.min.js')}" /> <!-- jQuery UI -->
 	<apex:includeScript value="{!URLFOR($Page.geopointe__translations)}"/> <!-- Geopointe translations - needed for fieldSelector -->
     <apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/fieldSelector/jquery.fieldselector.js')}"/> <!-- fieldSelector plugin -->
 	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, 'js/lib/toastr/toastr.min.js')}"/> <!-- toastr popup js-->
@@ -50,6 +51,7 @@
     
 	<apex:includeScript value="{!$Page.geopointe__js_GA}" /> <!-- Google Analytics -->
 
+	<apex:slds />
 	<style>
 		.noSidebarCell{
 			padding: 0px;
@@ -147,7 +149,8 @@
 							<apex:inputCheckbox id="chkAccount" value="{!cfgAccount.selected}" styleClass="quickCheck"/>
 							<div class="slds-icon__container slds-icon-standard-account quickBtnIcon">
 								<svg aria-hidden="true" class="slds-icon quickBtnSvg">
-									<use xlink:href="{!URLFOR($Resource.SLDS, '/0.8.0/assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
+									<use xmlns:xlink="http://www.w3.org/1999/xlink"
+										xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
 								</svg>
 							</div>
 							<div class="quickBtnCaption" notranslate="true">{!$ObjectType.Account.LabelPlural}</div>
@@ -156,7 +159,8 @@
 							<apex:inputCheckbox id="chkContact" value="{!cfgContact.selected}" styleClass="quickCheck"/>
 							<div class="slds-icon__container slds-icon-standard-contact quickBtnIcon">
 								<svg aria-hidden="true" class="slds-icon quickBtnSvg">
-									<use xlink:href="{!URLFOR($Resource.SLDS, '/0.8.0/assets/icons/standard-sprite/svg/symbols.svg#contact')}"></use>
+									<use xmlns:xlink="http://www.w3.org/1999/xlink"
+										xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#contact')}"></use>
 								</svg>
 							</div>
 							<div class="quickBtnCaption" notranslate="true">{!$ObjectType.Contact.LabelPlural}</div>
@@ -165,7 +169,8 @@
 							<apex:inputCheckbox id="chkOpportunity" value="{!cfgOpportunity.selected}" styleClass="quickCheck"/>
 							<div class="slds-icon__container slds-icon-standard-opportunity quickBtnIcon">
 								<svg aria-hidden="true" class="slds-icon quickBtnSvg">
-									<use xlink:href="{!URLFOR($Resource.SLDS, '/0.8.0/assets/icons/standard-sprite/svg/symbols.svg#opportunity')}"></use>
+									<use xmlns:xlink="http://www.w3.org/1999/xlink"
+										xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#opportunity')}"></use>
 								</svg>
 							</div>
 							<div class="quickBtnCaption" notranslate="true">{!$ObjectType.Opportunity.LabelPlural}</div>
@@ -174,7 +179,8 @@
 							<apex:inputCheckbox id="chkCase" value="{!cfgCase.selected}" styleClass="quickCheck"/>
 							<div class="slds-icon__container slds-icon-standard-case quickBtnIcon">
 								<svg aria-hidden="true" class="slds-icon quickBtnSvg">
-									<use xlink:href="{!URLFOR($Resource.SLDS, '/0.8.0/assets/icons/standard-sprite/svg/symbols.svg#case')}"></use>
+									<use xmlns:xlink="http://www.w3.org/1999/xlink"
+										xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#case')}"></use>
 								</svg>
 							</div>
 							<div class="quickBtnCaption" notranslate="true">{!$ObjectType.Case.LabelPlural}</div>
@@ -183,7 +189,8 @@
 							<apex:inputCheckbox id="chkLead" value="{!cfgLead.selected}" styleClass="quickCheck"/>
 							<div class="slds-icon__container slds-icon-standard-lead quickBtnIcon">
 								<svg aria-hidden="true" class="slds-icon quickBtnSvg">
-									<use xlink:href="{!URLFOR($Resource.SLDS, '/0.8.0/assets/icons/standard-sprite/svg/symbols.svg#lead')}"></use>
+									<use xmlns:xlink="http://www.w3.org/1999/xlink"
+										xlink:href="{!URLFOR($Asset.SLDS, 'assets/icons/standard-sprite/svg/symbols.svg#lead')}"></use>
 								</svg>
 							</div>
 							<div class="quickBtnCaption" notranslate="true">{!$ObjectType.Lead.LabelPlural}</div>
@@ -192,8 +199,8 @@
 
 					<p id="explainButtonLinkage" style="padding-top:0.5em;"> </p>
 
-					<input type="button" id="cfgStageTwo" onclick="stageTwo();" value="Next" class="btn slds-button slds-button--neutral" disabled="disabled"/>
-					<apex:actionFunction name="stageTwo" action="{!stageTwo}" oncomplete="setCurrentStage()" rerender="quickSetupWrapper,updateVars,pageMessages"/>
+					<input type="button" id="cfgStageTwo" onclick="stageTwo(); toggleSpinner();" value="Next" class="btn slds-button slds-button--neutral" disabled="disabled"/>
+					<apex:actionFunction name="stageTwo" action="{!stageTwo}"  oncomplete="setCurrentStage(); toggleSpinner();" rerender="quickSetupWrapper,updateVars,pageMessages"/>
 
 					<p>
 						<apex:image url="{!URLFOR($Resource.geopointe__images, '/info32.png')}" width="16px"/>
@@ -253,6 +260,12 @@
 										<apex:inputText value="{!cfg.countryField.path}" styleClass="CSObjectPathValue"/>                    
 										<a id="change{!cfg.typeName}-Country" class="openFieldSelector addressField">[change]</a></td>
 									</tr>
+									<tr>
+										<th style="text-align:right; padding-right:12px; width:20%"><b>Create Starter Data Sets</b></th>
+										<td style="text-align:left; width:80%" class="requiredInput"><span id="{!cfg.typeName}-StarterSets" notranslate="true"></span>&nbsp;
+										<apex:inputCheckbox value="{!cfg.createStarterDataSet}" />
+										</td>
+									</tr>
 								</table>
 							</apex:outputPanel>
 							<apex:outputPanel layout="block" rendered="{!AND(cfg.selected, false != cfg.geocodeRelative)}" styleClass="addressBlock">
@@ -278,12 +291,19 @@
 											<apex:selectOptions value="{!cfg.referFieldOptions}"/>
 										</apex:selectList></td>
 									</tr>
+									<tr>
+										<th style="text-align:right; padding-right:12px; width:20%"><b>Create Starter Data Sets</b></th>
+										<td style="text-align:left; width:80%" class="requiredInput"><span id="{!cfg.typeName}-StarterSets" notranslate="true"></span>&nbsp;
+										<apex:inputCheckbox value="{!cfg.createStarterDataSet}" />
+										</td>
+									</tr>
+									
 								</table>
 							</apex:outputPanel>
 						</apex:repeat>
 					</div><br/>
-					<input type="button" id="cfgStageThree" onclick="stageThree();" value="Next" class="btn slds-button slds-button--neutral"/>
-					<apex:actionFunction name="stageThree" action="{!stageThree}" oncomplete="setCurrentStage()" rerender="quickSetupWrapper,updateVars,pageMessages"/>
+					<input type="button" id="cfgStageThree" onclick="stageThree(); toggleSpinner();" value="Next" class="btn slds-button slds-button--neutral"/>
+					<apex:actionFunction name="stageThree" action="{!stageThree}" oncomplete="setCurrentStage(); toggleSpinner();" rerender="quickSetupWrapper,updateVars,pageMessages"/>
 				</apex:outputPanel>
 
 				<!-- STAGE THREE: Review created Map Objects and offer to take user to map page -->
@@ -464,5 +484,22 @@
 			}
 		</script>
 	</apex:form>
+	<script>
+		function toggleSpinner(){
+			let spin = document.getElementById("loadingSpinner");
+			if(spin){
+				spin.classList.toggle("slds-hide");
+			}
+		}
+	</script>
+	<div id="loadingSpinner" class="slds-hide">
+		<div class="slds-backdrop slds-backdrop_open">
+			<div role="status" class="slds-spinner slds-spinner_brand slds-spinner_large">
+				<span class="slds-assistive-text">Loading</span>
+				<div class="slds-spinner__dot-a"></div>
+				<div class="slds-spinner__dot-b"></div>
+			</div>
+		</div>
+	</div>
 	</html>
 </apex:page>

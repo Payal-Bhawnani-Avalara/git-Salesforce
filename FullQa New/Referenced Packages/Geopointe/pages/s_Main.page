@@ -1,12 +1,13 @@
 <apex:page tabStyle="Geopointe_Setup__tab" controller="geopointe.s_Main" sidebar="false" action="{!init}" title="Geopointe - Setup">
 
 	<!-- CSS -->
-	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/css/smoothness/jquery-ui-1.9.2.custom.min.css')}"/> <!-- jQuery UI CSS -->
+	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/1.12.1/jquery-ui.structure.min.css')}"/> <!-- jQuery UI CSS -->
+    <apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/1.12.1/jquery-ui.min.css')}"/> <!-- jQuery UI CSS -->
+    <apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/ui/1.12.1/jquery-ui.theme.min.css')}"/> <!-- jQuery UI CSS -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/fieldSelector/css/fieldselector.css')}"/> <!-- FieldSelector plugin CSS -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/common/common.css')}"/> <!-- Common geopointe CSS -->
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/map/map.css')}"/> <!-- map css -->
     <apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/s_main.css')}"/> <!-- CSS for s_Main.page -->
-    <apex:stylesheet value="{!URLFOR($Resource.geopointe__SLDS, '/0.8.0/assets/styles/salesforce-lightning-design-system-vf.min.css')}"/> <!-- Salesforce Lightning Design System -->
 
     <style type="text/css">
         .rolodex a.listItemPad { padding: 0 5px; }
@@ -23,7 +24,7 @@
 
 	<!-- jQuery -->
 	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/jquery-3.3.1.min.js')}" /> <!-- core jQuery -->
-	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/ui/js/jquery-ui-1.12.1.min.js')}" /> <!-- jQuery UI -->
+	<apex:includeScript value="{!URLFOR($Resource.geopointe__jquery, '/ui/1.12.1/jquery-ui.min.js')}" /> <!-- jQuery UI -->
 		
 	<!-- Include the Geopointe functions -->
 	<apex:includeScript value="{!$Resource.geopointe__GeopointeJS}" />
@@ -532,78 +533,11 @@
         </apex:outputPanel>
     </div>
 
-<!--
-        <div id="tab-dataSets">
-        <!- - Data Sets - ->
-        <apex:pageBlock title="Data Sets" id="DataSets" helpTitle="Learn more about Data Sets" helpUrl="http://help.geopointe.com/customer/portal/articles/1798873-data-sets">
-            
-            <apex:panelGrid columns="2" styleClass="setupTabInfo">
-                <apex:image url="{!URLFOR($Resource.geopointe__images, '/info32.png')}" height="16px"/>
-                <apex:outputPanel>
-                    Data Sets are similar to reports. They are a predifined list of fields and filters users can select from when searching a map.<br />
-                    Data Sets are created and edited from the Map page.
-                </apex:outputPanel>
-            </apex:panelGrid>
-            
-            <apex:pageblockTable value="{!DataSets}" var="ds" rowClasses="odd,even" styleClass="sortable">
-                <apex:column headerValue="{!$Label.Action}" style="font-weight:bold" headerClass="sorttable_nosort">
-                    <apex:outputPanel >
-                    
-                        <apex:outputPanel rendered="{!NOT(ds.status =='Active')}">
-                            <apex:commandLink value="{!$Label.Activate}" reRender="DataSets" action="{!DataSet_statusUpdate}" onclick="geopointeAjaxStart('body','Activating...');" oncomplete="geopointeAjaxEnd();">
-                                <apex:param value="Active" assignTo="{!setTo}" name="dsd_active"/>
-                                <apex:param value="{!ds.id}" assignTo="{!SelectedEntityId}" name="dsd"/>
-                            </apex:commandLink> 
-                        </apex:outputPanel>
-                        
-                        <apex:outputPanel rendered="{!ds.status =='Active'}">
-                            <apex:commandLink value="{!$Label.Deactivate}" action="{!DataSet_statusUpdate}" rerender="DataSets"
-                            onclick="if(confirm('{!$Label.Data_Set_Deactive_Confirm}')){geopointeAjaxStart('body','Deactivating...');}else{return false}"
-                            oncomplete="geopointeAjaxEnd();">
-                                <apex:param value="Inactive" assignTo="{!setTo}" name="ds_inactive"/>
-                                <apex:param value="{!ds.id}" assignTo="{!SelectedEntityId}" name="dsd"/> 
-                            </apex:commandLink>
-                        </apex:outputPanel>
-                        
-                        <apex:outputPanel >
-                            &nbsp;|&nbsp;
-                            <apex:commandLink value="{!$Label.Delete}" action="{!DataSet_delete}" rerender="DataSets"
-                            onclick="if(confirm('{!$Label.Data_Set_Delete_Confirm}')){geopointeAjaxStart('body','Deleting...');}else{return false}"
-                            oncomplete="geopointeAjaxEnd();">
-                                <apex:param value="{!ds.id}" assignTo="{!SelectedEntityId}" name="dsd"/>
-                            </apex:commandLink>
-                        </apex:outputPanel>
-                        
-                    </apex:outputPanel>
-                </apex:column>
-                <apex:column headerValue="{!$Label.Data_Set_Name}" value="{!ds.name}"/>
-                <apex:column headerValue="{!$Label.Folder}" value="{!ds.folderName}"/>
-                <apex:column headerValue="{!$Label.Map_Object}">{!SUBSTITUTE(ds.mapObjectDisplayName, 'geopointe__',' ')}</apex:column>
-                <apex:column headerValue="{!$Label.Active}">
-                    <apex:image url="{!URLFOR($Resource.geopointe__images, '/checkbox_checked.gif')}" rendered="{! ds.status = 'Active' }" />
-                    <apex:image url="{!URLFOR($Resource.geopointe__images, '/checkbox_unchecked.gif')}" rendered="{! ds.status != 'Active' }" />
-                </apex:column>
-                <!- -<apex:column headerValue="{!$Label.Color_Markers_By}" value="{!ds.colorMarkersByFieldName}"/>
-                <apex:column headerValue="{!$Label.Available_in_Maps}" value="{!ds.availableInMaps}"/>
-                <apex:column headerValue="{!$Label.Available_in_Visualize}" value="{!ds.availableInVisualize}"/>
-                <apex:column headerValue="{!$Label.One_Column_Address}" value="{!ds.oneColumnAddress}"/>
-                <apex:column headerValue="{!$Label.Show_Filter}">
-                    <apex:outputPanel rendered="{!ds.showFilter == 'my'}">My Records</apex:outputPanel>
-                    <apex:outputPanel rendered="{!ds.showFilter == 'all'}">All Records</apex:outputPanel>
-                    <apex:outputPanel rendered="{!ds.showFilter == 'acctteams'}">On Account Team</apex:outputPanel>
-                </apex:column>- ->
-                <apex:column headerValue="{!$Label.Unique_Id}" value="{!ds.dataSetIdentifier}" rendered="{!NOT(ISNULL($CurrentPage.parameters.debug))}"/>
-                <!- -<apex:column headerValue="{!$Label.Color}"><div style="background-color: #{!JSENCODE(ds.color)}; width: 15px; height: 15px;"> </div></apex:column>- ->
-            </apex:pageblockTable>
-        </apex:pageBlock>
-    </div>
--->
-
     <div id="tab-actions">
         <!-- Actions -->
         <apex:pageBlock title="Actions" helpTitle="Learn more about Actions" helpUrl="http://help.geopointe.com/customer/portal/articles/1809592-actions" id="actionsPageBlock">
             <apex:pageBlockButtons location="top">
-                <a class="btn gpLinkButtonClassic" href="/apex/{!namespacePrefix}s_Action_edit?retURL=%2Fapex%2Fs_Main%3Ftab%3Dtab-actions">New Action</a>
+                <a class="btn gpLinkButtonClassic" href="/apex/{!namespacePrefix}s_Action_edit?backURL=%2Fapex%2Fs_Main%3Ftab%3Dtab-actions">New Action</a>
             </apex:pageBlockButtons>  
 
             <apex:panelGrid columns="2" styleClass="setupTabInfo">
@@ -622,7 +556,7 @@
 
                         <apex:pageBlockTable value="{!recordActions}" var="a" id="recordActionsTable">
                             <apex:column headerValue="Action" style="font-weight:bold;" width="285px">
-                                <apex:outputLink value="/apex/{!namespacePrefix}s_Action_edit?retURL=%2Fapex%2Fs_Main%3Ftab%3Dtab-actions&id={!a.id}">Edit</apex:outputLink>
+                                <apex:outputLink value="/apex/{!namespacePrefix}s_Action_edit?backURL=%2Fapex%2Fs_Main%3Ftab%3Dtab-actions&id={!a.id}">Edit</apex:outputLink>
 
                                 <apex:outputPanel rendered="{!showActionUserAccess}">
                                     &nbsp;|&nbsp;
@@ -640,7 +574,7 @@
                         
                                 <apex:outputPanel rendered="{!a.geopointe__Standard_Action__c == ''}">
                                     |&nbsp;
-                                    <apex:outputLink value="/apex/{!namespacePrefix}s_Action_edit?retURL=%2Fapex%2Fs_Main%3Ftab%3Dtab-actions&id={!a.id}&clone=1">Clone</apex:outputLink>
+                                    <apex:outputLink value="/apex/{!namespacePrefix}s_Action_edit?backURL=%2Fapex%2Fs_Main%3Ftab%3Dtab-actions&id={!a.id}&clone=1">Clone</apex:outputLink>
                                 </apex:outputPanel>
 
                                 <!-- Hidden element used to update sort order -->
@@ -678,7 +612,7 @@
 
                         <apex:pageBlockTable value="{!listActions}" var="a" id="listActionsTable" >
                             <apex:column headerValue="Action" style="font-weight:bold;" width="285px">
-                                <apex:outputLink value="/apex/{!namespacePrefix}s_Action_edit?retURL=%2Fapex%2Fs_Main%3Ftab%3Dtab-actions&id={!a.id}">Edit</apex:outputLink>&nbsp;|&nbsp;
+                                <apex:outputLink value="/apex/{!namespacePrefix}s_Action_edit?backURL=%2Fapex%2Fs_Main%3Ftab%3Dtab-actions&id={!a.id}">Edit</apex:outputLink>&nbsp;|&nbsp;
 
                                 <apex:outputPanel rendered="{!showActionUserAccess}">
                                     <apex:outputLink value="{!URLFOR($Action.Action__c.Share, a.Id)}">User Access</apex:outputLink>
@@ -695,7 +629,7 @@
 
                                 <apex:outputPanel rendered="{!a.geopointe__Standard_Action__c == ''}">
                                     |&nbsp;
-                                    <apex:outputLink value="/apex/{!namespacePrefix}s_Action_edit?retURL=%2Fapex%2Fs_Main%3Ftab%3Dtab-actions&id={!a.id}&clone=1">Clone</apex:outputLink>
+                                    <apex:outputLink value="/apex/{!namespacePrefix}s_Action_edit?backURL=%2Fapex%2Fs_Main%3Ftab%3Dtab-actions&id={!a.id}&clone=1">Clone</apex:outputLink>
                                 </apex:outputPanel>
 
                                 <!-- Hidden element used to update sort order -->
@@ -727,7 +661,7 @@
         <!-- Map Styles -->
         <apex:pageBlock title="Map Styles" id="mapStylesPageBlock">
             <apex:pageBlockButtons location="top">
-                <a class="btn gpLinkButtonClassic" href="/apex/{!namespacePrefix}s_Map_Style_edit?retURL=%2Fapex%2Fs_main%3Ftab%3Dtab-actions">New Map Style</a>
+                <a class="btn gpLinkButtonClassic" href="/apex/{!namespacePrefix}s_Map_Style_edit?backURL=%2Fapex%2Fs_main%3Ftab%3Dtab-actions">New Map Style</a>
             </apex:pageBlockButtons>
 
             <apex:panelGrid columns="2" styleClass="setupTabInfo">
@@ -739,7 +673,7 @@
 
             <apex:pageBlockTable value="{!mapStyles}" var="style" id="mapStyleTable" >
                 <apex:column headerValue="Style" style="font-weight:bold;" width="285px">
-                    <apex:outputLink value="/apex/{!namespacePrefix}s_Map_Style_edit?id={!style.id}&retURL=%2Fapex%2Fs_main%3Ftab%3Dtab-actions">Edit</apex:outputLink>
+                    <apex:outputLink value="/apex/{!namespacePrefix}s_Map_Style_edit?id={!style.id}&backURL=%2Fapex%2Fs_main%3Ftab%3Dtab-actions">Edit</apex:outputLink>
 
                     <apex:outputPanel rendered="{!showMapStyleUserAccess}">
                         &nbsp;|&nbsp;
@@ -764,7 +698,7 @@
     <!-- <div id="tab-layers">
         <apex:pageBlock title="KML Layers" helpTitle="Learn more about Layers" helpUrl="http://help.geopointe.com/customer/portal/articles/1811006-layers" id="layersPageBlock">
             <apex:pageBlockButtons location="top" rendered="{!orgSettings.settings.geopointe__Mapping_Provider__c == 'Google'}">
-                <a class="btn gpLinkButtonClassic" href="/apex/s_Layer_edit?retURL=%2Fapex%2Fs_main%3Ftab%3Dtab-layers">New Layer</a>
+                <a class="btn gpLinkButtonClassic" href="/apex/s_Layer_edit?backURL=%2Fapex%2Fs_main%3Ftab%3Dtab-layers">New Layer</a>
             </apex:pageBlockButtons>
             
             <apex:panelGrid columns="2" styleClass="setupTabInfo">
@@ -786,7 +720,7 @@
                 <apex:pageblockTable value="{!layers}" var="l" rendered="{!layers.size > 0}" styleClass="sortable">
                     <apex:column headerValue="Action" style="font-weight:bold;" width="285px">
                         
-                        <apex:outputLink value="/apex/s_Layer_edit?id={!l.id}&retURL=%2Fapex%2Fs_main%3Ftab%3Dtab-layers">Edit</apex:outputLink>&nbsp;|&nbsp;
+                        <apex:outputLink value="/apex/s_Layer_edit?id={!l.id}&backURL=%2Fapex%2Fs_main%3Ftab%3Dtab-layers">Edit</apex:outputLink>&nbsp;|&nbsp;
 
                         <apex:outputPanel rendered="{!showLayerUserAccess}">
                             <apex:outputLink value="{!URLFOR($Action.Layer__c.Share, l.Id)}">User Access</apex:outputLink>&nbsp;|&nbsp;
@@ -830,7 +764,7 @@
         <apex:pageBlock title="Geographic Assignment Plans" helpTitle="Learn more about Geographic Assignment Plans" helpUrl="http://help.geopointe.com/customer/portal/articles/1924073" id="apPagBlock">
             
             <apex:pageBlockButtons location="top">
-                <a class="btn gpLinkButtonClassic" href="/apex/{!namespacePrefix}s_AssignmentPlan?retURL=%2Fapex%2Fs_main%3Ftab%3Dtab-assignmentPlans">New Assignment Plan</a>
+                <a class="btn gpLinkButtonClassic" href="/apex/{!namespacePrefix}s_AssignmentPlan?backURL=%2Fapex%2Fs_main%3Ftab%3Dtab-assignmentPlans">New Assignment Plan</a>
             </apex:pageBlockButtons>
 
             <apex:panelGrid columns="2" styleClass="setupTabInfo">
@@ -844,7 +778,7 @@
             <apex:pageblockTable value="{!plans}" var="ap" rowClasses="odd,even" rendered="{!plans.size > 0}" styleClass="sortable">
                 <apex:column headerValue="Action" style="font-weight:bold;" width="170px">
                     
-                    <apex:outputLink value="/apex/{!namespacePrefix}s_AssignmentPlan?id={!ap.id}&retURL=%2Fapex%2Fs_main%3Ftab%3Dtab-assignmentPlans">Edit</apex:outputLink>
+                    <apex:outputLink value="/apex/{!namespacePrefix}s_AssignmentPlan?id={!ap.id}&backURL=%2Fapex%2Fs_main%3Ftab%3Dtab-assignmentPlans">Edit</apex:outputLink>
 
                     &nbsp;&nbsp;|&nbsp;&nbsp;
                     <apex:commandLink rendered="{!ap.Status!='Active'}" value="Activate" action="{!assignmentplan_statusUpdate}" rerender="apPagBlock, pageMessages" 
@@ -1137,7 +1071,7 @@
 								<script type="text/javascript">
 									// manually set salesforce object options to bypass 1000 option limit
 									var salesforceObjects = {!salesforceObjects};
-									var selected = '{!fieldMappingSalesforceObject.geopointe__Sfdc_Object__c}';
+									var selected = '{!JSENCODE(fieldMappingSalesforceObject.Sfdc_Object__c)}';
 
 									var options = salesforceObjects.map(function (salesforceObject) {
 										return '<option value="' + salesforceObject[0] + '">' + salesforceObject[1] + '</option>';

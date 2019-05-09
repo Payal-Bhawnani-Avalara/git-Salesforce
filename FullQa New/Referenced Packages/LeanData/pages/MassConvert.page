@@ -1,4 +1,6 @@
 <apex:page controller="LeanData.MassConvertController" action="{! initializeIsAllowed}" sidebar="false">
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'css/magellan.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'scss/magellan.css')}"/>
     <c:style />
     
     <c:UtilJS />
@@ -55,7 +57,8 @@
     <c:accessCheck isAllowed="{! isAllowed && isL2AMassConvertAllowed}">
         <c:matchedViewAssets view_type="MassConvert" with_dupes="false" with_l2a_matches="false" />
         <apex:outputPanel id="view" layout="block" styleClass="view">
-            <img height="25px;" style="float:left;" src="{!$Resource.leandata_logo}" class="leandata_logo" />
+        <div class="mass-convert-wrapper">
+            <img height="25px;" style="float:left;" class="leandata_logo" src="{!URLFOR($Resource.DashboardImages,'LD-logo_2x.png')}"/>
             <div class="accountNameHeader page-description"/>
             <div class="clear" />
             <div class="loadingDiv">
@@ -145,12 +148,15 @@
                         <div class="inner-panel">
                             <div class="scroll-panel open-activities-div">
                                 <div class="right">
-                                <apex:outputLink value="{!$Page.LeanData__Dashboard}?page=view-layout-RL" target="_blank" styleClass="action_link">Related Lead Settings</apex:outputLink>
+                                <apex:outputLink value="{!$Page.LeanData__Dashboard}?page=view-layout-RL" target="_blank" styleClass="action_link ld-green">Related Lead Settings</apex:outputLink>
                             </div>
                             <div id="objectTable">
                                 <div id="objectTableControls">
-                                    <span> Select All Leads</span>
-                                    <input type="checkbox" id="selectAllLeads" checked="true" />
+                                    <label class="cb-container-small">
+                                      <span>Select All Leads</span>
+                                      <input id="selectAllLeads" type="checkbox" checked="true" />
+                                      <span class="checkmark"></span>
+                                    </label>
                                     <span class="controlLabel" id="totalLeadsLabel" />
                                     <span class="controlLabel"> Set Owner</span>
                                     <select id="selectOwnerPicklist" />
@@ -174,20 +180,26 @@
                         <div class="inner-panel">
                             <div class="scroll-panel input-options-div">
                                 <div style="margin-bottom: 10px">
-                                    <apex:inputCheckbox value="{!doNotCreateOpportunity}"/>
-                                    <span> Do not create a new opportunity upon conversion </span>
+                                    <label class="cb-container-small">
+                                      <span> Do not create a new opportunity upon conversion </span>
+                                      <apex:inputCheckbox value="{!doNotCreateOpportunity}"/>
+                                      <span class="checkmark"></span>
+                                    </label>
                                 </div>
                                 <div style="margin-bottom: 10px">
-                                    <apex:inputCheckbox value="{!sendEmail}"/>
-                                    <span> Notify me via email when lead conversion is complete </span>
+                                    <label class="cb-container-small">
+                                      <span> Notify me via email when lead conversion is complete </span>
+                                      <apex:inputCheckbox value="{!sendEmail}"/>
+                                      <span class="checkmark"></span>
+                                    </label>
                                 </div>
                             </div>
                         </div>
                     </div>         
                     
                     <div class="buttonsDiv">
-                        <button type="button" class="panel-button" onclick="redirect();"> Cancel </button>
-                        <button type="button" class="panel-button" onclick="ga_event('Mass converting L2A matched leads'); massConvert()"> Mass Convert </button>
+                        <button type="button" class="ld-tertiary-small-button" onclick="redirect();"> Cancel </button>
+                        <button type="button" class="ld-tertiary-small-button" onclick="ga_event('Mass converting L2A matched leads'); massConvert()"> Mass Convert </button>
                     </div>
                     
                     <apex:actionFunction name="massConvertAF" action="{!convert}" reRender="x" oncomplete="redirect();">
@@ -196,6 +208,7 @@
                     </apex:actionFunction>
                 </apex:form>
             </div>
+        </div>
         </apex:outputPanel>
     </c:accessCheck>
     <script>
@@ -340,6 +353,10 @@
            updateSelectedLeadsLabel();
 
             var selectOwnerPicklist = j$('#selectOwnerPicklist')[0];
+            var defaultOption = document.createElement("option");
+            defaultOption.text = 'None';
+            defaultOption.value = '';
+            selectOwnerPicklist.appendChild(defaultOption);
             //Create and append the options
             for (var j = 0; j < viewObject["active users"].length; j++) {
                 var option = document.createElement("option");
@@ -420,9 +437,7 @@
             var tbody = document.createElement("tbody");
             var index = 0;
             for (var index=0;index<viewObject["related leads"].length;index++) {
-                console.log(index + ' : ' + index);
                 lead = viewObject["related leads"][index];
-                console.log(lead + ' : ' + lead.Id);
                 row = document.createElement("tr");
                 row.value = lead.Id;
                 row.className = "dataRow";
@@ -437,7 +452,9 @@
                     var cell = document.createElement("td");
 
                     if (viewObject["columns"][i] == 'Convert') {
-                        
+                        var cbLabel = document.createElement('label');
+                        cbLabel.className = 'cb-container-small';
+
                         var newCheckBox = document.createElement('input');
                         if((viewObject["mode"] == "Lead") && (index == 0)) {
                             newCheckBox.disabled = true;
@@ -453,8 +470,13 @@
                             numSelectedLeads = this.checked ? (numSelectedLeads + 1) : (numSelectedLeads - 1);
                             updateSelectedLeadsLabel();
                         };
+                        cbLabel.appendChild(newCheckBox);
+
+                        var checkmark = document.createElement('span');
+                        checkmark.className = 'checkmark';
+                        cbLabel.appendChild(checkmark);
                         
-                        cell.appendChild(newCheckBox);
+                        cell.appendChild(cbLabel);
                     } else if (viewObject["columns"][i] == 'Owner') {
 
                         var selectList = document.createElement("select");

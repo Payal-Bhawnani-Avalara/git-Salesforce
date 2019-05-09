@@ -64,6 +64,7 @@
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <fieldSets>
         <fullName>CreateProjectFromTemplateCopyPTAFields</fullName>
         <availableFields>
@@ -1584,39 +1585,79 @@ Resource_Request__r.Preferred_Schedule__r.Scheduled_Hours__c,
             <valueSetDefinition>
                 <sorted>false</sorted>
                 <value>
-                    <fullName>Architect</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Business Analyst</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Client Manager</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Consultant</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Contractor</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Executive</fullName>
-                    <default>false</default>
-                </value>
-                <value>
                     <fullName>Project Manager</fullName>
                     <default>false</default>
                 </value>
                 <value>
-                    <fullName>Senior Consultant</fullName>
+                    <fullName>AvaTax Consultant</fullName>
                     <default>false</default>
                 </value>
                 <value>
-                    <fullName>Trainer</fullName>
+                    <fullName>CertCapture Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Returns Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Technical Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Excise Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Associate Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Account Specialist</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Manager</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Tax Representative</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Voluntary Disclosure Tax Representative</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Historical Registration Tax Representative</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Customer Tax Recovery Tax Representative</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Tax Specialist</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Senior Tax Specialist</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Nexus Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ARE Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ATE Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Managed Services Consultant</fullName>
                     <default>false</default>
                 </value>
             </valueSetDefinition>

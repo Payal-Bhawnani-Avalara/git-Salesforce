@@ -41,7 +41,7 @@
         <type>Default</type>
     </actionOverrides>
     <allowInChatterGroups>false</allowInChatterGroups>
-    <compactLayoutAssignment>ProjectCompactLayout</compactLayoutAssignment>
+    <compactLayoutAssignment>Project_Highlights</compactLayoutAssignment>
     <compactLayouts>
         <fullName>ProjectCompactLayout</fullName>
         <fields>Name</fields>
@@ -59,12 +59,13 @@
     <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableEnhancedLookup>true</enableEnhancedLookup>
-    <enableFeeds>false</enableFeeds>
+    <enableFeeds>true</enableFeeds>
     <enableHistory>true</enableHistory>
     <enableReports>true</enableReports>
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fieldSets>
         <fullName>AssignMultiProjectFilterOptions</fullName>
         <availableFields>
@@ -11514,11 +11515,6 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Billing_Type__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>Billings__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -11664,16 +11660,6 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Is_Active__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
-            <field>Is_Billable__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>Is_Template__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -11814,11 +11800,6 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Project_Type__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>Rate_Card_Discount_Limit__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -11939,6 +11920,26 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <isRequired>false</isRequired>
         </availableFields>
         <description>When creating a project from a project template, use to define additional fields on the Project object to copy from the template to the new project. These fields do not display on the CreateProjectFromTemplate Visualforce page.</description>
+        <displayedFields>
+            <field>Is_Active__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Is_Billable__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Project_Type__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Billing_Type__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
         <label>Create Project From Template Alt Copy Project Fields</label>
     </fieldSets>
     <fieldSets>
@@ -12044,11 +12045,6 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Billing_Type__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>Billings__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -12069,11 +12065,6 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Copy_Child_Records_from_Template_Async__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>Credited_Non_Billable_Internal_Hours__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -12090,6 +12081,11 @@ page. Defines the individual filters that are visible in the Filter Options sect
         </availableFields>
         <availableFields>
             <field>Daily_Timecard_Notes_Required__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Exclude_From_Billing__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -12125,6 +12121,11 @@ page. Defines the individual filters that are visible in the Filter Options sect
         </availableFields>
         <availableFields>
             <field>External_Costs__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Group__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -12194,6 +12195,11 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Opportunity_Owner__c</field>
+            <isFieldManaged>true</isFieldManaged>
+            <isRequired>true</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Other_Costs__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -12240,11 +12246,6 @@ page. Defines the individual filters that are visible in the Filter Options sect
         </availableFields>
         <availableFields>
             <field>Project_Status__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
-            <field>Project_Type__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -12319,6 +12320,11 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Time_Excluded__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Total_Assigned_Hours__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -12340,6 +12346,11 @@ page. Defines the individual filters that are visible in the Filter Options sect
         </availableFields>
         <description>Used on both the CreateProjectFromOpportunity and CreateProjectFromTemplate Visualforce pages. Defines the editable fields that appear on the Project Details sections of these pages.</description>
         <displayedFields>
+            <field>CurrencyIsoCode</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Name</field>
             <isFieldManaged>true</isFieldManaged>
             <isRequired>true</isRequired>
@@ -12355,22 +12366,12 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <isRequired>true</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>CurrencyIsoCode</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Planned_Hours__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>Start_Date__c</field>
             <isFieldManaged>true</isFieldManaged>
             <isRequired>true</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>End_Date__c</field>
+            <field>Copy_Child_Records_from_Template_Async__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -12380,37 +12381,17 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>OwnerId</field>
-            <isFieldManaged>true</isFieldManaged>
+            <field>End_Date__c</field>
+            <isFieldManaged>false</isFieldManaged>
             <isRequired>true</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Opportunity_Owner__c</field>
-            <isFieldManaged>true</isFieldManaged>
-            <isRequired>true</isRequired>
+            <field>Planned_Hours__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
             <field>Is_Active__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Is_Billable__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Time_Credited__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Time_Excluded__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Exclude_From_Billing__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -12420,14 +12401,34 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <isRequired>true</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>Is_Billable__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Practice__c</field>
             <isFieldManaged>true</isFieldManaged>
             <isRequired>true</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Group__c</field>
+            <field>Billing_Type__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Time_Credited__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Project_Type__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>OwnerId</field>
+            <isFieldManaged>true</isFieldManaged>
+            <isRequired>true</isRequired>
         </displayedFields>
         <label>Create Project From Opp And Template Project Columns</label>
     </fieldSets>
@@ -18984,11 +18985,6 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Tasks_Total_Points__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>Time_Credited__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -19016,6 +19012,11 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <description>Used on the new Project Planner. Defines the preferred columns to show on the project list.</description>
         <displayedFields>
             <field>Is_Billable__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Tasks_Total_Points__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -19594,6 +19595,11 @@ page. Defines the individual filters that are visible in the Filter Options sect
     <fieldSets>
         <fullName>SelectProjectTemplateFieldSet</fullName>
         <availableFields>
+            <field>Account__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Actuals_Last_Update_Date__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -19794,6 +19800,11 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Group__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Hierarchy_Depth__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -19904,6 +19915,11 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Practice__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Pre_Bill_Type__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -19944,11 +19960,6 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Project_Type__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>Rate_Card_Discount_Limit__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -19960,6 +19971,11 @@ page. Defines the individual filters that are visible in the Filter Options sect
         </availableFields>
         <availableFields>
             <field>Rate_Card_Set__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Region__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -20004,11 +20020,6 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Stage__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>Start_Date__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -20020,11 +20031,6 @@ page. Defines the individual filters that are visible in the Filter Options sect
         </availableFields>
         <availableFields>
             <field>Tasks_Total_Points_Complete__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
-            <field>Tasks_Total_Points__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -20075,22 +20081,17 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Account__c</field>
+            <field>Tasks_Total_Points__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Region__c</field>
+            <field>Project_Type__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Practice__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Group__c</field>
+            <field>Stage__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -20106,6 +20107,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <relationshipLabel>Projects</relationshipLabel>
         <relationshipName>Projects</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -20118,6 +20120,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <inlineHelpText>Saving the Project with this checkbox checked updates the fields that track Billing Eligible Business Records (TC Splits, Expenses, Milestones, Misc Adjustments, Budgets) for this Project and also auto-unchecks this Action checkbox.</inlineHelpText>
         <label>Action: Count Billing Eligible Records</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20128,6 +20131,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Action: Update Current Time Period</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20138,6 +20142,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>Actuals: Last Recalc Date</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>DateTime</type>
@@ -20148,6 +20153,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>Actuals: Last Update Date</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>DateTime</type>
@@ -20161,6 +20167,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <referenceTo>User</referenceTo>
         <relationshipName>Projects2</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -20171,6 +20178,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Actuals: Need Recalc</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20183,6 +20191,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <inlineHelpText>If selected, all existing billing event items are added to an existing billing event instead of creating a new billing event.</inlineHelpText>
         <label>Add BEIs To Existing Batches</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20195,6 +20204,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <inlineHelpText>If this field is checked, then Expense Reports (and Expenses) may be logged for this project without the Resource on the Expense Report needing to have an open and current Assignment for the Project.</inlineHelpText>
         <label>Allow Expenses Without Assignment</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20206,6 +20216,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <inlineHelpText>Whether a resource may create an assignment to this project for his/her own resource. Checking this will allow any and all resources in the system to create assignments to this project.</inlineHelpText>
         <label>Allow Self-Staffing</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20218,6 +20229,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <inlineHelpText>If this field is checked, then Timecards may be logged for this project without the Resource on the Timecard needing to have an open and current Assignment for the Project.</inlineHelpText>
         <label>Allow Timecards Without Assignment</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20228,6 +20240,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>Backlog: Last Update Date</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>DateTime</type>
@@ -20241,6 +20254,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <referenceTo>User</referenceTo>
         <relationshipName>Projects</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -20330,6 +20344,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <relationshipLabel>Baseline</relationshipLabel>
         <relationshipName>Baseline</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -20371,6 +20386,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -20386,6 +20402,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>8</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Percent</type>
@@ -20399,6 +20416,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -20413,6 +20431,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -20427,6 +20446,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -20442,6 +20462,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>6</precision>
         <required>false</required>
         <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -20458,6 +20479,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>6</precision>
         <required>false</required>
         <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -20471,6 +20493,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <inlineHelpText>When counts of Billing Eligible business records are updated on the Project, this Date field is set to indicate when the data was last captured.</inlineHelpText>
         <label>Billing Eligible Last Updated</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -20486,6 +20509,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>6</precision>
         <required>false</required>
         <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -20502,6 +20526,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>6</precision>
         <required>false</required>
         <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -20518,6 +20543,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>6</precision>
         <required>false</required>
         <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -20529,6 +20555,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Billing Queues Need Recalc</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20539,6 +20566,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>Billing Type</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
@@ -20547,10 +20575,14 @@ page. Defines the individual filters that are visible in the Filter Options sect
                 <sorted>false</sorted>
                 <value>
                     <fullName>Fixed Price</fullName>
-                    <default>false</default>
+                    <default>true</default>
                 </value>
                 <value>
                     <fullName>Time and Materials</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Recurring</fullName>
                     <default>false</default>
                 </value>
             </valueSetDefinition>
@@ -20565,6 +20597,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -20578,6 +20611,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -20588,6 +20622,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Closed for Expense Entry</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20598,6 +20633,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Closed for Time Entry</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20610,6 +20646,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <inlineHelpText>If true, project child records copied using the Create Project From Template UI are created in asynchronous mode.</inlineHelpText>
         <label>Copy Child Records from Template Async</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20623,6 +20660,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -20635,6 +20673,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>Current Time Period End Date</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -20649,6 +20688,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <relationshipLabel>Current Time Period For Projects</relationshipLabel>
         <relationshipName>CurrentTimePeriodForProjects</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -20659,6 +20699,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Daily Timecard Notes Required</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20669,6 +20710,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>End Date</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -20681,6 +20723,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <inlineHelpText>If selected, excludes the project from displaying on the billing screen.</inlineHelpText>
         <label>Exclude Project From Display On Billing</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20692,6 +20735,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <description>If true, do not include this project when generating billing events</description>
         <externalId>false</externalId>
         <label>Exclude From Billing</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20702,6 +20746,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Exclude from Backlog</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20714,6 +20759,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <inlineHelpText>Check to exclude this project from project planner</inlineHelpText>
         <label>Exclude from Project Planner</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20727,6 +20773,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -20741,6 +20788,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -20754,6 +20802,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -20764,6 +20813,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>Expense Notes</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>TextArea</type>
@@ -20777,6 +20827,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -20789,6 +20840,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -20801,6 +20853,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <inlineHelpText>Select the current financial status from the picklist. Alternatively, use Process Builder or workflow rules to use your own logic to control the behavior of the corresponding color indicator field.</inlineHelpText>
         <label>Financial Status</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
@@ -20847,6 +20900,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <relationshipLabel>Projects</relationshipLabel>
         <relationshipName>Projects</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -20861,6 +20915,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <relationshipLabel>Projects</relationshipLabel>
         <relationshipName>Projects</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -20874,6 +20929,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>2</precision>
         <required>false</required>
         <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -20891,6 +20947,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <relationshipLabel>Projects</relationshipLabel>
         <relationshipName>Projects</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -20905,6 +20962,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -20916,6 +20974,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <description>Does this project participate in project forecasting?</description>
         <externalId>false</externalId>
         <label>Include In Forecasting</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20929,6 +20988,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -20942,6 +21002,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -20954,6 +21015,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -20967,6 +21029,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -20977,6 +21040,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Active</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20988,6 +21052,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <inlineHelpText>Check if this project is billable to a customer.</inlineHelpText>
         <label>Billable</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -20998,6 +21063,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Template</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -21008,6 +21074,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>Location</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>MultiselectPicklist</type>
@@ -21306,6 +21373,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <relationshipLabel>Master Project For Sub-Projects:</relationshipLabel>
         <relationshipName>MasterProjectForSubProjects</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -21318,6 +21386,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -21331,6 +21400,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -21345,6 +21415,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -21357,6 +21428,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>Notes</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>TextArea</type>
@@ -21370,6 +21442,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <referenceTo>User</referenceTo>
         <relationshipName>Projects1</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -21384,6 +21457,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <relationshipLabel>Projects</relationshipLabel>
         <relationshipName>Projects</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -21397,6 +21471,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -21411,6 +21486,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <relationshipLabel>Immediate Sub-Projects</relationshipLabel>
         <relationshipName>ImmediateSubProjects</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -21424,6 +21500,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -21437,6 +21514,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -21452,6 +21530,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <relationshipLabel>Projects</relationshipLabel>
         <relationshipName>Projects</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -21462,6 +21541,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>Pre-Bill Type</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
@@ -21492,6 +21572,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -21503,6 +21584,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <label>Project ID Chain</label>
         <length>255</length>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -21544,6 +21626,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <relationshipLabel>Projects Managed</relationshipLabel>
         <relationshipName>ProjectsManaged</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -21555,6 +21638,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <label>Project Name Chain</label>
         <length>255</length>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -21566,6 +21650,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>Project Phase</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
@@ -21621,6 +21706,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>Project Status Notes</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>TextArea</type>
@@ -21633,6 +21719,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <inlineHelpText>Select the current project status from the picklist. Alternatively, use Process Builder or workflow rules to use your own logic to control the behavior of the corresponding color indicator field.</inlineHelpText>
         <label>Project Status</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
@@ -21641,14 +21728,17 @@ page. Defines the individual filters that are visible in the Filter Options sect
                 <sorted>false</sorted>
                 <value>
                     <fullName>Green</fullName>
+                    <color>#78C953</color>
                     <default>false</default>
                 </value>
                 <value>
                     <fullName>Yellow</fullName>
+                    <color>#F3D904</color>
                     <default>false</default>
                 </value>
                 <value>
                     <fullName>Red</fullName>
+                    <color>#CC0000</color>
                     <default>false</default>
                 </value>
             </valueSetDefinition>
@@ -21661,6 +21751,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>Project Type</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
@@ -21669,14 +21760,10 @@ page. Defines the individual filters that are visible in the Filter Options sect
                 <sorted>false</sorted>
                 <value>
                     <fullName>Customer Project</fullName>
-                    <default>false</default>
+                    <default>true</default>
                 </value>
                 <value>
                     <fullName>Internal</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Paid Time Off</fullName>
                     <default>false</default>
                 </value>
             </valueSetDefinition>
@@ -21692,6 +21779,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>4</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -21707,6 +21795,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>5</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Percent</type>
@@ -21723,6 +21812,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <relationshipLabel>Rate Card Set Projects</relationshipLabel>
         <relationshipName>Rate_Card_Set_Projects</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -21737,6 +21827,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <relationshipLabel>Projects</relationshipLabel>
         <relationshipName>Projects</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -21747,6 +21838,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Requires Dependency Sync</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -21760,6 +21852,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -21772,6 +21865,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <inlineHelpText>Select the current schedule status from the picklist. Alternatively, use Process Builder or workflow rules to use your own logic to control the behavior of the corresponding color indicator field.</inlineHelpText>
         <label>Schedule Status</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
@@ -21815,6 +21909,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>Scheduled Backlog Calculated Date</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -21825,6 +21920,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>Scheduled Backlog End Date</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -21837,6 +21933,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -21849,6 +21946,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -21861,6 +21959,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <inlineHelpText>Select the current scope status from the picklist. Alternatively, use Process Builder or workflow rules to use your own logic to control the behavior of the corresponding color indicator field.</inlineHelpText>
         <label>Scope Status</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
@@ -21903,6 +22002,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>Services Billing Time Period Type</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
@@ -21935,6 +22035,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <description>If true, sharing rules are created for this record and its children so that the user designated as Project Manager has access to them.</description>
         <externalId>false</externalId>
         <label>Share with Project Manager</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -21946,6 +22047,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <inlineHelpText>Whether to share certain project related objects like Milestones with resources that are assigned to the project</inlineHelpText>
         <label>Share with Project Resources</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -21956,6 +22058,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>Stage</label>
         <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
@@ -21963,7 +22066,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <valueSetDefinition>
                 <sorted>false</sorted>
                 <value>
-                    <fullName>Planned</fullName>
+                    <fullName>New</fullName>
                     <default>true</default>
                 </value>
                 <value>
@@ -21975,15 +22078,11 @@ page. Defines the individual filters that are visible in the Filter Options sect
                     <default>false</default>
                 </value>
                 <value>
-                    <fullName>Completed</fullName>
+                    <fullName>Explicitly Cancelled</fullName>
                     <default>false</default>
                 </value>
                 <value>
-                    <fullName>Canceled</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Missing Paperwork</fullName>
+                    <fullName>Complete</fullName>
                     <default>false</default>
                 </value>
             </valueSetDefinition>
@@ -21995,6 +22094,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <label>Start Date</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Date</type>
@@ -22038,6 +22138,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>11</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -22053,6 +22154,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>11</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -22066,6 +22168,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <inlineHelpText>This checkbox should be checked for non-billable projects for which consulting time is credited towards utilization.</inlineHelpText>
         <label>Time Credited</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -22078,6 +22181,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <externalId>false</externalId>
         <inlineHelpText>This checkbox should be checked for non-billable projects for which time should neither count for or against utilization.</inlineHelpText>
         <label>Time Excluded</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -22090,6 +22194,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -22119,6 +22224,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>8</precision>
         <required>false</required>
         <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -22132,6 +22238,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -22145,6 +22252,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Currency</type>
@@ -22159,6 +22267,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <relationshipLabel>Projects</relationshipLabel>
         <relationshipName>Project_Work_Calendar</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -22168,8 +22277,8 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <fullName>All</fullName>
         <columns>Project_Manager__c</columns>
         <columns>NAME</columns>
+        <columns>RECORDTYPE</columns>
         <columns>Region__c</columns>
-        <columns>Account__c</columns>
         <columns>Practice__c</columns>
         <columns>Group__c</columns>
         <columns>Is_Billable__c</columns>
@@ -22182,8 +22291,16 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <columns>Is_Template__c</columns>
         <columns>Billed__c</columns>
         <filterScope>Everything</filterScope>
+        <filters>
+            <field>NAME</field>
+            <operation>equals</operation>
+        </filters>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Proj__c.Managed_Services_Project</value>
+        </filters>
         <label>All</label>
-        <language>en_US</language>
     </listViews>
     <listViews>
         <fullName>All_Project_Templates</fullName>
@@ -22201,7 +22318,7 @@ page. Defines the individual filters that are visible in the Filter Options sect
         <columns>Unscheduled_Backlog__c</columns>
         <columns>CREATED_DATE</columns>
         <columns>Is_Template__c</columns>
-        <columns>Billed__c</columns>
+        <columns>Project_Type__c</columns>
         <filterScope>Everything</filterScope>
         <filters>
             <field>Is_Template__c</field>
@@ -22209,14 +22326,16 @@ page. Defines the individual filters that are visible in the Filter Options sect
             <value>1</value>
         </filters>
         <label>All Project Templates</label>
-        <language>en_US</language>
     </listViews>
     <nameField>
         <label>Project Name</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Text</type>
     </nameField>
     <pluralLabel>Projects</pluralLabel>
+    <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>
         <customTabListAdditionalFields>Project_Manager__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Account__c</customTabListAdditionalFields>

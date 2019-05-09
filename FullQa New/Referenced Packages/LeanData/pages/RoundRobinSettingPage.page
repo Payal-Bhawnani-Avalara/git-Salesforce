@@ -46,14 +46,6 @@
     <c:ModalJS />
 
     <style>
-    	.dg_inner-wrapper {
-            width: 1050px;
-            background: white;
-            border: 1.5px solid #8da8bf;
-            border-radius: 7.5px;
-            margin: 0 20px 20px 0;
-            margin-left:40px;
-        }
         .bs .modal-header {
             padding: 0px;
         }
@@ -64,10 +56,10 @@
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"></link>
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-        <c:DashboardRCVacation />
     </div>
 
     <script>
+        window.location.href = '/apex/Dashboard#routing/round_robin_schedules';
         var profileName = '{!$Profile.Name}';
         var managerProfileSet = JSON.parse('{!managerProfileSetJSON}');
         j$(document).ready(function() {

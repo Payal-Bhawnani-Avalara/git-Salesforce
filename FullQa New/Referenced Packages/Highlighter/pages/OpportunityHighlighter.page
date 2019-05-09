@@ -1,4 +1,1 @@
-<apex:page standardController="Opportunity" title="Opportunity: {!Opportunity.Name}" id="pg">
-    <apex:Detail subject="{!$CurrentPage.parameters.Id}" relatedList="true" inLineEdit="true" relatedListHover="true" showChatter="true"  title="true"   oncomplete="reloadtheDetails()" />
-    <c:HighlighterScript />
-</apex:page>
+<apex:page standardController="Opportunity" title="Opportunity: {!Opportunity.Name}" id="pg"><apex:Detail subject="{!$CurrentPage.parameters.Id}" relatedList="true" inLineEdit="true" relatedListHover="true" showChatter="true"  title="true" /><c:HighlighterScript /></apex:page>

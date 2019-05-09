@@ -89,14 +89,15 @@ function process(operation, key, objectType) {
 					j$('#uploadFileMessage').css('color','green');
 					j$('#uploadFileModal').modal('show');
 					if(result.startsWith('Errors Occurred')){
-						var resultArray = result.split(',');
+						var resultArray = result.split(', ');
 						j$('#uploadFileText').text('Errors Occurred');
 						var htmlString = '<table class="upload-file-errors"><tbody>'
 							+ '<tr><td>Number of rows with PostalCode populated but missing Country: </td><td>' + resultArray[1]
 							+ '</td></tr><tr><td>Number of rows with City populated but missing Country (or State/Country for US): </td><td>' + resultArray[2]
 							+ '</td></tr><tr><td>Number of rows with missing data: </td><td>' + resultArray[3]
-							+ '</td></tr><tr><td>Number of rows with duplicate data: </td><td>' + resultArray[4]
-							+ '</td></tr><tr><td>Number of rows with invalid/inactive owners or invalid round robin names: </td><td>' + resultArray[5]
+							+ '</td></tr><tr><td>Number of rows with invalid/inactive owners or invalid round robin names: </td><td>' + resultArray[4]
+							+ '</td></tr><tr><td>Number of rows with duplicate data: </td><td>' + resultArray[5]
+							+ (resultArray.length == 7 ? ('</td></tr><tr><td style="width:500px">Duplicate Rows Set: </td><td>' + resultArray[6]) : ('</td></tr>'))
 							+ '</td></tr></tbody></table>';
 						j$('#uploadFileMessage').html(htmlString);
 

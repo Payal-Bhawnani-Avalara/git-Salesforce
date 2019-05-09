@@ -29,6 +29,13 @@
         <value>No active organization connections found. On the Connections tab, click New and create connections to your source and destination organizations.</value>
     </labels>
     <labels>
+        <fullName>ALL_EVENTS_SELECTED</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ALL_EVENTS_SELECTED</shortDescription>
+        <value>All events configured for deactivation.</value>
+    </labels>
+    <labels>
         <fullName>CHILD_OBJECTS</fullName>
         <categories>General</categories>
         <language>en_US</language>
@@ -64,6 +71,13 @@
         <protected>true</protected>
         <shortDescription>CUSTOM_DOMAIN_TOOL_TIP</shortDescription>
         <value>Specifies an optional custom Salesforce domain.</value>
+    </labels>
+    <labels>
+        <fullName>DEACTIVATE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>DEACTIVATE</shortDescription>
+        <value>DEACTIVATE</value>
     </labels>
     <labels>
         <fullName>DEPLOYMENT_LOST_ALERT</fullName>
@@ -162,11 +176,32 @@
         <value>Data set element not found. Moover will delete this entry on next save.</value>
     </labels>
     <labels>
+        <fullName>ERROR_DATA_SET_NOT_FOUND</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ERROR_DATA_SET_NOT_FOUND</shortDescription>
+        <value>The data set element you selected is inactive or longer exists. Moover will delete any related event controls on next save.</value>
+    </labels>
+    <labels>
+        <fullName>ERROR_DESTINATION_CONNECTION_NOT_ALLOWED</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ERROR_DESTINATION_CONNECTION_NOT_ALLOWED</shortDescription>
+        <value>The destination connection does not allow to be used as a destination.</value>
+    </labels>
+    <labels>
         <fullName>ERROR_ENFORCE_CORRECT_CONTROL_ORG</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>ERROR_ENFORCE_CORRECT_CONTROL_ORG</shortDescription>
         <value>The connection set as your control org connection is not to your control org. On the Connections tab, ensure the Control Org checkbox is selected only on the connection to your control org.</value>
+    </labels>
+    <labels>
+        <fullName>ERROR_EVENT_NOT_FOUND_IN_SCHEMA</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ERROR_EVENT_NOT_FOUND_IN_SCHEMA</shortDescription>
+        <value>This event no longer exists in the destination schema org. Moover will remove the event control from your data set on next save. To keep the event control in your data set, select a schema that includes the event.</value>
     </labels>
     <labels>
         <fullName>ERROR_FILE_SIZE_REACHED_MAXIMUM_ALLOWED_LIMIT</fullName>
@@ -219,6 +254,13 @@
         <value>Invalid deployment plan Id &lt;deploymentPlantId&gt; in API request.</value>
     </labels>
     <labels>
+        <fullName>ERROR_INVALID_EVENT_CONTROL_CARD</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ERROR_INVALID_EVENT_CONTROL_CARD</shortDescription>
+        <value>The &lt;objectname&gt; object does not exist in destination schema org. Moover will remove the associated event controls from your data set on next save. To keep the event controls in your data set, select a schema that includes the object.</value>
+    </labels>
+    <labels>
         <fullName>ERROR_INVALID_FILTER_CRITERIA</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -248,6 +290,20 @@
         <value>No active connection to your control organization found. Click New on the Connections tab to establish one before attempting a deployment.</value>
     </labels>
     <labels>
+        <fullName>ERROR_NO_DESTINATION_CONNECTION_FOUND</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ERROR_NO_DESTINATION_CONNECTION_FOUND</shortDescription>
+        <value>The connection to the destination schema org is no longer valid. Ensure that an active Connection record exists for your destination schema org.</value>
+    </labels>
+    <labels>
+        <fullName>ERROR_NO_EVENT_EXISTS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ERROR_NO_EVENT_EXISTS</shortDescription>
+        <value>No events of this type exist in your destination schema org.</value>
+    </labels>
+    <labels>
         <fullName>ERROR_NO_LOCAL_CONNECTION</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -262,6 +318,13 @@
         <value>No target connection ID has been specified.</value>
     </labels>
     <labels>
+        <fullName>ERROR_NO_VALID_CONNECTION_FOUND_FOR_EVENT_CONTROL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ERROR_NO_VALID_CONNECTION_FOUND_FOR_EVENT_CONTROL</shortDescription>
+        <value>Moover cannot retrieve the events for this object. Ensure that active Connection records exist for your control org and your destination schema org.</value>
+    </labels>
+    <labels>
         <fullName>ERROR_ORGS_SETTINGS_MISSING</fullName>
         <categories>Error</categories>
         <language>en_US</language>
@@ -274,7 +337,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>ERROR_ORIGIN_CONNECTION_ERROR</shortDescription>
-        <value>Schema connection is missing, inactivate, or invalid. Please select a valid schema org connection or ignore this message to use your control org as the schema org.</value>
+        <value>Schema connection is missing or invalid. Please select a valid schema org connection (or leave blank to use your control org as the schema org) and resave the data set.</value>
     </labels>
     <labels>
         <fullName>ERROR_PLAN_TEMPLATE_FOUND_WHEN_DATASET_TEMPLATE_EXPECTED</fullName>
@@ -328,7 +391,6 @@
     </labels>
     <labels>
         <fullName>ERROR_TARGET_ORG</fullName>
-        <categories>Error</categories>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>ERROR_TARGET_ORG</shortDescription>
@@ -347,6 +409,34 @@
         <protected>true</protected>
         <shortDescription>ERROR_UNABLE_STOP_PAUSE_RESUME_PROCESS</shortDescription>
         <value>Unable to Stop/Pause/Resume the deployment process because either the record ID is missing or the record is not found.</value>
+    </labels>
+    <labels>
+        <fullName>EVENT_CONTROL_MODAL_DESCRIPTION</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>EVENT_CONTROL_MODAL_DESCRIPTION</shortDescription>
+        <value>Select Salesforce events, such as triggers or validation rules, to deactivate during the deployment. Note: actual events in the destination org could differ.</value>
+    </labels>
+    <labels>
+        <fullName>EVENT_CONTROL_MODAL_DESCRIPTION_WARNING</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>EVENT_CONTROL_MODAL_DESCRIPTION_WARNING</shortDescription>
+        <value>Deactivating events changes the destination org configuration and there is a possibility that the events will not be automatically activated after deployment. Carefully consider the repercussions before using this feature.</value>
+    </labels>
+    <labels>
+        <fullName>EVENT_CONTROL_SCOPE_DATASET</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>EVENT_CONTROL_SCOPE_DATASET</shortDescription>
+        <value>Data Set</value>
+    </labels>
+    <labels>
+        <fullName>EVENT_CONTROL_SCOPE_DATASET_ELEMENT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>EVENT_CONTROL_SCOPE_DATASET_ELEMENT</shortDescription>
+        <value>Data Set Element</value>
     </labels>
     <labels>
         <fullName>FINISH_ALERT</fullName>
@@ -412,6 +502,218 @@
         <value>Add Mapping</value>
     </labels>
     <labels>
+        <fullName>LABEL_ALL_EVENTS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_ALL_EVENTS</shortDescription>
+        <value>All Events</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_BLANK_FIELD_VALUE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_BLANK_FIELD_VALUE</shortDescription>
+        <value>--Blank Field Value--</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_CONFIGURE_DUPLICATE_RULE_EVENTS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_CONFIGURE_DUPLICATE_RULE_EVENTS</shortDescription>
+        <value>Configure Duplicate Rule Events</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_CONFIGURE_PROCESS_BUILDER</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_CONFIGURE_PROCESS_BUILDER</shortDescription>
+        <value>Configure Process Builder Events</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_CONFIGURE_RECORD_TYPE_TRANSFORMATIONS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_CONFIGURE_RECORD_TYPE_TRANSFORMATIONS</shortDescription>
+        <value>Configure Record Type Transformations</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_CONFIGURE_TRIGGER_EVENTS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_CONFIGURE_TRIGGER_EVENTS</shortDescription>
+        <value>Configure Trigger Events</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_CONFIGURE_VALIDATION_RULE_EVENTS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_CONFIGURE_VALIDATION_RULE_EVENTS</shortDescription>
+        <value>Configure Validation Rule Events</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_CONFIGURE_WORKFLOW_RULE_EVENTS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_CONFIGURE_WORKFLOW_RULE_EVENTS</shortDescription>
+        <value>Configure Workflow Rule Events</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_DATA_TRANSFORMATION</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_DATA_TRANSFORMATION</shortDescription>
+        <value>Data Transformation</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_DEACTIVATE_ALL_EVENTS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_DEACTIVATE_ALL_EVENTS</shortDescription>
+        <value>Deactivate All Events</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_DESTINATION_DEPLOYMENT_OBJECT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_DESTINATION_DEPLOYMENT_OBJECT</shortDescription>
+        <value>Destination Deployment Object</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_DESTINATION_FIELD</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_DESTINATION_FIELD</shortDescription>
+        <value>DESTINATION FIELD</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_DESTINATION_PICKLIST_VALUE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_DESTINATION_PICKLIST_VALUE</shortDescription>
+        <value>Destination Picklist Value</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_DESTINATION_RECORD_TYPE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_DESTINATION_RECORD_TYPE</shortDescription>
+        <value>Destination Record Type</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_DESTINATION_RELATIONSHIP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_DESTINATION_RELATIONSHIP</shortDescription>
+        <value>Destination Relationship</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_DESTINATION_SCHEMA_ORG</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_DESTINATION_SCHEMA_ORG</shortDescription>
+        <value>Destination Schema Org</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_DO_NOT_ALLOW_AS_DESTINATION</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_DO_NOT_ALLOW_AS_DESTINATION</shortDescription>
+        <value>Do Not Allow As Destination</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_DO_NOT_WARN_AGAIN</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_DO_NOT_WARN_AGAIN</shortDescription>
+        <value>Do Not Warn Again</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_DUPLICATE_RULES</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_DUPLICATE_RULES</shortDescription>
+        <value>Duplicate Rules</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_EVENT_CONTROL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_EVENT_CONTROL</shortDescription>
+        <value>Event Control</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_EVENT_CONTROL_CONFIRMATION_PROMPT_HEADING</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_EVENT_CONTROL_CONFIRMATION_PROMPT_HEADING</shortDescription>
+        <value>Event Control Confirmation</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_EVENT_CONTROL_CONFIRMATION_PROMPT_MESSAGE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_EVENT_CONTROL_CONFIRMATION_PROMPT_MESSAGE</shortDescription>
+        <value>This deployment contains event controls which will change the target org configuration. There is a possibility that they will not be automatically activated.
+
+Are you sure you want to proceed?</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_EVENT_CONTROL_OBJECT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_EVENT_CONTROL_OBJECT</shortDescription>
+        <value>Specify Object for Event Control</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_EVENT_SCOPE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_EVENT_SCOPE</shortDescription>
+        <value>Event Scope</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_EVENT_TYPES</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_EVENT_TYPES</shortDescription>
+        <value>Event Types</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_OBJECT_WITH_EVENT_CONTROLS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_OBJECT_WITH_EVENT_CONTROLS</shortDescription>
+        <value>Objects with Event Controls</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_PICKLIST_VALUE_TRANSFORMATIONS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_PICKLIST_VALUE_TRANSFORMATIONS</shortDescription>
+        <value>Picklist Value Transformations - &lt;Source Field Label&gt;</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_POSTFIX</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_POSTFIX</shortDescription>
+        <value>Postfix Value</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_PROCESS_BUILDER</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_PROCESS_BUILDER</shortDescription>
+        <value>Process Builder</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_RECORD_TYPE_TRANSFORMATIONS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_RECORD_TYPE_TRANSFORMATIONS</shortDescription>
+        <value>Record Type Transformations - &lt;Source Object Label&gt;</value>
+    </labels>
+    <labels>
         <fullName>LABEL_SETTINGS</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -419,11 +721,60 @@
         <value>Settings</value>
     </labels>
     <labels>
+        <fullName>LABEL_SOURCE_PICKLIST_VALUE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_SOURCE_PICKLIST_VALUE</shortDescription>
+        <value>Source Picklist Value</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_SOURCE_RECORD_TYPE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_SOURCE_RECORD_TYPE</shortDescription>
+        <value>Source Record Type</value>
+    </labels>
+    <labels>
         <fullName>LABEL_TEXT_ID_MAPPING</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>LABEL_TEXT_ID_MAPPING</shortDescription>
         <value>Text ID Mapping</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_TRANSFORMATIONS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_TRANSFORMATIONS</shortDescription>
+        <value>Enable Transformations</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_TRIGGERS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_TRIGGERS</shortDescription>
+        <value>Triggers</value>
+    </labels>
+    <labels>
+        <fullName>LABEL_VALIDATION_RULES</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABEL_VALIDATION_RULES</shortDescription>
+        <value>Validation Rules</value>
+    </labels>
+    <labels>
+        <fullName>LABLE_PREFIX</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABLE_PREFIX</shortDescription>
+        <value>Prefix Value</value>
+    </labels>
+    <labels>
+        <fullName>LABLE_WORKFLOW_RULES</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>LABLE_WORKFLOW_RULES</shortDescription>
+        <value>Workflows</value>
     </labels>
     <labels>
         <fullName>Label_Map_Text_IDs_That_Reference_These_Data_Set_Elements</fullName>
@@ -452,6 +803,20 @@
         <protected>false</protected>
         <shortDescription>NO_DATA_MIGRATION_MSG</shortDescription>
         <value>No data records found in the source org that match the data set criteria.</value>
+    </labels>
+    <labels>
+        <fullName>NO_EVENT_SELECTED</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>NO_EVENT_SELECTED</shortDescription>
+        <value>No events configured for deactivation.</value>
+    </labels>
+    <labels>
+        <fullName>NO_RESULT_FOUND</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>NO_RESULT_FOUND</shortDescription>
+        <value>No result found</value>
     </labels>
     <labels>
         <fullName>OBJECT_FIELDS</fullName>
@@ -506,11 +871,67 @@
         <value>Multiple parent objects for this child. Please use the breadcrumb navigation at the top of the screen to move to the desired parent object.</value>
     </labels>
     <labels>
+        <fullName>PLACEHOLDER_DESTINATION_FIELD</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PLACEHOLDER_DESTINATION_FIELD</shortDescription>
+        <value>Select a destination field...</value>
+    </labels>
+    <labels>
+        <fullName>PLACEHOLDER_DESTINATION_PICKLIST_VALUE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PLACEHOLDER_DESTINATION_PICKLIST_VALUE</shortDescription>
+        <value>Select a destination picklist value...</value>
+    </labels>
+    <labels>
+        <fullName>PLACEHOLDER_DESTINATION_RECORD_TYPES</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PLACEHOLDER_DESTINATION_RECORD_TYPES</shortDescription>
+        <value>Select a destination record type...</value>
+    </labels>
+    <labels>
+        <fullName>PLACEHOLDER_DESTINATION_RELATIONSHIP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PLACEHOLDER_DESTINATION_RELATIONSHIP</shortDescription>
+        <value>Select a destination relationship...</value>
+    </labels>
+    <labels>
+        <fullName>PLACEHOLDER_SELECT_AN_OBJECT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PLACEHOLDER_SELECT_AN_OBJECT</shortDescription>
+        <value>Select an object...</value>
+    </labels>
+    <labels>
+        <fullName>PLACEHOLDER_SELECT_A_DESTINATION_OBJECT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PLACEHOLDER_SELECT_A_DESTINATION_OBJECT</shortDescription>
+        <value>Select a destination object...</value>
+    </labels>
+    <labels>
+        <fullName>PLACEHOLDER_SOURCE_PICKLIST_VALUE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PLACEHOLDER_SOURCE_PICKLIST_VALUE</shortDescription>
+        <value>Select a source picklist value to add...</value>
+    </labels>
+    <labels>
         <fullName>RESUMING_DEPLOYMENT</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RESUMING_DEPLOYMENT</shortDescription>
         <value>Resuming Deployment...</value>
+    </labels>
+    <labels>
+        <fullName>SOME_EVENTS_SELECTED</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SOME_EVENTS_SELECTED</shortDescription>
+        <value>Some events configured for deactivation.</value>
     </labels>
     <labels>
         <fullName>START_ALERT</fullName>
@@ -583,6 +1004,20 @@
         <value>Specifies a data set element to add to the mapping list, which tells Moover to map the corresponding lookup IDs in the destination text field. Moover disables this setting when you select Set Empty, Scramble Value, or Fixed Value.</value>
     </labels>
     <labels>
+        <fullName>TOOL_TIP_ADD_SOURCE_PICKLIST_VALUE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TOOL_TIP_ADD_SOURCE_PICKLIST_VALUE</shortDescription>
+        <value>Specifies a picklist value to add to the mapping list.</value>
+    </labels>
+    <labels>
+        <fullName>TOOL_TIP_ALL_EVENTS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TOOL_TIP_ALL_EVENTS</shortDescription>
+        <value>Deactivates all events for the given object.</value>
+    </labels>
+    <labels>
         <fullName>TOOL_TIP_BASE_COMPLETE_NO_DRAINED</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -632,6 +1067,13 @@
         <value>Provides access to the child objects of the current data set element&apos;s deployment object.</value>
     </labels>
     <labels>
+        <fullName>TOOL_TIP_CONFIGURED_CARD</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TOOL_TIP_CONFIGURED_CARD</shortDescription>
+        <value>Lists the objects with events you desire to control. Click the cards to edit the event controls for each object.</value>
+    </labels>
+    <labels>
         <fullName>TOOL_TIP_COPY_ALL_FIELDS</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -665,6 +1107,13 @@
         <protected>true</protected>
         <shortDescription>TOOL_TIP_DATA_SET_DESCRIPTION</shortDescription>
         <value>Specifies an optional description of the data set for easier reference.</value>
+    </labels>
+    <labels>
+        <fullName>TOOL_TIP_DATA_SET_ELEMENT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TOOL_TIP_DATA_SET_ELEMENT</shortDescription>
+        <value>Limits the scope of this event control to a single data set element.</value>
     </labels>
     <labels>
         <fullName>TOOL_TIP_DATA_SET_ELEMENT_NAME</fullName>
@@ -737,11 +1186,32 @@
         <value>Inserts or updates the record using a temporary value for this field, then defers migration of the actual data in this field until the end of the deployment.</value>
     </labels>
     <labels>
+        <fullName>TOOL_TIP_DESTIANTION_SCHEMA_ORG</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TOOL_TIP_DESTIANTION_SCHEMA_ORG</shortDescription>
+        <value>Specifies the organization that contains the schema the data set editor uses for features that pertain specifically to the destination organization. When blank, Moover uses Schema Org. When Schema Org is also blank, Moover uses the control organization.</value>
+    </labels>
+    <labels>
+        <fullName>TOOL_TIP_DESTINATION_DEPLOYMENT_OBJECT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TOOL_TIP_DESTINATION_DEPLOYMENT_OBJECT</shortDescription>
+        <value>Specifies the object in the destination org to which Moover deploys data from the Deployment Object in the source org. Leave blank to use same object. Not all objects appear in the list by default. Type a few letters of your object name to filter the list.</value>
+    </labels>
+    <labels>
         <fullName>TOOL_TIP_DESTINATION_SALESFORCE_ORGANIZATION</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TOOL_TIP_DESTINATION_SALESFORCE_ORGANIZATION</shortDescription>
         <value>Specifies the organization to copy data to. Use Ctrl+click to select up to five destinations.</value>
+    </labels>
+    <labels>
+        <fullName>TOOL_TIP_DO_NOT_ALLOW_FOR_DESTINATION</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TOOL_TIP_DO_NOT_ALLOW_FOR_DESTINATION</shortDescription>
+        <value>When selected, Moover does not list or allow the organization as a destination for data migration.</value>
     </labels>
     <labels>
         <fullName>TOOL_TIP_ELEMENT_DETAILS</fullName>
@@ -758,11 +1228,25 @@
         <value>When deselected, Moover migrates parent records that are required because of related lookups even when the parent records don&apos;t meet your query filter criteria. When selected, Moover migrates only the records that meet your query filter criteria.</value>
     </labels>
     <labels>
+        <fullName>TOOL_TIP_EVENT_CONTROL_OBJECT</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TOOL_TIP_EVENT_CONTROL_OBJECT</shortDescription>
+        <value>Adds an object to the Objects with Event Controls list. Not all objects appear in the list by default. Type a few letters of your object name to filter the list.</value>
+    </labels>
+    <labels>
+        <fullName>TOOL_TIP_EVENT_SCOPE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TOOL_TIP_EVENT_SCOPE</shortDescription>
+        <value>Specifies whether to deactivate events at the start of the data set or data set element deployment. Moover reactivates the events at the end of the data set or data set element deployment.</value>
+    </labels>
+    <labels>
         <fullName>TOOL_TIP_EXTERNAL_ID</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TOOL_TIP_EXTERNAL_ID</shortDescription>
-        <value>Includes the field as part of the composite external ID for upserts.</value>
+        <value>Includes the field as part of the composite external ID for upserts. Moover disables this setting when you enter Prefix Value or Postfix Value.</value>
     </labels>
     <labels>
         <fullName>TOOL_TIP_FIXED_VALUE</fullName>
@@ -849,6 +1333,27 @@
         <value>Moover cannot access this object because the current user does not have permission to do so.</value>
     </labels>
     <labels>
+        <fullName>TOOL_TIP_POSTFIX</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TOOL_TIP_POSTFIX</shortDescription>
+        <value>Appends the given value to the existing field value. Moover disables this setting when you select External ID.</value>
+    </labels>
+    <labels>
+        <fullName>TOOL_TIP_PREFIX</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TOOL_TIP_PREFIX</shortDescription>
+        <value>Prepends the given value to the existing field value. Moover disables this setting when you select External ID.</value>
+    </labels>
+    <labels>
+        <fullName>TOOL_TIP_PROCESS_BUILDER</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TOOL_TIP_PROCESS_BUILDER</shortDescription>
+        <value>Specify with Process Builder events to deactivate.</value>
+    </labels>
+    <labels>
         <fullName>TOOL_TIP_QUERY_FILTER</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -861,6 +1366,13 @@
         <protected>true</protected>
         <shortDescription>TOOL_TIP_RECORD_SELECTION_LIMIT</shortDescription>
         <value>Specifies the maximum number of records to deploy. Leave blank to deploy all records.</value>
+    </labels>
+    <labels>
+        <fullName>TOOL_TIP_RECORD_TYPE_TRANSFORMATIONS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TOOL_TIP_RECORD_TYPE_TRANSFORMATIONS</shortDescription>
+        <value>Displays a list of the record types Moover finds for the Deployment Object in the source schema and, for each record type, allows you to specify transformation to any record type Moover finds for the Destination Deployment Object in the destination schema.</value>
     </labels>
     <labels>
         <fullName>TOOL_TIP_REPLICATE_OWNER</fullName>
@@ -888,7 +1400,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TOOL_TIP_SCHEMA_SETTINGS</shortDescription>
-        <value>Specifies the organization that contains the schema the data set editor uses for data set creation. By default, Moover uses the schema from your control organization.</value>
+        <value>Specifies the organization that contains the schema the data set editor uses for data set creation. When blank, Moover uses the schema from your control organization.</value>
     </labels>
     <labels>
         <fullName>TOOL_TIP_SCRAMBLE_VALUE</fullName>
@@ -975,6 +1487,13 @@
         <value>Select to set value to true. Deselect to set value to false.</value>
     </labels>
     <labels>
+        <fullName>TOOL_TIP_TRANSFORMATIONS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TOOL_TIP_TRANSFORMATIONS</shortDescription>
+        <value>When selected, UI controls appear in relevant places that allow you to specify remapping source org data to different objects, record types, fields, picklist values, and relationships in the destination org. Refer to the user guide for details.</value>
+    </labels>
+    <labels>
         <fullName>TOOL_TIP_UPSERT_METHOD</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -995,5 +1514,19 @@
         <protected>true</protected>
         <shortDescription>WARNING_CHANGE_DS_OBJECT_MESSAGE</shortDescription>
         <value>This action deletes all your existing selections and cannot be undone. Are you sure?</value>
+    </labels>
+    <labels>
+        <fullName>WARNING_DELETE_TRANSFORMATIONS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>WARNING_DELETE_TRANSFORMATIONS</shortDescription>
+        <value>Are you sure? This action permanently deletes all transformations data for this data set and cannot be undone.</value>
+    </labels>
+    <labels>
+        <fullName>WARNING_MAX_EVENT_CONTROL_ITEM</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>WARNING_MAX_EVENT_CONTROL_ITEM</shortDescription>
+        <value>You have reached the maximum number of event controls for this data set.</value>
     </labels>
 </CustomLabels>

@@ -22,7 +22,7 @@
             <column>ChatterActivityDailyMetrics$ParentEnumOrId</column>
             <isUnlocked>false</isUnlocked>
             <operator>equals</operator>
-            <value>0F9,aC8,aA6</value>
+            <value>0F9,aBr,aA6</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

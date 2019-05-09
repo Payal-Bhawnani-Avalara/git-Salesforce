@@ -57,6 +57,7 @@ This app is an Aloha app so this extra object should not count towards your app 
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fields>
         <fullName>Checkbox__c</fullName>
         <defaultValue>false</defaultValue>

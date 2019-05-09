@@ -66,7 +66,15 @@
     <br />
     <apex:outputPanel rendered="{! !hasPermission}">You do not have the correct Permision Set to see this page. Please contact your Salesforce administrator.</apex:outputPanel>
    <apex:outputPanel rendered="{! hasPermission}">
-    <h2>LeanData Settings - <span class="viewTypeName"></span></h2>
+
+   <div class="ld-header-wrapper ld-header-wrapper-margins">
+       <div class="ld-header ld-header-bottom-margin">Layout</div>
+       <div class="ld-subheader ld-header-bottom-margin">LeanData Settings - <span class="viewTypeName"></span></div>
+   </div>
+
+    <!-- <h2>LeanData Settings - <span class="viewTypeName"></span></h2> -->
+
+
     <div id='result'>
       Success!
     </div>
@@ -122,9 +130,9 @@
       </tr>
       <tr class='buttons'>
         <td colspan='4'>
-            <button onclick='compileAndSavePreferences()'>Save</button>
-            <button onclick='unmarkAll()'>Remove Highlight</button>
-            <button onclick='revertToDefaults()'>Revert to Defaults</button>
+            <div onclick='compileAndSavePreferences()'>Save</div>
+            <div onclick='unmarkAll()'>Remove Highlight</div>
+            <div onclick='revertToDefaults()'>Revert to Defaults</div>
         </td>
       </tr>
       <tr class='result'>

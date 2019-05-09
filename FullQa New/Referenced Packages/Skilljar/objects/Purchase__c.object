@@ -52,6 +52,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>false</enableSharing>
     <enableStreamingApi>false</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <fields>
         <fullName>Obfuscated_Id__c</fullName>
         <caseSensitive>false</caseSensitive>

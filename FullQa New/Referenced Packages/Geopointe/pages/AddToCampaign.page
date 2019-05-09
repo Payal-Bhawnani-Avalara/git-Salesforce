@@ -3,8 +3,7 @@
 	<apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/common/common.css')}"/><!-- Geopointe common css -->
     <apex:stylesheet value="{!URLFOR($Resource.geopointe__jquery, '/css/common/common-lightning.css')}"/> <!-- Common geopointe CSS for lightning styled pages--> 
     <apex:stylesheet value="{!URLFOR($Resource.geopointe__FontAwesome, '/css/font-awesome.min.css')}"/> <!--Font awesome library for icons and such -->
-    <apex:stylesheet value="{!URLFOR($Resource.geopointe__SLDS, '/0.8.0/assets/styles/salesforce-lightning-design-system-vf.min.css')}"/> <!-- Salesforce Lightning Design System -->
-	
+	<apex:slds />
 	<style>
 		.vAlignTop{
 			vertical-align:top !important;
@@ -14,6 +13,7 @@
 		i.fa-check-circle { color: green; }
 		i.fa-info-circle { color:#3096c4; }
 		i.fa-warning { color: rgb(255, 183, 93); }
+		.errorMsg{color: #c00}
 	</style>
 
 	<script src="{!URLFOR($Resource.jquery, '/js/lib/async.js')}"></script> <!-- async.js for help with asynchronous flow control -->
@@ -36,7 +36,7 @@
 	<apex:includeScript value="{!$Resource.geopointe__GeopointeJS}" /> <!-- Geopointe universal functions -->
 	<apex:includeScript value="{!$Page.geopointe__js_GA}" /> <!-- Google Analytics --> 
 
-<div class="slds slds-p-around--xx-large slds-container--large slds-container--center">
+<div class="slds slds-scope slds-p-around--xx-large slds-container--large slds-container--center">
 	
 	<apex:pageMessages id="pageMessages"></apex:pageMessages>
 
@@ -61,7 +61,7 @@
 					<apex:commandButton styleClass="slds-button slds-button--neutral" value="Continue" action="{!processCampaignHandlers}" rerender="campaignselector,pageMessages,leadContactIdsJS" onclick="geopointeAjaxStart('body', '{!$Label.geopointe__retrieving_records}...');" oncomplete="geopointeAjaxEnd();"/>
 				</apex:pageBlockButtons>
 				
-				<div class="slds-card slds-m-bottom--medium">
+				<div class="slds-card slds-m-bottom--medium slds-p-top_small">
 					<section class="slds-card__body slds-text-body--regular slds-p-horizontal--medium">
 						<i class="fa fa-warning"></i> <b>Other Objects Detected</b><br/>
 						How should Geopointe determine the Leads and Contacts to Add to the Campaign?
@@ -142,15 +142,15 @@
 
 					<section class="slds-card__body slds-text-body--regular slds-p-horizontal--medium">
 						<apex:outputPanel styleClass="uiInput uiInputSelect forceInputPicklist uiInput--default uiInput--select">
-							<apex:selectList value="{!SelectedCampaign}" multiselect="false" size="1" id="campaignList" styleClass="notranslate select">
-								<apex:selectOptions value="{!CampaignSList}"/>
+							<apex:inputField value="{!campaignLookup['CampaignId']}" required="false">
 								<apex:actionSupport event="onchange" rerender="campaignselector" action="{!setCampaign}" onsubmit="geopointeAjaxStart('body');" oncomplete="geopointeAjaxEnd();"/>
-							</apex:selectList>
+							</apex:inputField>
+							<input type="text" id="campaignId" value="{!campaignLookup['CampaignId']}" style="display:none;"/>
 						</apex:outputPanel>
 					</section>
 					<section class="slds-card__body slds-text-body--small slds-p-horizontal--medium">
 						<apex:pageBlockSection >
-							<apex:pageBlockSectionItem rendered="{!SelectedCampaign!=''}">
+							<apex:pageBlockSectionItem rendered="{!campaignLookup['CampaignId']!=null}">
 								<apex:outputLabel value="Campaign Name" />
 								<apex:outputPanel >
 									<apex:outputText value="{!SelectedCampaignDetails.cname}" rendered="{!SelectedCampaignDetails.id = ''}"/>
@@ -159,25 +159,25 @@
 									</apex:outputLink>
 								</apex:outputPanel>
 							</apex:pageBlockSectionItem> 
-							<apex:pageBlockSectionItem rendered="{!SelectedCampaign!=''}">
+							<apex:pageBlockSectionItem rendered="{!campaignLookup['CampaignId']!=null}">
 								<apex:outputLabel value="Number of Leads" />
 								<apex:outputText value="{!SelectedCampaignDetails.numleads}" />
 							</apex:pageBlockSectionItem>
 							
-							<apex:pageBlockSectionItem rendered="{!SelectedCampaign!=''}">
+							<apex:pageBlockSectionItem rendered="{!campaignLookup['CampaignId']!=null}">
 								<apex:outputLabel value="Type" />
 								<apex:outputText value="{!SelectedCampaignDetails.ctype}" />
 							</apex:pageBlockSectionItem>
-							<apex:pageBlockSectionItem rendered="{!SelectedCampaign!=''}">
+							<apex:pageBlockSectionItem rendered="{!campaignLookup['CampaignId']!=null}">
 								<apex:outputLabel value="Number of Converted Leads" />
 								<apex:outputText value="{!SelectedCampaignDetails.numconvertedleads}" />
 							</apex:pageBlockSectionItem>
 							
-							<apex:pageBlockSectionItem rendered="{!SelectedCampaign!=''}">
+							<apex:pageBlockSectionItem rendered="{!campaignLookup['CampaignId']!=null}">
 								<apex:outputLabel value="Status" />
 								<apex:outputText value="{!SelectedCampaignDetails.cstatus}" />
 							</apex:pageBlockSectionItem>
-							<apex:pageBlockSectionItem rendered="{!SelectedCampaign!=''}">
+							<apex:pageBlockSectionItem rendered="{!campaignLookup['CampaignId']!=null}">
 								<apex:outputLabel value="Number of Contacts" />
 								<apex:outputText value="{!SelectedCampaignDetails.numcontacts}" />
 							</apex:pageBlockSectionItem>
@@ -185,7 +185,7 @@
 					</section>
 				</div>	<!-- Close Select a Campaign -->
                 
-                <apex:outputPanel rendered="{!SelectedCampaign!=''}">
+                <apex:outputPanel rendered="{!campaignLookup['CampaignId']!=null}">
 					<div class="slds-card slds-m-bottom--medium">
 						<header class="slds-card__header slds-grid">
 							<h3 class="slds-text-heading--small slds-truncate">Add to Campaign Details</h3>
@@ -197,7 +197,7 @@
 
 							<br/><br/>
 							<b><var>{!NumberofMemberstoAdd}</var> member(s)</b> will be added to this campaign. <br/>
-							<apex:outputLabel value="Status for new members" for="SCMStatus" rendered="{!SelectedCampaign!=''}"/>
+							<apex:outputLabel value="Status for new members" for="SCMStatus" rendered="{!campaignLookup['CampaignId']!=null}"/>
 							<apex:selectList style="margin: 0 0 0 5px;" value="{!SelectedCampaignMemberStatus}" multiselect="false" size="1" id="SCMStatus">
 								<apex:selectOptions value="{!CampaignMemberStatusList}"/>
 							</apex:selectList>
@@ -250,7 +250,7 @@
 	<script type="text/javascript">
 
 		function insertUpdateCampaignMembers(){
-			var campaignId = jQuery("select[id$='campaignList']").val();
+			var campaignId = jQuery("#campaignId").val();
 			var campaignMemberStatus = jQuery("select[id$='SCMStatus']").val();
 			var overwriteStatus = jQuery("input[id$='OS']").is(":checked");
             var CHUNKSIZE = 200;

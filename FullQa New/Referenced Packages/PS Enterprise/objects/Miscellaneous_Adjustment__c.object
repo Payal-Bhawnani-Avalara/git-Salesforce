@@ -64,6 +64,7 @@
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fields>
         <fullName>Admin_Global_Edit__c</fullName>
         <defaultValue>false</defaultValue>

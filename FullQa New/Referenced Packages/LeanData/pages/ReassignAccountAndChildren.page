@@ -4,7 +4,8 @@
    
     <apex:includeScript value="{!URLFOR($Resource.LeanData__JqueryUI, 'jquery-ui-1.11.4.custom/jquery-ui.min.js')}"  />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
-    <apex:stylesheet value="{!$Resource.LeanData__style}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'css/magellan.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'scss/magellan.css')}"/>
     <apex:stylesheet value="{!$Resource.LeanData__loading_spinner}"/>
   
     <style>
@@ -170,6 +171,7 @@
                 "action" : "reassignChildObjects"
             };
             var serializedParams = JSON.stringify(params);
+            debugger;
             Visualforce.remoting.Manager.invokeAction(
                 '{!$RemoteAction.RemotingRouter.remoteCall}',
                 serializedParams,

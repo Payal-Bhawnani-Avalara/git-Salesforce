@@ -1,5 +1,6 @@
 <apex:page controller="LeanData.AccountActivitySummaryController" extensions="LeanData.InLineEditable" action="{! initializeIsAllowed}" sidebar="false">
-    <apex:stylesheet value="{!$Resource.LeanData__style}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'css/magellan.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'scss/magellan.css')}"/>
     <c:style />
     <script>
         OPEN_ACTIVITY_COLUMNS = [
@@ -65,10 +66,11 @@
         <c:matchedViewAssets view_type="AccountActivitySummary" with_dupes="false" with_l2a_matches="false"/>
         <c:UtilJS />
         <c:accessCheck isAllowed="{! isAllowed }"> <!-- other access checks for different modes? -->
+        <div class="account-activity-summary-page-wrapper">
             <div class="bPageTitle">
                 <div class="ptBody secondaryPalette brandSecondaryBrd">
                     <div class="content" >
-                        <img style="height:25px;" src="{!$Resource.leandata_logo}" class="leandata_logo"/>
+                        <img style="height:25px;" class="leandata_logo" src="{!URLFOR($Resource.DashboardImages,'LD-logo_2x.png')}"/>
                         <h2 class="page-description">{! IF(mode == 'Account', currentAccount.Name + ' | Account Matched Leads', currentLead.Company + ' | New Account Related Leads') }</h2>
                     </div>
                 </div>
@@ -79,8 +81,8 @@
             <div class="loadedDiv" style="display:none">
                 <apex:outputPanel rendered="{! mode != 'Account'}" layout="block" style="margin:0 auto; padding: 5px;margin-top:5px;">
                     <apex:form html-align="center">
-                        <apex:commandLink action="/{!theId}" value="Cancel" styleClass="panel-button" />&nbsp;
-                        <apex:commandLink style="margin-left:10px;" action="{!$Page.MassConvert}?Id={!theId}" value="Create New Account" styleClass="panel-button" />
+                        <apex:commandLink action="/{!theId}" value="Cancel" styleClass="ld-tertiary-small-button" />&nbsp;
+                        <apex:commandLink style="margin-left:10px;" action="{!$Page.MassConvert}?Id={!theId}" value="Create New Account" styleClass="ld-tertiary-small-button" />
                     </apex:form>
                 </apex:outputPanel>
                 <apex:outputPanel rendered="{! mode == 'Account' }">
@@ -319,8 +321,8 @@
 
                         <apex:outputPanel rendered="{! mode != 'Account'}" layout="block" style="margin:0 auto; padding: 5px;margin-top:5px;">
                             <apex:form html-align="center">
-                                <apex:commandLink action="/{!theId}" value="Cancel" styleClass="panel-button" />&nbsp;
-                                <apex:commandLink style="margin-left:10px;" action="{!$Page.MassConvert}?Id={!theId}" value="Create New Account" styleClass="panel-button" />
+                                <apex:commandLink action="/{!theId}" value="Cancel" styleClass="ld-tertiary-small-button" />&nbsp;
+                                <apex:commandLink style="margin-left:10px;" action="{!$Page.MassConvert}?Id={!theId}" value="Create New Account" styleClass="ld-tertiary-small-button" />
                             </apex:form>
                         </apex:outputPanel>
 
@@ -328,7 +330,7 @@
                             j$ = jQuery.noConflict();
                             if( {! hasColumnSettingAccess}) {
                                 var page_block_header = j$('.view-lead-columns')[0]; //j$("#lead_table").parents(".bPageBlock").find(".pbTitle").siblings()[0]; // this is pretty fragile, but alternative is to make our own page block divs
-                                page_block_header.innerHTML = '<div style="float:right;padding-right:10px;"><a href="/apex/dashboard?page=view-layout-leads" target="_blank" class="customTarget action_link">Lead View Columns</a></div>';
+                                page_block_header.innerHTML = '<div style="float:right;padding-right:10px;"><a href="/apex/dashboard?page=view-layout-leads" target="_blank" class="customTarget action_link ld-green">Lead View Columns</a></div>';
                             }
                             j$('document').ready(function(){
                                 Visualforce.remoting.Manager.invokeAction(
@@ -342,6 +344,7 @@
                     </apex:outputPanel>
                 </div>
             </div>
+        </div>
         </c:accessCheck>
 
         <script>

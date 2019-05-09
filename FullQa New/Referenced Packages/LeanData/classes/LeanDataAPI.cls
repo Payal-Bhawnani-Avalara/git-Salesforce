@@ -10,6 +10,12 @@ global class LeanDataAPI {
     global LeanDataAPI() {
 
     }
+    global static Lead findDuplicateLead(Map<String,Object> params) {
+        return null;
+    }
+    global static Account findRelatedAccount(Map<String,Object> params) {
+        return null;
+    }
     @HttpPost
     global static String restPost() {
         return null;

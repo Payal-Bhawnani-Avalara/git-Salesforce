@@ -55,6 +55,7 @@
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <fieldSets>
         <fullName>Require_Lock_For_Editing</fullName>
         <description>Warning: For internal use only. Do not add or remove fields in this field set. This is used by the TaskManager to determine which fields require a lock prior to editing.</description>

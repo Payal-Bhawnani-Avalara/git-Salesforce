@@ -59,6 +59,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fieldSets>
         <fullName>CreateProjFromTempAltCopyProjRRFields</fullName>
         <availableFields>
@@ -8074,16 +8075,6 @@ Visualforce page. When creating a new project from a project template, defines t
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Resource__r.appirio_core__Last_Access_Date__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
-            <field>Staffer_Resource__r.appirio_core__Last_Access_Date__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>Resource__r.Last_Date__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -8135,16 +8126,6 @@ Visualforce page. When creating a new project from a project template, defines t
         </availableFields>
         <availableFields>
             <field>Staffer_Resource__r.Level__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
-            <field>Resource__r.appirio_core__Licensed_Features__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
-            <field>Staffer_Resource__r.appirio_core__Licensed_Features__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -8819,16 +8800,6 @@ Visualforce page. When creating a new project from a project template, defines t
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Resource__r.appirio_core__PIN__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
-            <field>Staffer_Resource__r.appirio_core__PIN__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>Group__r.Parent_Group__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -9199,6 +9170,11 @@ Visualforce page. When creating a new project from a project template, defines t
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Primary_Skill_Certification__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Staffed_Related_Resource_Request__r.Primary_Skill_Certification__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -9409,6 +9385,11 @@ Visualforce page. When creating a new project from a project template, defines t
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Requested_Bill_Rate__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Staffed_Related_Resource_Request__r.Requested_Bill_Rate__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -9430,6 +9411,11 @@ Visualforce page. When creating a new project from a project template, defines t
         </availableFields>
         <availableFields>
             <field>Staffed_Related_Resource_Request__r.Resource_Held__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Resource_Request_Name__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -9470,11 +9456,6 @@ Visualforce page. When creating a new project from a project template, defines t
         </availableFields>
         <availableFields>
             <field>Assignment__r.Resource__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
-            <field>Resource__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -9984,11 +9965,6 @@ Visualforce page. When creating a new project from a project template, defines t
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Staffer_Resource__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>Opportunity__r.StageName</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -10040,11 +10016,6 @@ Visualforce page. When creating a new project from a project template, defines t
         </availableFields>
         <availableFields>
             <field>Staffed_Related_Resource_Request__r.Status__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
-            <field>Status__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -10780,27 +10751,12 @@ Visualforce page. When creating a new project from a project template, defines t
         </availableFields>
         <description>Used on the CreateProjectFromOpportunity and CreateProjectFromTemplate Visualforce pages. When creating a new project from an opportunity or project template, defines the columns that display information in the &quot;Resource Request Mappings&quot; section of the Create Project page.</description>
         <displayedFields>
-            <field>Resource_Request_Name__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Requested_Bill_Rate__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>SOW_Hours__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>Resource_Role__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Primary_Skill_Certification__c</field>
+            <field>SOW_Hours__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -10811,6 +10767,21 @@ Visualforce page. When creating a new project from a project template, defines t
         </displayedFields>
         <displayedFields>
             <field>End_Date__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Status__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Resource__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Staffer_Resource__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -10869,6 +10840,11 @@ Visualforce page. When creating a new project from a project template, defines t
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Group__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>IsDeleted</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -10890,6 +10866,16 @@ Visualforce page. When creating a new project from a project template, defines t
         </availableFields>
         <availableFields>
             <field>OwnerId</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Percent_Allocated__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Planned_Bill_Rate__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -10929,17 +10915,22 @@ Visualforce page. When creating a new project from a project template, defines t
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Request_Priority__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Resource_Held__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Resource_Request_Set__c</field>
+            <field>Resource_Request_Name__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Resource__c</field>
+            <field>Resource_Request_Set__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -10950,6 +10941,11 @@ Visualforce page. When creating a new project from a project template, defines t
         </availableFields>
         <availableFields>
             <field>Staffer_Approval_Required__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Staffer_Resource__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -11015,16 +11011,6 @@ Visualforce page. When creating a new project from a project template, defines t
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Resource_Request_Name__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Request_Priority__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>SOW_Hours__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -11035,24 +11021,19 @@ Visualforce page. When creating a new project from a project template, defines t
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>Resource__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>End_Date__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Staffer_Resource__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Percent_Allocated__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
             <field>Region__c</field>
             <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
+            <isRequired>true</isRequired>
         </displayedFields>
         <displayedFields>
             <field>Requested_Bill_Rate__c</field>
@@ -11061,16 +11042,6 @@ Visualforce page. When creating a new project from a project template, defines t
         </displayedFields>
         <displayedFields>
             <field>Practice__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Planned_Bill_Rate__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Group__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -11129,7 +11100,17 @@ Visualforce page. When creating a new project from a project template, defines t
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Group__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>IsDeleted</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Milestone__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -11150,6 +11131,16 @@ Visualforce page. When creating a new project from a project template, defines t
         </availableFields>
         <availableFields>
             <field>OwnerId</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Percent_Allocated__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Planned_Bill_Rate__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -11184,17 +11175,22 @@ Visualforce page. When creating a new project from a project template, defines t
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Request_Priority__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Resource_Held__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Resource_Request_Set__c</field>
+            <field>Resource_Request_Name__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Resource__c</field>
+            <field>Resource_Request_Set__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -11205,6 +11201,11 @@ Visualforce page. When creating a new project from a project template, defines t
         </availableFields>
         <availableFields>
             <field>Staffer_Approval_Required__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Staffer_Resource__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -11270,16 +11271,6 @@ Visualforce page. When creating a new project from a project template, defines t
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Resource_Request_Name__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Request_Priority__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>SOW_Hours__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -11290,24 +11281,19 @@ Visualforce page. When creating a new project from a project template, defines t
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
+            <field>Resource__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>End_Date__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Staffer_Resource__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Percent_Allocated__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
             <field>Region__c</field>
             <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
+            <isRequired>true</isRequired>
         </displayedFields>
         <displayedFields>
             <field>Requested_Bill_Rate__c</field>
@@ -11320,22 +11306,7 @@ Visualforce page. When creating a new project from a project template, defines t
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Planned_Bill_Rate__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Group__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>Notes__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Milestone__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -26199,11 +26170,6 @@ Visualforce page. When creating a new project from a project template, defines t
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Opportunity__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>OwnerId</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -26235,11 +26201,6 @@ Visualforce page. When creating a new project from a project template, defines t
         </availableFields>
         <availableFields>
             <field>Primary_Skill_Minimum_Rating__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
-            <field>Project__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -26376,6 +26337,16 @@ Visualforce page. When creating a new project from a project template, defines t
         <description>Used on the Resource and Project Planners to define tooltip fields that display when users hover over a resource request. This field set must be referenced by the Resource Request Tooltip Field Set setting.</description>
         <displayedFields>
             <field>Resource_Request_Name__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Opportunity__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Project__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -27363,39 +27334,71 @@ IF(AND(NOT(ISNULL(Project__c)),NOT(Project__c=&apos;&apos;),NOT(ISNULL(Project__
             <valueSetDefinition>
                 <sorted>false</sorted>
                 <value>
-                    <fullName>Architect</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Business Analyst</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Client Manager</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Consultant</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Contractor</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Executive</fullName>
-                    <default>false</default>
-                </value>
-                <value>
                     <fullName>Project Manager</fullName>
                     <default>false</default>
                 </value>
                 <value>
-                    <fullName>Senior Consultant</fullName>
+                    <fullName>AvaTax Consultant</fullName>
                     <default>false</default>
                 </value>
                 <value>
-                    <fullName>Trainer</fullName>
+                    <fullName>CertCapture Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Returns Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Technical Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Excise Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Associate Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Account Specialist</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>PMO Specialist</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Manager</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Tax Representative</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Voluntary Disclosure Tax Representative</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Historical Registration Tax Representative</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Customer Tax Recovery Tax Representative</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Tax Specialist</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Senior Tax Specialist</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Nexus Consultant</fullName>
                     <default>false</default>
                 </value>
             </valueSetDefinition>
@@ -27518,18 +27521,14 @@ IF(AND(NOT(ISNULL(Project__c)),NOT(Project__c=&apos;&apos;),NOT(ISNULL(Project__
                 <sorted>false</sorted>
                 <value>
                     <fullName>Draft</fullName>
-                    <default>true</default>
+                    <default>false</default>
                 </value>
                 <value>
                     <fullName>Ready to Staff</fullName>
-                    <default>false</default>
+                    <default>true</default>
                 </value>
                 <value>
                     <fullName>Hold</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Tentative</fullName>
                     <default>false</default>
                 </value>
                 <value>

@@ -65,6 +65,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fieldSets>
         <fullName>AssignResAssignmentInfoSecFieldSet</fullName>
         <availableFields>
@@ -443,11 +444,6 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Time_Credited__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>Time_Excluded__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -493,6 +489,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <description>Used on the AssignResourceToProject Visualforce page. Defines the editable fields visible on the Assignment Information section of the Assign Resource to Project page.</description>
+        <displayedFields>
+            <field>Time_Credited__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
         <label>Assign Resource Assignment Information Section FieldSet</label>
     </fieldSets>
     <fieldSets>
@@ -11693,6 +11694,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Cost_Rate_Amount__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Cost_Rate_Currency_Code__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -11749,6 +11755,16 @@
         </availableFields>
         <availableFields>
             <field>Milestone__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Name</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Nick_Name__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -11888,11 +11904,6 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Role__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>Schedule_Updated__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -11989,22 +12000,12 @@
         </availableFields>
         <description>Used on the Self Assignments page, which users see when they click the Self Assignment link on the sidebar. Use to define additional input columns on this page.</description>
         <displayedFields>
-            <field>Cost_Rate_Amount__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Nick_Name__c</field>
+            <field>Role__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
             <field>Is_Billable__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Name</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -15643,27 +15644,7 @@
             <valueSetDefinition>
                 <sorted>false</sorted>
                 <value>
-                    <fullName>Architect</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Business Analyst</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Client Manager</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Consultant</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Contractor</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Executive</fullName>
+                    <fullName>PMO Specialist</fullName>
                     <default>false</default>
                 </value>
                 <value>
@@ -15671,11 +15652,75 @@
                     <default>false</default>
                 </value>
                 <value>
-                    <fullName>Senior Consultant</fullName>
+                    <fullName>AvaTax Consultant</fullName>
                     <default>false</default>
                 </value>
                 <value>
-                    <fullName>Trainer</fullName>
+                    <fullName>CertCapture Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Returns Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Technical Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Excise Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Associate Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Account Specialist</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Manager</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Tax Representative</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Voluntary Disclosure Tax Representative</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Historical Registration Tax Representative</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Customer Tax Recovery Tax Representative</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Tax Specialist</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Senior Tax Specialist</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Nexus Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ARE Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ATE Consultant</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Managed Services Consultant</fullName>
                     <default>false</default>
                 </value>
             </valueSetDefinition>
@@ -16131,7 +16176,7 @@
     </validationRules>
     <validationRules>
         <fullName>Assignment_Resource_is_Required</fullName>
-        <active>true</active>
+        <active>false</active>
         <description>An Assignment&apos;s Resource field value may not be blank.</description>
         <errorConditionFormula>ISBLANK(Resource__c)</errorConditionFormula>
         <errorDisplayField>Resource__c</errorDisplayField>

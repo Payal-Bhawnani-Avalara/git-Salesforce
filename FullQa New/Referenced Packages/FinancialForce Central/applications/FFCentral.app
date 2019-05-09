@@ -6,4 +6,5 @@
     <label>FinancialForce Central</label>
     <logo>FFCentral/FinancialForce.png</logo>
     <tab>FinancialForce_Central</tab>
+    <tab>SST_Onboarding__c</tab>
 </CustomApplication>

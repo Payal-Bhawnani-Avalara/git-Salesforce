@@ -41,7 +41,7 @@
         <type>Default</type>
     </actionOverrides>
     <allowInChatterGroups>false</allowInChatterGroups>
-    <compactLayoutAssignment>Project_Task_Compact_Layout</compactLayoutAssignment>
+    <compactLayoutAssignment>Project_Task_Highlights</compactLayoutAssignment>
     <compactLayouts>
         <fullName>Project_Task_Compact_Layout</fullName>
         <fields>Name</fields>
@@ -60,12 +60,13 @@
     <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableEnhancedLookup>false</enableEnhancedLookup>
-    <enableFeeds>false</enableFeeds>
+    <enableFeeds>true</enableFeeds>
     <enableHistory>true</enableHistory>
     <enableReports>true</enableReports>
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fieldSets>
         <fullName>CreateProjFromTempAltCopyProjTaskFields</fullName>
         <availableFields>
@@ -210,11 +211,6 @@
         </availableFields>
         <availableFields>
             <field>Number_of_Assignments__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
-            <field>Order__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -374,6 +370,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <description>When creating a project from a project template, use to define the Project Task fields (if associated project tasks exist) that are copied from the project template to the new project record. These fields do not display on the CreateProjectFromTemplate Visualforce page.</description>
+        <displayedFields>
+            <field>Order__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
         <label>Create Project From Template Alt Copy Project Task Fields</label>
     </fieldSets>
     <fieldSets>
@@ -550,11 +551,6 @@
         </availableFields>
         <availableFields>
             <field>Top_level_Parent_Task__r.Assigned_Resources_Long__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
-            <field>Assigned_Resources__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -999,12 +995,22 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Estimated_Hours__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Parent_Task__r.Estimated_Hours__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
             <field>Top_level_Parent_Task__r.Estimated_Hours__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Estimated_Time_To_Completion__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -1809,6 +1815,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Projected_Hours__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Top_level_Parent_Task__r.Projected_Hours__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -1874,6 +1885,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Parent_Task__r.Start_Date_Time__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Top_level_Parent_Task__r.Start_Date_Time__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -1920,6 +1936,11 @@
         </availableFields>
         <availableFields>
             <field>Parent_Task__r.Status__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Status__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -2204,6 +2225,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>WBS_Element_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Parent_Task__r.Work_Remaining__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -2220,37 +2246,7 @@
         </availableFields>
         <description>Used on the CreateProjectFromTemplate Visualforce page. When creating a new project from a project template, defines the columns that display information in the Project Tasks section of the Create Project page.</description>
         <displayedFields>
-            <field>Estimated_Hours__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
             <field>Name</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Estimated_Time_To_Completion__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Projected_Hours__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Status__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Parent_Task__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>WBS_Element_Number__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -2275,7 +2271,12 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Parent_Task__r.Start_Date_Time__c</field>
+            <field>Assigned_Resources__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Parent_Task__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -2320,11 +2321,6 @@
         </availableFields>
         <availableFields>
             <field>Closed_for_Time_Entry__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
-            <field>Completed__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -2549,11 +2545,6 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Started__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>Milestone__r.Status__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -2619,18 +2610,63 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>WBS_Element_Number__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Work_Remaining__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
         <description>Defines any additional columns that you want to show on the tasks pane of Project Task Gantt. This field set is the default value for the Columns Field Set setting in Project Task Gantt Settings.</description>
         <displayedFields>
+            <field>Completed__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Started__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
             <field>Blocked__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>WBS_Element_Number__c</field>
+            <field>Task_Jurisdiction__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Cascade_Jurisdictions_to_Child_Tasks__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Absolute_Due_Date__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Lock_Baseline_Dates__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Baseline_Start_Date__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Baseline_End_Date__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Self_Assigned_Resource__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -3348,6 +3384,7 @@
         <inlineHelpText>Date &amp; time of when the task actually ended. When the completed check box was checked</inlineHelpText>
         <label>Actual End Date &amp; Time</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>DateTime</type>
@@ -3374,6 +3411,7 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -3386,6 +3424,7 @@
         <inlineHelpText>Date of when the task actually started. When the started check box was checked</inlineHelpText>
         <label>Actual Start Date &amp; Time</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>DateTime</type>
@@ -3409,6 +3448,7 @@
         <externalId>false</externalId>
         <label>Assigned Resources (Long)</label>
         <length>32000</length>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>LongTextArea</type>
@@ -3422,6 +3462,7 @@
         <label>Assigned Resources</label>
         <length>255</length>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -3433,6 +3474,7 @@
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Blocked</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -3444,6 +3486,7 @@
         <externalId>false</externalId>
         <inlineHelpText>When checked, the task selector on the Time Entry page does not allow adding new task time against this project task.</inlineHelpText>
         <label>Closed for Time Entry</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -3456,6 +3499,7 @@
         <externalId>false</externalId>
         <inlineHelpText>Will be checked if the task has been completed</inlineHelpText>
         <label>Completed</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -3466,6 +3510,7 @@
         <externalId>false</externalId>
         <label>Description</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>TextArea</type>
@@ -3476,6 +3521,7 @@
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Do Not Auto Update Parents</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -3487,6 +3533,7 @@
         <externalId>false</externalId>
         <inlineHelpText>Whether to bypass automatic updates of auto-calculated fields like dates, % complete, etc</inlineHelpText>
         <label>Do Not Auto Update This Task</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -3500,6 +3547,7 @@
         <label>Duration Units</label>
         <length>10</length>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -3513,6 +3561,7 @@
         <inlineHelpText>The date &amp; time on which work for this Task is supposed to end.  Timecards may still be entered for a Task after this date as long as it is not closed for time entry.</inlineHelpText>
         <label>End Date &amp; Time</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>DateTime</type>
@@ -3537,6 +3586,7 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -3551,6 +3601,7 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -3565,6 +3616,7 @@
         <label>External Task ID</label>
         <length>100</length>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -3576,6 +3628,7 @@
         <externalId>false</externalId>
         <label>Flag - Information</label>
         <length>32768</length>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>LongTextArea</type>
@@ -3587,6 +3640,7 @@
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Flag - Task Dates - No Coverage</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -3597,6 +3651,7 @@
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Flag - Task Dates - Partial Coverage</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -3607,6 +3662,7 @@
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Flag - Task End - Milestone Bounds</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -3617,6 +3673,7 @@
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Flag - Task End - Project Bounds</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -3627,6 +3684,7 @@
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Flag - Task Hours - No Coverage</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -3637,6 +3695,7 @@
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Flag - Task Hours - Partial Coverage</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -3647,6 +3706,7 @@
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Flag - Task Start - Milestone Bounds</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -3657,6 +3717,7 @@
         <deprecated>false</deprecated>
         <externalId>false</externalId>
         <label>Flag - Task Start  - Project Bounds</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -3672,6 +3733,7 @@
         <precision>2</precision>
         <required>false</required>
         <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -3705,6 +3767,7 @@
         <externalId>false</externalId>
         <label>Long Description</label>
         <length>32000</length>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>LongTextArea</type>
@@ -3732,6 +3795,7 @@
         <relationshipLabel>Project Tasks</relationshipLabel>
         <relationshipName>Project_Tasks</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -3742,6 +3806,7 @@
         <externalId>false</externalId>
         <label>Notes</label>
         <length>32768</length>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>LongTextArea</type>
@@ -3768,6 +3833,7 @@
         <precision>8</precision>
         <required>false</required>
         <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -3835,6 +3901,7 @@
         <relationshipLabel>Project Tasks (Child Task)</relationshipLabel>
         <relationshipName>Immediate_Sub_Tasks</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -3872,6 +3939,7 @@
         <precision>5</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Percent</type>
@@ -3885,6 +3953,7 @@
         <precision>5</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Percent</type>
@@ -3897,6 +3966,7 @@
         <precision>10</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -3912,6 +3982,7 @@
         <precision>10</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -3940,6 +4011,7 @@
         <precision>10</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -3952,6 +4024,7 @@
         <externalId>false</externalId>
         <label>Priority</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
@@ -3993,6 +4066,7 @@
         <relationshipLabel>Project Tasks</relationshipLabel>
         <relationshipName>Project_Tasks</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -4020,6 +4094,7 @@
         <inlineHelpText>The date &amp; time on which work for this Task is supposed to start.  Timecards may still be entered for a Task before this date as long as it is not closed for time entry.</inlineHelpText>
         <label>Start Date &amp; Time</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>DateTime</type>
@@ -4044,6 +4119,7 @@
         <externalId>false</externalId>
         <inlineHelpText>Will be checked if the task has been started</inlineHelpText>
         <label>Started</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -4055,6 +4131,7 @@
         <externalId>false</externalId>
         <label>Status</label>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>
@@ -4095,6 +4172,7 @@
         <description>Indicated if this is a task that has children. If summary task values and time should be rolled up from sub tasks. Values should not be entered directly for this task</description>
         <externalId>false</externalId>
         <label>Summary</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
@@ -4108,6 +4186,7 @@
         <label>Task ID Chain</label>
         <length>255</length>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -4121,6 +4200,7 @@
         <label>Task Key Chain</label>
         <length>255</length>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -4135,6 +4215,7 @@
         <label>Task Key</label>
         <length>15</length>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -4148,6 +4229,7 @@
         <inlineHelpText>This is a new field to hold task name chain. This field has same behavior as the &quot;Task Name Chain&quot; field. But the new data type (long text area) will allow name chain for larger number for project tasks in a hierarchy as compare to the old one (255 chars)</inlineHelpText>
         <label>Task Name Chain (Long)</label>
         <length>32768</length>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>LongTextArea</type>
@@ -4162,6 +4244,7 @@
         <label>Task Name Chain</label>
         <length>255</length>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -4203,6 +4286,7 @@
         <relationshipLabel>Project Tasks (Top-level Parent Task)</relationshipLabel>
         <relationshipName>All_Sub_Tasks</relationshipName>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
@@ -4216,6 +4300,7 @@
         <label>WBS Element Number</label>
         <length>100</length>
         <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Text</type>
@@ -4230,6 +4315,7 @@
         <precision>18</precision>
         <required>false</required>
         <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Number</type>
@@ -4249,6 +4335,7 @@
     </listViews>
     <nameField>
         <label>Project Task Name</label>
+        <trackFeedHistory>false</trackFeedHistory>
         <trackHistory>false</trackHistory>
         <type>Text</type>
     </nameField>

@@ -52,6 +52,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fields>
         <fullName>Capping_Enabled__c</fullName>
         <defaultValue>false</defaultValue>
@@ -157,6 +158,7 @@
         <externalId>false</externalId>
         <label>Holiday Set</label>
         <referenceTo>Round_Robin_Schedule_Setting__c</referenceTo>
+        <relationshipLabel>Pool Holiday Set</relationshipLabel>
         <relationshipName>Pool_Holidays</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -231,12 +233,13 @@
         <externalId>false</externalId>
         <label>Holiday Set</label>
         <referenceTo>Round_Robin_Schedule_Setting__c</referenceTo>
+        <relationshipLabel>Pool Working Hours</relationshipLabel>
         <relationshipName>Pool_Working_Hours</relationshipName>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Lookup</type>
     </fields>
-    <label>LeadFilter</label>
+    <label>Round Robin Pool</label>
     <nameField>
         <label>Round Robin Pool Name</label>
         <type>Text</type>

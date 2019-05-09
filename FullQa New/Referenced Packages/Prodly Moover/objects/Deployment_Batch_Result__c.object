@@ -56,6 +56,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <fields>
         <fullName>Data_Record_Failures_Icon__c</fullName>
         <deprecated>false</deprecated>
@@ -95,7 +96,7 @@ IF((ISPICKVAL( Deployment_Data_Set_Result__r.Status__c , &apos;Finished&apos;) &
         <deleteConstraint>SetNull</deleteConstraint>
         <deprecated>false</deprecated>
         <externalId>false</externalId>
-        <label>Data Set Element Name</label>
+        <label>Data Set</label>
         <referenceTo>DataSet__c</referenceTo>
         <relationshipLabel>Deployment Batch Results</relationshipLabel>
         <relationshipName>Deployment_Batch_Results</relationshipName>

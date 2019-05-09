@@ -1,6 +1,7 @@
 <apex:page standardcontroller="Campaign" extensions="LeanData.CampaignInfluenceViewController" showHeader="false" sidebar="false" >
 <c:googleAnalytics analyticsCategory="Reporting" />
-<apex:stylesheet value="{!$Resource.LeanData__style}"/>
+<apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'css/magellan.css')}"/>
+<apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'scss/magellan.css')}"/>
 <script>
 </script>
 <style>
@@ -21,10 +22,18 @@
     a:hover{
         text-decoration : underline;
     }
+
+    .output-panel-message {
+        width: 98.5%;
+        padding-top: 10px;
+        font-weight: var(--regular);
+        color: var(--dk-grey-2);
+    }
+
 </style>
     <apex:form >       
     <apex:pageBlock id="influenceView" >
-        <img src="{!$Resource.leandata_logo}" class="leandata_logo_header" height="20px" style="vertical-align:bottom;" /> &nbsp;<span style="font-weight:bold;font-size:120%;" >Opportunities Influenced by this Campaign </span>
+        <img src="{!URLFOR($Resource.DashboardImages,'LD-logo_2x.png')}" class="leandata_logo_header" height="20px" style="vertical-align:bottom;" /> &nbsp;<span style="font-weight:bold;font-size:120%;" >Opportunities Influenced by this Campaign </span>
         <div style="float:right; margin-right: 10px; margin-top: 10px; color: #015ba7;">
         <apex:outputPanel rendered="{! showSetting}">
             <apex:outputLink value="{!$Page.LeanData__selectFields}?mode=CampaignInfluenceView" target="_top" styleClass="action_link" style="color: #015ba7;">Select Fields</apex:outputLink> 
@@ -38,7 +47,7 @@
             <apex:outputpanel id="viewHideButtonsPanel">
                 <apex:commandLink styleClass="leanDataButton orangeButton" onClick="ga_event('Viewed Campaign Influence Summary')" value="View Details" action="{!viewCampaignOpps}" rerender="campaignOppPanel,viewHideButtonsPanel" rendered="{!viewMode != 'Campaign Opportunities' && isRun && !noResults}"/>
                 <apex:commandLink styleClass="leanDataButton orangeButton" value="Hide Details" action="{!viewSummary}" rerender="campaignOppPanel,viewHideButtonsPanel" rendered="{!viewMode != 'Summary' && isRun}"/>
-                <apex:outputLink value="{!$Page.LeanData__CampaignInfluenceViewDownload}?id={!selectedCampaign.Id}" target="_blank" styleClass="action_link" style="color: #015ba7;"> Download</apex:outputLink> 
+                <apex:outputLink value="{!$Page.LeanData__CampaignInfluenceViewDownload}?id={!selectedCampaign.Id}" target="_blank" styleClass="action_link ld-tertiary-small-button"> Download</apex:outputLink> 
             </apex:outputPanel>
             <apex:outputLink value="{!$Page.LeanData__CampaignInfluenceReport}" target="_top" styleClass="action_link" style="float:right; margin-right: 10px; margin-top: 10px; color: #015ba7;"><div>View All Campaigns</div></apex:outputLink>
        
@@ -150,7 +159,7 @@
                  <apex:pageMessage severity="ERROR" strength="3" title="This Campaign has not been run before."   > </apex:pageMessage>     
             </apex:outputPanel>
             
-            <apex:outputPanel rendered="{!( noResults == true )}" layout="block" style="width:98.5%; border: 1px solid red; border-radius: 4px; background:#ffc; padding: 10px; margin : 4px; font-weight: bold;" >
+            <apex:outputPanel rendered="{!( noResults == true )}" layout="block" styleClass="output-panel-message">
             This Campaign has not influenced any Opportunities. Last Run : 
             <apex:outputText value="{0, date, MM/dd/yyyy}">
                 <apex:param value="{!lastRunDate}" /> 

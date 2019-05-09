@@ -23,6 +23,16 @@
             display: inline-block !important;
             left: -11px;
         }
+        /*MD-2713*/
+		.tabblock{
+			position: fixed;
+		    z-index: 999999999;
+		    width: 100%;
+		    top: 0;
+		    left: 0;
+		    background: rgba(0, 0, 0, 0.29);
+		    height: 100%;
+		}
     </style>
     <script type="text/javascript">
         
@@ -65,6 +75,30 @@
                                                                              
             }
             /*MD-1499 End*/
+            //MD-2713 - START
+			function showConfirmBox(elem){
+				if(elem == 'true')
+					showElemVisibility("WarningPrompt");
+				else
+					deployDataSet();
+			}
+			
+			function isEventControlExists(){
+				var warnCheckbox = document.getElementById("doNotWarnAgain");
+				warnCheckbox.checked = false;
+				isWarnForEventControlConfiguration();
+			}
+			
+			function clickOkWarningPrompt(){
+				var warnCheckbox = document.getElementById("doNotWarnAgain");
+				if(warnCheckbox.checked){
+					insertDeploymentCenterUIState();
+				}
+				else{
+					deployDataSet();
+				}
+			}
+            //MD-2713 - END
     </script>
     
     <apex:form id="theForm">    
@@ -97,6 +131,10 @@
         <apex:actionFunction action="{!doDeploy}" name="deployDataSet" rerender="theForm"/>
         <apex:actionFunction action="{!onDismissAlert}" name="dismissAlert" rerender="theForm"/>
         
+        <!-- MD-2713  -->
+        <apex:actionFunction action="{!isWarnForEventControlConfiguration}" name="isWarnForEventControlConfiguration" rerender="" oncomplete="showConfirmBox('{!showEventConfirmationBox}');" />
+        <apex:actionFunction action="{!insertDeploymentCenterUIState}" name="insertDeploymentCenterUIState" rerender="" oncomplete="deployDataSet();" />
+        
        <apex:outputPanel id="fullPanel" layout="block">
        <div class="slds">
             <div id="progressSpinner" class="slds-hide">
@@ -119,6 +157,41 @@
                     </div>
                 </div>
             </apex:outputPanel>
+            <!-- MD-2713 START-->
+	        <div id="WarningPrompt" class="tabblock slds-hide" style="height: 640px;">
+				<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+					<div class="slds-modal__container"  style="bottom:20%;">
+						<header class="slds-modal__header slds-text-heading--medium">
+							<h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.LABEL_EVENT_CONTROL_CONFIRMATION_PROMPT_HEADING}</h2>
+						</header>
+	                             <div class="slds-modal__content slds-p-around_medium">  
+	                                 <p style="white-space: pre-line;">{!$Label.LABEL_EVENT_CONTROL_CONFIRMATION_PROMPT_MESSAGE}</p>
+	                                 <div class="slds-form-element" style="margin-bottom:20px; top:16px;">
+	                                     <div class="slds-form-element__control" >
+	                                         <label class="slds-checkbox">
+	                                             <input type="checkbox" name="options" id="doNotWarnAgain"  class="CheckBoxClass" />
+	                                             <span class="slds-checkbox--faux"></span>
+	                                             <span class="slds-form-element__label slds-assistive-text"></span> 
+	                                         </label>
+	                                         <div class="slds-checkbox" >
+	                                             <label class="slds-checkbox__label" for="checkbox-2" >
+	                                                 <span class="slds-checkbox_faux"></span>
+	                                                 <span class="slds-form-element__label">{!$Label.LABEL_DO_NOT_WARN_AGAIN}</span>
+	                                             </label>
+	                                         </div> 
+	                                         
+	                                     </div>
+	                                 </div>
+	                             </div>
+						<footer class="slds-modal__footer">
+							<button class="slds-button slds-button_neutral slds-button--neutral" onclick="hideElemVisibility('WarningPrompt'); return false;">Cancel</button>
+							<button class="slds-button slds-button_brand slds-button--brand" onclick="clickOkWarningPrompt(); hideElemVisibility('WarningPrompt'); return false;">Yes</button> 
+						</footer>
+					</div>
+				</section>
+			</div>
+	        <!-- MD-2713 - END -->
+	        
             <apex:outputPanel id="settingsPanel">
                 <div id="settingsPanelAll" class="slds-show">
                     <div class="slds-grid">
@@ -161,7 +234,8 @@
                                     <!-- MD-1499 END -->
                                     <div class="slds-form-element__control slds-m-top--small">
                                         <apex:selectList id="targetList" value="{!selectedTargetConnectionIds}" size="3" required="false" styleClass="slds-select slds-select1" multiselect="true"> 
-                                            <apex:selectOptions value="{!connectionOptions}" />
+                                            <!-- MD-2886 change selectoptions value -->
+                                            <apex:selectOptions value="{!destinationConnectionOptions}" />
                                         </apex:selectList>
                                     </div>
                                 </div>   
@@ -170,7 +244,7 @@
                         <div class="slds-col"> 
                             <div class="slds-button-group slds-m-top--large">
                                 <!-- MD-2197 Start -->
-                                <button id="deployButton" onclick="deployDataSet(); return false;" class="slds-button slds-button--neutral">Deploy</button>
+                                <button id="deployButton" onclick="isEventControlExists(); return false;" class="slds-button slds-button--neutral">Deploy</button>
                                 <script>
                                      setDeployButtonDisable();
                                      

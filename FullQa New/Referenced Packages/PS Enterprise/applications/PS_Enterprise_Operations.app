@@ -20,4 +20,5 @@
     <tab>Vendor_Invoice__c</tab>
     <tab>appirio_core__Key__c</tab>
     <tab>Vendor_Invoice_Item__c</tab>
+    <tab>SST_Onboarding__c</tab>
 </CustomApplication>

@@ -54,7 +54,7 @@
             margin-right: 67.5px;
             margin-left: 57.5px;
             width: 252.5;
-            border: 1px solid #8da8bf;
+            border: 1px solid var(--lt-grey-2);
             border-radius: 5px;
         }
         

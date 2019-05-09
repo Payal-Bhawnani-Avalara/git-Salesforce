@@ -29,18 +29,6 @@
                 <behavior>Required</behavior>
                 <field>CurrencyIsoCode</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>CBA_Amount__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Mindtouch_activity_token__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>MindTouch_ArticleLinks__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -244,9 +232,14 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>ServiceQAUser__c</fields>
-        <fields>Service_QA_Type__c</fields>
-        <fields>Service_QA_SubType__c</fields>
+        <fields>Status__c</fields>
+        <fields>Total_Quality_Score__c</fields>
+        <fields>Total_Training_Score__c</fields>
         <relatedList>Service_QA__c.RelatedCase__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Case_Key_Information_Audit__c.Case__c</relatedList>
     </relatedLists>
     <relatedObjects>ContactId</relatedObjects>
     <runAssignmentRulesDefault>false</runAssignmentRulesDefault>

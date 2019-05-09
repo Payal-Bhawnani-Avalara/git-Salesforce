@@ -55,6 +55,7 @@ This object stores all records that are scheduled to be unfollowed in a future d
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fields>
         <fullName>CriteriaMetDate__c</fullName>
         <deprecated>false</deprecated>

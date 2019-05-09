@@ -57,6 +57,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>false</enableSharing>
     <enableStreamingApi>false</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fields>
         <fullName>AccountId__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
@@ -1244,6 +1245,20 @@
         <type>Lookup</type>
     </fields>
     <fields>
+        <fullName>QuoteErrors__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Number of errors on quote</description>
+        <externalId>false</externalId>
+        <label>Quote Errors</label>
+        <precision>6</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>ShippingCity__c</fullName>
         <deprecated>false</deprecated>
         <externalId>false</externalId>
@@ -1553,6 +1568,17 @@ setTimeout(&quot;jqm$(&apos;#modalDiv&apos;).dialog(&apos;option&apos;,&apos;tit
         <masterLabel>Print</masterLabel>
         <openType>replace</openType>
         <page>QxReportGenerator</page>
+        <protected>false</protected>
+    </webLinks>
+    <webLinks>
+        <fullName>Refresh</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Refresh</masterLabel>
+        <openType>noSidebar</openType>
+        <page>QxRefreshQuote</page>
         <protected>false</protected>
     </webLinks>
 </CustomObject>

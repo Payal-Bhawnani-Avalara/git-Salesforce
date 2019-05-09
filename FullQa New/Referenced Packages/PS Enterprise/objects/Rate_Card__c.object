@@ -64,6 +64,7 @@
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fieldSets>
         <fullName>Rate_Card_Fields_For_Rate_Card_Set</fullName>
         <availableFields>
@@ -254,6 +255,10 @@
             <valueSetDefinition>
                 <sorted>false</sorted>
                 <value>
+                    <fullName>Project Manager</fullName>
+                    <default>false</default>
+                </value>
+                <value>
                     <fullName>Architect</fullName>
                     <default>false</default>
                 </value>
@@ -275,10 +280,6 @@
                 </value>
                 <value>
                     <fullName>Executive</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Project Manager</fullName>
                     <default>false</default>
                 </value>
                 <value>

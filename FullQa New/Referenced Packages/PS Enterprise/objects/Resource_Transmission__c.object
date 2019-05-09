@@ -62,6 +62,7 @@
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <fields>
         <fullName>Resource__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>

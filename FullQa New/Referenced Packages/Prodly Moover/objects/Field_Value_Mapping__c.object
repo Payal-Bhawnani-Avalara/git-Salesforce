@@ -44,6 +44,7 @@
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
     <deprecated>false</deprecated>
+    <description>Created for MD-2942.</description>
     <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
     <enableFeeds>false</enableFeeds>
@@ -52,9 +53,11 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <fields>
         <fullName>Data_Set_Field__c</fullName>
         <deprecated>false</deprecated>
+        <description>Created for MD-2942</description>
         <externalId>false</externalId>
         <label>Data Set Field</label>
         <referenceTo>Data_Set_Field__c</referenceTo>
@@ -71,6 +74,7 @@
         <fullName>Referenced_Data_Set_Element__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
         <deprecated>false</deprecated>
+        <description>Created for MD-2942</description>
         <externalId>false</externalId>
         <label>Referenced Data Set Element</label>
         <referenceTo>DataSet__c</referenceTo>
@@ -98,7 +102,7 @@
         <fullName>Root_Data_Set_ID__c</fullName>
         <deprecated>false</deprecated>
         <externalId>false</externalId>
-        <formula>IF( Data_Set_Field__r.Data_Set__r.Root__c , Data_Set_Field__r.Data_Set__c , Data_Set_Field__r.Data_Set__r.Root_Data_Set__c )</formula>
+        <formula>IF( Data_Set_Field__r.Data_Set__r.Root__c ,  Data_Set_Field__r.Data_Set__c ,  Data_Set_Field__r.Data_Set__r.Root_Data_Set__c )</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Root Data Set ID</label>
         <required>false</required>

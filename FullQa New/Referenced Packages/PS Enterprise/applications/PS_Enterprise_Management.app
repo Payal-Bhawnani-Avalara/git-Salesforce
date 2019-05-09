@@ -15,4 +15,5 @@
     <tab>Expense_Report__c</tab>
     <tab>Permission_Control__c</tab>
     <tab>Vendor_Invoice_Item__c</tab>
+    <tab>SST_Onboarding__c</tab>
 </CustomApplication>

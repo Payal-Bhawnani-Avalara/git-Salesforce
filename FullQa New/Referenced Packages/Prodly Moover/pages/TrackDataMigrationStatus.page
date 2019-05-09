@@ -95,6 +95,11 @@
             $(".slds-progress-bar__value").css('background','#D4504C');
         }
         //MD-1404 End
+		
+		//MD-2941
+        if(strStatus == 'Stopped'){	
+        	$(".slds-progress-bar__value").css('width',0);
+        }
     }
     
     var myVar = setInterval(function() {
@@ -472,7 +477,7 @@
                         </div>
                         <div style="width: 97%; float: left;">
                         {!dataSetResult.dataSetDetail.Data_Set__r.Name} -
-                        {!dataSetResult.dataSetDetail.Status__c}
+                        {!dataSetResult.dataSetDetail.PDRI__Status__c}
                         </div>
                         </apex:outputPanel>
                         
@@ -482,7 +487,7 @@
                         </div>
                         <div style="width: 97%; float: left;">
                         {!dataSetResult.dataSetDetail.Data_Set__r.Name} -
-                        {!dataSetResult.dataSetDetail.Status__c}</div>
+                        {!dataSetResult.dataSetDetail.PDRI__Status__c}</div>
                         </apex:outputPanel>
                         <apex:outputpanel id="inlinetablesec" style="display:{!IF(dataSetResult.display, '', 'none')};">
 

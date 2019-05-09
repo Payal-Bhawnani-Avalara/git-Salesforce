@@ -31,7 +31,7 @@
     <apex:stylesheet value="{!URLFOR($Resource.LeanData__bootstrap_v3_3_4, 'css/bootstrap-multiselect.css')}" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
     <!-- Fonts -->
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:100,200,300,400,500,600' rel='stylesheet' type='text/css' />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:100,200,300,400,500,600,700' rel='stylesheet' type='text/css' />
     <style>
         <!-- Begin CSS used on Template Only --> 
         .bs {
@@ -56,45 +56,19 @@
             float: left;
         }
         
-        .bs .header {
-            font-size: 19px;
-            background-color: white;
-            height: 55px;
-            width: 100%;
-        }
-        
         .bs .fix-header {
             position: fixed;
             top: 0;
             opacity: 0.9;
             z-index: 9999;
         }
-        
-        .bs .header-title {
-            font-size: 21.5px;
-            font-family: 'Open Sans';
-            line-height: 55px;
-            margin-left: 237.5px;
-            float: left;
-            position: absolute;
-            color: #555555;
-        }
-        
+                
         .bs .logo {
             display: block;
             float: left;
             margin-left: 40px;
             margin-top: 15.5px;
-        }
-        
-        .bs .left-sidebar {
-            width: 200px;
-            background: #70797b;
-            position: absolute;
-            padding-top: 25px;
-            overflow: hidden;
-            height: 380px;
-        }
+        }        
         
         .bs .left-sidebar-button {
             width: 100%;
@@ -105,12 +79,6 @@
             padding-left: 30px;
             background: #70797b;
             cursor: pointer;
-        }
-        
-        .bs .left-sidebar-button-active {
-            cursor: default !important;
-            background: url("{!URLFOR($Resource.Reporting_Images, 'Navigation_Icon.png')}") #70797b no-repeat right center !important;
-            background-size: 8px 9px !important;
         }
         
         .bs .left-sidebar-button:hover {
@@ -125,15 +93,6 @@
             color: #65d2bd;
             margin-top: 5px;
             line-height: 16px;
-        }
-        
-        .bs .main-content {
-            background: #eeefef;
-            padding-left: 237.5px;
-            padding-top: 37.5px;
-            float: left;
-            min-height: 380px;
-            width: 100%;
         }
 
         .bs .dg_main-button {
@@ -176,7 +135,7 @@
         
         <!-- End CSS used on Template Only --> <!-- Begin CSS used in all Pages --> <!-- Begin CSS used for Page Structure --> .bs .dg_outer-wrapper {
             background: white;
-            border: 1px solid #8da8bf;
+            border: 1px solid var(--lt-grey-2);
             border-radius: 7.5px;
             float: left;
             margin: 20px;
@@ -198,25 +157,6 @@
             padding-top: 20px;
         }
         
-        .bs .dg_inner-wrapper {
-            width: 1050px;
-            background: white;
-            border: 1px solid #8da8bf;
-            border-radius: 7.5px;
-            margin: 0 20px 20px 20px;
-            float: left;
-        }
-        
-        .bs .dg_outer-wrapper .dg_inner-wrapper {
-            width: 1005px;
-        }
-        
-        .bs .dg_inner-wrapper:after {
-            content: '';
-            display: block;
-            clear: both;
-        }
-        
         .bs .dg_inner-wrapper-header {
             width: 100%;
             height: 50px;
@@ -233,7 +173,7 @@
         }
         
         .bs .dg_inner-wrapper-content:not(:last-child) {
-            border-bottom: 1px solid #8da8bf;
+            border-bottom: 1px solid var(--lt-grey-2);
         }
         
         .bs .dg_inner-wrapper-content:after {
@@ -274,7 +214,7 @@
         .dg_inner-wrapper-content p {
             font-size: 12px;
             margin-bottom: 27.5px;
-            color: #5e7178;
+            color: var(--dk-grey-2);
             line-height:20px;
         }
         
@@ -671,7 +611,7 @@
             width: 280px;
             background: url("{!URLFOR($Resource.Reporting_Images, 'Down_Arrow_Icon.png')}") no-repeat right #fff;
             background-size: 9.5px 5.5px;
-            border: 1px solid #8da8bf;
+            border: 1px solid var(--lt-grey-2);
             background-position: right 10px top 12px;
             line-height: 12px;
         }

@@ -96,6 +96,14 @@
                 <behavior>Readonly</behavior>
                 <field>TimeZone__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Last_NPS__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Average_CSAT__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -380,6 +388,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>CREATED_DATE</fields>
         <relatedList>Response_Velocity__c.Contact__c</relatedList>
     </relatedLists>
     <relatedLists>

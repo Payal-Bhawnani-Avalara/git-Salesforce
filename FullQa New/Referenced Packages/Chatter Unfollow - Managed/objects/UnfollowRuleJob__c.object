@@ -57,6 +57,7 @@ I recommend that no profiles be given access to edit the contents as it is only 
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fields>
         <fullName>DelayRuleJob__c</fullName>
         <defaultValue>false</defaultValue>

@@ -23,4 +23,5 @@
     <tab>Vendor_Invoice_Item__c</tab>
     <tab>Project_Actuals_Recalc</tab>
     <tab>Resource_Actuals_Recalc</tab>
+    <tab>SST_Onboarding__c</tab>
 </CustomApplication>

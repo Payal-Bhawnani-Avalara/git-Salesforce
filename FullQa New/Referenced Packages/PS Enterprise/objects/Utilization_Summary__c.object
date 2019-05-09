@@ -65,6 +65,7 @@ Optionally, total unheld hours can be weighted by the percentage probability of 
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <fields>
         <fullName>Actual_Billable_Hours__c</fullName>
         <deprecated>false</deprecated>
@@ -264,6 +265,10 @@ Optionally, total unheld hours can be weighted by the percentage probability of 
             <valueSetDefinition>
                 <sorted>false</sorted>
                 <value>
+                    <fullName>Project Manager</fullName>
+                    <default>false</default>
+                </value>
+                <value>
                     <fullName>Architect</fullName>
                     <default>false</default>
                 </value>
@@ -285,10 +290,6 @@ Optionally, total unheld hours can be weighted by the percentage probability of 
                 </value>
                 <value>
                     <fullName>Executive</fullName>
-                    <default>false</default>
-                </value>
-                <value>
-                    <fullName>Project Manager</fullName>
                     <default>false</default>
                 </value>
                 <value>

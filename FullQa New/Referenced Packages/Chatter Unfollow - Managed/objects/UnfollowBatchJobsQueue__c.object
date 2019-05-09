@@ -59,6 +59,7 @@ This is not meant to ever be seen by users and should not be changed at risk of 
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fields>
         <fullName>ObjectName__c</fullName>
         <caseSensitive>false</caseSensitive>

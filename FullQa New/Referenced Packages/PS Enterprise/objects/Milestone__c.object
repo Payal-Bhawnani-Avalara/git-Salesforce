@@ -65,6 +65,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fieldSets>
         <fullName>CreateProjFromTempAltCopyMilestoneFields</fullName>
         <availableFields>
@@ -194,11 +195,6 @@
         </availableFields>
         <availableFields>
             <field>Closed_for_Expense_Entry__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
-            <field>Closed_for_Time_Entry__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -463,10 +459,25 @@
             <isRequired>false</isRequired>
         </availableFields>
         <description>When creating a project from a project template, use to define the Milestone fields (if associated milestones exist) that are copied from the project template to the new project record. These fields do not display on the CreateProjectFromTemplate Visualforce page.</description>
+        <displayedFields>
+            <field>Milestone_Type__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Closed_for_Time_Entry__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
         <label>Create Project From Template Alt Copy Milestone Fields</label>
     </fieldSets>
     <fieldSets>
         <fullName>CreateProjFromTemplateMilestoneColumns</fullName>
+        <availableFields>
+            <field>Actual_Date__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
         <availableFields>
             <field>Admin_Global_Edit__c</field>
             <isFieldManaged>false</isFieldManaged>
@@ -489,6 +500,11 @@
         </availableFields>
         <availableFields>
             <field>Approved_for_Vendor_Payment__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Approver__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -628,6 +644,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Estimated_Time_To_Completion__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Exclude_from_Billing__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -669,6 +690,16 @@
         </availableFields>
         <availableFields>
             <field>LastModifiedDate</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Log_Milestone_Cost_As_External__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Milestone_Cost__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -744,6 +775,11 @@
         </availableFields>
         <availableFields>
             <field>Project__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Requires_Customer_Sign_off__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -825,36 +861,6 @@
         </displayedFields>
         <displayedFields>
             <field>Target_Date__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Requires_Customer_Sign_off__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Actual_Date__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Approver__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Milestone_Cost__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Estimated_Time_To_Completion__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
-            <field>Log_Milestone_Cost_As_External__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -3186,18 +3192,34 @@ Project Exclude From Billing = false</description>
                 <sorted>false</sorted>
                 <value>
                     <fullName>Planned</fullName>
-                    <default>true</default>
-                </value>
-                <value>
-                    <fullName>Open</fullName>
                     <default>false</default>
                 </value>
                 <value>
-                    <fullName>Approved</fullName>
+                    <fullName>In Progress</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>On Hold</fullName>
                     <default>false</default>
                 </value>
                 <value>
                     <fullName>Canceled</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ready to Bill</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Released</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Invoiced</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Closed</fullName>
                     <default>false</default>
                 </value>
             </valueSetDefinition>
@@ -3382,6 +3404,7 @@ Project Exclude From Billing = false</description>
         <type>Text</type>
     </nameField>
     <pluralLabel>Milestones</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <searchLayouts>
         <customTabListAdditionalFields>Project__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Status__c</customTabListAdditionalFields>

@@ -10,4 +10,5 @@
     <tab>Expense_Report__c</tab>
     <tab>Skills_and_Certifications_Matrix</tab>
     <tab>Vendor_Invoice_Item__c</tab>
+    <tab>SST_Onboarding__c</tab>
 </CustomApplication>

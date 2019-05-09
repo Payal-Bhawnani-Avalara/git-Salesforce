@@ -12,4 +12,5 @@
     <tab>RecognitionView__c</tab>
     <tab>BatchTrackingControl__c</tab>
     <tab>RevenueManagementActions</tab>
+    <tab>SST_Onboarding__c</tab>
 </CustomApplication>

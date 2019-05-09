@@ -79,6 +79,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fields>
         <fullName>Certification_Source__c</fullName>
         <deprecated>false</deprecated>
@@ -453,7 +454,6 @@
     <recordTypes>
         <fullName>Category</fullName>
         <active>true</active>
-        <compactLayoutAssignment>Category_Compact_Layout</compactLayoutAssignment>
         <description>A level in a hierarchy. Skills and certifications can belong to a category.</description>
         <label>Category</label>
         <picklistValues>
@@ -536,7 +536,6 @@
     <recordTypes>
         <fullName>Certification</fullName>
         <active>true</active>
-        <compactLayoutAssignment>Certification_Compact_Layout</compactLayoutAssignment>
         <description>A document relating to a status or a level of achievement.</description>
         <label>Certification</label>
         <picklistValues>
@@ -615,7 +614,6 @@
     <recordTypes>
         <fullName>Skill</fullName>
         <active>true</active>
-        <compactLayoutAssignment>Skill_Compact_Layout</compactLayoutAssignment>
         <description>An ability, proficiency, or expertise, in a subject area.</description>
         <label>Skill</label>
         <picklistValues>

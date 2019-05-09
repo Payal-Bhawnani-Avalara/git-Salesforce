@@ -65,30 +65,30 @@
     <aura:attribute name="showSP" type="boolean" default="false" access="global" />
     <aura:attribute name="sameAsMailing" type="boolean" default="false" access="global" />
     <!-- SST States Display  -->
-    <aura:attribute name="showAr" type="boolean" default="false" access="global" />
-    <aura:attribute name="showGe" type="boolean" default="false" access="global" />
-    <aura:attribute name="showIn" type="boolean" default="false" access="global" />
-    <aura:attribute name="showIo" type="boolean" default="false" access="global" />
-    <aura:attribute name="showKa" type="boolean" default="false" access="global" />
-    <aura:attribute name="showKe" type="boolean" default="false" access="global" />
-    <aura:attribute name="showMi" type="boolean" default="false" access="global" />
-    <aura:attribute name="showMn" type="boolean" default="false" access="global" />
-    <aura:attribute name="showNe" type="boolean" default="false" access="global" />
-    <aura:attribute name="showNv" type="boolean" default="false" access="global" />
-    <aura:attribute name="showNj" type="boolean" default="false" access="global" />
-    <aura:attribute name="showNc" type="boolean" default="false" access="global" />
-    <aura:attribute name="showNd" type="boolean" default="false" access="global" />
-    <aura:attribute name="showOh" type="boolean" default="false" access="global" />
-    <aura:attribute name="showOk" type="boolean" default="false" access="global" />
-    <aura:attribute name="showRi" type="boolean" default="false" access="global" />
-    <aura:attribute name="showSd" type="boolean" default="false" access="global" />
-    <aura:attribute name="showTe" type="boolean" default="false" access="global" />
-    <aura:attribute name="showUt" type="boolean" default="false" access="global" />
-    <aura:attribute name="showVe" type="boolean" default="false" access="global" />
-    <aura:attribute name="showWa" type="boolean" default="false" access="global" />
-    <aura:attribute name="showWv" type="boolean" default="false" access="global" />
-    <aura:attribute name="showWi" type="boolean" default="false" access="global" />
-    <aura:attribute name="showWy" type="boolean" default="false" access="global" />
+    <aura:attribute name="showAr" type="boolean" default="true" access="global" />
+    <aura:attribute name="showGe" type="boolean" default="true" access="global" />
+    <aura:attribute name="showIn" type="boolean" default="true" access="global" />
+    <aura:attribute name="showIo" type="boolean" default="true" access="global" />
+    <aura:attribute name="showKa" type="boolean" default="true" access="global" />
+    <aura:attribute name="showKe" type="boolean" default="true" access="global" />
+    <aura:attribute name="showMi" type="boolean" default="true" access="global" />
+    <aura:attribute name="showMn" type="boolean" default="true" access="global" />
+    <aura:attribute name="showNe" type="boolean" default="true" access="global" />
+    <aura:attribute name="showNv" type="boolean" default="true" access="global" />
+    <aura:attribute name="showNj" type="boolean" default="true" access="global" />
+    <aura:attribute name="showNc" type="boolean" default="true" access="global" />
+    <aura:attribute name="showNd" type="boolean" default="true" access="global" />
+    <aura:attribute name="showOh" type="boolean" default="true" access="global" />
+    <aura:attribute name="showOk" type="boolean" default="true" access="global" />
+    <aura:attribute name="showRi" type="boolean" default="true" access="global" />
+    <aura:attribute name="showSd" type="boolean" default="true" access="global" />
+    <aura:attribute name="showTe" type="boolean" default="true" access="global" />
+    <aura:attribute name="showUt" type="boolean" default="true" access="global" />
+    <aura:attribute name="showVe" type="boolean" default="true" access="global" />
+    <aura:attribute name="showWa" type="boolean" default="true" access="global" />
+    <aura:attribute name="showWv" type="boolean" default="true" access="global" />
+    <aura:attribute name="showWi" type="boolean" default="true" access="global" />
+    <aura:attribute name="showWy" type="boolean" default="true" access="global" />
      <aura:attribute name="shoTnPhy" type="boolean" default="false" access="global" />
     <!-- Success Popup -->
     <aura:attribute name="ShowModule" type="boolean" default="false" access="global" />
@@ -168,30 +168,30 @@
     <aura:attribute name="showWiV" type="boolean" default="false" access="global" />
     <aura:attribute name="showWyV" type="boolean" default="false" access="global" />
     <!-- Volunteer selection -->
-    <aura:attribute name="showArVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showGeVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showInVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showIoVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showKaVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showKeVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showMiVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showMnVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showNeVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showNvVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showNjVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showNcVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showNdVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showOhVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showOkVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showRiVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showSdVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showTeVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showUtVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showVeVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showWaVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showWvVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showWiVol" type="boolean" default="false" access="global" />
-    <aura:attribute name="showWyVol" type="boolean" default="false" access="global" />
+    <aura:attribute name="showArVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showGeVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showInVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showIoVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showKaVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showKeVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showMiVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showMnVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showNeVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showNvVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showNjVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showNcVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showNdVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showOhVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showOkVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showRiVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showSdVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showTeVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showUtVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showVeVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showWaVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showWvVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showWiVol" type="boolean" default="true" access="global" />
+    <aura:attribute name="showWyVol" type="boolean" default="true" access="global" />
     <!--Corporate State Volunteer-->
     <aura:attribute name="showArCoV" type="boolean" default="false" access="global" />
     <aura:attribute name="showGeCoV" type="boolean" default="false" access="global" />
@@ -232,6 +232,7 @@
     <aura:attribute name="isAllSelected" type="Boolean" default="false" />
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!-- <aura:handler name="selectAll" value="{!this}" action="{!c.selectAll}" /> -->
 
 
     <div class="slds-grid slds-grid--vertical forceListViewManager adapetr-config-main">
@@ -274,7 +275,7 @@
 						     <div class="slds-col slds-size_9-of-12 slds-text-color--weak ">  SST Pre-Registration Requirements	</div>
 						     <div class="slds-text-color--weak ">
 		                         <p> ·       Must Complete SST Registration Form <br/>
-							         ·       Must Complete Avatax Integration with assigned go live manager<br/>
+							         ·       Must Complete Avatax Integration with assigned implementation manager<br/>
 							         ·       Must map item codes to SST Certified AvaTax Codes           
 							     </p>
 	                        </div>
@@ -282,9 +283,9 @@
 						    <div class="slds-col slds-size_9-of-12 slds-text-color--weak">SST Post-Registration Requirements</div>
 		                        <div class="slds-text-color--weak ">
 							     <p> ·       All sales must be calculated in AvaTax   <br/>
-							         ·       Must pass an invoice item description for each item sold <br/>
+							         ·       Must pass an item code and an invoice item description for each item sold <br/>
 							         ·       Must pass a street level address for accurate tax calculations<br/>
-							         ·       Must map item codes to SST Certified AvaTax Codes <br/>
+							         ·       Must map item codes to SST Certified <a href="https://taxcode.avatax.avalara.com/" target="_blank"> AvaTax Codes</a> <br/>
 							         ·       Must supply exemption certificate information into AvaTax prior to any exempt transaction being processed
 							    </p>
 		                       </div>
@@ -292,7 +293,7 @@
 						   
 						    <div class="slds-col slds-size_9-of-12 slds-text-color--weak">Filing Requirements</div>
 						     <div class="slds-text-color--weak ">
-	                             <p style="margin-left: 1.5em;">Example of a paragraph with margin and padding.  Avalara, as your Certified Service Provider, is contractually required to file your SST returns monthly starting on SST go live date. 
+	                             <p style="margin-left: 1.5em;">Avalara, as your Certified Service Provider, is contractually required to file your SST returns monthly starting on SST go live date. 
 						               Once integrated, your SST go live date will be confirmed by your assigned go live manager. If you are previously registered and already file 
 						               on a quarterly, semi-annual, or annual basis, you must contact the SST state for the best practice on remitting taxes collected prior to joining SST.
 						               Transactions will not be pulled forward into SST filed remittances.
@@ -334,7 +335,7 @@
                     </aura:renderIf>
 
                     <!--*********  Company Information ********* -->
-                    <aura:renderIf isTrue="{!v.showComInfo}">
+                    <aura:If isTrue="{!v.showComInfo}">
                         <div class="slds-align_absolute-center">
                             <fieldset class="slds-box slds-theme--default slds-container_medium"  style = "{!'border : 1px solid '+ v.borderColor}">
                                 <legend id="newdemform" class="slds-text-heading--small 
@@ -375,11 +376,10 @@
 				                  </span>
                                         <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
 				                  <lightning:input aura:id="newSSTform" label="First Name" name="First Name" value="{!v.sstData.SP_First_Name__c}" maxlength="16"
-				                   pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input."    required="true"/>
+				                   required="true"/>
 				                  </span>
                                         <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-				                  <lightning:input aura:id="newSSTform" label="Middle Name" name="Middle Name" value="{!v.sstData.SP_Middle_Name__c}" maxlength="16" 
-				                   pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input."  />
+				                  <lightning:input aura:id="newSSTform" label="Middle Name" name="Middle Name" value="{!v.sstData.SP_Middle_Name__c}" maxlength="16" />
 				                  </span>
                                         <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
 				                  <lightning:input aura:id="newSSTform" label="Last Name" name="Last Name" value="{!v.sstData.SP_Last_Name__c}" maxlength="32" 
@@ -402,8 +402,8 @@
                                         <br/>
                                         <br/>
                                         <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="Address Line 1" name="Address Line 1" value="{!v.sstData.Company_Corporate_Address_Address_Line__c}" 
-			                     maxlength="35" required="true" />
+			                    <lightning:input aura:id="newSSTform" type="Text" label="Address Line 1"  name="Address Line 1" value="{!v.sstData.Company_Corporate_Address_Address_Line__c}"  
+			                   maxlength="35" required="true" />
 			                    </span>
                                         <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
 			                    <lightning:input aura:id="newSSTform" label="Address Line 2" name="Address Line 2" value="{!v.sstData.CompanyCorporate_Address_Address_Line2__c}"  
@@ -471,9 +471,13 @@
                                             <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
 			                    <lightning:input aura:id="newSSTform" label="Zip" name="Zip" maxlength="9" value="{!v.sstData.Company_Mailing_Address_Zip_Code__c}"  required="true" />
 			                    </span>
-                                            <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="Country" pattern="^[a-zA-Z]*$"  maxlength="2" messageWhenPatternMismatch="Please provide valid input." name="Country" value="{!v.sstData.Company_Mailing_Address_Country__c}"  required="true" />
-			                    <lightning:helptext content="Please provide two letter country code." iconName="utility:info"/>
+                                <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                     <lightning:select aura:id="newSSTform" name="stateCo" label="Country" value="{!v.sstData.Company_Mailing_Address_Country__c}" required="true">
+			                            <option value = "">Select</option>  
+			                            <aura:iteration var="option" items="{! v.corpCoPicklist }">
+			                                <option value="{! option }" >{! option }</option>
+			                            </aura:iteration>
+			                        </lightning:select> 
 			                    </span>
                                             <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
 			                    <lightning:input aura:id="newSSTform" label="Phone Number" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" messageWhenPatternMismatch="Please provide valid input." maxlength="12" name="Phone Number" value="{!v.sstData.Company_Mailing_Phone_Number__c}"  required="true" />
@@ -491,15 +495,15 @@
                                         <br/>
                                         <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
 			                     <lightning:input aura:id="newSSTform" label="First Name" name="First Name"  maxlength="16" 
-			                     pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input." value="{!v.sstData.Contact_First_Name__c}"  required="true"/>
+			                    value="{!v.sstData.Contact_First_Name__c}"  required="true"/>
 			                     </span>
                                         <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
 			                     <lightning:input aura:id="newSSTform" label="Middle Name" name="Middle Name" maxlength="16"
-			                      pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input."  value="{!v.sstData.Contact_Middle_Name__c}" />
+			                     value="{!v.sstData.Contact_Middle_Name__c}" />
 			                     </span>
                                         <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
 			                     <lightning:input aura:id="newSSTform" label="Last Name" name="Last Name" maxlength="32"
-			                      pattern="^[a-zA-Z0-9]*$" messageWhenPatternMismatch="Please provide valid input."  value="{!v.sstData.Contact_Last_Name__c}"  required="true" />
+			                     value="{!v.sstData.Contact_Last_Name__c}"  required="true" />
 			                     </span>
                                         <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
 			                     <lightning:input aura:id="newSSTform" label="Title" name="Title" maxlength="32"
@@ -522,11 +526,12 @@
                                   <button class="slds-button slds-button--brand" onclick="{!c.comTab}">Next</button>
                                 </div>
                             </fieldset>
+                           
                         </div>
-                    </aura:renderIf>
+                    </aura:If>
 
                     <!-- SST Registration Information -->
-                    <aura:renderIf isTrue="{!v.showRandom}">
+                    <aura:If isTrue="{!v.showRandom}">
                         <div class="slds-align_absolute-center">
                             <fieldset class="slds-box slds-theme--default slds-container_medium" style = "{!'border : 1px solid '+ v.borderColor}">
                                 <legend id="newdemform" class="slds-text-heading--small 
@@ -544,6 +549,7 @@
                                     <aura:if isTrue="{!v.showRegSSN}">
                                         <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
 			                     <lightning:input aura:id="newSSTreg" label="SST Identification Number" minlength="9" maxlength="9" name="SST Identification Number" value="{!v.sstData.SST_Identification_Number__c}"  required="true" />
+			                      <lightning:helptext content="Please provide SST Identification Number in this format: S####### ." iconName="utility:info"/>
 			              </span>
                                         <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
 			                     <lightning:input aura:id="newSSTreg" label="Registration Effective Date" name="Registration Effective Date" value="{!v.sstData.Registration_Effective_Date__c}" 
@@ -618,11 +624,11 @@
                                 </div>
                             </fieldset>
                         </div>
-                    </aura:renderIf>
+                    </aura:If>
 
 
                     <!-- SST State -->
-                    <aura:renderIf isTrue="{!v.showSSTState}">
+                    <aura:If isTrue="{!v.showSSTState}">
                         <div class="slds-align_absolute-center">
                             <fieldset class="slds-box slds-theme--default slds-container_medium" style = "{!'border : 1px solid '+ v.borderColor}">
                                 <legend id="newdemform" class="slds-text-heading--small 
@@ -640,86 +646,86 @@
                                     <br/>
                                     <br/>
                                     <span class="slds-size_1-of-1 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="allStates" type="checkbox" label="Select All" name="allStates" checked="false" 
+			                    <lightning:input aura:id="allStates" type="checkbox" label="Select All" name="allStates" checked="true" 
 			                     value="{!v.isAllSelected}"  onchange="{! c.selectAll}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Arkansas" name="Arkansas" value="{!v.sstData.SS_Arkansas__c}" checked="{!v.sstData.SS_Arkansas__c}" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Arkansas" name="Arkansas" value="{!v.sstData.SS_Arkansas__c}" checked="true" onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Georgia" name="Georgia" checked="{!v.sstData.SS_Georgia__c}" value="{!v.sstData.SS_Georgia__c}" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Georgia" name="Georgia" checked="true" value="{!v.sstData.SS_Georgia__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Indiana" name="Indiana" checked="{!v.sstData.SS_Indiana__c}" value="{!v.sstData.SS_Indiana__c}" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Indiana" name="Indiana" checked="true" value="{!v.sstData.SS_Indiana__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Iowa" name="Iowa" checked="{!v.sstData.SS_Iowa__c}" value="{!v.sstData.SS_Iowa__c}"  onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Iowa" name="Iowa" checked="true" value="{!v.sstData.SS_Iowa__c}"  onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Kansas" name="Kansas" checked="{!v.sstData.SS_Kansas__c}" value="{!v.sstData.SS_Kansas__c}"  onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Kansas" name="Kansas" checked="true" value="{!v.sstData.SS_Kansas__c}"  onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Kentucky" name="Kentucky" checked="{!v.sstData.SS_Kentucky__c}"  value="{!v.sstData.SS_Kentucky__c}"  onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Kentucky" name="Kentucky" checked="true"  value="{!v.sstData.SS_Kentucky__c}"  onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Michigan" name="Michigan" checked="{!v.sstData.SS_Michigan__c}" value="{!v.sstData.SS_Michigan__c}" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Michigan" name="Michigan" checked="true" value="{!v.sstData.SS_Michigan__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Minnesota" name="Minnesota" checked="{!v.sstData.SS_Minnesota__c}" value="{!v.sstData.SS_Minnesota__c}" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Minnesota" name="Minnesota" checked="true" value="{!v.sstData.SS_Minnesota__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Nebraska" name="Nebraska" checked="{!v.sstData.SS_Nebraska__c}" value="{!v.sstData.SS_Nebraska__c}"  onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Nebraska" name="Nebraska" checked="true" value="{!v.sstData.SS_Nebraska__c}"  onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Nevada" name="Nevada" checked="{!v.sstData.SS_Nevada__c}" value="{!v.sstData.SS_Nevada__c}" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Nevada" name="Nevada" checked="true" value="{!v.sstData.SS_Nevada__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="New Jersey" name="New Jersey" checked="{!v.sstData.SS_New_Jersey__c}" value="{!v.sstData.SS_New_Jersey__c}" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="New Jersey" name="New Jersey" checked="true" value="{!v.sstData.SS_New_Jersey__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="North Carolina" name="North Carolina" checked="{!v.sstData.SS_North_Carolina__c}" value="{!v.sstData.SS_North_Carolina__c}" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="North Carolina" name="North Carolina" checked="true" value="{!v.sstData.SS_North_Carolina__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="North Dakota" name="North Dakota" checked="{!v.sstData.SS_North_Dakota__c}" value="{!v.sstData.SS_North_Dakota__c}" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="North Dakota" name="North Dakota" checked="true" value="{!v.sstData.SS_North_Dakota__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Ohio" name="Ohio" checked="{!v.sstData.SS_Ohio__c}" value="{!v.sstData.SS_Ohio__c}" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Ohio" name="Ohio" checked="true" value="{!v.sstData.SS_Ohio__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Oklahoma" name="Oklahoma" checked="{!v.sstData.SS_Oklahoma__c}" value="{!v.sstData.SS_Oklahoma__c}" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Oklahoma" name="Oklahoma" checked="true" value="{!v.sstData.SS_Oklahoma__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Rhode Island" name="Rhode Island" checked="{!v.sstData.SS_Rhode_Island__c}"  value="{!v.sstData.SS_Rhode_Island__c}" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Rhode Island" name="Rhode Island" checked="true"  value="{!v.sstData.SS_Rhode_Island__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="South Dakota" name="South Dakota" checked="{!v.sstData.SS_South_Dakota__c}" value="{!v.sstData.SS_South_Dakota__c}" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="South Dakota" name="South Dakota" checked="true" value="{!v.sstData.SS_South_Dakota__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Tennessee" name="Tennessee" checked="{!v.sstData.SS_Tennessee__c}" value="{!v.sstData.SS_Tennessee__c}" onchange= "{!c.sstNexus}"/>
+			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Tennessee" name="Tennessee" checked="true" value="{!v.sstData.SS_Tennessee__c}" onchange= "{!c.sstNexus}"/>
 			    </span>
                  
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Utah" name="Utah" checked="{!v.sstData.SS_Utah__c}" value="{!v.sstData.SS_Utah__c}"  onchange= "{!c.sstNexus}"/>
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Utah" name="Utah" checked="true" value="{!v.sstData.SS_Utah__c}"  onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Vermont" name="Vermont" value="{!v.sstData.SS_Vermont__c}" checked="{!v.sstData.SS_Vermont__c}" onchange= "{!c.sstNexus}"/>
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Vermont" name="Vermont" value="{!v.sstData.SS_Vermont__c}" checked="true" onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Washington" name="Washington" checked="{!v.sstData.SS_Washington__c}" value="{!v.sstData.SS_Washington__c}"  onchange= "{!c.sstNexus}"/>
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Washington" name="Washington" checked="true" value="{!v.sstData.SS_Washington__c}"  onchange= "{!c.sstNexus}"/>
 			    </span>
                                     
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="West Virginia" name="West Virginia" value="{!v.sstData.SS_West_Virginia__c}"  checked="{!v.sstData.SS_West_Virginia__c}" onchange= "{!c.sstNexus}"/>
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="West Virginia" name="West Virginia" value="{!v.sstData.SS_West_Virginia__c}"  checked="true" onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Wisconsin" name="Wisconsin" checked="{!v.sstData.SS_Wisconsin__c}" value="{!v.sstData.SS_Wisconsin__c}"  onchange= "{!c.sstNexus}"/>
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Wisconsin" name="Wisconsin" checked="true" value="{!v.sstData.SS_Wisconsin__c}"  onchange= "{!c.sstNexus}"/>
 			    </span>
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Wyoming" name="Wyoming" checked="{!v.sstData.SS_Wyoming__c}" value="{!v.sstData.SS_Wyoming__c}"  onchange= "{!c.sstNexus}"/>
+			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Wyoming" name="Wyoming" checked="true" value="{!v.sstData.SS_Wyoming__c}"  onchange= "{!c.sstNexus}"/>
 			    </span>
 			    <aura:if isTrue="{!v.showTe}">
 			     <span class="slds-size_1-of-1 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-				     <lightning:select aura:id="sstStateId" name="tnPhy" label="Do you have a physical location in TN? " value = "{! v.sstData.Washington_monthly_WA_B_O__c}" onchange= "{!c.phyTn}" required="true">
+				     <lightning:select aura:id="sstStateId" name="tnPhy" label="Do you have a physical location in TN? " onchange= "{!c.phyTn}" required="true">
 		                           <option value = "">Select</option>     
 		                          <aura:iteration var="option" items="{! v.waBOCPicklist }">
 		                              <option value="{! option }" >{! option }</option>
@@ -736,7 +742,7 @@
                 </aura:if>
                 <aura:if isTrue="{!v.showWa}">
                      <div class="slds-text-color--weak ">
-					 <p> You may be required to file the WA B and O Excise Tax Return. The WA B and O Tax return is filed separate from the SST Sales and Use Tax Return. For additional information WA B and O Tax. If you are previously registered in WA, you will have the opportunity to provide WA B and O Tax filing credentials in the next section of this form. If you are not previously registered and believe you will have an obligation to file the WA B and O Tax, please contact your Go-Live Implementation Manager for next steps.
+					 <p> You may be required to file the WA Business and Occupation (B&amp;O) Tax Return. The WA B&amp;O Tax return is filed separate from the SST Sales and Use Tax Return. For additional information, <a href="https://dor.wa.gov/find-taxes-rates/business-occupation-tax" target="_blank"> WA B&amp;O Tax </a>. If you are previously registered in WA, you will have the opportunity to provide WA B&amp;O Tax filing credentials in the next section of this form. If you are not previously registered and believe you will have an obligation to file the WA B&amp;O Tax, please contact your Go-Live Implementation Manager for next steps.
 					 </p>
                      </div>
                    
@@ -756,10 +762,10 @@
                                 </div>
                             </fieldset>
                         </div>
-                    </aura:renderIf>
+                    </aura:If>
 
                     <!-- Nexus Information -->
-                    <aura:renderIf isTrue="{!v.showNexus}">
+                    <aura:If isTrue="{!v.showNexus}">
                         <div class="slds-align_absolute-center">
                             <fieldset class="slds-box slds-theme--default slds-container_medium"  style = "{!'border : 1px solid '+ v.borderColor}">
                                 <legend id="newdemform" class="slds-text-heading--small 
@@ -1317,10 +1323,10 @@
                                 </div>
                             </fieldset>
                         </div>
-                    </aura:renderIf>
+                    </aura:If>
 
                     <!-- SST STATE REGISTRATION INFORMATION -->
-                    <aura:renderIf isTrue="{!v.showReg}">
+                    <aura:If isTrue="{!v.showReg}">
                         <div class="slds-align_absolute-center">
                             <fieldset class="slds-box slds-theme--default slds-container_medium"  style = "{!'border : 1px solid '+ v.borderColor}">
                                 <legend id="newdemform"  class="slds-text-heading--small 
@@ -2133,7 +2139,7 @@
                                 </div>
                             </fieldset>
                         </div>
-                    </aura:renderIf>
+                    </aura:If>
 
                     <!--Statistical Information  -->
                     <aura:if isTrue="{!v.showStats}">
@@ -3411,7 +3417,7 @@
                                 <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"  style="{!'color: '+ v.fontColor}">Success</h2>
                             </header> 
                             <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                                <p>Thank you for filling out the SST Registration Form. This will automatically be sent to you Go-Live Implementation Manager for review</p>
+                                <p>Thank you for filling out the SST Registration Form. This will automatically be sent to your Go-Live Implementation Manager for review</p>
                             </div>
                         </div>
                     </section>

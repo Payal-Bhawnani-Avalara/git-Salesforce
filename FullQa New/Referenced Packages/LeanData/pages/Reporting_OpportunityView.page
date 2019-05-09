@@ -4,8 +4,10 @@
     <!-- Custom CSS -->
     <apex:stylesheet value="{!URLFOR($Resource.LeanData__bootstrap_v3_3_4, 'css/bootstrap-multiselect.css')}" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'css/magellan.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'scss/magellan.css')}"/>
     <!-- Fonts -->
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:100,200,300,400,500,600' rel='stylesheet' type='text/css' />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:100,200,300,400,500,600,700' rel='stylesheet' type='text/css' />
     <apex:stylesheet value="{!URLFOR($Resource.LeanData__DataTables, 'DataTables/2.0.2-responsive.dataTables.min.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.LeanData__DataTables, 'DataTables/1.10.4-jquery.dataTables.css')}"/>
     
@@ -34,12 +36,6 @@
             display: table;
             width: 100%;
             min-width: 1000px;
-        }
-        
-        .bs .header {
-            background-color: white;
-            height: 50px;
-            width: 100%;
         }
         
         .bs .header-title {
@@ -71,7 +67,6 @@
         }
         
         .bs .main-content {
-            background: #eeefef;
             width: 100%;
             padding: 7.5px;
         }
@@ -79,7 +74,7 @@
         .bs .inner-wrapper {
             width: 100%;
             background: white;
-            border: 1.5px solid #8da8bf;
+            border: 1px solid var(--lt-grey-2);
             border-radius: 7.5px;         
         }
         
@@ -141,7 +136,7 @@
         }
         
         .bs .mid-section{
-            background: #1abc9c;
+            background: var(--ld-lt-green-2);
             height: 14px;
             position: relative;
             cursor:pointer;
@@ -166,7 +161,7 @@
             margin: 0 auto;           
             text-align: center;
             margin-bottom: 12.5px;
-            background:#dddddd;
+            background:var(--lt-grey-2);
             border-radius:7.5px;
             width: 92px;
             height:20px;
@@ -197,7 +192,7 @@
         .bs .marketing-info{
             font-family: open-sans-light;
             font-size: 8pt;
-            color: #1b527f;
+            color: var(--dk-grey-2);
             position: absolute;
             bottom: 40px;
             left: 5px;
@@ -227,7 +222,7 @@
         .bs .sales-info{
             font-family: open-sans-light;
             font-size: 8pt;
-            color: #1b527f;
+            color: var(--dk-grey-2);
             top: 95px;
             right: 23-30px;
             position: absolute;
@@ -353,7 +348,7 @@
         }
         
         .bs .dg_inner-wrapper-content:not(:last-child) {
-            border-bottom: 1px solid #8da8bf;
+            border-bottom: 1px solid var(--lt-grey-2);
         }
         
         .bs .dg_inner-wrapper-content:after {
@@ -365,6 +360,17 @@
         
         .bs .detail-table{
             width:100%;
+        }
+
+        .detail-table-div .detail-table th.sorting_asc,
+        .detail-table-div .detail-table th.sorting_desc,
+        .detail-table-div .detail-table th.sorting {
+            background: var(--lt-grey-2) !important;
+            border-bottom: var(--lt-grey-2);
+        }
+
+        .detail-table-div .detail-table td {
+            border-bottom: 1px solid var(--lt-grey-2);
         }
         
         .bs th{
@@ -388,7 +394,7 @@
         
         .bs .section-tool-tip { display:none; }
         .bs .selected-tool-tip-icon{ display:none;}
-        .bs .mid-section:hover{ background:#54cdb5 !important; }
+        /*.bs .mid-section:hover{ background:#54cdb5 !important; }*/
         .bs .mid-section:hover .selected-tool-tip-icon { display:block; }
         .bs .mid-section:hover .section-tool-tip { display:block; }
         .bs .hidden-tool-tip-icon{ display: none !important; }
@@ -398,7 +404,7 @@
         }
         .bs .active-toggle{
             color:white !important;
-            background:#54cdb5 !important;
+            background: var(--ld-lt-green-2) !important;
         }
         .bs .view-toggle{
             color:#555;
@@ -421,7 +427,7 @@
         <div class="page-content">
             <div class="header">
                 <div class="logo">
-                    <img width="119.5" height="24" src="{!URLFOR($Resource.Reporting_Images, 'LD_logo.png')}" alt="Logo" />
+                    <img width="119.5" height="24" alt="Logo" src="{!URLFOR($Resource.DashboardImages,'LD-logo_2x.png')}"/>
                 </div>
                 <div class="header-title open-sans-light">
                     Buyer's Journey | Touch Timeline
@@ -441,12 +447,12 @@
                         </div>
                         <div id="timelineEntry" class="timeline-section timeline-start">
                             <div class="top-section">
-                                <div style="position:absolute;bottom:0;width:70px;text-align:right;">MARKETING</div>
+                                <div style="position:absolute;bottom:0;width:70px;text-align:right;" class="med-grey-2">MARKETING</div>
                             </div>
                             <div class="mid-section" style="background:none;">
                             </div>
                             <div class="bottom-section">
-                                <div style="position:absolute;width:70px;text-align:right;">SALES</div>
+                                <div style="position:absolute;width:70px;text-align:right;" class="med-grey-2">SALES</div>
                             </div>
                         </div>
                         <div id="invalidNotice">
@@ -458,7 +464,7 @@
                     </div>
                     <div class="detail-table-div">
                         <table class="detail-table" ></table>
-                        <a style="padding-top:10px;float:right;" onClick="downloadCSV();" href="#">Download</a>
+                        <a style="padding-top:10px;float:right;" class="ld-green" onClick="downloadCSV();" href="#">Download</a>
                     </div>
                     <span class="clear"></span>
                     <div class="toggle-mode-div">
@@ -1053,7 +1059,7 @@
                     section += '#555555';
                 }
                 section += ';width:' + timelineSectionWidth + 'px;';
-                section += 'font-size:9px;background:rgba(26,188,156,' + stageOpacityMap[timeSect.oppStageName] + ');">';
+                section += 'font-size:9px;background:rgba(129,211,169,' + stageOpacityMap[timeSect.oppStageName] + ');">';
                 if (timeSect.isFirstTouch) {
                     section += '<img style="width:24px;height:24px;left:-2px;top:-6px;position:absolute;z-index: 1101;" ';
                     section += 'src="' + '{!URLFOR($Resource.Reporting_Images, "1st_Icon.png")}' + '" />';
@@ -1084,7 +1090,7 @@
                 if (timelineNumberOfBuckets / 2 < timeSect.index) {
                     section += ' second-half-timeline';
                 }
-                section += '" style="cursor:default;top:10px;width:300px;left:10px;color:#1b527f;z-index:1000;background:white;position:absolute;padding:15px;border:1px solid #1b527f;border-radius:3px;">';
+                section += '" style="cursor:default;top:10px;width:300px;left:10px;color:var(--dk-grey-2);z-index:1000;background:white;position:absolute;padding:15px;border:1px solid var(--lt-grey-2);border-radius:3px;">';
 
                 var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                 var startDate = new Date(timeSect.startDate);

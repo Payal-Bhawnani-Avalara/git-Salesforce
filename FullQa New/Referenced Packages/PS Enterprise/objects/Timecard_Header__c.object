@@ -70,6 +70,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fieldSets>
         <fullName>Fri_Easy_Entry_Fields</fullName>
         <availableFields>
@@ -83,6 +84,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Location_Fri__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Project_Location_Fri__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -92,19 +98,14 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
-        <description>Used on the Time Entry page. Defines the fields available on easy entry  popup of the Time Entry page that appears when you double-click the Friday hour cell or press the DOWN ARROW key while that cell is selected.</description>
-        <displayedFields>
-            <field>Friday_Notes__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
+        <availableFields>
             <field>Travel_Fri__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
-        </displayedFields>
+        </availableFields>
+        <description>Used on the Time Entry page. Defines the fields available on easy entry  popup of the Time Entry page that appears when you double-click the Friday hour cell or press the DOWN ARROW key while that cell is selected.</description>
         <displayedFields>
-            <field>Location_Fri__c</field>
+            <field>Friday_Notes__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -123,6 +124,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Location_Mon__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Project_Location_Mon__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -132,19 +138,14 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
-        <description>Used on the Time Entry page. Defines the fields available on easy entry  popup of the Time Entry page that appears when you double-click the Monday hour cell or press the DOWN ARROW key while that cell is selected.</description>
-        <displayedFields>
-            <field>Monday_Notes__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
+        <availableFields>
             <field>Travel_Mon__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
-        </displayedFields>
+        </availableFields>
+        <description>Used on the Time Entry page. Defines the fields available on easy entry  popup of the Time Entry page that appears when you double-click the Monday hour cell or press the DOWN ARROW key while that cell is selected.</description>
         <displayedFields>
-            <field>Location_Mon__c</field>
+            <field>Monday_Notes__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -163,6 +164,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Location_Sat__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Project_Location_Sat__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -172,19 +178,14 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
-        <description>Used on the Time Entry page. Defines the fields available on easy entry  popup of the Time Entry page that appears when you double-click the Saturday hour cell or press the DOWN ARROW key while that cell is selected.</description>
-        <displayedFields>
-            <field>Saturday_Notes__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
+        <availableFields>
             <field>Travel_Sat__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
-        </displayedFields>
+        </availableFields>
+        <description>Used on the Time Entry page. Defines the fields available on easy entry  popup of the Time Entry page that appears when you double-click the Saturday hour cell or press the DOWN ARROW key while that cell is selected.</description>
         <displayedFields>
-            <field>Location_Sat__c</field>
+            <field>Saturday_Notes__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -203,6 +204,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Location_Sun__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Project_Location_Sun__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -212,19 +218,14 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
-        <description>Used on the Time Entry page. Defines the fields available on easy entry  popup of the Time Entry page that appears when you double-click the Sunday hour cell or press the DOWN ARROW key while that cell is selected.</description>
-        <displayedFields>
-            <field>Sunday_Notes__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
+        <availableFields>
             <field>Travel_Sun__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
-        </displayedFields>
+        </availableFields>
+        <description>Used on the Time Entry page. Defines the fields available on easy entry  popup of the Time Entry page that appears when you double-click the Sunday hour cell or press the DOWN ARROW key while that cell is selected.</description>
         <displayedFields>
-            <field>Location_Sun__c</field>
+            <field>Sunday_Notes__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -44523,6 +44524,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Location_Thu__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Project_Location_Thu__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -44532,19 +44538,14 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
-        <description>Used on the Time Entry page. Defines the fields available on easy entry  popup of the Time Entry page that appears when you double-click the Thursday hour cell or press the DOWN ARROW key while that cell is selected.</description>
-        <displayedFields>
-            <field>Thursday_Notes__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
+        <availableFields>
             <field>Travel_Thu__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
-        </displayedFields>
+        </availableFields>
+        <description>Used on the Time Entry page. Defines the fields available on easy entry  popup of the Time Entry page that appears when you double-click the Thursday hour cell or press the DOWN ARROW key while that cell is selected.</description>
         <displayedFields>
-            <field>Location_Thu__c</field>
+            <field>Thursday_Notes__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -47958,11 +47959,6 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Resource__r.appirio_core__Last_Access_Date__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>Resource__r.Last_Date__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -47994,11 +47990,6 @@
         </availableFields>
         <availableFields>
             <field>Resource__r.Level__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
-            <field>Resource__r.appirio_core__Licensed_Features__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -48814,11 +48805,6 @@
         </availableFields>
         <availableFields>
             <field>OwnerId</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
-            <field>Resource__r.appirio_core__PIN__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
@@ -50548,6 +50534,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Total_Cost__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Override_Cost_Group__r.Total_Costs__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -51324,7 +51315,7 @@
             <isRequired>false</isRequired>
         </displayedFields>
         <displayedFields>
-            <field>Total_Cost__c</field>
+            <field>Submitted_Date__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -51438,11 +51429,6 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
-            <field>Milestone__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </availableFields>
-        <availableFields>
             <field>Override_Cost_Group__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -51523,6 +51509,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <description>Used on the Timecard Entry page. Use to show more editable fields, in addition to default fields, on the timecard header row.</description>
+        <displayedFields>
+            <field>Milestone__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>true</isRequired>
+        </displayedFields>
         <label>Timecard Header Row Editable</label>
     </fieldSets>
     <fieldSets>
@@ -52183,6 +52174,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Location_Tue__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Project_Location_Tue__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -52192,19 +52188,14 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
-        <description>Used on the Time Entry page. Defines the fields available on easy entry  popup of the Time Entry page that appears when you double-click the Tuesday hour cell or press the DOWN ARROW key while that cell is selected.</description>
-        <displayedFields>
-            <field>Tuesday_Notes__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
+        <availableFields>
             <field>Travel_Tue__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
-        </displayedFields>
+        </availableFields>
+        <description>Used on the Time Entry page. Defines the fields available on easy entry  popup of the Time Entry page that appears when you double-click the Tuesday hour cell or press the DOWN ARROW key while that cell is selected.</description>
         <displayedFields>
-            <field>Location_Tue__c</field>
+            <field>Tuesday_Notes__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>
@@ -52223,6 +52214,11 @@
             <isRequired>false</isRequired>
         </availableFields>
         <availableFields>
+            <field>Location_Wed__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
             <field>Project_Location_Wed__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
@@ -52232,19 +52228,14 @@
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </availableFields>
-        <description>Used on the Time Entry page. Defines the fields available on easy entry  popup of the Time Entry page that appears when you double-click the Wednesday hour cell or press the DOWN ARROW key while that cell is selected.</description>
-        <displayedFields>
-            <field>Wednesday_Notes__c</field>
-            <isFieldManaged>false</isFieldManaged>
-            <isRequired>false</isRequired>
-        </displayedFields>
-        <displayedFields>
+        <availableFields>
             <field>Travel_Wed__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
-        </displayedFields>
+        </availableFields>
+        <description>Used on the Time Entry page. Defines the fields available on easy entry  popup of the Time Entry page that appears when you double-click the Wednesday hour cell or press the DOWN ARROW key while that cell is selected.</description>
         <displayedFields>
-            <field>Location_Wed__c</field>
+            <field>Wednesday_Notes__c</field>
             <isFieldManaged>false</isFieldManaged>
             <isRequired>false</isRequired>
         </displayedFields>

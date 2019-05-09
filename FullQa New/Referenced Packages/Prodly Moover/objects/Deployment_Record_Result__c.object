@@ -52,6 +52,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
     <fields>
         <fullName>Batch_Operation__c</fullName>
         <deprecated>false</deprecated>
@@ -80,7 +81,7 @@
         <deleteConstraint>SetNull</deleteConstraint>
         <deprecated>false</deprecated>
         <externalId>false</externalId>
-        <label>Data Set Element Name</label>
+        <label>Data Set</label>
         <referenceTo>DataSet__c</referenceTo>
         <relationshipLabel>Deployment Record Results</relationshipLabel>
         <relationshipName>Deployment_Record_Results</relationshipName>

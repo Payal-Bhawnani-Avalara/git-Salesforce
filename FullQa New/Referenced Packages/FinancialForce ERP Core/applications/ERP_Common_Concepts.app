@@ -7,4 +7,5 @@
     <tab>Company__c</tab>
     <tab>TaxCode__c</tab>
     <tab>AnalysisItem__c</tab>
+    <tab>SST_Onboarding__c</tab>
 </CustomApplication>

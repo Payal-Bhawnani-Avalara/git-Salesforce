@@ -11,4 +11,5 @@
     <tab>RelatedContentPanes</tab>
     <tab>SummarizationTemplate__c</tab>
     <tab>SummarizationLog__c</tab>
+    <tab>SST_Onboarding__c</tab>
 </CustomApplication>

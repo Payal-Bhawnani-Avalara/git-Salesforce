@@ -61,6 +61,7 @@
     <enableSearch>true</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
     <fields>
         <fullName>Active__c</fullName>
         <defaultValue>true</defaultValue>
@@ -160,6 +161,39 @@ Root_Data_Set__r.Name, &quot;_self&quot;))
         <trackTrending>false</trackTrending>
         <type>LongTextArea</type>
         <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Destination_Object__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Destination Object</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Destination_Schema_Org__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Destination Schema Org</label>
+        <referenceTo>Connection__c</referenceTo>
+        <relationshipLabel>Data Sets (Destination Schema Org)</relationshipLabel>
+        <relationshipName>Data_Sets2</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Enable_Transformations__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Enable Transformations</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>Folder__c</fullName>
@@ -314,6 +348,15 @@ Root_Data_Set__r.Name, &quot;_self&quot;))
         <type>Checkbox</type>
     </fields>
     <fields>
+        <fullName>Use_Destination_Schema__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Use Destination Schema</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>Use_Local_Schema__c</fullName>
         <defaultValue>false</defaultValue>
         <deprecated>false</deprecated>
@@ -357,6 +400,12 @@ Root_Data_Set__r.Name, &quot;_self&quot;))
             <value>1</value>
         </filters>
         <label>Data Sets (Root Elements)</label>
+    </listViews>
+    <listViews>
+        <fullName>Test_View</fullName>
+        <columns>NAME</columns>
+        <filterScope>Mine</filterScope>
+        <label>Test View</label>
     </listViews>
     <nameField>
         <label>Data Set Element Name</label>

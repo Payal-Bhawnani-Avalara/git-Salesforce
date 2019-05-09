@@ -24,4 +24,7 @@ For example - create a rule to unfollow everyone from closed cases 3 days after 
     <tab>Excise_Product_Code1__c</tab>
     <tab>LeanData__LD_Log__c</tab>
     <tab>LeanData__LD_Long_Log__c</tab>
+    <tab>zisf__ZoomSessions__c</tab>
+    <tab>Connector_Dashboard</tab>
+    <tab>SST_Onboarding__c</tab>
 </CustomApplication>

@@ -92,15 +92,6 @@
     }
     
     /*** SIDEBAR ****/
-    
-    .bs .left-sidebar {
-        background-color: #70797b;
-        color: #ffffff;
-        padding: 100px 20px 20px;;
-        position: absolute;
-        width: 240px;
-    }
-    
     .bs .left-sidebar:before {
         content: '';
         position: absolute;
@@ -148,18 +139,7 @@
     }
     
     
-    /*** MAIN CONTENT ***/
-    .bs .main-content {
-        padding: 0 0 0 240px;
-        width: 100%;
-        float: left;
-    }
-    
-    .bs .header-title {
-        background-color: #ffffff;
-        padding: 40px 0;
-    }
-    
+    /*** MAIN CONTENT ***/    
     .bs .header-title h2 {
         color: #043e57;
         text-align: center;
@@ -408,10 +388,6 @@
       
       .bs .box .title {
         font-size: 40px;
-      }
-      
-      .bs .main-content {
-        padding-left: 0px !important;
       }
       
       .bs .content {

@@ -9,4 +9,5 @@
     <tab>RevenueForecastTransaction__c</tab>
     <tab>RevenueRecognitionTransaction__c</tab>
     <tab>RevenueContract__c</tab>
+    <tab>SST_Onboarding__c</tab>
 </CustomApplication>

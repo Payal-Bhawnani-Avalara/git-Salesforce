@@ -6,4 +6,5 @@
     <logo>icons/FinancialForceLogo2018.png</logo>
     <tab>UserInformation__c</tab>
     <tab>ErpMessaging</tab>
+    <tab>SST_Onboarding__c</tab>
 </CustomApplication>

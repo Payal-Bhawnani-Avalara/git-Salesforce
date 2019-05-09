@@ -10,4 +10,8 @@ global class DataSetEditorController {
     global static List<PDRI__DataSet__c> getDataSetHierarchy(Id recordId, Id rootDataSetId) {
         return null;
     }
+    @RemoteAction
+    global static List<PDRI__Deployment_Plan__c> getDeploymentPlans(Id datasetRootId, Integer offsetCount) {
+        return null;
+    }
 }

@@ -1,25 +1,98 @@
 <apex:page sideBar="false" standardStylesheets="false" docType="html-5.0" controller="LeanData.DashboardBaseController" extensions="LeanData.RemotingRouter,LeanData.RoundRobinSettingController,LeanData.TaggingFieldController">
+    <apex:stylesheet value="{!$Resource.LeanData__style}"/>
     <!-- Bootstrap Core CSS -->
     <apex:stylesheet value="{!URLFOR($Resource.LeanData__bootstrap_v3_3_4, 'css/bootstrap.css')}" />
     <!-- Custom CSS -->
     <apex:stylesheet value="{!URLFOR($Resource.LeanData__bootstrap_v3_3_4, 'css/bootstrap-multiselect.css')}" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'css/magellan.css')}"/>
     <!-- Fonts -->
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:100,200,300,400,500,600' rel='stylesheet' type='text/css' />
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:100,200,300,400,500,600,700' rel='stylesheet' type='text/css' />
     <apex:stylesheet value="{!$Resource.LeanData__loading_spinner}"/>
     <apex:stylesheet value="{!URLFOR($Resource.LeanData__DataTables, 'DataTables/1.10.16-jquery.dataTables.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.LeanData__magellan_app, 'scss/magellan.css')}"/>
     <style>
-        /* Because SFDC does weird things. */
-
-        .noSidebarCell {
-            padding: 0;
+        /******************************
+         ***** BEGIN REVAMPED CSS *****
+         ******************************/
+        .page-content {
+            background: #EEEFEF;
         }
         
-        .clearfix:after {
-          content: "";
-          display: table;
-          clear: both;
+        .main-content {
+            height: 100%;
+            min-height: 745px;
+            padding-left: 230px;
+            width: 100%;
         }
+
+        .authorization-div {
+            background-color: #FFF;
+            border-bottom: 1px solid var(--lt-grey-2);
+        }
+
+        .header {
+            background-color: #4D4D4D;
+            font-size: 19px;
+            width: 100%;
+        }
+
+        .header-title {
+            color: var(--dk-grey-2) !important; /*set to be same color as background*/
+            font-size: 21.5px;
+            line-height: 55px;
+            margin-left: 270px;
+        }
+
+        .left-sidebar {
+            background: #70797b;
+            height: calc(100% - 55px);
+            padding-top: 25px;
+            position: absolute;
+            width: 230px;
+            overflow: scroll;
+        }
+        .left-sidebar::-webkit-scrollbar {
+            height: 0px !important;
+            width: 5px !important;
+        }
+        .left-sidebar::-webkit-scrollbar-thumb {
+            border-radius: 0px;
+            background-color: #70797b;
+            -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+        }
+        .left-sidebar::-webkit-scrollbar-track {
+            border-radius: 0px;
+            background-color: #828a8c;
+            -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+        }
+
+        .dg_inner-wrapper {
+            background: #FFF;
+            min-height: 800px;
+            padding: 10px 30px 50px 40px;
+            width: 1115px;
+        }
+        
+        .dg_inner-wrapper-header {
+            color: #000000;
+            border-bottom: 1px solid var(--lt-grey-2);
+            font-size: 19px;
+            padding-bottom: 10px;
+            width: 100%;
+        }
+
+        .dg_inner-wrapper-header-legacy {
+            color: #000000;
+            border-bottom: 1px solid var(--lt-grey-2);
+            font-size: 19px;
+            padding-bottom: 10px;
+            width: 100%;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+        }
+
         /* Begin CSS used on Template Only 
         ----------------------------------
         */
@@ -33,12 +106,12 @@
         }
         
         .bs .loadingOverlay {    
-            width: calc(100% - 200px);
+            width: calc(100% - 230px);
             position: absolute;
-            margin-left: -37.5px;
-            margin-top: -37.5px;
-            height: calc(100% - 75px);
-            z-index: 2;
+            margin-left: 0px;
+            margin-top: 0px;
+            height: calc(100% - 55px);
+            z-index: 5;
             background: rgba(140, 142, 143, 0.8);
         }
         
@@ -57,28 +130,11 @@
             position: relative;
         }
         
-        .bs .header {
-            font-size: 19px;
-            background-color: white;
-            height: 55px;
-            width: 100%;
-        }
-        
         .bs .fix-header {
             position: fixed;
             top: 0;
             opacity: 0.9;
             z-index: 9999;
-        }
-        
-        .bs .header-title {
-            font-size: 21.5px;
-            font-family: 'Open Sans';
-            line-height: 55px;
-            margin-left: 265px;
-            float: left;
-            position: absolute;
-            color: #555555;
         }
         
         .bs .logo {
@@ -97,16 +153,8 @@
         
         .bs .package-logo img {
             width: 180px;
-        }
-        
-        .bs .left-sidebar {
-            position: absolute;
-            width: 230px;
-            background: #70797b;
-            padding-top: 25px;
-            overflow: scroll;
-            height: calc(100% - 35px);
-
+            position: relative;
+            top: 7px;
         }
         
         .bs .left-sidebar-title {
@@ -143,8 +191,8 @@
             color: white;
             font-size: 13px;
             padding-left: 10px;
-            padding-top: 5px;
-            padding-bottom: 5px;
+            padding-top: 8px;
+            padding-bottom: 8px;
             background: #70797b;
             cursor: pointer;
         }
@@ -166,13 +214,11 @@
         }
         
         .bs .left-sidebar-button-active {
-            background: url("{!URLFOR($Resource.LeanData__Reporting_Images, 'Navigation_Icon.png')}") #70797b no-repeat right center !important;
-            background-size: 8px 9px !important;
+            background: #70797b;
         }
 
         .bs .left-sidebar-button-active:hover {
-            background: url("{!URLFOR($Resource.LeanData__Reporting_Images, 'Navigation_Icon.png')}") #828a8c no-repeat right center !important;
-            background-size: 8px 9px !important;
+            background: #828a8c;
         }
 
         .bs .left-sidebar-button-title {    
@@ -187,8 +233,10 @@
         }
 
         .bs .left-sidebar-button-img .icon{
-            width: 25px;
-            height: 25px;
+            width: 22px;
+            height: 22px;
+            position: relative;
+            bottom: 2px;
         }
 
         .bs .left-sidebar-subnav-section {
@@ -225,7 +273,7 @@
         }
 
         .bs .left-sidebar-button-active .left-sidebar-button-title {
-            color: #65d2bd;
+            color: var(--ld-lt-green-2);
         }
 
         .bs .left-sidebar-subnav-item .left-sidebar-subnav-item-title {
@@ -245,7 +293,7 @@
         }
         
         .bs .left-sidebar-subnav-item-active .left-sidebar-subnav-item-title {
-            color: #65d2bd;
+            color: var(--ld-lt-green-2);
         }
         
         .bs .left-sidebar-subnav-item-active:hover .left-sidebar-subnav-item-title {
@@ -279,7 +327,7 @@
         }
         
         .bs .left-sidebar-subsubnav-item-active .left-sidebar-subsubnav-item-title  {
-            color: #65d2bd;
+            color: var(--ld-lt-green-2);
         }
         
         .bs .left-sidebar-subsubnav-item-active:hover .left-sidebar-subsubnav-item-title  {
@@ -304,15 +352,15 @@
         }
         
         .bs .left-sidebar-subsubsubnav-item-active {
-            color: #65d2bd;
+            color: var(--ld-lt-green-2);
         }
         
         .bs .left-sidebar-subsubsubnav-item-active:hover {
             background: #828a8c;
-            color: #65d2bd;
+            color: var(--ld-lt-green-2);
         }
         .bs .left-sidebar-subsubsubnav-item-active:focus {
-            color: #65d2bd;
+            color: var(--ld-lt-green-2);
         }
 
         a.expandMenu {
@@ -322,22 +370,13 @@
 
         .bs .disabledLink {
             cursor: not-allowed !important;
-            color: #9ba1a2 !important;
+            color: var(--med-grey-1) !important;
         }
         
         .bs .nav-click.disabledLink .icon_inactive, .bs .nav-click:not(.disabledLink) .icon_disabled, .bs .nav-click.left-sidebar-button-active .icon_disabled {
             display: none;
         }
-        
-        .bs .main-content {
-            background: #eeefef;
-            padding: 37.5px 37.5px 0 267.5px;
-            float: left;
-            height: 100%;
-            min-height: 800px;
-            width: 100%;
-        }
-        
+
         .bs .dg_sidebar-expand-arrow{
             margin-left: 10px;
             margin-bottom: 2px;
@@ -347,7 +386,7 @@
 
         .bs .dg_outer-wrapper {
             background: white;
-            border: 1px solid #8da8bf;
+            border: 1px solid var(--lt-grey-2);
             border-radius: 7.5px;
             width: 100%;
             margin-bottom: 20px;
@@ -373,38 +412,6 @@
         .bs .dg_outer-wrapper-content {
             padding: 20px 20px 0 20px;
         }
-        
-        .bs .dg_inner-wrapper {
-            width: 100%;
-            min-width: 1100px;
-            background: white;
-            border: 1px solid #8da8bf;
-            border-radius: 7.5px;
-            margin: 0 20px 20px 0;
-        }
-
-        .bs .dg-inner-wrapper-content .dg_inner-wrapper {
-            margin-left: 20px;
-        }
-        
-        .bs .dg_outer-wrapper .dg_inner-wrapper {
-        }
-        
-        .bs .dg_inner-wrapper:after {
-            content: '';
-            display: block;
-            clear: both;
-        }
-        
-        .bs .dg_inner-wrapper-header {
-            width: 100%;
-            height: 50px;
-            font-size: 19px;
-            color: #000000;
-            text-align: center;
-            line-height: 50px;
-            border-bottom: 1px solid #8da8bf;
-        }
 
         .bs .dg_inner-wrapper-header-right {
             float: right;
@@ -424,15 +431,13 @@
             margin-right: 30px;
             position: relative;
             font-size: 11px;
+            top: 35px;
         }
         
         .bs .dg_inner-wrapper-content {
             width: 100%;
-            padding: 20px;
-        }
-        
-        .bs .dg_inner-wrapper-content:not(:last-child) {
-            border-bottom: 1px solid #8da8bf;
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
         
         .bs .dg_inner-wrapper-content:after {
@@ -481,7 +486,7 @@
         }
 
         .bs .dg_status-column:not(:first-child) {
-            border-left: 1px solid #8da8bf;
+            border-left: 1px solid var(--lt-grey-2);
         }
         
         .bs .dg_status-column-sub {
@@ -491,7 +496,7 @@
         }
         
         .bs .dg_status-column-sub:not(:first-child) {
-            border-top: 1px solid #8da8bf;
+            border-top: 1px solid var(--lt-grey-2);
         }
         
         .bs .dg_products-enabled {
@@ -506,7 +511,6 @@
         }
         
         .bs .dg_products-enabled-item-child {
-            margin-top: -10px;
             margin-left: 28px;
         }
 
@@ -616,7 +620,7 @@
         .dg_inner-wrapper-content p {
             font-size: 12px;
             margin-bottom: 27.5px;
-            color: #5e7178;
+            color: var(--dk-grey-2);
             line-height:20px;
         }
         
@@ -643,7 +647,6 @@
             height: 29px;
             cursor: pointer;
             position: absolute;
-            margin-top: 18px;
             background-image: url("{!URLFOR($Resource.LeanData__DashboardImages, 'Calendar_Icon.png')}");
         }
 
@@ -661,8 +664,7 @@
             display: table;
         }
 
-        .bs .dg_main-button, 
-        .bs .dg_cancel-button {
+        .bs .dg_main-button {
             cursor: pointer;
             font-size: 14px;
             font-weight: 200;
@@ -679,19 +681,12 @@
         
         .bs .dg_main-button {
             color: white;
-            background: #1b527f;
+            background: var(--ld-green);
+            border: none;
         }
         
-        .bs .dg_main-button:hover,
-        .bs .dg_cancel-button:hover {
-            color: white;
+        .bs .dg_main-button:hover {
             opacity: .5;
-        }
-
-        .bs .dg_cancel-button{
-            color: #555555;
-            border:1px solid #8da8bf;
-            background: white;
         }
 
         .bs .dg_button {
@@ -710,17 +705,14 @@
 
         .bs .dg_sub-button {
             width:190px;
-            color: #1b527f;
-            background: white;
-            border:1px solid #1b527f;
-            border-bottom-color:#1b527f;
+            color: var(--dk-grey-2);
+            background: var(--white);
+            border:1px solid var(--lt-grey-2);
         }
 
         .bs .dg_sub-button:hover {
-            color:white;
-            background:#1b527f;
-            border:1px solid #b5b5b5;
-            border-bottom-color:#7f7f7f;
+            background: var(--lt-grey-2);
+            border-color: var(--lt-grey-2);
         }
         
         .bs .headerSortUp {
@@ -744,12 +736,7 @@
             -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
         }
         
-        /* Table Styling */
-        .bs .dg_details-table-div {
-            width: 930px;
-            margin: 0 auto;
-        }
-        
+        /* Table Styling */        
         .bs .dg_details-table-innerdiv {
             max-height: 230px;
             height: 230px;
@@ -776,7 +763,7 @@
         }
         
         .bs .dg_details-table-div th {
-            background-color: #F0F8FF;
+            background-color: var(--lt-grey-2);
             font-weight: 600;
             vertical-align: middle !important;
             border-bottom: none !important;
@@ -793,7 +780,7 @@
         }
         
         .bs .dg_details-table-div td {
-            border-top: 1px solid #ddd;
+            border-top: 1px solid var(--lt-grey-2);
             padding: 5px 5px 5px 25px;
             font-family: 'Open Sans', sans-serif;
         }
@@ -802,12 +789,8 @@
             height: 37.5px;
         }
 
-        .bs .dg_details-table-div tr:nth-child(even) {
-            background-color: #F9F9F9;
-        }
-
         .bs .dg_details-table-div tr:nth-child(odd) {
-            background-color: #FFFFFF;
+            background-color: var(--white);
         }
 
         .bs .dg_details-table-pagination {
@@ -824,7 +807,7 @@
         }
 
         .bs .dg_details-table-pagination-page:hover {
-            color: #65d2bd;
+            color: var(--ld-green);
         }
         
         .bs .dg_details-table-pagination-page-active {
@@ -866,6 +849,8 @@
         .bs .customHeaderContent-right-information {
             height: 18px;
             width: 18px;
+            position: relative;
+            top: 15px;
         }
         
         .bs .customHeaderContent-right-wizard {
@@ -930,6 +915,7 @@
             width: 250px;
             height: 30px !important;
             border-radius: 0px;
+            border: 1px solid var(--lt-grey-2);
         }
         
         .bs .darkBlueBG {
@@ -975,7 +961,7 @@
             width: 280px;
             background: url("{!URLFOR($Resource.LeanData__Reporting_Images, 'Down_Arrow_Icon.png')}") no-repeat right #fff;
             background-size: 9.5px 5.5px;
-            border: 1px solid #8da8bf;
+            border: 1px solid var(--lt-grey-2);
             background-position: right 10px top 12px;
             line-height: 12px;
         }
@@ -1067,14 +1053,6 @@
         ul li, ol li {
             margin-left: 0;
         }
-        
-        /* Loading Animation CSS 
-            --------------------
-            --------------------
-        */
-        /*  ----------------------------
-            End of Loading animation CSS
-        */
         
         /* CUSTOM RADIO BUTTON AND CHECKBOX STYLING. */
         /* Hide real checkbox and radio buttons. */
@@ -1181,16 +1159,20 @@
         }
 
         .stencil-dropdown-item .upsell-label {
-          fill: #e09d0d;
+          /*fill: #e09d0d;*/
+          fill : red;
         }
 
         .upsell-container {
           display: none;
-          background-color: #e6e6e6;
-          border: 1px solid #829eb7;
+          background-color: var(--lt-grey-2);
+          border: 1px solid var(--med-grey-1);
           font-family: "Open Sans", sans-serif;
+          font-weight: var(--light);
           font-size: 16px;
+          padding: 20px 20px 10px 20px;
           cursor: auto;
+          max-width: 470px;
         }
         
         .left-sidebar-popover-container .upsell-container, .home-component-popover-container .popover .upsell-container {
@@ -1198,11 +1180,11 @@
             border: none; 
             position: initial;
             margin-bottom: 0;
-            max-width: 490px;
+            max-width: 470px;
         }
         
         .left-sidebar-popover-container .popover, .home-component-popover-container .popover {
-            background-color: #e6e6e6;
+            background-color: var(--lt-grey-2);
             border-radius: 0;
             max-width: none;
         }
@@ -1212,18 +1194,18 @@
         }
         
         .left-sidebar-popover-container .popover.right > .arrow:after {
-            border-right-color: #e6e6e6;
+            border-right-color: var(--lt-grey-2);
         }
 
         .home-component-popover-container .popover.top > .arrow:after {
-            border-top-color: #e6e6e6;
+            border-top-color: var(--lt-grey-2);
         }
         
         .upsell-for-stencil {
           width: 470px;
           position: absolute;
           top: 0;
-          right: 0;
+          right: 100;
         }
         #node-properties-wrapper .upsell-for-inspector {
           width: 435px;
@@ -1256,25 +1238,28 @@
           padding: 20px 20px 10px 20px;
         }
         .upsell-container .upsell-title {
-          font-weight: 600!important;
-          font-size: 16px!important;
-          color: #4d4d4d!important;
+          font-weight: var(--regular) !important;
+          font-size: 14px !important;
+          color: var(--dk-grey-2) !important;
         }
         .upsell-container .upsell-body {
           padding: 14px 0 17px 0!important;
           font-size: 12px!important;
-          color: #4d4d4d!important;
+          font-weight: var(--light) !important;
+          color: var(--lt-grey-2) !important;
         }
         .upsell-container .upsell-link {
-          background-color: #184974!important;
-          color: white!important;
-          padding: 8px 13px!important;
+          background-color: var(--ld-green) !important;
+          height: 25px! important;
+          color: var(--white) !important;
+          padding: 0 20px 0 20px!important;
           text-align: center!important;
           display: table!important;
           margin: 0 auto!important;
           font-size: 15px!important;
           height: auto!important;
           padding: 8px 20px!important;
+          text-decoration: none !important;
         }
 
         .stencil-dropdown-item-upgrade-text {
@@ -1283,82 +1268,73 @@
           stroke-width: 0.6px;
         }
         .stencil-hover g:not(.disabled-stencil) rect {
-          fill: rgba(232, 237, 242, 1);
+          fill: rgba(129, 211, 169, 1); /*rgb is essentially ld-lt-green-2*/
         }
         .disabled-stencil {
           cursor: pointer;
         }
-        #emailNotificationDiv.feature-is-disabled .collapsible-section {
-          opacity: 0.3;
-          pointer-events: none;
-        }
 
-
-        .feature-is-enabled .upsell-wide-badge {
-          display: none;
-        }
-        .feature-is-disabled .upsell-wide-badge {
-          display: inline;
-        }
-        .upsell-wide-badge {
-          position: relative !important;
-          padding: 0px 3px !important;
-          height: 12px !important;
-          background-color: #ffc708 !important;
-          font-size: 9px !important;
-          color: #4d4d4d !important;
-          margin-left: 10px !important;
-          cursor: pointer !important;
-        }
-        .added-wide-badge {
-          position: relative !important;
-          padding: 0px 3px !important;
-          height: 12px !important;
-          background-color: #B2E8DE !important;
-          font-size: 9px !important;
-          color: #4d4d4d !important;
-          margin-left: 10px !important;
-          cursor: pointer !important;
-        }
-        .feature-is-added .added-wide-badge {
-            display: inline;
-        }
-        .feature-in-package .added-wide-badge {
-            display: none;
-        }
-
-        .tagging-multi-tiebreaker-toggle.disable-multiple-tiebreakers .ld-btn-toggle-group {
+        .tagging-multi-tiebreaker-toggle.disable-multiple-tiebreakers .multi-tiebreaker-toggle {
             opacity: 0.4;
             pointer-events: none;
         }
-        .bs .disable-multiple-tiebreakers .ld-btn-toggle.active {
-            background-color: #6d6d6d;
-            color: black;
-        }
 
-        .enable-multiple-tiebreakers .upsell-wide-badge {
-            display: none;
-        }
-        .disable-multiple-tiebreakers .upsell-wide-badge {
-            display: inline;
-        }
         .upsell-container {
             margin-bottom: 30px;
             position: absolute;
             top: 0;
             left: 0;
-        }
-        #emailNotificationDiv .upsell-container {
-            width: 410px;
+            z-index: 1;
         }
         .tagging-multi-tiebreaker-toggle .upsell-container {
             z-index: 3;
             width: 470px;
         }
 
-        #emailNotificationDiv .collapsible-section {
+        .send-notification .upsell-container {
+          width: 410px;
+        }
+        .send-notification .collapsible-section {
           clear: both;
         }
+        .feature-is-added .added-wide-badge {
+          display: inline;
+        }
+        .feature-in-package .added-wide-badge {
+          display: none;
+        }
+        .feature-is-enabled .upsell-wide-badge {
+          display: none;
+        }
+        .feature-is-disabled .collapsible-section {
+          opacity: 0.3;
+          pointer-events: none;
+        }
+        .feature-is-disabled .upsell-wide-badge {
+          display: inline;
+        }
+        .feature-is-disabled .collapsible-section {
+          opacity: 0.3;
+          pointer-events: none;
+        }
+        .upsell-wide-badge,
+        .added-wide-badge {
+          position: relative !important;
+          padding: 0px 3px !important;
+          height: 12px !important;
+          background-color: var(--ld-lt-green-2) !important;
+          font-size: 9px !important;
+          color: #4d4d4d !important;
+          margin-left: 10px !important;
+          cursor: pointer !important;
+        }
+        .enable-multiple-tiebreakers .upsell-wide-badge {
+          display: none;
+        }
+        .disable-multiple-tiebreakers .upsell-wide-badge {
+          display: inline;
+        }
+
         #advanced-settings-wrapper {
           clear: both;
         }
@@ -1366,21 +1342,40 @@
         .bs .label-ld-upgrade {
             font-size: 9px;
             border-radius: 0;
-            color: #ffc708;
-            background-color: #7e8688;
+            color: var(--dk-grey-2);
+            background-color: var(--ld-lt-green-2);
             margin-left: 5px;
             cursor: pointer;
-            font-weight: normal;
+            font-weight: var(--regular);
+            padding-left: 3px;
+            padding-right: 3px;
         }
         
         .bs .label-ld-added {
             font-size: 9px;
+            line-height: 12px;
             border-radius: 0;
-            color: #65d2bd;
-            background-color: #7e8688;
+            color: var(--ld-lt-green-2)
+            background-color: var(--dk-grey-2);
             margin-left: 5px;
+            padding-left: 3px;
+            padding-right: 3px;
             cursor: pointer;
-            font-weight: normal;
+            font-weight: var(--regular);
+        }
+
+        .bs .active .checkbox {
+            background : url("{!URLFOR($Resource.LeanData__DashboardImages, 'Checkmark_Icon_selected.png')}") no-repeat 0 0;
+            background-size:15px;
+            background-position-x: 3px;
+            background-position-y: 5px;
+        }
+
+        .bs .checkbox {
+            background : url("{!URLFOR($Resource.LeanData__DashboardImages, 'Checkmark_Icon_unselected.png')}") no-repeat 0 0;
+            background-size:15px;
+            background-position-x: 3px;
+            background-position-y: 5px;
         }
 
     </style>
@@ -1544,6 +1539,8 @@
         // User TimeZone
         userTimeZone = '{!userTimeZone}';
         userTimeZoneOffset = '{!userTimeZoneOffset}';
+        loggedInUserId = '{!userId}';
+        autoNavigateToMembers = {!autoNavigateToMembers};
         /*
             Dashboard specific
             ------------------
@@ -1563,8 +1560,8 @@
                     '<img class="upsell-ribbon" src="{!URLFOR($Resource.LeanData__DashboardImages, 'Upgrade_Sash.png')}"/>' + 
                     '<div class="upsell-content"> <div class="upsell-title"><%=upsell.title%></div> ' +
                     '<div class="upsell-body"><%=upsell.body%></div> ' +
-                    '<a href="<%=upsell.location%>" target="_blank">' +
-                    '<span class="upsell-link"><%=upsell.action%></span></a> </div> </div>';
+                    '<a href="<%=upsell.location%>" target="_blank" style="text-decoration:none">' +
+                    '<span class="upsell-link ld-primary-small-button"><%=upsell.action%></span></a> </div> </div>';
             this.viewObject.addedContainerHtml = '<div class="upsell-container">' +
                     '<img class="upsell-ribbon" src="{!URLFOR($Resource.LeanData__DashboardImages, 'added-sash-badge_2x.png')}"/>' +
                     '<div class="upsell-content"> <div class="upsell-title"><%= feature %> Has Been Added to Your Subscription</div> ' +
@@ -1607,22 +1604,22 @@
         }
 
         DashboardController.prototype.populateOrgDefaultStatuses = function () {
-            j$('.enableOpenLinksInNewTab').prop('checked', this.viewObject.orgDefaultStatuses['enableOpenLinksInNewTab']);
-            j$('.enableAllowUserColumnCustomizations').prop('checked', this.viewObject.orgDefaultStatuses['enableAllowUserColumnCustomizations']);
-            j$('.enableDisableActions').prop('checked', this.viewObject.orgDefaultStatuses['enableDisableActions']);
+            j$('#enableOpenLinksInNewTab').prop('checked', this.viewObject.orgDefaultStatuses['enableOpenLinksInNewTab']);
+            j$('#enableAllowUserColumnCustomizations').prop('checked', this.viewObject.orgDefaultStatuses['enableAllowUserColumnCustomizations']);
+            j$('#enableDisableActions').prop('checked', this.viewObject.orgDefaultStatuses['enableDisableActions']);
 
-            j$('.enableDuplicateLeadsContacts').prop('checked', this.viewObject.orgDefaultStatuses['enableDuplicateLeadsContacts']);
-            j$('.enableRelatedLeads').prop('checked', this.viewObject.orgDefaultStatuses['enableRelatedLeads']);
-            j$('.enableRelatedLeadsNewAccountButton').prop('checked', this.viewObject.orgDefaultStatuses['enableRelatedLeadsNewAccountButton']);
-            j$('.enableMatchedAccounts').prop('checked', this.viewObject.orgDefaultStatuses['enableMatchedAccounts']);
-            j$('.disenableStatusEditing').prop('checked', this.viewObject.orgDefaultStatuses['disenableStatusEditing']);
-            j$('.enableDuplicateLeadsContactView').prop('checked', this.viewObject.orgDefaultStatuses['enableDuplicateLeadsContactView']);
-            j$('.enableDuplicateAccounts').prop('checked', this.viewObject.orgDefaultStatuses['enableDuplicateAccounts']);
-            j$('.enableRelatedAccounts').prop('checked', this.viewObject.orgDefaultStatuses['enableRelatedAccounts']);
-            j$('.enableMatchedLeads').prop('checked', this.viewObject.orgDefaultStatuses['enableMatchedLeads']);
-            j$('.enableMassConvert').prop('checked', this.viewObject.orgDefaultStatuses['enableMassConvert']);
+            j$('#enableDuplicateLeadsContacts').prop('checked', this.viewObject.orgDefaultStatuses['enableDuplicateLeadsContacts']);
+            j$('#enableRelatedLeads').prop('checked', this.viewObject.orgDefaultStatuses['enableRelatedLeads']);
+            j$('#enableRelatedLeadsNewAccountButton').prop('checked', this.viewObject.orgDefaultStatuses['enableRelatedLeadsNewAccountButton']);
+            j$('#enableMatchedAccounts').prop('checked', this.viewObject.orgDefaultStatuses['enableMatchedAccounts']);
+            j$('#disenableStatusEditing').prop('checked', this.viewObject.orgDefaultStatuses['disenableStatusEditing']);
+            j$('#enableDuplicateLeadsContactView').prop('checked', this.viewObject.orgDefaultStatuses['enableDuplicateLeadsContactView']);
+            j$('#enableDuplicateAccounts').prop('checked', this.viewObject.orgDefaultStatuses['enableDuplicateAccounts']);
+            j$('#enableRelatedAccounts').prop('checked', this.viewObject.orgDefaultStatuses['enableRelatedAccounts']);
+            j$('#enableMatchedLeads').prop('checked', this.viewObject.orgDefaultStatuses['enableMatchedLeads']);
+            j$('#enableMassConvert').prop('checked', this.viewObject.orgDefaultStatuses['enableMassConvert']);
 
-            j$('.enableCustomConvertLink').prop('checked', this.viewObject.orgDefaultStatuses['enableCustomConvertLink']);
+            j$('#enableCustomConvertLink').prop('checked', this.viewObject.orgDefaultStatuses['enableCustomConvertLink']);
             j$('.customConvertLink').val(this.viewObject.orgDefaultStatuses['customConvertLink']);
         }
 
@@ -1630,22 +1627,22 @@
             /* View Settings 
             ----------------
             */
-            j$('.enableOpenLinksInNewTab').attr('checked', this.viewObject.statuses['enableOpenLinksInNewTab']);
-            j$('.enableAllowUserColumnCustomizations').attr('checked', this.viewObject.statuses['enableAllowUserColumnCustomizations']);
-            j$('.enableDisableActions').attr('checked', this.viewObject.statuses['enableDisableActions']);
+            j$('#enableOpenLinksInNewTab').attr('checked', this.viewObject.statuses['enableOpenLinksInNewTab']);
+            j$('#enableAllowUserColumnCustomizations').attr('checked', this.viewObject.statuses['enableAllowUserColumnCustomizations']);
+            j$('#enableDisableActions').attr('checked', this.viewObject.statuses['enableDisableActions']);
 
-            j$('.enableDuplicateLeadsContacts').attr('checked', this.viewObject.statuses['enableDuplicateLeadsContacts']);
-            j$('.enableRelatedLeads').attr('checked', this.viewObject.statuses['enableRelatedLeads']);
-            j$('.enableRelatedLeadsNewAccountButton').attr('checked', this.viewObject.statuses['enableRelatedLeadsNewAccountButton']);
-            j$('.enableMatchedAccounts').attr('checked', this.viewObject.statuses['enableMatchedAccounts']);
-            j$('.disenableStatusEditing').attr('checked', this.viewObject.statuses['disenableStatusEditing']);
-            j$('.enableDuplicateLeadsContactView').attr('checked', this.viewObject.statuses['enableDuplicateLeadsContactView']);
-            j$('.enableDuplicateAccounts').attr('checked', this.viewObject.statuses['enableDuplicateAccounts']);
-            j$('.enableRelatedAccounts').attr('checked', this.viewObject.statuses['enableRelatedAccounts']);
-            j$('.enableMatchedLeads').attr('checked', this.viewObject.statuses['enableMatchedLeads']);
-            j$('.enableMassConvert').attr('checked', this.viewObject.statuses['enableMassConvert']);
+            j$('#enableDuplicateLeadsContacts').attr('checked', this.viewObject.statuses['enableDuplicateLeadsContacts']);
+            j$('#enableRelatedLeads').attr('checked', this.viewObject.statuses['enableRelatedLeads']);
+            j$('#enableRelatedLeadsNewAccountButton').attr('checked', this.viewObject.statuses['enableRelatedLeadsNewAccountButton']);
+            j$('#enableMatchedAccounts').attr('checked', this.viewObject.statuses['enableMatchedAccounts']);
+            j$('#disenableStatusEditing').attr('checked', this.viewObject.statuses['disenableStatusEditing']);
+            j$('#enableDuplicateLeadsContactView').attr('checked', this.viewObject.statuses['enableDuplicateLeadsContactView']);
+            j$('#enableDuplicateAccounts').attr('checked', this.viewObject.statuses['enableDuplicateAccounts']);
+            j$('#enableRelatedAccounts').attr('checked', this.viewObject.statuses['enableRelatedAccounts']);
+            j$('#enableMatchedLeads').attr('checked', this.viewObject.statuses['enableMatchedLeads']);
+            j$('#enableMassConvert').attr('checked', this.viewObject.statuses['enableMassConvert']);
 
-            j$('.enableCustomConvertLink').attr('checked', this.viewObject.statuses['enableCustomConvertLink']);
+            j$('#enableCustomConvertLink').attr('checked', this.viewObject.statuses['enableCustomConvertLink']);
             j$('.customConvertLink').val(this.viewObject.settings['customConvertLink']);
 
             /*  --------------------
@@ -1701,6 +1698,10 @@
                 j$('.hasCCIOManagement').hide();
             }
 
+            if(!this.viewObject.statuses['hasLiveRouting']){
+              j$('.hasLiveRouting').hide();
+            }
+            
             /* Admin Settings
                --------------
             */
@@ -1719,7 +1720,7 @@
               j$('#fallbackON').attr('checked', this.viewObject.statuses['fallbackON']);
             }
         }
-        
+
         DashboardController.prototype.initializeProductFeatures = function() {
             if (this._alreadyInitializedProductFeatures) return;
             this._alreadyInitializedProductFeatures = true;
@@ -1798,13 +1799,13 @@
             
             this.FEATURE_CONFIG[this.L2L_NODE] = {
                 selector: '.routing-lead-to-lead',
-                featureName: 'Lead2Lead Routing',
+                featureName: 'Lead-to-Lead Routing',
                 upsell: {'title': 'Perform Account-Based Marketing and Sales. Learn about Professional', 'body': 'Match to existing leads to assign leads to reps who are already working leads from an existing company (even if an account doesn’t exist yet).', 'action': 'Learn about Professional', 'location': '//www.leandatainc.com/packaging'}
             };
             
             this.FEATURE_CONFIG[this.L2O_NODE] = {
                 selector: '.routing-lead-to-opportunity',
-                featureName: 'Lead2Opportunity Routing',
+                featureName: 'Lead-to-Opportunity Routing',
                 upsell: {'title': 'Route a Lead to an Active Opportunity. Learn about Professional', 'body': 'Match leads to existing opportunities so you can assign leads to reps who are actively working opportunities.', 'action': 'Learn about Professional', 'location': '//www.leandatainc.com/packaging'}
             };
 
@@ -1817,14 +1818,14 @@
             // For L2L_NODE, so that we have different body text for L2L Action Node
             this.FEATURE_CONFIG['assign owner lead'] = {
                 selector: '.routing-lead-to-lead',
-                featureName: 'Lead2Lead Routing',
+                featureName: 'Lead-to-Lead Routing',
                 upsell: {'title': 'Perform Account-Based Marketing and Sales. Learn about Professional', 'body': 'Route leads to reps who are already working leads from an existing company even if an account doesn’t exist yet.', 'action': 'Learn about Professional', 'location': '//www.leandatainc.com/packaging'}
             };
             
             // For L2O_NODE, so that we have different body text for L2O Action Node
             this.FEATURE_CONFIG['assign owner opportunity'] = {
                 selector: '.routing-lead-to-opportunity',
-                featureName: 'Lead2Opportunity Routing',
+                featureName: 'Lead-to-Opportunity Routing',
                 upsell: {'title': 'Route a Lead to an Active Opportunity. Learn about Professional', 'body': 'Assign leads to reps who are actively working opportunities.', 'action': 'Learn about Professional', 'location': '//www.leandatainc.com/packaging'}
             };
             
@@ -1887,25 +1888,25 @@
              *****************************/
             this.PACKAGE_CONFIG = {};
             this.PACKAGE_CONFIG[this.ENTERPRISE_PACKAGE] = {
-                logo: '{!URLFOR($Resource.LeanData__DashboardImages, 'ld-logo_enterprise_2x.png')}',
+                logo: "{!URLFOR($Resource.LeanData__magellan_app, 'images/ld-logo-white_enterprise_2x.png')}",
                 packageName: 'Enterprise Account',
                 nextTierPackage: null
             };
             
             this.PACKAGE_CONFIG[this.PROFESSIONAL_PACKAGE] = {
-                logo: '{!URLFOR($Resource.LeanData__DashboardImages, 'ld-logo_professional_2x.png')}',
+                logo: "{!URLFOR($Resource.LeanData__magellan_app, 'images/ld-logo-white_professional_2x.png')}",
                 packageName: 'Professional Account',
                 nextTierPackage: this.ENTERPRISE_PACKAGE
             };
             
             this.PACKAGE_CONFIG[this.BASIC_PACKAGE] = {
-                logo: '{!URLFOR($Resource.LeanData__DashboardImages, 'ld-logo_basic_2x.png')}',
+                logo: "{!URLFOR($Resource.LeanData__magellan_app, 'images/ld-logo-white_basic_2x.png')}",
                 packageName: 'Basic Account',
                 nextTierPackage: this.PROFESSIONAL_PACKAGE
             };
             
             this.PACKAGE_CONFIG[this.UNLICENSED_PACKAGE] = {
-                logo: '{!URLFOR($Resource.LeanData__DashboardImages, 'ld-logo_freemium_2x.png')}',
+                logo: "{!URLFOR($Resource.LeanData__magellan_app, 'images/ld-logo-white_freemium_2x.png')}",
                 packageName: 'Freemium Account',
                 nextTierPackage: this.BASIC_PACKAGE
             };
@@ -1950,7 +1951,7 @@
                     template: '<div class="popover" role="tooltip"><div class="arrow"></div>' +
                     '<h3 class="popover-title">' +
                     '</h3><div class="popover-content"></div></div>'
-                }).on("mouseenter", function () {
+                }).on("click", function () {
                     var _this = this;
                     j$(this).popover("show");
                     j$('#' + j$(this).attr('aria-describedby')).on("mouseleave", function () {
@@ -2113,10 +2114,6 @@
                         DM: {name: 'Routing Insights', classes: 'workflowConfigurator requiresReadWrite', path:'#routing/lead/insights/live'},
                         logs: {name: 'Audit Logs', classes: '', path:'#routing/lead/audit_logs'},
                         DH: {name: 'Deployment History', classes: 'routing-deployment-history workflowConfigurator requiresReadWrite', path:'#routing/lead/deployment_history'},
-                        RR: {name: 'Round Robin', classes: '', path:'#routing/lead/round_robin', subsubsubnavs: {
-                            RRM: {name: 'Pool Management', classes: 'requiresReadWrite', path:'#routing/lead/round_robin'},
-                            RRV: {name: 'Vacation Settings', classes: 'requiresReadWrite', path:'#routing/lead/round_robin_vacation'}
-                        }},
                         OTR: {name: 'One-Time Routing', classes: 'workflowConfigurator requiresReadWrite'},
                         AS: {name: 'Advanced Settings', classes: '', path: '#routing/lead/merge_duplicates', subsubsubnavs: {
                             MD: {name: 'Merge Duplicates', classes: 'requiresReadWrite', path: '#routing/lead/merge_duplicates'},
@@ -2130,10 +2127,6 @@
                         DM: {name: 'Routing Insights', classes: 'workflowConfigurator requiresReadWrite', path:'#routing/contact/insights/live'},
                         logs: {name: 'Audit Logs', classes: '', path:'#routing/contact/audit_logs'},
                         DH: {name: 'Deployment History', classes: 'routing-deployment-history workflowConfigurator requiresReadWrite', path:'#routing/contact/deployment_history'},
-                        RR: {name: 'Round Robin', classes: '', path:'#routing/contact/round_robin', subsubsubnavs: {
-                            RRM: {name: 'Pool Management', classes: 'requiresReadWrite', path:'#routing/contact/round_robin'},
-                            RRV: {name: 'Vacation Settings', classes: 'requiresReadWrite', path:'#routing/contact/round_robin_vacation'}
-                        }},
                         OTR: {name: 'One-Time Routing', classes: 'workflowConfigurator requiresReadWrite'},
                         AS: {name: 'Advanced Settings', classes: '', subsubsubnavs: {
                             ATM: {name: 'Account Teams', classes: 'requiresReadWrite'},
@@ -2145,10 +2138,6 @@
                         DM: {name: 'Routing Insights', classes: 'workflowConfigurator requiresReadWrite', path:'#routing/account/insights/live'},
                         logs: { name : 'Audit Logs', classes: '', path:'#routing/account/audit_logs'},
                         DH: { name: 'Deployment History', classes: 'routing-deployment-history workflowConfigurator requiresReadWrite', path:'#routing/account/deployment_history'},
-                        RR: {name: 'Round Robin', classes: '', path:'#routing/account/round_robin', subsubsubnavs: {
-                            RRM: { name: 'Pool Management', classes: 'requiresReadWrite', path:'#routing/account/round_robin' },
-                            RRV: {name: 'Vacation Settings', classes: 'requiresReadWrite', path:'#routing/account/round_robin_vacation'}
-                        }},
                         OTR: { name: 'One-Time Routing', classes:'requiresReadWrite' },
                         AS: {name: 'Advanced Settings', classes: '', subsubsubnavs: {
                             ATM: { name: 'Account Teams', classes: 'requiresReadWrite' },
@@ -2160,26 +2149,32 @@
                         DM: { name: 'Routing Insights', classes: 'workflowConfigurator requiresReadWrite', path:'#routing/opportunity/insights/live' },
                         logs: { name: 'Audit Logs', classes: '', path:'#routing/opportunity/audit_logs' },
                         DH: { name: 'Deployment History', classes: 'routing-deployment-history workflowConfigurator requiresReadWrite', path:'#routing/opportunity/deployment_history' },
-                        RR: { name: 'Round Robin', classes: '', path:'#routing/opportunity/round_robin', subsubsubnavs: {
-                            RRM: { name: 'Pool Management', classes: 'requiresReadWrite', path:'#routing/opportunity/round_robin' },
-                            RRV: { name: 'Vacation Settings', classes: 'requiresReadWrite', path:'#routing/opportunity/round_robin_vacation' }
-                        }},
                         OTR: { name: 'One-Time Routing', classes: 'requiresReadWrite' },
                         AS: { name: 'Advanced Settings', classes: '', subsubsubnavs: {
                             ATM: { name: 'Account Teams', classes: 'requiresReadWrite' },
                             OM: { name: 'Owner Mapping', classes: 'requiresReadWrite' }
                         }}
                     }},
-                    territoryBB: { name: 'Territory Management', classes: 'territory-routing-BB isTerritoryRoutingBBActive territory-routing', path:"#territory_segments"}}
-                },
+                    territoryBB: { name: 'Territory Management', classes: 'requiresReadWrite territory-routing-BB isTerritoryRoutingBBActive', path:"#territory_segments"},
+                    roundRobin: { name: 'Round Robin', classes: 'round-robin', path:'#routing/round_robin', subsubnavs: {
+                        RRP: {name: 'Pools', classes: '', path:'#routing/round_robin_pools'},
+                        RRM: {name: 'Members', classes: '', path:'#routing/round_robin_members'},
+                        RRS: {name: 'Schedules', classes: '', path:'#routing/round_robin_schedules'},
+                         RRR: {name: 'Live Routing', classes: 'requiresReadWrite hasLiveRouting', path:'#routing/round_robin_live_routing'},
+                    }}
+                }},
                 attribution: {name: 'Attribution', classes:'attribution-product', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Reporting_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Reporting_Icon_selected.png')}', disabledSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'ATT_Icon_disabled.png')}', subnavs: {
                     general: {name: 'General Settings', classes: 'requiresReadWrite', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Set_Up_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Set_Up_Icon_selected.png')}'},
                     wizard: {name: 'Wizard', classes: 'requiresReadWrite', href: '/apex/Reporting_Wizard', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'AN_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'AN_Icon_selected.png')}'},
+                    scheduler: {name: 'Scheduler', classes: 'requiresReadWrite'},
                     CAM: {name: 'Custom Attribution Model', classes: 'hasAttribution hasCustomAttributionEnabled requiresReadWrite'},
                     CW: {name: 'Campaign Weighting', classes: '', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Reporting_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Reporting_Icon_selected.png')}', subsubnavs: {
                         CTW: {name: 'Campaign Types', classes: 'requiresReadWrite'},
                         CMSW: {name: 'Campaign Member Statuses', classes: 'requiresReadWrite'}
                     }},
+                    oneTimeRun: {name: 'One Time Run', classes: 'requiresReadWrite'},
+                    SH: {name: 'Settings Change Logs', classes: 'hasAttribution requiresReadWrite', path:'#attribution/settings_history'},
+                    RH: {name: 'Attribution Runs', classes: 'hasAttribution requiresReadWrite', path:'#attribution/run_history'},
                     oppAnalyzer: {name: 'Opportunity Analyzer', classes: 'hasOppAnalyzer'},
                     clarity: {name: 'Clarity', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Clarity_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Clarity_Icon_selected.png')}', classes: 'clarityFrontendOn', subsubnavs: {
                         overview: {name: 'Overview', classes: 'clarityFrontendOn requiresReadWrite'},
@@ -2218,9 +2213,10 @@
                     }}
                 }},
                 admin: {name: 'Admin', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Settings_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Settings_Icon_Selected.png')}', subnavs: {
-                    general: {name: 'General', classes: 'requiresReadWrite'}, 
+                    general: {name: 'Settings', classes: 'requiresReadWrite'},
                     MA: {name: 'CCIO Management', classes: 'hasMatching requiresReadWrite hasCCIOManagement'},
-                    MP: {name: 'Manage Permissions', classes: 'requiresReadWrite'}
+                    MP: {name: 'Permissions', classes: 'requiresReadWrite'},
+                    UM: {name: 'Routing Usage', classes: 'requiresReadWrite', path:'#admin/usage_metrics'}
                 }},
                 help: {name: 'Help', inactiveSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Help_Icon.png')}' , activeSrc: '{!URLFOR($Resource.LeanData__DashboardImages, 'Help_Icon_selected.png')}', path:'#help'}
             }
@@ -2388,7 +2384,7 @@
         // Constructs and initializes the sidebar
         function initializeSidebar() {
             //First Tier Menus
-            if(dashboardSidebar.hasOwnProperty(NAVS)) {
+            if(dashboardSidebar.hasOwnProperty(NAVS) && {! !autoNavigateToMembers }) {
                 var $navSection = j$('.' + LEFT_SIDEBAR);
                 for(var key in dashboardSidebar[NAVS]) {
                     var navObj = dashboardSidebar[NAVS][key];
@@ -2470,8 +2466,8 @@
                 $buttonDiv.addClass('noOpenPage');
                 var $expandArrowAnchor = j$("<a>", {href:'#', target:"_blank", class:  'expandMenu', text: ('')});
 
-                var $expandArrow = j$("<img>", {class: ARROW + ' ' + key + ARROW_SPECIFIC, src: "{!URLFOR($Resource.LeanData__DashboardImages, 'Subnav_Arrow.png')}"});
-                var $expandArrowActive = j$("<img>", {class: ARROW + ' ' + ARROW + '-active ' + key + ARROW_SPECIFIC, src: "{!URLFOR($Resource.LeanData__DashboardImages, 'Subnav_Arrow_Active.png')}", style:"display:none"});
+                var $expandArrow = j$("<img>", {class: ARROW + ' ' + key + ARROW_SPECIFIC, src: "{!URLFOR($Resource.LeanData__magellan_app, 'images/Subnav_Arrow.png')}"});
+                var $expandArrowActive = j$("<img>", {class: ARROW + ' ' + ARROW + '-active ' + key + ARROW_SPECIFIC, src: "{!URLFOR($Resource.LeanData__magellan_app, 'images/Subnav_Arrow_Active.png')}", style:"display:none"});
                 
                 $expandArrowAnchor.append($expandArrow);
                 $expandArrowAnchor.append($expandArrowActive);
@@ -2585,8 +2581,9 @@
                 debugger;
             }
             
-            // hacky over here but what is not in this page
-            if (titleString !== false) j$(".header-title").text(titleString || retrievePageName(navString, true));
+            // Hacky way to remove header title text: a non-empty string must be input otherwise the entire header will not be initialized
+            // color is set to the same as background to make `:` invisible
+            if (titleString !== false) j$(".header-title").text(':').css('color', 'var(--dk-grey-2) !important');
 
             navString = navString.split("-");
             var navitem = navString[0] + "-nav";
@@ -2721,35 +2718,6 @@
             }
             
             if (e.state) setActivePageAF(e.state.page, JSON.stringify(e.state.parameters));
-        });
-
-        /* Make header sticky. */
-        header = j$(".header");
-        headerOffset = header.offset().top;
-        j$(document).on("scroll", function(e) {
-            var wrap = j$(".bs");
-            var scrollTop = j$(window).scrollTop();
-
-            header.css('left', -j$(document).scrollLeft() + 10);
-            var scrollTopVal = j$(document).scrollTop();
-            if (scrollTopVal > headerOffset) {
-                var width = header.width();
-                var height = header.height();
-                header.css("width", width);
-                header.addClass("fix-header");
-                wrap.css("margin-top", height);
-                j$('.left-sidebar').css('height', '100%');
-            } else if (scrollTopVal <= headerOffset) {
-                header.removeClass("fix-header");
-                header.css("width", "100%");
-                wrap.css("margin-top", 0);
-                j$('.left-sidebar').css('height', 'calc(100% - 35px)');
-            }
-        });
-
-        /* Used to resize fixed header when user changes browser width. */
-        j$(window).resize(function() {
-            header.css("width", j$("#contentWrapper").width());
         });
 
         j$('#settingsSavedModal').on('hidden.bs.modal', function (e) {
@@ -2910,7 +2878,6 @@
 
     <!-- Initialize Code From Static Resource -->
     <!-- Initialize Backbone Router From magellan_app.zip -->
+    <apex:includeScript value="{!URLFOR($Resource.LeanData__magellan_app, 'javascript/loadingoverlay-2.1.3.min.js')}" />
     <apex:includeScript value="{!URLFOR($Resource.LeanData__magellan_app, 'router.js')}" />
-
-
 </apex:page>

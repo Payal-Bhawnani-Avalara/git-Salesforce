@@ -23,7 +23,7 @@
 			</table>
 			<apex:panelGrid >
 				<apex:panelGroup styleClass="headerButtons">
-					<apex:commandButton action="{!getInquiryTemplatePage}" value="{!$Label.ffr__actionviewsnewinquirytemplatebutton}" rendered="{!$Permission.ffr__InquiryTemplatesCreate || $Setup.ReportingSettings__c.DisableCustomPermissions__c}"/>
+					<apex:commandButton action="{!getInquiryTemplatePage}" value="{!$Label.ffr__actionviewsnewinquirytemplatebutton}" rendered="{!$Permission.InquiryTemplatesCreate || $Setup.ReportingSettings__c.DisableCustomPermissions__c}"/>
 					<apex:commandButton action="{!getActionViewImportPage}" value="{!$Label.ffr__actionviewsstartimportbutton}"/>
 					<apex:commandButton action="{!getActionViewExportPage}" value="{!$Label.ffr__actionviewsstartexportbutton}"/>
 					<apex:commandButton action="{!refresh}" value="{!$Label.ffr__actionviewslistviewrefresh}"/>
