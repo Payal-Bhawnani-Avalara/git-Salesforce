@@ -7,13 +7,9 @@
         <div class="slds-align_absolute-center">
           <div class="slds-float_left">
             <img src="{!$Resource.avalaralogo}" style="width: 130px;display: block;height: auto;"/>
-            <img src="{!$Resource.avalaralogotagline}" style="width: 130px;display: block;height: auto;"/>    
+            <!--  <img src="{!$Resource.avalaralogotagline}" style="width: 130px;display: block;height: auto;"/>    -->
            </div>
-          
-        
           <div class="slds-align_absolute-center"><h4  class="slds-text-heading_small" style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor+'; font-weight:  '+ v.boldText}" >Avalara Streamlined Sales Tax (SST) Registration Form	</h4></div>
-          </div>
-      
+          </div>   
         </div>    
-   
 </aura:component>

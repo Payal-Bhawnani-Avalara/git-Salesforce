@@ -37,6 +37,7 @@
 	      component.set("v.showStats", false);
 	      component.set("v.showError", false);
 	      component.set("v.showData", false);
+          window.scrollTo(0, 0);
         }
         
    }, comTab : function(component, event, helper) {
@@ -70,11 +71,11 @@
 			      component.set("v.showStats", false);
 			      component.set("v.showError", false);
 			      component.set("v.showData", false);
-		        } else {
-		           
+                  window.scrollTo(0, 0);
+		        } else {   
 	            alert('Please complete all required fields.');
 		        }   
-		       }
+		     }
         }    
    },randomTab : function(component, event, helper) {
         component.set("v.setMessage", '');           
@@ -106,6 +107,7 @@
 		        component.set("v.showIntro", false)
 		        component.set("v.showError", false);
 		        component.set("v.showData", false);  
+                window.scrollTo(0, 0);
 	        } else {
 	           alert('Please complete all required fields.');
 	        }   
@@ -143,6 +145,7 @@
 	        component.set("v.showError", false);
 	        component.set("v.showData", false);  
 	        component.set("v.showRandom", false);
+            window.scrollTo(0, 0);
             }
            }
         }      
@@ -177,6 +180,7 @@
 	        component.set("v.showError", false);
 	        component.set("v.showData", false);
 	        component.set("v.showRandom", false);
+            window.scrollTo(0, 0);
             }
           }
         }      
@@ -191,14 +195,14 @@
         var showStats = component.get("v.showStats");
         var showData = component.get("v.showData");
         
-       
         if(showReg == true){
+        if(component.find('sstReg').length !=undefined){
               var validExpense = component.find('sstReg').reduce(function (validSoFar, inputCmp) {
 	            // Displays error messages for invalid fields
 	            inputCmp.showHelpMessageIfInvalid();
 	            return validSoFar && inputCmp.checkValidity();
 	        }, true);
-	        
+	     
 	        // If we pass error checking, do some real work
 	        if(validExpense){
 	        // If we pass error checking, do some real work 
@@ -212,9 +216,22 @@
 	        component.set("v.showError", false);
 	        component.set("v.showData", false);  
 	        component.set("v.showRandom", false);
-           }
-          
-        }      
+            window.scrollTo(0, 0);
+           }  
+        }else{
+           component.set("v.showSSTState", false);
+	        component.set("v.showNexus", false);
+	        component.set("v.showRemoteState", false);
+	        component.set("v.showReg", false);
+	        component.set("v.showStats", true);
+	        component.set("v.showComInfo", false);
+	        component.set("v.showIntro", false)
+	        component.set("v.showError", false);
+	        component.set("v.showData", false);  
+	        component.set("v.showRandom", false);
+            window.scrollTo(0, 0);
+        }     
+       }
    },statsTab : function(component, event, helper) {
         component.set("v.setMessage", '');           
         var showIntro = component.get("v.showIntro");
@@ -246,6 +263,7 @@
 	        component.set("v.showError", false);
 	        component.set("v.showData", true);  
 	        component.set("v.showRandom", false);
+            window.scrollTo(0, 0);
 	        }
 	      }
         }   
@@ -268,7 +286,8 @@
             component.set("v.showError", false);
             component.set("v.showData", false); 
             component.set("v.showRandom", false); 
-            component.set("v.showStats", false);    
+            component.set("v.showStats", false); 
+            window.scrollTo(0, 0);
         }    
         if(showRandom == true){
             component.set("v.showIntro", false);
@@ -280,6 +299,7 @@
             component.set("v.showData", false);    
             component.set("v.showRandom", false); 
             component.set("v.showStats", false);
+            window.scrollTo(0, 0);
         } 
          if(showSSTState == true){
             component.set("v.showIntro", false);
@@ -290,7 +310,8 @@
             component.set("v.showReg", false);
             component.set("v.showStats", false);
             component.set("v.showError", false);
-            component.set("v.showData", false);    
+            component.set("v.showData", false); 
+             window.scrollTo(0, 0);
         } 
         if(showNexus == true){
             component.set("v.showIntro", false);
@@ -300,7 +321,8 @@
             component.set("v.showReg", false); 
             component.set("v.showStats", false);
             component.set("v.showError", false);
-            component.set("v.showData", false);             
+            component.set("v.showData", false);   
+            window.scrollTo(0, 0);
         }  
         if(showReg == true){
             component.set("v.showIntro", false);
@@ -310,7 +332,8 @@
             component.set("v.showReg", false); 
             component.set("v.showStats", false);
             component.set("v.showError", false);
-            component.set("v.showData", false);             
+            component.set("v.showData", false); 
+            window.scrollTo(0, 0);            
         }  
         if(showStats == true){
             component.set("v.showIntro", false);
@@ -321,7 +344,8 @@
             component.set("v.showStats", false);
             component.set("v.showStats", false);
             component.set("v.showError", false);
-            component.set("v.showData", false);             
+            component.set("v.showData", false);
+            window.scrollTo(0, 0);
         }  
         if(showData == true){
             component.set("v.showIntro", false);
@@ -331,11 +355,28 @@
             component.set("v.showReg", false); 
             component.set("v.showStats", true);
             component.set("v.showError", false);
-            component.set("v.showData", false);             
+            component.set("v.showData", false);  
+            window.scrollTo(0, 0);
         }  
     },
-        saveRecord : function(component, event, helper) {
-        helper.saveData(component, event, helper);               
+   saveRecord : function(component, event, helper) {
+     var isblank=helper.isCanvasBlank(document.getElementById('divsign'));
+        if(!isblank){    
+         helper.saveData(component, event, helper); 
+        }
+        else{
+            alert('Please Sign in the box');
+        }                
+    },
+    eraseHelper: function(component, event, helper){
+        var m = confirm("Want to clear");
+        if (m) {
+            var canvas=component.find('can').getElement();
+            var ctx = canvas.getContext("2d");
+            var w = canvas.width;
+            var h = canvas.height;
+            ctx.clearRect(0, 0, w, h);
+       }
     },
 	beType: function (component, event, helper) {
 	  for(var cmp in component.find('newSSTform')) {
@@ -385,7 +426,7 @@
                component.set("v.showGeVol", true);
                 for(var cmp in component.find('newSSTform')) { 
                  if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
+                     var nav = component.find("newSSTform")[cmp].get("v.value");    
 		             if(nav=="GA"){
 		               component.set("v.showGeV", false); 
 		               component.set("v.showGeVol", false); 
@@ -1059,12 +1100,11 @@
 	    const myCheckboxes = component.find('sstStateId'); 
 	    let chk = (myCheckboxes.length == null) ? [myCheckboxes] : myCheckboxes;
 	    chk.forEach(checkbox => checkbox.set('v.checked', component.get('v.isAllSelected')));
-	    
-            
-		    for(var cmp in component.find('sstStateId')) {
+	       
+	    for(var cmp in component.find('sstStateId')) {
 	        if(component.find("sstStateId")[cmp].get("v.name")=='Arkansas'){  
-           var nav = component.find("sstStateId")[cmp].get("v.checked");    
-	       if(nav){
+            var nav = component.find("sstStateId")[cmp].get("v.checked");    
+	        if(nav){
 	           component.set("v.showAr", true); 
 	           component.set("v.showArVol", true); 
 	            for(var cmp in component.find('newSSTform')) { 
@@ -1077,6 +1117,10 @@
 		           }
 	            }
 	         }  
+	       }else {
+	         component.set("v.showAr", false); 
+	         component.set("v.showArVol", false); 
+	       
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Georgia'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1093,6 +1137,10 @@
 		           }
 	            }
 	         }  
+	       }else {
+	         component.set("v.showGe", false); 
+	         component.set("v.showGeVol", false); 
+	       
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Indiana'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1109,6 +1157,10 @@
 		           }
 	            }
 	         }  
+	       }else {
+	         component.set("v.showIn", false); 
+	         component.set("v.showInVol", false); 
+	       
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Iowa'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1125,6 +1177,10 @@
 		           }
 	            }
 	         }  
+	       }else {
+	         component.set("v.showIo", false); 
+	         component.set("v.showIoVol", false); 
+	       
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Kansas'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1141,6 +1197,10 @@
 		           }
 	            }
 	         }  
+	       }else {
+	         component.set("v.showKa", false); 
+	         component.set("v.showKaVol", false); 
+	       
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Kentucky'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1157,6 +1217,10 @@
 		           }
 	            }
 	         }  
+	       }else {
+	         component.set("v.showKe", false); 
+	         component.set("v.showKeVol", false); 
+	       
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Michigan'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1173,6 +1237,10 @@
 		           }
 	            }
 	         }  
+	       }else {
+	         component.set("v.showMi", false); 
+	         component.set("v.showMiVol", false); 
+	       
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Minnesota'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1189,6 +1257,10 @@
 		           }
 	            }
 	         }  
+	       }else {
+	         component.set("v.showMn", false); 
+	         component.set("v.showMnVol", false); 
+	       
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Nebraska'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1205,6 +1277,10 @@
 		           }
 	            }
 	         }  
+	       }else {
+	         component.set("v.showNe", false); 
+	         component.set("v.showNeVol", false); 
+	       
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Nevada'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1221,6 +1297,9 @@
 		           }
 	            }
 	         }  
+	       }else {
+	         component.set("v.showNv", false); 
+	         component.set("v.showNvVol", false); 
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='New Jersey'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1237,6 +1316,9 @@
 		           }
 	            }
 	         }  
+	       }else {
+	         component.set("v.showNj", false); 
+	         component.set("v.showNjVol", false); 
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='North Carolina'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1253,6 +1335,9 @@
 		           }
 	            }
 	         }  
+	       }else {
+	         component.set("v.showNc", false); 
+	         component.set("v.showNcVol", false); 
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='North Dakota'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1269,6 +1354,9 @@
 		           }
 	            }
 	         }  
+	       }else {
+	         component.set("v.showNd", false); 
+	         component.set("v.showNdVol", false); 
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Ohio'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1285,6 +1373,9 @@
 		           }
 	            }
 	         }  
+	       }else {
+	         component.set("v.showOh", false); 
+	         component.set("v.showOhVol", false); 
 	       }
 	    }
 	    if(component.find("sstStateId")[cmp].get("v.name")=='Oklahoma'){  
@@ -1302,6 +1393,9 @@
 		           }
 	            }
 	         }  
+	       }else {
+	         component.set("v.showOk", false); 
+	         component.set("v.showOkVol", false); 
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Rhode Island'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1318,6 +1412,9 @@
 		           }
 	            }
 	         }  
+	       }else {
+	         component.set("v.showRi", false); 
+	         component.set("v.showRiVol", false); 
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='South Dakota'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1334,11 +1431,14 @@
 		           }
 	            }
 	         }  
+	       }else {
+	         component.set("v.showSd", false); 
+	         component.set("v.showSdVol", false); 
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Tennessee'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	           component.set("v.showTe", true);
+	            component.set("v.showTe", true);
                 component.set("v.showTeVol", true);
                 for(var cmp in component.find('newSSTform')) { 
                  if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
@@ -1352,6 +1452,7 @@
 	         }  
 	       }else if(!nav){
 	           component.set("v.showTe", false); 
+	           component.set("v.showTeVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Utah'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1368,6 +1469,9 @@
 		           }
 	            }
 	         }  
+	       }else if(!nav){
+	           component.set("v.showUt", false); 
+	           component.set("v.showUtVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Vermont'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1384,6 +1488,9 @@
 		           }
 	            }
 	         }  
+	       }else if(!nav){
+	           component.set("v.showVe", false); 
+	           component.set("v.showVeVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Washington'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1402,6 +1509,7 @@
 	         }  
 	       }else if(!nav){
 	           component.set("v.showWa", false); 
+	           component.set("v.showWaVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='West Virginia'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1418,6 +1526,9 @@
 		           }
 	            }
 	         }  
+	       }else if(!nav){
+	           component.set("v.showWv", false); 
+	           component.set("v.showWvVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Wisconsin'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1434,6 +1545,9 @@
 		           }
 	            }
 	         }  
+	       }else if(!nav){
+	           component.set("v.showWi", false); 
+	           component.set("v.showWiVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Wyoming'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
@@ -1450,11 +1564,13 @@
 		           }
 	            }
 	         }  
+	       }else if(!nav){
+	           component.set("v.showWy", false); 
+	           component.set("v.showWyVol", false);
 	       }
 	    }
-		  }   
+    }   
 		     
-	   
 	},sstFF: function (component, event, helper) {
 	  for(var cmp in component.find('tableId')) {
         if(component.find("tableId")[cmp].get("v.name")=='ArkansasReg'){  
@@ -1642,7 +1758,7 @@
 	               
 	           }else if(!nav){
 	              component.set("v.showArV", false); 
-	               component.set("v.showArVol", false); 
+	               component.set("v.showArVol", true); 
 	               component.set("v.showArCoV",false);
 	           
 	           }
@@ -1655,7 +1771,7 @@
 	               
 	           }else if(!nav){
 	              component.set("v.showGeV", false); 
-	               component.set("v.showGeVol", false); 
+	               component.set("v.showGeVol", true); 
 	               component.set("v.showGeCoV",false);
 	           
 	           }
@@ -1668,7 +1784,7 @@
 	               
 	           }else if(!nav){
 	               component.set("v.showInV", false); 
-	               component.set("v.showInVol", false); 
+	               component.set("v.showInVol", true); 
 	               component.set("v.showInCoV",false);
 	           
 	           }
@@ -1681,7 +1797,7 @@
 	               
 	           }else if(!nav){
 	               component.set("v.showIoV", false); 
-	               component.set("v.showIoVol", false); 
+	               component.set("v.showIoVol", true); 
 	               component.set("v.showIoCoV",false);
 	           
 	           }
@@ -1694,7 +1810,7 @@
 	               
 	           }else if(!nav){
 	               component.set("v.showKaV", false); 
-	               component.set("v.showKaVol", false); 
+	               component.set("v.showKaVol", true); 
 	               component.set("v.showKaCoV",false);
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='KentuckyRe'){  
@@ -1705,7 +1821,7 @@
 	               component.set("v.showKeCoV",false);  
 	           }else if(!nav){
 	                component.set("v.showKeV", false); 
-	               component.set("v.showKeVol", false); 
+	               component.set("v.showKeVol", true); 
 	               component.set("v.showKeCoV",false);  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='MichiganRe'){  
@@ -1717,7 +1833,7 @@
 	               
 	           }else if(!nav){
 	                component.set("v.showMiV", false); 
-	               component.set("v.showMiVol", false); 
+	               component.set("v.showMiVol", true); 
 	               component.set("v.showMiCoV",false);
 	               
 	           }
@@ -1729,7 +1845,7 @@
 	               component.set("v.showMnCoV",false);   
 	           }else if(!nav){
 	               component.set("v.showMnV", false); 
-	               component.set("v.showMnVol", false); 
+	               component.set("v.showMnVol", true); 
 	               component.set("v.showMnCoV",false);  
 	               
 	           }
@@ -1741,7 +1857,7 @@
 	               component.set("v.showNeCoV",false);    
 	           }else if(!nav){
 	               component.set("v.showNeV", false); 
-	               component.set("v.showNeVol", false); 
+	               component.set("v.showNeVol", true); 
 	               component.set("v.showNeCoV",false);      
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='NevadaRe'){  
@@ -1752,7 +1868,7 @@
 	               component.set("v.showNvCoV",false);  
 	           }else if(!nav){
 	                component.set("v.showNvV", false); 
-	               component.set("v.showNvVol", false); 
+	               component.set("v.showNvVol", true); 
 	               component.set("v.showNvCoV",false);       
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='NJRe'){  
@@ -1763,7 +1879,7 @@
 	               component.set("v.showNjCoV",false);   
 	           }else if(!nav){
 	               component.set("v.showNjV", false); 
-	               component.set("v.showNjVol", false); 
+	               component.set("v.showNjVol", true); 
 	               component.set("v.showNjCoV",false);       
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='NCRe'){  
@@ -1774,7 +1890,7 @@
 	               component.set("v.showNcCoV",false);   
 	           }else if(!nav){
 	               component.set("v.showNcV", false); 
-	               component.set("v.showNcVol", false); 
+	               component.set("v.showNcVol", true); 
 	               component.set("v.showNcCoV",false);      
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='NDRe'){  
@@ -1785,7 +1901,7 @@
 	               component.set("v.showNdCoV",false);  
 	           }else if(!nav){
 	               component.set("v.showNdV", false); 
-	               component.set("v.showNdVol", false); 
+	               component.set("v.showNdVol", true); 
 	               component.set("v.showNdCoV",false);      
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='OhRe'){  
@@ -1796,7 +1912,7 @@
 	               component.set("v.showOhCoV",false);   
 	           }else if(!nav){
 	               component.set("v.showOhV", false); 
-	               component.set("v.showOhVol", false); 
+	               component.set("v.showOhVol", true); 
 	               component.set("v.showOhCoV",false);  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='OkRe'){  
@@ -1805,6 +1921,10 @@
 	               component.set("v.showOkV", true); 
 	               component.set("v.showOkVol", false); 
 	               component.set("v.showOkCoV",false);   
+	           }else if(!nav){
+	               component.set("v.showOkV", false); 
+	               component.set("v.showOkVol", true); 
+	               component.set("v.showOkCoV",false);  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='RiRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
@@ -1814,7 +1934,7 @@
 	               component.set("v.showRiCoV",false);   
 	           }else if(!nav){
 	               component.set("v.showRiV", false); 
-	               component.set("v.showRiVol", false); 
+	               component.set("v.showRiVol", true); 
 	               component.set("v.showRiCoV",false); 
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='SdRe'){  
@@ -1825,7 +1945,7 @@
 	               component.set("v.showSdCoV",false);   
 	           }else if(!nav){
 	               component.set("v.showSdV", false); 
-	               component.set("v.showSdVol", false); 
+	               component.set("v.showSdVol", true); 
 	               component.set("v.showSdCoV",false); 
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='TnRe'){  
@@ -1836,7 +1956,7 @@
 	               component.set("v.showTeCoV",false);   
 	           }else if(!nav){
 	               component.set("v.showTeV", false); 
-	               component.set("v.showTeVol", false); 
+	               component.set("v.showTeVol", true); 
 	               component.set("v.showTeCoV",false);   
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='UtRe'){  
@@ -1847,7 +1967,7 @@
 	               component.set("v.showUtCoV",false);   
 	           }else if(!nav){
 	                component.set("v.showUtV", false); 
-	               component.set("v.showUtVol", false); 
+	               component.set("v.showUtVol", true); 
 	               component.set("v.showUtCoV",false);    
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='VeRe'){  
@@ -1858,7 +1978,7 @@
 	               component.set("v.showVeCoV",false);   
 	           }else if(!nav){
 	                component.set("v.showVeV", false); 
-	               component.set("v.showVeVol", false); 
+	               component.set("v.showVeVol", true); 
 	               component.set("v.showVeCoV",false);  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='WaRe'){  
@@ -1869,7 +1989,7 @@
 	               component.set("v.showWaCoV",false);   
 	           }else if(!nav){
 	                component.set("v.showWaV", false); 
-	               component.set("v.showWaVol", false); 
+	               component.set("v.showWaVol", true); 
 	               component.set("v.showWaCoV",false);  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='WvRe'){  
@@ -1880,7 +2000,7 @@
 	               component.set("v.showWvCoV",false);   
 	           }else if(!nav){
 	                component.set("v.showWaV", false); 
-	               component.set("v.showWaVol", false); 
+	               component.set("v.showWaVol", true); 
 	               component.set("v.showWaCoV",false);  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='WiRe'){  
@@ -1890,8 +2010,8 @@
 	               component.set("v.showWiVol", false); 
 	               component.set("v.showWiCoV",false);   
 	           }else if(!nav){
-	                 component.set("v.showWiV", false); 
-	               component.set("v.showWiVol", false); 
+	               component.set("v.showWiV", false); 
+	               component.set("v.showWiVol", true); 
 	               component.set("v.showWiCoV",false);  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='WyRe'){  
@@ -1902,7 +2022,7 @@
 	               component.set("v.showWyCoV",false);   
 	           }else if(!nav){
 	                component.set("v.showWyV", false); 
-	               component.set("v.showWyVol", false); 
+	               component.set("v.showWyVol", true); 
 	               component.set("v.showWyCoV",false);  
 	           }
 	         }

@@ -42,6 +42,12 @@
 	           alert('Please complete all required fields.');
 	        }  
     },
+    isCanvasBlank:function (canvas) {
+        var blank = document.createElement('canvas');
+        blank.width = canvas.width;
+        blank.height = canvas.height;
+        return canvas.toDataURL() == blank.toDataURL();
+    },
     fetchbusinessEntityTypePicklist: function(component, event, helper) {
         var action = component.get("c.getPicklistvalues");
         action.setParams({

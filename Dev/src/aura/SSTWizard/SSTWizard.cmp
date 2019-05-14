@@ -610,8 +610,11 @@
 			                      </lightning:select>                      
 			                  </span>
                                     <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
-			                     <lightning:input aura:id="newSSTreg" label="Enter a NAICS code that best describes your primary source of business 
-			                     (www.naics.com for reference)" name="SST Identification Number" value="{!v.sstData.NAICS_Code__c}" maxlength="6" minlenght="6"  required="true" />
+                                     <div class="slds-text-color--weak ">
+                                    <label for="newSSTreg"> Enter a NAICS code that best describes your primary source of business 
+			                    <a href="https://www.naics.com/" target="_blank"> (www.naics.com for reference)</a></label>
+			                     <lightning:input aura:id="newSSTreg" name="SST Identification Number" value="{!v.sstData.NAICS_Code__c}" maxlength="6" minlenght="6"  required="true" />
+			                    </div>
 			                  </span>
                                     <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
 			                     <lightning:input aura:id="newSSTreg" label="Type of Product and Services offered for sale to customer base" 
@@ -3375,16 +3378,17 @@
                     <br/>
                     <div class="slds-grid slds-wrap">
                         <ltng:require afterScriptsLoaded="{!c.Init}" />
-                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+                         <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
                          <label class="slds-form-element__label">Signature<span class="cmn_mandatory_indicator">*</span></label>
-				        <canvas aura:id="can"   required="true"  label="Signature" style="border:2px solid #ddd;background: transparent;"></canvas>
+				         <canvas aura:id="can"   required="true"  label="Signature" style="border:2px solid #ddd;background: transparent;" id="divsign"></canvas>
+				         <div style="float:left;margin-left:7px;"><a href="javascript:void(0)" style="text-decoration:none;" onclick="{!c.eraseHelper}" id="btnClear">Clear Signature</a></div>
 				    </span>
                         <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
 				      <lightning:input aura:id="expdate" label="Printed Name" name="Printed Name" maxlength="32"
 			                required="true" />
 				    </span>
                         <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-				         <lightning:input type="date" aura:id="expdate" label="Date" name="Title" maxlength="32"
+				         <lightning:input type="date" aura:id="expdate" label="Date" name="Title"
 			             required="true" />
 				    </span>
                         <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
@@ -3396,7 +3400,7 @@
                      <div class="slds-grid  slds-grid--align-center">
                         <lightning:button label="Back" aura:id="btnPrev" variant="brand"
             onclick="{!c.prevTab}" />                
-                    <lightning:button label="Save" aura:id="btnSubmit" variant="brand"
+                    <lightning:button label="Submit" aura:id="btnSubmit" variant="brand"
             onclick="{!c.saveRecord}" />   
                     </div>
                     </fieldset>
