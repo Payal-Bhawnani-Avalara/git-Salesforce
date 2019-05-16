@@ -1,3 +1,0 @@
-<apex:page >
-	{!$Label.pse__unlock_actuals_from_actuals_verifier_tab}
-</apex:page>

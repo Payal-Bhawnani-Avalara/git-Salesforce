@@ -1,3 +1,0 @@
-<apex:page controller="LeanData.RoundRobinProcessingController" showHeader="false" sidebar="false" id="RoundRobinProcessingPage" >
-<!-- DEPRECATED -->
-</apex:page>

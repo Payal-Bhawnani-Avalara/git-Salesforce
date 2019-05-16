@@ -1,2 +1,0 @@
-<!-- Home page link requires an intermediate page without a StandardController -->
-<apex:page action="{!URLFOR($Page.TeamSchedulePlanner)}" />

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>false</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Case__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <inlineHelpText>The case associated with this interaction</inlineHelpText>
+        <label>Case</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>Managed Services Interactions</relationshipLabel>
+        <relationshipName>Managed_Services_Interactions</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Interaction_Code__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Specific activity code related to this interaction</inlineHelpText>
+        <label>Interaction Code</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>CDCR - Customer data create</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CMPN - Campaign questions – cert NOT completed/sent</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CRLD - Customer data upload only</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EMAIL - Email Campaign</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>HCU - Hard copy cert upload only</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>HCUP - Hard copy cert upload and process</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MAIL - Postal Letter Campaign</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MTEX - Meetings (External)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MTIN - Meetings (Internal)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>OTBD - Outbound contacts (proactive only)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>OTHR - Other</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>REG - Regulatory questions</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>REV - Review escalated certs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>STAT - Questions on certificate status – certificate completed/sent</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>TRNG – Answering CertCapture usage questions</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>UPLD - Soft copy cert upload only requests</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>UPPR - Soft copy cert upload and process requests</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Interaction_Overview__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Summary of the interaction</inlineHelpText>
+        <label>Interaction Overview</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Managed_Services_Engagement__c</fullName>
+        <externalId>false</externalId>
+        <label>Managed Services Engagement</label>
+        <referenceTo>Managed_Services_Engagement__c</referenceTo>
+        <relationshipLabel>Managed Services Interactions</relationshipLabel>
+        <relationshipName>Managed_Services_Interactions</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Medium__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Origin of interaction</inlineHelpText>
+        <label>Medium</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Email</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Phone</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Internal</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Mail</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Source__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>The client or the customer of a client designation</inlineHelpText>
+        <label>Source</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Client</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Customer of Client</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Time_Spent_on_Interaction_mins__c</fullName>
+        <externalId>false</externalId>
+        <label>Time Spent on Interaction (mins)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Managed Services Interaction</label>
+    <nameField>
+        <displayFormat>msi{0000}</displayFormat>
+        <label>Managed Services Interaction Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Managed Services Interactions</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

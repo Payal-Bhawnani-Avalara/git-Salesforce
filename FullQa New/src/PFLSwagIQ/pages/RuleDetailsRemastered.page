@@ -1,3 +1,0 @@
-<apex:page showheader="true" standardstylesheets="true" sidebar="false" doctype="html-5.0" title="SwagIQ Rule"  standardController="PFLSwagIQ__Rule__c" extensions="PFLSwagIQ.RuleController">
-
-</apex:page>

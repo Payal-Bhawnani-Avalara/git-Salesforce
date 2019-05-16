@@ -1,2 +1,0 @@
-<apex:page standardController="pse__Region__c" action="{!URLFOR($Page.TimeVariance, null, [regionId=$CurrentPage.parameters.id])}" lightningStyleSheets="true">
-</apex:page>

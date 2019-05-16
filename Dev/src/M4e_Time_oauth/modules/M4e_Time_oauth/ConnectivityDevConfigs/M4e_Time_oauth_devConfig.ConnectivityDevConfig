@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ConnectivityDevConfigMetadata xmlns="http://soap.sforce.com/2006/04/metadata">
-    <isOauth>true</isOauth>
-    <mobileStartUrl>https://c.na15.visual.force.com/apex/psa_m__TimecardMobile</mobileStartUrl>
-    <nameIdFormat>Unspecified</nameIdFormat>
-    <samlEncryptionType>AES_128</samlEncryptionType>
-    <samlSubjectType>Username</samlSubjectType>
-    <startUrl>https://c.na15.visual.force.com/apex/psa_m__TimecardMobile</startUrl>
-</ConnectivityDevConfigMetadata>

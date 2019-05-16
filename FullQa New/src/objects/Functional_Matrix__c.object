@@ -1,0 +1,1354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>API__c</fullName>
+        <externalId>false</externalId>
+        <label>API</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>REST V1</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>REST V2</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SOAP</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Address_Validation_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Address Validation Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Address_Validation_Click_Path__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Describe the path of clicks that the user must take to find the Address Validation button. Is it on the customer record, the invoice/order screen, or both? Is there no button and it automatically happens upon save event?</inlineHelpText>
+        <label>Address Validation Click Path</label>
+        <length>32000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Address_Validation__c</fullName>
+        <externalId>false</externalId>
+        <label>Address Validation</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Brazil_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Brazil Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Brazil__c</fullName>
+        <externalId>false</externalId>
+        <label>Brazil</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>C_API__c</fullName>
+        <externalId>false</externalId>
+        <label>C - API</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>REST V1</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>REST V2</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SOAP</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>C_Address_Validation_Click_Path__c</fullName>
+        <externalId>false</externalId>
+        <label>C - Address Validation Click Path</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>C_Client_Exemption_Click_Path__c</fullName>
+        <externalId>false</externalId>
+        <label>C - Client Exemption Click Path</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>C_Company_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>C - Company Code</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>C_Configuration_Click_Path__c</fullName>
+        <externalId>false</externalId>
+        <label>C - Configuration Click Path</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>C_Implementation_Path__c</fullName>
+        <externalId>false</externalId>
+        <label>C - Implementation Path</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>C_Line_Level_Addressing__c</fullName>
+        <externalId>false</externalId>
+        <label>C - Line Level Addressing</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>C_Location_Code_Click_Path__c</fullName>
+        <externalId>false</externalId>
+        <label>C- Location Code &amp; Click Path</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>C_Notes__c</fullName>
+        <externalId>false</externalId>
+        <label>C - Notes</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>C_Product_Mapping_Click_Path__c</fullName>
+        <externalId>false</externalId>
+        <label>C - Product Mapping Click Path</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>C_Support_Path__c</fullName>
+        <externalId>false</externalId>
+        <label>C - Support Path</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>C_Timing_For_Recording_Committing_Tran__c</fullName>
+        <externalId>false</externalId>
+        <label>C-Timing For Recording &amp; Committing Tran</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>C_Timing_For_Tax_Calculation__c</fullName>
+        <externalId>false</externalId>
+        <label>C - Timing For Tax Calculation</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>C_User_Implementation_Guide__c</fullName>
+        <externalId>false</externalId>
+        <label>C - User Implementation Guide</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Client_Exemption_Click_Path__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Describe the path of clicks that the user must take to find where they can apply Entity Use code or Exemption No data to a customer record.</inlineHelpText>
+        <label>Client Exemption Click Path</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Communication_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Communication Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Communication__c</fullName>
+        <externalId>false</externalId>
+        <label>Communication</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Company_Code__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Describe what value comes across to AvaTax as the Company Code, is it user defined or static?</inlineHelpText>
+        <label>Company Code</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Configuration_Click_Path__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Describe the path of clicks that the user must take to find the AvaTax configuration. Also note if it&apos;s gated by permissions.</inlineHelpText>
+        <label>Configuration Click Path</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Functional Matrix</relationshipLabel>
+        <relationshipName>Functional_Matrix</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Core_Notes__c</fullName>
+        <externalId>false</externalId>
+        <label>Core Notes</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Customs_Duty_Import_Tax_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Customs Duty &amp; Import Tax Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Customs_Duty_Import_Tax__c</fullName>
+        <externalId>false</externalId>
+        <label>Customs Duty &amp; Import Tax</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Document_Management_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Document Management Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Document_Management__c</fullName>
+        <externalId>false</externalId>
+        <label>Document Management</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Duties_Tarrif_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Duties &amp; Tarrifs Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Duties_Tarrifs__c</fullName>
+        <externalId>false</externalId>
+        <label>Duties &amp; Tarrifs</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Escalation_Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Escalation Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Functional Matrix (Escalation Contact)</relationshipLabel>
+        <relationshipName>Functional_Matrix2</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Excise_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Excise Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Excise__c</fullName>
+        <externalId>false</externalId>
+        <label>Excise</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>GST_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>GST Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>GST__c</fullName>
+        <externalId>false</externalId>
+        <label>GST</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Implemenation_Path__c</fullName>
+        <externalId>false</externalId>
+        <label>Implementation Path</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Implementation_Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Implementation Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Functional Matrix (Implementation Contact)</relationshipLabel>
+        <relationshipName>Functional_Matrix1</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Implementation_Path__c</fullName>
+        <externalId>false</externalId>
+        <label>Implementation Path</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Known_Issues__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Catch all field for known issues, caveats, anything worth noting that could possible trip a user up downstream.</inlineHelpText>
+        <label>Known Issues</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Line_Level_Addressing__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>State whether or not the integration can send AvaTax separate addresses at the line level. If so, describe how it can be done.</inlineHelpText>
+        <label>Line Level Addressing</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Location_Code_Click_Path__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Describe the path of clicks that the user must take to see the value that is sent to AvaTax as the Location Code on transactions.</inlineHelpText>
+        <label>Location Code &amp; Click Path</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Lodging_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Lodging Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Lodging__c</fullName>
+        <externalId>false</externalId>
+        <label>Lodging</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>MultiTax_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>MultiTax Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>MultiTax__c</fullName>
+        <externalId>false</externalId>
+        <label>MultiTax</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Notes__c</fullName>
+        <externalId>false</externalId>
+        <label>Notes</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>POS_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>POS Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>POS__c</fullName>
+        <externalId>false</externalId>
+        <label>POS</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Product_Mapping_Click_Path__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Describe the path of clicks that the user must take to find the area where they can map products/services to Avalara Tax Codes.</inlineHelpText>
+        <label>Product Mapping Click Path</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Provisioning_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Provisioning Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Provisioning__c</fullName>
+        <externalId>false</externalId>
+        <label>Provisioning</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Refunds_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Refunds Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Refunds__c</fullName>
+        <externalId>false</externalId>
+        <label>Refunds</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Sales_Tax_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Sales Tax Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Sales_Tax_AvaTax_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Sales Tax - AvaTax Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Sales_Tax_AvaTax__c</fullName>
+        <externalId>false</externalId>
+        <label>Sales Tax - AvaTax</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Sales_Tax_TrustFile_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Sales Tax - TrustFile Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Sales_Tax_TrustFile__c</fullName>
+        <externalId>false</externalId>
+        <label>Sales Tax - TrustFile</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Sales_Tax__c</fullName>
+        <externalId>false</externalId>
+        <label>Sales Tax</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Support_Notes__c</fullName>
+        <externalId>false</externalId>
+        <label>Support Notes</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Support_Support_Path__c</fullName>
+        <externalId>false</externalId>
+        <label>Support - Support Path</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Timing_For_Tax_Calculation__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Describe the events and triggers which call out to AvaTax. Is it manually by a calculate button? Automatically on save event? State all stages of transaction life cycle where a call is made, estimate, order, invoice etc.</inlineHelpText>
+        <label>Timing For Tax Calculation</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Timing_for_recording_Committing_Trans__c</fullName>
+        <externalId>false</externalId>
+        <label>Timing for recording &amp; Committing Trans.</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Timing_for_recording_Committing_Transa__c</fullName>
+        <externalId>false</externalId>
+        <label>Timing for recording &amp; Committing Transa</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Unique_Id__c</fullName>
+        <externalId>true</externalId>
+        <label>Unique Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Use_Tax_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Use Tax Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Use_Tax__c</fullName>
+        <externalId>false</externalId>
+        <label>Use Tax</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>User_Guide_URL__c</fullName>
+        <externalId>false</externalId>
+        <label>User Guide URL</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>User_Implementation_Guide__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>The User Implementation Guide should contain screenshots and information allowing the end user to configure for AvaTax including where the company code is entered, where the credentials are entered and where tax codes can be mapped within the application.</inlineHelpText>
+        <label>User Implementation Guide</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>VAT_Achieved_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>VAT Achieved Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>VAT__c</fullName>
+        <externalId>false</externalId>
+        <label>VAT</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Badges_Achieved</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Version__c</fullName>
+        <externalId>false</externalId>
+        <label>Version</label>
+        <referenceTo>Version__c</referenceTo>
+        <relationshipLabel>Functional Matrix</relationshipLabel>
+        <relationshipName>Functional_Matrix</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <label>Functional Matrix</label>
+    <nameField>
+        <displayFormat>FM-{000000}</displayFormat>
+        <label>Functional Matrix Name</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Functional Matrix</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Core_Address_Validation</fullName>
+        <active>true</active>
+        <label>Core Address Validation</label>
+        <picklistValues>
+            <picklist>API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Badges_Achieved</picklist>
+            <values>
+                <fullName>Certified</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Limited Functionality</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>C_API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Core_Communication</fullName>
+        <active>true</active>
+        <label>Core Communication</label>
+        <picklistValues>
+            <picklist>API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Badges_Achieved</picklist>
+            <values>
+                <fullName>Certified</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Limited Functionality</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>C_API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Core_Document_Management</fullName>
+        <active>true</active>
+        <label>Core Document Management</label>
+        <picklistValues>
+            <picklist>API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Badges_Achieved</picklist>
+            <values>
+                <fullName>Certified</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Limited Functionality</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>C_API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Core_Excise</fullName>
+        <active>true</active>
+        <label>Core Excise</label>
+        <picklistValues>
+            <picklist>API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Badges_Achieved</picklist>
+            <values>
+                <fullName>Certified</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Limited Functionality</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>C_API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Core_Extractor_AvaTax</fullName>
+        <active>true</active>
+        <label>Core Extractor AvaTax</label>
+        <picklistValues>
+            <picklist>API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Badges_Achieved</picklist>
+            <values>
+                <fullName>Certified</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Limited Functionality</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>C_API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Core_Extractor_TrustFile</fullName>
+        <active>true</active>
+        <label>Core Extractor TrustFile</label>
+        <picklistValues>
+            <picklist>API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Badges_Achieved</picklist>
+            <values>
+                <fullName>Certified</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Limited Functionality</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>C_API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Core_Lodging</fullName>
+        <active>true</active>
+        <label>Core Lodging</label>
+        <picklistValues>
+            <picklist>API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Badges_Achieved</picklist>
+            <values>
+                <fullName>Certified</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Limited Functionality</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>C_API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Core_Sales_Tax</fullName>
+        <active>true</active>
+        <label>Core Sales Tax</label>
+        <picklistValues>
+            <picklist>API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Badges_Achieved</picklist>
+            <values>
+                <fullName>Certified</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Limited Functionality</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>C_API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Core_Use_Tax</fullName>
+        <active>true</active>
+        <label>Core Use Tax</label>
+        <picklistValues>
+            <picklist>API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Badges_Achieved</picklist>
+            <values>
+                <fullName>Certified</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Limited Functionality</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>C_API__c</picklist>
+            <values>
+                <fullName>REST V1</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>REST V2</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <webLinks>
+        <fullName>Edit_Requirements</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Edit Requirements</masterLabel>
+        <openType>sidebar</openType>
+        <page>EditMatrixRequirements</page>
+        <protected>false</protected>
+    </webLinks>
+    <webLinks>
+        <fullName>Edit_Requirements_Grid</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Edit Requirements Grid</masterLabel>
+        <openType>noSidebar</openType>
+        <page>FunctionalMatrixRequirementListEdit</page>
+        <protected>false</protected>
+    </webLinks>
+    <webLinks>
+        <fullName>Sync</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Sync Quick Guide</masterLabel>
+        <openType>sidebar</openType>
+        <page>SyncToConnectorKB</page>
+        <protected>false</protected>
+    </webLinks>
+</CustomObject>

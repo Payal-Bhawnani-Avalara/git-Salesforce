@@ -1,9 +1,0 @@
-<apex:page standardController="pse__Grp__c" action="{!initForGroup}" extensions="pse.ForecastCalculatorController">
-
-    <apex:composition template="pse__ForecastCalculatorPage">
-        <apex:define name="sectionHeader">
-            <apex:sectionHeader title="{!$Label.pse__forecasts_label_calculate_forecasts}" subtitle="{!pse__Grp__c.Name}" help="{!$Page.pse__ForecastRunHelp}" />
-        </apex:define>
-    </apex:composition>
-
-</apex:page>

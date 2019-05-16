@@ -1,3 +1,0 @@
-<apex:page controller="CameleonCPQ.CPQDocViewer_VFCtrl" sidebar="false" showHeader="false" standardStylesheets="false"
-        action="{!redirect}">
-</apex:page>

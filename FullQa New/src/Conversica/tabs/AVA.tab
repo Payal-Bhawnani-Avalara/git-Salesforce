@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CustomTab xmlns="http://soap.sforce.com/2006/04/metadata">
-    <icon>Conversica/Conversica_Icon_No_Text_2016.png</icon>
-    <label>Conversica</label>
-    <mobileReady>true</mobileReady>
-    <motif>Custom108: TV Widescreen</motif>
-    <page>AVA</page>
-</CustomTab>

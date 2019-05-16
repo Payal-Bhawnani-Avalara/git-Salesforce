@@ -1,3 +1,0 @@
-<apex:page >
-	{!$Label.pse__timecard_entry_deprecated}
-</apex:page>

@@ -1,5 +1,0 @@
-<messaging:emailTemplate subject="Distribution Engine Assignment" recipientType="User" relatedToType="n2de__Distribution_log__c">
-<messaging:htmlEmailBody >
-<c:EmailNotification LogId="{!relatedTo.Id}" />
-</messaging:htmlEmailBody>
-</messaging:emailTemplate>

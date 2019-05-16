@@ -1,0 +1,1100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Document_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Document Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>64-8</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Annexo 1</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Control Statement</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Copy of any correspondence with the Tax Authorities</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Copy of Local VAT certificates</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Copy of the registration application submitted</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Details of Bank account(s) used for each country</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>EC Sales list/dispatches filed last year</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>HMRC Login credentials</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Intrastat filed in last year</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NIP-2</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Online filing PoA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>PoA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Returns filed last year</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Trade register extract</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>UPL - 1 (online filling)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>2x secondary proof of ID</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Certificate confirming business activities (trade register excerpt)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ID/Passport of Authorized Signatory</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Local VAT Certificate</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Articles of Association</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NIE Number</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>64-10</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>64-11</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>64-12</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>64-13</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>64-14</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>64-15</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>64-16</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>64-17</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>64-9</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Annexo 10</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Annexo 2</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Annexo 3</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Annexo 4</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Annexo 5</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Annexo 6</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Annexo 7</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Annexo 8</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Annexo 9</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>EC Sales list/dispatches filed in 2016</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>EC Sales list/dispatches filed in 2017</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>EC Sales list/dispatches filed in 2018</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>EC Sales list/dispatches filed in 2019</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>EC Sales list/dispatches filed in 2020</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>EC Sales list/dispatches filed in 2021</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>EC Sales list/dispatches filed in 2022</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>EC Sales list/dispatches filed in 2023</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>EC Sales list/dispatches filed in 2024</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>EC Sales list/dispatches filed in 2025</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Intrastat filed in 2016</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Intrastat filed in 2017</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Intrastat filed in 2018</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Intrastat filed in 2019</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Intrastat filed in 2020</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Intrastat filed in 2021</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Intrastat filed in 2022</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Intrastat filed in 2023</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Intrastat filed in 2024</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Intrastat filed in 2025</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>NIP-10</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>NIP-11</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>NIP-3</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>NIP-4</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>NIP-5</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>NIP-6</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>NIP-7</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>NIP-8</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>NIP-9</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Returns filed in 2016</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Returns filed in 2017</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Returns filed in 2018</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Returns filed in 2019</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Returns filed in 2020</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Returns filed in 2021</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Returns filed in 2022</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Returns filed in 2023</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Returns filed in 2024</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Returns filed in 2025</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+                <value>
+                    <fullName>Returns filed in 2026</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Document_Reason_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Document Reason Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Document_Name__c</controllingField>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>1  Soft Copy  N/A</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>2  Soft Copy  N/A - Under Review</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>3  Soft Copy  Incorrect document</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>4  Soft Copy  Scan unclear</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>5  Soft Copy  Expired</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>6  Soft Copy  Less than 6 months validity</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>7  Soft Copy  Document not signed and less than 6 months validity</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>8  Soft Copy  Document not on headed paper</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>9  Soft Copy  Document not signed</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>10  Soft Copy  Document not on headed paper and not signed</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>11  Soft Copy  Document not notarised</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>12  Soft Copy  Document not apostilled</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>13  Soft Copy  Document not on headed paper and not notarised</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>14  Soft Copy  Document not notarised and apostilled</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>15  Soft Copy  Document not on headed paper and not apostilled</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>16  Soft Copy  Document not on headed paper, not notarised and not apostilled</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>17  Soft Copy  Other</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>18  Soft Copy  Accepted</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>19  Hard Copy  N/A</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>20  Hard Copy  N/A - Under Review</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>21  Hard Copy  Document missing in parcel</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>22  Hard Copy  Document damaged</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>23  Hard Copy  Document not on headed paper</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>24  Hard Copy  Document not signed</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>25  Hard Copy  Document not on headed paper and not signed</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>26  Hard Copy  Document not notarised</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>27  Hard Copy  Document not apostilled</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>28  Hard Copy  Document not on headed paper and not notarised</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>29  Hard Copy  Document not notarised and apostilled</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30  Hard Copy  Document not on headed paper and not apostilled</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>31  Hard Copy  Document not on headed paper, not notarised and not apostilled</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>32  Hard Copy  Less than 3 originals</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>33  Hard Copy  Incorrect document</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>34  Hard Copy  Expired</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>35  Hard Copy  Less than 6 months validity</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>36  Hard Copy  Document not signed and less than 6 months validity</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>37  Hard Copy  Other</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>38  Hard Copy  Accepted</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>39  Soft Copy  Invalid</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Copy of any correspondence with the Tax Authorities</controllingFieldValue>
+                <controllingFieldValue>Copy of Local VAT certificates</controllingFieldValue>
+                <controllingFieldValue>Copy of the registration application submitted</controllingFieldValue>
+                <controllingFieldValue>Details of Bank account(s) used for each country</controllingFieldValue>
+                <controllingFieldValue>NIP-2</controllingFieldValue>
+                <controllingFieldValue>EC Sales list/dispatches filed last year</controllingFieldValue>
+                <controllingFieldValue>Intrastat filed in last year</controllingFieldValue>
+                <controllingFieldValue>Returns filed last year</controllingFieldValue>
+                <controllingFieldValue>2x secondary proof of ID</controllingFieldValue>
+                <controllingFieldValue>Certificate confirming business activities (trade register excerpt)</controllingFieldValue>
+                <controllingFieldValue>ID/Passport of Authorized Signatory</controllingFieldValue>
+                <controllingFieldValue>Local VAT Certificate</controllingFieldValue>
+                <controllingFieldValue>Online filing PoA</controllingFieldValue>
+                <controllingFieldValue>Articles of Association</controllingFieldValue>
+                <controllingFieldValue>HMRC Login credentials</controllingFieldValue>
+                <controllingFieldValue>NIE Number</controllingFieldValue>
+                <controllingFieldValue>Control Statement</controllingFieldValue>
+                <valueName>1  Soft Copy  N/A</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Copy of any correspondence with the Tax Authorities</controllingFieldValue>
+                <controllingFieldValue>Copy of Local VAT certificates</controllingFieldValue>
+                <controllingFieldValue>Copy of the registration application submitted</controllingFieldValue>
+                <controllingFieldValue>Details of Bank account(s) used for each country</controllingFieldValue>
+                <controllingFieldValue>NIP-2</controllingFieldValue>
+                <controllingFieldValue>EC Sales list/dispatches filed last year</controllingFieldValue>
+                <controllingFieldValue>Intrastat filed in last year</controllingFieldValue>
+                <controllingFieldValue>Returns filed last year</controllingFieldValue>
+                <controllingFieldValue>2x secondary proof of ID</controllingFieldValue>
+                <controllingFieldValue>Certificate confirming business activities (trade register excerpt)</controllingFieldValue>
+                <controllingFieldValue>ID/Passport of Authorized Signatory</controllingFieldValue>
+                <controllingFieldValue>Local VAT Certificate</controllingFieldValue>
+                <controllingFieldValue>Online filing PoA</controllingFieldValue>
+                <controllingFieldValue>Articles of Association</controllingFieldValue>
+                <controllingFieldValue>HMRC Login credentials</controllingFieldValue>
+                <controllingFieldValue>NIE Number</controllingFieldValue>
+                <controllingFieldValue>Control Statement</controllingFieldValue>
+                <valueName>2  Soft Copy  N/A - Under Review</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Copy of any correspondence with the Tax Authorities</controllingFieldValue>
+                <controllingFieldValue>Copy of Local VAT certificates</controllingFieldValue>
+                <controllingFieldValue>Copy of the registration application submitted</controllingFieldValue>
+                <controllingFieldValue>NIP-2</controllingFieldValue>
+                <controllingFieldValue>EC Sales list/dispatches filed last year</controllingFieldValue>
+                <controllingFieldValue>Intrastat filed in last year</controllingFieldValue>
+                <controllingFieldValue>Returns filed last year</controllingFieldValue>
+                <controllingFieldValue>2x secondary proof of ID</controllingFieldValue>
+                <controllingFieldValue>Certificate confirming business activities (trade register excerpt)</controllingFieldValue>
+                <controllingFieldValue>ID/Passport of Authorized Signatory</controllingFieldValue>
+                <controllingFieldValue>Local VAT Certificate</controllingFieldValue>
+                <controllingFieldValue>Online filing PoA</controllingFieldValue>
+                <controllingFieldValue>Articles of Association</controllingFieldValue>
+                <controllingFieldValue>NIE Number</controllingFieldValue>
+                <controllingFieldValue>Control Statement</controllingFieldValue>
+                <valueName>3  Soft Copy  Incorrect document</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Copy of any correspondence with the Tax Authorities</controllingFieldValue>
+                <controllingFieldValue>Copy of Local VAT certificates</controllingFieldValue>
+                <controllingFieldValue>Copy of the registration application submitted</controllingFieldValue>
+                <controllingFieldValue>EC Sales list/dispatches filed last year</controllingFieldValue>
+                <controllingFieldValue>Intrastat filed in last year</controllingFieldValue>
+                <controllingFieldValue>Returns filed last year</controllingFieldValue>
+                <controllingFieldValue>2x secondary proof of ID</controllingFieldValue>
+                <controllingFieldValue>Certificate confirming business activities (trade register excerpt)</controllingFieldValue>
+                <controllingFieldValue>ID/Passport of Authorized Signatory</controllingFieldValue>
+                <controllingFieldValue>Local VAT Certificate</controllingFieldValue>
+                <controllingFieldValue>Online filing PoA</controllingFieldValue>
+                <controllingFieldValue>Articles of Association</controllingFieldValue>
+                <controllingFieldValue>Control Statement</controllingFieldValue>
+                <valueName>4  Soft Copy  Scan unclear</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Copy of any correspondence with the Tax Authorities</controllingFieldValue>
+                <controllingFieldValue>Copy of Local VAT certificates</controllingFieldValue>
+                <controllingFieldValue>Copy of the registration application submitted</controllingFieldValue>
+                <controllingFieldValue>Details of Bank account(s) used for each country</controllingFieldValue>
+                <controllingFieldValue>NIP-2</controllingFieldValue>
+                <controllingFieldValue>EC Sales list/dispatches filed last year</controllingFieldValue>
+                <controllingFieldValue>Intrastat filed in last year</controllingFieldValue>
+                <controllingFieldValue>Returns filed last year</controllingFieldValue>
+                <controllingFieldValue>2x secondary proof of ID</controllingFieldValue>
+                <controllingFieldValue>Certificate confirming business activities (trade register excerpt)</controllingFieldValue>
+                <controllingFieldValue>ID/Passport of Authorized Signatory</controllingFieldValue>
+                <controllingFieldValue>Local VAT Certificate</controllingFieldValue>
+                <controllingFieldValue>Online filing PoA</controllingFieldValue>
+                <controllingFieldValue>Articles of Association</controllingFieldValue>
+                <controllingFieldValue>HMRC Login credentials</controllingFieldValue>
+                <controllingFieldValue>NIE Number</controllingFieldValue>
+                <controllingFieldValue>Control Statement</controllingFieldValue>
+                <valueName>17  Soft Copy  Other</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Copy of any correspondence with the Tax Authorities</controllingFieldValue>
+                <controllingFieldValue>Copy of Local VAT certificates</controllingFieldValue>
+                <controllingFieldValue>Copy of the registration application submitted</controllingFieldValue>
+                <controllingFieldValue>Details of Bank account(s) used for each country</controllingFieldValue>
+                <controllingFieldValue>NIP-2</controllingFieldValue>
+                <controllingFieldValue>EC Sales list/dispatches filed last year</controllingFieldValue>
+                <controllingFieldValue>Intrastat filed in last year</controllingFieldValue>
+                <controllingFieldValue>Returns filed last year</controllingFieldValue>
+                <controllingFieldValue>2x secondary proof of ID</controllingFieldValue>
+                <controllingFieldValue>Certificate confirming business activities (trade register excerpt)</controllingFieldValue>
+                <controllingFieldValue>ID/Passport of Authorized Signatory</controllingFieldValue>
+                <controllingFieldValue>Local VAT Certificate</controllingFieldValue>
+                <controllingFieldValue>Online filing PoA</controllingFieldValue>
+                <controllingFieldValue>Articles of Association</controllingFieldValue>
+                <controllingFieldValue>HMRC Login credentials</controllingFieldValue>
+                <controllingFieldValue>NIE Number</controllingFieldValue>
+                <controllingFieldValue>Control Statement</controllingFieldValue>
+                <valueName>18  Soft Copy  Accepted</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Details of Bank account(s) used for each country</controllingFieldValue>
+                <controllingFieldValue>HMRC Login credentials</controllingFieldValue>
+                <valueName>39  Soft Copy  Invalid</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Trade register extract</controllingFieldValue>
+                <controllingFieldValue>UPL - 1 (online filling)</controllingFieldValue>
+                <controllingFieldValue>Certificate confirming business activities (trade register excerpt)</controllingFieldValue>
+                <controllingFieldValue>Annexo 1</controllingFieldValue>
+                <controllingFieldValue>Local VAT Certificate</controllingFieldValue>
+                <controllingFieldValue>PoA</controllingFieldValue>
+                <controllingFieldValue>64-8</controllingFieldValue>
+                <valueName>19  Hard Copy  N/A</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Trade register extract</controllingFieldValue>
+                <controllingFieldValue>UPL - 1 (online filling)</controllingFieldValue>
+                <controllingFieldValue>Certificate confirming business activities (trade register excerpt)</controllingFieldValue>
+                <controllingFieldValue>Annexo 1</controllingFieldValue>
+                <controllingFieldValue>Local VAT Certificate</controllingFieldValue>
+                <controllingFieldValue>PoA</controllingFieldValue>
+                <controllingFieldValue>64-8</controllingFieldValue>
+                <valueName>20  Hard Copy  N/A - Under Review</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Trade register extract</controllingFieldValue>
+                <controllingFieldValue>UPL - 1 (online filling)</controllingFieldValue>
+                <controllingFieldValue>Annexo 1</controllingFieldValue>
+                <controllingFieldValue>PoA</controllingFieldValue>
+                <controllingFieldValue>64-8</controllingFieldValue>
+                <valueName>21  Hard Copy  Document missing in parcel</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Trade register extract</controllingFieldValue>
+                <controllingFieldValue>UPL - 1 (online filling)</controllingFieldValue>
+                <controllingFieldValue>Annexo 1</controllingFieldValue>
+                <controllingFieldValue>PoA</controllingFieldValue>
+                <controllingFieldValue>64-8</controllingFieldValue>
+                <valueName>22  Hard Copy  Document damaged</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Trade register extract</controllingFieldValue>
+                <controllingFieldValue>Annexo 1</controllingFieldValue>
+                <controllingFieldValue>PoA</controllingFieldValue>
+                <valueName>26  Hard Copy  Document not notarised</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Trade register extract</controllingFieldValue>
+                <controllingFieldValue>Annexo 1</controllingFieldValue>
+                <controllingFieldValue>PoA</controllingFieldValue>
+                <valueName>27  Hard Copy  Document not apostilled</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Trade register extract</controllingFieldValue>
+                <controllingFieldValue>Annexo 1</controllingFieldValue>
+                <controllingFieldValue>PoA</controllingFieldValue>
+                <valueName>29  Hard Copy  Document not notarised and apostilled</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Trade register extract</controllingFieldValue>
+                <controllingFieldValue>UPL - 1 (online filling)</controllingFieldValue>
+                <controllingFieldValue>Certificate confirming business activities (trade register excerpt)</controllingFieldValue>
+                <controllingFieldValue>Annexo 1</controllingFieldValue>
+                <controllingFieldValue>Local VAT Certificate</controllingFieldValue>
+                <controllingFieldValue>PoA</controllingFieldValue>
+                <controllingFieldValue>64-8</controllingFieldValue>
+                <valueName>33  Hard Copy  Incorrect document</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Trade register extract</controllingFieldValue>
+                <controllingFieldValue>UPL - 1 (online filling)</controllingFieldValue>
+                <controllingFieldValue>Certificate confirming business activities (trade register excerpt)</controllingFieldValue>
+                <controllingFieldValue>Annexo 1</controllingFieldValue>
+                <controllingFieldValue>Local VAT Certificate</controllingFieldValue>
+                <controllingFieldValue>PoA</controllingFieldValue>
+                <controllingFieldValue>64-8</controllingFieldValue>
+                <valueName>37  Hard Copy  Other</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Trade register extract</controllingFieldValue>
+                <controllingFieldValue>UPL - 1 (online filling)</controllingFieldValue>
+                <controllingFieldValue>Certificate confirming business activities (trade register excerpt)</controllingFieldValue>
+                <controllingFieldValue>Annexo 1</controllingFieldValue>
+                <controllingFieldValue>Local VAT Certificate</controllingFieldValue>
+                <controllingFieldValue>PoA</controllingFieldValue>
+                <controllingFieldValue>64-8</controllingFieldValue>
+                <valueName>38  Hard Copy  Accepted</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>UPL - 1 (online filling)</controllingFieldValue>
+                <controllingFieldValue>PoA</controllingFieldValue>
+                <controllingFieldValue>64-8</controllingFieldValue>
+                <valueName>24  Hard Copy  Document not signed</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Online filing PoA</controllingFieldValue>
+                <controllingFieldValue>Control Statement</controllingFieldValue>
+                <valueName>9  Soft Copy  Document not signed</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>PoA</controllingFieldValue>
+                <valueName>23  Hard Copy  Document not on headed paper</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>PoA</controllingFieldValue>
+                <valueName>25  Hard Copy  Document not on headed paper and not signed</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>PoA</controllingFieldValue>
+                <valueName>28  Hard Copy  Document not on headed paper and not notarised</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>PoA</controllingFieldValue>
+                <valueName>30  Hard Copy  Document not on headed paper and not apostilled</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>PoA</controllingFieldValue>
+                <valueName>31  Hard Copy  Document not on headed paper, not notarised and not apostilled</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>PoA</controllingFieldValue>
+                <valueName>32  Hard Copy  Less than 3 originals</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Control Statement</controllingFieldValue>
+                <valueName>6  Soft Copy  Less than 6 months validity</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Control Statement</controllingFieldValue>
+                <valueName>7  Soft Copy  Document not signed and less than 6 months validity</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Document_Received__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(
+
+ISBLANK(TEXT(Document_Reason_Code__c)), 
+False,True)</formula>
+        <label>Document Received</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>EMEA_Country__c</fullName>
+        <externalId>false</externalId>
+        <label>EMEA Country</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Australia</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Austria</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Belgium</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Bulgaria</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Canada</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Croatia</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Cyprus</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Czech Republic</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Denmark</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Estonia</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Finland</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>France</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Germany</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Greece</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Hungary</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Iceland</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ireland</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Italy</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Latvia</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Liechtenstein</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Lithuania</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Luxembourg</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Malta</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Netherlands</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Norway</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Poland</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Portugal</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Romania</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Slovakia</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Slovenia</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>South Africa</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>South Korea</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Spain</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sweden</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Switzerland</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>United Kingdom</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Jersey</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Registration_Country_Case__c</fullName>
+        <externalId>false</externalId>
+        <label>Registration Country Case</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>EMEA Documents</relationshipLabel>
+        <relationshipName>EMEA_Documents</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <label>EMEA Document</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>recents_docs</fullName>
+        <columns>NAME</columns>
+        <columns>Document_Name__c</columns>
+        <columns>EMEA_Country__c</columns>
+        <columns>Registration_Country_Case__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>CREATED_DATE</field>
+            <operation>equals</operation>
+            <value>LAST_N_DAYS:7</value>
+        </filters>
+        <label>recents docs</label>
+    </listViews>
+    <nameField>
+        <displayFormat>{0000000000}</displayFormat>
+        <label>EMEA Document Name</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>EMEA Documents</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <startsWith>Vowel</startsWith>
+    <webLinks>
+        <fullName>Create_EMEA_Documents</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <height>600</height>
+        <linkType>url</linkType>
+        <masterLabel>Create EMEA Documents</masterLabel>
+        <openType>sidebar</openType>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
+        <url>/flow/EMEA_Document_Handler_Flow?varCountryCaseID={!Case.Id}&amp;varEMEACountryofCase={!Case.EMEA_Country__c}&amp;varEMEADocFlag={!Case.EMEADocsCreatedFlag__c}</url>
+    </webLinks>
+</CustomObject>

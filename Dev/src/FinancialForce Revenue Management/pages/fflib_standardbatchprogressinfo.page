@@ -1,7 +1,0 @@
-<!-- fflib_standardbatchprogressinfo -->
-<apex:page standardController="ffrr__fflib_BatchProcess__c">
-	<c:fflib_batchInfo id="jobStatus"
-		batchControlRecordId="{!ffrr__fflib_BatchProcess__c.ffrr__BatchControlRecordID__c}"
-		batchJobClass="{!ffrr__fflib_BatchProcess__c.ffrr__ApexJobClassName__c}"
-	/>
-</apex:page>

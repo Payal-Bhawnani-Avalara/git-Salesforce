@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
+    <fields>
+        <fullName>AccountCloseonBehalf__c</fullName>
+        <description>The purpose is to capture if customer would like Avalara to close out the accounts on their behalf.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The purpose is to capture if customer would like Avalara to close out the accounts on their behalf.</inlineHelpText>
+        <label>AccountCloseonBehalf</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Cancellation_Account__c</fullName>
+        <externalId>false</externalId>
+        <formula>Cancellation_Name__r.Account__r.Name</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Cancellation Account</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Cancellation_ID__c</fullName>
+        <externalId>false</externalId>
+        <label>Cancellation ID</label>
+        <length>90</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Cancellation_Name__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Refer to cancellation record.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Refer to cancellation record.</inlineHelpText>
+        <label>Cancellation Name</label>
+        <referenceTo>Cancellation__c</referenceTo>
+        <relationshipLabel>Returns Cancellations</relationshipLabel>
+        <relationshipName>Returns_Cancellations</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Cancellation_Type__c</fullName>
+        <description>The purpose of this field is to capture the type of returns cancellation is being processed.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The purpose of this field is to capture the type of returns cancellation is being processed.</inlineHelpText>
+        <label>Cancellation Type</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>AvaTax Returns</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SST</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Both</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>CustomerComments__c</fullName>
+        <description>Capture customer comments</description>
+        <externalId>false</externalId>
+        <label>CustomerComments</label>
+        <length>1500</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Date_Requested__c</fullName>
+        <description>The purpose of this field is to capture the date the returns cancellation is captured.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The purpose of this field is to capture the date the returns cancellation is captured.</inlineHelpText>
+        <label>Date Requested</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>FinalonBehalf__c</fullName>
+        <description>The purpose is to capture if customer would like Avalara to mark the returns &quot;Final&quot; on their behalf to indicate their business has been closed.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The purpose is to capture if customer would like Avalara to mark the returns &quot;Final&quot; on their behalf to indicate their business has been closed.</inlineHelpText>
+        <label>FinalonBehalf</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Last_Filing_Month__c</fullName>
+        <description>The purpose of this field is to capture the last month the customer is requesting Avalara file.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The purpose of this field is to capture the last month the customer is requesting Avalara file.</inlineHelpText>
+        <label>Last Filing Month</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>January Returns due February</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>February Returns due March</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>March Returns Due April</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>April Returns Due May</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>May Returns Due June</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>June Returns Due July</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>July Returns Due August</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>August Returns Due September</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>September Returns Due October</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>October Returns November</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>November Returns December</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>December Returns January</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Last_Filing_Year__c</fullName>
+        <description>The year of the last filing month to be completed by Avalara.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The year of the last filing month to be completed by Avalara.</inlineHelpText>
+        <label>Last Filing Year</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>2017</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>2016</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>2015</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>2014</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>2013</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>2012</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>2011</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Reason_for_Cancellation__c</fullName>
+        <description>The purpose of this field is to identify reason for cancellation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The purpose of this field is to identify reason for cancellation.</inlineHelpText>
+        <label>Reason for Cancellation</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Company Aquired / Restructured</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Out of Business</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Requested_by_Name__c</fullName>
+        <description>Capture name of person requesting cancellation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Capture name of person requesting cancellation.</inlineHelpText>
+        <label>Requested by Name</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Requested_by_Phone__c</fullName>
+        <description>Capture phone number of person requesting cancellation</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Capture phone number of person requesting cancellation</inlineHelpText>
+        <label>Requested by Phone</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Requested_by_Title__c</fullName>
+        <description>Capture title of person requesting cancellation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Capture title of person requesting cancellation.</inlineHelpText>
+        <label>Requested by Title</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Review_Status__c</fullName>
+        <description>The purpose of this field is to identify the status of the returns cancellation submissions.  Users assigned to review and &quot;do something&quot; with the data must use this field to identify.  This will drive reporting.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The purpose of this field is to identify the status of the returns cancellation submissions.  Users assigned to review and &quot;do something&quot; with the data must use this field to identify.  This will drive reporting.</inlineHelpText>
+        <label>Review Status</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>New</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>In Review</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Valid</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Request Processed</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>Returns Cancellation</label>
+    <nameField>
+        <displayFormat>RT-CNCL-{00000000}</displayFormat>
+        <label>Returns Cancellation Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Returns Cancellations</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

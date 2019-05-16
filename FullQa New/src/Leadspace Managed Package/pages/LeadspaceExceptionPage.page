@@ -1,3 +1,0 @@
-<apex:page title="Leadspace exception page" controller="leadspace.LeadSpaceApi">
-<apex:pagemessages ></apex:pagemessages>
-</apex:page>

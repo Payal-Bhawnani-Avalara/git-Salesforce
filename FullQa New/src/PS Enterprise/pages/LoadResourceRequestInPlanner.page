@@ -1,2 +1,0 @@
-<apex:page standardController="pse__Resource_Request__c" recordSetVar="selectedResourceRequests" extensions="pse.LoadResourceRequestInPlanner" action="{!loadPlanner}">
-</apex:page>

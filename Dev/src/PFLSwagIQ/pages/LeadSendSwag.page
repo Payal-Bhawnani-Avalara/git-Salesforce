@@ -1,9 +1,0 @@
-<apex:page showHeader="true"
-           sidebar="true"
-           extensions="PFLSwagIQ.SendSwagExtension"
-           standardStylesheets="false"
-           standardController="Lead"
-           title="{!recordName} - Send Swag"
-           action="{!onLoad}">
-    <c:SwagIQ record="{!recordId}"/>
-</apex:page>

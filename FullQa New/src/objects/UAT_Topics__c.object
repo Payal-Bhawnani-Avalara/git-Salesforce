@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
+    <fields>
+        <fullName>Average_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(Total_Tests__c &gt; 0, Score_Sum__c /  Total_Tests__c, null)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Average Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Product__c</fullName>
+        <externalId>false</externalId>
+        <label>Product</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>AvaTax Calc</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AvaTax Returns</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AvaTax Certs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Dynamics GP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Dynamics AX  2012</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Dynamics AX 2009</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Dynamics NAV</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NetSuite</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NetSuite One World</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>QuickBooks</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sage 100</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sage 300</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sage 500</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sage 50</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Zuora</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Accounting Seed</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AvaTax APIs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>TrustFile</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SalesTax II</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sales Tax PC +</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CalcTx32.dll</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Laserbridge</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Score_Sum__c</fullName>
+        <externalId>false</externalId>
+        <label>Score Sum</label>
+        <summarizedField>UAT_Results__c.Avg_Score__c</summarizedField>
+        <summaryForeignKey>UAT_Results__c.UAT_Topics__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Topic__c</fullName>
+        <externalId>false</externalId>
+        <label>Topic</label>
+        <length>5000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Total_Tests__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Tests</label>
+        <summaryForeignKey>UAT_Results__c.UAT_Topics__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>UAT_Focus__c</fullName>
+        <externalId>false</externalId>
+        <label>UAT Focus</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Search</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Navigation</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Topic Completeness</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Customer Access</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Link Testing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Browser Compatability</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Go Live</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>UAT Topics</label>
+    <nameField>
+        <label>Topic ID</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>UAT Topics</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

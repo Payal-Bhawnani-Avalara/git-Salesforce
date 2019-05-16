@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <description>Translation from NAICS to 1-char SIC</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>SIC1__c</fullName>
+        <externalId>false</externalId>
+        <label>SIC1</label>
+        <length>1</length>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>DG NAICS To SIC1</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>SIC1__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <visibility>Protected</visibility>
+</CustomObject>

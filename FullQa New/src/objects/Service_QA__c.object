@@ -1,0 +1,2983 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Custom Object for managing service quality assurance data.</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
+    <fields>
+        <fullName>Approval_Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Approval Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Pending</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Approved</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Rejected</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>CL_ClosingStatement_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( CL_ClosingStatement__c , 
+
+&quot;Bad&quot;, 0.00, 
+&quot;Ok&quot;, 2.00, 
+&quot;Good&quot;, 3.00 ,
+&quot;N/A&quot;, 3.00 
+,Null)</formula>
+        <label>CL_ClosingStatement_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CL_ClosingStatement__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>2 Closing Statement (Restate the problem, Troubleshooting high points, Gain agreement on Resolution - prove functionality)</inlineHelpText>
+        <label>CL ClosingStatement</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Good</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ok</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Bad</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>CL_Followup_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( CL_Followup__c , 
+
+&quot;Bad&quot;, 0.00, 
+&quot;Ok&quot;, 2.00, 
+&quot;Good&quot;, 3.00 ,
+&quot;N/A&quot;, 3.00 
+,Null)</formula>
+        <label>CL_Followup_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CL_Followup__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>5 Follow up - if needed</inlineHelpText>
+        <label>CL Followup</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Good</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ok</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Bad</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>CL_Mention_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( CL_Mention__c , 
+
+&quot;Met&quot;, 3.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 3.00 
+,Null)</formula>
+        <label>CL_Mention_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CL_Mention__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>4 Say issue is marked as resolved and mention survey</inlineHelpText>
+        <label>CL Mention_Survey</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>CL_NextSteps_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( CL_NextSteps__c , 
+
+&quot;Bad&quot;, 0.00, 
+&quot;Ok&quot;, 2.00, 
+&quot;Good&quot;, 3.00 ,
+&quot;N/A&quot;, 3.00 
+,Null)</formula>
+        <label>CL_NextSteps_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CL_NextSteps__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>3 Next steps customer needs to take on their own.</inlineHelpText>
+        <label>CL NextSteps</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Good</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ok</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Bad</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>CL_Resolution_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( CL_Resolution__c , 
+
+&quot;Met&quot;, 3.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 3.00 
+,Null)</formula>
+        <label>CL_Resolution_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CL_Resolution__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>1 Resolve the issue</inlineHelpText>
+        <label>CL_Resolve_Issue</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Case_Closed__c</fullName>
+        <description>Were they able to resolve the customer&apos;s issue?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Were they able to resolve the customer&apos;s issue?</inlineHelpText>
+        <label>(New) Case Closed</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Closing_Quality_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(
+
+(
+OR(
+ISPICKVAL( CL_Resolution__c  , &quot;Not Met&quot;),
+ISPICKVAL( CL_ClosingStatement__c , &quot;Bad&quot;),
+ISPICKVAL( CL_NextSteps__c  , &quot;Bad&quot;),
+ISPICKVAL( CL_Mention__c  , &quot;Not Met&quot;),
+ISPICKVAL( CL_Followup__c , &quot;Bad&quot;)
+)
+), 0,   Closing_Training_Score__c )</formula>
+        <label>Closing Quality Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Closing_Training_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>CL_ClosingStatement_Tscore__c + CL_Followup_Tscore__c + CL_Mention_Tscore__c + CL_NextSteps_Tscore__c + CL_Resolution_Tscore__c</formula>
+        <label>Closing Training Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Customer_Name_Call_Chat__c</fullName>
+        <description>Did they use the customer&apos;s name mutliple times in the call? Only used in case of call or chat.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Did they use the customer&apos;s name mutliple times in the call? Only used in case of call or chat.</inlineHelpText>
+        <label>(New) Customer Name (Call/Chat)</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>DNUTotal_Quality_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>Greeting_Quality_Score__c + Issue_Description_Quality_Score__c + Issue_Engagement_Quality_Score__c + Closing_Quality_Score__c</formula>
+        <label>DNUTotal Quality Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>DNUTotal_Training_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>Greeting_Training_Score__c + Issue_Description_Training_Score__c + Issue_Engagement_Training_Score__c + Closing_Training_Score__c</formula>
+        <label>DNU__Total Training Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Documentation_Failure_Summary__c</fullName>
+        <description>All No&apos;s will need a comment describing why.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>All No&apos;s will need a comment describing why.</inlineHelpText>
+        <label>(New) Documentation Failure Summary</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Escalation_Environment_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Escalation_Environment__c , 
+
+&quot;Met&quot;, 1.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 1.00 
+,Null)</formula>
+        <label>Escalation_Environment_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Escalation_Environment__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Case documentation - Environment – Connector (version), Browser, and account number, etc.</inlineHelpText>
+        <label>Escalation_Environment</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Escalation_Failure_Summary__c</fullName>
+        <description>All No&apos;s will need a comment describing why.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>All No&apos;s will need a comment describing why.</inlineHelpText>
+        <label>(New) Escalation Failure Summary</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Escalation_Followup_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Escalation_Followup__c , 
+
+&quot;Met&quot;, 1.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 1.00 
+,Null)</formula>
+        <label>Escalation_Followup_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Escalation_Followup__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Escalations - cases requiring follow up - Set expectation</inlineHelpText>
+        <label>Escalation_Followup</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Escalation_IssueOverview_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Escalation_IssueOverview__c , 
+
+&quot;Met&quot;, 1.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 1.00 
+,Null)</formula>
+        <label>Escalation_IssueOverview_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Escalation_IssueOverview__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Case documentation - Issue Overview – additional description (if needed, ex: escalations)</inlineHelpText>
+        <label>Escalation_IssueOverview</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Escalation_Jira_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Escalation_Jira__c , 
+
+&quot;Met&quot;, 2.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 2.00 
+,Null)</formula>
+        <label>Escalation_Jira_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Escalation_Jira__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Escalations - JIRA/Internal</inlineHelpText>
+        <label>Escalation_Jira</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Escalation_NextSteps_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Escalation_NextSteps__c , 
+
+&quot;Met&quot;, 2.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 2.00 
+,Null)</formula>
+        <label>Escalation_NextSteps_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Escalation_NextSteps__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Case documentation - Next Steps - In Case– Specific instruction</inlineHelpText>
+        <label>Escalation_NextSteps</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Escalation_Partners_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Escalation_Partners__c , 
+
+&quot;Met&quot;, 1.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 1.00 
+,Null)</formula>
+        <label>Escalation_Partners_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Escalation_Partners__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Escalations - Partners</inlineHelpText>
+        <label>Escalation_Partners</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Escalation_Quality_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( Escalation_Training_Score__c  = 9, 9, 0)</formula>
+        <label>Escalation Quality Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Escalation_Training_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>Escalation_Environment_Tscore__c + Escalation_Followup_Tscore__c + Escalation_IssueOverview_Tscore__c + Escalation_Jira_Tscore__c + Escalation_NextSteps_Tscore__c + Escalation_Partners_Tscore__c + Escalation_WarmTransfer_Tscore__c</formula>
+        <label>Escalation Training Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Escalation_WarmTransfer_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Escalation_WarmTransfer__c , 
+
+&quot;Met&quot;, 1.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 1.00 
+,Null)</formula>
+        <label>Escalation_WarmTransfer_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Escalation_WarmTransfer__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Tried to warm transfer and followed process</inlineHelpText>
+        <label>Escalation_WarmTransfer</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Friendly_ClearSpeak_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Friendly_ClearSpeak__c , 
+
+&quot;Met&quot;, 1.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 1.00 
+,Null)</formula>
+        <label>Friendly_ClearSpeak_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Friendly_ClearSpeak__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Speak clearly and with a warm tone (Smile while you speak)</inlineHelpText>
+        <label>Friendly_Clear_Warm_Tone</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Friendly_CustomerLevel_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Friendly_CustomerLevel__c , 
+
+&quot;Bad&quot;, 0.00, 
+&quot;Ok&quot;, 0.50, 
+&quot;Good&quot;, 1.00 ,
+&quot;N/A&quot;, 1.00 
+,Null)</formula>
+        <label>Friendly_CustomerLevel_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Friendly_CustomerLevel__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Explaining things at customer level</inlineHelpText>
+        <label>Friendly_CustomerLevel</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Good</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ok</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Bad</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Friendly_CustomerName_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Friendly_CustomerName__c , 
+
+&quot;Met&quot;, 1.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 1.00 
+,Null)</formula>
+        <label>Friendly_CustomerName_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Friendly_CustomerName__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Use customers name (the name they use) more than once</inlineHelpText>
+        <label>Friendly_CustomerName</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Friendly_NoSlang_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Friendly_NoSlang__c , 
+
+&quot;Met&quot;, 1.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 1.00 
+,Null)</formula>
+        <label>Friendly_NoSlang_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Friendly_NoSlang__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>No lingo/jargon/slang</inlineHelpText>
+        <label>Friendly_NoSlang</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Friendly_Personal_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Friendly_Personal__c , 
+
+&quot;Bad&quot;, 0.00, 
+&quot;Ok&quot;, 0.25, 
+&quot;Good&quot;, 0.50 ,
+&quot;N/A&quot;, 0.50 
+,Null)</formula>
+        <label>Friendly_Personal_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Friendly_Personal__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Don’t be too personal – focus on resolving issue</inlineHelpText>
+        <label>Friendly_Not_Too_Personal</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Good</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ok</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Bad</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Friendly_Professional__c</fullName>
+        <description>Were they professional and friendly? Did they speak/type on the customer level? Did they use slang?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Were they professional and friendly? Did they speak/type on the customer level? Did they use slang?</inlineHelpText>
+        <label>(New) Friendly &amp; Professional</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Friendly_Quality_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(
+
+(
+OR(
+ISPICKVAL( Friendly_Tone__c , &quot;Bad&quot;),
+ISPICKVAL( Friendly_Personal__c , &quot;Bad&quot;),
+ISPICKVAL( Friendly_CustomerLevel__c , &quot;Bad&quot;),
+ISPICKVAL( Friendly_NoSlang__c , &quot;Not Met&quot;),
+ISPICKVAL( Friendly_ClearSpeak__c  , &quot;Not Met&quot;),
+ISPICKVAL( Friendly_CustomerName__c , &quot;Not Met&quot;)
+)
+), 0,  Friendly_Training_Score__c  )</formula>
+        <label>Friendly Quality Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Friendly_Tone_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Friendly_Tone__c , 
+
+&quot;Bad&quot;, 0.00, 
+&quot;Ok&quot;, 0.25, 
+&quot;Good&quot;, 0.50,
+&quot;N/A&quot;, 0.50 
+,Null)</formula>
+        <label>Friendly_Tone_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Friendly_Tone__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Adjust tone to match customer</inlineHelpText>
+        <label>Friendly_Match_Cust_Tone</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Good</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ok</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Bad</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Friendly_Training_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>Friendly_ClearSpeak_Tscore__c + Friendly_CustomerLevel_Tscore__c + Friendly_CustomerName_Tscore__c + Friendly_NoSlang_Tscore__c + Friendly_Personal_Tscore__c + Friendly_Tone_Tscore__c</formula>
+        <label>Friendly Training Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Greeting_Call_Chat__c</fullName>
+        <description>Did they begin the call with a &apos;Thank You for calling&apos; and a &apos;How can I help you?&apos;</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Did they begin the call with a &apos;Thank You for calling&apos; and a &apos;How can I help you?&apos;</inlineHelpText>
+        <label>(New) Greeting</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Greeting_Quality_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(Greeting_Training_Score__c = 3.00, 3.00, 0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Greeting Quality Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Greeting_Training_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE(Greeting__c,
+
+&quot;Met&quot;, 3.00,
+&quot;Not Met&quot;, 0.00,
+&quot;N/A&quot;, 3.00
+,null)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Greeting Training Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Greeting__c</fullName>
+        <externalId>false</externalId>
+        <label>Greeting</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Hold_Procedure__c</fullName>
+        <description>Did they follow proper Holding procedure? No more than 2 min per instance, hold vs. mute, ask for permission or note the hold to the customer.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Did they follow proper Holding procedure? No more than 2 min per instance, hold vs. mute, ask for permission or note the hold to the customer.</inlineHelpText>
+        <label>(New) Hold Procedure</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>ID8020__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>1 80/20 listen/talk</inlineHelpText>
+        <label>ID Listen_80/20</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>ID_80_20_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE(ID8020__c, 
+
+&quot;Met&quot;, 3.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 3.00 
+,Null)</formula>
+        <label>ID 80 20 Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ID_Case_Description_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE(ID_Case_Description__c, 
+
+&quot;Bad&quot;, 0.00, 
+&quot;Ok&quot;, 1.00, 
+&quot;Good&quot;, 3.00 ,
+&quot;N/A&quot;, 3.00 
+,Null)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>ID_Case_Description_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ID_Case_Description__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>4 Description in Case - Restate problem incl. transaction, customer, dates, etc.</inlineHelpText>
+        <label>ID Case Description</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Good</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ok</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Bad</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>ID_Document_Inquire_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE(ID_Document_Inquire__c , 
+
+&quot;Met&quot;, 3.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 3.00 
+,Null)</formula>
+        <label>ID_Document_Inquire_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ID_Document_Inquire__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>2 Document/ask for details</inlineHelpText>
+        <label>ID Document_Ask4Details</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>ID_Repeat_Issue_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE(ID_Repeat_Issue__c, 
+
+&quot;Bad&quot;, 0.00, 
+&quot;Ok&quot;, 1.00, 
+&quot;Good&quot;, 3.00 ,
+&quot;N/A&quot;, 3.00 
+,Null)</formula>
+        <label>ID_Repeat_Issue_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ID_Repeat_Issue__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>3 Repeat issue as customer sees it</inlineHelpText>
+        <label>ID Repeat Issue</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Good</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ok</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Bad</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>IE_AYC_GoLiveandAge_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( IE_AYC_GoLiveandAge__c , 
+
+&quot;Met&quot;, 3.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 3.00 
+,Null)</formula>
+        <label>IE AYC_GoLiveandAge_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>IE_AYC_GoLiveandAge__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>2 About your customer? - Check Go Live and years with Avalara</inlineHelpText>
+        <label>IE AYC_GoLiveandAge</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>IE_AYC_OpenCases_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( IE_AYC_OpenCases__c , 
+
+&quot;Met&quot;, 3.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 3.00 
+,Null)</formula>
+        <label>IE AYC_OpenCases_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>IE_AYC_OpenCases__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>3 About your customer? - Review other open cases</inlineHelpText>
+        <label>IE AYC_OpenCases</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>IE_Identify_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( IE_Identify__c , 
+
+&quot;Met&quot;, 3.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 3.00 
+,Null)</formula>
+        <label>IE_Identify_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>IE_Identify__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>1 Ask for their name/company name (account number if needed).</inlineHelpText>
+        <label>IE Identify_Cust_Name/Co</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>IE_RootProblem_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( IE_RootProblem__c , 
+
+&quot;Met&quot;, 3.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 3.00 
+,Null)</formula>
+        <label>IE_RootProblem_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>IE_RootProblem__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>6 Start with Root problem - where does the issue occur?</inlineHelpText>
+        <label>IE RootProblem</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>IE_SESO_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( IE_SESO__c , 
+
+&quot;Met&quot;, 3.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 3.00 
+,Null)</formula>
+        <label>IE_SESO_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>IE_SESO__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>5 Search effectively/Search Often (LINK TROUBLESHOOTING GUIDES)</inlineHelpText>
+        <label>IE Search Early Search Often</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>IE_SimpleStart_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( IE_SimpleStart__c , 
+
+&quot;Met&quot;, 3.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 3.00 
+,Null)</formula>
+        <label>IE_SimpleStart_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>IE_SimpleStart__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>7 Start simple/Start with a &quot;big funnel&quot;</inlineHelpText>
+        <label>IE Simple Start</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>IE_VerifyIssue_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( IE_VerifyIssue__c , 
+
+&quot;Met&quot;, 3.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 3.00 
+,Null)</formula>
+        <label>IE_VerifyIssue_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>IE_VerifyIssue__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>4 Don&apos;t assume - Verify Issue (exists)</inlineHelpText>
+        <label>IE Verify Issue</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Issue_Description_Quality_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(
+
+(
+OR(
+ISPICKVAL( ID8020__c , &quot;Not Met&quot;),
+ISPICKVAL( ID_Document_Inquire__c , &quot;Not Met&quot;),
+ISPICKVAL( ID_Repeat_Issue__c  , &quot;Bad&quot;),
+ISPICKVAL( ID_Case_Description__c , &quot;Bad&quot;)
+)
+), 0,  Issue_Description_Training_Score__c)</formula>
+        <label>Issue Description Quality Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Issue_Description_Training_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>ID_Case_Description_Tscore__c + ID_Document_Inquire_Tscore__c + ID_Repeat_Issue_Tscore__c + ID_80_20_Tscore__c</formula>
+        <label>Issue Description Training Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Issue_Engagement_Quality_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(Issue_Engagement_Training_Score__c = 21, 21, 0)</formula>
+        <label>Issue Engagement Quality Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Issue_Engagement_Training_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>IE_Identify_Tscore__c + IE_RootProblem_Tscore__c + IE_SESO_Tscore__c + IE_SimpleStart_Tscore__c  +  IE_VerifyIssue_Tscore__c + IE_AYC_GoLiveandAge_Tscore__c  + IE_AYC_OpenCases_Tscore__c</formula>
+        <label>Issue Engagement Training Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>KCS_Correct_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( KCS_Correct__c , 
+
+&quot;Met&quot;, 2.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 2.00 
+,Null)</formula>
+        <label>KCS_Correct_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>KCS_Correct__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>KCS - 3 Correct</inlineHelpText>
+        <label>KCS Correct</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>KCS_Educate_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( KCS_Educate__c , 
+
+&quot;Bad&quot;, 0.00, 
+&quot;Ok&quot;, 1.00, 
+&quot;Good&quot;, 2.00 ,
+&quot;N/A&quot;, 2.00 
+,Null)</formula>
+        <label>KCS_Educate_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>KCS_Educate__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>KCS - Educate the customer</inlineHelpText>
+        <label>KCS Educate</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Good</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ok</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Bad</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>KCS_Quality_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(
+
+(
+OR(
+ISPICKVAL( KCS_Search__c , &quot;Not Met&quot;),
+ISPICKVAL( KCS_Use__c , &quot;Not Met&quot;),
+ISPICKVAL( KCS_Correct__c , &quot;Not Met&quot;),
+ISPICKVAL( KCS_Educate__c , &quot;Bad&quot;),
+ISPICKVAL( KCS_SESO__c , &quot;Not Met&quot;)
+)
+), 0,   KCS_Training_Score__c )</formula>
+        <label>KCS Quality Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>KCS_SESO_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( KCS_SESO__c , 
+
+&quot;Met&quot;, 2.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 2.00 
+,Null)</formula>
+        <label>KCS_SESO_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>KCS_SESO__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>KCS - Search effectively/Search Often Utilize KCS/ SalesForce/Google/Internal Tools then Team</inlineHelpText>
+        <label>KCS Use_Tools_then _Team</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>KCS_Search_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( KCS_Search__c , 
+
+&quot;Met&quot;, 2.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 2.00 
+,Null)</formula>
+        <label>KCS_Search_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>KCS_Search__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>KCS - 1 Search</inlineHelpText>
+        <label>KCS Search</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>KCS_Training_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>KCS_Correct_Tscore__c + KCS_Educate_Tscore__c + KCS_Search_Tscore__c + KCS_SESO_Tscore__c + KCS_Use_Tscore__c</formula>
+        <label>KCS Training Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>KCS_Use_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( KCS_Use__c , 
+
+&quot;Met&quot;, 2.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 2.00 
+,Null)</formula>
+        <label>KCS_Use_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>KCS_Use__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>KCS - 2 Use</inlineHelpText>
+        <label>KCS Use</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>New_Call_Chat_Email_Failure_Summary__c</fullName>
+        <description>All No&apos;s will need a comment describing why.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>All No&apos;s will need a comment describing why.</inlineHelpText>
+        <label>(New) Call/Chat/Email Failure Summary</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>New_Coaching_Summary__c</fullName>
+        <externalId>false</externalId>
+        <label>(New) Coaching Summary</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>New_Follow_Up__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>(New) Follow Up</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Next_Steps__c</fullName>
+        <description>Were they clear in the next steps to the customer? Only used in case of escalation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Were they clear in the next steps to the customer? Only used in case of escalation.</inlineHelpText>
+        <label>(New) Next Steps</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Overall__c</fullName>
+        <description>Were you able to follow through the case without having to deep dive into call/chat/email records?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Were you able to follow through the case without having to deep dive into call/chat/email records?</inlineHelpText>
+        <label>(New) Overall</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Problem_Understood__c</fullName>
+        <description>Did they work through the issue enough (verify, confirm) to understand? Did they repeat the issue as necessary?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Did they work through the issue enough (verify, confirm) to understand? Did they repeat the issue as necessary?</inlineHelpText>
+        <label>(New) Problem Understood</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>QA_Notes__c</fullName>
+        <externalId>false</externalId>
+        <label>QA Notes</label>
+        <length>5000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>RD_Clear4Customer_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( RD_Clear4Customer__c , 
+
+&quot;Met&quot;, 5.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 5.00 
+,Null)</formula>
+        <label>RD_Clear4Customer_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>RD_Clear4Customer__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>1 Customer should be able to follow the process to resolve issue (when possible)</inlineHelpText>
+        <label>RD Clear4Customer</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>RD_KCS_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE(RD_KCS__c, 
+
+&quot;Met&quot;, 5.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 5.00 
+,Null)</formula>
+        <label>RD_KCS_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>RD_KCS__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>4 KCS Attached/Used</inlineHelpText>
+        <label>RD KCS_Link</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>RD_Resolution_Steps_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE(RD_Resolution_Steps__c, 
+
+&quot;Met&quot;, 5.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 5.00 
+,Null)</formula>
+        <label>RD_Resolution_Steps_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>RD_Resolution_Steps__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>3 Resolution field in Case - Steps to resolve</inlineHelpText>
+        <label>RD Resolution_Steps</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>RD_Resolution_Summary_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( RD_Resolution_Summary__c , 
+
+&quot;Met&quot;, 5.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 5.00 
+,Null)</formula>
+        <label>RD_Resolution_Summary_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>RD_Resolution_Summary__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>2 Resolution field in Case - Summary of issue</inlineHelpText>
+        <label>RD Resolution_Summary</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>RelatedCase__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Related Case</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>Service QAs</relationshipLabel>
+        <relationshipName>Service_QAs</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Related_Survey_CSAT_Score__c</fullName>
+        <externalId>false</externalId>
+        <label>Related Survey CSAT Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Related_Survey_Response__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Related Survey Response</label>
+        <referenceTo>SurveyResponse__c</referenceTo>
+        <relationshipLabel>Service QAs</relationshipLabel>
+        <relationshipName>Service_QAs</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Resolution_Documentation_Quality_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( Resolution_Documentation_Training_Score__c = 20, 20, 0)</formula>
+        <label>Resolution Doc Quality Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Resolution_Documentation_Training_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>RD_Clear4Customer_Tscore__c +  RD_KCS_Tscore__c +  RD_Resolution_Steps_Tscore__c +  RD_Resolution_Summary_Tscore__c</formula>
+        <label>Resolution Doc Training Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ServiceQAUser__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <inlineHelpText>Identify the user who this QA measure is directly related to.</inlineHelpText>
+        <label>QA Subject</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Service_QAs</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Service_QA_SubType__c</fullName>
+        <externalId>false</externalId>
+        <label>Service QA SubType</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Service_QA_Type__c</controllingField>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Process - Notice</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Process - Wrong Queue</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Process - Template</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Process - No Need to Escalate</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Internal - How To</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Internal - Info</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>KCS - Errors - Did not link</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CSAT - Average Threshold</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CSAT - Event Driven</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Event Generated</controllingFieldValue>
+                <valueName>CSAT - Average Threshold</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Event Generated</controllingFieldValue>
+                <valueName>CSAT - Event Driven</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>End User Initiated</controllingFieldValue>
+                <valueName>Process - Notice</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>End User Initiated</controllingFieldValue>
+                <valueName>Process - Wrong Queue</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>End User Initiated</controllingFieldValue>
+                <valueName>Process - Template</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>End User Initiated</controllingFieldValue>
+                <valueName>Process - No Need to Escalate</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>End User Initiated</controllingFieldValue>
+                <valueName>Internal - How To</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>End User Initiated</controllingFieldValue>
+                <valueName>Internal - Info</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>End User Initiated</controllingFieldValue>
+                <valueName>KCS - Errors - Did not link</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Service_QA_Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Service QA Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Manual Audit</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Event Generated</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>End User Initiated</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(
+(
+OR
+(
+ISNULL(Total_Training_Score__c), 
+ISBLANK(RelatedCase__c),
+ISBLANK(ServiceQAUser__c ) 
+
+)
+
+),
+
+
+
+
+&quot;Incomplete&quot;, &quot;Complete&quot;)</formula>
+        <label>Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Support_Follow_Up_Status__c</fullName>
+        <externalId>false</externalId>
+        <label>(New) Follow Up Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Pending</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Waiting On Customer</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Escalate - New Case</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Complete - Resolved</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Complete - Unresponsive</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Throughout_Confidence_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Throughout_Confidence__c , 
+
+&quot;Bad&quot;, 0.00, 
+&quot;Ok&quot;, 1.00, 
+&quot;Good&quot;, 2.00 ,
+&quot;N/A&quot;, 2.00 
+,Null)</formula>
+        <label>Throughout_Confidence_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Throughout_Confidence__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Confidence - Have confidence in Avalara/Product and yourself  - Confident Statement/Ownership</inlineHelpText>
+        <label>Throughout_Confidence</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Good</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ok</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Bad</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Throughout_GinJD_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Throughout_GinJD__c , 
+
+&quot;Met&quot;, 1.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 1.00 
+,Null)</formula>
+        <label>Throughout_GinJD_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Throughout_GinJD__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>G&apos;n the JD - Avoid taking ownership of something that we cannot resolve.  Handle issues we actually deal with</inlineHelpText>
+        <label>Throughout_GinJD</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Throughout_Hold2min_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Throughout_Hold2min__c , 
+
+&quot;Met&quot;, 1.00, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 1.00 
+,Null)</formula>
+        <label>Throughout_Hold2min_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Throughout_Hold2min__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Hold - Customers should not be on hold more than 2 minutes at a time</inlineHelpText>
+        <label>Throughout_Hold2min</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Throughout_HoldClient_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Throughout_HoldClient__c , 
+
+&quot;Met&quot;, 0.50, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 0.50 
+,Null)</formula>
+        <label>Throughout_HoldClient_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Throughout_HoldClient__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Hold - Place client on Hold if you cannot actively listen</inlineHelpText>
+        <label>Throughout_Hold_Not_Mute</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Throughout_HoldNoted_Tscore__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASE( Throughout_HoldNoted__c , 
+
+&quot;Met&quot;, 0.5, 
+&quot;Not Met&quot;, 0.00, 
+&quot;N/A&quot;, 0.5 
+,Null)</formula>
+        <label>Throughout_HoldNoted_Tscore</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Throughout_HoldNoted__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Hold - Noted expected hold time?</inlineHelpText>
+        <label>Throughout_HoldNoted</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not Met</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Throughout_Quality_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(
+
+(
+OR(
+ISPICKVAL( Throughout_Confidence__c , &quot;Bad&quot;),
+ISPICKVAL( Throughout_GinJD__c , &quot;Not Met&quot;),
+ISPICKVAL( Throughout_Hold2min__c , &quot;Not Met&quot;),
+ISPICKVAL( Throughout_HoldNoted__c , &quot;Not Met&quot;),
+ISPICKVAL( Throughout_HoldClient__c , &quot;Not Met&quot;)
+)
+), 0,   Throughout_Training_Score__c )</formula>
+        <label>Throughout Quality Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Throughout_Training_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>Throughout_Confidence_Tscore__c + Throughout_GinJD_Tscore__c + Throughout_Hold2min_Tscore__c + Throughout_HoldClient_Tscore__c + Throughout_HoldNoted_Tscore__c</formula>
+        <label>Throughout Training Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Total_Quality_Score__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Quality Score</label>
+        <precision>7</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Total_Training_Score__c</fullName>
+        <externalId>false</externalId>
+        <label>Total Training Score</label>
+        <precision>7</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>X60_Day_Coaching_URL__c</fullName>
+        <externalId>false</externalId>
+        <label>(New) 60 Day Coaching URL</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <label>Service QA</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>ServiceQAUser__c</columns>
+        <columns>NAME</columns>
+        <columns>Total_Quality_Score__c</columns>
+        <columns>Total_Training_Score__c</columns>
+        <columns>RelatedCase__c</columns>
+        <columns>QA_Notes__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>All_Service_QAs</fullName>
+        <columns>NAME</columns>
+        <columns>RelatedCase__c</columns>
+        <columns>ServiceQAUser__c</columns>
+        <columns>Status__c</columns>
+        <columns>Total_Training_Score__c</columns>
+        <columns>Total_Quality_Score__c</columns>
+        <columns>UPDATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <label>All Service QAs</label>
+    </listViews>
+    <nameField>
+        <displayFormat>SQA-{00000000}</displayFormat>
+        <label>Service QA Name</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Service QAs</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

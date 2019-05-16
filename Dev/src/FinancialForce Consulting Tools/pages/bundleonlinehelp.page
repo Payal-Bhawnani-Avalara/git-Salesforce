@@ -1,1 +1,0 @@
-<apex:page sidebar="false" showHeader="false" action="{!URLFOR($Page.helploader, null, [topicid=1019])}"/>

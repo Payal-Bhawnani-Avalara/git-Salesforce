@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Source for all SVM/PVM data analytics.  Updated via Analytical Snapshot reports.</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
+    <fields>
+        <fullName>Account_ID__c</fullName>
+        <description>https://jira.avalara.com/browse/IBST-7900</description>
+        <externalId>false</externalId>
+        <formula>Account_Name__r.Id</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Account ID</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Account_Name__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The account tied to the CHI scores</description>
+        <externalId>false</externalId>
+        <label>Account Name</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipName>Account_CHI</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Average_Case__c</fullName>
+        <externalId>false</externalId>
+        <formula>Account_Name__r.Average_Open_Case_Age__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Average Case Ageing (Days)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Change_in_CHI__c</fullName>
+        <description>Owner: Alex Stearns</description>
+        <externalId>false</externalId>
+        <formula>(( Total_CHI__c  -  W2_2016_Total_CHI__c ) - 1) *100</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>% Change in CHI</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Change_in_NPS__c</fullName>
+        <description>Owner: Alex Stearns</description>
+        <externalId>false</externalId>
+        <formula>((NPS_Score_Average__c - W2_2016_NPS_Score__c) - 1) * 100</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>% Change in NPS</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Churn_Risk_Rating__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( Churn_Risk__c &lt;16,&quot;Low&quot;,IF(Churn_Risk__c &lt;46,&quot;Medium&quot;,IF(Churn_Risk__c &gt;45,&quot;High&quot;,IF(Churn_Risk__c=0,&quot;*&quot;,IF(ISNULL(Churn_Risk__c),&quot;*&quot;,&quot;&quot;) ))))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Churn Risk Rating</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Churn_Risk__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( AND(Account_Name__r.Open_Cases__c=0),((5- Total_CHI__c )+(10- NPS_Score_Average__c )),((5- Total_CHI__c )+(10- NPS_Score_Average__c )+ (Account_Name__r.Open_Cases__c )+(( Account_Name__r.Escalated_Cases__c /Account_Name__r.Open_Cases__c)*10)+(( Account_Name__r.Average_Open_Case_Age__c /60)*10)))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Churn Risk</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>1</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>NPS_Score_Average__c</fullName>
+        <externalId>false</externalId>
+        <label>NPS Score Average</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>1</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Product_CHI__c</fullName>
+        <externalId>false</externalId>
+        <label>Product CHI</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Relationship_CHI__c</fullName>
+        <externalId>false</externalId>
+        <label>Relationship CHI</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Support_CHI__c</fullName>
+        <externalId>false</externalId>
+        <label>Support CHI</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Total_CHI__c</fullName>
+        <externalId>false</externalId>
+        <formula>( Product_CHI__c + Relationship_CHI__c + Support_CHI__c + Value_CHI__c )/4</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total CHI</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Value_CHI__c</fullName>
+        <externalId>false</externalId>
+        <label>Value CHI</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>W1_2016_NPS_Score__c</fullName>
+        <externalId>false</externalId>
+        <label>W1 2016 NPS Score</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>1</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>W1_2016_Total_CHI__c</fullName>
+        <externalId>false</externalId>
+        <label>W1 2016 Total CHI</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>1</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>W2_2016_NPS_Score__c</fullName>
+        <externalId>false</externalId>
+        <label>W2 2016 NPS Score</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>1</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>W2_2016_Total_CHI__c</fullName>
+        <externalId>false</externalId>
+        <label>W2 2016 Total CHI</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>1</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>of_Dev_Issues__c</fullName>
+        <externalId>false</externalId>
+        <formula>Account_Name__r.Escalated_Cases__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label># of Dev Issues</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>of_Open_Cases__c</fullName>
+        <externalId>false</externalId>
+        <formula>Account_Name__r.Open_Cases__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label># of Open Cases</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>SVM PVM Program</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Account_Name__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>CREATED_DATE</field>
+            <operation>notEqual</operation>
+            <value>7/18/2017 12:00 AM</value>
+        </filters>
+        <label>All-Remove</label>
+    </listViews>
+    <nameField>
+        <displayFormat>{YYYY}{MM}-{0}</displayFormat>
+        <label>Record Number</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>SVM PVM Program</pluralLabel>
+    <searchLayouts>
+        <listViewButtons>Mass_Delete</listViewButtons>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <startsWith>Vowel</startsWith>
+    <webLinks>
+        <fullName>Mass_Delete</fullName>
+        <availability>online</availability>
+        <description>Allows users to delete multiple records at once</description>
+        <displayType>massActionButton</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Mass Delete</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
+        <url>{!REQUIRESCRIPT(&apos;/soap/ajax/29.0/connection.js&apos;)}
+try
+{
+  var selectedRecords = {!GETRECORDIDS( $ObjectType.SVM_PVM_Program__c )};
+  if(selectedRecords.length&lt;1)
+    alert(&apos;Please Select at Least One Row !&apos;);
+  else
+  {
+    userConsent = confirm(
+        selectedRecords.length + 
+        &apos; Record(s) will be Deleted. Continue ? &apos;
+      );
+    if(userConsent == true)
+    {
+      delResult = sforce.connection.deleteIds(selectedRecords);
+      if (delResult[0].getBoolean(&quot;success&quot;))
+      {
+        alert(&apos;The Record(s) were Deleted Successfully.&apos;); 
+        window.location.reload();
+      }
+      else
+        alert(
+          &apos;The Record(s) Could Not be Deleted. Error Message: &apos; + 
+          delResult[0].errors.message
+        );
+    }  
+  }
+}
+catch(e)
+{
+  alert(&apos;The Action Could not be Completed. Error Message: &apos; + e);
+}</url>
+    </webLinks>
+</CustomObject>

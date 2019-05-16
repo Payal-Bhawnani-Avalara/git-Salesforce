@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Used to track individual product family GoLives for consultant specific workloads.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Active__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( Workload_Status__c = &quot;Active&quot;, 1,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Active</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CalcStatus__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT( GoLive_Implementation__r.Calc_Status__c )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Calc Status</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CertsStatus__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT(GoLive_Implementation__r.Certs_Status__c )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Certs Status</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Connector__c</fullName>
+        <externalId>false</externalId>
+        <label>Connector</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Consultant__c</fullName>
+        <externalId>false</externalId>
+        <label>Consultant</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Family__c</fullName>
+        <externalId>false</externalId>
+        <label>Family</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GLIConsultant__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISBLANK( GoLive_Implementation__r.Ava_GoLive_Coordinator__c ),&quot;Unassigned&quot;, GoLive_Implementation__r.Ava_GoLive_Coordinator__r.FirstName &amp; &quot; &quot; &amp; GoLive_Implementation__r.Ava_GoLive_Coordinator__r.LastName)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>GLI Consultant</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GLIID__c</fullName>
+        <externalId>false</externalId>
+        <label>GLI ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GLIName__c</fullName>
+        <externalId>false</externalId>
+        <label>GLI Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GoLive_Implementation__c</fullName>
+        <externalId>false</externalId>
+        <label>GoLive Implementation</label>
+        <referenceTo>GoLive_Implementation__c</referenceTo>
+        <relationshipLabel>GLI Workload</relationshipLabel>
+        <relationshipName>GLI_Workload</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Inactive__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( Workload_Status__c = &quot;Inactive&quot;, 1,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Inactive</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ReturnsStatus__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT(GoLive_Implementation__r.Returns_Status__c )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Returns Status</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>RunDate__c</fullName>
+        <externalId>false</externalId>
+        <label>Run Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>SSTStatus__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT( GoLive_Implementation__r.SST_Status__c )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>SST Status</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Workload_Status__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(Family__c = &quot;Calc&quot;, IF(OR(CalcStatus__c = &quot;Active&quot;, CalcStatus__c  = &quot;Nurtured&quot;),&quot;Active&quot;, &quot;Inactive&quot;),
+
+IF(Family__c = &quot;Returns&quot;, IF(OR(ReturnsStatus__c = &quot;Active&quot;, ReturnsStatus__c  = &quot;Nurtured&quot;,ReturnsStatus__c  = &quot;Scheduled&quot; ),&quot;Active&quot;, &quot;Inactive&quot;),
+
+IF(Family__c = &quot;Certs&quot;, IF(OR(CertsStatus__c  = &quot;Active&quot;, CertsStatus__c  = &quot;Nurtured&quot;),&quot;Active&quot;, &quot;Inactive&quot;),
+
+IF(Family__c = &quot;SST&quot;, IF(OR(SSTStatus__c = &quot;Active&quot;, SSTStatus__c  = &quot;Nurtured&quot;),&quot;Active&quot;, &quot;Inactive&quot;),
+
+&quot;Error&quot;))))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Workload Status</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>GLI Workload</label>
+    <nameField>
+        <displayFormat>GLIw{0000}</displayFormat>
+        <label>GLI Workload Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>GLI Workload</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

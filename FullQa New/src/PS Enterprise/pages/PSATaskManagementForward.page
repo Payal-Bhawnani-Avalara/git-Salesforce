@@ -1,3 +1,0 @@
-<apex:page >
-	<apex:outputText value="{!$Label.pse__common_page_deprecated}"></apex:outputText>
-</apex:page>

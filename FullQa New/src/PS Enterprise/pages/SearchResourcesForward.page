@@ -1,1 +1,0 @@
-<apex:page standardController="pse__Resource_Request__c" action="{!URLFOR($Page.SearchResources)}" />

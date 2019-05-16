@@ -1,5 +1,0 @@
-<apex:page standardController="Opportunity" lightningStylesheets="true">
-<apex:form >
-	<c:CostAndRevenueSummary sobjectRecord="{!Opportunity}" />
-</apex:form>
-</apex:page>

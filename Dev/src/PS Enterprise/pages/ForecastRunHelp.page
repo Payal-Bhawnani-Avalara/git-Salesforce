@@ -1,1 +1,0 @@
-<apex:page controller="pse.HelpLoaderController" action="{!forecastRunHelp}" />

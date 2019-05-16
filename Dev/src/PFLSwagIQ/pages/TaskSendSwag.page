@@ -1,3 +1,0 @@
-<apex:page showHeader="true" sidebar="true" standardStylesheets="false" standardController="Task">
-    <c:SwagIQ record="{!Task.Id}"/>
-</apex:page>

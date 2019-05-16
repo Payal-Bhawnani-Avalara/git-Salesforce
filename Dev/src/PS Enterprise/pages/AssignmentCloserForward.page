@@ -1,2 +1,0 @@
-<apex:page standardController="pse__Assignment__c" extensions="pse.AssignmentCloserController" action="{!doForward}">
-</apex:page>

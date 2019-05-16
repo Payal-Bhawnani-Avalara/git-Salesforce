@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Used to capture detailed information about Customers who have Cancelled Services</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Avoidable__c</fullName>
+        <description>Was this Cancellation Avoidable, Unavoidable, or Unknown?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Was this Cancellation Avoidable, Unavoidable, or Unknown?</inlineHelpText>
+        <label>Avoidable?</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Avoidable</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Unavoidable</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>N/A</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>CancelReason_Primary__c</fullName>
+        <description>The primary reason that caused the Customer to Cancel</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The primary reason that caused the Customer to Cancel</inlineHelpText>
+        <label>Cancel Reason (Primary)</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Acquired/Restructured</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Cancelling add-on connector</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Cancelling internal project</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Connector Problem</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>GoLive Unresponsive</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Insufficient or Unresponsive Support</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Need a PM/champion</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Non-Payment</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not as Promised - Time/Ease</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not ready to use product</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Out-of-business</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Oversold/No Intent</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Price</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Product Limitation</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Replacing with other Ava product</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Service Bugs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Simple Needs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Support no longer needed</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Switching to inhouse solution</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Tax Content or Profile Deficiencies</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Unknown</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Unwilling to adapt business practices</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Value prop not realized</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Vaporware/Unsupported Platform</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>CancelReason_Secondary__c</fullName>
+        <description>Specific Reason Coding detailing why the Customer is Cancelling the service (select all that apply)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Specific Reason Coding detailing why the Customer is Cancelling the service (select all that apply)</inlineHelpText>
+        <label>Cancel Reason (Secondary)</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Bugs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Cancelling Add-on Connector</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Cancelling internal project</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Cash basis</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Closing relevant part of business</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Company acquired/restructured</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Company out of business</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Connector Problem</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Decided not to use product</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ERP/dependent systems not ready</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Gold Support no longer needed</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>GoLive Unresponsive</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Inaccurate Returns/Notices</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Insufficient Support</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Moved to platform with in-built solution</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Need a PM/champion</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Never used the product</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No longer using product</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Non-Payment</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not as Promised - Time/Ease</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Not ready to use product</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Outsourced to CPA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Oversold/No Intent</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Partner Breach</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Price</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Product Limitation</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Recalled</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Reduced nexus</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Replacing with other Ava product</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sandbox no longer needed</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Simple Needs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Switching to competitor solution</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Switching to inhouse solution</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Tax Content or Profile Deficiencies</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Unknown</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Unsupported platform</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Unwilling to adapt business practices</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Value prop not realized</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>CancellationReference__c</fullName>
+        <description>The Cancellation Record that is the Parent record to a specific Exit Interview.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The Cancellation Record that is the Parent record to a specific Exit Interview.</inlineHelpText>
+        <label>Cancellation Reference</label>
+        <referenceTo>Cancellation__c</referenceTo>
+        <relationshipLabel>Exit Interviews</relationshipLabel>
+        <relationshipName>Exit_Interviews</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>CaseSafeID__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASESAFEID(Id)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Exit Interview CaseSafeID</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Category__c</fullName>
+        <description>The category associated with the Primary reason behind any given Cancellation</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The category associated with the Primary reason behind any given Cancellation</inlineHelpText>
+        <label>Category</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Sales/Expectations</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Compliance</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Customer Readiness</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Partner</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Performance</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Product</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Support Svcs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Value Prop/Price</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NA</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>CreateFollowUpTask__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Checked if the user wants to have a future dated task created to follow up with a Cancelling Customer (future date determined by value entered in Follow Up Date field).</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Checked if the user wants to have a future dated task created to follow up with a Cancelling Customer (future date determined by value entered in Follow Up Date field).</inlineHelpText>
+        <label>Create Follow Up Task</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>DesireToReturnToAvalara__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Checked if a Cancelling Customer expresses interested in becoming a customer again in the future</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Checked if a Cancelling Customer expresses interested in becoming a customer again in the future</inlineHelpText>
+        <label>Desire to return to Avalara</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>FollowUpDate__c</fullName>
+        <description>The desired date to follow up with a Cancelling customer.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The desired date to follow up with a Cancelling customer.</inlineHelpText>
+        <label>Follow Up Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Interviewee__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The Contact that the Exit Interview was conducted with</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The Contact that the Exit Interview was conducted with</inlineHelpText>
+        <label>Interviewee</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Exit Interviews</relationshipLabel>
+        <relationshipName>Exit_Interviews</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>InterviewerComments__c</fullName>
+        <description>Provides an opportunity for the interviewer to offer thoughts about the Cancellation</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Provides an opportunity for the interviewer to offer thoughts about the Cancellation</inlineHelpText>
+        <label>Interviewer Comments</label>
+        <length>2000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>OverrideDefaultCategory__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>When this box is checked the user has be ability to select a non-standard combination of Primary Cancellation Reason, Avoidable/Unavoidable, and Category.  If this box isn&apos;t checked the default values will   be assigned.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>When this box is checked the user has be ability to select a non-standard combination of Primary Cancellation Reason, Avoidable/Unavoidable, and Category.  If this box isn&apos;t checked the default values will   be assigned.</inlineHelpText>
+        <label>Override Default Category</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ReasonMod3282016__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>ReasonMod3282016</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ReplacedBy__c</fullName>
+        <description>How does this customer plan to mitigate the challenges that they used to rely on Avalara&apos;s Products/Services for?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>How does this customer plan to mitigate the challenges that they used to rely on Avalara&apos;s Products/Services for?</inlineHelpText>
+        <label>Replaced By</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Nothing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CPA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Internal System (Previous)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Internal System (New)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Competitor</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Save_Comments__c</fullName>
+        <description>Fields used track and report on cancellation interview comments 
+Integrated: No 
+James Hurley/Loyalty JIRA SFCOM-5920</description>
+        <externalId>false</externalId>
+        <label>Save Comments</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Save_Reason_primary__c</fullName>
+        <description>Fields used track and report on cancellation interview comments 
+Integrated: No 
+James Hurley/Loyalty JIRA SFCOM-5920</description>
+        <externalId>false</externalId>
+        <label>Save Reason (primary)</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Save_Reason_secondary__c</fullName>
+        <description>Fields used track and report on cancellation interview comments 
+Integrated: No 
+James Hurley/Loyalty JIRA SFCOM-5920</description>
+        <externalId>false</externalId>
+        <label>Save Reason (secondary)</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <label>Exit Interview</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>{MM}-{YYYY}-{000000}</displayFormat>
+        <label>Interview Number</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Exit Interviews</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Follow_Up_Task_Requires_Follow_Up_Date</fullName>
+        <active>true</active>
+        <description>If the &apos;Create Follow Up Task&apos; checkbox is checked, there must be a value populated in the &apos;Follow Up Date&apos; field.</description>
+        <errorConditionFormula>AND( CreateFollowUpTask__c,ISBLANK( FollowUpDate__c))</errorConditionFormula>
+        <errorMessage>If the &apos;Create Follow Up Task&apos; checkbox is checked, there must be a value populated in the &apos;Follow Up Date&apos; field.</errorMessage>
+    </validationRules>
+</CustomObject>

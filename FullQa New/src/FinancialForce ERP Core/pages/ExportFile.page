@@ -1,3 +1,0 @@
-<apex:page controller="fferpcore.ExportController" contentType="application/json/#{!exportFileName}">
-	<apex:outputText value="{!JSONData}"/>
-</apex:page>

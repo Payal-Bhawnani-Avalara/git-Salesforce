@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Used as an associated related list for the connector object to track the version associated with a given connector</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>https://jira.avalara.com/browse/ITBSE-1258</description>
+        <externalId>false</externalId>
+        <label>Active</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Activity_Model__c</fullName>
+        <defaultValue>&quot;Conforms&quot;</defaultValue>
+        <description>https://jira.avalara.com/browse/ITBSE-1111</description>
+        <externalId>false</externalId>
+        <label>Activity Model</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Conforms</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Excessive API calls</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Erratic</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Fewer API calls</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Additional_Signatures__c</fullName>
+        <externalId>false</externalId>
+        <label>Additional Signatures</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Architecture_Review__c</fullName>
+        <description>Date of the architecture review</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Date of the architecture review</inlineHelpText>
+        <label>Architecture Review</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Certification_Call_Hours__c</fullName>
+        <description>Call hours spent on certification reviews. Can be a decimal: 2.5 = 2 hours and 30 minutes of certification call time</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Call hours spent on certification reviews. Can be a decimal: 2.5 = 2 hours and 30 minutes of certification call time. Field is manually updated by Certification Managers when taking notes on certification calls.</inlineHelpText>
+        <label>Certification Call Hours</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>1</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Certification_Intention__c</fullName>
+        <description>whether or not the partner is committed to certifying in a reasonably timely fashion (within 90 days)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>whether or not the partner is committed to certifying in a reasonably timely fashion (within 90 days)</inlineHelpText>
+        <label>Certification Intention</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Unsure</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Declined</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Committed</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Certified_A16__c</fullName>
+        <externalId>false</externalId>
+        <label>Certified A16</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Certified_Address_Validation__c</fullName>
+        <externalId>false</externalId>
+        <label>Certified Address Validation</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Certified_Calc__c</fullName>
+        <externalId>false</externalId>
+        <label>Certified Calc</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Certified_Certs__c</fullName>
+        <externalId>false</externalId>
+        <label>Certified CertCapture</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Certified_Communications_Tax__c</fullName>
+        <externalId>false</externalId>
+        <label>Certified Communications Tax</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Certified_Excise_Tax__c</fullName>
+        <externalId>false</externalId>
+        <label>Certified Excise Tax</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Certified_Global__c</fullName>
+        <externalId>false</externalId>
+        <label>Certified Global</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Certified_Landed_Cost__c</fullName>
+        <externalId>false</externalId>
+        <label>Certified Landed Cost</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Certified_Lodging_Tax__c</fullName>
+        <externalId>false</externalId>
+        <label>Certified Lodging Tax</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Certified_Onboarding__c</fullName>
+        <externalId>false</externalId>
+        <label>Certified Onboarding</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Certified_POS__c</fullName>
+        <externalId>false</externalId>
+        <label>Certified POS</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Certified_Returns__c</fullName>
+        <externalId>false</externalId>
+        <label>Certified Product Returns</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Certified_SHIM__c</fullName>
+        <externalId>false</externalId>
+        <label>Certified SHIM</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Certified_UPC__c</fullName>
+        <description>The date on which UPC Certification was achieved</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The date on which UPC Certification was achieved</inlineHelpText>
+        <label>Certified UPC</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Change_Summary__c</fullName>
+        <externalId>false</externalId>
+        <label>Change Summary</label>
+        <length>1000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Connector_Vibrancy__c</fullName>
+        <description>Pulled directly from the Connector Vibrancy to show current connector stage
+Partner Programs/Support: Asher/Liz Arm.</description>
+        <externalId>false</externalId>
+        <formula>TEXT(Connector__r.Vibrancy__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Current Vibrancy of the Connector</inlineHelpText>
+        <label>Connector Vibrancy</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Connector__c</fullName>
+        <externalId>false</externalId>
+        <label>Connector</label>
+        <referenceTo>Connector__c</referenceTo>
+        <relationshipLabel>Versions</relationshipLabel>
+        <relationshipName>Versions</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Count__c</fullName>
+        <externalId>false</externalId>
+        <formula>1</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Create_New_Partner_Launch_Task__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Create New Partner Launch Task</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Date_Certified_Release__c</fullName>
+        <externalId>false</externalId>
+        <label>Version Certification Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Development_Start_Date__c</fullName>
+        <defaultValue>today()</defaultValue>
+        <externalId>false</externalId>
+        <label>Development Start Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ERPVersion__c</fullName>
+        <description>Purpose: To provide explanation of what version of ERP this version of connector is associated with
+Change Level: 1
+Integrated: No
+Custodian: Connectors (Julia King/Rohit Ghule)</description>
+        <externalId>false</externalId>
+        <label>ERP Version</label>
+        <length>188</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Estimated_Delivery_Date__c</fullName>
+        <description>The estimated delivery date of the connector version to conclude development.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The estimated delivery date of the connector version to conclude development.
+
+defaulted to today + 90 when first entered.</inlineHelpText>
+        <label>Estimated Delivery Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Kickoff_Call__c</fullName>
+        <description>Date the partner kickoff call was completed</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Date the partner kickoff call was completed</inlineHelpText>
+        <label>Kickoff Call</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Marketing_Certification__c</fullName>
+        <externalId>false</externalId>
+        <label>Marketing Certification</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Parent_Version__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Parent Version</label>
+        <referenceTo>Version__c</referenceTo>
+        <relationshipLabel>Sub Versions</relationshipLabel>
+        <relationshipName>Versions</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Partner_Developer_Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The developer contact referring to the partner developer working on the version of the integration. It should pull from the partner&apos;s contact list on the account object.
+IBST-82 Partner Launch team</description>
+        <externalId>false</externalId>
+        <label>Partner Developer Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Versions</relationshipLabel>
+        <relationshipName>Versions</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Primary_Signature_Lookup__c</fullName>
+        <externalId>false</externalId>
+        <formula>Version_KB__r.Transaction_Signature__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Primary Signature Lookup</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Primary_Signature__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Primary Connector Signature included in the connection string</inlineHelpText>
+        <label>X-Avalara-Client</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sort_Order__c</fullName>
+        <description>ITBSE-973</description>
+        <externalId>false</externalId>
+        <label>Sort Order</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Status_Details__c</fullName>
+        <description>Notes and details pertaining to the status that the version is in.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Notes and details pertaining to the status that the version is in.</inlineHelpText>
+        <label>Status Details</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Status</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Not Certified</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Certified</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Revoked/Terminated</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Step__c</fullName>
+        <externalId>false</externalId>
+        <label>Step</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sub_Status__c</fullName>
+        <description>Reportable details regarding connector status. Dependent on Status field.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Reportable details regarding connector status. Dependent on Status field.</inlineHelpText>
+        <label>Sub Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Status__c</controllingField>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>(Deprecated) Waiting for first customer</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>(Deprecated) Interested, no resources</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>(Deprecated) Not engaged</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>(Deprecated) PITA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>(Deprecated) No pain</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No Progress</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>In Development</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Dev Completed</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Not Certified</controllingFieldValue>
+                <valueName>No Progress</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Not Certified</controllingFieldValue>
+                <valueName>In Development</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Not Certified</controllingFieldValue>
+                <valueName>Dev Completed</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Tech_Q_A__c</fullName>
+        <description>Date of the technical Q&amp;A Call</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Date of the technical Q&amp;A Call</inlineHelpText>
+        <label>Tech Q&amp;A</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Version_CaseSafeID__c</fullName>
+        <externalId>false</externalId>
+        <formula>CASESAFEID(Id)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Version CaseSafeID</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Version_KB__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Version KB</label>
+        <referenceTo>Solution</referenceTo>
+        <relationshipLabel>Versions</relationshipLabel>
+        <relationshipName>Versions</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>X_Avalara_UID__c</fullName>
+        <externalId>false</externalId>
+        <label>X-Avalara-UID</label>
+        <length>50</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Version</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Version Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Versions</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <webLinks>
+        <fullName>Create_Child_Version</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Create Child Version</masterLabel>
+        <openType>noSidebar</openType>
+        <page>VersionClone</page>
+        <protected>false</protected>
+    </webLinks>
+</CustomObject>

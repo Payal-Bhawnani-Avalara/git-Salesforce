@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Opportunity related object to facilitate the request of sales cycle extensions to loyalty leadership</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>false</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Date_to_Extend_To__c</fullName>
+        <externalId>false</externalId>
+        <label>Date to Extend To</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Extension_Account__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>https://jira.avalara.com/browse/IBST-16586</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This lookup is automatically populated by the Account related to the Extension Opportunity.</inlineHelpText>
+        <label>Extension Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Sales Cycle Extension Requests</relationshipLabel>
+        <relationshipName>Sales_Cycle_Extension_Requests</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Extension_Justification__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Summarize the reasoning for the extension</inlineHelpText>
+        <label>Extension Justification</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Extension_Opportunity__c</fullName>
+        <externalId>false</externalId>
+        <label>Extension Opportunity</label>
+        <referenceTo>Opportunity</referenceTo>
+        <relationshipLabel>Sales Cycle Extension Requests</relationshipLabel>
+        <relationshipName>Sales_Cycle_Extension_Requests</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Original_Opportunity__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Original Opportunity</label>
+        <referenceTo>Opportunity</referenceTo>
+        <relationshipLabel>Sales Cycle Extension Requests (Original Opportunity)</relationshipLabel>
+        <relationshipName>Sales_Cycle_Extension_Requests1</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Request_Status__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>The approval status relative to the request</inlineHelpText>
+        <label>Request Status</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Pending</fullName>
+                    <default>true</default>
+                </value>
+                <value>
+                    <fullName>Approved</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Rejected</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>Sales Cycle Extension Request</label>
+    <nameField>
+        <displayFormat>OSCER{0000}</displayFormat>
+        <label>Sales Cycle Extension Request Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Sales Cycle Extension Requests</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

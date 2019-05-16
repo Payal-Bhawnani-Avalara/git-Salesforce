@@ -1,1 +1,0 @@
-<apex:page standardController="Account" title="Account: {!Account.Name}" id="pg"><apex:Detail subject="{!$CurrentPage.parameters.Id}" relatedList="true" inLineEdit="true" relatedListHover="true" showChatter="true"  title="true" /><c:HighlighterScript /></apex:page>

@@ -1,1 +1,0 @@
-<apex:page standardController="fferpcore__TestSubscription__c" extensions="fferpcore.TestSubscriptionController" action="{!redirect}"/>

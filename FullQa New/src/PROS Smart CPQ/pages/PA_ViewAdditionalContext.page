@@ -1,8 +1,0 @@
-<apex:page standardController="CameleonCPQ__Quote__c" extensions="CameleonCPQ.PA_ViewAdditionalContext_VFCtrl" action="{!initAdditionalCtx}" showHeader="false" sidebar="false" tabStyle="CameleonCPQ__AdditionalContext__c">
-    <script type="text/javascript">
-       if ((typeof sforce != 'undefined') && (sforce != null)) {
-          if('{!acId}'!=null)
-             sforce.one.navigateToSObject('{!acId}','detail');
-       }
-    </script>
-</apex:page>

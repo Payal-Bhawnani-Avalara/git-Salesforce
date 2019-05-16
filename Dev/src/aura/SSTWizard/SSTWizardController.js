@@ -365,7 +365,7 @@
          helper.saveData(component, event, helper); 
         }
         else{
-            alert('Please Sign in the box');
+            alert('Please Sign the form.');
         }                
     },
     eraseHelper: function(component, event, helper){

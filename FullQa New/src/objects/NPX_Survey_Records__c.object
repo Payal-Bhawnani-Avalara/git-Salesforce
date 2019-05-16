@@ -1,0 +1,1740 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Custom object to store all the survey records created in CRM</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
+    <fields>
+        <fullName>Account_CARR__c</fullName>
+        <externalId>false</externalId>
+        <formula>Account__r.CARR__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Account CARR</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Account__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>NPX Survey Records</relationshipLabel>
+        <relationshipName>NPX_Survey_Records</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>AvaTax_Current_Plan_Tier__c</fullName>
+        <externalId>false</externalId>
+        <label>AvaTax Current Plan Tier</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>AvaTax_Live__c</fullName>
+        <externalId>false</externalId>
+        <label>AvaTax Live</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>AvaTax__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>AvaTax</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Billing_Contact__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Billing Contact</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>CAM_Segment__c</fullName>
+        <externalId>false</externalId>
+        <label>CAM Segment</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CARR__c</fullName>
+        <externalId>false</externalId>
+        <label>CARR</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CC_Live__c</fullName>
+        <externalId>false</externalId>
+        <label>CC Live</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPO_AvaTax_Case__c</fullName>
+        <externalId>false</externalId>
+        <label>CPO AvaTax Case</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPO_AvaTax_Driver__c</fullName>
+        <externalId>false</externalId>
+        <label>CPO AvaTax Driver</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPO_AvaTax_GoLive__c</fullName>
+        <externalId>false</externalId>
+        <label>CPO AvaTax GoLive</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPO_AvaTax_Score__c</fullName>
+        <externalId>false</externalId>
+        <label>CPO AvaTax Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPO_AvaTax_Usage__c</fullName>
+        <externalId>false</externalId>
+        <label>CPO AvaTax Usage</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPO_Backfile__c</fullName>
+        <externalId>false</externalId>
+        <label>CPO Backfile</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPO_CC_Case__c</fullName>
+        <externalId>false</externalId>
+        <label>CPO CC Case</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPO_CC_Driver__c</fullName>
+        <externalId>false</externalId>
+        <label>CPO CC Driver</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPO_CC_GoLive__c</fullName>
+        <externalId>false</externalId>
+        <label>CPO CC GoLive</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPO_CertCapture_Score__c</fullName>
+        <externalId>false</externalId>
+        <label>CPO CertCapture Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPO_Notices__c</fullName>
+        <externalId>false</externalId>
+        <label>CPO Notices</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPO_Overall_Score__c</fullName>
+        <externalId>false</externalId>
+        <label>CPO Overall Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPO_Returns_Case__c</fullName>
+        <externalId>false</externalId>
+        <label>CPO Returns Case</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPO_Returns_Driver__c</fullName>
+        <externalId>false</externalId>
+        <label>CPO Returns Driver</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPO_Returns_GoLive__c</fullName>
+        <externalId>false</externalId>
+        <label>CPO Returns GoLive</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPO_Returns_Score__c</fullName>
+        <externalId>false</externalId>
+        <label>CPO Returns Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CPO__c</fullName>
+        <externalId>false</externalId>
+        <label>CPO AR</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Campaign__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Campaign</label>
+        <referenceTo>Campaign</referenceTo>
+        <relationshipLabel>NPX Survey Records</relationshipLabel>
+        <relationshipName>NPX_Survey_Records</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Case_Closed_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Case Last Modified Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Case_Owner__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Case Owner</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>NPX_Survey_Records</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Case_Priority__c</fullName>
+        <externalId>false</externalId>
+        <label>Case Priority</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Case_Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Case Status</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Case_Subject__c</fullName>
+        <externalId>false</externalId>
+        <label>Case Subject</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Case__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Case</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>NPX Survey Records</relationshipLabel>
+        <relationshipName>NPX_Survey_Records</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>CertCapture__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>CertCapture</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>City__c</fullName>
+        <externalId>false</externalId>
+        <label>City</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Company_Id__c</fullName>
+        <externalId>false</externalId>
+        <label>Company Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Company_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Company Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Company_Role__c</fullName>
+        <description>Respondent&apos;s self-described role with their company</description>
+        <externalId>false</externalId>
+        <label>Company Role</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Compliance_Contact__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Compliance Contact</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Connector_Lookup__c</fullName>
+        <externalId>false</externalId>
+        <label>Connector(Lookup)</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Contact_Avalara_Account_Role__c</fullName>
+        <externalId>false</externalId>
+        <formula>Contact__r.Avalara_Account_Role__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Contact Avalara Account Role</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Contact_Record_ID__c</fullName>
+        <externalId>false</externalId>
+        <label>Contact Record ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>NPX Survey Records</relationshipLabel>
+        <relationshipName>NPX_Survey_Records</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Core_Product__c</fullName>
+        <description>The main product used by the respondent</description>
+        <externalId>false</externalId>
+        <label>Core Product</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Email__c</fullName>
+        <externalId>false</externalId>
+        <label>Email</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Executive_Contact__c</fullName>
+        <externalId>false</externalId>
+        <formula>Contact__r.ExecutiveContact__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Executive Contact</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>F1C__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( F1__c ),0,1)</formula>
+        <label>Feel - Avalara Cares Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>F1__c</fullName>
+        <description>Degree Avalara cares about customers</description>
+        <externalId>false</externalId>
+        <label>Feel - Avalara Cares</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>F2C__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( F2__c ),0,1)</formula>
+        <label>Feel - Quality Products/Services Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>F2__c</fullName>
+        <description>Overall quality of Avalara&apos;s Products and Services</description>
+        <externalId>false</externalId>
+        <label>Feel - Quality Products/Services</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>F3C__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( F3__c ),0,1)</formula>
+        <label>Feel - Ease of Doing Business Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>F3__c</fullName>
+        <description>Overall ease of doing business with Avalara</description>
+        <externalId>false</externalId>
+        <label>Feel - Ease of Doing Business</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>F4C__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( F4__c ),0,1)</formula>
+        <label>Feel - Overall Contribution Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>F4__c</fullName>
+        <description>Overall contribution of Avalara’s products and services in helping your business be more effective</description>
+        <externalId>false</externalId>
+        <label>Feel - Overall Contribution</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>F5C__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( F5__c ),0,1)</formula>
+        <label>Feel - Overall Value Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>F5__c</fullName>
+        <description>Overall value of all that you get from Avalara</description>
+        <externalId>false</externalId>
+        <label>Feel - Overall Value</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>First_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>First Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>First_Purchase_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>First Purchase Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>First_Reminder_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>First Reminder Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Followup_Owner1__c</fullName>
+        <defaultValue>&quot;matthew.johnson@avalara.com&quot;</defaultValue>
+        <externalId>false</externalId>
+        <label>Followup Owner1</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Followup_Owner2__c</fullName>
+        <defaultValue>&quot;cathleen.wellbrock@avalara.com&quot;</defaultValue>
+        <externalId>false</externalId>
+        <label>Followup Owner2</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Followup_Updated_Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Followup Updated Status</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Followup_Updated__c</fullName>
+        <externalId>false</externalId>
+        <label>Followup to be Updated</label>
+        <length>5</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Gender__c</fullName>
+        <externalId>false</externalId>
+        <label>Gender</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>General_Recomendations__c</fullName>
+        <externalId>false</externalId>
+        <label>General Recomendations</label>
+        <length>100000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>ISPI__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>ISPI</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Ideal_Relationship_Expectations_Value__c</fullName>
+        <description>Are we meeting expectations, value from 1-5</description>
+        <externalId>false</externalId>
+        <label>Ideal Relationship - Expectations Value</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Ideal_Relationship__c</fullName>
+        <description>What expectations does the customer have of Avalara?</description>
+        <externalId>false</externalId>
+        <label>Ideal Relationship</label>
+        <length>10000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Improvement_Comment__c</fullName>
+        <description>How can Avalara improve?</description>
+        <externalId>false</externalId>
+        <label>Improvement Comment</label>
+        <length>10000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Initiating_Event_Description__c</fullName>
+        <externalId>false</externalId>
+        <label>Initiating Event Description</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Initiating_event_date__c</fullName>
+        <externalId>false</externalId>
+        <label>Initiating event date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Interest_in_learning_more__c</fullName>
+        <description>Customer would like to learn more about the following Avalara solutions</description>
+        <externalId>false</externalId>
+        <label>Interest in learning more</label>
+        <length>10000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Invitation_Sent_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Invitation Sent Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Job__c</fullName>
+        <description>Respondent&apos;s job within their company</description>
+        <externalId>false</externalId>
+        <label>Job</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Last_Login_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Last Login Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Last_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Last Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MS_CHI_Communications_Count__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( MS_CHI_Communications__c ),0,1)</formula>
+        <label>MS CHI - Communications Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MS_CHI_Communications__c</fullName>
+        <description>Your interactions with Avalara Managed Services team members</description>
+        <externalId>false</externalId>
+        <label>MS CHI - Communications</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MS_CHI_On_Time_Budget_Count__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( MS_CHI_On_Time_Budget__c ),0,1)</formula>
+        <label>MS CHI - On Time/Budget Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MS_CHI_On_Time_Budget__c</fullName>
+        <externalId>false</externalId>
+        <label>MS CHI - On Time/Budget</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MS_CHI_Quality_Provided_Count__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( MS_CHI_Quality_Provided__c ),0,1)</formula>
+        <label>MS CHI - Quality Provided Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MS_CHI_Quality_Provided__c</fullName>
+        <description>Avalara&apos;s Managed Services Team&apos;s ability to meet your expectations in the quality of services provided</description>
+        <externalId>false</externalId>
+        <label>MS CHI - Quality Provided</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>NPS_Category__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( Primary_Score__c &lt;7,&quot;Detractor&quot;,IF(Primary_Score__c&lt;9,&quot;Passive&quot;,IF(Primary_Score__c&gt;8,&quot;Promoter&quot;,&quot;&quot;)))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>NPS Category</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>NPS_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(Primary_Score__c&lt;7,-1,IF(Primary_Score__c&gt;8,1,0))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>NPS Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>NPX_Record_Created__c</fullName>
+        <externalId>false</externalId>
+        <label>NPX Record Created</label>
+        <length>5</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>NotificationList1__c</fullName>
+        <defaultValue>&quot;DG-NPS-Notification@avalara.com&quot;</defaultValue>
+        <externalId>false</externalId>
+        <label>NotificationList1</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>P1C__c</fullName>
+        <description>Used for accurate average value reporting</description>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL(P1__c),0,1)</formula>
+        <label>Product CHI - Ease of Use Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>P1__c</fullName>
+        <description>The product on making it easy to perform your role</description>
+        <externalId>false</externalId>
+        <label>Product CHI - Ease of Use</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>P2C__c</fullName>
+        <description>Used for accurate average reporting</description>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( P2__c ),0,1)</formula>
+        <label>Product CHI - Functionality Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>P2__c</fullName>
+        <description>The product functionality you need to complete your day-to-day activities</description>
+        <externalId>false</externalId>
+        <label>Product CHI - Functionality</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>P3C__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( P3__c),0,1)</formula>
+        <label>Product CHI - Overall Quality Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>P3__c</fullName>
+        <description>The overall product quality has met the requirements of your tax operations team</description>
+        <externalId>false</externalId>
+        <label>Product CHI - Overall Quality</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PS_CHI_Communications_Count__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( PS_CHI_Communications__c ),0,1)</formula>
+        <label>PS CHI - Communications Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PS_CHI_Communications__c</fullName>
+        <description>Your interactions with Avalara Professional Services team members</description>
+        <externalId>false</externalId>
+        <label>PS CHI - Communications</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PS_CHI_On_Time_Budget_Count__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( PS_CHI_On_Time_Budget__c ),0,1)</formula>
+        <label>PS CHI- On Time/Budget Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PS_CHI_On_Time_Budget__c</fullName>
+        <description>Whether the Professional Services were provided on-time and on-budget</description>
+        <externalId>false</externalId>
+        <label>PS CHI - On Time/Budget</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PS_CHI_Quality_Count__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( PS_CHI_Quality__c ),0,1)</formula>
+        <label>PS CHI - Quality Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PS_CHI_Quality__c</fullName>
+        <description>Team&apos;s ability to meet your expectations in the quality of services provided</description>
+        <externalId>false</externalId>
+        <label>PS CHI - Quality</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Phone__c</fullName>
+        <externalId>false</externalId>
+        <label>Phone</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Phone</type>
+    </fields>
+    <fields>
+        <fullName>Primary_Comment__c</fullName>
+        <externalId>false</externalId>
+        <label>Primary Comment</label>
+        <length>131072</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Primary_Contact__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Primary Contact</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Primary_Score__c</fullName>
+        <externalId>false</externalId>
+        <label>Primary Score</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Product_Service_Recomendations__c</fullName>
+        <description>What specific product/service recomendations?</description>
+        <externalId>false</externalId>
+        <label>Product/Service Recomendations</label>
+        <length>10000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>R1C__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( R1__c),0,1)</formula>
+        <label>Relationship CHI - Contract Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>R1__c</fullName>
+        <description>The interactions you have had around reviewing, renewing, or amending contractual documentation</description>
+        <externalId>false</externalId>
+        <label>Relationship CHI - Contract</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>R2C__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( R2__c),0,1)</formula>
+        <label>Relationship CHI - Ease_Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>R2__c</fullName>
+        <description>The interactions you have had around reviewing, renewing, or amending contractual documentation</description>
+        <externalId>false</externalId>
+        <label>Relationship CHI - Ease</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>R3C__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( R3__c),0,1)</formula>
+        <label>Relationship CHI - Interactions Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>R3__c</fullName>
+        <description>The interactions you have had around reviewing, renewing, or amending contractual documentation</description>
+        <externalId>false</externalId>
+        <label>Relationship CHI - Interactions</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Rates__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Rates</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Record_Count__c</fullName>
+        <externalId>false</externalId>
+        <formula>1</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Record Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Reference_Contact__c</fullName>
+        <externalId>false</externalId>
+        <formula>Contact__r.Reference_Contact__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Reference Contact</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Reference_for_Avalara__c</fullName>
+        <description>Has the customer agreed to reference Avalara and in what capacity?</description>
+        <externalId>false</externalId>
+        <label>Reference for Avalara</label>
+        <length>10000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Relationship_Contact_Person__c</fullName>
+        <externalId>false</externalId>
+        <label>Relationship Contact Person</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Response_Received_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Response Received Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Returns_Live__c</fullName>
+        <externalId>false</externalId>
+        <label>Returns Live</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Returns__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Returns</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Role_s__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(
+Company_Role__c =&quot;I am involved in the day-to-day operational use and/or benefit from Avalara&apos;s products and services.&quot;, &quot;End User&quot;,
+IF(
+Company_Role__c =&quot;I contribute to the decisions with regards to purchasing, but do not directly use Avalara&apos;s products or services as part of my job.&quot;,&quot;Influencer&quot;,
+IF(
+Company_Role__c =&quot;I am responsible for the decision to work with Avalara.&quot;,&quot;Decision Maker&quot;,
+IF(
+Company_Role__c =&quot;I am involved in the day-to-day operational use and/or benefit from Avalara&apos;s products and services.,I contribute to the decisions with regards to purchasing, but do not directly use Avalara&apos;s products or services as part of my job.&quot;, &quot;Influencer/End User&quot;,
+IF(
+Company_Role__c =&quot;I am involved in the day-to-day operational use and/or benefit from Avalara&apos;s products and services.,I am responsible for the decision to work with Avalara.&quot;,&quot;Decision Maker/End User&quot;,
+IF(
+Company_Role__c =&quot;I contribute to the decisions with regards to purchasing, but do not directly use Avalara&apos;s Excise products or services as part of my job.,I am responsible for the decision to work with Avalara.&quot;,&quot;Decision Maker/Influencer&quot;,
+IF(
+Company_Role__c =&quot;I am involved in the day-to-day operational use and/or benefit from Avalara&apos;s products and services.,I contribute to the decisions with regards to purchasing, but do not directly use Avalara&apos;s products or services as part of my job.,I am res&quot;,&quot;Decision Maker/Influencer/End User&quot;,
+IF(
+Company_Role__c =&quot;I am responsible for the decision to work with Avalara.,I contribute to the decisions with regards to purchasing, but do not directly use Avalara&apos;s products or services as part of my job.&quot;, &quot;Decision Maker/Influencer&quot;,&quot;&quot;))))))))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Role(s)</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>S1C__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL (S1__c ),0,1)</formula>
+        <label>Support CHI - Quality Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>S1__c</fullName>
+        <description>The quality of communications from Support to your tax operations team</description>
+        <externalId>false</externalId>
+        <label>Support CHI - Quality</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>S2C__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( S2__c ),0,1)</formula>
+        <label>Support CHI - Resolution Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>S2__c</fullName>
+        <description>The time it takes to resolve business critical issues</description>
+        <externalId>false</externalId>
+        <label>Support CHI - Resolution</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>S3C__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( S3__c ),0,1)</formula>
+        <label>Support CHI - Response Time Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>S3__c</fullName>
+        <externalId>false</externalId>
+        <label>Support CHI - Response Time</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>SVM_Customer__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Does this customer belong to a company in the Strategic Value Management Program</description>
+        <externalId>false</externalId>
+        <label>SVM Customer</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>SatMetrix_Tags__c</fullName>
+        <externalId>false</externalId>
+        <label>SatMetrix Tags</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Second_Reminder_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Second Reminder Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Service_Notification_Contact__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Service Notification Contact</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>State__c</fullName>
+        <externalId>false</externalId>
+        <label>State</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Status_Description__c</fullName>
+        <externalId>false</externalId>
+        <label>Status Description</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Status</label>
+        <length>200</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Support_Level__c</fullName>
+        <externalId>false</externalId>
+        <label>Support Level</label>
+        <length>25</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Survey_Details_URL__c</fullName>
+        <externalId>false</externalId>
+        <label>Survey Details URL</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Survey_ID__c</fullName>
+        <externalId>false</externalId>
+        <label>Survey ID</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Survey_Language_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Survey Language Code</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Survey_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Survey Name</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Tax_Contact__c</fullName>
+        <externalId>false</externalId>
+        <formula>Contact__r.Tax_Contact__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Tax Contact</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Tax_Types__c</fullName>
+        <externalId>false</externalId>
+        <label>Tax Types</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Technical_Contact__c</fullName>
+        <externalId>false</externalId>
+        <formula>Contact__r.Technical_Contact__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Technical Contact</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Third_Reminder_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Third Reminder Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>TrustFile__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>TrustFile</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>User_Contact__c</fullName>
+        <externalId>false</externalId>
+        <label>User Contact</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>V1C__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( V1__c ),0,1)</formula>
+        <label>Value CHI - Advocate Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>V1__c</fullName>
+        <description>The statement &quot;I feel that Avalara understands my company&apos;s needs&quot;</description>
+        <externalId>false</externalId>
+        <label>Value CHI - Advocate</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>V2C__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( V2__c),0,1)</formula>
+        <label>Value CHI - Contracted Value Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>V2__c</fullName>
+        <description>Avalara&apos;s ability to meet the value you have contracted with us</description>
+        <externalId>false</externalId>
+        <label>Value CHI - Contracted Value</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>V3C__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISNULL( V3__c ),0,1)</formula>
+        <label>Value CHI - Solutions Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>V3__c</fullName>
+        <description>The information provided to you on Avalara&apos;s Solution Suite</description>
+        <externalId>false</externalId>
+        <label>Value CHI - Solutions</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>VOC_Created__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>VOC Created?</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>X1_NPS_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(X1_Primary_Score__c&lt;7,-1,IF(X1_Primary_Score__c&gt;8,1,0))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>+1 NPS Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>X1_Primary_Score__c</fullName>
+        <externalId>false</externalId>
+        <formula>Primary_Score__c +1</formula>
+        <label>+1 Primary Score</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>NPX Survey Records</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>CREATED_DATE</columns>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>Primary_Score__c</columns>
+        <columns>General_Recomendations__c</columns>
+        <columns>Contact__c</columns>
+        <columns>Response_Received_Date__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>All_Responded</fullName>
+        <columns>CREATED_DATE</columns>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>Primary_Score__c</columns>
+        <columns>Primary_Comment__c</columns>
+        <columns>General_Recomendations__c</columns>
+        <columns>Contact__c</columns>
+        <columns>Response_Received_Date__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Response_Received_Date__c</field>
+            <operation>notEqual</operation>
+        </filters>
+        <label>All - Responded</label>
+    </listViews>
+    <listViews>
+        <fullName>Satmetrix_Failures</fullName>
+        <columns>NAME</columns>
+        <columns>Survey_Name__c</columns>
+        <columns>Status__c</columns>
+        <columns>Status_Description__c</columns>
+        <columns>Contact__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Email__c</columns>
+        <columns>First_Name__c</columns>
+        <columns>Last_Name__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>contains</operation>
+            <value>FAILED</value>
+        </filters>
+        <label>Satmetrix Failures</label>
+    </listViews>
+    <listViews>
+        <fullName>Satmetrix_View</fullName>
+        <columns>NAME</columns>
+        <columns>Response_Received_Date__c</columns>
+        <columns>Contact_Record_ID__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Account__c</columns>
+        <columns>Contact__c</columns>
+        <columns>Campaign__c</columns>
+        <columns>Email__c</columns>
+        <columns>Survey_Name__c</columns>
+        <columns>Status__c</columns>
+        <columns>Status_Description__c</columns>
+        <columns>Primary_Score__c</columns>
+        <columns>Primary_Comment__c</columns>
+        <columns>Survey_Details_URL__c</columns>
+        <columns>Followup_Updated__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>Satmetrix View</label>
+    </listViews>
+    <nameField>
+        <label>NPX Survey Records Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>NPX Survey Records</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

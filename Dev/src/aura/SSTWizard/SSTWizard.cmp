@@ -248,7 +248,7 @@
                 </div>
             </div>
         </div>
-
+      <div class="slds-border_top"></div>
         <div class="adapetr-config-sec">
             <div class="slds-align_absolute-center config-table-details">
                 <table class="slds-table ">
@@ -490,7 +490,7 @@
 
                                     <!--Company Contact Information-->
                                     <div class="slds-grid slds-wrap">
-                                        <div class="slds-col slds-size_1-of-1 "> Company Contact Information</div>
+                                        <div class="slds-col slds-size_1-of-1 "> Company Tax Compliance Contact Information</div>
                                         <br/>
                                         <br/>
                                         <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
@@ -557,6 +557,7 @@
 			              </span>
                                         <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
 			                     <lightning:input aura:id="newSSTreg" label="SST password" name="SST password" minlength="8" maxlength="10" value="{!v.sstData.SSTP_password__c}" required="true" />
+			                      <lightning:helptext content="SST Password is required to confirm the SST states selected in the original registration are the same as those selected on Avalara’s registration form. This will eliminate tax liability exposure if they are not the same." iconName="utility:info"/>
 			              </span>
                                     </aura:if>
                                 </div>
@@ -651,7 +652,10 @@
                                     <span class="slds-size_1-of-1 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
 			                    <lightning:input aura:id="allStates" type="checkbox" label="Select All" name="allStates" checked="true" 
 			                     value="{!v.isAllSelected}"  onchange="{! c.selectAll}"/>
+			                     <br/> 
+			                       <div class="slds-border_top"></div>
 			    </span>
+			   
                                     <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
 			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Arkansas" name="Arkansas" value="{!v.sstData.SS_Arkansas__c}" checked="true" onchange= "{!c.sstNexus}"/>
 			    </span>
@@ -1320,7 +1324,9 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                  <br/>
                                  <div class="slds-grid  slds-grid--align-center">
+                                   <br/>
                                  <button class="slds-button slds-button--brand" onclick="{!c.prevTab}">Back</button>
                                  <button class="slds-button slds-button--brand" onclick="{!c.NexusTab}">Next</button>
                                 </div>
@@ -1338,11 +1344,13 @@
                                 </legend>
                                 <div class="slds-grid slds-wrap" >
                                     <div class="slds-col slds-size_1-of-1 ">
-                                        <h4>You are considered to have a status of Volunteer in an SST State, if ALL FOUR (4) of the following statements are TRUE today and the prior twelve (12) month period. Use the drop-down menus to select whether ALL OF THE FOLLOWING are “true” for each state. If one of these statements are false, mark the state as “false”.</h4></div>
+                                        <h4>You are considered to have a status of Volunteer in an SST State if ALL FOUR (4) of the following statements are TRUE today and the prior twelve (12) month period. Use the drop-down menus to select whether ALL OF THE FOLLOWING are “true” for each state. If one of these statements are false, mark the state as “false”.</h4></div>
+                                    <br/>
                                     <p>
-                                       1. Our organization has had no fixed place of business for more than thirty (30) days in the SST State.<br/> 2. Our organization has less than $50,000 of property in the SST State (weighted average over the preceding 12 months, this includes both real property and tangible personal property owned or rented).<br/>
+                                     <br/>
+                                       1. Our organization has had no fixed place of business for more than thirty (30) days in the SST State.<br/> <br/>2. Our organization has less than $50,000 of property in the SST State (weighted average over the preceding 12 months, this includes both real property and tangible personal property owned or rented).<br/><br/>
                                       3. Our organization has less than $50,000 of payroll in the SST State. This includes total amount paid to employees for compensation (wages, salaries, commissions, etc.).
-                                      <br/>4. Our organization has less than twenty-five percent (25%) of its total property or total payroll in the SST State.<br/>
+                                      <br/><br/>4. Our organization has less than twenty-five percent (25%) of its total property or total payroll in the SST State.<br/>
                                     </p>
                                <lightning:input aura:id="sstReg" class="slds-hidden"/>
                               <table class="slds-table">
@@ -1366,6 +1374,7 @@
 	                               <option value="{! option }" >{! option }</option>
 	                           </aura:iteration>
 	                   </lightning:select>    
+	                  <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>  
 	                </th>
                      </aura:if>
                      </tr>
@@ -1387,7 +1396,8 @@
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
+	                      </lightning:select>  
+	                      <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>    
 	             </th>
                 </aura:if>
               </tr>
@@ -1411,6 +1421,7 @@
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
+	                      <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>  
 	                </th>
                   </aura:if>
                </tr>
@@ -1433,6 +1444,7 @@
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
+	                       <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>  
 	             </th>
                  </aura:if>
                </tr>
@@ -1454,7 +1466,8 @@
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
+	                      </lightning:select>   
+	                       <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>   
 	               </th>
                  </aura:if>
                 </tr>
@@ -1476,7 +1489,8 @@
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
+	                      </lightning:select>  
+	                       <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>    
 	              </th>
                  </aura:if>
                  </tr>
@@ -1498,7 +1512,8 @@
 	                          <aura:iteration var="option" items="{! v.arNVPicklist}">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
+	                      </lightning:select> 
+	                       <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>     
 	               </th>
                  </aura:if>
                 </tr>
@@ -1520,7 +1535,8 @@
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
+	                      </lightning:select> 
+	                    <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>     
 	            </th>
                </aura:if>
                </tr>
@@ -1542,7 +1558,8 @@
 	                          <aura:iteration var="option" items="{! v.arNVPicklist  }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
+	                      </lightning:select>   
+	                    <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>   
 	            </th>
                </aura:if>
                </tr>
@@ -1564,7 +1581,8 @@
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
+	                      </lightning:select> 
+	                     <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>     
 	               </th>
                </aura:if>
                </tr>
@@ -1586,7 +1604,8 @@
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
+	                      </lightning:select>   
+	                     <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>   
 	              </th> 
                 </aura:if>
                 </tr>
@@ -1609,6 +1628,7 @@
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>   
+	                   <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>  
 	               </th> 
 	            </aura:if>
 	           </tr>
@@ -1630,7 +1650,8 @@
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
+	                      </lightning:select>  
+	                  <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>    
 	            </th>
               </aura:if>
               </tr>
@@ -1653,6 +1674,7 @@
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
+	                     <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>  
 	             </th>
                </aura:if>
                </tr>
@@ -1674,7 +1696,8 @@
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
+	                      </lightning:select>   
+	                    <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>   
 	            </th>
               </aura:if>
               </tr>
@@ -1696,7 +1719,8 @@
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
+	                      </lightning:select> 
+	                    <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>     
 	           </th>
             </aura:if>
             </tr>
@@ -1718,7 +1742,8 @@
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
+	                      </lightning:select> 
+	                    <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>     
 	          </th>
             </aura:if>
             </tr>
@@ -1741,6 +1766,7 @@
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
+	                   <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>  
 	           </th>
                </aura:if>
                </tr>
@@ -1762,7 +1788,8 @@
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
+	                      </lightning:select>   
+	                    <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>   
 	            </th>
                </aura:if>
                </tr>
@@ -1784,7 +1811,8 @@
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
+	                      </lightning:select>  
+	                    <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>    
 	           </th>
                </aura:if>
                </tr>
@@ -1806,7 +1834,8 @@
 	                          <aura:iteration var="option" items="{! v.arNVPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
+	                      </lightning:select>  
+	                    <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>    
 	           </th>
               </aura:if>
               </tr>
@@ -1829,6 +1858,7 @@
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
+	                    <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>  
 	            </th>
                </aura:if>
                </tr>
@@ -1851,6 +1881,7 @@
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
+	                    <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>  
 	           </th>
              </aura:if>
              </tr>
@@ -1873,6 +1904,7 @@
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
 	                      </lightning:select>    
+	                     <lightning:helptext content="Only selecting one is necessary" iconName="utility:info"/>  
 	            </th>
               </aura:if>
               </tr>
@@ -2192,7 +2224,7 @@
                         <div class="slds-align_absolute-center">
                             <fieldset class="slds-box slds-theme--default slds-container_medium"  style = "{!'border : 1px solid '+ v.borderColor}">
                                 <legend id="newdemform" class="slds-text-heading--small 
-              slds-p-vertical--medium"  style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor}"> Review Information</legend>
+              slds-p-vertical--medium"  style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor}"> Review and Confirm Information</legend>
                                 <div class="slds-grid slds-wrap">
                                     <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
 	               <label class="slds-form-element__label">Business Entity Type<span class="cmn_mandatory_indicator">*</span></label>
@@ -3379,8 +3411,8 @@
                     <div class="slds-grid slds-wrap">
                         <ltng:require afterScriptsLoaded="{!c.Init}" />
                          <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-                         <label class="slds-form-element__label">Signature<span class="cmn_mandatory_indicator">*</span></label>
-				         <canvas aura:id="can"   required="true"  label="Signature" style="border:2px solid #ddd;background: transparent;" id="divsign"></canvas>
+                         <label class="slds-form-element__label"><span class="cmn_mandatory_indicator">*</span>Signature (use computer mouse)</label>
+				         <canvas aura:id="can" required="true"  label="Signature" style="border:2px solid #ddd;background: transparent;" id="divsign"></canvas>
 				         <div style="float:left;margin-left:7px;"><a href="javascript:void(0)" style="text-decoration:none;" onclick="{!c.eraseHelper}" id="btnClear">Clear Signature</a></div>
 				    </span>
                         <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
@@ -3388,7 +3420,7 @@
 			                required="true" />
 				    </span>
                         <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-				         <lightning:input type="date" aura:id="expdate" label="Date" name="Title"
+				         <lightning:input type="date" dateStyle="short" aura:id="expdate" label="Today’s date" name="Title"
 			             required="true" />
 				    </span>
                         <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 

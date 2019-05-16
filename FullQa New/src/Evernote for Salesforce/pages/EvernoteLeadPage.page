@@ -1,3 +1,0 @@
-<apex:page StandardController="Lead" standardStylesheets="false" sidebar="false" showHeader="false" docType="html-5.0">
-        <c:EvernoteIframeComponent ObjectType="Lead" SalesforceRecordId="{!Lead.Id}" EvernoteURI="{!$Setup.System_Properties__c.Base_URL__c}{!$Setup.System_Properties__c.ClientAction__c}"/>       
-</apex:page>

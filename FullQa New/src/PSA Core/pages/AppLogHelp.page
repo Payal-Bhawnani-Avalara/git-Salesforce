@@ -1,1 +1,0 @@
-<apex:page controller="appirio_core.CoreHelpLoaderController" action="{!appLogHelp}" />

@@ -1,2 +1,0 @@
-<!-- Added as fix for agile task: AT0472 -->
-<apex:page standardController="pse__Grp__c" extensions="pse.ForwardController" action="{!fwdToRPGHierarchyViewFromGrp}" />

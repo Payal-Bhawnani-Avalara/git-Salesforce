@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
+    <fields>
+        <fullName>Booking_Period_End_Date__c</fullName>
+        <defaultValue>IF(
+  MONTH( TODAY() ) = 12,
+  DATE( YEAR( TODAY() ), 12, 31 ),
+  DATE( YEAR( TODAY() ), MONTH ( TODAY() ) + 1, 1 ) - 1 
+)</defaultValue>
+        <externalId>false</externalId>
+        <label>Booking Period End Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Booking_Period_Start_Date__c</fullName>
+        <defaultValue>TODAY()-DAY(TODAY())+1</defaultValue>
+        <externalId>false</externalId>
+        <label>Booking Period Start Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Close_Event_Date_Complete__c</fullName>
+        <externalId>false</externalId>
+        <label>Close Event Date Complete</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Close_Event_Date_Period__c</fullName>
+        <externalId>false</externalId>
+        <label>Close Event Date Period</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Close_Event_Notes__c</fullName>
+        <externalId>false</externalId>
+        <label>Close Event Notes</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>EDW_Booking_Freeze_Date__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>This will be populated when EDW is frozen.</inlineHelpText>
+        <label>EDW Booking Freeze Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <label>Finance Operations Close Event</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Booking_Period_Start_Date__c</columns>
+        <columns>Booking_Period_End_Date__c</columns>
+        <columns>EDW_Booking_Freeze_Date__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>Current_Events</fullName>
+        <columns>NAME</columns>
+        <columns>Booking_Period_Start_Date__c</columns>
+        <columns>Booking_Period_End_Date__c</columns>
+        <columns>EDW_Booking_Freeze_Date__c</columns>
+        <columns>Close_Event_Notes__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Booking_Period_Start_Date__c</field>
+            <operation>equals</operation>
+            <value>LAST_MONTH,THIS_MONTH,NEXT_MONTH</value>
+        </filters>
+        <label>Current Events</label>
+    </listViews>
+    <nameField>
+        <displayFormat>FPA{0000}</displayFormat>
+        <label>Finance Operations Close Event Name</label>
+        <trackHistory>true</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Finance Operations Close Events</pluralLabel>
+    <recordTypeTrackHistory>true</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Monthly_Bookings_Close</fullName>
+        <active>true</active>
+        <description>Monthly Bookings Close</description>
+        <label>Monthly Bookings Close</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Monthly_Customer_Count</fullName>
+        <active>true</active>
+        <description>Monthly Customer Count Close</description>
+        <label>Monthly Customer Count Close</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Monthly_Revenue_Close</fullName>
+        <active>true</active>
+        <description>Monthly Revenue Close</description>
+        <label>Monthly Revenue Close</label>
+    </recordTypes>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

@@ -281,6 +281,7 @@ public with sharing class APIJiraTicket {
 		public String id;	//32503
 	}
 	public class cls_duedate {
+
 	}
 	public class cls_creator {
 		public String self;	//https://jira.avalara.com/rest/api/2/user?username=clayton.wiggins

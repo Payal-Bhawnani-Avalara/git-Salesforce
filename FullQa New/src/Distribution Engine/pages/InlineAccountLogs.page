@@ -1,3 +1,0 @@
-<apex:page standardController="Account">
-    <c:InlineLogs2 recordName="Account" recordId="{!account.Id}"/>
-</apex:page>

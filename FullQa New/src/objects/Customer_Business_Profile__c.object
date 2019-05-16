@@ -1,0 +1,1722 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Questionnaire to capture business requirements and customer profile information.</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Account__c</fullName>
+        <externalId>false</externalId>
+        <label>Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Customer Business Profiles</relationshipLabel>
+        <relationshipName>Customer_Business_Profiles</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Adding_AvaTax_to_an_existing_system__c</fullName>
+        <description>The intent of this question is to understand if the AvaTax implementation is dependent on first rolling out a new host system (ERP, accounting software, or shopping cart)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The intent of this question is to understand if the AvaTax implementation is dependent on first rolling out a new host system (ERP, accounting software, or shopping cart)</inlineHelpText>
+        <label>Adding AvaTax to an existing system?</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>AvaTax is being added to a live system (ERP, Accounting software, shopping cart)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Implementing both AvaTax and a new ERP/shopping cart</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Additional_systems_capturing_sales__c</fullName>
+        <description>Beyond your ERP, are you using any other system to generate or capture sales?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Beyond your ERP, are you using any other system to generate or capture sales?</inlineHelpText>
+        <label>Additional systems capturing sales?</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Avalara_Sales_Engineer__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>If a Sales Engineer was involved in the deal, please identify the SE.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If a Sales Engineer was involved in the deal, please identify the SE.</inlineHelpText>
+        <label>Avalara Sales Engineer</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Customer_Business_Profiles</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Do_any_of_the_following_apply__c</fullName>
+        <description>Do any of these business practices apply for this customer?  If so, please select all that apply.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Do any of these business practices apply for this customer?  If so, please select all that apply.</inlineHelpText>
+        <label>Do any of the following apply?</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Retailer</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Wholesaler</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Bundled products</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Service Provider for construction, repair, or testing.</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Use of a 3rd party drop-shipper</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>How_do_you_handle_exempt_sales__c</fullName>
+        <description>how does the customer currently handle exempt sales?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>how does the customer currently handle exempt sales?</inlineHelpText>
+        <label>How do you handle exempt sales?</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>How_is_the_customer_using_AvaTax__c</fullName>
+        <description>Please select the scenario that matches the customer&apos;s scenario.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Please select the scenario that matches the customer&apos;s scenario.</inlineHelpText>
+        <label>How is the customer using AvaTax?</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>All tax calculations are performed via AvaTax, using a Connector or the AvaTax API</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>All calculations will be provided by AvaTax, but some will be imported manually to AvaTax</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>At least some transactions are calculated without AvaTax and imported to Admin Console (Out of Harbor)</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>If_yes_which_states__c</fullName>
+        <description>Do you have more than one address in a state? If yes, please list those states.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Do you have more than one address in a state? If yes, please list those states.</inlineHelpText>
+        <label>If yes to the above, which states&quot;</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Alabama (AL)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Alaska (AK)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Arizona (AZ)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Arkansas (AR)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>California (CA)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Colorado (CO)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Connecticut (CT)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Delaware (DE)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Florida (FL)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Georgia (GA)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Hawaii (HI)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Idaho (ID)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Illinois (IL)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Indiana (IN)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Iowa (IA)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Kansas (KS)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Kentucky (KY)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Louisiana (LA)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Maine (ME)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Maryland (MD)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Massachusetts (MA)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Michigan (MI)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Minnesota (MN)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Mississippi (MS)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Missouri (MO)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Montana (MT)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Nebraska (NE)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Nevada (NV)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>New Hampshire (NH)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>New Jersey (NJ)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>New Mexico (NM)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>New York (NY)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>North Carolina (NC)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>North Dakota (ND)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ohio (OH)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Oklahoma (OK)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Oregon (OR)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pennsylvania (PA)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Rhode Island (RI)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>South Carolina (SC)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>South Dakota (SD)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Tennessee (TN)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Texas (TX)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Utah (UT)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Vermont (VT)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Virginia (VA)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Washington (WA)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>West Virginia (WV)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Wisconsin (WI)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Wyoming (WY)</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Implementation_Start_Date__c</fullName>
+        <description>v</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Identify when the customer wants to start their implementation.   Avalara will call the customer on or about this date.</inlineHelpText>
+        <label>Implementation Start Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Instructions_Characteristics__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(OR( 
+INCLUDES(Do_any_of_the_following_apply__c,&quot;Retailer&quot;), 
+INCLUDES(Do_any_of_the_following_apply__c,&quot;Wholesaler&quot;)),&quot;NO RISK: Proceed&quot;,&quot;MED RISK: Engage an SE&quot;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Instructions for Characteristics</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Instructions_Industry__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(OR( 
+INCLUDES(Which_industry_describes_your_business__c,&quot;Environmental / Solar&quot;), 
+INCLUDES(Which_industry_describes_your_business__c,&quot;Gas &amp; Oil&quot;), 
+INCLUDES(Which_industry_describes_your_business__c,&quot;Utilities&quot;), 
+INCLUDES(Which_industry_describes_your_business__c,&quot;Wine &amp; Liquor&quot;)),&quot;HIGH RISK: Engage an SE&quot;, 
+IF(OR( 
+INCLUDES(Which_industry_describes_your_business__c,&quot;Agricultural&quot;), 
+INCLUDES(Which_industry_describes_your_business__c,&quot;Contractors / Construction&quot;), 
+INCLUDES(Which_industry_describes_your_business__c,&quot;Events Setup&quot;), 
+INCLUDES(Which_industry_describes_your_business__c,&quot;Manufacturing&quot;), 
+INCLUDES(Which_industry_describes_your_business__c,&quot;Multi-Level Marketing&quot;), 
+INCLUDES(Which_industry_describes_your_business__c,&quot;Packaging&quot;), 
+INCLUDES(Which_industry_describes_your_business__c,&quot;Rentals&quot;), 
+INCLUDES(Which_industry_describes_your_business__c,&quot;Restaurant Equipment&quot;), 
+INCLUDES(Which_industry_describes_your_business__c,&quot;Telecommunications&quot;)),&quot;MED RISK: Engage an SE&quot;, 
+IF(OR( 
+INCLUDES(Which_industry_describes_your_business__c,&quot;Other&quot;), 
+INCLUDES(Which_industry_describes_your_business__c,&quot;Insurance&quot;), 
+INCLUDES(Which_industry_describes_your_business__c,&quot;Medical&quot;), 
+INCLUDES(Which_industry_describes_your_business__c,&quot;Veterinary&quot;)),&quot;LOW RISK&quot;, 
+&quot;NO RISK&quot;)))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Instructions for Industry</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Instructions_Locations__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( 
+ISPICKVAL(More_than_one_address_per_state__c,&quot;Yes, between 2 and 10 addresses in any one state&quot;), &quot;MED RISK: Ensure connector supports Locations &amp; request copies of Returns.&quot;,
+IF(ISPICKVAL(More_than_one_address_per_state__c,&quot;Yes, more than 10 addresses in any one state&quot;),&quot;HIGH RISK: Compliance approval is required. Will need copies of Returns.&quot;, 
+&quot;LOW RISK: Proceed&quot;))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Instructions for Locations</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Instructions_Number_of_Returns__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(ISPICKVAL(Number_of_Returns_per_year__c,&quot;More than 500 per year&quot;),&quot;Requires approval of Compliance&quot;,
+IF(ISPICKVAL(Number_of_Returns_per_year__c,&quot;100-500 per year&quot;),&quot;Engage a Sales Engineer&quot;,&quot;Proceed&quot;))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Instructions for # Returns</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Items_or_Services_sold_at_a_reduced_rate__c</fullName>
+        <description>Do you sell items and services that are non-taxable or sold at a reduced rate?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Do you sell items and services that are non-taxable or sold at a reduced rate?</inlineHelpText>
+        <label>Items or Services sold at a reduced rate</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes - reduced product taxability or Vendor Discounts</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No - all items are tangible personal property (TPP) and no Vendor Disounts</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>More_than_one_address_per_state__c</fullName>
+        <description>Please select the item that describes their business.  If more than one, the cusotmer likely has &quot;outlet reporting&quot; needs.  The connector will need to support &quot;Location codes&quot; and Compliance approval is required.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Please select the item that describes their business.  If more than one, the cusotmer likely has &quot;outlet reporting&quot; needs.  The connector will need to support &quot;Location codes&quot; and Compliance approval is required.</inlineHelpText>
+        <label>More than one address per state?</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>No more than one physical address in any one state</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Yes, between 2 and 10 addresses in any one state</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Yes, more than 10 addresses in any one state</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Number_of_Returns_per_year__c</fullName>
+        <description>How many Returns will the customer be filing each year</description>
+        <externalId>false</externalId>
+        <inlineHelpText>How many Returns will the customer be filing each year</inlineHelpText>
+        <label>Number of Returns per year</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>100 or less per year</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>100-500 per year</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>More than 500 per year</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Partner_Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Identify the Partner Contact if the customer has a partner engaged in the implementation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Identify the Partner Contact if the customer has a partner engaged in the implementation.</inlineHelpText>
+        <label>Partner Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Customer Business Profiles (Partner Contact)</relationshipLabel>
+        <relationshipName>Customer_Business_Profiles2</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Primary_Implementation_Contact__c</fullName>
+        <deleteConstraint>Restrict</deleteConstraint>
+        <description>The primary point of contact for the customer&apos;s implementation (this is who Avalara will reach out to)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Identify the primary point of contact for the customer&apos;s implementation (this is who Avalara will reach out to)</inlineHelpText>
+        <label>Primary Implementation Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Customer Business Profiles</relationshipLabel>
+        <relationshipName>Customer_Business_Profiles</relationshipName>
+        <required>true</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Registered_in_all_AvaTax_states__c</fullName>
+        <description>Are you registered in all of the states you want Avalara to file in for you?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Are you registered in all of the states you want Avalara to file in for you?</inlineHelpText>
+        <label>Registered in all AvaTax states?</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes, customer is registered in all AvaTax/Returns states</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No, but registrations are in process</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No. Customer needs to register</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Target_AvaTax_Live_Date__c</fullName>
+        <description>When does the customer want to be LIVE on AvaTax?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>When does the customer want to be LIVE on AvaTax?</inlineHelpText>
+        <label>Target AvaTax Live Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Target_CertCapture_Live_Date__c</fullName>
+        <description>When does the customer want to be live on CertCapture?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>When does the customer want to be live on CertCapture?</inlineHelpText>
+        <label>Target CertCapture Live Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Target_Returns_Live_Date__c</fullName>
+        <description>Which tax period does the customer want Avalara to take over their Returns filings?  (pick the first day of the particular month)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Which tax period does the customer want Avalara to take over their Returns filings?  (pick the first day of the particular month)</inlineHelpText>
+        <label>Target Returns Live Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Technical_Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Identify the technical contact if different from the Primary Customer Contact.  This is a contact at the Customer or Partner.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Identify the technical contact if different from the Primary Customer Contact.  This is a contact at the Customer or Partner.</inlineHelpText>
+        <label>Technical contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Customer Business Profiles (Technical contact)</relationshipLabel>
+        <relationshipName>Customer_Business_Profiles1</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>What_type_of_products_do_you_sell__c</fullName>
+        <description>Describe the products and services this customer provides.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Describe the products and services this customer provides.</inlineHelpText>
+        <label>What type of products do you sell?</label>
+        <length>1000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Which_industry_describes_your_business__c</fullName>
+        <description>Do any of these industries apply for this customer?  If so, please select all that apply.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Do any of these industries apply for this customer?  If so, please select all that apply.</inlineHelpText>
+        <label>Which industries describe your business?</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Advertising</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Clothing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Computer Hardware, sales &amp; services</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Consulting</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Engineering</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Food</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Health/Hygiene</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Information Technology (IT)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Security</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Software</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Training</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Insurance</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Medical</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Veterinary</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Agricultural</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Contractors / Construction</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Events Setup</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Manufacturing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Multi-Level Marketing</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Packaging</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Rentals</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Restaurant Equipment</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Telecommunications</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Environmental / Solar</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Gas &amp; Oil</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Utilities</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Wine &amp; Liquor</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Which_states_will_you_be_using_AvaTax__c</fullName>
+        <description>What are the states in which the customer will need AvaTax to calculate tax?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>What are the states in which the customer will need AvaTax to calculate tax?</inlineHelpText>
+        <label>Which states will you be using AvaTax?</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Alabama (AL)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Alaska (AK)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Arizona (AZ)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Arkansas (AR)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>California (CA)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Colorado (CO)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Connecticut (CT)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Delaware (DE)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Florida (FL)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Georgia (GA)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Hawaii (HI)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Idaho (ID)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Illinois (IL)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Indiana (IN)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Iowa (IA)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Kansas (KS)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Kentucky (KY)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Louisiana (LA)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Maine (ME)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Maryland (MD)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Massachusetts (MA)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Michigan (MI)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Minnesota (MN)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Mississippi (MS)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Missouri (MO)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Montana (MT)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Nebraska (NE)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Nevada (NV)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>New Hampshire (NH)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>New Jersey (NJ)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>New Mexico (NM)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>New York (NY)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>North Carolina (NC)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>North Dakota (ND)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ohio (OH)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Oklahoma (OK)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Oregon (OR)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pennsylvania (PA)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Rhode Island (RI)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>South Carolina (SC)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>South Dakota (SD)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Tennessee (TN)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Texas (TX)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Utah (UT)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Vermont (VT)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Virginia (VA)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Washington (WA)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>West Virginia (WV)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Wisconsin (WI)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Wyoming (WY)</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <label>Customer Business Profile</label>
+    <nameField>
+        <label>Customer Business Profile Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Customer Business Profiles</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Customer_Business_Profile</fullName>
+        <active>true</active>
+        <description>Used to capture information about the customer&apos;s business needs during Discovery</description>
+        <label>Customer Business Profile</label>
+        <picklistValues>
+            <picklist>Adding_AvaTax_to_an_existing_system__c</picklist>
+            <values>
+                <fullName>AvaTax is being added to a live system %28ERP%2C Accounting software%2C shopping cart%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Implementing both AvaTax and a new ERP%2Fshopping cart</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Do_any_of_the_following_apply__c</picklist>
+            <values>
+                <fullName>Bundled products</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Retailer</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Service Provider for construction%2C repair%2C or testing%2E</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Use of a 3rd party drop-shipper</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Wholesaler</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>How_is_the_customer_using_AvaTax__c</picklist>
+            <values>
+                <fullName>All calculations will be provided by AvaTax%2C but some will be imported manually to AvaTax</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>All tax calculations are performed via AvaTax%2C using a Connector or the AvaTax API</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>At least some transactions are calculated without AvaTax and imported to Admin Console %28Out of Harbor%29</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>If_yes_which_states__c</picklist>
+            <values>
+                <fullName>Alabama %28AL%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Alaska %28AK%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Arizona %28AZ%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Arkansas %28AR%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>California %28CA%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Colorado %28CO%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Connecticut %28CT%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Delaware %28DE%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Florida %28FL%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Georgia %28GA%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Hawaii %28HI%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Idaho %28ID%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Illinois %28IL%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Indiana %28IN%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Iowa %28IA%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Kansas %28KS%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Kentucky %28KY%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Louisiana %28LA%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Maine %28ME%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Maryland %28MD%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Massachusetts %28MA%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Michigan %28MI%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Minnesota %28MN%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mississippi %28MS%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Missouri %28MO%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Montana %28MT%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Nebraska %28NE%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Nevada %28NV%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>New Hampshire %28NH%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>New Jersey %28NJ%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>New Mexico %28NM%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>New York %28NY%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>North Carolina %28NC%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>North Dakota %28ND%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Ohio %28OH%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Oklahoma %28OK%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Oregon %28OR%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pennsylvania %28PA%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Rhode Island %28RI%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>South Carolina %28SC%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>South Dakota %28SD%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Tennessee %28TN%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Texas %28TX%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Utah %28UT%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Vermont %28VT%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Virginia %28VA%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Washington %28WA%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>West Virginia %28WV%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Wisconsin %28WI%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Wyoming %28WY%29</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Items_or_Services_sold_at_a_reduced_rate__c</picklist>
+            <values>
+                <fullName>No - all items are tangible personal property %28TPP%29 and no Vendor Disounts</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes - reduced product taxability or Vendor Discounts</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>More_than_one_address_per_state__c</picklist>
+            <values>
+                <fullName>No more than one physical address in any one state</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes%2C between 2 and 10 addresses in any one state</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes%2C more than 10 addresses in any one state</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Number_of_Returns_per_year__c</picklist>
+            <values>
+                <fullName>100 or less per year</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>100-500 per year</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>More than 500 per year</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Registered_in_all_AvaTax_states__c</picklist>
+            <values>
+                <fullName>No%2C but registrations are in process</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No%2E Customer needs to register</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes%2C customer is registered in all AvaTax%2FReturns states</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Which_industry_describes_your_business__c</picklist>
+            <values>
+                <fullName>Advertising</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Agricultural</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Clothing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Computer Hardware%2C sales %26 services</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Consulting</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Contractors %2F Construction</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Engineering</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Environmental %2F Solar</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Events Setup</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Food</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Gas %26 Oil</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Health%2FHygiene</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Information Technology %28IT%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Insurance</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Manufacturing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Medical</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Multi-Level Marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Packaging</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Rentals</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Restaurant Equipment</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Security</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Software</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Telecommunications</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Training</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Utilities</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Veterinary</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Wine %26 Liquor</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Which_states_will_you_be_using_AvaTax__c</picklist>
+            <values>
+                <fullName>Alabama %28AL%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Alaska %28AK%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Arizona %28AZ%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Arkansas %28AR%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>California %28CA%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Colorado %28CO%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Connecticut %28CT%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Delaware %28DE%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Florida %28FL%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Georgia %28GA%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Hawaii %28HI%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Idaho %28ID%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Illinois %28IL%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Indiana %28IN%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Iowa %28IA%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Kansas %28KS%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Kentucky %28KY%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Louisiana %28LA%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Maine %28ME%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Maryland %28MD%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Massachusetts %28MA%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Michigan %28MI%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Minnesota %28MN%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Mississippi %28MS%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Missouri %28MO%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Montana %28MT%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Nebraska %28NE%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Nevada %28NV%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>New Hampshire %28NH%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>New Jersey %28NJ%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>New Mexico %28NM%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>New York %28NY%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>North Carolina %28NC%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>North Dakota %28ND%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Ohio %28OH%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Oklahoma %28OK%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Oregon %28OR%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pennsylvania %28PA%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Rhode Island %28RI%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>South Carolina %28SC%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>South Dakota %28SD%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Tennessee %28TN%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Texas %28TX%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Utah %28UT%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Vermont %28VT%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Virginia %28VA%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Washington %28WA%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>West Virginia %28WV%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Wisconsin %28WI%29</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Wyoming %28WY%29</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Live_date_must_be_after_start_date</fullName>
+        <active>true</active>
+        <errorConditionFormula>OR(AND(Target_AvaTax_Live_Date__c &lt;=  Implementation_Start_Date__c, Target_CertCapture_Live_Date__c  &lt;=  Implementation_Start_Date__c,
+Target_Returns_Live_Date__c  &lt;=  Implementation_Start_Date__c),
+AND(ISNULL(Target_AvaTax_Live_Date__c),ISNULL(Target_CertCapture_Live_Date__c),ISNULL(Target_Returns_Live_Date__c)))</errorConditionFormula>
+        <errorMessage>Please enter a target live date later than the Implementation Start Date.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Start_Date_After_Today</fullName>
+        <active>true</active>
+        <errorConditionFormula>OR(Implementation_Start_Date__c &lt;= TODAY(),ISNULL(Implementation_Start_Date__c))</errorConditionFormula>
+        <errorDisplayField>Implementation_Start_Date__c</errorDisplayField>
+        <errorMessage>You must enter a date which is after today.</errorMessage>
+    </validationRules>
+    <webLinks>
+        <fullName>Create_Profile2</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <linkType>url</linkType>
+        <masterLabel>Create Profile</masterLabel>
+        <openType>replace</openType>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
+        <url>https://na27.salesforce.com/a4O/e?CF00N33000002whJT={!Account.Name}&amp;Name=Customer+Profile+{!NOW()}&amp;CF00N33000002whJT_lkid={!Account.Id}&amp;retURL=%2F{!Account.Id}</url>
+    </webLinks>
+</CustomObject>

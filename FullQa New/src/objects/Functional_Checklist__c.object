@@ -1,0 +1,1551 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Used to track connector development milestones related to a specific version of a connector</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Address_Validation_Implemented_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Address Validation Implemented Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Address_Validation_Implemented__c</fullName>
+        <description>Whether or not the connector has some address validation. Look at notes for which implementation is chosen.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Whether or not the connector has some address validation. Look at notes for which implementation is chosen (avatax or 3rd party)</inlineHelpText>
+        <label>Address Validation Implemented</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Address_Validation_On_Demand_Note__c</fullName>
+        <description>Include a button on the customer record to validate the address. This method is recommended for ERP implementations. For more information: http://developer.avalara.com/api-docs/designing-your-integration/address-validation</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Include a button on the customer record to validate the address. This method is recommended for ERP implementations. For more information: http://developer.avalara.com/api-docs/designing-your-integration/address-validation</inlineHelpText>
+        <label>Address Validation On Demand Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Address_Validation_On_Demand__c</fullName>
+        <description>Include a button on the customer record to validate the address. This method is recommended for ERP implementations. For more information: http://developer.avalara.com/api-docs/designing-your-integration/address-validation</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Include a button on the customer record to validate the address. This method is recommended for ERP implementations. For more information: http://developer.avalara.com/api-docs/designing-your-integration/address-validation</inlineHelpText>
+        <label>Address Validation On Demand</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Address_Validation_Touchpoints_Notes__c</fullName>
+        <description>Notes for Address Validation Touchpoints section</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Notes for Address Validation Touchpoints section</inlineHelpText>
+        <label>Address Validation Touchpoints Notes</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Administration_Utilities_Notes__c</fullName>
+        <externalId>false</externalId>
+        <label>Administration &amp; Utilities Notes</label>
+        <length>1000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>AvaTax_Admin_Console_Link_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>AvaTax Admin Console Link Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>AvaTax_Admin_Console_Link__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Link to AvaTax production Admin Console – https://admin-avatax.avalara.net/login.aspx</inlineHelpText>
+        <label>AvaTax Admin Console Link</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>AvaTax_Configuration_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>AvaTax Configuration Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>AvaTax_Configuration__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>The AvaTax Configuration Dialog window must allow the user to specify the configuration/ connection information. See Configure AvaTax.</inlineHelpText>
+        <label>AvaTax Configuration</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>AvaTax_Test_Connection_Button_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>AvaTax Test Connection Button Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>AvaTax_Test_Connection_Button__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Tests the connection to the AvaTax service and verifies the AvaTax credentials. This is an important element to allow for successful troubleshooting of the AvaTax service. 
+Optional–display license key expiration date upon successful connection response</inlineHelpText>
+        <label>AvaTax Test Connection Button</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>AvaTax_for_Comms_Configuration_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>AvaTax for Comms Configuration Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>AvaTax_for_Comms_Configuration__c</fullName>
+        <description>Allow customer to configure the following: username/password, company code</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Allow customer to configure the following: username/password, company code</inlineHelpText>
+        <label>AvaTax for Comms Configuration</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>AvaTax_for_Comms_Test_Connection_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>AvaTax for Comms Test Connection Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>AvaTax_for_Comms_Test_Connection_button__c</fullName>
+        <description>Tests the connection to the AvaTax for Comms service and verifies credentials.  This allows for troubleshooting.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Tests the connection to the AvaTax for Comms service and verifies credentials.  This allows for troubleshooting.</inlineHelpText>
+        <label>AvaTax for Comms Test Connection button</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>AvaTax_tax_code_mapping_Code_SKU_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>AvaTax tax code mapping - Code/SKU Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>AvaTax_tax_code_mapping_Code_SKU__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Association of an item or item group to an AvaTax Tax Code to describe the taxability group (e.g. Clothing-Shirts – BtoC). If possible, this should be assigned at the item category level as well as the item level.</inlineHelpText>
+        <label>AvaTax tax code mapping - Code/SKU</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Avalara_CertCapture_link_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Avalara CertCapture link Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Avalara_CertCapture_link__c</fullName>
+        <description>Does the connector have a link out the Avalara CertCapture site?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Does the connector have a link out the Avalara CertCapture site?</inlineHelpText>
+        <label>Avalara CertCapture link</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Business_Identification_No_Record_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Business Identification No (Record) Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Business_Identification_No_Trans_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Business Identification No. (Trans) Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Business_Identification_No_Trans__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Also known as VAT Registration ID - This data element should be found directly on the transaction (sales order, sales invoice) header.</inlineHelpText>
+        <label>Business Identification No. (Trans)</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Business_Identification_No__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>VAT Registration ID – This data element should be found directly on the transaction (sales order, sales invoice) header.  Some applications may not carry that information onto the transaction itself, the connector may have to pull from the customer record</inlineHelpText>
+        <label>Business Identification No. (Record)</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>CancelTax_call_void_del_Credit_M__c</fullName>
+        <externalId>false</externalId>
+        <label>CancelTax call – void/del Credit M Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>CancelTax_call_void_del_Invoices_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>CancelTax call – void/del Invoices Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>CancelTax_call_voided_deleted_Credit_M__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>When returns are deleted/cancelled, this information is transmitted to AvaTax.</inlineHelpText>
+        <label>CancelTax call – voided/deleted Credit M</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>CancelTax_call_voided_deleted_Invoices__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>When invoices are deleted/cancelled, this information is transmitted to AvaTax.</inlineHelpText>
+        <label>CancelTax call – voided/deleted Invoices</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Certificate_Images_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Certificate Images Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Certificate_Images__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Exemption Certificate images can be retrieved</inlineHelpText>
+        <label>Certificate Images</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Certificate_Requests_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Certificate Requests Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Certificate_Requests__c</fullName>
+        <description>Exemption Certificate requests can be initiated from the customer record.</description>
+        <externalId>false</externalId>
+        <label>Certificate Requests</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Check_line_level_data_requirements_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Check line level data requirements Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Comms_Enable_logging__c</fullName>
+        <description>Enables detailed AvaTax for Comms logging.  Information captured is round-trip time and complete xml for request/response.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Enables detailed AvaTax for Comms logging.  Information captured is round-trip time and complete xml for request/response.</inlineHelpText>
+        <label>Comms Enable logging</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Comms_User_Implementation_Guide_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Comms User Implementation Guide Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Comms_User_Implementation_Guide__c</fullName>
+        <description>User Implementation Guid should contain screenshots and information allowing the end user to configure for AvaTax for Comms including where credentials, company code, and transaction/service pairs can be mapped.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>User Implementation Guid should contain screenshots and information allowing the end user to configure for AvaTax for Comms including where credentials, company code, and transaction/service pairs can be mapped.</inlineHelpText>
+        <label>Comms User Implementation Guide</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Country_Code_2_3_Digit_ISO_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Country Code (2-3 Digit ISO) Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Country_Code_2_3_Digit_ISO__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>The country code associated with the various addresses stored on the transaction must be sent.  This information should not have to be sourced from the customer record.</inlineHelpText>
+        <label>Country Code (2-3 Digit ISO)</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Currency_Code_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Currency Code Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Currency_Code__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Transaction currency code – AvaTax needs to know the currency the document is transacted in, not the default currency information.</inlineHelpText>
+        <label>Currency Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Customer_Code_Record_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Customer Code (Record) Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Customer_Code_Record__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Identify customer code (number, ID) to pass to the AvaTax service.</inlineHelpText>
+        <label>Customer Code (Record)</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Customer_Code_Transaction_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Customer Code (Transaction) Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Customer_Code_Transaction__c</fullName>
+        <description>Ensure that the customer code comes across for each transaction on the document level and line-item level in the event of split shipments.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Ensure that the customer code comes across for each transaction on the document level and line-item level in the event of split shipments.</inlineHelpText>
+        <label>Customer Code (Transaction)</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Customer_Creation_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Customer Creation Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Customer_Creation__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Creation of an exempt customer record triggers the creation of a customer record in CertCapture</inlineHelpText>
+        <label>Customer Creation</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Customer_Record_Integration_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Customer Record Integration Note</label>
+        <length>1000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Customer_Updates_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Customer Updates Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Customer_Updates__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>When exempt customer records are updated int eh application, those same updates are applied to the customer record in CertCapture.</inlineHelpText>
+        <label>Customer Updates</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Data_Source_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Data Source Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Data_Source__c</fullName>
+        <externalId>false</externalId>
+        <label>Data Source</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Demonstrate_and_document_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Demonstrate and document Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Demonstrate_and_document_installation__c</fullName>
+        <description>Customers should have an easy and trouble free installation of software</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Customers should have an easy and trouble free installation of software</inlineHelpText>
+        <label>Demonstrate and document installation</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Disable_Document_Committing_Note__c</fullName>
+        <description>In order for this connector to be used in conjunction with other integration to AvaTax, the user must be able to control which connector is used for committing documents to AvaTax. From a technical standpoint, simply replace DocType on all calls with SalesOrder and suppressing any non-getTax calls (I.e. cancelTax, postTax).</description>
+        <externalId>false</externalId>
+        <inlineHelpText>In order for this connector to be used in conjunction with other integration to AvaTax, the user must be able to control which connector is used for committing documents to AvaTax. From a technical standpoint, simply replace DocType on all calls with Sale</inlineHelpText>
+        <label>Disable Document Committing Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Disable_Document_Committing__c</fullName>
+        <description>In order for this connector to be used in conjunction with other integration to AvaTax, the user must be able to control which connector is used for committing documents to AvaTax. From a technical standpoint, simply replace DocType on all calls with SalesOrder and suppressing any non-getTax calls (I.e. cancelTax, postTax).</description>
+        <externalId>false</externalId>
+        <inlineHelpText>In order for this connector to be used in conjunction with other integration to AvaTax, the user must be able to control which connector is used for committing documents to AvaTax. From a technical standpoint, simply replace DocType on all calls with Sale</inlineHelpText>
+        <label>Disable Document Committing</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Disable_address_valid_by_country_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Disable address valid by country Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Disable_address_validation_by_country__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>The user should be able to select which countries are chosen for address validation.</inlineHelpText>
+        <label>Disable address validation by country</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Enable_Logging_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Enable Logging Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Enable_Logging__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Enables detailed AvaTax transaction logging within the application including capture of round-trip processing time.</inlineHelpText>
+        <label>Enable Logging</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Entity_Use_Code_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Entity/Use Code Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Entity_Use_Code__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>A standard list of codes is available by default as part of the service, but custom codes can also be created by customer. Note that either Exemption Number or Entity/Use code is required (not both). Entity/Use Code is preferred.</inlineHelpText>
+        <label>Entity/Use Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Exemption_Number_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Exemption Number Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Exemption_Number__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Customer record field populating exemption number in an AvaTax transaction. This is used for tracking those customers who have tax exempt transactions.</inlineHelpText>
+        <label>Exemption Number</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Freight_Items_transmit_separately_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Freight Items transmit separately Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Freight_Items_transmitted_separately__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Freight Items must be sent to AvaTax as a separate line item with appropriate tax code.</inlineHelpText>
+        <label>Freight Items transmitted separately</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>GetTaxHistory_Credit_memo_inquiry_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>GetTaxHistory – Credit memo inquiry Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>GetTaxHistory_Credit_memo_inquiry__c</fullName>
+        <externalId>false</externalId>
+        <label>GetTaxHistory – Credit memo inquiry</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>GetTaxHistory_Invoice_inq_Reconcile_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>GetTaxHistory–Invoice inq Reconcile Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>GetTaxHistory_Invoice_inquiryReconcili__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Any tool or utility that allows the user to query or retrieve already recorded transaction records for the purpose of reconciling with the document records in the application. Should not trigger a recalculation of tax by default.</inlineHelpText>
+        <label>GetTaxHistory–Invoice inquiryReconcile</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>GetTax_Call_Return_Order_Invoice_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>GetTax Call - Return Order/Invoice Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>GetTax_Call_Return_Order_Invoice__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Ensure that returns are processed through a logical document lifecycle.</inlineHelpText>
+        <label>GetTax Call - Return Order/Invoice</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>GetTax_call_sales_order_invoices_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>GetTax call - sales order/invoices Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>GetTax_call_sales_order_invoices__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Ensure that invoices are processed through a logical document lifecycle.</inlineHelpText>
+        <label>GetTax call - sales order/invoices</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Get_Updates_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Get Updates Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Get_Updates__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Must contain the ability to get updates on a demand, weekly and daily basis.</inlineHelpText>
+        <label>Get Updates</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Integrated_AV_in_Checkout_Note__c</fullName>
+        <description>Prompt user at address entry to continue/validate address prior to tax calculation. This method is recommended for Ecommerce implementations. On-demand or integrated checkout address validation is required (not both). For more information: http://developer.avalara.com/api-docs/designing-your-integration/address-validation</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Prompt user at address entry to continue/validate address prior to tax calculation. This method is recommended for Ecommerce implementations. On-demand or integrated checkout address validation is required (not both). For more information: http://develop</inlineHelpText>
+        <label>Integrated AV in Checkout Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Integrated_AV_in_checkout__c</fullName>
+        <description>Prompt user at address entry to continue/validate address prior to tax calculation. This method is recommended for Ecommerce implementations. On-demand or integrated checkout address validation is required (not both). For more information: http://developer.avalara.com/api-docs/designing-your-integration/address-validation</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Prompt user at address entry to continue/validate address prior to tax calculation. This method is recommended for Ecommerce implementations. On-demand or integrated checkout address validation is required (not both). For more information: http://develop</inlineHelpText>
+        <label>Integrated AV in checkout</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Item_Code_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Item Code Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Item_Code__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Identify item/service/charge code (number, ID) to pass to the AvaTax service</inlineHelpText>
+        <label>Item Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Item_Description_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Item Description Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Item_Description__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Identify item/service/charge description to pass to the AvaTax service with a human-readable description or item name.</inlineHelpText>
+        <label>Item Description</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Items_Charge_Integration_Notes__c</fullName>
+        <externalId>false</externalId>
+        <label>Items/Charge Integration Notes</label>
+        <length>1000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Local_Server_Configuration_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Local Server Configuration Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Local_Server_Configuration__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>The Local Server Configuration Dialog window must allow the user to specify the configuration information for connecting to a secondary AvaTax Local Server.</inlineHelpText>
+        <label>Local Server Configuration</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>On_Demand_Address_Validation_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>On Demand Address Validation Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>On_Demand_Address_Validation__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>On-Demand AV will not work in offline mode.  Appropriate error message to be included.</inlineHelpText>
+        <label>On Demand Address Validation</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Optional_Adress_Upper_Case_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Optional Adress Upper Case Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Optional_Adress_Upper_Case__c</fullName>
+        <externalId>false</externalId>
+        <label>Optional Adress Upper Case</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Pass_connector_identifier_info_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Pass connector identifier info Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Pass_connector_identifier_information__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Integrations must include information about the connector, such as name, version, and company name, as a signature to each transaction.Profile.Client is a string of the form “MyERP,Majver,MinVer,MyConnector,Majver,MinVer” – MyConnector is required.
+
+EXA</inlineHelpText>
+        <label>Pass connector identifier information</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>PostTax_CommitTax_call_Cred_Memos_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>PostTax/CommitTax call – Cred Memos Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>PostTax_CommitTax_call_Credit_Memos__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Ensure that returns are committed/posted for reporting appropriately.</inlineHelpText>
+        <label>PostTax/CommitTax call – Credit Memos</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>PostTax_CommitTax_call_Invoices_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>PostTax/CommitTax call – Invoices Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>PostTax_CommitTax_call_Invoices__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Ensure that invoices are committed/posted for reporting appropriately.</inlineHelpText>
+        <label>PostTax/CommitTax call – Invoices</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Post_Transactions_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Post Transactions Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Post_Transactions__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Must contain the ability to push transactions to the AvaTax Cloud Service on demand, weekly and daily basis.</inlineHelpText>
+        <label>Post Transactions</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Reasonable_err_server_side_analysis_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Reasonable err-server-side analysis Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Reasonable_errors_server_side_analysis__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>There should be no errors except those that would result from normal (but invalid) user input (e.g. invalid address data). Such errors must be logged/displayed appropriately to the application.</inlineHelpText>
+        <label>Reasonable errors-server-side analysis</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Reasonable_ratio_gettax_calls_docs_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Reasonable ratio-gettax calls docs Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Reasonable_ratio_gettax_calls_to_docs__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>3 address validations to gettax calls is defined as “Reasonable”.</inlineHelpText>
+        <label>Reasonable ratio-gettax calls to docs</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Reasonbl_ratio_gettax_calls_to_docs_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Reasonbl ratio-gettax calls to docs Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Request_Time_Out_Definition_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Request Time Out Definition Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Request_Time_Out_Definition__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Define AvaTax request time out length, AvaTax best practices prescribes default setting of 300 seconds</inlineHelpText>
+        <label>Request Time Out Definition</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Required_Disable_Address_Option_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Required Disable Address Option Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Required_Disable_Address_Option__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>The user should be able to disable or enable address validations.</inlineHelpText>
+        <label>Required Disable Address Option</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Required_header_elements_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Required header elements Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Required_header_elements__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Document number
+Customer code
+Document date
+Tax calculation date
+Document type
+Destination address
+Origin address
+Exemption number
+Entity/Use code (customer usage type)
+Location Code</inlineHelpText>
+        <label>Required header elements</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Required_line_level_elements_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Required line level elements Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Required_line_level_elements__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Line number
+Item code
+Item description
+Quantity
+Amount (extended)
+Tax Code</inlineHelpText>
+        <label>Required line level elements</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Returns_LI_s_Amount_Qty_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Returns LI&apos;s (- Amount / + Qty) Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Returns_LI_s_Amount_Qty__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Returns have item lines with negative Amount and positive Quantity</inlineHelpText>
+        <label>Returns LI&apos;s (- Amount / + Qty)</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Sales_Billing_Document_integration_Notes__c</fullName>
+        <externalId>false</externalId>
+        <label>Sales/Billing Document integration Notes</label>
+        <length>1000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Send_current_trans_date_as_doc_date_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Send current trans date as doc date Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Send_current_transaction_date_as_docume__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Send current transaction  date as document  date for return orders/ credit memos</inlineHelpText>
+        <label>Send current trans date as doc date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Send_discounts_appropriately_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Send discounts appropriately Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Send_discounts_appropriately__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Standard discounts included in line-level extended amount, manufacturer’s coupons and hostess credits transmitted as additional line items.</inlineHelpText>
+        <label>Send discounts appropriately</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Send_invoice_date_as_tax_date_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Send invoice date as tax date Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Send_optional_hdr_lvl_data_elements_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Send optional hdr lvl data elements Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Send_optional_header_level_data_elements__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Purchase order number</inlineHelpText>
+        <label>Send optional header level data elements</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Send_optional_line_level_data_elements__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Required if managed at line level:Entity/Use Code (customer usage type)
+Destination address
+Origin address</inlineHelpText>
+        <label>Check line level data requirements</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Send_original_invoice_date_as_tax_calcul__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Send original invoice date as tax calculation date for return orders/ credit memos</inlineHelpText>
+        <label>Send invoice date as tax date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Server_Audit_Clarity_Notes__c</fullName>
+        <externalId>false</externalId>
+        <label>Server Audit Clarity Notes</label>
+        <length>1000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Ship_From_Address_incl_cntry_code_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Ship From Address (incl cntry code) Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Ship_From_Address_incl_country_code__c</fullName>
+        <description>Ensure that the ship-from address includes the country code</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Ensure that the ship-from address includes the country code</inlineHelpText>
+        <label>Ship From Address (incl. country code)</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Ship_To_Address_incl_cntry_code_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Ship To Address (incl. cntry code) Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Ship_To_Address_incl_country_code__c</fullName>
+        <description>Ensure that the ship-to address includes the country code</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Ensure that the ship-to address includes the country code</inlineHelpText>
+        <label>Ship To Address (incl. country code)</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Software_Installation_Demo_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Software Installation Demo Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Software_Installation_Demo__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Customers should have an easy and trouble free installation of the software - Demonstrate and document installation of software (Install Shield or equivalent where applicable)</inlineHelpText>
+        <label>Software Installation Demo</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Start_Stop_Service_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Start/Stop Service Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Start_Stop_Service__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Must contain the ability to start and Stop the service prior to going live.</inlineHelpText>
+        <label>Start/Stop Service</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Status_of_Cert_Requests_Modifie_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Status of Cert Requests - Modifie Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Status_of_Cert_Requests_Modifie__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Status can be modified (e.g. user can close them)</inlineHelpText>
+        <label>Status of Cert Requests - Modifie</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Status_of_Cert_Requests_Retrieve_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Status of Cert Requests - Retrieve Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Status_of_Cert_Requests_Retrieve__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Status can be retrieved from the customer record</inlineHelpText>
+        <label>Status of Cert Requests - Retrieve</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Status_of_Exemption_Certificates_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Status of Exemption Certificates Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Status_of_Exemption_Certificates__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Status of Exemption Certificates and details can be retrieved.</inlineHelpText>
+        <label>Status of Exemption Certificates</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Tax_Calculation_Disable_Option_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Tax Calculation Disable Option Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Tax_Calculation_Disable_Option__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>The user must have an option to turn on or off the AvaTax Calculation service independent of any other Avalara product or service</inlineHelpText>
+        <label>Tax Calculation Disable Option</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Tax_Calculation_Disable_calc_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Tax Calculation - Disable calc Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Tax_Calculation_Disable_calculation__c</fullName>
+        <description>The user must have an option to turn on or off the AvaTax for Comms Calculation service independent of any other Avalara product</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The user must have an option to turn on or off the AvaTax for Comms Calculation service independent of any other Avalara product</inlineHelpText>
+        <label>Tax Calculation - Disable calculation</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Tax_Included_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Tax Included Note</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Tax_Included__c</fullName>
+        <externalId>false</externalId>
+        <label>Tax Included</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Test_Service_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>Test Service Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Test_Service__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Must contain the ability to test the service to verify that the service is accepting incoming calls.</inlineHelpText>
+        <label>Test Service</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>User_Implementation_Guide_Note__c</fullName>
+        <externalId>false</externalId>
+        <label>User Implementation Guide Note</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>User_Implementation_Guide__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>The User Implementation Guide should contain screenshots and information allowing the end user to configure for AvaTax including where the company code is entered, where the credentials are entered and where tax codes can be mapped.</inlineHelpText>
+        <label>User Implementation Guide</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Version__c</fullName>
+        <externalId>false</externalId>
+        <label>Version</label>
+        <referenceTo>Version__c</referenceTo>
+        <relationshipLabel>Functional Checklists</relationshipLabel>
+        <relationshipName>Functional_Checklists</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <label>Functional Checklist</label>
+    <nameField>
+        <label>Functional Checklist Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Functional Checklists</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Address_Validation_Checklist</fullName>
+        <active>true</active>
+        <description>Functional Checklist for Address Validation</description>
+        <label>Address Validation Checklist</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>AvaTax_Communication_Checklist</fullName>
+        <active>true</active>
+        <description>Functional Checklist for Communication Tax</description>
+        <label>AvaTax Communication Checklist</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>AvaTax_Global_Checklist</fullName>
+        <active>true</active>
+        <description>Functional Checklist for Global</description>
+        <label>AvaTax Global Checklist</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Avatax_Calc_Checklist</fullName>
+        <active>true</active>
+        <description>Functional Checklist for AvaTax Calc</description>
+        <label>AvaTax Calc Checklist</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>CertCapture_Checklist</fullName>
+        <active>true</active>
+        <description>Functional Checklist for CertCapture</description>
+        <label>CertCapture Checklist</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>POS_Checklist</fullName>
+        <active>true</active>
+        <description>Functional Checklist for POS with AvaTax Local</description>
+        <label>AvaTax POS Checklist</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Returns_Checklist</fullName>
+        <active>true</active>
+        <description>Functional Checklist for AvaTax Returns</description>
+        <label>AvaTax Returns Checklist</label>
+    </recordTypes>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

@@ -1,3 +1,0 @@
-<apex:page standardController="Opportunity" showHeader="true" tabStyle="opportunity">
-    <apex:canvasApp namespacePrefix="iv" canvasId="IV_Opportunity_Connector" applicationName="insideview_login_connected_app" width="100%" height="400px"/>
-</apex:page>

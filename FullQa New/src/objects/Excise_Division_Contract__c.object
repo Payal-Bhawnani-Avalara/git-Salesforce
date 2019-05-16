@@ -1,0 +1,1085 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Used to track Excise business unit specific product contracts</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Account__c</fullName>
+        <externalId>false</externalId>
+        <label>Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Excise Division Contracts</relationshipLabel>
+        <relationshipName>Excise_Division_Contracts</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Amendment_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Amendment Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Annual_Product_Invoice_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Annual Product Invoice Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Annual_Sub_Maint_Fee__c</fullName>
+        <externalId>false</externalId>
+        <label>Annual Sub/Maint Fee</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Back_Offic_eSystem__c</fullName>
+        <externalId>false</externalId>
+        <label>Back Office System</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Billing_Frequency_Notes__c</fullName>
+        <externalId>false</externalId>
+        <label>Billing Frequency Notes</label>
+        <length>1000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Billing_Frequency__c</fullName>
+        <externalId>false</externalId>
+        <label>Billing Frequency</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Monthly</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Quarterly</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Annually</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Contract_Is_Active__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(OR( ISBLANK(Product_License_End_Date__c ),Product_License_End_Date__c&gt;Today()),TRUE,FALSE)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Contract Is Active</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Contract_Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Contract Type</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>SSA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SSMA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Filing Contract</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Deployed__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Deployed</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Development_Fee__c</fullName>
+        <externalId>false</externalId>
+        <label>Development Fee</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Effective_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Effective Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Escalation_Percent__c</fullName>
+        <externalId>false</externalId>
+        <label>Escalation Percent</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Escalation__c</fullName>
+        <externalId>false</externalId>
+        <label>Escalation</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Fee_Commencement_Date_Determined_By__c</fullName>
+        <externalId>false</externalId>
+        <label>Fee Commencement Date Determined By</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>PAF</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>RMA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Effective Date</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Signature Date</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Fee_Commencement_Date_Notes__c</fullName>
+        <externalId>false</externalId>
+        <label>Fee Commencement Date Notes</label>
+        <length>1000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Fee_Commencement_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Fee Commencement Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>GP_Id__c</fullName>
+        <externalId>false</externalId>
+        <label>GP Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Implementation__c</fullName>
+        <externalId>false</externalId>
+        <label>Implementation Fee (Hourly)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Jurisdictions__c</fullName>
+        <externalId>false</externalId>
+        <label>Jurisdictions</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <controllingField>Product_Name__c</controllingField>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>AL</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AK</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AZ</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AR</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CO</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>CT</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>DE</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>FL</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>GA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>HI</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ID</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>IL</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>IN</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>IA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>KS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>KY</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>LA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ME</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MD</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MI</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MN</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MO</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MT</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NE</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NV</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NH</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NJ</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NM</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NY</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>NC</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>ND</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>OH</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>OK</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>OR</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>PA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>RI</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SC</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>SD</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>TN</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>TX</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>UT</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>VT</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>VA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>WA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>WV</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>WI</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>WY</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>GU</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>MP</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>PR</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>VI</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>AL</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>AK</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>AZ</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>AR</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>CA</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>CO</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>CT</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>DE</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>FL</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>GA</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>HI</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>ID</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>IL</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>IN</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>IA</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>KS</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>KY</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>LA</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>ME</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>MD</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>MA</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>MI</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>MN</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>MS</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>MO</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>MT</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>NE</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>NV</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>NH</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>NJ</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>NM</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>NY</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>NC</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>ND</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>OH</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>OK</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>OR</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>PA</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>RI</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>SC</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>SD</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>TN</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>TX</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>UT</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>VT</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>VA</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>WA</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>WV</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>WI</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>WY</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>AS</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>GU</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>MP</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>PR</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <controllingFieldValue>Government</controllingFieldValue>
+                <valueName>VI</valueName>
+            </valueSettings>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Link_to_Contract__c</fullName>
+        <externalId>false</externalId>
+        <label>Link to Contract</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Maintenance_Fee__c</fullName>
+        <externalId>false</externalId>
+        <label>Maintenance Fee</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>On_Premise_Contract__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>On Premise Contract</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Parter_Id__c</fullName>
+        <externalId>false</externalId>
+        <label>Parter Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Product_License_End_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Product License End Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Product_License_Fee__c</fullName>
+        <externalId>false</externalId>
+        <label>Product License Fee</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Product_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Product Name</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Returns Excise</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>AvaTax Excise</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Government</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Fax Filer</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Web Filer</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Product_Version__c</fullName>
+        <externalId>false</externalId>
+        <label>Product Version</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Product_Name__c</controllingField>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>1.0</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>1.5</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>4.4</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>5.x</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <valueName>4.4</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Returns Excise</controllingFieldValue>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <valueName>5.x</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <valueName>1.0</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>AvaTax Excise</controllingFieldValue>
+                <valueName>1.5</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Returns_By_Code__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Please separate each unique Return code with a semicolon.</inlineHelpText>
+        <label>Return(s) - By Code</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Returns__c</fullName>
+        <externalId>false</externalId>
+        <label>Returns</label>
+        <precision>5</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Service_End_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Service End Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Service_Start_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Service Start Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Signature_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Signature Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Tax_Payer_Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Tax Payer Type</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Term_Years__c</fullName>
+        <externalId>false</externalId>
+        <label>Term (Years)</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Excise Division Contract</label>
+    <nameField>
+        <label>Excise Division Contract Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Excise Division Contracts</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>No_Jurisdictions_for_Returns_5_x</fullName>
+        <active>false</active>
+        <errorConditionFormula>AND( ISPICKVAL(Product_Name__c , &quot;Returns Excise&quot;), ISPICKVAL(Product_Version__c,&quot;5.x&quot;), NOT(ISBLANK( Jurisdictions__c )))</errorConditionFormula>
+        <errorMessage>Returns Excise version 5.x cannot have Jurisdictions.  Please remove the Jurisdictions or update the Product Version.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Other_Billing_Frequency_requires_Note</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(ISPICKVAL(Billing_Frequency__c ,&quot;Other&quot;),ISBLANK( Billing_Frequency_Notes__c ))</errorConditionFormula>
+        <errorMessage>You must enter a Billing Frequency Note if Billing Frequency is set as Other</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Other_Fee_Commencement_requires_Note</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(ISPICKVAL( Fee_Commencement_Date_Determined_By__c ,&quot;Other&quot;),ISBLANK( Fee_Commencement_Date_Notes__c ))</errorConditionFormula>
+        <errorMessage>You must enter a Fee Commencement Date Note if the &apos;Fee Commencement Date Determined By&apos; is set to Other</errorMessage>
+    </validationRules>
+</CustomObject>

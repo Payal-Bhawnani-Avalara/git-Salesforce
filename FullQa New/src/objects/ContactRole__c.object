@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>The different roles and associated Contacts for any given GoLive</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableEnhancedLookup>true</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ReadWrite</externalSharingModel>
+    <fields>
+        <fullName>CustomerUser__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The Customer user assigned to a specific role</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The Customer user assigned to a specific role</inlineHelpText>
+        <label>Customer User</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipName>Contact_Roles</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>InternalUser__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The internal user assigned to any given task</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The internal user assigned to any given task</inlineHelpText>
+        <label>Internal User</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Contact_Roles</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Role__c</fullName>
+        <externalId>false</externalId>
+        <label>Role</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Customer AvaFile Contact</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Customer Installation Contact</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Customer Pro Contact</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Customer SDK Contact</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Internal PRO Contact</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Internal AR Contact</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>(Deprecated) Contact Role</label>
+    <nameField>
+        <label>Contact Role</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Contact Roles</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

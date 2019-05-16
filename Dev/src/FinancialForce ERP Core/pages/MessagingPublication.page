@@ -1,8 +1,0 @@
-<apex:page standardController="fferpcore__MessagingPublication__c" extensions="fferpcore.PublicationDescriptionController,fferpcore.EndPointController" lightningStylesheets="true">
-    <apex:detail subject="{!fferpcore__MessagingPublication__c.Id}"
-        relatedList="true"
-        oncomplete="PublicationHelper.autoSizeDescription()"/>
-
-    <apex:include pageName="fferpcore__MessagingPublicationSencha"/>
-
-</apex:page>

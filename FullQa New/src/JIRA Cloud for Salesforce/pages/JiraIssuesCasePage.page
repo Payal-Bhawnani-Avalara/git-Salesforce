@@ -1,3 +1,0 @@
-<apex:page standardController="Case" extensions="JCFS.GenericObjectController">
-    <c:JiraIssuesComponent son="{!son}" soid="{!soid}" tz="{!tz}"></c:JiraIssuesComponent>
-</apex:page>

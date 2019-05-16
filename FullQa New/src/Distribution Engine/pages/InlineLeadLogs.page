@@ -1,3 +1,0 @@
-<apex:page standardController="Lead">
-    <c:InlineLogs2 recordName="Lead" recordId="{!lead.Id}"/>
-</apex:page>
