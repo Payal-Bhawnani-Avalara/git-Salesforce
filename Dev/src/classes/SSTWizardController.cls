@@ -1,5 +1,20 @@
 public class SSTWizardController {
-	 @AuraEnabled
+	 @AuraEnabled(cacheable=true)
+     public static List<KeyPairValue> getKeyPairValue(String objectName, String field_apiname,Boolean nullRequiredd) {
+        List<KeyPairValue> output = new List <KeyPairValue> ();
+        
+        Map<String,Schema.SObjectType> gd = Schema.getGlobalDescribe(); 
+        Map<String, Schema.SObjectField> field_map = gd.get(objectName.toLowerCase()).getDescribe().fields.getMap(); 
+        // Get the list of picklist values for this field.
+        List < Schema.PicklistEntry > values = field_map.get(field_apiname).getDescribe().getPickListValues();
+        // Add these values to the selectoption list.
+        for (Schema.PicklistEntry a: values) {
+            output.add(new KeyPairValue(a.getValue(),a.getValue()));
+        }
+        return output;
+    }    
+     
+	 @AuraEnabled(cacheable=true)
     public static string save(SST_Onboarding__c sstData,String signatureBody){
         try{ 
         	//sstData.SST_State_Selection__c=String.join(sstStatePicklistselected, ';');
@@ -16,8 +31,9 @@ public class SSTWizardController {
         }
         return 'record successfully insert';  
     }   
-	 @AuraEnabled
+	 @AuraEnabled(cacheable=true)
     public static List<String> getPicklistvalues(String objectName, String field_apiname,Boolean nullRequired){
+    	
         List<String> optionlist = new List<String>();
         
         Map<String,Schema.SObjectType> gd = Schema.getGlobalDescribe(); 
@@ -30,4 +46,15 @@ public class SSTWizardController {
         }
         return optionlist;
     }  
+    
+    public class KeyPairValue{
+        @AuraEnabled
+        public String label {get; set;}  
+        @AuraEnabled
+        public String value {get; set;} 
+        public KeyPairValue(String label,String value){
+            this.label=label;
+            this.value=value;
+        }
+    }
 }

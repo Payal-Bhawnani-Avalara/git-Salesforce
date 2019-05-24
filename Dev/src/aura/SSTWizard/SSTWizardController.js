@@ -40,7 +40,7 @@
           window.scrollTo(0, 0);
         }
         
-   }, comTab : function(component, event, helper) {
+   },comTab : function(component, event, helper) {
         component.set("v.setMessage", '');           
         var showIntro = component.get("v.showIntro");
         var showComInfo = component.get("v.showComInfo");
@@ -106,7 +106,7 @@
 		        component.set("v.showComInfo", false);
 		        component.set("v.showIntro", false)
 		        component.set("v.showError", false);
-		        component.set("v.showData", false);  
+		        component.set("v.showData", false); 
                 window.scrollTo(0, 0);
 	        } else {
 	           alert('Please complete all required fields.');
@@ -159,7 +159,7 @@
         var showReg = component.get("v.showReg");
         var showStats = component.get("v.showStats");
         var showData = component.get("v.showData");
-        
+      
        
         if(showNexus == true){
           if(component.find('tableId') !=null){
@@ -182,7 +182,7 @@
 	        component.set("v.showRandom", false);
             window.scrollTo(0, 0);
             }
-          }
+          }  
         }      
    },RegTab: function(component, event, helper) {
        component.set("v.setMessage", '');           
@@ -397,6 +397,128 @@
 	      }
         }
       }
+    },disableRemote: function (component, event, helper) {
+	  for(var cmp in component.find('newSSTform')) {
+        if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
+          var nav = component.find("newSSTform")[cmp].get("v.value");
+	      if (nav=="AR" ){
+		     component.set("v.showArVol", false); 
+		     component.set("v.showArCoV",true); 
+		     component.set("v.arRe",true); 
+	      }    
+	       if(nav=="GA" ){
+	         component.set("v.showGeVol", false); 
+		     component.set("v.showGeCoV",true);  
+		     component.set("v.geRe",true); 
+	      }    
+	        
+	      if(nav=="IN" ){
+	         component.set("v.showInVol", false); 
+		     component.set("v.showInCoV",true);  
+		     component.set("v.inRe",true); 
+	      }    
+	      if(nav=="IA" ){
+	         component.set("v.showIoVol", false); 
+		     component.set("v.showIoCoV",true);  
+		     component.set("v.ioRe",true); 
+	      }    
+	     	 
+	      if(nav=="KS" ){
+	         component.set("v.showKaVol", false); 
+		     component.set("v.showKaCoV",true);  
+		     component.set("v.kaRe",true); 
+	      }    
+	      	if(nav=="KY" ){
+	         component.set("v.showKeVol", false); 
+		     component.set("v.showKeCoV",true);  
+		     component.set("v.keRe",true); 
+	      }    
+	      	if(nav=="MI" ){
+	         component.set("v.showMiVol", false); 
+		     component.set("v.showMiCoV",true);  
+		     component.set("v.miRe",true); 
+	      }    
+	       	if(nav=="MN" ){
+	         component.set("v.showMnVol", false); 
+		     component.set("v.showMnCoV",true);  
+		     component.set("v.mnRe",true); 
+	      }    
+	       if(nav=="NE" ){
+	         component.set("v.showNeVol", false); 
+		     component.set("v.showNeCoV",true);  
+		     component.set("v.neRe",true); 
+	      }    
+	       	if(nav=="NV" ){
+	         component.set("v.showNvVol", false); 
+		     component.set("v.showNvCoV",true);  
+		     component.set("v.nvRe",true); 
+	      }    
+	        if(nav=="NJ" ){
+	         component.set("v.showNjVol", false); 
+		     component.set("v.showNjCoV",true);  
+		     component.set("v.njRe",true); 
+	      }    
+	      }if(nav=="NC" ){
+	         component.set("v.showNcVol", false); 
+		     component.set("v.showNdCoV",true);  
+		     component.set("v.ncRe",true); 
+	      }    
+	       	if(nav=="ND" ){
+	         component.set("v.showNdVol", false); 
+		     component.set("v.showNdCoV",true);  
+		     component.set("v.ndRe",true); 
+	      }    
+	      if(nav=="OH" ){
+	         component.set("v.showOhVol", false); 
+		     component.set("v.showOhCoV",true);  
+		     component.set("v.ohRe",true); 
+	      }    
+	       	if(nav=="OK" ){
+	         component.set("v.showOkVol", false); 
+		     component.set("v.showOkCoV",true);  
+		     component.set("v.okRe",true); 
+	      }    
+	       	 if(nav=="RI" ){
+	         component.set("v.showRiVol", false); 
+		     component.set("v.showRiCoV",true);  
+		     component.set("v.riRe",true); 
+	      }    
+	         if(nav=="SD" ){
+	         component.set("v.showSdVol", false); 
+		     component.set("v.showSdCoV",true);  
+		     component.set("v.sdRe",true); 
+	      }if(nav=="TN" ){
+	         component.set("v.showTeVol", false); 
+		     component.set("v.showTeCoV",true);  
+		     component.set("v.teRe",true); 
+	      }    
+	       if(nav=="UT" ){
+	         component.set("v.showUtVol", false); 
+		     component.set("v.showUtCoV",true);  
+		     component.set("v.utRe",true); 
+	      }    
+	      	if(nav=="VT" ){
+	         component.set("v.showVeVol", false); 
+		     component.set("v.showVeCoV",true);  
+		     component.set("v.veRe",true); 
+	      }if(nav=="WA" ){
+	         component.set("v.showWaVol", false); 
+		     component.set("v.showWaCoV",true);  
+		     component.set("v.waRe",true); 
+	      }	if(nav=="WV" ){
+	         component.set("v.showWvVol", false); 
+		     component.set("v.showWvCoV",true);  
+		     component.set("v.wvRe",true); 
+	      }	if(nav=="WI" ){
+	         component.set("v.showWiVol", false); 
+		     component.set("v.showWiCoV",true);  
+		     component.set("v.wiRe",true); 
+	      }	if(nav=="WY" ){
+	         component.set("v.showWyVol", false); 
+		     component.set("v.showWyCoV",true);  
+		     component.set("v.wyRe",true); 
+	      }									  		  	 	   	   	   	          	                                     
+        }
     },
     sstNexus: function (component, event, helper) {
        for(var cmp in component.find('sstStateId')) {
@@ -404,55 +526,37 @@
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showAr", true); 
-	           component.set("v.showArVol", true); 
-	            for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="AR"){
-		               component.set("v.showArV", false); 
-		               component.set("v.showArVol", false); 
-		               component.set("v.showArCoV",true); 
-		           }
-	            }
-	         }  
+	           if(component.get("v.showArCoV")){
+	              component.set("v.showArVol", false);
+	           }else {
+	              component.set("v.showArVol", true);	   
+	           }         
 	       }else if(!nav){
-	           component.set("v.showAr", false); 
-	           component.set("v.showArVol", false); 
+	           component.set("v.showAr", false);    
+	           component.set("v.showArVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Georgia'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	           component.set("v.showGe", true); 
-               component.set("v.showGeVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                     var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="GA"){
-		               component.set("v.showGeV", false); 
-		               component.set("v.showGeVol", false); 
-		               component.set("v.showGeCoV",true); 
-		           }
-	            }
-	         }  
+	           component.set("v.showGe", true);  
+	            if(component.get("v.showGeCoV")){
+	              component.set("v.showGeVol", false);
+	           }else {
+	              component.set("v.showGeVol", true);	   
+	           } 
 	       }else if(!nav){
-	           component.set("v.showGe", false); 
-	           component.set("v.showGeVol", false); 
+	           component.set("v.showGe", false);  
+	           component.set("v.showGeVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Indiana'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showIn", true); 
-               component.set("v.showInVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="IN"){
-		               component.set("v.showInV", false); 
-		               component.set("v.showInVol", false); 
-		               component.set("v.showInCoV",true); 
-		           }
-	            }
-	         }  
+	           if(component.get("v.showInCoV")){
+	              component.set("v.showInVol", false);
+	           }else {
+	              component.set("v.showInVol", true);	   
+	           } 
 	       }else if(!nav){
 	           component.set("v.showIn", false); 
 	           component.set("v.showInVol", false); 
@@ -460,271 +564,187 @@
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Iowa'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	           component.set("v.showIo", true); 
-               component.set("v.showIoVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="IA"){
-		               component.set("v.showIoV", false); 
-		               component.set("v.showIoVol", false); 
-		               component.set("v.showIoCoV",true); 
-		           }
-	            }
-	         }  
+	           component.set("v.showIo", true);  
+	            if(component.get("v.showIoCoV")){
+	              component.set("v.showIoVol", false);
+	           }else {
+	              component.set("v.showIoVol", true);	   
+	           }  
 	       }else if(!nav){
-	           component.set("v.showIo", false); 
-	           component.set("v.showIoVol", false); 
+	           component.set("v.showIo", false);  
+	           component.set("v.showIoVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Kansas'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showKa", true); 
-               component.set("v.showKaVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="KS"){
-		               component.set("v.showKaV", false); 
-		               component.set("v.showKaVol", false); 
-		               component.set("v.showKaCoV",true); 
-		           }
-	            }
-	         }  
+	           if(component.get("v.showKaCoV")){
+	              component.set("v.showKaVol", false);
+	           }else {
+	              component.set("v.showKaVol", true);	   
+	           }  
 	       }else if(!nav){
 	           component.set("v.showKa", false); 
-	           component.set("v.showKaVol", false); 
+	           component.set("v.showKaVol", false);  
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Kentucky'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showKe", true); 
-               component.set("v.showKeVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="KY"){
-		               component.set("v.showKeV", false); 
-		               component.set("v.showKeVol", false); 
-		               component.set("v.showKeCoV",true); 
-		           }
-	            }
-	         }  
+	           if(component.get("v.showKeCoV")){
+	              component.set("v.showKeVol", false);
+	           }else {
+	              component.set("v.showKeVol", true);	   
+	           }  
 	       }else if(!nav){
 	           component.set("v.showKe", false); 
-	           component.set("v.showKeVol", false); 
+	           component.set("v.showKeVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Michigan'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showMi", true);
-               component.set("v.showMiVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="MI"){
-		               component.set("v.showMiV", false); 
-		               component.set("v.showMiVol", false); 
-		               component.set("v.showMiCoV",true); 
-		           }
-	            }
-	         }  
+	            if(component.get("v.showMiCoV")){
+	              component.set("v.showMiVol", false);
+	           }else {
+	              component.set("v.showMiVol", true);	   
+	           }            
 	       }else if(!nav){
-	           component.set("v.showMi", false); 
+	           component.set("v.showMi", false);
 	           component.set("v.showMiVol", false); 
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Minnesota'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showMn", true); 
-                component.set("v.showMnVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="MN"){
-		               component.set("v.showMnV", false); 
-		               component.set("v.showMnVol", false); 
-		               component.set("v.showMnCoV",true); 
-		           }
-	            }
-	         }  
+	            if(component.get("v.showMnCoV")){
+	              component.set("v.showMnVol", false);
+	           }else {
+	              component.set("v.showMnVol", true);	   
+	           }   
 	       }else if(!nav){
-	           component.set("v.showMn", false); 
-	           component.set("v.showMnVol", false); 
+	           component.set("v.showMn", false);  
+	           component.set("v.showMnVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Nebraska'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showNe", true);
-               component.set("v.showNeVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="NE"){
-		               component.set("v.showNeV", false); 
-		               component.set("v.showNeVol", false); 
-		               component.set("v.showNeCoV",true); 
-		           }
-	            }
-	         }  
+	            if(component.get("v.showNeCoV")){
+	              component.set("v.showNeVol", false);
+	           }else {
+	              component.set("v.showNeVol", true);	   
+	           } 
 	       }else if(!nav){
 	           component.set("v.showNe", false); 
-	           component.set("v.showNeVol", false); 
+	           component.set("v.showNeVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Nevada'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	           component.set("v.showNv", true);
-                component.set("v.showNvVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="NV"){
-		               component.set("v.showNvV", false); 
-		               component.set("v.showNvVol", false); 
-		               component.set("v.showNvCoV",true); 
-		           }
-	            }
-	         }  
+	           component.set("v.showNv", true);   
+	            if(component.get("v.showNvCoV")){
+	              component.set("v.showNvVol", false);
+	           }else {
+	              component.set("v.showNvVol", true);	   
+	           } 
 	       }else if(!nav){
-	           component.set("v.showNv", false); 
-	           component.set("v.showNvVol", false); 
+	           component.set("v.showNv", false);  
+	            component.set("v.showNvVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='New Jersey'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showNj", true);
-                component.set("v.showNjVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="NJ"){
-		               component.set("v.showNjV", false); 
-		               component.set("v.showNjVol", false); 
-		               component.set("v.showNjCoV",true); 
-		           }
-	            }
-	         }  
+	            if(component.get("v.showNjCoV")){
+	              component.set("v.showNjVol", false);
+	           }else {
+	              component.set("v.showNjVol", true);	   
+	           } 
 	       }else if(!nav){
 	           component.set("v.showNj", false); 
-	           component.set("v.showNjVol", false); 
+	            component.set("v.showNjVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='North Carolina'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	           component.set("v.showNc", true); 
-                component.set("v.showNcVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="NC"){
-		               component.set("v.showNcV", false); 
-		               component.set("v.showNcVol", false); 
-		               component.set("v.showNcCoV",true); 
-		           }
-	            }
-	         }  
+	           component.set("v.showNc", true);  
+	            if(component.get("v.showNcCoV")){
+	              component.set("v.showNcVol", false);
+	           }else {
+	              component.set("v.showNcVol", true);	   
+	           } 
 	       }else if(!nav){
-	           component.set("v.showNc", false); 
-	           component.set("v.showNcVol", false); 
+	           component.set("v.showNc", false);
+	           component.set("v.showNcVol", false);   
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='North Dakota'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showNd", true);
-               component.set("v.showNdVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="ND"){
-		               component.set("v.showNdV", false); 
-		               component.set("v.showNdVol", false); 
-		               component.set("v.showNdCoV",true); 
-		           }
-	            }
-	         }  
+	           if(component.get("v.showNdCoV")){
+	              component.set("v.showNdVol", false);
+	           }else {
+	              component.set("v.showNdVol", true);	   
+	           } 
 	       }else if(!nav){
 	           component.set("v.showNd", false); 
-	           component.set("v.showNdVol", false); 
+	            component.set("v.showNdVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Ohio'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	           component.set("v.showOh", true);
-                component.set("v.showOhVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="OH"){
-		               component.set("v.showOhV", false); 
-		               component.set("v.showOhVol", false); 
-		               component.set("v.showOhCoV",true); 
-		           }
-	            }
-	         }  
+	           component.set("v.showOh", true);   
+	           if(component.get("v.showOhCoV")){
+	              component.set("v.showOhVol", false);
+	           }else {
+	              component.set("v.showOhVol", true);	   
+	           }               
 	       }else if(!nav){
 	           component.set("v.showOh", false); 
-	           component.set("v.showOhVol", false); 
+	           component.set("v.showOhVol", false);   
 	       }
 	    }
 	    if(component.find("sstStateId")[cmp].get("v.name")=='Oklahoma'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showOk", true);
-                component.set("v.showOkVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="OK"){
-		               component.set("v.showOkV", false); 
-		               component.set("v.showOkVol", false); 
-		               component.set("v.showOkCoV",true); 
-		           }
-	            }
-	         }  
+	            if(component.get("v.showOkCoV")){
+	              component.set("v.showOkVol", false);
+	           }else {
+	              component.set("v.showOkVol", true);	   
+	           } 
 	       }else if(!nav){
 	           component.set("v.showOk", false); 
-	           component.set("v.showOkVol", false); 
+	           component.set("v.showOkVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Rhode Island'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showRi", true);
-                component.set("v.showRiVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="RI"){
-		               component.set("v.showRiV", false); 
-		               component.set("v.showRiVol", false); 
-		               component.set("v.showRiCoV",true); 
-		           }
-	            }
-	         }  
+	            if(component.get("v.showRiCoV")){
+	              component.set("v.showRiVol", false);
+	           }else {
+	              component.set("v.showRiVol", true);	   
+	           } 
 	       }else if(!nav){
 	           component.set("v.showRi", false); 
-	           component.set("v.showRiVol", false); 
+	            component.set("v.showRiVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='South Dakota'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showSd", true);
-                component.set("v.showSdVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="SD"){
-		               component.set("v.showSdV", false); 
-		               component.set("v.showSdVol", false); 
-		               component.set("v.showSdCoV",true); 
-		           }
-	            }
-	         }  
+	            if(component.get("v.showSdCoV")){
+	              component.set("v.showSdVol", false);
+	           }else {
+	              component.set("v.showSdVol", true);	   
+	           } 
 	       }else if(!nav){
 	           component.set("v.showSd", false); 
-	           component.set("v.showSdVol", false); 
+	           component.set("v.showSdVol", false);
 	       }
-	    }if(component.find("sstStateId")[cmp].get("v.name")=='Tennessee'){  
+	    }/*if(component.find("sstStateId")[cmp].get("v.name")=='Tennessee'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showTe", true);
@@ -743,59 +763,41 @@
 	           component.set("v.showTe", false); 
 	           component.set("v.showTeVol", false);
 	       }
-	    }if(component.find("sstStateId")[cmp].get("v.name")=='Utah'){  
+	    }*/if(component.find("sstStateId")[cmp].get("v.name")=='Utah'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	           component.set("v.showUt", true);
-               component.set("v.showUtVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="UT"){
-		               component.set("v.showUtV", false); 
-		               component.set("v.showUtVol", false); 
-		               component.set("v.showUtCoV",true); 
-		           }
-	            }
-	         }  
+	           component.set("v.showUt", true);  
+	           if(component.get("v.showUtCoV")){
+	              component.set("v.showUtVol", false);
+	           }else {
+	              component.set("v.showUtVol", true);	   
+	           } 
 	       }else if(!nav){
 	           component.set("v.showUt", false); 
-	           component.set("v.showUtVol", false);
+	            component.set("v.showUtVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Vermont'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showVe", true);
-               component.set("v.showVeVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="VT"){
-		               component.set("v.showVeV", false); 
-		               component.set("v.showVeVol", false); 
-		               component.set("v.showVeCoV",true); 
-		           }
-	            }
-	         }  
+	            if(component.get("v.showVeCoV")){
+	              component.set("v.showVeVol", false);
+	           }else {
+	              component.set("v.showVeVol", true);	   
+	           } 
 	       }else if(!nav){
 	           component.set("v.showVe", false); 
-	           component.set("v.showVeVol", false);
+	            component.set("v.showVeVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Washington'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showWa", true);
-               component.set("v.showWaVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="WA"){
-		               component.set("v.showWaV", false); 
-		               component.set("v.showWaVol", false); 
-		               component.set("v.showWaCoV",true); 
-		           }
-	            }
-	         }  
+	             if(component.get("v.showWaCoV")){
+	              component.set("v.showWaVol", false);
+	           }else {
+	              component.set("v.showWaVol", true);	   
+	           } 
 	       }else if(!nav){
 	           component.set("v.showWa", false); 
 	           component.set("v.showWaVol", false);
@@ -804,17 +806,11 @@
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showWv", true);
-               component.set("v.showWvVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="WV"){
-		               component.set("v.showWvV", false); 
-		               component.set("v.showWvVol", false); 
-		               component.set("v.showWvCoV",true); 
-		           }
-	            }
-	         }  
+	             if(component.get("v.showWvCoV")){
+	              component.set("v.showWvVol", false);
+	           }else {
+	              component.set("v.showWvVol", true);	   
+	           }     
 	       }else if(!nav){
 	           component.set("v.showWv", false); 
 	           component.set("v.showWvVol", false);
@@ -822,43 +818,44 @@
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Wisconsin'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	           component.set("v.showWi", true);
-               component.set("v.showWiVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="WI"){
-		               component.set("v.showWiV", false); 
-		               component.set("v.showWiVol", false); 
-		               component.set("v.showWiCoV",true); 
-		           }
-	            }
-	         }  
+	           component.set("v.showWi", true); 
+	            if(component.get("v.showWiCoV")){
+	              component.set("v.showWiVol", false);
+	           }else {
+	              component.set("v.showWiVol", true);	   
+	           }     
 	       }else if(!nav){
 	           component.set("v.showWi", false); 
-	           component.set("v.showWiVol", false);
+	            component.set("v.showWiVol", false);    
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Wyoming'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	           component.set("v.showWy", true);
-               component.set("v.showWyVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="WY"){
-		               component.set("v.showWyV", false); 
-		               component.set("v.showWyVol", false); 
-		               component.set("v.showWyCoV",true); 
-		           }
-	            }
-	         }  
+	           component.set("v.showWy", true); 
+	           if(component.get("v.showWyCoV")){
+	              component.set("v.showWyVol", false);
+	           }else {
+	              component.set("v.showWyVol", true);	   
+	           }
 	       }else if(!nav){
 	           component.set("v.showWy", false); 
-	           component.set("v.showWyVol", false);
+	             component.set("v.showWyVol", false); 
 	       }
 	    }
-	  }              
+	  }    
+	      var navTn = component.find("tnStateId").get("v.checked");    
+	       if(navTn){
+	            component.set("v.showTe", true); 
+	            if(component.get("v.showTeCoV")){
+	              component.set("v.showTeVol", false);
+	           }else {
+	              component.set("v.showTeVol", true);	   
+	           }
+	       }else if(!navTn){
+	           component.set("v.showTe", false); 
+	            component.set("v.showTeVol", false); 
+	       }     
+	  
     }, sstReg: function (component, event, helper) { 
         for (var cmp =0;cmp< component.find("sstReg").length;cmp++) {  
 	       if(component.find("sstReg")[cmp].get("v.name")=='arSV'){  
@@ -902,7 +899,7 @@
 	            if (nav=="False (SST Non-Volunteer)"){
 		         component.set("v.keFalse", true);
 		      }else{
-		         component.set("v.kaFalse", false);
+		         component.set("v.keFalse", false);
 		      }       
 	        }if(component.find("sstReg")[cmp].get("v.name")=='miSV'){  
 	           var nav = component.find("sstReg")[cmp].get("v.value");
@@ -1052,13 +1049,24 @@
 	  }
 	}
    },phyTn: function (component, event, helper) {
+      var tnP=component.find("tnStateId").get("v.checked");
 	  for(var cmp in component.find('sstStateId')) {     
         if(component.find("sstStateId")[cmp].get("v.name")=='tnPhy'){
 	      var nav=component.find("sstStateId")[cmp].get("v.value");
 	      if (nav=="Yes"){
 	         component.set("v.shoTnPhy", true); 
+	         component.find("tnStateId").set('v.checked', false); 
+	         component.set("v.showTe", false); 
+	         component.set("v.showTeVol", false);
+		     component.set("v.showTeCoV",false);  
+		     component.set("v.teRe",true); 
 	    }else if(nav=="No"){
 	        component.set("v.shoTnPhy", false);
+	        component.find("tnStateId").set('v.checked', true); 
+	        //component.set("v.showTe", true);  
+	         component.set("v.showTeVol", true); 
+		     component.set("v.showTeCoV",false); 
+		     component.set("v.teRe",false); 
 	     }
 	  }
 	 }
@@ -1094,351 +1102,243 @@
 	},selectAll: function (component, event, helper) {
 	   if(component.find('allStates').get("v.checked")) {
          component.set('v.isAllSelected', true);
+         component.find("tnStateId").set('v.checked', true); 
 	    }else{
          component.set('v.isAllSelected', false);
+         component.find("tnStateId").set('v.checked', false); 
 	    }
 	    const myCheckboxes = component.find('sstStateId'); 
 	    let chk = (myCheckboxes.length == null) ? [myCheckboxes] : myCheckboxes;
 	    chk.forEach(checkbox => checkbox.set('v.checked', component.get('v.isAllSelected')));
+	    //sstNexus(component, event, helper);
 	       
-	    for(var cmp in component.find('sstStateId')) {
-	        if(component.find("sstStateId")[cmp].get("v.name")=='Arkansas'){  
-            var nav = component.find("sstStateId")[cmp].get("v.checked");    
-	        if(nav){
+	 for(var cmp in component.find('sstStateId')) {
+        if(component.find("sstStateId")[cmp].get("v.name")=='Arkansas'){  
+           var nav = component.find("sstStateId")[cmp].get("v.checked");    
+	       if(nav){
 	           component.set("v.showAr", true); 
-	           component.set("v.showArVol", true); 
-	            for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="AR"){
-		               component.set("v.showArV", false); 
-		               component.set("v.showArVol", false); 
-		               component.set("v.showArCoV",true); 
-		           }
-	            }
-	         }  
-	       }else {
-	         component.set("v.showAr", false); 
-	         component.set("v.showArVol", false); 
-	       
+	           if(component.get("v.showArCoV")){
+	              component.set("v.showArVol", false);
+	           }else {
+	              component.set("v.showArVol", true);	   
+	           }         
+	       }else if(!nav){
+	           component.set("v.showAr", false);    
+	           component.set("v.showArVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Georgia'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	           component.set("v.showGe", true); 
-               component.set("v.showGeVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="GA"){
-		               component.set("v.showGeV", false); 
-		               component.set("v.showGeVol", false); 
-		               component.set("v.showGeCoV",true); 
-		           }
-	            }
-	         }  
-	       }else {
-	         component.set("v.showGe", false); 
-	         component.set("v.showGeVol", false); 
-	       
+	           component.set("v.showGe", true);  
+	            if(component.get("v.showGeCoV")){
+	              component.set("v.showGeVol", false);
+	           }else {
+	              component.set("v.showGeVol", true);	   
+	           } 
+	       }else if(!nav){
+	           component.set("v.showGe", false);  
+	           component.set("v.showGeVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Indiana'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showIn", true); 
-               component.set("v.showInVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="IN"){
-		               component.set("v.showInV", false); 
-		               component.set("v.showInVol", false); 
-		               component.set("v.showInCoV",true); 
-		           }
-	            }
-	         }  
-	       }else {
-	         component.set("v.showIn", false); 
-	         component.set("v.showInVol", false); 
-	       
+	           if(component.get("v.showInCoV")){
+	              component.set("v.showInVol", false);
+	           }else {
+	              component.set("v.showInVol", true);	   
+	           } 
+	       }else if(!nav){
+	           component.set("v.showIn", false); 
+	           component.set("v.showInVol", false); 
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Iowa'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	           component.set("v.showIo", true); 
-               component.set("v.showIoVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="IA"){
-		               component.set("v.showIoV", false); 
-		               component.set("v.showIoVol", false); 
-		               component.set("v.showIoCoV",true); 
-		           }
-	            }
-	         }  
-	       }else {
-	         component.set("v.showIo", false); 
-	         component.set("v.showIoVol", false); 
-	       
+	           component.set("v.showIo", true);  
+	            if(component.get("v.showIoCoV")){
+	              component.set("v.showIoVol", false);
+	           }else {
+	              component.set("v.showIoVol", true);	   
+	           }  
+	       }else if(!nav){
+	           component.set("v.showIo", false);  
+	           component.set("v.showIoVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Kansas'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showKa", true); 
-               component.set("v.showKaVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="KS"){
-		               component.set("v.showKaV", false); 
-		               component.set("v.showKaVol", false); 
-		               component.set("v.showKaCoV",true); 
-		           }
-	            }
-	         }  
-	       }else {
-	         component.set("v.showKa", false); 
-	         component.set("v.showKaVol", false); 
-	       
+	           if(component.get("v.showKaCoV")){
+	              component.set("v.showKaVol", false);
+	           }else {
+	              component.set("v.showKaVol", true);	   
+	           }  
+	       }else if(!nav){
+	           component.set("v.showKa", false); 
+	           component.set("v.showKaVol", false);  
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Kentucky'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showKe", true); 
-               component.set("v.showKeVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="KY"){
-		               component.set("v.showKeV", false); 
-		               component.set("v.showKeVol", false); 
-		               component.set("v.showKeCoV",true); 
-		           }
-	            }
-	         }  
-	       }else {
-	         component.set("v.showKe", false); 
-	         component.set("v.showKeVol", false); 
-	       
+	           if(component.get("v.showKeCoV")){
+	              component.set("v.showKeVol", false);
+	           }else {
+	              component.set("v.showKeVol", true);	   
+	           }  
+	       }else if(!nav){
+	           component.set("v.showKe", false); 
+	           component.set("v.showKeVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Michigan'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showMi", true);
-               component.set("v.showMiVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="MI"){
-		               component.set("v.showMiV", false); 
-		               component.set("v.showMiVol", false); 
-		               component.set("v.showMiCoV",true); 
-		           }
-	            }
-	         }  
-	       }else {
-	         component.set("v.showMi", false); 
-	         component.set("v.showMiVol", false); 
-	       
+	            if(component.get("v.showMiCoV")){
+	              component.set("v.showMiVol", false);
+	           }else {
+	              component.set("v.showMiVol", true);	   
+	           }            
+	       }else if(!nav){
+	           component.set("v.showMi", false);
+	           component.set("v.showMiVol", false); 
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Minnesota'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showMn", true); 
-                component.set("v.showMnVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="MN"){
-		               component.set("v.showMnV", false); 
-		               component.set("v.showMnVol", false); 
-		               component.set("v.showMnCoV",true); 
-		           }
-	            }
-	         }  
-	       }else {
-	         component.set("v.showMn", false); 
-	         component.set("v.showMnVol", false); 
-	       
+	            if(component.get("v.showMnCoV")){
+	              component.set("v.showMnVol", false);
+	           }else {
+	              component.set("v.showMnVol", true);	   
+	           }   
+	       }else if(!nav){
+	           component.set("v.showMn", false);  
+	           component.set("v.showMnVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Nebraska'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showNe", true);
-               component.set("v.showNeVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="NE"){
-		               component.set("v.showNeV", false); 
-		               component.set("v.showNeVol", false); 
-		               component.set("v.showNeCoV",true); 
-		           }
-	            }
-	         }  
-	       }else {
-	         component.set("v.showNe", false); 
-	         component.set("v.showNeVol", false); 
-	       
+	            if(component.get("v.showNeCoV")){
+	              component.set("v.showNeVol", false);
+	           }else {
+	              component.set("v.showNeVol", true);	   
+	           } 
+	       }else if(!nav){
+	           component.set("v.showNe", false); 
+	           component.set("v.showNeVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Nevada'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	           component.set("v.showNv", true);
-                component.set("v.showNvVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="NV"){
-		               component.set("v.showNvV", false); 
-		               component.set("v.showNvVol", false); 
-		               component.set("v.showNvCoV",true); 
-		           }
-	            }
-	         }  
-	       }else {
-	         component.set("v.showNv", false); 
-	         component.set("v.showNvVol", false); 
+	           component.set("v.showNv", true);   
+	            if(component.get("v.showNvCoV")){
+	              component.set("v.showNvVol", false);
+	           }else {
+	              component.set("v.showNvVol", true);	   
+	           } 
+	       }else if(!nav){
+	           component.set("v.showNv", false);  
+	            component.set("v.showNvVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='New Jersey'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showNj", true);
-                component.set("v.showNjVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="NJ"){
-		               component.set("v.showNjV", false); 
-		               component.set("v.showNjVol", false); 
-		               component.set("v.showNjCoV",true); 
-		           }
-	            }
-	         }  
-	       }else {
-	         component.set("v.showNj", false); 
-	         component.set("v.showNjVol", false); 
+	            if(component.get("v.showNjCoV")){
+	              component.set("v.showNjVol", false);
+	           }else {
+	              component.set("v.showNjVol", true);	   
+	           } 
+	       }else if(!nav){
+	           component.set("v.showNj", false); 
+	            component.set("v.showNjVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='North Carolina'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	           component.set("v.showNc", true); 
-                component.set("v.showNcVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="NC"){
-		               component.set("v.showNcV", false); 
-		               component.set("v.showNcVol", false); 
-		               component.set("v.showNcCoV",true); 
-		           }
-	            }
-	         }  
-	       }else {
-	         component.set("v.showNc", false); 
-	         component.set("v.showNcVol", false); 
+	           component.set("v.showNc", true);  
+	            if(component.get("v.showNcCoV")){
+	              component.set("v.showNcVol", false);
+	           }else {
+	              component.set("v.showNcVol", true);	   
+	           } 
+	       }else if(!nav){
+	           component.set("v.showNc", false);
+	           component.set("v.showNcVol", false);   
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='North Dakota'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showNd", true);
-               component.set("v.showNdVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="ND"){
-		               component.set("v.showNdV", false); 
-		               component.set("v.showNdVol", false); 
-		               component.set("v.showNdCoV",true); 
-		           }
-	            }
-	         }  
-	       }else {
-	         component.set("v.showNd", false); 
-	         component.set("v.showNdVol", false); 
+	           if(component.get("v.showNdCoV")){
+	              component.set("v.showNdVol", false);
+	           }else {
+	              component.set("v.showNdVol", true);	   
+	           } 
+	       }else if(!nav){
+	           component.set("v.showNd", false); 
+	            component.set("v.showNdVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Ohio'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	           component.set("v.showOh", true);
-                component.set("v.showOhVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="OH"){
-		               component.set("v.showOhV", false); 
-		               component.set("v.showOhVol", false); 
-		               component.set("v.showOhCoV",true); 
-		           }
-	            }
-	         }  
-	       }else {
-	         component.set("v.showOh", false); 
-	         component.set("v.showOhVol", false); 
+	           component.set("v.showOh", true);   
+	           if(component.get("v.showOhCoV")){
+	              component.set("v.showOhVol", false);
+	           }else {
+	              component.set("v.showOhVol", true);	   
+	           }               
+	       }else if(!nav){
+	           component.set("v.showOh", false); 
+	           component.set("v.showOhVol", false);   
 	       }
 	    }
 	    if(component.find("sstStateId")[cmp].get("v.name")=='Oklahoma'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showOk", true);
-                component.set("v.showOkVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="OK"){
-		               component.set("v.showOkV", false); 
-		               component.set("v.showOkVol", false); 
-		               component.set("v.showOkCoV",true); 
-		           }
-	            }
-	         }  
-	       }else {
-	         component.set("v.showOk", false); 
-	         component.set("v.showOkVol", false); 
+	            if(component.get("v.showOkCoV")){
+	              component.set("v.showOkVol", false);
+	           }else {
+	              component.set("v.showOkVol", true);	   
+	           } 
+	       }else if(!nav){
+	           component.set("v.showOk", false); 
+	           component.set("v.showOkVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Rhode Island'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showRi", true);
-                component.set("v.showRiVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="RI"){
-		               component.set("v.showRiV", false); 
-		               component.set("v.showRiVol", false); 
-		               component.set("v.showRiCoV",true); 
-		           }
-	            }
-	         }  
-	       }else {
-	         component.set("v.showRi", false); 
-	         component.set("v.showRiVol", false); 
+	            if(component.get("v.showRiCoV")){
+	              component.set("v.showRiVol", false);
+	           }else {
+	              component.set("v.showRiVol", true);	   
+	           } 
+	       }else if(!nav){
+	           component.set("v.showRi", false); 
+	            component.set("v.showRiVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='South Dakota'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showSd", true);
-                component.set("v.showSdVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="SD"){
-		               component.set("v.showSdV", false); 
-		               component.set("v.showSdVol", false); 
-		               component.set("v.showSdCoV",true); 
-		           }
-	            }
-	         }  
-	       }else {
-	         component.set("v.showSd", false); 
-	         component.set("v.showSdVol", false); 
+	            if(component.get("v.showSdCoV")){
+	              component.set("v.showSdVol", false);
+	           }else {
+	              component.set("v.showSdVol", true);	   
+	           } 
+	       }else if(!nav){
+	           component.set("v.showSd", false); 
+	           component.set("v.showSdVol", false);
 	       }
-	    }if(component.find("sstStateId")[cmp].get("v.name")=='Tennessee'){  
+	    }/*if(component.find("sstStateId")[cmp].get("v.name")=='Tennessee'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	            component.set("v.showTe", true);
+	           component.set("v.showTe", true);
                 component.set("v.showTeVol", true);
                 for(var cmp in component.find('newSSTform')) { 
                  if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
@@ -1454,59 +1354,41 @@
 	           component.set("v.showTe", false); 
 	           component.set("v.showTeVol", false);
 	       }
-	    }if(component.find("sstStateId")[cmp].get("v.name")=='Utah'){  
+	    }*/if(component.find("sstStateId")[cmp].get("v.name")=='Utah'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	           component.set("v.showUt", true);
-               component.set("v.showUtVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="UT"){
-		               component.set("v.showUtV", false); 
-		               component.set("v.showUtVol", false); 
-		               component.set("v.showUtCoV",true); 
-		           }
-	            }
-	         }  
+	           component.set("v.showUt", true);  
+	           if(component.get("v.showUtCoV")){
+	              component.set("v.showUtVol", false);
+	           }else {
+	              component.set("v.showUtVol", true);	   
+	           } 
 	       }else if(!nav){
 	           component.set("v.showUt", false); 
-	           component.set("v.showUtVol", false);
+	            component.set("v.showUtVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Vermont'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showVe", true);
-               component.set("v.showVeVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="VT"){
-		               component.set("v.showVeV", false); 
-		               component.set("v.showVeVol", false); 
-		               component.set("v.showVeCoV",true); 
-		           }
-	            }
-	         }  
+	            if(component.get("v.showVeCoV")){
+	              component.set("v.showVeVol", false);
+	           }else {
+	              component.set("v.showVeVol", true);	   
+	           } 
 	       }else if(!nav){
 	           component.set("v.showVe", false); 
-	           component.set("v.showVeVol", false);
+	            component.set("v.showVeVol", false);
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Washington'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showWa", true);
-               component.set("v.showWaVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="WA"){
-		               component.set("v.showWaV", false); 
-		               component.set("v.showWaVol", false); 
-		               component.set("v.showWaCoV",true); 
-		           }
-	            }
-	         }  
+	             if(component.get("v.showWaCoV")){
+	              component.set("v.showWaVol", false);
+	           }else {
+	              component.set("v.showWaVol", true);	   
+	           } 
 	       }else if(!nav){
 	           component.set("v.showWa", false); 
 	           component.set("v.showWaVol", false);
@@ -1515,17 +1397,11 @@
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showWv", true);
-               component.set("v.showWvVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="WV"){
-		               component.set("v.showWvV", false); 
-		               component.set("v.showWvVol", false); 
-		               component.set("v.showWvCoV",true); 
-		           }
-	            }
-	         }  
+	             if(component.get("v.showWvCoV")){
+	              component.set("v.showWvVol", false);
+	           }else {
+	              component.set("v.showWvVol", true);	   
+	           }     
 	       }else if(!nav){
 	           component.set("v.showWv", false); 
 	           component.set("v.showWvVol", false);
@@ -1533,44 +1409,43 @@
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Wisconsin'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	           component.set("v.showWi", true);
-               component.set("v.showWiVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="WI"){
-		               component.set("v.showWiV", false); 
-		               component.set("v.showWiVol", false); 
-		               component.set("v.showWiCoV",true); 
-		           }
-	            }
-	         }  
+	           component.set("v.showWi", true); 
+	            if(component.get("v.showWiCoV")){
+	              component.set("v.showWiVol", false);
+	           }else {
+	              component.set("v.showWiVol", true);	   
+	           }     
 	       }else if(!nav){
 	           component.set("v.showWi", false); 
-	           component.set("v.showWiVol", false);
+	            component.set("v.showWiVol", false);    
 	       }
 	    }if(component.find("sstStateId")[cmp].get("v.name")=='Wyoming'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
-	           component.set("v.showWy", true);
-               component.set("v.showWyVol", true);
-                for(var cmp in component.find('newSSTform')) { 
-                 if(component.find("newSSTform")[cmp].get("v.name")=='stateCo'){  
-                      var nav = component.find("newSSTform")[cmp].get("v.value");    
-		             if(nav=="WY"){
-		               component.set("v.showWyV", false); 
-		               component.set("v.showWyVol", false); 
-		               component.set("v.showWyCoV",true); 
-		           }
-	            }
-	         }  
+	           component.set("v.showWy", true); 
+	           if(component.get("v.showWyCoV")){
+	              component.set("v.showWyVol", false);
+	           }else {
+	              component.set("v.showWyVol", true);	   
+	           }
 	       }else if(!nav){
 	           component.set("v.showWy", false); 
-	           component.set("v.showWyVol", false);
+	           component.set("v.showWyVol", false); 
 	       }
 	    }
-    }   
-		     
+	  }    
+	  var navTn = component.find("tnStateId").get("v.checked");    
+	       if(navTn){
+	            component.set("v.showTe", true); 
+	            if(component.get("v.showTeCoV")){
+	              component.set("v.showTeVol", false);
+	           }else {
+	              component.set("v.showTeVol", true);	   
+	           }
+	       }else if(!navTn){
+	           component.set("v.showTe", false); 
+	            component.set("v.showTeVol", false); 
+	       }     
 	},sstFF: function (component, event, helper) {
 	  for(var cmp in component.find('tableId')) {
         if(component.find("tableId")[cmp].get("v.name")=='ArkansasReg'){  
@@ -1747,285 +1622,324 @@
     },Init : function(component, event, helper) {
         helper.doInit(component, event, helper);
      },
-   sstNonVoluteer:function(component, event, helper){
+   sstNonVoluteer:function(component, event, helper){  
        for(var cmp in component.find('tableId')) { 
         if(component.find("tableId")[cmp].get("v.name")=='ArkansasRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showArV", true); 
-	               component.set("v.showArVol", false); 
-	               component.set("v.showArCoV",false);
-	               
+	               component.set("v.showArVol", false);   
 	           }else if(!nav){
-	              component.set("v.showArV", false); 
-	               component.set("v.showArVol", true); 
-	               component.set("v.showArCoV",false);
-	           
-	           }
+	              component.set("v.showArV", false);
+	             if(component.get("v.showArCoV")){
+	              component.set("v.showArVol", false);
+	           }else {
+	              component.set("v.showArVol", true);	   
+	           }  
+	          }
 	         }if(component.find("tableId")[cmp].get("v.name")=='GeorgiaRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showGeV", true); 
-	               component.set("v.showGeVol", false); 
-	               component.set("v.showGeCoV",false);
+	               component.set("v.showGeVol", false);
 	               
 	           }else if(!nav){
 	              component.set("v.showGeV", false); 
-	               component.set("v.showGeVol", true); 
-	               component.set("v.showGeCoV",false);
-	           
+	              if(component.get("v.showGeCoV")){
+	              component.set("v.showGeVol", false);
+	           }else {
+	              component.set("v.showGeVol", true);	   
+	           }    
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='IndianaRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showInV", true); 
 	               component.set("v.showInVol", false); 
-	               component.set("v.showInCoV",false);
-	               
 	           }else if(!nav){
 	               component.set("v.showInV", false); 
-	               component.set("v.showInVol", true); 
-	               component.set("v.showInCoV",false);
-	           
+	               if(component.get("v.showInCoV")){
+	              component.set("v.showInVol", false);
+	           }else {
+	              component.set("v.showInVol", true);	   
+	           }  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='IowaRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showIoV", true); 
 	               component.set("v.showIoVol", false); 
-	               component.set("v.showIoCoV",false);
 	               
 	           }else if(!nav){
 	               component.set("v.showIoV", false); 
-	               component.set("v.showIoVol", true); 
-	               component.set("v.showIoCoV",false);
-	           
+	               if(component.get("v.showIoCoV")){
+	                  component.set("v.showIoVol", false);
+	               }else {
+	                 component.set("v.showIoVol", true);	   
+	               }  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='KansasRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showKaV", true); 
 	               component.set("v.showKaVol", false); 
-	               component.set("v.showKaCoV",false);
-	               
 	           }else if(!nav){
 	               component.set("v.showKaV", false); 
-	               component.set("v.showKaVol", true); 
-	               component.set("v.showKaCoV",false);
+	               if(component.get("v.showKaCoV")){
+	                component.set("v.showKaVol", false);
+	              }else {
+	               component.set("v.showKaVol", true);	   
+	             } 
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='KentuckyRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showKeV", true); 
 	               component.set("v.showKeVol", false); 
-	               component.set("v.showKeCoV",false);  
 	           }else if(!nav){
 	                component.set("v.showKeV", false); 
-	               component.set("v.showKeVol", true); 
-	               component.set("v.showKeCoV",false);  
+	                if(component.get("v.showKeCoV")){
+	                 component.set("v.showKeVol", false);
+	               }else {
+	                 component.set("v.showKeVol", true);	   
+	               } 
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='MichiganRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showMiV", true); 
-	               component.set("v.showMiVol", false); 
-	               component.set("v.showMiCoV",false);
-	               
+	               component.set("v.showMiVol", false);    
 	           }else if(!nav){
-	                component.set("v.showMiV", false); 
-	               component.set("v.showMiVol", true); 
-	               component.set("v.showMiCoV",false);
-	               
+	               component.set("v.showMiV", false); 
+	               if(component.get("v.showMiCoV")){
+	                component.set("v.showMiVol", false);
+	               }else {
+	                component.set("v.showMiVol", true);	   
+	              }  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='MinnesotaRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showMnV", true); 
 	               component.set("v.showMnVol", false); 
-	               component.set("v.showMnCoV",false);   
 	           }else if(!nav){
 	               component.set("v.showMnV", false); 
-	               component.set("v.showMnVol", true); 
-	               component.set("v.showMnCoV",false);  
-	               
-	           }
+	               if(component.get("v.showMnCoV")){
+	                component.set("v.showMnVol", false);
+	              }else {
+	                component.set("v.showMnVol", true);	   
+	             }   
+	            }
 	         }if(component.find("tableId")[cmp].get("v.name")=='NebraskaRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showNeV", true); 
 	               component.set("v.showNeVol", false); 
-	               component.set("v.showNeCoV",false);    
 	           }else if(!nav){
 	               component.set("v.showNeV", false); 
-	               component.set("v.showNeVol", true); 
-	               component.set("v.showNeCoV",false);      
+	              if(component.get("v.showNeCoV")){
+	                component.set("v.showNeVol", false);
+	             }else {
+	              component.set("v.showNeVol", true);	   
+	            }  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='NevadaRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showNvV", true); 
-	               component.set("v.showNvVol", false); 
-	               component.set("v.showNvCoV",false);  
+	               component.set("v.showNvVol", false);          
 	           }else if(!nav){
-	                component.set("v.showNvV", false); 
-	               component.set("v.showNvVol", true); 
-	               component.set("v.showNvCoV",false);       
+	              component.set("v.showNvV", false); 
+	              if(component.get("v.showNvCoV")){
+	                component.set("v.showNvVol", false);
+	              }else {
+	              component.set("v.showNvVol", true);	   
+	             }  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='NJRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showNjV", true); 
 	               component.set("v.showNjVol", false); 
-	               component.set("v.showNjCoV",false);   
 	           }else if(!nav){
 	               component.set("v.showNjV", false); 
-	               component.set("v.showNjVol", true); 
-	               component.set("v.showNjCoV",false);       
+	               if(component.get("v.showNjCoV")){
+	                  component.set("v.showNjVol", false);
+	              }else {
+	                component.set("v.showNjVol", true);	   
+	              }  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='NCRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showNcV", true); 
 	               component.set("v.showNcVol", false); 
-	               component.set("v.showNcCoV",false);   
 	           }else if(!nav){
 	               component.set("v.showNcV", false); 
-	               component.set("v.showNcVol", true); 
-	               component.set("v.showNcCoV",false);      
+	               if(component.get("v.showNcCoV")){
+	                component.set("v.showNcVol", false);
+	               }else {
+	                 component.set("v.showNcVol", true);	   
+	              }  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='NDRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showNdV", true); 
-	               component.set("v.showNdVol", false); 
-	               component.set("v.showNdCoV",false);  
+	               component.set("v.showNdVol", false);   
 	           }else if(!nav){
 	               component.set("v.showNdV", false); 
-	               component.set("v.showNdVol", true); 
-	               component.set("v.showNdCoV",false);      
+	               if(component.get("v.showNdCoV")){
+	                component.set("v.showNdVol", false);
+	               }else {
+	                component.set("v.showNdVol", true);	   
+	              }  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='OhRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showOhV", true); 
 	               component.set("v.showOhVol", false); 
-	               component.set("v.showOhCoV",false);   
 	           }else if(!nav){
 	               component.set("v.showOhV", false); 
-	               component.set("v.showOhVol", true); 
-	               component.set("v.showOhCoV",false);  
+	               if(component.get("v.showOhCoV")){
+	                component.set("v.showOhVol", false);
+	              }else {
+	              component.set("v.showOhVol", true);	   
+	              }    
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='OkRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showOkV", true); 
 	               component.set("v.showOkVol", false); 
-	               component.set("v.showOkCoV",false);   
 	           }else if(!nav){
 	               component.set("v.showOkV", false); 
-	               component.set("v.showOkVol", true); 
-	               component.set("v.showOkCoV",false);  
+	               if(component.get("v.showOkCoV")){
+	                component.set("v.showOkVol", false);
+	              }else {
+	                component.set("v.showOkVol", true);	   
+	             }  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='RiRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showRiV", true); 
 	               component.set("v.showRiVol", false); 
-	               component.set("v.showRiCoV",false);   
 	           }else if(!nav){
 	               component.set("v.showRiV", false); 
-	               component.set("v.showRiVol", true); 
-	               component.set("v.showRiCoV",false); 
+	               if(component.get("v.showRiCoV")){
+	                component.set("v.showRiVol", false);
+	               }else {
+	                 component.set("v.showRiVol", true);	   
+	              }  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='SdRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showSdV", true); 
 	               component.set("v.showSdVol", false); 
-	               component.set("v.showSdCoV",false);   
 	           }else if(!nav){
 	               component.set("v.showSdV", false); 
-	               component.set("v.showSdVol", true); 
-	               component.set("v.showSdCoV",false); 
+	               if(component.get("v.showSdCoV")){
+	                 component.set("v.showSdVol", false);
+	               }else {
+	                component.set("v.showSdVol", true);	   
+	              }  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='TnRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showTeV", true); 
 	               component.set("v.showTeVol", false); 
-	               component.set("v.showTeCoV",false);   
 	           }else if(!nav){
 	               component.set("v.showTeV", false); 
-	               component.set("v.showTeVol", true); 
-	               component.set("v.showTeCoV",false);   
+	               if(component.get("v.showTeCoV")){
+	                component.set("v.showTeVol", false);
+	               }else {
+	                component.set("v.showTeVol", true);	   
+	              }
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='UtRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showUtV", true); 
-	               component.set("v.showUtVol", false); 
-	               component.set("v.showUtCoV",false);   
+	               component.set("v.showUtVol", false);   
 	           }else if(!nav){
-	                component.set("v.showUtV", false); 
-	               component.set("v.showUtVol", true); 
-	               component.set("v.showUtCoV",false);    
+	               component.set("v.showUtV", false); 
+	               if(component.get("v.showUtCoV")){
+	                component.set("v.showUtVol", false);
+	              }else {
+	                component.set("v.showUtVol", true);	   
+	             }  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='VeRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showVeV", true); 
 	               component.set("v.showVeVol", false); 
-	               component.set("v.showVeCoV",false);   
 	           }else if(!nav){
 	                component.set("v.showVeV", false); 
-	               component.set("v.showVeVol", true); 
-	               component.set("v.showVeCoV",false);  
+	               if(component.get("v.showVeCoV")){
+	                 component.set("v.showVeVol", false);
+	                }else {
+	                component.set("v.showVeVol", true);	   
+	              }  
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='WaRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showWaV", true); 
 	               component.set("v.showWaVol", false); 
-	               component.set("v.showWaCoV",false);   
 	           }else if(!nav){
-	                component.set("v.showWaV", false); 
-	               component.set("v.showWaVol", true); 
-	               component.set("v.showWaCoV",false);  
+	               component.set("v.showWaV", false); 
+	               if(component.get("v.showWaCoV")){
+	                 component.set("v.showWaVol", false);
+	              }else {
+	                component.set("v.showWaVol", true);	   
+	              } 
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='WvRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showWvV", true); 
 	               component.set("v.showWvVol", false); 
-	               component.set("v.showWvCoV",false);   
 	           }else if(!nav){
-	                component.set("v.showWaV", false); 
-	               component.set("v.showWaVol", true); 
-	               component.set("v.showWaCoV",false);  
+	               component.set("v.showWvV", false); 
+	               if(component.get("v.showWvCoV")){
+	                 component.set("v.showWvVol", false);
+	               }else {
+	                component.set("v.showWvVol", true);	   
+	              }     
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='WiRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showWiV", true); 
 	               component.set("v.showWiVol", false); 
-	               component.set("v.showWiCoV",false);   
 	           }else if(!nav){
 	               component.set("v.showWiV", false); 
-	               component.set("v.showWiVol", true); 
-	               component.set("v.showWiCoV",false);  
+	               if(component.get("v.showWiCoV")){
+	                component.set("v.showWiVol", false);
+	               }else {
+	               component.set("v.showWiVol", true);	   
+	             }   
 	           }
 	         }if(component.find("tableId")[cmp].get("v.name")=='WyRe'){  
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showWyV", true); 
 	               component.set("v.showWyVol", false); 
-	               component.set("v.showWyCoV",false);   
 	           }else if(!nav){
-	                component.set("v.showWyV", false); 
-	               component.set("v.showWyVol", true); 
-	               component.set("v.showWyCoV",false);  
+	               component.set("v.showWyV", false); 
+	               if(component.get("v.showWyCoV")){
+	                 component.set("v.showWyVol", false);
+	              }else {
+	                component.set("v.showWyVol", true);	   
+	             }
 	           }
 	         }
 	   }
+	   
 	 }
 })

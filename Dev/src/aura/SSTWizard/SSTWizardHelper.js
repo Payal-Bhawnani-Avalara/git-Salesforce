@@ -184,7 +184,7 @@
         $A.enqueueAction(action);
     },
     fetchtypeBusPicklist: function(component, event, helper) {
-        var action = component.get("c.getPicklistvalues");
+        var action = component.get("c.getKeyPairValue");
         action.setParams({
             'objectName': component.get("v.ObjectName"),
             'field_apiname': component.get("v.typeBus"),
