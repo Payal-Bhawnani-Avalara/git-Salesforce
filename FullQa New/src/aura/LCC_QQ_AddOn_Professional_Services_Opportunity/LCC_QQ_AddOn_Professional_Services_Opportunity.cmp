@@ -1,4 +1,4 @@
-<aura:component extends="c:LCC_GenericLightningComponent" implements="force:hasRecordId,force:lightningQuickActionWithoutHeader" controller="QQButton_Controller">
+<aura:component implements="force:hasRecordId,force:lightningQuickActionWithoutHeader" controller="QQButton_Controller">
    <aura:set attribute="partially" value="false"></aura:set>
     <!-- User Interface -->
     <aura:attribute name="Opportunity" type="Object" />	

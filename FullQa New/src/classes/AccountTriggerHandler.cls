@@ -74,7 +74,7 @@ public class AccountTriggerHandler extends TriggerHandler {
         for(Account acc : (List<Account>)Trigger.new)
         {
             Account oldAcc = (Account)trigger.oldMap.get(acc.Id);
-            if(acc.CUP_User__c != oldAcc.CUP_User__c ){ 
+            if(acc.CUP_User__c != oldAcc.CUP_User__c || !acc.Name.equalsIgnoreCase(oldAcc.Name)){ 
                 accountId.add(acc.Id);
             }
             /*if(contactId.size() > 100){

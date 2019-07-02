@@ -367,6 +367,8 @@
         else{
             alert('Please Sign the form.');
         }                
+    },printRecord : function(component, event, helper) {
+         window.print();             
     },
     eraseHelper: function(component, event, helper){
         var m = confirm("Want to clear");
@@ -1446,7 +1448,19 @@
 	           component.set("v.showTe", false); 
 	            component.set("v.showTeVol", false); 
 	       }     
-	},sstFF: function (component, event, helper) {
+	},waBOR: function (component, event, helper) {
+	  for(var cmp in component.find('tableId')) {
+        if(component.find("tableId")[cmp].get("v.name")=='WaFF'){  
+           var nav = component.find("tableId")[cmp].get("v.value");    
+	       if(nav=="Yes"){
+	           component.set("v.showWaBOR", true); 
+	       }else if(nav=="No"){
+	           component.set("v.showWaBOR", false); 
+	       }
+	    }
+	  }
+	},
+	sstFF: function (component, event, helper) {
 	  for(var cmp in component.find('tableId')) {
         if(component.find("tableId")[cmp].get("v.name")=='ArkansasReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    

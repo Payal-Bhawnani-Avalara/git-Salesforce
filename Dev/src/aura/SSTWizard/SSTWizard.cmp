@@ -244,6 +244,8 @@
     <aura:attribute name="wiRe" type="boolean" default="false" access="global" />
     <aura:attribute name="wyRe" type="boolean" default="false" access="global" />
     
+     <aura:attribute name="showWaBOR" type="boolean" default="false" access="global" />
+    
     <!-- Statistical  Other -->
     <aura:attribute name="showSSTProgOther" type="boolean" default="false" access="global" />
     <aura:attribute name="showSSTJoinOther" type="boolean" default="false" access="global" />
@@ -269,17 +271,6 @@
 
     <div class="slds-grid slds-grid--vertical forceListViewManager adapetr-config-main">
         <!--********* HEADER ********* -->
-        <div class="slds-page-header adapetr-header">
-            <div class="slds-media__body">
-                <c:SSTWizardHeader></c:SSTWizardHeader>
-                <div id="showErrorrTractConfig" class="cmn_error_msg " style="display:none; text-align:center;font-weight:700">
-                    <ui:outputText value="{!v.message}" />
-                </div>
-                <div id="showMessageTractConfig" class="cmn_message " style="display:none;text-align:center;font-weight:700">
-                    <ui:outputText value="{!v.message}" />
-                </div>
-            </div>
-        </div>
       <div class="slds-border_top"></div>
         <div class="adapetr-config-sec">
             <div class="slds-align_absolute-center config-table-details">
@@ -294,12 +285,12 @@
                       <div class="slds-align_absolute-center" >
 	                   <fieldset class="slds-box slds-theme--default slds-container_medium" style = "{!'border : 1px solid '+ v.borderColor}">
 		                   <legend id="newdemform" class=" slds-text-heading_small" style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor}">
-			               Avalara SST Application
+			               Avalara SST-CSP Application
 			               </legend>
-		                     <p style="margin-left: 1.5em;"> <iframe width="700" height="315" src="https://www.youtube.com/embed/Qf8DJzdIJjU" ></iframe> </p>
+		                   <!--    <p style="margin-left: 1.5em;"> <iframe width="700" height="315" src="https://www.youtube.com/embed/Qf8DJzdIJjU" ></iframe> </p>-->
 		                   <br/>
 		                  <p style="margin-left: 1.5em;" >  <h4  class="slds-text-heading_medium" style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor+'; font-weight: '+ v.boldText}" >
-			                Let’s get you set up with SST!
+			                Let’s get you set up!
 			              </h4>
 			                 <div class="slds-text-color--weak ">
 			                 <p>Use this form to start participating in the Streamlined Sales Tax (SST) program with Avalara as your Certified Service Provider (CSP). All fields are required.  
@@ -313,14 +304,14 @@
 	                       <br/>
 	                       <div class="slds-text-color--weak ">	
 		                       <p style="margin-left: 1.5em;" >  <h4  class="slds-text-heading_medium" style="{! 'background-color:'+ v.bgColor+'; font-weight:200  '+ v.boldText}" >  
-		                        What to expect as an SST participant </h4>
+		                        What to expect as an participant in this program </h4>
 		                        </p>  
 	                        </div>
 	                         <br/>
 						    <p style="margin-left: 1.5em;" >		 
 						     <div class="slds-col slds-size_9-of-12 slds-text-color--weak "> <h4  class="slds-text-heading_small">There will be a preset date to “go live” with SST</h4></div>
 						     <div class="slds-text-color--weak ">
-		                         <p>As your CSP, Avalara is required to file your SST returns monthly starting on a defined SST go-live date, which will be confirmed with you by Avalara. <br/>
+		                         <p>Avalara is required to file your returns monthly starting on a specific date, which will be confirmed with you beforehand. You won’t start participating in the program until that date. <br/>
 							     </p>
 	                        </div>
 	                        </p>
@@ -329,14 +320,14 @@
 						     <div class="slds-col slds-size_9-of-12 slds-text-color--weak "> <h4  class="slds-text-heading_small">Before you register</h4></div>
 						     <div class="slds-text-color--weak ">
 		                         <p> •	Complete this SST Registration Form  <br/>
-                                     •	Complete your AvaTax integration with your assigned implementation manager <br/>
+                                     •	Complete your AvaTax integration with your Avalara Implementation Manager <br/>
                                      •	Map the items you sell to SST-certified Avalara tax codes (<a href="https://s3-us-west-2.amazonaws.com/assets.portal.avalara.com/prod/6.1.0/ags/Avalara_Good_Service.xlsx" target="_blank">download the list of Avalara tax codes</a> to see which are SST-certified) <br/>
 							     </p>
 	                        </div>
 	                        </p>
 						    <br/>
 						    <p style="margin-left: 1.5em;" >		 
-						     <div class="slds-col slds-size_9-of-12 slds-text-color--weak "> <h4  class="slds-text-heading_small">Stay in compliance with SST guidelines</h4></div>
+						     <div class="slds-col slds-size_9-of-12 slds-text-color--weak "> <h4  class="slds-text-heading_small">Stay in compliance with program guidelines</h4></div>
 						     <div class="slds-text-color--weak ">
 		                         <p> •	Calculate tax on all sales in AvaTax <br/>
                                      •	Include an item code and item description on each item sold  <br/>
@@ -350,8 +341,7 @@
 						    <p style="margin-left: 1.5em;" >		 
 						     <div class="slds-col slds-size_9-of-12 slds-text-color--weak "> <h4  class="slds-text-heading_small">Filing tax returns</h4></div>
 						     <div class="slds-text-color--weak ">
-		                         <p> As your CSP, Avalara is required to file your SST returns monthly after you start participating in the SST program. If you’re already registered and filing in an SST state, contact the state to learn how to remit taxes that were collected prior to you joining the SST program. 
-		                         These transactions aren’t filed with your SST transactions.
+		                         <p> As your service provider, Avalara is required to file your returns monthly after you start participating in the SST program. If you’re already registered and filing in an SST state, contact the state to learn how to remit taxes that were collected in this filing period prior to you joining the program. Those transactions aren’t filed with your SST transactions.
 							     </p>
 	                        </div>
 	                        </p>
@@ -398,7 +388,7 @@
                                 <legend id="newdemform" class="slds-text-heading--small 
 			               slds-p-vertical--medium"  style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor}"> Company Information </legend>
                                 <div class="slds-grid slds-wrap">
-                                    <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+                                <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
 			                      <lightning:select aura:id="newSSTform" name="entityValue" label="Business Entity Type" required="true"  value="{!v.sstData.Business_Entity_Type__c}" onchange="{!c.beType}" >
 			                          <option value = "">Select</option>     
 			                          <aura:iteration var="option" items="{! v.businessEntityTypePicklist }">
@@ -407,42 +397,41 @@
 			                      </lightning:select>                      
 			                  </span>
 
-                                    <aura:if isTrue="{!v.showCo}">
-                                        <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                  <lightning:input aura:id="newSSTform" label="FEIN" name="FEIN" value="{!v.sstData.FEINM__c}" maxlength="10" pattern="[0-9]{2}-[0-9]{7}" 
-			                  messageWhenPatternMismatch="Seller FEIN must be in this format: 99-9999999." required="true" />
-			                   <lightning:helptext content="Please provide FEIN in this format: 99-9999999." iconName="utility:info"/>
+                             <aura:if isTrue="{!v.showCo}">
+                              <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+				                  <lightning:input aura:id="newSSTform" label="FEIN" name="FEIN" value="{!v.sstData.FEINM__c}" maxlength="10" pattern="[0-9]{2}-[0-9]{7}" 
+				                  messageWhenPatternMismatch="Seller FEIN must be in this format: 99-9999999." required="true" />
+				                   <lightning:helptext content="Please provide FEIN in this format: 99-9999999." iconName="utility:info"/>
+				              </span>
+                              <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                     <lightning:input aura:id="newSSTform" label="Legal Business Name" name="Legal Business Name" value="{!v.sstData.Legal_Business_Name__c}" 
+			                      maxlength="75"   required="true"/>
 			                  </span>
-                                        <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                  <lightning:input aura:id="newSSTform" label="Legal Business Name" name="Legal Business Name" value="{!v.sstData.Legal_Business_Name__c}" 
-			                   maxlength="75"   required="true"/>
+                              <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                  <lightning:input aura:id="newSSTform" label="DBA Business Name" name="DBA Business Name" maxlength="75"  value="{!v.sstData.DBA_Business_Name__c}"  />
 			                  </span>
-                                        <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                  <lightning:input aura:id="newSSTform" label="DBA Business Name" name="DBA Business Name" maxlength="75"  value="{!v.sstData.DBA_Business_Name__c}"  
-			                 />
-			                  </span>
-                                    </aura:if>
+                             </aura:if>
 
-                                    <aura:if isTrue="{!v.showSP}">
-                                        <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+                             <aura:if isTrue="{!v.showSP}">
+                               <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
 				                  <lightning:input aura:id="ssn" label="SSN" name="SSN" value="{!v.sstData.SSN__c}"  pattern="[0-9]{3}-[0-9]{2}-[0-9]{4}"  maxlength="11" 
 				                   messageWhenPatternMismatch="SSN must be in this format: 999-99-9999." 
                                     messageWhenBadInput='Phone number should be 11 chars max' required="true" />
-                                      <lightning:helptext content="Please provide SSN in this format: 999-99-9999." iconName="utility:info"/>
+                                   <lightning:helptext content="Please provide SSN in this format: 999-99-9999." iconName="utility:info"/>
 				                   <aura:iteration items="{!v.errors}" var="error">{!errors}</aura:iteration>
-				                  </span>
-                                        <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+				                 </span>
+                                 <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
 				                  <lightning:input aura:id="newSSTform" label="First Name" name="First Name" value="{!v.sstData.SP_First_Name__c}" maxlength="16"
 				                   required="true"/>
 				                  </span>
-                                        <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+                                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
 				                  <lightning:input aura:id="newSSTform" label="Middle Name" name="Middle Name" value="{!v.sstData.SP_Middle_Name__c}" maxlength="16" />
 				                  </span>
-                                        <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+                                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
 				                  <lightning:input aura:id="newSSTform" label="Last Name" name="Last Name" value="{!v.sstData.SP_Last_Name__c}" maxlength="32" 
 				                     required="true" />
 				                  </span>
-                                    </aura:if>
+                               </aura:if>
 
                                <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
 		                        <lightning:select aura:id="newSSTform" name="stateOfIn" label="State of Incorporation or Organization" value="{!v.sstData.State_of_Incorporation_or_Organization__c}" required="true" >
@@ -455,21 +444,21 @@
 			                    </span>
 
                                 <div class="slds-grid slds-wrap">
-                                    <div class="slds-col slds-size_1-of-1 ">Company Corporate Address</div>
-                                    <br/>
-                                    <br/>
-                                    <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" type="Text" label="Address Line 1"  name="Address Line 1" value="{!v.sstData.Company_Corporate_Address_Address_Line__c}"  
-			                   maxlength="35" required="true" />
+                                 <div class="slds-col slds-size_1-of-1 ">Company Corporate Address</div>
+                                 <br/>
+                                 <br/>
+                                 <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                        <lightning:input aura:id="newSSTform" type="Text" label="Address Line 1"  name="Address Line 1" value="{!v.sstData.Company_Corporate_Address_Address_Line__c}"  
+			                         maxlength="35" required="true" />
+			                     </span>
+                                 <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                         <lightning:input aura:id="newSSTform" label="Address Line 2" name="Address Line 2" value="{!v.sstData.CompanyCorporate_Address_Address_Line2__c}"  
+			                          maxlength="35"/>
 			                    </span>
-                                        <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="Address Line 2" name="Address Line 2" value="{!v.sstData.CompanyCorporate_Address_Address_Line2__c}"  
-			                     maxlength="35"/>
+                                <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                     <lightning:input aura:id="newSSTform" label="City" name="City"  value="{!v.sstData.Company_Corporate_Address_City__c}" maxlength="22" required="true"/>
 			                    </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="City" name="City"  value="{!v.sstData.Company_Corporate_Address_City__c}" maxlength="22" required="true"/>
-			                    </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+                                <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
 			                        <lightning:select aura:id="newSSTform" name="stateCo" label="State" value="{!v.sstData.Company_Corporate_Address_State__c}" required="true" onchange="{!c.disableRemote}"  >
 			                            <option value = "">Select</option>  
 			                            <aura:iteration var="option" items="{! v.stateOfInPicklist }">
@@ -477,56 +466,55 @@
 			                            </aura:iteration>
 			                        </lightning:select>                      
 			                    </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="Zip" name="Zip" minlength="5" maxlength="9" value="{!v.sstData.Company_Corporate_Address_Zip_Code__c}"  required="true" />
+                                <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                       <lightning:input aura:id="newSSTform" label="Zip" name="Zip" minlength="5" maxlength="9" value="{!v.sstData.Company_Corporate_Address_Zip_Code__c}"  required="true" />
 			                    </span>
                                 <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                   <lightning:select aura:id="newSSTform" name="stateCu" label="Country" value="{!v.sstData.Company_Corporate_Address_Country__c}" required="true">
+			                       <lightning:select aura:id="newSSTform" name="stateCu" label="Country" value="{!v.sstData.Company_Corporate_Address_Country__c}" required="true">
 			                            <option value = "">Select</option>  
 			                            <aura:iteration var="option" items="{! v.corpCoPicklist }">
 			                                <option value="{! option }" >{! option }</option>
 			                            </aura:iteration>
 			                        </lightning:select>   
 			                    </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" type="tel" label="Phone Number" name="Phone Number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" messageWhenPatternMismatch="Please provide valid input."  maxlength="12" value="{!v.sstData.Company_Corporate_Phone_Number__c}"  required="true" />
+                                <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                      <lightning:input aura:id="newSSTform" type="tel" label="Phone Number" name="Phone Number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" messageWhenPatternMismatch="Please provide valid input."  maxlength="12" value="{!v.sstData.Company_Corporate_Phone_Number__c}"  required="true" />
 			                      <lightning:helptext content="Please provide Phone Number in this format: 999-999-9999." iconName="utility:info"/>
 			                    </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="Phone Extension" name="Phone Extension" pattern="^[0-9]*$" messageWhenPatternMismatch="Please provide valid input." maxlength="5" value="{!v.sstData.Company_Corporate_Phone_Extension__c}"  />
+                                <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                       <lightning:input aura:id="newSSTform" label="Phone Extension" name="Phone Extension" pattern="^[0-9]*$" messageWhenPatternMismatch="Please provide valid input." maxlength="5" value="{!v.sstData.Company_Corporate_Phone_Extension__c}"  />
 			                    </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sameAsMailing" type="checkbox" label="Same as mailing address?" name="sameAsMailing" checked="true" value="{!v.sstData.Same_as_mailing_address__c}"
+                                <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			                       <lightning:input aura:id="sameAsMailing" type="checkbox" label="Same as mailing address?" name="sameAsMailing" checked="true" value="{!v.sstData.Same_as_mailing_address__c}"
 			                             onchange="{! c.sameAsMailing}"/>
-			                   </span>
-                                    </div>
-
-                                    <aura:if isTrue="{!v.sameAsMailing}">
-                                        <div class="slds-grid slds-wrap">
-                                            <div class="slds-col slds-size_1-of-1 ">Company Mailing Address</div>
-                                            <br/>
-                                            <br/>
-                                            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="Address Line 1" name="Address Line 1" value="{!v.sstData.Company_Mailing_Address_Address_1__c}" 
-			                     maxlength="35" required="true" />
 			                    </span>
-                                            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="Address Line 2" name="Address Line 2" value="{!v.sstData.Company_Mailing_Address_Address_2__c}"  
-			                     maxlength="35"/>
+                              </div>
+                              <aura:if isTrue="{!v.sameAsMailing}">
+                               <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-1 ">Company Mailing Address</div>
+                                <br/>
+                                <br/>
+                                <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                      <lightning:input aura:id="newSSTform" label="Address Line 1" name="Address Line 1" value="{!v.sstData.Company_Mailing_Address_Address_1__c}" 
+			                      maxlength="35" required="true" />
 			                    </span>
-                                            <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="City" name="City" value="{!v.sstData.Company_Mailing_Address_City__c}" maxlength="22" required="true"/>
+                                <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                       <lightning:input aura:id="newSSTform" label="Address Line 2" name="Address Line 2" value="{!v.sstData.Company_Mailing_Address_Address_2__c}"  
+			                       maxlength="35"/>
 			                    </span>
-                                            <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-			                        <lightning:select aura:id="newSSTform" name="stateOfIn" label="State" value="{!v.sstData.Company_Mailing_Address_State__c}"  required="true" >
+                                <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                       <lightning:input aura:id="newSSTform" label="City" name="City" value="{!v.sstData.Company_Mailing_Address_City__c}" maxlength="22" required="true"/>
+			                    </span>
+                                <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+			                        <lightning:select aura:id="newSSTform" name="stateOfIn" label="State" value="{!v.sstData.Company_Mailing_Address_State__c}"  required="true" onchange="{!c.disableRemote}" >
 			                             <option value = "">Select</option>  
 			                            <aura:iteration var="option" items="{! v.stateOfInPicklist }">
 			                                <option value="{! option }" >{! option }</option>
 			                            </aura:iteration>
 			                        </lightning:select>                      
 			                    </span>
-                                            <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" label="Zip" name="Zip" maxlength="9" value="{!v.sstData.Company_Mailing_Address_Zip_Code__c}"  required="true" />
+                                <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                       <lightning:input aura:id="newSSTform" label="Zip" name="Zip" maxlength="9" value="{!v.sstData.Company_Mailing_Address_Zip_Code__c}"  required="true" />
 			                    </span>
                                 <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
 			                     <lightning:select aura:id="newSSTform" name="stateMa" label="Country" value="{!v.sstData.Company_Mailing_Address_Country__c}" required="true">
@@ -548,39 +536,36 @@
 			                     <lightning:input aura:id="newSSTform" label="First Name" name="First Name"  maxlength="16" 
 			                    value="{!v.sstData.Contact_First_Name__c}"  required="true"/>
 			                     </span>
-                                        <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                     <lightning:input aura:id="newSSTform" label="Middle Name" name="Middle Name" maxlength="16"
-			                     value="{!v.sstData.Contact_Middle_Name__c}" />
+                                <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                      <lightning:input aura:id="newSSTform" label="Middle Name" name="Middle Name" maxlength="16"
+			                       value="{!v.sstData.Contact_Middle_Name__c}" />
 			                     </span>
-                                        <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                     <lightning:input aura:id="newSSTform" label="Last Name" name="Last Name" maxlength="32"
-			                     value="{!v.sstData.Contact_Last_Name__c}"  required="true" />
+                                 <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                       <lightning:input aura:id="newSSTform" label="Last Name" name="Last Name" maxlength="32"
+			                       value="{!v.sstData.Contact_Last_Name__c}"  required="true" />
 			                     </span>
-                                        <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                     <lightning:input aura:id="newSSTform" label="Title" name="Title" maxlength="32"
-			                       value="{!v.sstData.Contact_Title__c}"  required="true" />
+                                 <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                        <lightning:input aura:id="newSSTform" label="Title" name="Title" maxlength="32"
+			                         value="{!v.sstData.Contact_Title__c}"  required="true" />
 			                     </span>
-                                        <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                     <lightning:input aura:id="newSSTform" label="Email" name="Email" maxlength="32"
+                                 <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                       <lightning:input aura:id="newSSTform" label="Email" name="Email" maxlength="32"
 			                       type="email" value="{!v.sstData.Contact_Email__c}"  required="true" />
-			                     </span>
-			                     
-			                      <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
-			                    <lightning:input aura:id="newSSTform" type="tel" label="Phone Number" name="Phone Number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" messageWhenPatternMismatch="Please provide valid input."  maxlength="12" value="{!v.sstData.Contact_Phone_Number__c}"  required="true" />
-			                      <lightning:helptext content="Please provide Phone Number in this format: 999-999-9999." iconName="utility:info"/>
 			                    </span>
-                                        
+			                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
+			                      <lightning:input aura:id="newSSTform" type="tel" label="Phone Number" name="Phone Number" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" messageWhenPatternMismatch="Please provide valid input."  maxlength="12" value="{!v.sstData.Contact_Phone_Number__c}"  required="true" />
+			                      <lightning:helptext content="Please provide Phone Number in this format: 999-999-9999." iconName="utility:info"/>
+			                    </span>      
                                  <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large"> 
 			                     <lightning:input aura:id="newSSTform" label="Phone Extension" pattern="^[0-9]*$" messageWhenPatternMismatch="Please provide valid input." maxlength="5" name="Phone Extension" value="{!v.sstData.Contact_Phone_Extension__c}"  />
 			                     </span>
-                                    </div> 
-                                </div>
-                                   <div class="slds-grid  slds-grid--align-center">
-                                   <button class="slds-button slds-button--brand" onclick="{!c.prevTab}">Back</button>
-                                  <button class="slds-button slds-button--brand" onclick="{!c.comTab}">Next</button>
-                                </div>
+                                </div> 
+                              </div>
+                              <div class="slds-grid  slds-grid--align-center">
+                                 <button class="slds-button slds-button--brand" onclick="{!c.prevTab}">Back</button>
+                                 <button class="slds-button slds-button--brand" onclick="{!c.comTab}">Next</button>
+                               </div>
                             </fieldset>
-                           
                         </div>
                     </aura:If>
 
@@ -588,7 +573,7 @@
                     <aura:If isTrue="{!v.showRandom}">
                         <div class="slds-align_absolute-center">
                             <fieldset class="slds-box slds-theme--default slds-container_medium" style = "{!'border : 1px solid '+ v.borderColor}">
-                              <legend id="newdemform" class="slds-text-heading--small slds-p-vertical--medium"  style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor}"> SST Registration Information </legend>
+                              <legend id="newdemform" class="slds-text-heading--small slds-p-vertical--medium"  style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor}">Registration Information </legend>
                                <div class="slds-grid slds-wrap">
                                 <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;">
 		                         <lightning:select aura:id="newSSTreg" name="regSSNId" label="Has your organization previously registered 
@@ -611,53 +596,50 @@
 		                          <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
 					                 <lightning:input aura:id="newSSTreg" label="SST password" name="SST password" minlength="8" maxlength="10" value="{!v.sstData.SSTP_password__c}" required="true" />
 					                <lightning:helptext content="SST Password is required to confirm the SST states selected in the original registration are the same as those selected on Avalara’s registration form. This will eliminate tax liability exposure if they are not the same." iconName="utility:info"/>
-					              </span>
-					           
+					              </span>  
 		                     </aura:if>
                        </div>
                      </fieldset>
                    </div>
 
-                        <!-- Affiliated BusinessesInformation -->
-                        <div class="slds-align_absolute-center">
-                            <fieldset class="slds-box slds-theme--default slds-container_medium"  style = "{!'border : 1px solid '+ v.borderColor}">
-                                <legend id="newdemform" class="slds-text-heading--small 
-		               slds-p-vertical--medium" style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor}"> Affiliated Businesses </legend>
-                                <div class="slds-col slds-size_1-of-1 ">Affiliated Businesses - Affiliated businesses would be companies with shared ownership or interests. Also known as “related persons” under section 267(b) or 707(b) of the Internal Revenue Code.</div>
-                                <br/>
-                                <br/>
-                                <div class="slds-grid slds-wrap">
-                                    <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;">
+                   <!-- Affiliated BusinessesInformation -->
+                   <div class="slds-align_absolute-center">
+                     <fieldset class="slds-box slds-theme--default slds-container_medium"  style = "{!'border : 1px solid '+ v.borderColor}">
+                       <legend id="newdemform" class="slds-text-heading--small slds-p-vertical--medium" style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor}"> Affiliated Businesses </legend>
+                           <div class="slds-col slds-size_1-of-1 ">Affiliated Businesses - Affiliated businesses would be companies with shared ownership or interests. Also known as “related persons” under section 267(b) or 707(b) of the Internal Revenue Code.</div>
+                           <br/>
+                           <br/>
+                           <div class="slds-grid slds-wrap">
+                            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;">
 		                      <lightning:select aura:id="newSSTreg" name="affBus" label="Is your company affiliated with any other company that is, has ever, or is planning to participate in the Streamlined Sales Tax (SST) program with Avalara as its Certified Service Provider (CSP)?" required="true"  value="{!v.sstData.Is_your_company_affiliated__c}" onchange="{!c.showAfInfo}">
                                   <option value = "">Select</option>  
 		                          <aura:iteration var="option" items="{! v.comAffPicklist}">
 		                              <option value="{! option }" >{! option }</option>
 		                          </aura:iteration>
 		                      </lightning:select>                      
-		                  </span>
-                                    <aura:if isTrue="{!v.showAfInfo}">
-                                        <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
+		                   </span>
+                           <aura:if isTrue="{!v.showAfInfo}">
+                             <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
 			                     <lightning:input aura:id="newSSTreg"  maxlength="75" label="Affiliated Company Name(s)" name="Affiliate Company Name" value="{!v.sstData.Affiliate_Company_Name__c}"  required="true" />
-			              </span>
-                                        <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
+			                </span>
+                            <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
 			                     <lightning:input aura:id="newSSTreg" label="SST Identification Number(s)" name="SST Identification Number" value="{!v.sstData.AF_SST_Identification_Number__c}"  required="true"/>
 			                   <!--   <lightning:helptext content="Please provide SST Identification Number in this format: S99999999." iconName="utility:info"/>--> 
-			              </span>
-                                    </aura:if>
-                                </div>
-                            </fieldset>
-                        </div>
+			                </span>
+                          </aura:if>
+                       </div>
+                    </fieldset>
+                 </div>
 
-                        <!--   Product-Service Information -->
-                        <div class="slds-align_absolute-center" style="width:800px;">
-                            <fieldset class="slds-box slds-theme--default slds-container_medium" style = "{!'border : 1px solid '+ v.borderColor}">
-                                <legend id="newdemform" class="slds-text-heading--small 
-			               slds-p-vertical--medium" style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor}"> Product-Service Information </legend>
-                                <div class="slds-grid slds-wrap">
-                                <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;">
-                                   <div class="slds-text-color--weak ">
-                                   <lightning:dualListbox aura:id="newSSTreg" name="typeBu"  label= "Type of Business?" sourceLabel="Available" selectedLabel="Selected" fieldLevelHelp="Please select all the business types applicable." 
-                           options="{!v.typeBusPicklist}" value="{!v.sstData.Type_of_Business__c}"  required="true" size="5" />
+                  <!--   Product-Service Information -->
+                  <div class="slds-align_absolute-center" style="width:800px;">
+                    <fieldset class="slds-box slds-theme--default slds-container_medium" style = "{!'border : 1px solid '+ v.borderColor}">
+                      <legend id="newdemform" class="slds-text-heading--small slds-p-vertical--medium" style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor}"> Product-Service Information </legend>
+                        <div class="slds-grid slds-wrap">
+                           <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;">
+                             <div class="slds-text-color--weak ">
+                                <lightning:dualListbox aura:id="newSSTreg" name="typeBu"  label= "Type of Business?" sourceLabel="Available" selectedLabel="Selected" fieldLevelHelp="Please select all the business types applicable." 
+                                 options="{!v.typeBusPicklist}"  value="{!v.sstData.Type_of_Business__c}"  required="true" size="5" />
 			                    <!--    <lightning:select aura:id="newSSTreg" name="typeBu" label="Type of Business?" required="true"  value="{!v.sstData.Type_of_Business__c}">
 			                           <option value = "">Select</option>  
 			                          <aura:iteration var="option" items="{! v.typeBusPicklist}">
@@ -666,19 +648,19 @@
 			                      </lightning:select>   -->   
 			                      </div>                
 			                  </span>
-                                    <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
-                                     <div class="slds-text-color--weak ">
-                                    <label for="newSSTreg"> Enter a NAICS code that best describes your primary source of business 
-			                    <a href="https://www.naics.com/" target="_blank"> (www.naics.com for reference)</a></label>
-			                     <lightning:input aura:id="newSSTreg" name="SST Identification Number" value="{!v.sstData.NAICS_Code__c}" maxlength="6" minlenght="6"  required="true" />
+                              <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
+                                <div class="slds-text-color--weak ">
+                                <label for="newSSTreg"> Enter a NAICS code that best describes your primary source of business    
+			                          <a href="https://www.naics.com/" target="_blank"> www.naics.com for reference</a></label>
+			                       <lightning:input aura:id="newSSTreg" name="SST Identification Number" value="{!v.sstData.NAICS_Code__c}" maxlength="6" minlenght="6"  required="true" />
 			                    </div>
 			                  </span>
-                                    <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
-			                     <lightning:input aura:id="newSSTreg" label="Type of Product and Services offered for sale to customer base" 
+                              <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;"> 
+			                   <lightning:input aura:id="newSSTreg" label="Type of product and services offered for sale to customers " 
 			                     name="Type of Product and Services offered for sale to customer base" value="{!v.sstData.Type_of_Product_and_Services__c}"  required="true" />
-			                  </span>
+			                   </span>
                                 </div>
-                                   <div class="slds-grid  slds-grid--align-center">
+                               <div class="slds-grid  slds-grid--align-center">
                                  <button class="slds-button slds-button--brand" onclick="{!c.prevTab}">Back</button>
                                  <button class="slds-button slds-button--brand" onclick="{!c.randomTab}">Next</button>
                                 </div>
@@ -686,113 +668,117 @@
                         </div>
                     </aura:If>
 
-
                     <!-- SST State -->
                     <aura:If isTrue="{!v.showSSTState}">
-                        <div class="slds-align_absolute-center">
-                            <fieldset class="slds-box slds-theme--default slds-container_medium" style = "{!'border : 1px solid '+ v.borderColor}">
-                                <legend id="newdemform" class="slds-text-heading--small 
-	                 slds-p-vertical--medium" style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor}">
-                                    SST State Selection
-                                </legend>
-                                <div class="slds-grid slds-wrap">
+                      <div class="slds-align_absolute-center">
+                        <fieldset class="slds-box slds-theme--default slds-container_medium" style = "{!'border : 1px solid '+ v.borderColor}">
+                         <legend id="newdemform" class="slds-text-heading--small slds-p-vertical--medium" style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor}">
+                         SST and CSP State Selection
+                         </legend>
+                        <div class="slds-grid slds-wrap">
                                     <!--<span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
 	                <lightning:checkboxGroup aura:id="sstStateId" name="sstStatePicklistselected"
 	                   label="Select the states in which you want to register as part of the SST program:"
 	                   options="{! v.sstStatePicklist }" value = "{! v.sstStatePicklistselected}" onchange= "{!c.sstNexus}"
 	                   required="true" />
 	            </span>  -->
-                                    <div class="slds-col slds-size_1-of-1 ">Select the states in which you want to register as part of the SST program:</div>
-                                    <br/>
-                                    <br/>
-                                    <span class="slds-size_1-of-1 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="allStates" type="checkbox" label="Select All" name="allStates" checked="{!v.isAllSelected}" 
-			                     value="{!v.isAllSelected}"  onchange="{! c.selectAll}"/>
-			                     <br/> 
-			                       <div class="slds-border_top"></div>
-			    </span>
-			   
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Arkansas" name="Arkansas" value="{!v.sstData.SS_Arkansas__c}" checked="{!v.sstData.SS_Arkansas__c}" onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Georgia" name="Georgia" checked="{!v.sstData.SS_Georgia__c}" value="{!v.sstData.SS_Georgia__c}" onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Indiana" name="Indiana" checked="{!v.sstData.SS_Indiana__c}" value="{!v.sstData.SS_Indiana__c}" onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Iowa" name="Iowa" checked="{!v.sstData.SS_Iowa__c}" value="{!v.sstData.SS_Iowa__c}"  onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Kansas" name="Kansas" checked="{!v.sstData.SS_Kansas__c}" value="{!v.sstData.SS_Kansas__c}"  onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Kentucky" name="Kentucky" checked="{!v.sstData.SS_Kentucky__c}"  value="{!v.sstData.SS_Kentucky__c}"  onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Michigan" name="Michigan" checked="{!v.sstData.SS_Michigan__c}" value="{!v.sstData.SS_Michigan__c}" onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Minnesota" name="Minnesota" checked="{!v.sstData.SS_Minnesota__c}" value="{!v.sstData.SS_Minnesota__c}" onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Nebraska" name="Nebraska" checked="{!v.sstData.SS_Nebraska__c}" value="{!v.sstData.SS_Nebraska__c}"  onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Nevada" name="Nevada" checked="{!v.sstData.SS_Nevada__c}" value="{!v.sstData.SS_Nevada__c}" onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="New Jersey" name="New Jersey" checked="{!v.sstData.SS_New_Jersey__c}" value="{!v.sstData.SS_New_Jersey__c}" onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="North Carolina" name="North Carolina" checked="{!v.sstData.SS_North_Carolina__c}" value="{!v.sstData.SS_North_Carolina__c}" onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="North Dakota" name="North Dakota" checked="{!v.sstData.SS_North_Dakota__c}" value="{!v.sstData.SS_North_Dakota__c}" onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Ohio" name="Ohio" checked="{!v.sstData.SS_Ohio__c}" value="{!v.sstData.SS_Ohio__c}" onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Oklahoma" name="Oklahoma" checked="{!v.sstData.SS_Oklahoma__c}" value="{!v.sstData.SS_Oklahoma__c}" onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="Rhode Island" name="Rhode Island" checked="{!v.sstData.SS_Rhode_Island__c}"  value="{!v.sstData.SS_Rhode_Island__c}" onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="sstStateId" type="checkbox" label="South Dakota" name="South Dakota" checked="{!v.sstData.SS_South_Dakota__c}" value="{!v.sstData.SS_South_Dakota__c}" onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                    <lightning:input aura:id="tnStateId" type="checkbox" label="Tennessee" name="Tennessee" checked="{!v.sstData.SS_Tennessee__c}" value="true" onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Utah" name="Utah" checked="{!v.sstData.SS_Utah__c}" value="{!v.sstData.SS_Utah__c}"  onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Vermont" name="Vermont" value="{!v.sstData.SS_Vermont__c}" checked="{!v.sstData.SS_Vermont__c}" onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Washington" name="Washington" checked="{!v.sstData.SS_Washington__c}" value="{!v.sstData.SS_Washington__c}"  onchange= "{!c.sstNexus}"/>
-			    </span>                         
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="West Virginia" name="West Virginia" value="{!v.sstData.SS_West_Virginia__c}"  checked="{!v.sstData.SS_West_Virginia__c}" onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Wisconsin" name="Wisconsin" checked="{!v.sstData.SS_Wisconsin__c}" value="{!v.sstData.SS_Wisconsin__c}"  onchange= "{!c.sstNexus}"/>
-			    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
-			                     <lightning:input aura:id="sstStateId" type="checkbox" label="Wyoming" name="Wyoming" checked="{!v.sstData.SS_Wyoming__c}" value="{!v.sstData.SS_Wyoming__c}"  onchange= "{!c.sstNexus}"/>
-			    </span>
-			    <aura:if isTrue="{!v.showTe}">
-			     <span class="slds-size_1-of-1 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+                       <div class="slds-col slds-size_1-of-1 ">Select the states in which you want to register for the SST program participation:</div>
+                       <br/>
+                       <br/>
+                       <span class="slds-size_1-of-1 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+                          <lightning:input aura:id="allStates" type="checkbox" label="Select All" name="allStates" checked="{!v.isAllSelected}" 
+                          value="{!v.isAllSelected}"  onchange="{! c.selectAll}"/>
+                          <br/> 
+                          <div class="slds-border_top"></div>
+			           </span>
+                       <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			              <lightning:input aura:id="sstStateId" type="checkbox" label="Arkansas" name="Arkansas" value="{!v.sstData.SS_Arkansas__c}" checked="{!v.sstData.SS_Arkansas__c}" onchange= "{!c.sstNexus}"/>
+			           </span>
+			           <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			              <lightning:input aura:id="sstStateId" type="checkbox" label="Michigan" name="Michigan" checked="{!v.sstData.SS_Michigan__c}" value="{!v.sstData.SS_Michigan__c}" onchange= "{!c.sstNexus}"/>
+			           </span>
+			          <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			           <lightning:input aura:id="sstStateId" type="checkbox" label="North Dakota" name="North Dakota" checked="{!v.sstData.SS_North_Dakota__c}" value="{!v.sstData.SS_North_Dakota__c}" onchange= "{!c.sstNexus}"/>
+			         </span>
+                      <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			             <lightning:input aura:id="sstStateId" type="checkbox" label="Utah" name="Utah" checked="{!v.sstData.SS_Utah__c}" value="{!v.sstData.SS_Utah__c}"  onchange= "{!c.sstNexus}"/>
+			          </span>
+                    
+                     <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			           <lightning:input aura:id="sstStateId" type="checkbox" label="Georgia" name="Georgia" checked="{!v.sstData.SS_Georgia__c}" value="{!v.sstData.SS_Georgia__c}" onchange= "{!c.sstNexus}"/>
+			           </span>
+			           <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			            <lightning:input aura:id="sstStateId" type="checkbox" label="Minnesota" name="Minnesota" checked="{!v.sstData.SS_Minnesota__c}" value="{!v.sstData.SS_Minnesota__c}" onchange= "{!c.sstNexus}"/>
+			          </span>  
+                             <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			           <lightning:input aura:id="sstStateId" type="checkbox" label="Ohio" name="Ohio" checked="{!v.sstData.SS_Ohio__c}" value="{!v.sstData.SS_Ohio__c}" onchange= "{!c.sstNexus}"/>
+			        </span>
+                     <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			         <lightning:input aura:id="sstStateId" type="checkbox" label="Vermont" name="Vermont" value="{!v.sstData.SS_Vermont__c}" checked="{!v.sstData.SS_Vermont__c}" onchange= "{!c.sstNexus}"/>
+			        </span>
+                      
+                    <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			           <lightning:input aura:id="sstStateId" type="checkbox" label="Indiana" name="Indiana" checked="{!v.sstData.SS_Indiana__c}" value="{!v.sstData.SS_Indiana__c}" onchange= "{!c.sstNexus}"/>
+			         </span>
+                     <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			           <lightning:input aura:id="sstStateId" type="checkbox" label="Nebraska" name="Nebraska" checked="{!v.sstData.SS_Nebraska__c}" value="{!v.sstData.SS_Nebraska__c}"  onchange= "{!c.sstNexus}"/>
+			         </span>
+                     <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			          <lightning:input aura:id="sstStateId" type="checkbox" label="Oklahoma" name="Oklahoma" checked="{!v.sstData.SS_Oklahoma__c}" value="{!v.sstData.SS_Oklahoma__c}" onchange= "{!c.sstNexus}"/>
+			        </span>
+                    <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			         <lightning:input aura:id="sstStateId" type="checkbox" label="Washington" name="Washington" checked="{!v.sstData.SS_Washington__c}" value="{!v.sstData.SS_Washington__c}"  onchange= "{!c.sstNexus}"/>
+			        </span>                
+                    <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			         <lightning:input aura:id="sstStateId" type="checkbox" label="Iowa" name="Iowa" checked="{!v.sstData.SS_Iowa__c}" value="{!v.sstData.SS_Iowa__c}"  onchange= "{!c.sstNexus}"/>
+			       </span>        
+                   <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			         <lightning:input aura:id="sstStateId" type="checkbox" label="Nevada" name="Nevada" checked="{!v.sstData.SS_Nevada__c}" value="{!v.sstData.SS_Nevada__c}" onchange= "{!c.sstNexus}"/>
+			       </span>        
+                   <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			         <lightning:input aura:id="sstStateId" type="checkbox" label="Rhode Island" name="Rhode Island" checked="{!v.sstData.SS_Rhode_Island__c}"  value="{!v.sstData.SS_Rhode_Island__c}" onchange= "{!c.sstNexus}"/>
+			       </span>  
+                   <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			         <lightning:input aura:id="sstStateId" type="checkbox" label="West Virginia" name="West Virginia" value="{!v.sstData.SS_West_Virginia__c}"  checked="{!v.sstData.SS_West_Virginia__c}" onchange= "{!c.sstNexus}"/>
+			        </span>
+                  
+                     <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			           <lightning:input aura:id="sstStateId" type="checkbox" label="Kansas" name="Kansas" checked="{!v.sstData.SS_Kansas__c}" value="{!v.sstData.SS_Kansas__c}"  onchange= "{!c.sstNexus}"/>
+			       </span>           
+			           <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			             <lightning:input aura:id="sstStateId" type="checkbox" label="New Jersey" name="New Jersey" checked="{!v.sstData.SS_New_Jersey__c}" value="{!v.sstData.SS_New_Jersey__c}" onchange= "{!c.sstNexus}"/>
+			          </span>
+                      <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			         <lightning:input aura:id="sstStateId" type="checkbox" label="South Dakota" name="South Dakota" checked="{!v.sstData.SS_South_Dakota__c}" value="{!v.sstData.SS_South_Dakota__c}" onchange= "{!c.sstNexus}"/>
+			        </span>
+                    <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+                     <lightning:input aura:id="sstStateId" type="checkbox" label="Wisconsin" name="Wisconsin" checked="{!v.sstData.SS_Wisconsin__c}" value="{!v.sstData.SS_Wisconsin__c}"  onchange= "{!c.sstNexus}"/>
+			        </span>
+                       
+                     <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			           <lightning:input aura:id="sstStateId" type="checkbox" label="Kentucky" name="Kentucky" checked="{!v.sstData.SS_Kentucky__c}"  value="{!v.sstData.SS_Kentucky__c}"  onchange= "{!c.sstNexus}"/>
+			         </span>
+                     
+			          <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			              <lightning:input aura:id="sstStateId" type="checkbox" label="North Carolina" name="North Carolina" checked="{!v.sstData.SS_North_Carolina__c}" value="{!v.sstData.SS_North_Carolina__c}" onchange= "{!c.sstNexus}"/>
+			          </span>
+                      <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			           <lightning:input aura:id="tnStateId" type="checkbox" label="Tennessee" name="Tennessee" checked="{!v.sstData.SS_Tennessee__c}" value="true" onchange= "{!c.sstNexus}"/>
+			         </span>  
+                       <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+	                  <lightning:input aura:id="sstStateId" type="checkbox" label="Wyoming" name="Wyoming" checked="{!v.sstData.SS_Wyoming__c}" value="{!v.sstData.SS_Wyoming__c}"  onchange= "{!c.sstNexus}"/>
+			         </span>  
+                     
+                        
+			        <aura:if isTrue="{!v.showTe}">
+			        <span class="slds-size_1-of-1 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
 				     <lightning:select aura:id="sstStateId" name="tnPhy" label="Do you have a physical location in Tennessee? " onchange= "{!c.phyTn}" required="true">
 		                           <option value = "">Select</option>     
 		                          <aura:iteration var="option" items="{! v.waBOCPicklist }">
 		                              <option value="{! option }" >{! option }</option>
 		                          </aura:iteration>
 		             </lightning:select> 
-	             </span>
+	              </span>
 	             </aura:if>
 	             <aura:if isTrue="{!v.shoTnPhy}">
                   <div class="slds-text-color--weak ">
@@ -800,19 +786,20 @@
 	                  <br/>
                       <br/>
 	              </div>  
-	               </aura:if>        
-               
+	            </aura:if>        
                 <aura:if isTrue="{!v.showWa}">
                  <div class="slds-col slds-size_1-of-1 " style="font-weight: bold">
-                   <h4>Washington Business &amp; Occupation Tax</h4></div>
-                   <br/>
-                     <div class="slds-text-color--weak ">
-					 <p> You may be required to file the WA Business and Occupation (B&amp;O) Tax Return. The WA B&amp;O Tax return is filed separate from the SST Sales and Use Tax Return. For additional information, <a href="https://dor.wa.gov/find-taxes-rates/business-occupation-tax" target="_blank"> WA B&amp;O Tax </a>. If you are previously registered in WA, you will have the opportunity to provide WA B&amp;O Tax filing credentials in the next section of this form. If you are not previously registered and believe you will have an obligation to file the WA B&amp;O Tax, please contact your Go-Live Implementation Manager for next steps.
-					 </p>
-					 <br/>
-                      <br/>
-                     </div> 
-	             
+                   <h4>Washington Business &amp; Occupation Tax</h4>
+                 </div>
+                 <br/>
+                 <div class="slds-text-color--weak ">
+				 <p> You might be required to file the <a href="https://dor.wa.gov/find-taxes-rates/business-occupation-tax" target="_blank">  WA Business and Occupation (B&amp;O) </a> Tax Return, which is filed separately from the SST Sales and Use Tax Return. If you’re already registered in Washington, provide your filing credentials for the WA WA B&amp;O tax in the next section of this form. If you aren’t already registered and believe you might have an obligation to file the WA WA B&amp;O tax, contact your Avalara Go-Live Implementation Manager for next steps.
+				 </p>
+				 <br/>
+                 <br/>
+                </div> 
+                 <br/>
+                 
                  <!--  <span class="slds-size_1-of-1 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
 			    <lightning:select aura:id="sstStateId" name="sstStateId" label="File the monthly WA B and O?" value = "{! v.sstData.Washington_monthly_WA_B_O__c}" required="true">
 	                           <option value = "">Select</option>     
@@ -821,17 +808,40 @@
 	                          </aura:iteration>
 	             </lightning:select> 
 	             </span>-->
-                                    </aura:if>
-                                </div>
-                                  <div class="slds-grid  slds-grid--align-center">
-                                 <button class="slds-button slds-button--brand" onclick="{!c.prevTab}">Back</button>
-                                 <button class="slds-button slds-button--brand" onclick="{!c.SSTStateTab}">Next</button>
-                                </div>
-                            </fieldset>
-                        </div>
-                    </aura:If>
+                 </aura:if>
+                 <div class="slds-col slds-size_1-of-1 ">
+                  Certified Service Provider (CSP) support for remote sellers in Pennsylvania
+                    <br/>
+                 </div>
+                 <br/>
+                <div class="slds-text-color--weak ">
+                  <br/>
+				 <p> Certified Service Provider (CSP) support offers the same free benefits as the SST support in other states: free transactions, free returns filing and free personal audit liaison. This program is available only to remote sellers in the state with:
+					1.  No property, physical presence or fixed location in the state
+					2.  No employees or contractors working in the state
+					3.  No services offered in the state, such as installing or repairing property
+				  <br/>
+				  <div class="slds-col slds-size_1-of-1 " style="font-weight: bold">
+				   <br/>
+                   <h4>Do you want to register for CSP support in Pennsylvania?</h4>
+                 </div>
+				  <span class="slds-size_1-of-4 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+			            <lightning:input aura:id="sstStateId" type="checkbox" label="Yes. I want to participate in the Pennsylvania CSP program" name="Pennsylvania CSP program" checked="{!v.sstData.Pennsylvania_CSP_program__c}" value="{!v.sstData.Pennsylvania_CSP_program__c}" />
+			      </span>
+		         </p>
+				 <br/>
+                 <br/>
+                </div> 
+                </div>
+                <div class="slds-grid  slds-grid--align-center">
+                   <button class="slds-button slds-button--brand" onclick="{!c.prevTab}">Back</button>
+                   <button class="slds-button slds-button--brand" onclick="{!c.SSTStateTab}">Next</button>
+                </div>
+             </fieldset>
+           </div>
+         </aura:If>
 
-                    <!-- Nexus Information -->
+        <!-- Nexus Information -->
                     <aura:If isTrue="{!v.showNexus}">
                         <div class="slds-align_absolute-center">
                             <fieldset class="slds-box slds-theme--default slds-container_medium"  style = "{!'border : 1px solid '+ v.borderColor}">
@@ -1299,12 +1309,25 @@
                                                     <th data-label="Registered" scope="row">
                                                         <lightning:input aura:id="tableId" type="checkbox" name="WaReg" checked="{!v.sstData.Reg_Washington__c}" onchange="{!c.sstFF}" />
                                                         <aura:if isTrue="{!v.showWaFF}">
-                                                            <lightning:select aura:id="tableId" name="WaFF" label="Filing Frequency" value="{! v.sstData.Washington_Filing_Frequency__c}" required="true">
+                                                            <lightning:select aura:id="tableId" name="WaFF" label="Do you want Avalara to file the WA Business &amp; Occupation Tax Return on your behalf"  onchange="{!c.waBOR}"  value="{! v.sstData.WA_Business_Occupation_Tax_Return__c}" required="true">
                                                                 <option value="">Select</option>
-                                                                <aura:iteration var="option" items="{! v.arFilPicklist }">
+                                                                <aura:iteration var="option" items="{! v.waBOCPicklist }">
                                                                     <option value="{! option }">{! option }</option>
                                                                 </aura:iteration>
                                                             </lightning:select>
+                                                            <aura:if isTrue="{!v.showWaBOR}">   
+                                                              <br/> 
+                                                              <div class="slds-text-color--weak ">
+                                                               <label for="newSSTreg"> To file your WA Business &amp; Occupation Return, Avalara will need  <br/>  the following information.<a href="https://secure.dor.wa.gov/home/ " target="_blank"> (WA DOR SAW Login Page)</a></label>                                           
+                                                           <!--    <a href="https://secure.dor.wa.gov/home/ " target="_blank"> (WA DOR SAW Login Page)</a>The WA Account ID can be found on your SAW online account.</div>-->
+                                                             <lightning:helptext content="To file your WA B&amp;O return, Avalara requires your SAW User ID, SAW Password, and WA Account ID. If you don't recall your login and password, The WA Account ID can be found on your SAW online account." iconName="utility:info"/>
+										                     <lightning:input aura:id="tableId" label="SAW User ID" name="SAW User ID"   value="{! v.sstData.SAW_User_ID__c}" required="true" />
+										                     <lightning:input aura:id="tableId" label="SAW Password" name="SAW Password"   value="{! v.sstData.SAW_Password__c}" required="true" />
+										                     <lightning:input aura:id="tableId" label="WA Account ID" name="WA Account ID"  value="{! v.sstData.WA_Account_ID__c}"  pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}"  maxlength="11" 
+				                                              messageWhenPatternMismatch="WA Account ID must be in this format: 999-999-999."  messageWhenBadInput='Phone number should be 11 chars max' required="true" />
+                                                              <lightning:helptext content="Please provide WA Account ID in this format: 999-999-999." iconName="utility:info"/>
+										                     </div>  	                
+										                 </aura:if>
                                                         </aura:if>
                                                     </th>
                                                     <th data-label="Remote" scope="row">
@@ -1315,7 +1338,8 @@
 	                          <aura:iteration var="option" items="{! v.waBOCPicklist }">
 	                              <option value="{! option }" >{! option }</option>
 	                          </aura:iteration>
-	                      </lightning:select>    
+	                      </lightning:select>   
+value="{!v.sstData.SST_Identification_Number__c}"value="{!v.sstData.SSTP_password__c}" value="{!v.sstData.Registration_Effective_Date__c}"
 	             </th>-->
                                                 </tr>
                                             </aura:if>
@@ -2240,10 +2264,10 @@
         <aura:if isTrue="{!v.showStats}">
            <div class="slds-align_absolute-center">
             <fieldset class="slds-box slds-theme--default slds-container_medium"  style = "{!'border : 1px solid '+ v.borderColor}">
-              <legend id="newdemform" class="slds-text-heading--small slds-p-vertical--medium"  style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor}"> Statistical Information</legend>
+              <legend id="newdemform" class="slds-text-heading--small slds-p-vertical--medium"  style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor}">Help us gain insight</legend>
                <div class="slds-grid slds-wrap">
                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;">
-                     <lightning:select aura:id="statsId" name="showStatsIntro" label="How were you introduced to the SST program?"  value = "{! v.sstData.introduced_to_the_SST_program__c}" onchange="{!c.showSSTStat}" required="true">
+                     <lightning:select aura:id="statsId" name="showStatsIntro" label="How were you introduced to the SST-CSP program?"  value = "{! v.sstData.introduced_to_the_SST_program__c}" onchange="{!c.showSSTStat}" required="true">
 			              <option value = "">Select</option>   
 			              <aura:iteration var="option" items="{! v.sstProgPicklist}">
 			                  <option value="{! option }" >{! option }</option>
@@ -2256,7 +2280,7 @@
 		              </span>
                                     </aura:if>
                                     <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" style="width:750px;">
-	                 <lightning:select aura:id="statsId" name="showStatsJoin" label="Why are you joining the SST program?" value = "{! v.sstData.Why_are_you_joining_the_SST_program__c}" onchange="{!c.showSSTStat}" required="true">
+	                 <lightning:select aura:id="statsId" name="showStatsJoin" label="How were you introduced to this program?" value = "{! v.sstData.Why_are_you_joining_the_SST_program__c}" onchange="{!c.showSSTStat}" required="true">
 	                          <option value = "">Select</option>   
 	                          <aura:iteration var="option" items="{! v.joinSSTProgPicklist}">
 	                              <option value="{! option }" >{! option }</option>
@@ -2281,531 +2305,530 @@
                     <aura:if isTrue="{!v.showData}">
                         <div class="slds-align_absolute-center">
                             <fieldset class="slds-box slds-theme--default slds-container_medium"  style = "{!'border : 1px solid '+ v.borderColor}">
-                                <legend id="newdemform" class="slds-text-heading--small 
-              slds-p-vertical--medium"  style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor}"> Review and Confirm Information</legend>
-                                <div class="slds-grid slds-wrap">
-                                    <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	               <label class="slds-form-element__label">Business Entity Type<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Business_Entity_Type__c}" />
-                                    </span>
+                                <legend id="newdemform" class="slds-text-heading--small slds-p-vertical--medium"  style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor}"> Review and Confirm Information</legend>
+                                  <div class="slds-grid slds-wrap">
+                                    <div class="slds-col slds-size_1-of-1 slds-p-horizontal_small slds-p-bottom_none">
+	                                   <label class="slds-form-element__label slds-text-body_regular" >Business Entity Type<span class="cmn_mandatory_indicator">*</span></label>
+                                       <ui:outputText class="slds-output" value="{!v.sstData.Business_Entity_Type__c}" />
+                                    </div>
                                     <aura:if isTrue="{!v.showCo}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-                   <label class="slds-form-element__label">FEIN<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.FEINM__c}" />
-                                        </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-                   <label class="slds-form-element__label">Legal Business Name<span class="cmn_mandatory_indicator">*</span></label>
+                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+                                          <label class="slds-form-element__label slds-text-body_regular">FEIN<span class="cmn_mandatory_indicator">*</span></label>
+                                          <ui:outputText class="slds-output" value="{!v.sstData.FEINM__c}" />
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+                                        <label class="slds-form-element__label slds-text-body_regular" >Legal Business Name<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{!v.sstData.Legal_Business_Name__c}" />
-                                        </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-                   <label class="slds-form-element__label">DBA Business Name</label>
-	               <ui:outputText class="slds-output" value="{!v.sstData.DBA_Business_Name__c}"/>
-	             </span>
-                                    </aura:if>
-                                    <aura:if isTrue="{!v.showSP}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-                   <label class="slds-form-element__label">SSN<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.SSN__c}" />
-                                        </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-                   <label class="slds-form-element__label">First Name<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.SP_First_Name__c}" />
-                                        </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-                   <label class="slds-form-element__label">Middle Name<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.SP_Middle_Name__c}" />
-                                        </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-                   <label class="slds-form-element__label">Last Name<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.SP_Last_Name__c}" />
-                                        </span>
-                                    </aura:if>
-                                    <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">State of Incorporation or Organization<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.State_of_Incorporation_or_Organization__c}" />
-                                    </span>
-                                    <div class="slds-col slds-size_1-of-1 ">Company Corporate Address</div>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Address Line 1<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Company_Corporate_Address_Address_Line__c}" />
-                                    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Address Line 2<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.CompanyCorporate_Address_Address_Line2__c}" />
-                                    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">City<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Company_Corporate_Address_City__c}" />
-                                    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">State<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Company_Corporate_Address_State__c}" />
-                                    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Zip<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Company_Corporate_Address_Zip_Code__c}" />
-                                    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Country<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Company_Corporate_Address_Country__c}" />
-                                    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Phone Number<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Company_Corporate_Phone_Number__c}" />
-                                    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Phone Extension<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Company_Corporate_Phone_Extension__c}" />
-                                    </span>
-                                    <!-- <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Same as mailing address?<span class="cmn_mandatory_indicator">*</span></label>
-	                <ui:outputText class="slds-output" checked="{!v.sstData.Company_Mailing_Address_Address_1__c}"/>
-	            </span> -->
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+						                   <label class="slds-form-element__label slds-text-body_regular">DBA Business Name</label>
+							               <ui:outputText class="slds-output" value="{!v.sstData.DBA_Business_Name__c}"/>
+							        </div>
+                                 </aura:if>
+                                 <aura:if isTrue="{!v.showSP}">
+                                   <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+                                    <label class="slds-form-element__label slds-text-body_regular">SSN<span class="cmn_mandatory_indicator">*</span></label>
+                                    <ui:outputText class="slds-output" value="{!v.sstData.SSN__c}" />
+                                   </div>
+                                   <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+                                     <label class="slds-form-element__label slds-text-body_regular">First Name<span class="cmn_mandatory_indicator">*</span></label>
+                                     <ui:outputText class="slds-output" value="{!v.sstData.SP_First_Name__c}" />
+                                   </div>
+                                   <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+                                     <label class="slds-form-element__label slds-text-body_regular">Middle Name<span class="cmn_mandatory_indicator">*</span></label>
+                                     <ui:outputText class="slds-output" value="{!v.sstData.SP_Middle_Name__c}" />
+                                   </div>
+                                   <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+                                     <label class="slds-form-element__label slds-text-body_regular">Last Name<span class="cmn_mandatory_indicator">*</span></label>
+                                     <ui:outputText class="slds-output" value="{!v.sstData.SP_Last_Name__c}" />
+                                  </div>
+                                 </aura:if>
+                                 <div class="slds-col slds-size_1-of-1 slds-p-horizontal_small slds-p-bottom_small" >
+                                     <label class="slds-form-element__label slds-text-body_regular">State of Incorporation or Organization<span class="cmn_mandatory_indicator">*</span></label>
+                                     <ui:outputText class="slds-output" value="{!v.sstData.State_of_Incorporation_or_Organization__c}" />
+                                 </div>
+                                 <div class="slds-col slds-size_1-of-1 slds-text-heading_small">
+			                       Company Corporate Address </div>
+                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                <label class="slds-form-element__label slds-text-body_regular">Address Line 1<span class="cmn_mandatory_indicator">*</span></label>
+	                                    <ui:outputText class="slds-output" value="{!v.sstData.Company_Corporate_Address_Address_Line__c}" />
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                <label class="slds-form-element__label slds-text-body_regular">Address Line 2<span class="cmn_mandatory_indicator">*</span></label>
+	                                    <ui:outputText class="slds-output" value="{!v.sstData.CompanyCorporate_Address_Address_Line2__c}" />
+                                   </div>
+                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                <label class="slds-form-element__label slds-text-body_regular">City<span class="cmn_mandatory_indicator">*</span></label>
+	                                    <ui:outputText class="slds-output" value="{!v.sstData.Company_Corporate_Address_City__c}" />
+                                   </div>
+                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                  <label class="slds-form-element__label slds-text-body_regular">State<span class="cmn_mandatory_indicator">*</span></label>
+                                      <ui:outputText class="slds-output" value="{!v.sstData.Company_Corporate_Address_State__c}" />
+                                   </div>
+                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                   <label class="slds-form-element__label slds-text-body_regular">Zip<span class="cmn_mandatory_indicator">*</span></label>
+                                       <ui:outputText class="slds-output" value="{!v.sstData.Company_Corporate_Address_Zip_Code__c}" />
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                  <label class="slds-form-element__label slds-text-body_regular">Country<span class="cmn_mandatory_indicator">*</span></label>
+                                      <ui:outputText class="slds-output" value="{!v.sstData.Company_Corporate_Address_Country__c}" />
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_small">
+	                                   <label class="slds-form-element__label slds-text-body_regular">Phone Number<span class="cmn_mandatory_indicator">*</span></label>
+                                      <ui:outputText class="slds-output" value="{!v.sstData.Company_Corporate_Phone_Number__c}" />
+                                   </div>
+                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_small ">
+	                                  <label class="slds-form-element__label slds-text-body_regular">Phone Extension<span class="cmn_mandatory_indicator">*</span></label>
+                                      <ui:outputText class="slds-output" value="{!v.sstData.Company_Corporate_Phone_Extension__c}" />
+                                   </div>
                                     <aura:if isTrue="{!v.sameAsMailing}">
-                                        <div class="slds-col slds-size_1-of-1 ">Company Mailing Address</div>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Address Line 1<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.Company_Mailing_Address_Address_1__c}" />
-                                        </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Address Line 2<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.Company_Mailing_Address_Address_2__c}" />
-                                        </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">City<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.Company_Mailing_Address_City__c}" />
-                                        </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">State<span class="cmn_mandatory_indicator">*</span></label>
+                                        <div class="slds-col slds-size_1-of-1 slds-text-heading_small">Company Mailing Address</div>
+                                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                      <label class="slds-form-element__label slds-text-body_regular">Address Line 1<span class="cmn_mandatory_indicator">*</span></label>
+                                          <ui:outputText class="slds-output" value="{!v.sstData.Company_Mailing_Address_Address_1__c}" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                      <label class="slds-form-element__label slds-text-body_regular">Address Line 2<span class="cmn_mandatory_indicator">*</span></label>
+                                          <ui:outputText class="slds-output" value="{!v.sstData.Company_Mailing_Address_Address_2__c}" />
+                                      </div>
+                                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                      <label class="slds-form-element__label slds-text-body_regular">City<span class="cmn_mandatory_indicator">*</span></label>
+                                          <ui:outputText class="slds-output" value="{!v.sstData.Company_Mailing_Address_City__c}" />
+                                      </div>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                    <label class="slds-form-element__label slds-text-body_regular">State<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{!v.sstData.Company_Mailing_Address_State__c}" />
-                                        </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Zip<span class="cmn_mandatory_indicator">*</span></label>
+                                      </div>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                     <label class="slds-form-element__label slds-text-body_regular">Zip<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{!v.sstData.Company_Mailing_Address_Zip_Code__c}" />
-                                        </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Country<span class="cmn_mandatory_indicator">*</span></label>
+                                     </div>
+                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                    <label class="slds-form-element__label slds-text-body_regular">Country<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{!v.sstData.Company_Mailing_Address_Country__c}" />
-                                        </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Phone Number<span class="cmn_mandatory_indicator">*</span></label>
+                                     </div>
+                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_small">
+	                                    <label class="slds-form-element__label slds-text-body_regular">Phone Number<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{!v.sstData.Company_Mailing_Phone_Number__c}" />
-                                        </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Phone Extension<span class="cmn_mandatory_indicator">*</span></label>
+                                     </div>
+                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_small">
+	                                    <label class="slds-form-element__label slds-text-body_regular">Phone Extension<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{!v.sstData.Company_Mailing_Phone_Extension__c}" />
-                                        </span>
+                                     </div>
                                     </aura:if>
-                                    <div class="slds-col slds-size_1-of-1 ">Company Contact Information</div>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-                   <label class="slds-form-element__label">First Name<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Contact_First_Name__c}" />
-                                    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-                   <label class="slds-form-element__label">Middle Name<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Contact_Middle_Name__c}" />
-                                    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-                   <label class="slds-form-element__label">Last Name<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Contact_Last_Name__c}" />
-                                    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-                   <label class="slds-form-element__label">Title<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Contact_Title__c}" />
-                                    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-                   <label class="slds-form-element__label">Email<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Contact_Email__c}" />
-                                    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Phone Number<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Contact_Phone_Number__c}" />
-                                    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Phone Extension<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Contact_Phone_Extension__c}" />
-                                    </span>
-                                    <div class="slds-col slds-size_1-of-1 ">SST Registration Information</div>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Has your organization previously registered 
-		                      with the SST Governing Board?<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Registered_with_the_SST_Governing_Board__c}" />
-                                    </span>
-                                    <aura:if isTrue="{!v.showRegSSN}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">SST Identification Number<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.SST_Identification_Number__c}" />
-                                        </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Registration Effective Date<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.Registration_Effective_Date__c}" />
-                                        </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">SST password<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.SSTP_password__c}" />
-                                        </span>
+                                    <div class="slds-col slds-size_1-of-1 slds-text-heading_small">Company Contact Information</div>
+	                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                    <label class="slds-form-element__label slds-text-body_regular">First Name<span class="cmn_mandatory_indicator">*</span></label>
+		                                    <ui:outputText class="slds-output" value="{!v.sstData.Contact_First_Name__c}" />
+	                                  </div>
+	                                  <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                      <label class="slds-form-element__label slds-text-body_regular">Middle Name<span class="cmn_mandatory_indicator">*</span></label>
+	                                      <ui:outputText class="slds-output" value="{!v.sstData.Contact_Middle_Name__c}" />
+	                                  </div>
+	                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                    <label class="slds-form-element__label slds-text-body_regular">Last Name<span class="cmn_mandatory_indicator">*</span></label>
+		                                    <ui:outputText class="slds-output" value="{!v.sstData.Contact_Last_Name__c}" />
+	                                   </div>
+	                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                       <label class="slds-form-element__label slds-text-body_regular">Title<span class="cmn_mandatory_indicator">*</span></label>
+	                                       <ui:outputText class="slds-output" value="{!v.sstData.Contact_Title__c}" />
+	                                   </div>
+	                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                       <label class="slds-form-element__label slds-text-body_regular">Email<span class="cmn_mandatory_indicator">*</span></label>
+	                                       <ui:outputText class="slds-output" value="{!v.sstData.Contact_Email__c}" />
+	                                   </div>
+	                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                  <label class="slds-form-element__label slds-text-body_regular">Phone Number<span class="cmn_mandatory_indicator">*</span></label>
+	                                      <ui:outputText class="slds-output" value="{!v.sstData.Contact_Phone_Number__c}" />
+	                                   </div>
+	                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_small">
+		                                  <label class="slds-form-element__label slds-text-body_regular">Phone Extension<span class="cmn_mandatory_indicator">*</span></label>
+	                                      <ui:outputText class="slds-output" value="{!v.sstData.Contact_Phone_Extension__c}" />
+	                                   </div>
+                                       <div class="slds-col slds-size_1-of-1 slds-text-heading_small">SST Registration Information</div>
+                                        <div class="slds-col slds-size_1-of-1 slds-p-horizontal_small slds-p-bottom_small">
+	                                    <label class="slds-form-element__label slds-text-body_regular">Has your organization previously registered 
+		                                       with the SST Governing Board?<span class="cmn_mandatory_indicator">*</span></label>
+                                          <ui:outputText class="slds-output" value="{!v.sstData.Registered_with_the_SST_Governing_Board__c}" />
+                                      </div>
+                                      <aura:if isTrue="{!v.showRegSSN}">
+                                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                       <label class="slds-form-element__label slds-text-body_regular">SST Identification Number<span class="cmn_mandatory_indicator">*</span></label>
+                                           <ui:outputText class="slds-output" value="{!v.sstData.SST_Identification_Number__c}" />
+                                       </div>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                      <label class="slds-form-element__label slds-text-body_regular">Registration Effective Date<span class="cmn_mandatory_indicator">*</span></label>
+                                          <ui:outputText class="slds-output" value="{!v.sstData.Registration_Effective_Date__c}" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_small">
+	                                      <label class="slds-form-element__label slds-text-body_regular">SST password<span class="cmn_mandatory_indicator">*</span></label>
+                                          <ui:outputText class="slds-output" value="{!v.sstData.SSTP_password__c}" />
+                                       </div>
                                     </aura:if>
-
-                                    <div class="slds-col slds-size_1-of-1 "> Affiliated Businesses </div>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Is your company affiliated with any other company that is
-                              (currently, previously, or will be) a Streamlined Sales Tax (SST) participant, who has engaged Avalara as its 
-                              Certified Service Provider (CSP)?<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Is_your_company_affiliated__c}" />
-                                    </span>
+                                    <div class="slds-col slds-size_1-of-1 slds-text-heading_small"> Affiliated Businesses </div>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_small">
+	                                   <label class="slds-form-element__label slds-text-body_regular">Affiliated Businesses?<span class="cmn_mandatory_indicator">*</span></label>
+                                       <ui:outputText class="slds-output" value="{!v.sstData.Is_your_company_affiliated__c}" />
+                                    </div>
                                     <aura:if isTrue="{!v.showAfInfo}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Affiliate Company Name<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.Affiliate_Company_Name__c}" />
-                                        </span>
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">SST Identification Number<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.AF_SST_Identification_Number__c}" />
-                                        </span>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                      <label class="slds-form-element__label slds-text-body_regular">Affiliate Company Name<span class="cmn_mandatory_indicator">*</span></label>
+                                          <ui:outputText class="slds-output" value="{!v.sstData.Affiliate_Company_Name__c}" />
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_small">
+	                                     <label class="slds-form-element__label slds-text-body_regular">SST Identification Number<span class="cmn_mandatory_indicator">*</span></label>
+                                         <ui:outputText class="slds-output" value="{!v.sstData.AF_SST_Identification_Number__c}" />
+                                       </div>
                                     </aura:if>
 
-                                    <div class="slds-col slds-size_1-of-1 "> Product-Service Information </div>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Type of Business?<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Type_of_Business__c}" />
-                                    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Enter a NAICS code that best describes your primary source of business 
-			                     (www.naics.com for reference)<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.NAICS_Code__c}" />
-                                    </span>
-                                    <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Type of Product and Services offered for sale to customer base<span class="cmn_mandatory_indicator">*</span></label>
-                                    <ui:outputText class="slds-output" value="{!v.sstData.Type_of_Product_and_Services__c}" />
-                                    </span>
-
-                                    <div class="slds-col slds-size_1-of-1 "> SST State Selection </div>
-                                    <br/>
+                                    <div class="slds-col slds-size_1-of-1 slds-text-heading_small "> Product-Service Information </div>
+                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                     <label class="slds-form-element__label slds-text-body_regular">Type of Business?<span class="cmn_mandatory_indicator">*</span></label>
+                                         <ui:outputText class="slds-output" value="{!v.sstData.Type_of_Business__c}" />
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                   <label class="slds-form-element__label slds-text-body_regular">NAICS code?<span class="cmn_mandatory_indicator">*</span></label>
+                                       <ui:outputText class="slds-output" value="{!v.sstData.NAICS_Code__c}" />
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-p-horizontal_small slds-p-bottom_small">
+	                                   <label class="slds-form-element__label slds-text-body_regular">Type of Product and Services offered for sale to customer base<span class="cmn_mandatory_indicator">*</span></label>
+                                       <ui:outputText class="slds-output" value="{!v.sstData.Type_of_Product_and_Services__c}" />
+                                   </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-text-heading_small"> SST State Selection </div>
                                     <aura:if isTrue="{!v.sstData.SS_Arkansas__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Arkansas</label>
-	               
-	               </span>
+                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                    <label class="slds-form-element__label slds-text-body_regular">Arkansas</label>
+                                      </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Georgia__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Georgia</label>  
-	               </span>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                       <label class="slds-form-element__label slds-text-body_regular">Georgia</label>  
+	                                  </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Indiana__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Indiana</label>    
-	               </span>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                       <label class="slds-form-element__label slds-text-body_regular">Indiana</label>    
+	                                  </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Iowa__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Iowa</label> 
-	               </span>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                       <label class="slds-form-element__label slds-text-body_regular">Iowa</label> 
+	                                   </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Kansas__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Kansas</label>   
-	               </span>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                      <label class="slds-form-element__label slds-text-body_regular">Kansas</label>   
+	                                   </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Kentucky__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Kentucky</label>   
-	               </span>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                      <label class="slds-form-element__label slds-text-body_regular">Kentucky</label>   
+	                                   </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Michigan__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Michigan</label>
-	               </span>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                     <label class="slds-form-element__label slds-text-body_regular">Michigan</label>
+	                                   </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Minnesota__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Minnesota</label>
-	               </span>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                     <label class="slds-form-element__label slds-text-body_regular">Minnesota</label>
+	                                   </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Nebraska__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Nebraska</label>             
-	               </span>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                     <label class="slds-form-element__label slds-text-body_regular">Nebraska</label>             
+	                                    </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Nevada__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                <label class="slds-form-element__label">Nevada</label>   
-	               </span>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                  <label class="slds-form-element__label slds-text-body_regular">Nevada</label>   
+	                                  </div> 
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_New_Jersey__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                <label class="slds-form-element__label">New Jersey</label>    
-	               </span>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                   <label class="slds-form-element__label slds-text-body_regular">New Jersey</label>    
+	                                   </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_North_Carolina__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                <label class="slds-form-element__label">North Carolina</label> 
-	               </span>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                 <label class="slds-form-element__label slds-text-body_regular">North Carolina</label> 
+	                                  </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_North_Dakota__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                <label class="slds-form-element__label">North Dakota</label> 
-	               </span>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                  <label class="slds-form-element__label slds-text-body_regular">North Dakota</label> 
+	                                  </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Ohio__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                <label class="slds-form-element__label">Ohio</label>  
-	               </span>
+                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                               <label class="slds-form-element__label slds-text-body_regular">Ohio</label>  
+	                                 </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Oklahoma__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                <label class="slds-form-element__label">Oklahoma</label>
-	               </span>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                  <label class="slds-form-element__label slds-text-body_regular">Oklahoma</label>
+	                                   </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Rhode_Island__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                <label class="slds-form-element__label">Rhode Island</label>   
-	               </span>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                 <label class="slds-form-element__label slds-text-body_regular">Rhode Island</label>   
+	                                  </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_South_Dakota__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                 <label class="slds-form-element__label">South Dakota</label>    
-	                </span>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                     <label class="slds-form-element__label slds-text-body_regular">South Dakota</label>    
+	                                  </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Tennessee__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                 <label class="slds-form-element__label">Tennessee</label>  
-	                </span>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                 <label class="slds-form-element__label slds-text-body_regular">Tennessee</label>  
+	                                   </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Utah__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                 <label class="slds-form-element__label">Utah</label>     
-	                </span>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                 <label class="slds-form-element__label slds-text-body_regular">Utah</label>     
+	                                   </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Vermont__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                 <label class="slds-form-element__label">Vermont</label>
-	                </span>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                 <label class="slds-form-element__label slds-text-body_regular">Vermont</label>
+	                                   </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Washington__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                 <label class="slds-form-element__label">Washington</label>  
-	                </span>
-                                        <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">File the monthly WA B and O?<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.Washington_monthly_WA_B_O__c}" />
-                                        </span>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                  <label class="slds-form-element__label slds-text-body_regular">Washington</label>  
+	                                  </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_West_Virginia__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                 <label class="slds-form-element__label">West Virginia</label>  
-	                </span>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                   <label class="slds-form-element__label slds-text-body_regular">West Virginia</label>  
+	                                  </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Wisconsin__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                 <label class="slds-form-element__label">Wisconsin</label> 
-	                </span>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                 <label class="slds-form-element__label slds-text-body_regular">Wisconsin</label> 
+	                                  </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.SS_Wyoming__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                 <label class="slds-form-element__label">Wyoming</label>
-	                </span>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                <label class="slds-form-element__label slds-text-body_regular">Wyoming</label>
+	                                  </div>
                                     </aura:if>
-
-                                    <div class="slds-col slds-size_1-of-1 ">Registered States</div>
-                                    <br/>
+                                   <div class="slds-col slds-size_1-of-1 slds-p-horizontal_small slds-p-bottom_small"></div>
+                                    <div class="slds-col slds-size_1-of-1 slds-text-heading_small ">Nexus Information</div> 
                                     <aura:if isTrue="{!v.sstData.Reg_Arkansas__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Arkansas</label>
-	                <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                <label class="slds-form-element__label slds-text-body_regular">Arkansas Registered</label>
+		                                <ui:outputText class="slds-output" value="True" />
+		                                </div>
+		                               <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                    <label class="slds-form-element__label slds-text-body_regular">Arkansas Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{!v.sstData.Arkansas_Filing_Frequency__c}" />
-                                        </span>
+                                       </div>
+                                       <aura:if isTrue="{!v.sstData.Remote_Arkansas__c}"> 
+                                          <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                       <label class="slds-form-element__label">Arkansas Remote</label>
+	                                       <ui:outputText class="slds-output" value="True" /> 
+	                                      </div>
+                                         </aura:if>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Georgia__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Georgia</label>
-	                <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.Georgia_Filing_Frequency__c}" />
-                                        </span>
+                                   
+                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                   <label class="slds-form-element__label">Georgia Registered</label>
+	                                  </div>
+	                                  <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                  <label class="slds-form-element__label">Georgia Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                      <ui:outputText class="slds-output" value="{!v.sstData.Georgia_Filing_Frequency__c}" />
+                                     </div>
+                                     <aura:if isTrue="{!v.sstData.Remote_Georgia__c}">
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                      <label class="slds-form-element__label">Georgia</label>  
+	                                   </div>
+                                    </aura:if>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Indiana__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Indiana</label> 
-	                 <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.Indiana_Filing_Frequency__c}" />
-                                        <br/>
-                                        <label class="slds-form-element__label">IN returns?<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.IN_returns__c}" />
-                                        </span>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                      <label class="slds-form-element__label">Indiana</label> 
+	                                      <br/>
+	                                      <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                          <ui:outputText class="slds-output" value="{!v.sstData.Indiana_Filing_Frequency__c}" />
+                                          <br/>
+                                          <label class="slds-form-element__label">IN returns?<span class="cmn_mandatory_indicator">*</span></label>
+                                         <ui:outputText class="slds-output" value="{!v.sstData.IN_returns__c}" />
+                                      </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Iowa__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Iowa</label>
-	                   <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{!v.sstData.Iowa_Filing_Frequency__c}" />
-                                        </span>
+                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                  <label class="slds-form-element__label">Iowa</label>
+	                                  <br/>
+	                                  <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                      <ui:outputText class="slds-output" value="{!v.sstData.Iowa_Filing_Frequency__c}" />
+                                     </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Kansas__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Kansas</label> 
-	                  <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{! v.sstData.Kansas_Filing_Frequency__c}" />
-                                        </span>
+                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                 <label class="slds-form-element__label">Kansas</label> 
+	                                 <br/>
+	                                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                     <ui:outputText class="slds-output" value="{! v.sstData.Kansas_Filing_Frequency__c}" />
+                                    </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Kentucky__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Kentucky</label>
-	                 <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{! v.sstData.Kentucky_Filing_Frequency__c}" />
-                                        </span>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+						                 <label class="slds-form-element__label">Kentucky</label>
+						                 <br/>
+						                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                         <ui:outputText class="slds-output" value="{! v.sstData.Kentucky_Filing_Frequency__c}" />
+                                      </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Michigan__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Michigan</label>   
-	                  <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{! v.sstData.Michigan_Filing_Frequency__c}" />
-                                        </span>
+                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+	                                   <label class="slds-form-element__label">Michigan</label>   
+	                                   <br/>
+	                                   <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                       <ui:outputText class="slds-output" value="{! v.sstData.Michigan_Filing_Frequency__c}" />
+                                      </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Minnesota__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Minnesota</label>
-	                  <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+						                <label class="slds-form-element__label">Minnesota</label>
+						                <br/>
+						                <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{! v.sstData.Minnesota_Filing_Frequency__c}" />
-                                        </span>
+                                     </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Nebraska__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-	                <label class="slds-form-element__label">Nebraska</label> 
-	                   <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+						                <label class="slds-form-element__label">Nebraska</label> 
+						                <br/>
+						                <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{! v.sstData.Nebraska_Filing_Frequency__c}" />
-                                        </span>
+                                       </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Nevada__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                <label class="slds-form-element__label">Nevada</label>  
-		                  <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                <label class="slds-form-element__label">Nevada</label>  
+		                                  <br/>
+	                                     <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{! v.sstData.Nevada_Filing_Frequency__c}" />
-                                        </span>
+                                       </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_New_Jersey__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                <label class="slds-form-element__label">New Jersey</label>   
-		                  <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{! v.sstData.New_Jersey_Filing_Frequency__c}" />
-                                        </span>
+                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                              <label class="slds-form-element__label">New Jersey</label>   
+		                              <br/>
+	                                  <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                      <ui:outputText class="slds-output" value="{! v.sstData.New_Jersey_Filing_Frequency__c}" />
+                                     </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_North_Carolina__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                <label class="slds-form-element__label">North Carolina</label>  
-		                  <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                 <label class="slds-form-element__label">North Carolina</label>  
+		                                 <br/>
+	                                     <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{! v.sstData.North_Carolina_Filing_Frequency__c}" />
-                                        </span>
+                                       </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_North_Dakota__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                <label class="slds-form-element__label">North Dakota</label>   
-		                  <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{! v.sstData.North_Dakota_Filing_Frequency__c}" />
-                                        </span>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                               <label class="slds-form-element__label">North Dakota</label>   
+		                               <br/>
+	                                   <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                       <ui:outputText class="slds-output" value="{! v.sstData.North_Dakota_Filing_Frequency__c}" />
+                                      </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Ohio__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                <label class="slds-form-element__label">Ohio</label> 
-		                  <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                               <label class="slds-form-element__label">Ohio</label> 
+		                                <br/>
+	                                   <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{! v.sstData.Ohio_Filing_Frequency__c}" />
-                                        </span>
+                                      </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Oklahoma__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                <label class="slds-form-element__label">Oklahoma</label>    
-		                  <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                 <label class="slds-form-element__label">Oklahoma</label>    
+		                                 <br/>
+	                                     <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{! v.sstData.Oklahoma_Filing_Frequency__c}" />
-                                        </span>
+                                     </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Rhode_Island__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                <label class="slds-form-element__label">Rhode Island</label>         
-		                  <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                 <label class="slds-form-element__label">Rhode Island</label>         
+		                                 <br/>
+	                                     <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{! v.sstData.Rhode_Island_Filing_Frequency__c}" />
-                                        </span>
+                                      </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_South_Dakota__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                 <label class="slds-form-element__label">South Dakota</label> 
-		                   <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                <label class="slds-form-element__label">South Dakota</label> 
+		                                <br/>
+	                                    <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{! v.sstData.South_Dakota_Filing_Frequency__c}" />
-                                        </span>
+                                      </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Tennessee__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                 <label class="slds-form-element__label">Tennessee</label>		               
-		                   <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                                <label class="slds-form-element__label">Tennessee</label>		               
+		                                <br/>
+	                                    <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{! v.sstData.Tennessee_Filing_Frequency__c}" />
-                                        </span>
+                                        </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Utah__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                 <label class="slds-form-element__label">Utah</label>
-		                   <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                               <label class="slds-form-element__label">Utah</label>
+		                               <br/>
+	                                   <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{! v.sstData.Utah_Filing_Frequency__c}" />
-                                        </span>
+                                       </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Vermont__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                 <label class="slds-form-element__label">Vermont</label> 
-		                   <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{! v.sstData.Vermont_Filing_Frequency__c}" />
-                                        </span>
+                                       <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                               <label class="slds-form-element__label">Vermont</label> 
+		                               <br/>
+	                                   <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                       <ui:outputText class="slds-output" value="{! v.sstData.Vermont_Filing_Frequency__c}" />
+                                      </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Washington__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                 <label class="slds-form-element__label">Washington</label>
-		                   <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{! v.sstData.Washington_Filing_Frequency__c}" />
-                                        </span>
+                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                               <label class="slds-form-element__label">Washington</label>
+		                               <br/>
+	                                   <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                       <ui:outputText class="slds-output" value="{! v.sstData.Washington_Filing_Frequency__c}" />
+                                      </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_West_Virginia__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                 <label class="slds-form-element__label">West Virginia</label>   
-		                   <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                               <label class="slds-form-element__label">West Virginia</label>   
+		                               <br/>
+	                                   <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
                                         <ui:outputText class="slds-output" value="{! v.sstData.West_Virginia_Filing_Frequency__c}" />
-                                        </span>
+                                      </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Wisconsin__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                 <label class="slds-form-element__label">Wisconsin</label>
-		                   <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{! v.sstData.Wisconsin_Filing_Frequency__c}" />
-                                        </span>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+		                              <label class="slds-form-element__label">Wisconsin</label>
+		                              <br/>
+	                                  <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+                                      <ui:outputText class="slds-output" value="{! v.sstData.Wisconsin_Filing_Frequency__c}" />
+                                      </div>
                                     </aura:if>
                                     <aura:if isTrue="{!v.sstData.Reg_Wyoming__c}">
-                                        <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
-		                 <label class="slds-form-element__label">Wyoming</label>   
-		                   <br/>
-	                 <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
-                                        <ui:outputText class="slds-output" value="{! v.sstData.Wyoming_Filing_Frequency__c}" />
-                                        </span>
+                                      <div class="slds-col slds-size_1-of-2 slds-p-horizontal_small slds-p-bottom_none">
+			                              <label class="slds-form-element__label">Wyoming</label>   
+			                              <br/>
+		                                  <label class="slds-form-element__label">Filing Frequency<span class="cmn_mandatory_indicator">*</span></label>
+	                                      <ui:outputText class="slds-output" value="{! v.sstData.Wyoming_Filing_Frequency__c}" />
+                                      </div>
                                     </aura:if>
 
-                                    <div class="slds-col slds-size_1-of-1 ">Remote States</div>
+                                   <!--   <div class="slds-col slds-size_1-of-1 ">Remote States</div>
                                     <br/>
                                     <aura:if isTrue="{!v.sstData.Remote_Arkansas__c}">
                                         <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
@@ -2927,7 +2950,7 @@
                                         <span class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
 		                 <label class="slds-form-element__label">Wyoming</label>
 	                </span>
-                                    </aura:if>
+                                    </aura:if>-->
                                     <div class="slds-col slds-size_1-of-1 "> SST State Registration Information</div>
                                     <br/>
                                     <aura:if isTrue="{!v.showArVol}">
@@ -3453,6 +3476,11 @@
 	               <ui:outputText class="slds-output" value="{!v.sstData.Introduction_SST_program_Other__c}"/>
 	             </span>
                     </aura:if>
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+	               <label class="slds-form-element__label">CSP Supported States<span class="cmn_mandatory_indicator">*</span></label>
+                     <div class="slds-col slds-size_1-of-1 "><p>Pennsylvania </p> </div>
+                    </span>
+                    
                     <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
 	               <label class="slds-form-element__label">Why are you joining the SST program?<span class="cmn_mandatory_indicator">*</span></label>
                     <ui:outputText class="slds-output" value="{!v.sstData.Why_are_you_joining_the_SST_program__c}" />
@@ -3488,10 +3516,9 @@
                     </div>
                     </div>
                      <div class="slds-grid  slds-grid--align-center">
-                        <lightning:button label="Back" aura:id="btnPrev" variant="brand"
-            onclick="{!c.prevTab}" />                
-                    <lightning:button label="Submit" aura:id="btnSubmit" variant="brand"
-            onclick="{!c.saveRecord}" />   
+                       <lightning:button label="Back" aura:id="btnPrev" variant="brand" onclick="{!c.prevTab}" />   
+                       <lightning:button label="Print" aura:id="btnPrint" variant="brand" onclick="{!c.printRecord}" />             
+                       <lightning:button label="Submit" aura:id="btnSubmit" variant="brand" onclick="{!c.saveRecord}" />   
                     </div>
                     </fieldset>
                     </div>
@@ -3552,8 +3579,6 @@
         </div>
          <br/>
                                <br/>
-        <div class="slds-page-footer adapetr-footer">
-            <c:AvalaraFooter></c:AvalaraFooter>
-        </div>
+       
     </div>
 </aura:component>

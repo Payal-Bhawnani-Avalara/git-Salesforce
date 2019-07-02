@@ -75,6 +75,7 @@ public class TestUtil {
             testOpportunity.CloseDate =date.today().addDays(30);
             testOpportunity.StageName ='Verbally Committed';
             testOpportunity.LeadSource = 'Event';
+            testOpportunity.Amount = 10.00;
             listOpportunity.add(testOpportunity);           
         }
         if(isInsert){

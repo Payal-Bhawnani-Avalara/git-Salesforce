@@ -484,142 +484,118 @@
 	      if (nav=="AR" ){
 		     component.set("v.showArVol", false); 
 		     component.set("v.showArCoV",true); 
-		     component.set("v.showCoV",true); 
 		     component.set("v.arRe",true); 
 	      }    
 	       if(nav=="GA" ){
 	         component.set("v.showGeVol", false); 
 		     component.set("v.showGeCoV",true);  
-		     component.set("v.showCoV",true); 
 		     component.set("v.geRe",true); 
 	      }    
 	        
 	      if(nav=="IN" ){
 	         component.set("v.showInVol", false); 
 		     component.set("v.showInCoV",true);  
-		     component.set("v.showCoV",true); 
 		     component.set("v.inRe",true); 
 	      }    
 	      if(nav=="IA" ){
 	         component.set("v.showIoVol", false); 
-		     component.set("v.showIoCoV",true); 
-		     component.set("v.showCoV",true);   
+		     component.set("v.showIoCoV",true);  
 		     component.set("v.ioRe",true); 
 	      }    
 	     	 
 	      if(nav=="KS" ){
 	         component.set("v.showKaVol", false); 
 		     component.set("v.showKaCoV",true);  
-		     component.set("v.showCoV",true); 
 		     component.set("v.kaRe",true); 
 	      }    
 	      	if(nav=="KY" ){
 	         component.set("v.showKeVol", false); 
-		     component.set("v.showKeCoV",true); 
-		     component.set("v.showCoV",true);  
+		     component.set("v.showKeCoV",true);  
 		     component.set("v.keRe",true); 
 	      }    
 	      	if(nav=="MI" ){
 	         component.set("v.showMiVol", false); 
 		     component.set("v.showMiCoV",true);  
-		     component.set("v.showCoV",true); 
 		     component.set("v.miRe",true); 
 	      }    
 	       	if(nav=="MN" ){
 	         component.set("v.showMnVol", false); 
 		     component.set("v.showMnCoV",true);  
-		     component.set("v.showCoV",true); 
 		     component.set("v.mnRe",true); 
 	      }    
 	       if(nav=="NE" ){
 	         component.set("v.showNeVol", false); 
-		     component.set("v.showNeCoV",true); 
-		     component.set("v.showCoV",true);  
+		     component.set("v.showNeCoV",true);  
 		     component.set("v.neRe",true); 
 	      }    
 	       	if(nav=="NV" ){
 	         component.set("v.showNvVol", false); 
-		     component.set("v.showNvCoV",true); 
-		     component.set("v.showCoV",true);  
+		     component.set("v.showNvCoV",true);  
 		     component.set("v.nvRe",true); 
 	      }    
 	        if(nav=="NJ" ){
 	         component.set("v.showNjVol", false); 
-		     component.set("v.showNjCoV",true); 
-		     component.set("v.showCoV",true);  
+		     component.set("v.showNjCoV",true);  
 		     component.set("v.njRe",true); 
 	      }    
 	      }if(nav=="NC" ){
 	         component.set("v.showNcVol", false); 
-		     component.set("v.showNdCoV",true); 
-		     component.set("v.showCoV",true);  
+		     component.set("v.showNdCoV",true);  
 		     component.set("v.ncRe",true); 
 	      }    
 	       	if(nav=="ND" ){
 	         component.set("v.showNdVol", false); 
-		     component.set("v.showNdCoV",true);
-		     component.set("v.showCoV",true);   
+		     component.set("v.showNdCoV",true);  
 		     component.set("v.ndRe",true); 
 	      }    
 	      if(nav=="OH" ){
 	         component.set("v.showOhVol", false); 
-		     component.set("v.showOhCoV",true); 
-		     component.set("v.showCoV",true);  
+		     component.set("v.showOhCoV",true);  
 		     component.set("v.ohRe",true); 
 	      }    
 	       	if(nav=="OK" ){
 	         component.set("v.showOkVol", false); 
 		     component.set("v.showOkCoV",true);  
-		     component.set("v.showCoV",true); 
 		     component.set("v.okRe",true); 
 	      }    
 	       	 if(nav=="RI" ){
 	         component.set("v.showRiVol", false); 
 		     component.set("v.showRiCoV",true);  
-		     component.set("v.showCoV",true); 
 		     component.set("v.riRe",true); 
 	      }    
 	         if(nav=="SD" ){
 	         component.set("v.showSdVol", false); 
 		     component.set("v.showSdCoV",true);  
-		     component.set("v.showCoV",true); 
 		     component.set("v.sdRe",true); 
 	      }if(nav=="TN" ){
 	         component.set("v.showTeVol", false); 
 		     component.set("v.showTeCoV",true);  
-		     component.set("v.showCoV",true); 
 		     component.set("v.teRe",true); 
 	      }    
 	       if(nav=="UT" ){
 	         component.set("v.showUtVol", false); 
-		     component.set("v.showUtCoV",true); 
-		     component.set("v.showCoV",true);  
+		     component.set("v.showUtCoV",true);  
 		     component.set("v.utRe",true); 
 	      }    
 	      	if(nav=="VT" ){
 	         component.set("v.showVeVol", false); 
-		     component.set("v.showVeCoV",true);
-		     component.set("v.showCoV",true);   
+		     component.set("v.showVeCoV",true);  
 		     component.set("v.veRe",true); 
 	      }if(nav=="WA" ){
 	         component.set("v.showWaVol", false); 
 		     component.set("v.showWaCoV",true);  
-		     component.set("v.showCoV",true); 
 		     component.set("v.waRe",true); 
 	      }	if(nav=="WV" ){
 	         component.set("v.showWvVol", false); 
 		     component.set("v.showWvCoV",true);  
-		     component.set("v.showCoV",true); 
 		     component.set("v.wvRe",true); 
 	      }	if(nav=="WI" ){
 	         component.set("v.showWiVol", false); 
 		     component.set("v.showWiCoV",true);  
-		     component.set("v.showCoV",true); 
 		     component.set("v.wiRe",true); 
 	      }	if(nav=="WY" ){
 	         component.set("v.showWyVol", false); 
 		     component.set("v.showWyCoV",true);  
-		     component.set("v.showCoV",true); 
 		     component.set("v.wyRe",true); 
 	      }									  		  	 	   	   	   	          	                                     
         }
@@ -822,15 +798,7 @@
 	           component.set("v.showOk", false); 
 	           component.set("v.showOkVol", false);
 	       }
-	    } if(component.find("sstStateId")[cmp].get("v.name")=='Pennsylvania'){  
-           var nav = component.find("sstStateId")[cmp].get("v.checked");    
-	       if(nav){
-	           component.set("v.showPa", true);
-	       }else if(!nav){
-	           component.set("v.showPa", false); 	          
-	       }
-	    }
-	    if(component.find("sstStateId")[cmp].get("v.name")=='Rhode Island'){  
+	    }if(component.find("sstStateId")[cmp].get("v.name")=='Rhode Island'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showRi", true);
@@ -1434,15 +1402,7 @@
 	           component.set("v.showRi", false); 
 	            component.set("v.showRiVol", false);
 	       }
-	    }if(component.find("sstStateId")[cmp].get("v.name")=='Pennsylvania'){  
-           var nav = component.find("sstStateId")[cmp].get("v.checked");    
-	       if(nav){
-	           component.set("v.showPa", true);
-	       }else if(!nav){
-	           component.set("v.showPa", false); 	          
-	       }
-	    }
-	    if(component.find("sstStateId")[cmp].get("v.name")=='South Dakota'){  
+	    }if(component.find("sstStateId")[cmp].get("v.name")=='South Dakota'){  
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showSd", true);
@@ -1686,14 +1646,7 @@
 	       }else if(!nav){
 	           component.set("v.showOkFF", false); 
 	       }
-	    } if(component.find("tableId")[cmp].get("v.name")=='PaReg'){  
-           var nav = component.find("tableId")[cmp].get("v.checked");    
-	       if(nav){
-	           component.set("v.showPaFF", true); 
-	       }else if(!nav){
-	           component.set("v.showPaFF", false); 
-	       }
-	   } if(component.find("tableId")[cmp].get("v.name")=='RiReg'){  
+	    }if(component.find("tableId")[cmp].get("v.name")=='RiReg'){  
            var nav = component.find("tableId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showRiFF", true); 
@@ -1768,10 +1721,8 @@
 	             if(nav){
 	               component.set("v.showArV", true); 
 	               component.set("v.showArVol", false);   
-	               component.set("v.showRemote", true);
 	           }else if(!nav){
 	              component.set("v.showArV", false);
-	              //component.set("v.showRemote", false);
 	             if(component.get("v.showArCoV")){
 	              component.set("v.showArVol", false);
 	           }else {
@@ -1783,10 +1734,9 @@
 	             if(nav){
 	               component.set("v.showGeV", true); 
 	               component.set("v.showGeVol", false);
-	               component.set("v.showRemote", true);
+	               
 	           }else if(!nav){
 	              component.set("v.showGeV", false); 
-	             // component.set("v.showRemote",false );
 	              if(component.get("v.showGeCoV")){
 	              component.set("v.showGeVol", false);
 	           }else {
@@ -1798,12 +1748,10 @@
 	             if(nav){
 	               component.set("v.showInV", true); 
 	               component.set("v.showInVol", false); 
-	               component.set("v.showRemote", true);
 	           }else if(!nav){
 	               component.set("v.showInV", false); 
-	               //component.set("v.showRemote", false);
 	               if(component.get("v.showInCoV")){
-	               component.set("v.showInVol", false);
+	              component.set("v.showInVol", false);
 	           }else {
 	              component.set("v.showInVol", true);	   
 	           }  
@@ -1813,10 +1761,9 @@
 	             if(nav){
 	               component.set("v.showIoV", true); 
 	               component.set("v.showIoVol", false); 
-	               component.set("v.showRemote", true);
+	               
 	           }else if(!nav){
 	               component.set("v.showIoV", false); 
-	              //component.set("v.showRemote", false);
 	               if(component.get("v.showIoCoV")){
 	                  component.set("v.showIoVol", false);
 	               }else {
@@ -1828,10 +1775,8 @@
 	             if(nav){
 	               component.set("v.showKaV", true); 
 	               component.set("v.showKaVol", false); 
-	               component.set("v.showRemote", true);
 	           }else if(!nav){
 	               component.set("v.showKaV", false); 
-	              // component.set("v.showRemote", false);
 	               if(component.get("v.showKaCoV")){
 	                component.set("v.showKaVol", false);
 	              }else {
@@ -1842,11 +1787,9 @@
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showKeV", true); 
-	               component.set("v.showKeVol", false);
-	               component.set("v.showRemote", true); 
+	               component.set("v.showKeVol", false); 
 	           }else if(!nav){
-	                component.set("v.showKeV", false);
-                   // component.set("v.showRemote", false);
+	                component.set("v.showKeV", false); 
 	                if(component.get("v.showKeCoV")){
 	                 component.set("v.showKeVol", false);
 	               }else {
@@ -1857,11 +1800,9 @@
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showMiV", true); 
-	               component.set("v.showMiVol", false);
-	               component.set("v.showRemote", true);    
+	               component.set("v.showMiVol", false);    
 	           }else if(!nav){
 	               component.set("v.showMiV", false); 
-	             //  component.set("v.showRemote", false);
 	               if(component.get("v.showMiCoV")){
 	                component.set("v.showMiVol", false);
 	               }else {
@@ -1873,10 +1814,8 @@
 	             if(nav){
 	               component.set("v.showMnV", true); 
 	               component.set("v.showMnVol", false); 
-	               component.set("v.showRemote", true);
 	           }else if(!nav){
 	               component.set("v.showMnV", false); 
-	               // component.set("v.showRemote", false);
 	               if(component.get("v.showMnCoV")){
 	                component.set("v.showMnVol", false);
 	              }else {
@@ -1888,13 +1827,10 @@
 	             if(nav){
 	               component.set("v.showNeV", true); 
 	               component.set("v.showNeVol", false); 
-	                component.set("v.showRemote", true);
 	           }else if(!nav){
 	               component.set("v.showNeV", false); 
-	              // component.set("v.showRemote", false);
 	              if(component.get("v.showNeCoV")){
 	                component.set("v.showNeVol", false);
-	                
 	             }else {
 	              component.set("v.showNeVol", true);	   
 	            }  
@@ -1903,11 +1839,9 @@
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showNvV", true); 
-	               component.set("v.showNvVol", false);  
-	                component.set("v.showRemote", true);        
+	               component.set("v.showNvVol", false);          
 	           }else if(!nav){
 	              component.set("v.showNvV", false); 
-	              //component.set("v.showRemote", false);
 	              if(component.get("v.showNvCoV")){
 	                component.set("v.showNvVol", false);
 	              }else {
@@ -1919,10 +1853,8 @@
 	             if(nav){
 	               component.set("v.showNjV", true); 
 	               component.set("v.showNjVol", false); 
-	               component.set("v.showRemote", true);
 	           }else if(!nav){
 	               component.set("v.showNjV", false); 
-	               // component.set("v.showRemote", false);
 	               if(component.get("v.showNjCoV")){
 	                  component.set("v.showNjVol", false);
 	              }else {
@@ -1934,10 +1866,8 @@
 	             if(nav){
 	               component.set("v.showNcV", true); 
 	               component.set("v.showNcVol", false); 
-	               component.set("v.showRemote", true);
 	           }else if(!nav){
 	               component.set("v.showNcV", false); 
-	              // component.set("v.showRemote", false);
 	               if(component.get("v.showNcCoV")){
 	                component.set("v.showNcVol", false);
 	               }else {
@@ -1948,11 +1878,9 @@
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showNdV", true); 
-	               component.set("v.showNdVol", false); 
-	                component.set("v.showRemote", true);  
+	               component.set("v.showNdVol", false);   
 	           }else if(!nav){
 	               component.set("v.showNdV", false); 
-	               // component.set("v.showRemote", false);
 	               if(component.get("v.showNdCoV")){
 	                component.set("v.showNdVol", false);
 	               }else {
@@ -1964,10 +1892,8 @@
 	             if(nav){
 	               component.set("v.showOhV", true); 
 	               component.set("v.showOhVol", false); 
-	               component.set("v.showRemote", true);
 	           }else if(!nav){
 	               component.set("v.showOhV", false); 
-	               // component.set("v.showRemote", false);
 	               if(component.get("v.showOhCoV")){
 	                component.set("v.showOhVol", false);
 	              }else {
@@ -1979,10 +1905,8 @@
 	             if(nav){
 	               component.set("v.showOkV", true); 
 	               component.set("v.showOkVol", false); 
-	                component.set("v.showRemote", true);
 	           }else if(!nav){
 	               component.set("v.showOkV", false); 
-	               // component.set("v.showRemote", false);
 	               if(component.get("v.showOkCoV")){
 	                component.set("v.showOkVol", false);
 	              }else {
@@ -1993,11 +1917,9 @@
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showRiV", true); 
-	               component.set("v.showRiVol", false);
-	                component.set("v.showRemote", true); 
+	               component.set("v.showRiVol", false); 
 	           }else if(!nav){
 	               component.set("v.showRiV", false); 
-	              //  component.set("v.showRemote", false);
 	               if(component.get("v.showRiCoV")){
 	                component.set("v.showRiVol", false);
 	               }else {
@@ -2009,10 +1931,8 @@
 	             if(nav){
 	               component.set("v.showSdV", true); 
 	               component.set("v.showSdVol", false); 
-	               component.set("v.showRemote", true);
 	           }else if(!nav){
-	               component.set("v.showSdV", false);
-	               // component.set("v.showRemote", false); 
+	               component.set("v.showSdV", false); 
 	               if(component.get("v.showSdCoV")){
 	                 component.set("v.showSdVol", false);
 	               }else {
@@ -2024,10 +1944,8 @@
 	             if(nav){
 	               component.set("v.showTeV", true); 
 	               component.set("v.showTeVol", false); 
-	                component.set("v.showRemote", true);
 	           }else if(!nav){
 	               component.set("v.showTeV", false); 
-	               // component.set("v.showRemote", false);
 	               if(component.get("v.showTeCoV")){
 	                component.set("v.showTeVol", false);
 	               }else {
@@ -2038,11 +1956,9 @@
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showUtV", true); 
-	               component.set("v.showUtVol", false); 
-	               component.set("v.showRemote", true);  
+	               component.set("v.showUtVol", false);   
 	           }else if(!nav){
-	               component.set("v.showUtV", false);
-	              // component.set("v.showRemote", false); 
+	               component.set("v.showUtV", false); 
 	               if(component.get("v.showUtCoV")){
 	                component.set("v.showUtVol", false);
 	              }else {
@@ -2053,11 +1969,9 @@
                  var nav = component.find("tableId")[cmp].get("v.checked");    
 	             if(nav){
 	               component.set("v.showVeV", true); 
-	               component.set("v.showVeVol", false);
-	                component.set("v.showRemote", true); 
+	               component.set("v.showVeVol", false); 
 	           }else if(!nav){
 	                component.set("v.showVeV", false); 
-	                // component.set("v.showRemote", false);
 	               if(component.get("v.showVeCoV")){
 	                 component.set("v.showVeVol", false);
 	                }else {
@@ -2069,10 +1983,8 @@
 	             if(nav){
 	               component.set("v.showWaV", true); 
 	               component.set("v.showWaVol", false); 
-	               component.set("v.showRemote", true);
 	           }else if(!nav){
 	               component.set("v.showWaV", false); 
-	               // component.set("v.showRemote", false);
 	               if(component.get("v.showWaCoV")){
 	                 component.set("v.showWaVol", false);
 	              }else {
@@ -2084,10 +1996,8 @@
 	             if(nav){
 	               component.set("v.showWvV", true); 
 	               component.set("v.showWvVol", false); 
-	               component.set("v.showRemote", true);
 	           }else if(!nav){
-	               component.set("v.showWvV", false);
-	               //component.set("v.showRemote", false); 
+	               component.set("v.showWvV", false); 
 	               if(component.get("v.showWvCoV")){
 	                 component.set("v.showWvVol", false);
 	               }else {
@@ -2099,10 +2009,8 @@
 	             if(nav){
 	               component.set("v.showWiV", true); 
 	               component.set("v.showWiVol", false); 
-	                component.set("v.showRemote", true);
 	           }else if(!nav){
 	               component.set("v.showWiV", false); 
-	               // component.set("v.showRemote", false);
 	               if(component.get("v.showWiCoV")){
 	                component.set("v.showWiVol", false);
 	               }else {
@@ -2114,10 +2022,8 @@
 	             if(nav){
 	               component.set("v.showWyV", true); 
 	               component.set("v.showWyVol", false); 
-	               // component.set("v.showRemote", true);
 	           }else if(!nav){
 	               component.set("v.showWyV", false); 
-	               component.set("v.showRemote", false);
 	               if(component.get("v.showWyCoV")){
 	                 component.set("v.showWyVol", false);
 	              }else {
@@ -2125,6 +2031,7 @@
 	             }
 	           }
 	         }
-	   }	   
+	   }
+	   
 	 }
 })

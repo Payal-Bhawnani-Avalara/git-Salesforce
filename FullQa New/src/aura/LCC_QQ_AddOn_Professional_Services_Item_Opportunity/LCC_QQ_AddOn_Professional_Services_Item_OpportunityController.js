@@ -22,7 +22,7 @@
                     resultsToast.fire();
                 	var refreshPageAction = $A.get("e.force:refreshView").fire();
                 	var closeModalAction = $A.get("e.force:closeQuickAction").fire();
-            	}else{
+            	}else if (state === "ERROR"){
                     //This is a common way to handle possible errors.
                 	var errors = response.getError();
                     if(errors){
