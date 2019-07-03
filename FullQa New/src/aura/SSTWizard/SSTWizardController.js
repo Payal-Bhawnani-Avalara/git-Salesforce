@@ -22,6 +22,7 @@
         var showComInfo = component.get("v.showComInfo");
         var showRandom = component.get("v.showRandom");
         var showSSTState = component.get("v.showSSTState");
+        var showCSP =  component.get("v.showCSP");
         var showNexus = component.get("v.showNexus");
         var showReg = component.get("v.showReg");
         var showStats = component.get("v.showStats");
@@ -46,6 +47,7 @@
         var showComInfo = component.get("v.showComInfo");
         var showRandom = component.get("v.showRandom");
         var showSSTState = component.get("v.showSSTState");
+        var showCSP =  component.get("v.showCSP");
         var showNexus = component.get("v.showNexus");
         var showReg = component.get("v.showReg");
         var showStats = component.get("v.showStats");
@@ -93,6 +95,7 @@
         var showComInfo = component.get("v.showComInfo");
         var showRandom = component.get("v.showRandom");
         var showSSTState = component.get("v.showSSTState");
+        var showCSP =  component.get("v.showCSP");
         var showNexus = component.get("v.showNexus"); 
         var showReg = component.get("v.showReg");
         var showStats = component.get("v.showStats");
@@ -140,6 +143,8 @@
         var showComInfo = component.get("v.showComInfo");
         var showRandom = component.get("v.showRandom");
         var showSSTState = component.get("v.showSSTState");
+        var showPa =  component.get("v.showPa");
+        var showCSP =  component.get("v.showCSP");
         var showNexus = component.get("v.showNexus");
         var showReg = component.get("v.showReg");
         var showStats = component.get("v.showStats");
@@ -157,7 +162,13 @@
 	        // If we pass error checking, do some real work
 	        if(validExpense){
 	        component.set("v.showSSTState", false);
-	        component.set("v.showNexus", true);	   
+	        if(showPa == true) {
+	           component.set("v.showCSP", true);
+	           component.set("v.showNexus", false);	 
+	        }else if(showPa == false){
+	           component.set("v.showNexus", true);	 
+	           component.set("v.showCSP", false);
+	        } 
 	        component.set("v.showReg", false);
 	        component.set("v.showStats", false);
 	        component.set("v.showComInfo", false);
@@ -181,12 +192,38 @@
 	        }   
            }
         }      
+   },CSPTab: function(component, event, helper) {
+       component.set("v.setMessage", '');           
+        var showIntro = component.get("v.showIntro");
+        var showComInfo = component.get("v.showComInfo");
+        var showRandom = component.get("v.showRandom");
+        var showSSTState = component.get("v.showSSTState");
+        var showCSP =  component.get("v.showCSP");
+        var showNexus = component.get("v.showNexus");
+        var showReg = component.get("v.showReg");
+        var showStats = component.get("v.showStats");
+        var showData = component.get("v.showData");
+         
+        if(showCSP == true){       
+	        component.set("v.showSSTState", false);
+	        component.set("v.showCSP", false);
+	        component.set("v.showNexus", true);	   
+	        component.set("v.showReg", false);
+	        component.set("v.showStats", false);
+	        component.set("v.showComInfo", false);
+	        component.set("v.showIntro", false)
+	        component.set("v.showError", false);
+	        component.set("v.showData", false);  
+	        component.set("v.showRandom", false);
+            window.scrollTo(0, 0);
+            } 
    },NexusTab: function(component, event, helper) {
        component.set("v.setMessage", '');           
         var showIntro = component.get("v.showIntro");
         var showComInfo = component.get("v.showComInfo");
         var showRandom = component.get("v.showRandom");
         var showSSTState = component.get("v.showSSTState");
+        var showCSP =  component.get("v.showCSP");
         var showNexus = component.get("v.showNexus");
         var showReg = component.get("v.showReg");
         var showStats = component.get("v.showStats");
@@ -204,6 +241,7 @@
 	        // If we pass error checking, do some real work
 	        if(validExpense){
 	        component.set("v.showSSTState", false);
+	        component.set("v.showCSP", false);
 	        component.set("v.showNexus", false);
 	        component.set("v.showReg", true);
 	        component.set("v.showStats", false);
@@ -234,6 +272,7 @@
         var showComInfo = component.get("v.showComInfo");
         var showRandom = component.get("v.showRandom");
         var showSSTState = component.get("v.showSSTState");
+        var showCSP =  component.get("v.showCSP");
         var showNexus = component.get("v.showNexus");
         var showReg = component.get("v.showReg");
         var showStats = component.get("v.showStats");
@@ -251,6 +290,7 @@
 	        if(validExpense){
 	        // If we pass error checking, do some real work 
 	        component.set("v.showSSTState", false);
+	        component.set("v.showCSP", false);
 	        component.set("v.showNexus", false);
 	        component.set("v.showRemoteState", false);
 	        component.set("v.showReg", false);
@@ -294,6 +334,7 @@
         var showComInfo = component.get("v.showComInfo");
         var showRandom = component.get("v.showRandom");
         var showSSTState = component.get("v.showSSTState");
+        var showCSP =  component.get("v.showCSP");
         var showNexus = component.get("v.showNexus");
         var showReg = component.get("v.showReg");
         var showStats = component.get("v.showStats");
@@ -310,6 +351,7 @@
 	        // If we pass error checking, do some real work
 	        if(validExpense){
 	        component.set("v.showSSTState", false);
+	        component.set("v.showCSP", false);
 	        component.set("v.showNexus", false);
 	        component.set("v.showRemoteState", false);
 	        component.set("v.showReg", false);
@@ -340,6 +382,8 @@
         var showComInfo = component.get("v.showComInfo");
         var showRandom = component.get("v.showRandom");
         var showSSTState = component.get("v.showSSTState");
+        var showCSP =  component.get("v.showCSP");
+        var showPa =  component.get("v.showPa");
         var showNexus = component.get("v.showNexus"); 
         var showReg = component.get("v.showReg");
         var showStats = component.get("v.showStats");
@@ -350,6 +394,7 @@
             component.set("v.showIntro", true);
             component.set("v.showComInfo", false);
             component.set("v.showSSTState", false);
+            component.set("v.showCSP", false);
             component.set("v.showNexus", false);
             component.set("v.showError", false);
             component.set("v.showData", false); 
@@ -361,6 +406,7 @@
             component.set("v.showIntro", false);
             component.set("v.showComInfo", true);
             component.set("v.showSSTState", false);
+            component.set("v.showCSP", false);
             component.set("v.showNexus", false); 
             component.set("v.showReg", false);
             component.set("v.showError", false);
@@ -374,6 +420,7 @@
             component.set("v.showComInfo", false);
             component.set("v.showRandom", true); 
             component.set("v.showSSTState", false);
+            component.set("v.showCSP", false);
             component.set("v.showNexus", false); 
             component.set("v.showReg", false);
             component.set("v.showStats", false);
@@ -381,11 +428,29 @@
             component.set("v.showData", false); 
              window.scrollTo(0, 0);
         } 
-        if(showNexus == true){
+        if(showCSP == true){
             component.set("v.showIntro", false);
             component.set("v.showComInfo", false);
             component.set("v.showSSTState", true);
             component.set("v.showNexus", false); 
+            component.set("v.showCSP", false);
+            component.set("v.showReg", false); 
+            component.set("v.showStats", false);
+            component.set("v.showError", false);
+            component.set("v.showData", false);   
+            window.scrollTo(0, 0);
+        } 
+        if(showNexus == true){
+            component.set("v.showIntro", false);
+            component.set("v.showComInfo", false);
+            if(showPa == true){
+               component.set("v.showCSP", true);
+               component.set("v.showSSTState", false);
+            }else if(showPa == false) {
+              component.set("v.showSSTState", true);
+               component.set("v.showCSP", false);
+            }
+            component.set("v.showNexus", false);  
             component.set("v.showReg", false); 
             component.set("v.showStats", false);
             component.set("v.showError", false);
@@ -396,6 +461,7 @@
             component.set("v.showIntro", false);
             component.set("v.showComInfo", false);
             component.set("v.showSSTState", false);
+            component.set("v.showCSP", false);
             component.set("v.showNexus", true);
             component.set("v.showReg", false); 
             component.set("v.showStats", false);
@@ -407,6 +473,7 @@
             component.set("v.showIntro", false);
             component.set("v.showComInfo", false);
             component.set("v.showSSTState", false);
+            component.set("v.showCSP", false);
             component.set("v.showNexus", false);
             component.set("v.showReg", true); 
             component.set("v.showStats", false);
@@ -419,6 +486,7 @@
             component.set("v.showIntro", false);
             component.set("v.showComInfo", false);
             component.set("v.showSSTState", false);
+            component.set("v.showCSP", false);
             component.set("v.showNexus", false);
             component.set("v.showReg", false); 
             component.set("v.showStats", true);
@@ -826,8 +894,10 @@
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showPa", true);
+	           //component.set("v.showCSP", true);
 	       }else if(!nav){
-	           component.set("v.showPa", false); 	          
+	           component.set("v.showPa", false); 	
+	           //component.set("v.showCSP", false);          
 	       }
 	    }
 	    if(component.find("sstStateId")[cmp].get("v.name")=='Rhode Island'){  
@@ -1438,8 +1508,10 @@
            var nav = component.find("sstStateId")[cmp].get("v.checked");    
 	       if(nav){
 	           component.set("v.showPa", true);
+	          // component.set("v.showCSP", true);
 	       }else if(!nav){
-	           component.set("v.showPa", false); 	          
+	           component.set("v.showPa", false); 
+	          // component.set("v.showCSP", false);	          
 	       }
 	    }
 	    if(component.find("sstStateId")[cmp].get("v.name")=='South Dakota'){  

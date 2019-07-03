@@ -8,6 +8,7 @@
     <aura:attribute name="showComInfo" type="boolean" default="false" />
     <aura:attribute name="showRandom" type="boolean" default="false" />
     <aura:attribute name="showSSTState" type="boolean" default="false" />
+    <aura:attribute name="showCSP" type="boolean" default="false" />
     <aura:attribute name="showNexus" type="boolean" default="false" />
     <aura:attribute name="showRemoteState" type="boolean" default="false" />
     <aura:attribute name="showReg" type="boolean" default="false" />
@@ -841,6 +842,76 @@
                 </div>
              </fieldset>
            </div>
+         </aura:If>
+         <!-- CSP Form Questions-->
+         <aura:If isTrue="{!v.showCSP}">
+             <div class="slds-align_absolute-center">
+               <fieldset class="slds-box slds-theme--default slds-container_medium"  style = "{!'border : 1px solid '+ v.borderColor}">
+                  <legend id="newdemform" class="slds-text-heading--small slds-p-vertical--medium" style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor}">
+                     Certified Service Provider (CSP) Client Seller Attestation Of Economic Presence Status in Pennsylvania
+                   </legend>
+                
+                <div class="slds-grid slds-wrap" >
+                  <div class="slds-col slds-size_1-of-1 ">
+                   <p> As outlined in <a href="https://www.revenue.pa.gov/GeneralTaxInformation/TaxLawPoliciesBulletinsNotices/TaxBulletins/SUT/Documents/st_bulletin_2019-01.pdf " target="_blank"> Sales and Use Tax Bulletin 2019-01 </a> ,Pennsylvania’s sales tax nexus includes businesses whose only activity within the Commonwealth
+						is making at least $100,000 in gross annual sales into Pennsylvania. Businesses with only this economic presence must collect and remit Pennsylvania
+						sales tax starting July 1, 2019. Sellers having only an economic presence are eligible to use the services of a Pennsylvania Certified Service Provider to
+						simplify their compliance with PA sales tax laws. Please refer to <a href="https://www.revenue.pa.gov/Pages/default.aspx" target="_blank"> revenue.pa.gov</a>for additional information.
+                   </p>
+                   <br/>
+                    <p> If the business has any of the physical presence activities listed in Section I, it has a physical presence within the Commonwealth. It must be
+licensed to collect and remit Pennsylvania sales tax immediately.</p>
+                   <br/>
+                  </div>
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+				     <lightning:select aura:id="sstStateId" name="tnPhy" label="Property in Pennsylvania" required="true">
+		                           <option value = "">Select</option>     
+		                          <aura:iteration var="option" items="{! v.waBOCPicklist }">
+		                              <option value="{! option }" >{! option }</option>
+		                          </aura:iteration>
+		             </lightning:select> 
+		             <lightning:helptext content="Owning or maintaining a fixed location or leasing property within Pennsylvania.
+Storing business property or the property of a representative at a distribution or fulfillment center located within the Commonwealth, regardless if the center
+also stores property of third parties that is distributed from the same location." iconName="utility:info"/>
+	              </span>
+	               <span class="slds-size_1-of-1 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+				     <lightning:select aura:id="sstStateId" name="tnPhy" label="Employees and Contractors in Pennsylvania in Pennsylvania" required="true">
+		                           <option value = "">Select</option>     
+		                          <aura:iteration var="option" items="{! v.waBOCPicklist }">
+		                              <option value="{! option }" >{! option }</option>
+		                          </aura:iteration>
+		             </lightning:select> 
+		             <lightning:helptext content="Having an employee(s) or agent(s) soliciting sales in Pennsylvania.
+					Regularly soliciting orders from Pennsylvania customers via the website of an entity or individual physically located in Pennsylvania, such as via click-through
+					technology.
+					Accepting orders that are directly shipped to Pennsylvania customers from a Pennsylvania facility which is operated by a remote seller’s affiliate, agent or
+					independent contractor.
+					Having a contractual relationship with an entity or individual physically located in Pennsylvania whose website has a link that encourages purchasers to
+					place orders with the remote sellers. The in-state entity or individual receives consideration for the contractual relationship with the remote seller.
+					Utilizing affiliates, agents and/or independent contractors located in Pennsylvania who will provide repair, delivery or other service relating to tangible
+					personal property sold by the remote seller to Pennsylvania customers.
+					Having an employee(s) regularly travel(s) to Pennsylvania for any purpose related to the remote seller’s business activity." iconName="utility:info"/>
+	              </span>
+	               <span class="slds-size_1-of-1 slds-max-small-size_1-of-2 slds-p-horizontal_medium slds-p-bottom_large">
+				     <lightning:select aura:id="sstStateId" name="tnPhy" label="Other Services in Pennsylvania"  required="true">
+		                           <option value = "">Select</option>     
+		                          <aura:iteration var="option" items="{! v.waBOCPicklist }">
+		                              <option value="{! option }" >{! option }</option>
+		                          </aura:iteration>
+		             </lightning:select> 
+		             <lightning:helptext content="Delivering, installing or repairing property in Pennsylvania, providing employee leasing services or personal services, approving or accepting purchase
+						orders, providing managerial or research activities, repossessing property, providing transportation services, or hiring, training or supervising personnel
+						in Pennsylvania.
+						Providing service(s) through affiliates, agents and/or independent contractors within the Commonwealth (including, but not limited to delivery, marketing, or
+						soliciting sales) that benefit, support and/or complement the remote seller’s business activity." iconName="utility:info"/>
+	              </span>
+                 </div>
+                  <div class="slds-grid  slds-grid--align-center">
+                   <button class="slds-button slds-button--brand" onclick="{!c.prevTab}">Back</button>
+                   <button class="slds-button slds-button--brand" onclick="{!c.CSPTab}">Next</button>
+                </div>
+                </fieldset>
+               </div>
          </aura:If>
 
         <!-- Nexus Information -->
