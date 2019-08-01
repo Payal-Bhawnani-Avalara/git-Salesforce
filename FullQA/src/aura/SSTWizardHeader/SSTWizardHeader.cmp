@@ -1,0 +1,19 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute type="string" name="fontColor" default="#FF8C00"/>
+    <aura:attribute type="string" name="borderColor" default="#FF8C00"/>
+    <aura:attribute type="string" name="boldText" default="bold"/>
+
+	  <!--<div  class="slds-border_bottom" style="position: relative;">-->
+        <div class="slds-align_absolute-center">
+          <div class="slds-float_left">
+            <img src="{!$Resource.avalaralogo}" style="width: 130px;display: block;height: auto;"/>
+            <img src="{!$Resource.avalaralogotagline}" style="width: 130px;display: block;height: auto;"/>    
+           </div>
+          
+        
+          <div style="margin-left: 15.5em;" class="slds-align_absolute-center"><h4  class="slds-text-heading_small" style="{! 'background-color:'+ v.bgColor+'; color: '+ v.fontColor+'; font-weight:  '+ v.boldText}" >Avalara Streamlined Sales Tax (SST) &amp; Certified Service Provider (CSP) Registration Form	</h4></div>
+          </div>
+      
+        <!--</div>      -->
+   
+</aura:component>

@@ -1,0 +1,4 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false"> 
+	   <p style="text-align: center"><a href="ccrz__CCPage?pageKey=contactus&fromPage={!$CurrentPage.Name}"><button type="button" class="btn-contact" style="margin: 20px"></button></a></p>
+	   <p style="text-align: center">We'd love to hear from you.</p>
+</apex:page>

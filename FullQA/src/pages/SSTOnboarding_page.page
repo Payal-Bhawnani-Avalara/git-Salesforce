@@ -1,0 +1,36 @@
+<apex:page showHeader="false">
+	<html>
+	      <head>
+	         <apex:includeLightning />
+	      </head>
+	      <body class="slds-scope">
+	         <div id="flowContainer" />
+	         <script>
+	            var statusChange = function (event) {
+	               if(event.getParam("status") === "FINISHED") {
+	                  // Control what happens when the interview finishes
+	 
+                       /*var outputVariables = event.getParam("outputVariables");
+	                  var key;
+	                  for(key in outputVariables) {
+	                     if(outputVariables[key].name === "myOutput") {
+	                        // Do something with an output variable
+	                     }
+	                  }*/
+	               }
+	            };
+              $Lightning.use("c:SST", function() {
+                  $Lightning.createComponent("c:SSTWizard",{"onstatuschange":statusChange},
+                     "flowContainer",                  
+                    function(cmp) {
+                        console.log('>>>>> App is hosted');
+                    }
+                    );
+                    
+	            });
+	         </script>
+	      </body>
+	   </html>
+    
+    
+</apex:page>

@@ -1,0 +1,17 @@
+<apex:component layout="none" selfClosing="true" >
+    <apex:attribute name="currentversion" type="Version__c"  description="current version in this process"/>
+    <div class="connector-version">
+        <div class="left-div">
+            Connector : &nbsp; {!currentversion.Connector__r.Name}
+        </div>
+        <div class="left-div">
+            Version : &nbsp; {!currentversion.Name}
+        </div>
+         <div class="left-div">
+            X-Avalara-Client : &nbsp; {!currentversion.Primary_Signature__c}
+        </div>
+        <div class="left-div">
+            x-Avalara-UID : &nbsp; {!currentversion.X_Avalara_UID__c}
+        </div>                                                               
+    </div>
+</apex:component>

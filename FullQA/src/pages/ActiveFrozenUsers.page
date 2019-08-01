@@ -1,0 +1,29 @@
+<apex:page controller="MiscUsers" title="Frozen/Active Users">
+    <apex:pageBlock title="Active / Frozen Users">
+        <div>
+            <p>
+                These are users that are still active (i.e., using a SF license) but are frozen. These should be considered candidates for deactivation.
+            </p>
+        </div>
+        <apex:pageBlockTable value="{!Records}" var="Record">
+            <apex:column >
+                <apex:facet name="header">First Name</apex:facet>
+                <apex:outputText value="{!Record.FirstName}"/>
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">Last Name</apex:facet>
+                <apex:outputText value="{!Record.LastName}"/>
+            </apex:column>
+            <apex:column >
+            	<apex:facet name="header">Last Modified Date</apex:facet>
+                <apex:outputText value="{0,date,MM/dd/yy}">
+                    <apex:param value="{!Record.LastModifiedDate}" />
+                </apex:outputText>
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">Email/User Detail Record</apex:facet>
+				<apex:outputLink value="/{!Record.id}">{!Record.Email}</apex:outputLink>                
+            </apex:column>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+</apex:page>

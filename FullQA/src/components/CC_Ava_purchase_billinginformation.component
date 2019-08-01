@@ -1,0 +1,139 @@
+<apex:component id="CC_Ava_purchase_billinginformation">
+
+  <form id="billingInformation" name="billingInformation" action="" method="">
+
+    <p><input type="checkbox" name="sameas" id="sameas" value="1" class="sameas is-selected" checked="checked" /> <label for="sameas">Contact information as billing</label></p>
+    
+    <div class="sameas" style="display:none">
+      <div class="form-group">
+        <div class="col-md-4">
+          
+          <p><label form="full_name">Full Name</label> <sup class="required-marker">*</sup></p>
+        </div>
+        <div class="col-md-8">
+          <input name="full_name" id="full_name" value="" placeholder="Please enter your first and last name" class="form-control" data-iframe="creditCardHolderName" data-sfname="fullname" required="true"/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-4">
+          <p><label form="company">Company</label> <sup class="required-marker">*</sup></p>
+        </div>
+        <div class="col-md-8">
+          <input name="company" id="company" value="" placeholder="Please enter your company name" class="form-control" data-iframe="company" data-sfname="Company" required="true" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-4">
+          <p><label form="address1">Address 1</label> <sup class="required-marker">*</sup></p>
+        </div>
+        <div class="col-md-8">
+          <input name="address1" id="address1" value="" placeholder="Please enter an address" class="form-control" data-iframe="creditCardAddress1" data-sfname="Address1" required="true" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-4">
+          <p><label form="address2">Address 2</label></p>
+        </div>
+        <div class="col-md-8">
+          <input name="address2" id="address2" value="" placeholder="Please enter an address" class="form-control" data-iframe="creditCardAddress2" data-sfname="Address2" />
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="form-group">
+          <div class="col-md-4">
+            <p><label form="city">City</label> <sup class="required-marker">*</sup></p>
+          </div>
+          <div class="col-md-8">
+            <input name="city" id="city" value="" placeholder="Please enter a city" class="form-control" data-iframe="creditCardCity" data-sfname="City" required="true" />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="form-group">
+          <div class="col-md-4">
+            <p><label form="state">State/Province</label> <sup class="required-marker">*</sup></p>
+          </div>
+          <div class="col-md-8">
+
+            <select class="form-control" data-country="US" required="true" name="state" id="state" data-iframe="creditCardState"  data-sfname="Region">
+              <option value="">Select a State</option>
+              <option value="AL">Alabama</option>
+              <option value="AK">Alaska</option>
+              <option value="AZ">Arizona</option>
+              <option value="AR">Arkansas</option>
+              <option value="CA">California</option>
+              <option value="CO">Colorado</option>
+              <option value="CT">Connecticut</option>
+              <option value="DE">Delaware</option>
+              <option value="DC">District of Columbia</option>
+              <option value="FL">Florida</option>
+              <option value="GA">Georgia</option>
+              <option value="GU">Guam</option>
+              <option value="HI">Hawaii</option>
+              <option value="ID">Idaho</option>
+              <option value="IL">Illinois</option>
+              <option value="IN">Indiana</option>
+              <option value="IA">Iowa</option>
+              <option value="KS">Kansas</option>
+              <option value="KY">Kentucky</option>
+              <option value="LA">Louisiana</option>
+              <option value="ME">Maine</option>
+              <option value="MD">Maryland</option>
+              <option value="MA">Massachusetts</option>
+              <option value="MI">Michigan</option>
+              <option value="MN">Minnesota</option>
+              <option value="MS">Mississippi</option>
+              <option value="MO">Missouri</option>
+              <option value="MT">Montana</option>
+              <option value="NE">Nebraska</option>
+              <option value="NV">Nevada</option>
+              <option value="NH">New Hampshire</option>
+              <option value="NJ">New Jersey</option>
+              <option value="NM">New Mexico</option>
+              <option value="NY">New York</option>
+              <option value="NC">North Carolina</option>
+              <option value="ND">North Dakota</option>
+              <option value="OH">Ohio</option>
+              <option value="OK">Oklahoma</option>
+              <option value="OR">Oregon</option>
+              <option value="PA">Pennsylvania</option>
+              <option value="PR">Puerto Rico</option>
+              <option value="RI">Rhode Island</option>
+              <option value="SC">South Carolina</option>
+              <option value="SD">South Dakota</option>
+              <option value="TN">Tennessee</option>
+              <option value="TX">Texas</option>
+              <option value="UT">Utah</option>
+              <option value="VT">Vermont</option>
+              <option value="VA">Virginia</option>
+              <option value="WA">Washington</option>
+              <option value="WV">West Virginia</option>
+              <option value="WI">Wisconsin</option>
+              <option value="WY">Wyoming</option>
+            </select>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="form-group">
+          <div class="col-md-4">
+            <p><label form="zipcode">Postal/Zip <sup class="required-marker">*</sup></label></p>
+          </div>
+          <div class="col-md-8">
+            <input name="zipcode" id="zipcode" value="" placeholder="XXXXXX" class="form-control" data-iframe="creditCardPostalCode" data-sfname="PostalCode" required="true" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </form> 
+
+</apex:component>

@@ -1,0 +1,215 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,lightning:isUrlAddressable" access="global" controller="PartnerDeveloperBio" >
+    
+   <!--Spinner Code Start-->    
+   <aura:handler event="aura:waiting" action="{!c.waiting}"/>
+   <aura:handler event="aura:doneWaiting" action="{!c.doneWaiting}"/>
+   <aura:attribute name="HideSpinner" type="Boolean" default="true"/>
+   <aura:renderIf isTrue="{!v.HideSpinner}">
+      <div class="slds-spinner_container" >
+         <div class="slds-spinner--brand slds-spinner slds-spinner--large" role="alert">
+            <span class="slds-assistive-text">Loading, Please Wait...</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+         </div>
+      </div>
+   </aura:renderIf>
+   <!--Spinner Code End-->  
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	<aura:attribute name="render" type="Boolean"/>
+    <aura:attribute name="cId" type="String"/>
+    
+    <aura:attribute name="accountName" type="String"/>
+    <aura:attribute name="website" type="String"/>
+    <aura:attribute name="street" type="String"/>
+    <aura:attribute name="city" type="String"/>
+    <aura:attribute name="state" type="String"/>
+    <aura:attribute name="country" type="String"/>
+    <aura:attribute name="postalcode" type="String"/>
+    <aura:attribute name="firstname" type="String"/>
+    <aura:attribute name="lastname" type="String"/>
+    <aura:attribute name="email" type="String"/>
+    <aura:attribute name="phone" type="String"/>
+    
+   <aura:attribute name="programmingoptions" type="List" default="[]"/>
+   <aura:attribute name="programmingselected" type="List" default="[]"/>
+    <aura:attribute name="clienttypeoptions" type="List" default="[]"/>
+   <aura:attribute name="clienttypeselected" type="List" default="[]"/>
+    <aura:attribute name="apptypeoptions" type="List" default="[]"/>
+   <aura:attribute name="apptypeselected" type="List" default="[]"/>
+
+    <aura:attribute name="emplabel" type="String"/>
+    <aura:attribute name="empvalue" type="String"/>
+    <aura:attribute name="empoptions" type="List" default="[]"/>
+    <aura:attribute name="companyInformation" type="String"/>
+    <aura:attribute name="servicesOffered" type="String"/>
+    <aura:attribute name="referenceClients" type="String"/>
+    <aura:if isTrue="{!v.render}">
+   <div class="slds-align_absolute-center" >
+      <form class="" style="width:100%;">
+         <div aria-labelledby="newcompanyform" class="slds-align_absolute-center">
+            <!-- BOXED AREA -->
+            <fieldset class="slds-box slds-theme--default slds-container_medium">
+               <legend id="newcompanyform" class="slds-text-heading--small 
+                  slds-p-vertical--medium">
+                  Company Information
+               </legend>
+               <div class="slds-grid slds-wrap">
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium">
+                     <lightning:input aura:id="newcompanyform" label="Name"
+                        name="accountname"
+                        value="{!v.accountName}"
+                         disabled="true"/>
+                  </span>
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium">
+                     <lightning:input aura:id="newcompanyform" label="Website"
+                        name="Website"
+                        value="{!v.website}"
+                        disabled="true"/>
+                  </span>
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium">
+                     <lightning:input aura:id="newcompanyform" label="Street"
+                        name="Street"
+                        value="{!v.street}"
+                        disabled="true"/>
+                  </span>
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium">
+                     <lightning:input aura:id="newcompanyform" label="City"
+                        name="City"
+                        value="{!v.city}"
+                        disabled="true"/>
+                  </span>
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium">
+                     <lightning:input aura:id="newcompanyform" label="State"
+                        name="State"
+                        value="{!v.state}"
+                        disabled="true"/>
+                  </span>
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium">
+                     <lightning:input aura:id="newcompanyform" label="Country"
+                        name="Country"
+                        value="{!v.country}"
+                        disabled="true"/>
+                  </span>
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium">
+                     <lightning:input aura:id="newcompanyform" label="Postal Code"
+                        name="postalcode"
+                        value="{!v.postalcode}"
+                        disabled="true"/>
+                  </span>
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium"></span>    
+               </div>
+            </fieldset>
+         </div>
+         <div aria-labelledby="newcompanyform" class="slds-align_absolute-center">
+            <!-- BOXED AREA -->
+            <fieldset class="slds-box slds-theme--default slds-container_medium">
+               <legend id="newcontactform" class="slds-text-heading--small 
+                  slds-p-vertical--medium">
+                  Contact Information
+               </legend>
+               <!-- CREATE NEW FORM -->
+               <div class="slds-grid slds-wrap">
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium">
+                     <lightning:input aura:id="newcontactform" label="First Name"
+                        name="firstname"
+                        value="{!v.firstname}"
+                        disabled="true"/>
+                  </span>
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium">
+                     <lightning:input aura:id="newcontactform" label="Last Name"
+                        name="lastname"
+                        value="{!v.lastname}"
+                        disabled="true"/>
+                  </span>
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium">
+                     <lightning:input aura:id="newcontactform" label="Email"
+                        name="email"
+                        value="{!v.email}"
+                        disabled="true"/>
+                  </span>
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium">
+                     <lightning:input aura:id="newcontactform" label="Phone"
+                        name="phone"
+                        value="{!v.phone}"
+                        disabled="true"/>
+                  </span>
+               </div>
+               <!-- / CREATE NEW FORM -->
+            </fieldset>
+            <!-- / BOXED AREA -->
+         </div>
+         <div aria-labelledby="newcompanyform" class="slds-align_absolute-center">
+            <!-- BOXED AREA -->
+            <fieldset class="slds-box slds-theme--default slds-container_medium">
+               <legend id="newdemform" class="slds-text-heading--small 
+                  slds-p-vertical--medium">
+                  Preferred Developer Profile
+               </legend>
+               <!-- CREATE NEW FORM -->
+               <div class="slds-grid slds-wrap">
+                    <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+                     <lightning:input aura:id="fieldId" label="Tell us about your company. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(1000 character limited)"
+                        name="companyInformation"
+                        value="{!v.companyInformation}"
+                        required="true" maxlength="255"/>
+                    </span>    
+                    <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+                     <lightning:input aura:id="fieldId" label="Describe the services offered by your company.  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (1000 character limited)"
+                        name="servicesOffered"
+                        value="{!v.servicesOffered}"
+                        required="true" maxlength="255"/>
+                    </span>
+                    <br/>
+                      <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large" >
+                    <lightning:select aura:id="fieldId" name="empvalue" label="Number of Employees." value="{! v.empvalue }"  required="true">
+                        <aura:iteration var="option" items="{! v.empoptions }">
+                            <option value="{! option.value }" selected="{!if(v.empvalue==option.value,'selected','')}">{! option.label }</option>
+                        </aura:iteration>
+                    </lightning:select>                      
+                  </span> 
+                  <br/>
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+                     <lightning:input aura:id="fieldId" label="Provide reference client(s) .Company name, Contact name, Phone, Email"
+                        name="referenceClients"
+                        value="{!v.referenceClients}"
+                        required="true" maxlength="255"/>
+                  </span>  
+                  <br />                 
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+                     <lightning:checkboxGroup aura:id="fieldId" name="clienttypeselected"
+                        label="What client types does your company support?"
+                        options="{! v.clienttypeoptions }"
+                        value="{! v.clienttypeselected }" required="true"/>                      
+                  </span>
+                  <br />
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+                     <lightning:checkboxGroup aura:id="fieldId" name="apptypeselected"
+                        label="What types of applications are a specialty for your company?"
+                        options="{! v.apptypeoptions }"
+                        value="{! v.apptypeselected }" required="true"/>                      
+                  </span> 
+                  <br />                  
+                  <span class="slds-size_1-of-1 slds-max-small-size_1-of-1 slds-p-horizontal_medium slds-p-bottom_large">
+                     <lightning:checkboxGroup aura:id="fieldId" name="programmingselected"
+                        label="Which programing languages are supported by your company? "
+                        options="{! v.programmingoptions }"
+                        value="{! v.programmingselected }" required="true"/>
+                  </span>
+            
+                </div>
+            
+               <!-- / CREATE NEW FORM -->
+            </fieldset>
+            <!-- / BOXED AREA -->
+         </div>         
+          
+          <lightning:button label="Submit" aura:id="btnSubmit"
+            variant="brand"
+            onclick="{!c.clickSubmit}" class="slds-m-top--medium slds-align_absolute-center"/>
+      </form>
+   </div>
+        <aura:set attribute="else">
+            <c:MessageComponent aura:id="cmpMessage" type="error" message="Invalid Record Id. Please contact administrator." />
+        </aura:set>
+    </aura:if>
+</aura:component>

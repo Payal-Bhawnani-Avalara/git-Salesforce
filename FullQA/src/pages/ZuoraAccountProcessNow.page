@@ -1,0 +1,11 @@
+<apex:page showHeader="false" sidebar="false" controller="ZuoraAccountProcessNow" action="{!getRecords}">
+	<head><meta http-equiv="refresh" content="60;url=/apex/ZuoraAccountProcessNow"/></head>
+	<apex:outputPanel rendered="{!listZ.size>0}">
+    <apex:repeat value="{!listZ}" var="z" id="theRepeat">
+		<iframe src='https://avalara--zuora.na57.visual.force.com/apex/AccountOnDemandSync?Id={!z.Name}'></iframe>        
+    </apex:repeat>
+    </apex:outputPanel>
+    <apex:outputPanel rendered="{!listZ.size=0}">
+    No records to process
+    </apex:outputPanel>
+</apex:page>

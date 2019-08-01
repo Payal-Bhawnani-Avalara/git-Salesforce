@@ -1,0 +1,405 @@
+<apex:page showHeader="false"  sidebar="false" docType="html-5.0" standardStylesheets="false" controller="AvalaraCommunityWizardCtrl">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="robots" content="noindex" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Developer : Avalara Template</title>
+        <meta name="description" content="" />
+        <meta name="msapplication-TileColor" content="#ffffff " />
+        <meta name="msapplication-TileImage" content="/public/images/favicon/ms-icon-144x144.png" />
+        <meta name="theme-color" content="#ffffff " />
+        <meta property="og:title" content="Home" />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content="http://developer.avalara.com/" />
+        <meta property="og:site_name" content="Avalara Developer Network" />
+        <meta property="og:description" content="Avalara AvaTax Accurate and easy sales tax calculation Automatically tie your non-taxable transactions directly to the correct exemption or reseller certificate. Determine accurate taxability & duties for millions of products and services in over 100 countries." />
+
+
+        <link rel="apple-touch-icon" sizes="57x57" href="{!URLFOR($Resource.AvalaraResources,'/public/images/favicon/apple-icon-57x57.png')}"/>
+        <link rel="apple-touch-icon" sizes="60x60" href="{!URLFOR($Resource.AvalaraResources,'/public/images/favicon/apple-icon-60x60.png')}"/>
+        <link rel="apple-touch-icon" sizes="72x72" href="{!URLFOR($Resource.AvalaraResources,'/public/images/favicon/apple-icon-72x72.png')}"/>
+        <link rel="apple-touch-icon" sizes="76x76" href="{!URLFOR($Resource.AvalaraResources,'/public/images/favicon/apple-icon-76x76.png')}"/>
+        <link rel="apple-touch-icon" sizes="114x114" href="{!URLFOR($Resource.AvalaraResources,'/public/images/favicon/apple-icon-114x114.png')}"/>
+        <link rel="apple-touch-icon" sizes="120x120" href="{!URLFOR($Resource.AvalaraResources,'/public/images/favicon/apple-icon-120x120.png')}"/>
+        <link rel="apple-touch-icon" sizes="144x144" href="{!URLFOR($Resource.AvalaraResources,'/public/images/favicon/apple-icon-144x144.png')}"/>
+        <link rel="apple-touch-icon" sizes="152x152" href="{!URLFOR($Resource.AvalaraResources,'/public/images/favicon/apple-icon-152x152.png')}"/>
+        <link rel="apple-touch-icon" sizes="180x180" href="{!URLFOR($Resource.AvalaraResources,'/public/images/favicon/apple-icon-180x180.png')}"/>
+        <link rel="icon" type="image/png" sizes="192x192" href="{!URLFOR($Resource.AvalaraResources,'/public/images/favicon/android-icon-192x192.png')}"/>
+        <link rel="icon" type="image/png" sizes="32x32" href="{!URLFOR($Resource.AvalaraResources,'/public/images/favicon/favicon-32x32.png')}"/>
+        <link rel="icon" type="image/png" sizes="96x96" href="{!URLFOR($Resource.AvalaraResources,'/public/images/favicon/favicon-96x96.png')}"/>
+        <link rel="icon" type="image/png" sizes="16x16" href="{!URLFOR($Resource.AvalaraResources,'/public/images/favicon/favicon-16x16.png')}"/>
+        <link rel="manifest" href="{!URLFOR($Resource.AvalaraResources,'/public/images/favicon/manifest.json')}"/>
+        <meta name="msapplication-TileColor" content="#ffffff "/>
+        <meta name="theme-color" content="#ffffff "/>
+
+        <apex:includeScript value="{!URLFOR($Resource.AvalaraResources,'/public/js/vendor/jquery-2.2.4.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.AvalaraResources,'/public/js/vendor/bootstrap.min.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.AvalaraResources,'/public/js/site.js')}"/>
+        <apex:includeScript value="{!URLFOR($Resource.AvalaraResources,'/public/js/vendor/aws-sdk-2.5.3.min.js')}"/>
+        <apex:includeScript value="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"/>
+        <apex:includeScript value="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js" />
+        <style>
+            @font-face {
+                font-family: 'source code pro regular';
+                src: url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/avalara/sourcecodepro-regular-webfont.woff2')}") format("woff2"), url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/avalara/sourcecodepro-regular-webfont.woff')}") format("woff");
+                font-weight: normal;
+                font-style: normal;
+            }
+
+            @font-face {
+                font-family: 'source sans pro regular';
+                src: url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/avalara/sourcesanspro-regular-webfont.woff2')}") format("woff2"), url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/avalara/sourcesanspro-regular-webfont.woff')}") format("woff");
+                font-weight: normal;
+                font-style: normal;
+            }
+
+            @font-face {
+                font-family: 'source sans pro bold';
+                src: url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/avalara/sourcesanspro-bold-webfont.woff2')}") format("woff2"), url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/avalara/sourcesanspro-bold-webfont.woff')}") format("woff");
+                font-weight: normal;
+                font-style: normal;
+            }
+
+            @font-face {
+                font-family: 'source sans pro light';
+                src: url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/avalara/sourcesanspro-light-webfont.woff2')}") format("woff2"), url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/avalara/sourcesanspro-light-webfont.woff')}") format("woff");
+                font-weight: normal;
+                font-style: normal;
+            }
+
+            @font-face {
+                font-family: 'apertura regular';
+                src: url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/avalara/apertura-regular-webfont.woff2')}") format("woff2"), url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/avalara/apertura-regular-webfont.woff')}") format("woff");
+                font-weight: normal;
+                font-style: normal;
+            }
+
+            @font-face {
+                font-family: 'Glyphicons Halflings';
+                src: url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/bootstrap/glyphicons-halflings-regular.eot')}");
+                src: url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/bootstrap/glyphicons-halflings-regular.eot')}") format("embedded-opentype"), url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/bootstrap/glyphicons-halflings-regular.woff2')}") format("woff2"), url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/bootstrap/glyphicons-halflings-regular.woff')}") format("woff"), url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/bootstrap/glyphicons-halflings-regular.ttf')}") format("truetype"), url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/bootstrap/bootstrap-fonts-glyphicons-halflings-regular.svg')}") format("svg");
+            }
+
+            @font-face {
+                font-family: 'icomoon';
+                src: url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/icomoon/icomoon.eot')}") format("embedded-opentype"), url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/icomoon/icomoon.ttf')}") format("truetype"), url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/icomoon/icomoon.woff')}") format("woff"), url("{!URLFOR($Resource.AvalaraResources,'/public/css/fonts/icomoon/icomoon.svg')}") format("svg");
+                font-weight: normal;
+                font-style: normal;
+            }
+
+            footer .social .twitter a {
+                background-image: url('{!URLFOR($Resource.AvalaraResources,'/public/images/devdot/DevDotSvgGAssets_Twitter.svg')}');
+            }
+
+            footer .social .facebook a {
+                background-image: url('{!URLFOR($Resource.AvalaraResources,'/public/images/devdot/DevDotSvgGAssets_Facebook.svg')}');
+            }
+
+            footer .social .linkedin a {
+                background-image: url('{!URLFOR($Resource.AvalaraResources,'/public/images/devdot/DevDotSvgGAssets_LinkedIn.svg')}');
+            }
+
+            footer .social .youtube a {
+                background-image: url('{!URLFOR($Resource.AvalaraResources,'/public/images/devdot/DevDotSvgGAssets_YouTube.svg')}');
+            }
+
+            @media(min-width:1100px){
+                .certification{
+                    min-width:14.66666666667%;
+                }
+            }
+
+            @media(max-width:1099px){
+                .certification{
+                    min-width:13.66666666667%;
+                    margin-left: 0.5em;
+                }
+            }
+
+            .navbar-nav{
+                width:100%;
+                text-align:center;
+            }
+
+            .lookupInput a.form-control{
+                position: absolute;
+                top: 0px;
+                width: 0px;
+                border: none !important;
+                background: transparent !important;
+                right: 30px;
+                background-color: transparent !important;
+            }
+
+            @media(max-width:991px){
+                .lookupInput a.form-control{
+                    top:25px;
+                }
+            }
+
+            .lookupIcon{
+                background-position: -22px 0;
+            }
+
+            body .btn{
+                background:none;
+            }
+
+            .btn-success {
+                color: #fff !important;
+                background-color: #5cb85c !important;
+                border-color: #4cae4c !important;
+            }
+
+            .btn-success:hover {
+                color: #fff;
+                background-color: #449d44 !important;
+                border-color: #398439 !important;
+            }
+
+            .btn-warning {
+                color: #fff !important;
+                background-color: #f0ad4e !important;
+                border-color: #eea236 !important;
+            }
+
+            .navbar-default .navbar-toggle{
+                color:#fff;
+            }
+
+            .btn-lg {
+                padding: 10px 16px !important;
+                font-size: 18px !important;
+                line-height: 1.3333333!important;
+                border-radius: 6px !important;
+            }
+
+            .btn-primary {
+                color: #fff !important;
+                background-color: #337ab7 !important;
+                border-color: #2e6da4 !important;
+            }
+
+            .text-center{
+                text-align:center;
+            }
+
+            .bottom-margin{
+                margin-bottom:15px;
+            }
+
+            .message .messageText h4{
+                color:#cc0000;
+                font-size:18px;
+                margin-right:5px;
+                margin-top: -2px;
+            }
+
+            .errorM3 .msgIcon{
+                margin-top:0px;
+            }
+
+            label{
+                font-weight:normal;
+                color:#000;
+                font-size:15px;
+            }
+
+            .message{
+                margin: 4px 0px;
+            }
+
+            .messageText{
+                display:flex;
+            }
+
+            .messageTable>ul{
+                padding-left:0px;
+            }
+
+            .messageTable>ul>li{
+                margin-left:0px !important;
+            }
+            p,h4{
+                color:#222;
+            }
+            h4,h5,h6{
+                color:#656464;
+            }
+            h6{
+                font-size:15px;
+            }
+
+            .blockUI{
+                border-radius : 4px;
+            }
+
+            .blockUI img{
+                vertical-align : middle;
+            }
+
+            .connector-version{
+                border: 1px solid #ff6600;
+                color: #000;
+                padding: 5px;
+                font-size: 16px;
+                width: 100%;
+                height: 60px;
+                padding-left: 10px;
+                padding-top: 8px;
+                background: rgba(255, 152, 0, 0.11);
+                border-radius: 4px;
+                margin-top:10px;
+            }
+
+            @media(max-width:767px){
+                .connector-version{
+                    height:80px;
+                }
+            }
+
+            .help-text{
+                position : absolute;
+                right : -2px;
+            }
+
+            .panel-body{
+                padding : 35px;
+            }
+
+            .select2-container{
+                width : 100% !important;
+            }
+            .avalara-hr{
+                margin-top:13%
+            }
+            @media(max-width:767px){
+                .avalara-hr{
+                    margin-top:35%
+                }
+            }
+            .note-others{
+                border:1px solid #ff6600;
+                border-radius:5px;
+                color: #7b7b7b;
+                padding:5px;
+                margin-top:5px;
+                float:left;
+                margin-bottom:5px;
+            }
+            .note-self{
+                border:1px solid #ff6600;
+                border-radius:5px;
+                color:#000;
+                float:right;
+                background: rgba(255, 152, 0, 0.11);
+                padding:5px;
+
+            }
+            .certification a:focus,.certification a:visited{
+                color:#fff;
+            }
+        </style>
+        <apex:stylesheet value="{!URLFOR($Resource.AvalaraResources,'/public/css/style.css')}"/>
+    </head>
+    <body id="top" data-spy="scroll" data-target="#bootstrap-scrollspy" >
+        <apex:insert name="header">
+            <header>
+                <div class="pageTitle">
+                    <a href="/">
+                        <apex:image url="{!URLFOR($Resource.AvalaraResources,'/public/images/Avalara_logo.svg')}"/>
+                    </a>
+                </div>
+            </header>
+        </apex:insert>
+        <apex:insert name="nav">
+            <header>
+                <nav class="navbar navbar-default navbar-static">
+                    <div class="navbar-header">
+                        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".js-navbar-collapse">
+                            <span>Menu</span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse js-navbar-collapse">
+                        <ul class="nav navbar-nav home">
+                            <li class="certification"><a href="{!IF($Site.Prefix != null,$Site.Prefix,'/apex')}/AvalaraNewUser" target="_blank"><span class="text-uppercase">Request New User</span></a></li>
+                            <li class="certification"><a href="https://help.avalara.com/" target="_blank"><span class="text-uppercase">Help</span></a></li>
+                            <li class="certification"><a href="https://developer.avalara.com/blog/" target="_blank"><span class="text-uppercase">Community</span></a></li>
+                            <li class="certification"><a href="https://developer.avalara.com/" target="_blank"><span class="text-uppercase">Developer Dot</span></a></li>
+                            <li class="certification"><a href="{!$Site.Prefix}/secur/logout.jsp"><span class="text-uppercase">Sign Out</span></a></li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+        </apex:insert>
+
+        <apex:insert name="body"></apex:insert>
+
+        <apex:insert name="versionnote">
+            <c:avalaraversionutil rendered="{!versionId != NULL}" currentversionId="{!versionId}"/>
+        </apex:insert>
+        <apex:insert name="footer">
+            <footer class="navbar navbar-default">
+                <ul class="social">
+                    <li class="twitter"><a href="https://twitter.com/Avalara">Twitter</a></li>
+                    <li class="facebook"><a href="https://www.facebook.com/avalara">Facebook</a></li>
+                    <li class="linkedin"><a href="https://www.linkedin.com/company/avalara">LinkedIn</a></li>
+                    <li class="youtube"><a href="https://www.youtube.com/user/Avalara1">Youtube</a></li>
+                </ul>
+                <ul class="github">
+                    <!--
+                    <li><a href="https://github.com/Avalara/developer-dot/edit/master/template.md">Edit this page on GitHub</a></li>
+                    -->
+                </ul>
+                <ul class="global">
+                    <li><a href="https://www.avalara.com/"><span class="icon-sphere"></span>Avalara.com</a></li>
+                    <li><a href="https://help.avalara.com/"><span class="icon-help"></span>Help Center</a></li>
+                </ul>
+                <ul class="legal">
+                    <li>&copy; Avalara, Inc. All rights reserved</li>
+                    <li><a href="https://www.avalara.com/site-terms/">Terms of use</a></li>
+                    <li><a href="https://www.avalara.com/privacy-policy/">Privacy Policy</a></li>
+                </ul>
+            </footer>
+        </apex:insert>
+        <script>
+            AWS.config.region = 'us-west-2';
+        </script>
+        <!-- Google Tag Manager -->
+        <noscript>
+            <iframe src="//www.googletagmanager.com/ns.html?id=GTM-MKB5LP" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        </noscript>
+        <script>
+            (function(w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start': new Date().getTime(),
+                    event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s),
+                    dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src =
+                    '//www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-MKB5LP');
+
+            function addToolTip(){
+                AvalaraCommunityWizardCtrl.getToolTips(function(results, event){
+                    for(var i = 0 ; i < results.length; i ++){
+                        var $f = $('.'+results[i].Label);
+                        if($f.length > 0 && $('.tooltip-'+results[i].Label).length == 0 && results[i].Text__c){
+                            $f.attr('placeholder',results[i].Text__c);
+                        }
+                    }
+                    $('[data-toggle="tooltip"]').tooltip();
+                });
+            }
+
+            addToolTip();
+        </script>
+        <!-- End Google Tag Manager -->
+    </body>
+</apex:page>

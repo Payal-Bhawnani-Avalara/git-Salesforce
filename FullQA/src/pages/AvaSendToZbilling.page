@@ -1,0 +1,125 @@
+<apex:page showHeader="true" 
+           sidebar="false" 
+           standardController="zqu__Quote__c" 
+           extensions="AvaSendToZbillingController" 
+           action="{!onload}" >
+  <apex:form >
+    <zqu:Notification />
+    <apex:pageBlock >
+      <apex:pageBlockButtons >
+        <apex:commandButton value="Create Order"
+                            action="{!createOrderInZuora}"/>
+
+        <apex:commandButton value="Back to Quote"
+                            action="{!goBack}"/>
+      </apex:pageBlockButtons>
+
+        <apex:pageBlockSection title="Quote Details">
+
+          <apex:repeat value="{!$ObjectType.zqu__Quote__c.FieldSets.SendToZbillingQuoteDetails}" var="quotedetails">               
+             <apex:outputField value="{!record[quotedetails]}"/>  
+          </apex:repeat>  
+
+        </apex:pageBlockSection>
+
+        <apex:pageBlockSection title="Account Details">
+
+          <apex:repeat value="{!$ObjectType.zqu__Quote__c.FieldSets.SendToZbillingAccountDetails}" var="quotedetails">               
+             <apex:outputField value="{!record[quotedetails]}"/>  
+          </apex:repeat> 
+
+        </apex:pageBlockSection>
+
+        <apex:pageBlockSection title="Subscription Details">
+
+          <apex:repeat value="{!$ObjectType.zqu__Quote__c.FieldSets.SendToZbillingSubscriptionDetails}" var="quotedetails">               
+             <apex:outputField value="{!record[quotedetails]}"/>  
+          </apex:repeat> 
+
+        </apex:pageBlockSection>
+
+        <apex:pageBlockSection title="Existing Charges" 
+                               id="existingChargeSection">
+
+          <apex:repeat value="{!cghList}" 
+                       var="cgh"
+                       id="rpcrepeat">
+            <tr>
+              <td>
+                <b style="{!IF(cgh.chargeGroup.groupType == 6, 'text-decoration:line-through;', null)}" >
+                  {!cgh.chargeGroup.productName}&nbsp;:&nbsp;{!cgh.chargeGroup.ratePlanName}
+                </b>
+              </td>
+            </tr>
+
+            <apex:pageBlockTable value="{!cgh.allCharges}"
+                                 var="charge"
+                                 id="charges">
+              
+              <apex:column headerValue="Charge Name" 
+                           value="{!charge.NAME}" 
+                           width="10%"
+                           style="{!IF(cgh.chargeGroup.groupType == 6, 'text-decoration:line-through;', null)}"/>
+
+              <apex:column headerValue="Type" 
+                           value="{!charge.CHARGE_TYPE}" 
+                           width="10%"
+                           style="{!IF(cgh.chargeGroup.groupType == 6, 'text-decoration:line-through;', null)}"/>
+
+              <apex:column headerValue="Model" 
+                           value="{!charge.MODEL}" 
+                           width="10%"
+                           style="{!IF(cgh.chargeGroup.groupType == 6, 'text-decoration:line-through;', null)}"/>
+
+              <apex:column headerValue="List Price" 
+                           value="{!charge.LIST_PRICE}" 
+                           width="10%"
+                           style="{!IF(cgh.chargeGroup.groupType == 6, 'text-decoration:line-through;', null)}"/>
+
+
+              <apex:column headerValue="Discount" 
+                           width="10%"
+                           style="{!IF(cgh.chargeGroup.groupType == 6, 'text-decoration:line-through;', null)}">
+                  
+                  <apex:outputText value="{!charge.DISCOUNT}"/>
+                  
+                  <apex:outputText value=" %" 
+                                   rendered="{!ISNUMBER(charge.DISCOUNT) && charge.isDiscountEditable && cgh.chargeGroup.groupType != 6}" />
+              
+              </apex:column>
+
+              <apex:column headerValue="Effective Price" 
+                           width="10%"
+                           style="{!IF(cgh.chargeGroup.groupType == 6, 'text-decoration:line-through;', null)}"
+                           value="{!charge.EFFECTIVE_PRICE}"/>
+                  
+ 
+              <apex:column headerValue="Quantity" 
+                           width="10%"
+                           style="{!IF(cgh.chargeGroup.groupType == 6, 'text-decoration:line-through;', null)}"
+                           value="{!charge.QUANTITY}"/>
+                  
+              <apex:column headerValue="UOM" 
+                           value="{!charge.UNIT_OF_MEASURE}" 
+                           width="10%"
+                           style="{!IF(cgh.chargeGroup.groupType == 6, 'text-decoration:line-through;', null)}"/>
+
+              <apex:column headerValue="Period" 
+                           value="{!charge.PERIOD}" 
+                           width="10%"
+                           style="{!IF(cgh.chargeGroup.groupType == 6, 'text-decoration:line-through;', null)}"/>
+
+              <apex:column headerValue="Total" 
+                           value="{!charge.TOTAL}" 
+                           width="10%"
+                           style="{!IF(cgh.chargeGroup.groupType == 6, 'text-decoration:line-through;', null)}"/>            
+            </apex:pageBlockTable>
+
+          </apex:repeat>
+          
+        </apex:pageBlockSection>
+
+    </apex:pageBlock>
+
+  </apex:form>
+</apex:page>

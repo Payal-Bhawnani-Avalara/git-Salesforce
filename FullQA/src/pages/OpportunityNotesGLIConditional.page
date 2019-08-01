@@ -1,0 +1,314 @@
+<apex:page standardController="GoLive_Implementation__c">
+<apex:pageBlock id="primarysubcharge" rendered="{!NOT(ISBLANK(GoLive_Implementation__c.Primary_Calc_Subscription__c))}">
+<div style="position:absolute;">
+<p> <b>Sales Rep:</b> {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.Owner.FirstName} {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.Owner.LastName}</p> 
+       <p> <b>Project Manager:</b> {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectManager__r.FirstName} {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectManager__r.LastName}</p>   
+    <p><b> Email:</b> {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectManager__r.email}</p>
+    <p> <b>Project Kick Off Date:</b> {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectKickOffDate__c}</p>
+    <apex:outputText style="text-align: left; float: left;font-weight:900;" escape="false" value="Desired Project Completion Date: {0,date,MM/dd/yyyy} '<br/><br/>'">
+       <apex:param value="{!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredProjectCompletionDate__c}" />
+    </apex:outputText>
+    <!--<p> <b>Desired Project Completion Date:</b> {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredProjectCompletionDate__c}</p>-->
+    <p> <b>Taxability Notes:</b> {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.TaxabilityNotes__c}</p>
+    <p> <b>GoLive Notes:</b> {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.GoLiveNotes__c}</p>
+    <br></br>
+    <p> <b>List of Products/Services:</b> {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.ListOfProducts_Services__c}</p>
+    <p> <b>eFile Login(s):</b> {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.eFileLogin_s__c}</p>
+    <p><b> Filing Calendar:</b> {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.FilingCalendar__c}</p>
+   </div>
+   <div id="OpportunityNotes" style="height:310px; width:800px; position:relative;">
+       <br></br>
+       <p style="text-align: right;"> <b>VAR Contact:</b> {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.VARContact__r.FirstName} {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.VARContact__r.LastName}</p>   
+       <p style="text-align: right;"> <b>Technical Contact:</b> {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.TechnicalContact__r.FirstName} {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.TechnicalContact__r.LastName}</p>
+       <p style="text-align: right;"> <b>Treasury Contact:</b> {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.TreasuryContact__r.FirstName} {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.TreasuryContact__r.LastName}</p>
+       <p style="text-align: right;"> <b>Finance Contact:</b> {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.FinanceContact__r.FirstName} {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.FinanceContact__r.LastName}</p>
+       <br></br>
+       <br></br>
+       <br></br>
+       <br></br>
+       <!--<apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Calc Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCalcLiveDate__c}" />
+       </apex:outputText>
+       <br></br>
+       <br></br>
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Returns Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredReturnsLiveDate__c}" />
+       </apex:outputText>
+       <br></br>
+       <br></br>
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Certs Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCertsLiveDate__c}" />
+       </apex:outputText>
+       <p style="text-align: right;"> <b>Desired Calc Live Date:</b> {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCalcLiveDate__c}</p>
+       <p style="text-align: right;"> <b>Desired Returns Live Date:</b> {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredReturnsLiveDate__c}</p>
+       <p style="text-align: right;"> <b>Desired Returns Live Date:</b> {!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCertsLiveDate__c}</p>-->
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" escape="false" value="Desired Calc Live Date: {0,date,MM/dd/yyyy} '<br/><br/>' Desired Returns Live Date: {1,date,MM/dd/yyyy} '<br/><br/>' Desired Certs Live Date: {2,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCalcLiveDate__c}" />
+       <apex:param value="{!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredReturnsLiveDate__c}" />
+       <apex:param value="{!GoLive_Implementation__c.Primary_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCertsLiveDate__c}" />
+       </apex:outputText>
+       
+    </div>
+</apex:PageBlock>
+
+<apex:pageBlock id="assetbased" rendered="{!NOT(ISBLANK(GoLive_Implementation__c.Primary_Calc_Asset__c))}">
+<div style="position:absolute;">
+<p> <b>Sales Rep:</b> {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.Owner.FirstName} {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.Owner.LastName}</p> 
+       <p> <b>Project Manager:</b> {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.ProjectManager__r.FirstName} {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.ProjectManager__r.LastName}</p>   
+    <p><b> Email:</b> {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.ProjectManager__r.email}</p>
+    <p> <b>Project Kick Off Date:</b> {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.ProjectKickOffDate__c}</p>
+    <apex:outputText style="text-align: left; float: left;font-weight:900;" escape="false" value="Desired Project Completion Date: {0,date,MM/dd/yyyy} '<br/><br/>'">
+       <apex:param value="{!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.DesiredProjectCompletionDate__c}" />
+    </apex:outputText>
+    <!--<p> <b>Desired Project Completion Date:</b> {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.DesiredProjectCompletionDate__c}</p>-->
+    <p> <b>Taxability Notes:</b> {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.TaxabilityNotes__c}</p>
+    <p> <b>GoLive Notes:</b> {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.GoLiveNotes__c}</p>
+    <br></br>
+    <p> <b>List of Products/Services:</b> {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.ListOfProducts_Services__c}</p>
+    <p> <b>eFile Login(s):</b> {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.eFileLogin_s__c}</p>
+    <p><b> Filing Calendar:</b> {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.FilingCalendar__c}</p>
+   </div>
+   <div id="OpportunityNotes" style="height:310px; width:800px; position:relative;">
+       <br></br>
+       <p style="text-align: right;"> <b>VAR Contact:</b> {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.VARContact__r.FirstName} {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.VARContact__r.LastName}</p>   
+       <p style="text-align: right;"> <b>Technical Contact:</b> {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.TechnicalContact__r.FirstName} {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.TechnicalContact__r.LastName}</p>
+       <p style="text-align: right;"> <b>Treasury Contact:</b> {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.TreasuryContact__r.FirstName} {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.TreasuryContact__r.LastName}</p>
+       <p style="text-align: right;"> <b>Finance Contact:</b> {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.FinanceContact__r.FirstName} {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.FinanceContact__r.LastName}</p>
+       <br></br>
+       <br></br>
+       <br></br>
+       <br></br>
+       <!--<apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Calc Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.DesiredCalcLiveDate__c}" />
+       </apex:outputText>
+       <br></br>
+       <br></br>
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Returns Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.DesiredReturnsLiveDate__c}" />
+       </apex:outputText>
+       <br></br>
+       <br></br>
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Certs Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.DesiredCertsLiveDate__c}" />
+       </apex:outputText>
+       <p style="text-align: right;"> <b>Desired Calc Live Date:</b> {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.DesiredCalcLiveDate__c}</p>
+       <p style="text-align: right;"> <b>Desired Returns Live Date:</b> {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.DesiredReturnsLiveDate__c}</p>
+       <p style="text-align: right;"> <b>Desired Returns Live Date:</b> {!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.DesiredCertsLiveDate__c}</p>-->
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" escape="false" value="Desired Calc Live Date: {0,date,MM/dd/yyyy} '<br/><br/>' Desired Returns Live Date: {1,date,MM/dd/yyyy} '<br/><br/>' Desired Certs Live Date: {2,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.DesiredCalcLiveDate__c}" />
+       <apex:param value="{!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.DesiredReturnsLiveDate__c}" />
+       <apex:param value="{!GoLive_Implementation__c.Primary_Calc_Asset__r.Opportunity__r.DesiredCertsLiveDate__c}" />
+       </apex:outputText>
+       
+    </div>
+    </apex:PageBlock>
+    
+<apex:pageBlock id="addoncalcsubcharge" rendered="{!NOT(ISBLANK(GoLive_Implementation__c.Add_On_Calc_Subscription__c))}">
+<div style="position:absolute;">
+<p> <b>Sales Rep:</b> {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.Owner.FirstName} {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.Owner.LastName}</p> 
+       <p> <b>Project Manager:</b> {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectManager__r.FirstName} {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectManager__r.LastName}</p>   
+    <p><b> Email:</b> {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectManager__r.email}</p>
+    <p> <b>Project Kick Off Date:</b> {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectKickOffDate__c}</p>
+    <apex:outputText style="text-align: left; float: left;font-weight:900;" escape="false" value="Desired Project Completion Date: {0,date,MM/dd/yyyy} '<br/><br/>'">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredProjectCompletionDate__c}" />
+    </apex:outputText>
+    <!--<p> <b>Desired Project Completion Date:</b> {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredProjectCompletionDate__c}</p>-->
+    <p> <b>Taxability Notes:</b> {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.TaxabilityNotes__c}</p>
+    <p> <b>GoLive Notes:</b> {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.GoLiveNotes__c}</p>
+    <br></br>
+    <p> <b>List of Products/Services:</b> {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.ListOfProducts_Services__c}</p>
+    <p> <b>eFile Login(s):</b> {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.eFileLogin_s__c}</p>
+    <p><b> Filing Calendar:</b> {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.FilingCalendar__c}</p>
+   </div>
+   <div id="OpportunityNotes" style="height:310px; width:800px; position:relative;">
+       <br></br>
+       <p style="text-align: right;"> <b>VAR Contact:</b> {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.VARContact__r.FirstName} {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.VARContact__r.LastName}</p>   
+       <p style="text-align: right;"> <b>Technical Contact:</b> {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.TechnicalContact__r.FirstName} {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.TechnicalContact__r.LastName}</p>
+       <p style="text-align: right;"> <b>Treasury Contact:</b> {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.TreasuryContact__r.FirstName} {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.TreasuryContact__r.LastName}</p>
+       <p style="text-align: right;"> <b>Finance Contact:</b> {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.FinanceContact__r.FirstName} {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.FinanceContact__r.LastName}</p>
+       <br></br>
+       <br></br>
+       <br></br>
+       <br></br>
+       <!--<apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Calc Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCalcLiveDate__c}" />
+       </apex:outputText>
+       <br></br>
+       <br></br>
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Returns Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredReturnsLiveDate__c}" />
+       </apex:outputText>
+       <br></br>
+       <br></br>
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Certs Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCertsLiveDate__c}" />
+       </apex:outputText>
+       <p style="text-align: right;"> <b>Desired Calc Live Date:</b> {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCalcLiveDate__c}</p>
+       <p style="text-align: right;"> <b>Desired Returns Live Date:</b> {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredReturnsLiveDate__c}</p>
+       <p style="text-align: right;"> <b>Desired Returns Live Date:</b> {!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCertsLiveDate__c}</p>-->
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" escape="false" value="Desired Calc Live Date: {0,date,MM/dd/yyyy} '<br/><br/>' Desired Returns Live Date: {1,date,MM/dd/yyyy} '<br/><br/>' Desired Certs Live Date: {2,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCalcLiveDate__c}" />
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredReturnsLiveDate__c}" />
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Calc_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCertsLiveDate__c}" />
+       </apex:outputText>
+       
+    </div>
+</apex:PageBlock>
+
+<apex:pageBlock id="addoncertssubcharge" rendered="{!NOT(ISBLANK(GoLive_Implementation__c.Add_On_Certs_Subscription__c))}">
+<div style="position:absolute;">
+<p> <b>Sales Rep:</b> {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.Owner.FirstName} {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.Owner.LastName}</p> 
+       <p> <b>Project Manager:</b> {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectManager__r.FirstName} {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectManager__r.LastName}</p>   
+    <p><b> Email:</b> {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectManager__r.email}</p>
+    <p> <b>Project Kick Off Date:</b> {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectKickOffDate__c}</p>
+    <apex:outputText style="text-align: left; float: left;font-weight:900;" escape="false" value="Desired Project Completion Date: {0,date,MM/dd/yyyy} '<br/><br/>'">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredProjectCompletionDate__c}" />
+    </apex:outputText>
+    <!--<p> <b>Desired Project Completion Date:</b> {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredProjectCompletionDate__c}</p>-->
+    <p> <b>Taxability Notes:</b> {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.TaxabilityNotes__c}</p>
+    <p> <b>GoLive Notes:</b> {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.GoLiveNotes__c}</p>
+    <br></br>
+    <p> <b>List of Products/Services:</b> {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.ListOfProducts_Services__c}</p>
+    <p> <b>eFile Login(s):</b> {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.eFileLogin_s__c}</p>
+    <p><b> Filing Calendar:</b> {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.FilingCalendar__c}</p>
+   </div>
+   <div id="OpportunityNotes" style="height:310px; width:800px; position:relative;">
+       <br></br>
+       <p style="text-align: right;"> <b>VAR Contact:</b> {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.VARContact__r.FirstName} {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.VARContact__r.LastName}</p>   
+       <p style="text-align: right;"> <b>Technical Contact:</b> {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.TechnicalContact__r.FirstName} {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.TechnicalContact__r.LastName}</p>
+       <p style="text-align: right;"> <b>Treasury Contact:</b> {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.TreasuryContact__r.FirstName} {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.TreasuryContact__r.LastName}</p>
+       <p style="text-align: right;"> <b>Finance Contact:</b> {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.FinanceContact__r.FirstName} {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.FinanceContact__r.LastName}</p>
+       <br></br>
+       <br></br>
+       <br></br>
+       <br></br>
+       <!--<apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Calc Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCalcLiveDate__c}" />
+       </apex:outputText>
+       <br></br>
+       <br></br>
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Returns Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredReturnsLiveDate__c}" />
+       </apex:outputText>
+       <br></br>
+       <br></br>
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Certs Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCertsLiveDate__c}" />
+       </apex:outputText>
+       <p style="text-align: right;"> <b>Desired Calc Live Date:</b> {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCalcLiveDate__c}</p>
+       <p style="text-align: right;"> <b>Desired Returns Live Date:</b> {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredReturnsLiveDate__c}</p>
+       <p style="text-align: right;"> <b>Desired Returns Live Date:</b> {!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCertsLiveDate__c}</p>-->
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" escape="false" value="Desired Calc Live Date: {0,date,MM/dd/yyyy} '<br/><br/>' Desired Returns Live Date: {1,date,MM/dd/yyyy} '<br/><br/>' Desired Certs Live Date: {2,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCalcLiveDate__c}" />
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredReturnsLiveDate__c}" />
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Certs_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCertsLiveDate__c}" />
+       </apex:outputText>
+       
+    </div>
+</apex:PageBlock>
+
+<apex:pageBlock id="addonreturnssubcharge" rendered="{!NOT(ISBLANK(GoLive_Implementation__c.Add_On_Returns_Subscription__c))}">
+<div style="position:absolute;">
+<p> <b>Sales Rep:</b> {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.Owner.FirstName} {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.Owner.LastName}</p> 
+       <p> <b>Project Manager:</b> {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectManager__r.FirstName} {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectManager__r.LastName}</p>   
+    <p><b> Email:</b> {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectManager__r.email}</p>
+    <p> <b>Project Kick Off Date:</b> {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectKickOffDate__c}</p>
+    <apex:outputText style="text-align: left; float: left;font-weight:900;" escape="false" value="Desired Project Completion Date: {0,date,MM/dd/yyyy} '<br/><br/>'">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredProjectCompletionDate__c}" />
+    </apex:outputText>
+    <!--<p> <b>Desired Project Completion Date:</b> {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredProjectCompletionDate__c}</p>-->
+    <p> <b>Taxability Notes:</b> {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.TaxabilityNotes__c}</p>
+    <p> <b>GoLive Notes:</b> {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.GoLiveNotes__c}</p>
+    <br></br>
+    <p> <b>List of Products/Services:</b> {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.ListOfProducts_Services__c}</p>
+    <p> <b>eFile Login(s):</b> {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.eFileLogin_s__c}</p>
+    <p><b> Filing Calendar:</b> {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.FilingCalendar__c}</p>
+   </div>
+   <div id="OpportunityNotes" style="height:310px; width:800px; position:relative;">
+       <br></br>
+       <p style="text-align: right;"> <b>VAR Contact:</b> {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.VARContact__r.FirstName} {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.VARContact__r.LastName}</p>   
+       <p style="text-align: right;"> <b>Technical Contact:</b> {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.TechnicalContact__r.FirstName} {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.TechnicalContact__r.LastName}</p>
+       <p style="text-align: right;"> <b>Treasury Contact:</b> {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.TreasuryContact__r.FirstName} {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.TreasuryContact__r.LastName}</p>
+       <p style="text-align: right;"> <b>Finance Contact:</b> {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.FinanceContact__r.FirstName} {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.FinanceContact__r.LastName}</p>
+       <br></br>
+       <br></br>
+       <br></br>
+       <br></br>
+       <!--<apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Calc Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCalcLiveDate__c}" />
+       </apex:outputText>
+       <br></br>
+       <br></br>
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Returns Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredReturnsLiveDate__c}" />
+       </apex:outputText>
+       <br></br>
+       <br></br>
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Certs Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCertsLiveDate__c}" />
+       </apex:outputText>
+       <p style="text-align: right;"> <b>Desired Calc Live Date:</b> {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCalcLiveDate__c}</p>
+       <p style="text-align: right;"> <b>Desired Returns Live Date:</b> {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredReturnsLiveDate__c}</p>
+       <p style="text-align: right;"> <b>Desired Returns Live Date:</b> {!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCertsLiveDate__c}</p>-->
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" escape="false" value="Desired Calc Live Date: {0,date,MM/dd/yyyy} '<br/><br/>' Desired Returns Live Date: {1,date,MM/dd/yyyy} '<br/><br/>' Desired Certs Live Date: {2,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCalcLiveDate__c}" />
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredReturnsLiveDate__c}" />
+       <apex:param value="{!GoLive_Implementation__c.Add_On_Returns_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCertsLiveDate__c}" />
+       </apex:outputText>
+       
+    </div>
+</apex:PageBlock>
+
+<apex:pageBlock id="sstsubcharge" rendered="{!NOT(ISBLANK(GoLive_Implementation__c.Add_On_SST_Subscription__c))}">
+<div style="position:absolute;">
+<p> <b>Sales Rep:</b> {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.Owner.FirstName} {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.Owner.LastName}</p> 
+       <p> <b>Project Manager:</b> {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectManager__r.FirstName} {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectManager__r.LastName}</p>   
+    <p><b> Email:</b> {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectManager__r.email}</p>
+    <p> <b>Project Kick Off Date:</b> {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.ProjectKickOffDate__c}</p>
+    <apex:outputText style="text-align: left; float: left;font-weight:900;" escape="false" value="Desired Project Completion Date: {0,date,MM/dd/yyyy} '<br/><br/>'">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredProjectCompletionDate__c}" />
+    </apex:outputText>
+    <!--<p> <b>Desired Project Completion Date:</b> {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredProjectCompletionDate__c}</p>-->
+    <p> <b>Taxability Notes:</b> {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.TaxabilityNotes__c}</p>
+    <p> <b>GoLive Notes:</b> {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.GoLiveNotes__c}</p>
+    <br></br>
+    <p> <b>List of Products/Services:</b> {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.ListOfProducts_Services__c}</p>
+    <p> <b>eFile Login(s):</b> {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.eFileLogin_s__c}</p>
+    <p><b> Filing Calendar:</b> {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.FilingCalendar__c}</p>
+   </div>
+   <div id="OpportunityNotes" style="height:310px; width:800px; position:relative;">
+       <br></br>
+       <p style="text-align: right;"> <b>VAR Contact:</b> {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.VARContact__r.FirstName} {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.VARContact__r.LastName}</p>   
+       <p style="text-align: right;"> <b>Technical Contact:</b> {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.TechnicalContact__r.FirstName} {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.TechnicalContact__r.LastName}</p>
+       <p style="text-align: right;"> <b>Treasury Contact:</b> {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.TreasuryContact__r.FirstName} {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.TreasuryContact__r.LastName}</p>
+       <p style="text-align: right;"> <b>Finance Contact:</b> {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.FinanceContact__r.FirstName} {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.FinanceContact__r.LastName}</p>
+       <br></br>
+       <br></br>
+       <br></br>
+       <br></br>
+       <!--<apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Calc Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCalcLiveDate__c}" />
+       </apex:outputText>
+       <br></br>
+       <br></br>
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Returns Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredReturnsLiveDate__c}" />
+       </apex:outputText>
+       <br></br>
+       <br></br>
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" value="Desired Certs Live Date: {0,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCertsLiveDate__c}" />
+       </apex:outputText>
+       <p style="text-align: right;"> <b>Desired Calc Live Date:</b> {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCalcLiveDate__c}</p>
+       <p style="text-align: right;"> <b>Desired Returns Live Date:</b> {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredReturnsLiveDate__c}</p>
+       <p style="text-align: right;"> <b>Desired Returns Live Date:</b> {!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCertsLiveDate__c}</p>-->
+       <apex:outputText style="text-align: right; float: right;font-weight:900;" escape="false" value="Desired Calc Live Date: {0,date,MM/dd/yyyy} '<br/><br/>' Desired Returns Live Date: {1,date,MM/dd/yyyy} '<br/><br/>' Desired Certs Live Date: {2,date,MM/dd/yyyy}">
+       <apex:param value="{!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCalcLiveDate__c}" />
+       <apex:param value="{!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredReturnsLiveDate__c}" />
+       <apex:param value="{!GoLive_Implementation__c.Add_On_SST_Subscription__r.Zuora__Subscription__r.Opportunity__r.DesiredCertsLiveDate__c}" />
+       </apex:outputText>
+       
+    </div>
+</apex:PageBlock>   
+    
+</apex:page>

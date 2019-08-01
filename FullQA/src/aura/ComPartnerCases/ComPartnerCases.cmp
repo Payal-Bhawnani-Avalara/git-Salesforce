@@ -1,0 +1,11 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,lightning:isUrlAddressable" access="global" controller="CommunityController">
+	<aura:attribute type="Case[]" name="caseList"/>
+    <aura:attribute name="mycolumns" type="List"/>
+     
+    <aura:handler name="init" value="{!this}" action="{!c.fetchCase}"/>
+     
+    <lightning:datatable data="{! v.caseList}"
+                         columns="{! v.mycolumns }"
+                         keyField="id"
+                         hideCheckboxColumn="true"/>
+</aura:component>

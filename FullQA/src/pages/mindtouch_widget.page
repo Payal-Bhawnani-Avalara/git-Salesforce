@@ -1,0 +1,69 @@
+<apex:page standardController="Case" >
+<!--
+/*
+ * MindTouch
+ * Copyright (c) 2006-2012 MindTouch Inc.
+ * http://mindtouch.com
+ *
+ * This file and accompanying files are licensed under the 
+ * MindTouch Master Subscription Agreement (MSA).
+ *
+ * At any time, you shall not, directly or indirectly: (i) sublicense,
+ * resell, rent, lease, distribute, market, commercialize or otherwise
+ * transfer rights or usage to: (a) the Software, (b) any modified version
+ * or derivative work of the Software created by you or for you, or (c)
+ * MindTouch Open Source (which includes all non-supported versions of
+ * MindTouch-developed software), for any purpose including timesharing or
+ * service bureau purposes; (ii) remove or alter any copyright, trademark
+ * or proprietary notice in the Software; (iii) transfer, use or export the
+ * Software in violation of any applicable laws or regulations of any
+ * government or governmental agency; (iv) use or run on any of your
+ * hardware, or have deployed for use, any production version of MindTouch
+ * Open Source; (v) use any of the Support Services, Error corrections,
+ * Updates or Upgrades, for the MindTouch Open Source software or for any
+ * Server for which Support Services are not then purchased as provided
+ * hereunder; or (vi) reverse engineer, decompile or modify any encrypted
+ * or encoded portion of the Software.
+ * 
+ * A complete copy of the MSA is available at http://www.mindtouch.com/msa
+ */
+ -->
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+
+<script type="text/javascript">
+  /* MindTouch Settings */
+  var MindTouch = {};
+
+  MindTouch.URL = "https://help.avalara.com/";
+  MindTouch.DefaultUser = {
+    name: ""
+  };
+
+  // select what paths should be available
+  MindTouch.SearchMap = null;
+  
+  // set the default search path for this item (could come from a field)
+  MindTouch.SearchMapDefault = "Everything";
+  
+  MindTouch.TagPrefix = null;
+  MindTouch.Tags = null;
+  
+  MindTouch.SearchWidget = true;
+  MindTouch.PostWidget = true;
+
+  MindTouch.DefaultSearch = '{!Case.Subject}';
+  MindTouch.DefaultTicketId = '{!Case.CaseNumber}';
+  MindTouch.DefaultTicketTitle = '{!JSENCODE(Case.Subject)}';
+  MindTouch.DefaultTicketBody = '{!JSENCODE(Case.Description)}';
+  
+  MindTouch.HtmlLinkFooter = '';
+</script>
+
+<link rel="stylesheet" href="//cdn.mindtouch.us/salesforce/sfdc.css" />
+<script src="//cdn.mindtouch.us/sfdc.js" type="text/javascript"></script>
+<script src="//cdn.mindtouch.us/salesforce/plugin.relatedcases.js" type="text/javascript"></script>
+
+<div id="mtblock"></div>
+
+</apex:page>

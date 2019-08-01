@@ -1,0 +1,4 @@
+<apex:page sidebar="false" showHeader="false">
+<apex:ListViews type="Case"  />
+<basetarget="_parent"/>
+</apex:page>

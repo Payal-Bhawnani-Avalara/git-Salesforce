@@ -1,0 +1,120 @@
+<apex:page >
+  <!-- Begin Default Content REMOVE THIS -->
+  <apex:pageBlock > 
+  
+<table border="0" cellpadding="1" cellspacing="1" style="width: 100%; table-layout: fixed;">
+    <tbody>
+        <tr>
+            <td valign="top">
+            <h3>Avalara Demo Sites</h3>
+            <br />
+            <br />
+            <a href="https://admin-development.avalara.net/" target="_blank">Developer Admin Console</a><br />
+            <a href="https://app.certcapture.com/logins/login" target="_blank">CertCapture Portal</a><br />
+    <a href="http://avalara1099.tax1099.com/" target="_blank">Avalara 1099</a><br />
+             <br />
+           
+          <h3>Help Resources</h3>
+            <br />
+            <br />
+            <a href="https://help.avalara.com/" target="_blank">Avalara Help Center</a><br />
+            <a href="https://help.avalara.com/z_Avalara_Internal/CAM_Resource_Center" target="_blank">CAM Resource Center</a> (AHC)<br />
+            <a href="http://developer.avalara.com/" target="_blank">Avalara Developer Network</a><br />
+            <a href="https://community.avalara.com/avalara" target="_blank">Avalara Community</a><br />  
+            <a href="http://www.avalara.com/customers/" target="_blank">Avalara Customer Center</a><br />  
+            <br />
+
+         <h3>Avalara Websites</h3>
+            <br />
+            <br />
+        <a href="http://www.avalara.com/login/" target="_blank">Avalara Product Logins</a> (all of 'em)<br />
+        <a href="https://admin-avatax.avalara.net/" target="_blank">Production Admin Console</a><br />
+        <a href="http://www.avalara.com/" target="_blank">Avalara.com</a><br />
+                <a href="http://www.certcapture.com/" target="_blank">CertCapture</a><br />
+        <a href="https://certexpress.avalara.com/" target="_blank">CertExpress</a><br />
+        <a href="https://avatax1099.taxportap.convey.com/" target="_blank">Avalara 1099</a><br />
+                <a href="http://www.taxrates.com/" target="_blank">TaxRates</a><br />
+                <a href="http://rewards.avalara.com" target="_blank">Partner Rewards</a><br />  
+            
+             </td>
+            <td valign="top">
+                        
+           <h3>Avalara Resources</h3>
+            <br />
+            <br />   
+        <a href="https://avalara.webex.com/mw0307l/mywebex/default.do?siteurl=avalara" target="_blank">Avalara Webex</a><br />  
+        <a href="https://login.paylocity.com/escher/escher_webui/views/login/login.aspx" target="_blank">Paylocity</a> (HR resources)<br />
+        <a href="https://www.concur.com/en-us/login" target="_blank">Concur</a> (expense reporting)<br />
+                <a href="http://dashboard.avlr.net/" target="_blank">Marketing Dashboard</a> (brand resources)<br />  
+                <a href="https://avalara.atlassian.net/wiki/display/WEL/HelpDesk" target="_blank">IT and Facilities Help Desk</a><br />             
+                <a href="https://avalara1.sharepoint.com/empselfserv/SitePages/Corporate%20Experience.aspx" target="_blank">Facilities Info</a> (BI office)<br />
+                <a href="https://avalara.atlassian.net/login" target="_blank">Atlassian login</a> (Jira and Wiki)<br />
+            <br />
+         
+
+            <h3>Rate Check</h3>
+            <br />
+            <br />
+            <a href="http://salestax.avalara.com/" target="_blank">Salestax.Avalara.com</a><br />
+            <a href="https://tools.usps.com/go/ZipLookupAction!input.action" target="_blank">USPS</a><br />
+            <a href="http://www.canadapost.ca/cpo/mc/default.jsf?LOCALE=en" target="_blank">Canada Post</a><br />
+            <br />
+                    
+            
+            <h3>Other Utilities</h3>
+            <br />
+            <br />
+            <a href="http://worldmeetingtime.com/" target="_blank">World Meeting Time</a><br />
+            <a href="http://time.is/" target="_blank">Time is - Time Zone Checker</a><br />
+            <a href="http://www.areacodetimezone.com/" target="_blank">Area Code Time Zone.com</a><br />
+            <a href="http://www.howtocallabroad.com/" target="_blank" title="">How to call abroad</a><br />
+            <a href="http://www.kitsaptransit.com/" target="_blank">Kitsap Transit</a><br />
+            <a href="http://www.wsdot.com/ferries/schedule/ScheduleDetailByRoute.aspx?route=sea-bi" target="_blank">WSDOT Ferry Schedule for SEA/BI</a><br /> 
+            <br />
+            
+                        
+            </td>  <br />
+            <td valign="top">
+            
+            <h3>Loyalty Operations</h3>
+            <br />
+            <br />
+                <a href="https://avalara1.sharepoint.com/Shared%20Documents/Forms/AllItems.aspx" target="_blank">CPO Report Folder</a> (SharePoint)<br />
+                <a href="https://avalara1.sharepoint.com/_layouts/15/WopiFrame.aspx?sourcedoc={BDD37414-12FF-42EA-B4A7-6799C89A25F6}&file=Churn%20Dashboard.xlsx&action=default" target="_blank">Churn Report</a> (SharePoint)<br />
+                <a href="https://na2.salesforce.com/00O40000003O22m" target="_blank">NPS by CAM</a> (Salesforce)<br />
+                <a href="http://data-warehouse/Reports/Pages/Folder.aspx" target="_blank">Data Warehouse Reports</a><br />
+                <a href="https://na2.salesforce.com/701?fcf=00B40000005uFzx" target="_blank">Loyalty Marketing Campaigns</a><br />
+            <br />
+
+            <h3>Selling Resources in SharePoint</h3>
+            <br />
+            <br />
+            <a href="https://avalara1.sharepoint.com/productmarketing/SitePages/Home.aspx" target="_blank">Price List Workbook</a><br />
+            <a href="https://help.avalara.com/@api/deki/files/7614/2015_Tier_Break_Evens.xlsx" target="_blank">2015 Tier Break Evens</a><br />
+            <a href="http://sharepoint.sanjuan.avalara.com/departments/compliance/AvaTax_Content/GlobalRules/GlobalRateUpdates/Shared%20Documents/Forms/Grouped.aspx?View={4bbea005-357c-414e-b1b2-2b7c0a80728a}&SortField=Modified&SortDir=Desc" target="_blank">Countries supported in AvaTax Global</a><br />
+            <a href="https://avalara1.sharepoint.com/departments/legal/_layouts/15/start.aspx/" target="_blank">Avalara Legal Wiki</a><br />
+
+            
+            
+            <br />                      
+            <h3>Tax Industry Resources</h3>
+            <br />
+            <br />
+            <a href="http://www.streamlinedsalestax.org/index.php?page=frequently-asked-questions" target="_blank">Streamlined Sales Tax FAQs</a><br />
+            <a href="http://www.streamlinedsalestax.org/otm/" target="_blank">SST State Taxability Matrix</a><br />
+            
+            
+            <br />                      
+            
+            </td>
+            
+        </tr>
+    </tbody>
+</table>
+
+  
+  </apex:pageBlock>
+ 
+  
+   <!-- End Default Content REMOVE THIS -->
+</apex:page>

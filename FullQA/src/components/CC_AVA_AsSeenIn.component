@@ -1,0 +1,25 @@
+<apex:component id="CC_AVA_AsSeenIn">
+  <div class="span as-seen-in">         
+    <h2 class="fcolorTheme container-title">As seen in</h2>
+    <div class="image-grid">
+      <div>
+        <img src="{!$Resource.CC_Ava_ProductImages}/NYT_logo_gray.png" title="As seen in New York Times" />
+      </div>
+      <div>
+        <img src="{!$Resource.CC_Ava_ProductImages}/USA_today_gray.png" title="As seen in USA Today" />
+      </div>
+      <div>
+        <img src="{!$Resource.CC_Ava_ProductImages}/Financial_times_gray.png" title="As seen in Financial Times" />
+      </div>
+      <div>
+        <img src="{!$Resource.CC_Ava_ProductImages}/All_things_digital_gray.png" title="As seen in All Things Digital" />
+      </div>
+      <div>
+        <img src="{!$Resource.CC_Ava_ProductImages}/GeekWire_gray.png" title="As seen in Geek Wire" />
+      </div>
+      <div>
+        <img src="{!$Resource.CC_Ava_ProductImages}/NPR_logo_gray.png" title="As seen in NPR" />
+      </div>
+    </div> 
+  </div>         
+</apex:component>

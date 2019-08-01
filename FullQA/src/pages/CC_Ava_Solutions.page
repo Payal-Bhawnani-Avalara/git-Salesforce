@@ -1,0 +1,14 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" applyHtmlTag="false">
+    <script id="Ava-Solutions" type="text/template">
+        <h1>SOLUTIONS</h1>
+    </script>
+    <script>
+        jQuery(function($){
+            CCRZ.util.createView({
+                desktop: {target:'AvaSolutionTarget', template:'Ava-Solutions'},
+                phone: {target:'AvaContactUsTarget', template:'Ava-Solutions'},
+            });
+        });
+    </script>
+    <div class="AvaSolutionTarget"></div>
+</apex:page>
