@@ -1,0 +1,92 @@
+<apex:page StandardController="Communication_Activity_Data__c">
+    <apex:includeScript value="/support/console/20.0/integration.js"/>
+    <script type="text/javascript">
+        function testSetTabTitle() {
+            //Set the current tab's title
+            sforce.console.setTabTitle('Inbound Call Disposition');
+        }
+        var pageLoad = window.onload;
+          window.onload = function() {
+                if (pageLoad) {
+                        pageLoad();
+                }
+                  testSetTabTitle();
+          }
+    </script>
+<!-- This script takes the endpoint URL parameter passed from the deployment page and makes it the action for the form 
+<apex:includeScript value="/support/console/37.0/integration.js"/>
+
+    <apex:remoteObjects >
+        <apex:remoteObjectModel name="Communication_Activity_Data__c" fields="Id,Chat_Key__c"/>
+    </apex:remoteObjects>
+
+<script type='text/javascript'> 
+/*sforce.console.chat.onChatStarted( function( chatResult ) {
+
+            if ( chatResult.success ) {
+
+                // create case and set the chat_key__c field
+                // you can use the sforce.connection API, REST API, Remote Actions, etc.
+                // just make sure when you create the case you get that chat key field populated
+
+                var cs = new SObjectModel.Communication_Activity_Data__c({
+                    Chat_Key__c : chatResult.chatKey
+                });
+
+                cs.create( function( err, records, evt ) {
+
+                    console.log( err );
+                    console.log( records );
+                    console.log( evt );
+
+                    if ( err ) {
+
+                        alert( err.message );
+
+                    } else {
+
+                        sforce.console.getFocusedPrimaryTabId( function( primaryTabResult ) {
+
+                            console.log( 'getFocusedPrimaryTabId' );
+                            console.log( primaryTabResult );
+
+                            if ( primaryTabResult.success ) {
+
+                                console.log( 'primaryTabId: ' + primaryTabResult.id );
+                                console.log( 'caseId: ' + records[0] );
+
+                                sforce.console.openSubtab(
+                                    primaryTabResult.id,
+                                    '/' + records[0] + '/e',
+                                    true,
+                                    'Edit Call',
+                                    null,
+                                    function( openSubtabResult ) {
+                                        console.log( 'openSubtabResult' );
+                                        console.log( openSubtabResult );
+                                    }
+                                ); // end open sub tab
+
+                            } // end if
+
+                        }); // end get focused primary tab id
+
+                    } // end if
+
+                }); // end case create callback
+
+            } // end if
+
+        }); // end on chat started callback */
+</script>-->
+  <apex:form >
+       <apex:pageBlock title="Inbound Call Disposition" mode="edit">
+             <apex:pageBlockButtons >
+            <apex:commandButton action="{!save}" value="Save"/>
+          </apex:pageBlockButtons>
+         <apex:pageBlockSection >
+       <apex:inputField value="{!Communication_Activity_Data__c.Inbound_Call_Disposition__c}" required="true"/>
+    </apex:pageBlockSection>
+    </apex:pageBlock>    
+   </apex:form>
+</apex:page>

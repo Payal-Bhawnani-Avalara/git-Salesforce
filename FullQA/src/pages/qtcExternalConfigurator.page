@@ -1,17 +1,9 @@
 <!--
   @Page Name          : qtcExternalConfigurator.page
-  @Description        : 
-  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
-  @Group              : 
-  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
-  @Last Modified On   : 7/24/2019, 12:54:12 PM
-  @Modification Log   : 
-  ==============================================================================
-  Ver         Date                     Author      		      Modification
-  ==============================================================================
-  1.0    7/24/2019, 12:54:12 PM   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+  @Description        : VF page used for selection of connectors or codex in Salesforce CPQ
+  ==========================================================================================
 -->
-<apex:page controller="qtcExternalConfigurator" showHeader="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" >
+<apex:page controller="qtcExternalConfigurator2" showHeader="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" >
     <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
 
         <apex:pageMessages />
@@ -49,15 +41,10 @@
                     </div>
                 </div>
             </div>
-            <apex:actionFunction name="passStringToController" action="{!jsonProcess}" rerender="hiddenoutput, selectionPanel">
+            <apex:actionFunction name="passStringToController" action="{!jsonProcess}" rerender="hiddenoutput, conSelectionPanel, selectionPanel">
               <apex:param name="p1" value="" assignTo="{!jsonInput}"/>
             </apex:actionFunction>
 
-            <div class="slds-col slds-no-flex slds-grid slds-align-top">
-                <div class="slds-button-group" role="group">
-                    <apex:commandButton styleClass="slds-button slds-button_neutral" value="Save All" onclick="broadcast()"></apex:commandButton>
-                </div>
-            </div>
         </div>
     </div>
      
@@ -93,68 +80,60 @@
           
         </script>
       </apex:outputPanel>
-      <br/>
-
-  
-  <apex:pageBlock id="selectedRecordsBlock" >
-      <apex:outputPanel id="selectedRecordsPanel" rendered="{! IF(ISNULL(selectedCodex), false, true) }">
+ <apex:outputPanel id="selectionPanel">
+ <apex:pageBlock id="selectedConsBlock">
+      <apex:outputPanel id="selectedRecordsPanel" >
         <div align="left">
-          <h1 padding-left="24px" class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate">Selected Codex</h1>
+          <h1 padding-left="24px" class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate">Selected Connectors</h1>
         </div>
         <div align="center">
-            <apex:commandButton styleClass="slds-button slds-button_neutral" value="Add Selections" action="{!updateSelections}" rerender="hiddenoutput, selectionPanel"/>              
-            <apex:commandButton styleClass="slds-button slds-button_neutral" value="Remove Selected" action="{!removeCodex}" reRender="selectedRecordsPanel"/>
+            <apex:commandButton styleClass="slds-button slds-button_neutral" value="Add Selections" action="{!updateSelections}" rerender="hiddenoutput, selectionPanel" rendered="false"/>              
+            <apex:commandButton styleClass="slds-button slds-button_neutral" value="Remove" action="{!removeConns}" reRender="selectedRecordsPanel,selectionPanel,conSelectionPanel,hiddenoutput"/>
+            <apex:commandButton styleClass="slds-button slds-button_neutral" value="Save All" onclick="broadcast()"></apex:commandButton>
         </div>
       <br/>
-        <apex:pageBlockTable border=".5" width="40%" value="{!selectedCodex}" var="cod" headerClass="colHeadr">
-            <apex:column headerValue="Remove"> 
+        <apex:pageBlockTable border=".5" width="40%" value="{!selectedCons}" var="cons" headerClass="colHeadr">
+            <apex:column headerValue="Remove" style="text-align:center;"> 
                 <apex:facet name="selheader">
-                  <apex:inputCheckbox id="checkall" style="text-align:center;">
-                    <apex:actionSupport event="onclick" onsubmit="checkAll(this)"/>
-                  </apex:inputCheckbox>
+                  <apex:inputCheckbox id="checkall" onclick="checkAll(this)" style="text-align:center;"/>
                 </apex:facet>
-                  <apex:inputCheckbox value="{!cod.isSelected}"  style="text-align:center;" id="checkedone" /> 
+                  <apex:inputCheckbox value="{!cons.isSelected}"  style="text-align:center;" id="checked" /> 
             </apex:column>
-            <apex:column headerValue="Country Code" value="{!cod.countryCode}"/>
-            <apex:column headerValue="Jurisdiction" value="{!cod.jurisdiction}"/>
-            <apex:column headerValue="Return Code" value="{!cod.returnCode}"/>
+             <apex:column headerValue="Connector Name" value="{!cons.conName}"/>
+            <apex:column headerValue="Product Name" value="{!cons.conProductName}"/>
+            <apex:column headerValue="Default Implementation Path" value="{!cons.defaultImp}"/>
         </apex:pageBlockTable>
       </apex:outputPanel>
   </apex:pageBlock>
+ </apex:outputPanel> 
+  <!-- <br/>-->
   
-  <!-- <br/>
-  
-<apex:outputPanel id="SearchPanel">
+<!--<apex:outputPanel id="SearchPanel">
         <div align="center">
           <apex:commandButton styleClass="slds-button slds-button_neutral" value="Apply Filters" action="{!SearchCodex}"/>
           <apex:commandButton styleClass="slds-button slds-button_neutral" value="Clear Filters"/>
         </div>     
-    </apex:outputPanel> -->
+    </apex:outputPanel>-->
                     
-  <hr style="width:100%"/>
-<!--   <br/>
- -->  <apex:pageBlock id="selectionPanel">
+<!--   <br/>-->
+ <apex:pageBlock id="conSelectionPanel" >
     <div align="left">
-      <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate">Codex Records</h1>
+      <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate">Connectors</h1>
     </div>
         <div align="center">
-          <apex:commandButton styleClass="slds-button slds-button_neutral" value="Select Items" action="{!gatherSelectedCodex}" reRender="selectedRecordsBlock"/>
-          <apex:commandButton styleClass="slds-button slds-button_neutral" value="Clear Selected" action="{!resetCodex}"/>
-          <apex:commandButton styleClass="slds-button slds-button_neutral" value="Save All" onclick="broadcast()"></apex:commandButton>
+          <apex:commandButton styleClass="slds-button slds-button_neutral" value="Add Selections" action="{!gatherSelectedCons}" reRender="selectedConsBlock,selectionPanel,hiddenoutput"/>
         </div>
       <br/>
-        <apex:pageBlockTable border=".5" width="40%" value="{!codexRecords}" var="cod" headerClass="colHeadr">
+        <apex:pageBlockTable border=".5" width="40%" value="{!connectorRecords}" var="cons" headerClass="colHeadr">
             <apex:column headerClass="colHeadr" style="text-align:center;"> 
                 <apex:facet name="header">
-                  <apex:inputCheckbox id="checkall" style="text-align:center;">
-                    <apex:actionSupport event="onclick" onsubmit="checkAll(this)"/>
-                  </apex:inputCheckbox>
+                    <apex:inputCheckbox id="checkall" onclick="checkAll(this)" style="text-align:center;"  />
                 </apex:facet>
-                  <apex:inputCheckbox value="{!cod.selected}"  style="text-align:center;" id="checkedone" /> 
+                  <apex:inputCheckbox value="{!cons.selected}" style="text-align:center;" id="checkedone" /> 
             </apex:column>
-            <apex:column headerValue="Country Code" value="{!cod.countryCode}"/>
-            <apex:column headerValue="Jurisdiction" value="{!cod.jurisdiction}"/>
-            <apex:column headerValue="Return Code" value="{!cod.returnCode}"/>
+            <apex:column headerValue="Name" value="{!cons.connectorName}"/>
+            <apex:column headerValue="Product Name" value="{!cons.conProductName}"/>
+            <apex:column headerValue="Default Implementation Path" value="{!cons.defaultImp}"/>
         </apex:pageBlockTable>
       <apex:pageBlockButtons location="bottom">
         <div align="right">
@@ -168,12 +147,9 @@
       <apex:outputText >Page Number: {!pageNumber}</apex:outputText>
     </div>
   </apex:pageBlock>
-     <br/>
-     <br/>
-
     </body>
-    <apex:outputPanel id="hiddenoutput" ><!-- style="display: none;"-->
-         <apex:inputTextArea id="output" value="{!jsonInput}"/>
+    <apex:outputPanel id="hiddenoutput" style="display:none;" > 
+         <apex:inputTextArea id="output" value="{!jsonInput}" />
          <apex:inputTextarea id="output2"/>
     </apex:outputPanel>
     <br/>

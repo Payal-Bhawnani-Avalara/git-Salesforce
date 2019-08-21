@@ -32,7 +32,9 @@ public class OSCPQ_SchedulerTriggerHandler {
     
     public static void beforeDelete(List<OSCPQ_Scheduler__c> deletedSchedulers){
         //Fetch and delete existing cron jobs
+        System.debug('Delete Schedule: ' + deletedSchedulers);
         for(OSCPQ_Scheduler__c scheduler : deletedSchedulers){
+            System.debug('Delete Job Id: ' + scheduler.OSCPQ_Scheduled_Job_Ids__c);
             List<CronTrigger> jobsToDelete = getJobs(scheduler.OSCPQ_Scheduled_Job_Ids__c);
             for(CronTrigger jobToDelete : jobsToDelete){
                 System.abortJob(jobToDelete.Id);

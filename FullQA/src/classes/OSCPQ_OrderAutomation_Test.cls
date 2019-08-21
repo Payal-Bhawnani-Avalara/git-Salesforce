@@ -2,6 +2,7 @@
 public class OSCPQ_OrderAutomation_Test {
 	@testSetup
     static void testSetup(){
+        SBQQ.TriggerControl.disable();
         Account acct = OSCPQ_TestFactory.createSingleAccount(true);
         Opportunity opp = OSCPQ_TestFactory.createSingleOpp(acct, true);
         SBQQ__Quote__c quote = OSCPQ_TestFactory.createSingleQuote(acct, opp, true, true);
@@ -12,6 +13,7 @@ public class OSCPQ_OrderAutomation_Test {
         
         Order ord = OSCPQ_TestFactory.createSingleOrder(acct, opp, quote, true);
         OrderItem oi = OSCPQ_TestFactory.createSingleOrderitem(ord, prod, pbeList[0], true);
+        SBQQ.TriggerControl.enable();
     }
     
     @isTest static void testImmediateActivationAndContract(){
@@ -20,6 +22,8 @@ public class OSCPQ_OrderAutomation_Test {
         //Check initial state
         system.assert(ord.SBQQ__Contracted__c == false, 'Initialized value of SBQQ__Contracted__c is NOT false and will interfere with this test');
         system.assert(ord.Status == 'Draft', 'Initialized value of Status is NOT Draft and will interfere with this test');
+        ord.NetSuite_Sales_Order_Id__c = '12345';
+        update ord;
 
         Test.startTest();
         OSCPQ_OrderAutomation_Batch batch = new OSCPQ_OrderAutomation_Batch('Default');
@@ -45,6 +49,8 @@ public class OSCPQ_OrderAutomation_Test {
         //Check initial state
         system.assert(ord.SBQQ__Contracted__c == false, 'Initialized value of SBQQ__Contracted__c is NOT false and will interfere with this test');
         system.assert(ord.Status == 'Draft', 'Initialized value of Status is NOT Draft and will interfere with this test');
+        ord.NetSuite_Sales_Order_Id__c = '12345';
+        update ord;
 
         Test.startTest();
         OSCPQ_OrderAutomation_Batch batch = new OSCPQ_OrderAutomation_Batch('Default');

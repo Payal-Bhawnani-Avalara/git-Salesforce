@@ -592,4 +592,38 @@ public class TestUtil {
         }
         return listSSTOnboarding;
     } 
+     public static List<Communication_Activity_Data__c> createCommunicationActivityData(Integer numberOfRecords,Boolean isInsert) {
+        List<Communication_Activity_Data__c> listCommunicationActivityData=new List<Communication_Activity_Data__c>();
+        for(Integer i=0;i<numberOfRecords;i++){
+	        Communication_Activity_Data__c testCommunicationActivityData = new Communication_Activity_Data__c();
+	        listCommunicationActivityData.add(testCommunicationActivityData);          
+        }
+        if(isInsert){
+            insert listCommunicationActivityData;
+        }
+        return listCommunicationActivityData;
+    } 
+     public static List<LiveChatVisitor> createLiveChatVisitor(Integer numberOfRecords,Boolean isInsert) {
+        List<LiveChatVisitor> listLiveChatVisitor=new List<LiveChatVisitor>();
+        for(Integer i=0;i<numberOfRecords;i++){
+	        LiveChatVisitor testLiveChatVisitor = new LiveChatVisitor();
+	        listLiveChatVisitor.add(testLiveChatVisitor);          
+        }
+        if(isInsert){
+            insert listLiveChatVisitor;
+        }
+        return listLiveChatVisitor;
+    } 
+      public static List<LiveChatTranscript> createLiveChatTranscript(Id visitorId,Integer numberOfRecords,Boolean isInsert) {
+        List<LiveChatTranscript> listLiveChatTranscript=new List<LiveChatTranscript>();
+        for(Integer i=0;i<numberOfRecords;i++){
+	        LiveChatTranscript testLiveChatTranscript = new LiveChatTranscript();
+	        testLiveChatTranscript.liveChatVisitorId= visitorId;
+	        listLiveChatTranscript.add(testLiveChatTranscript);          
+        }
+        if(isInsert){
+            insert listLiveChatTranscript;
+        }
+        return listLiveChatTranscript;
+    } 
 }

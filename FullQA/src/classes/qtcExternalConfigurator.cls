@@ -1,58 +1,70 @@
 /**
  * qtcExternalConfigurator.cls
- * @Controller for external configurator in Salesforce CPQ         : 
+ * @Controller for external configurator in Salesforce CPQ 
  *
 **/
 public with sharing class qtcExternalConfigurator{
 
     	//General properties
-		public JSON2Apex myConfig{get;set;}
-        public String jsonInput{get;set;}
-        public String bundleId{get;set;}
-        public String accountId{get;set;}
+		public JSON2Apex myConfig {get;set;}
+        public String jsonInput {get;set;}
+        public String bundleId {get;set;}
+        public String accountId {get;set;}
+    	public Map<String, Object> jsonResults {get;set;}
+   		public String jsonOutput {get;set;}
 		
     	//Configuration properties
-        public List<FeatureWrapper> features{get;set;}
-        public Map<String,OptionsWrapper> poWrapSelected{get;set;}
-        public Map<String,OptionsWrapper> poWrapSelectedCodex{get;set;}
-        public Map<String,OptionsWrapper> poWrapNew{get;set;}
-        private Map<String,String> product_to_Options{get;set;}
-        private Map<String,String> options_to_Feature{get;set;}
-        public Map<String,Integer> optionCounterSelected{get;set;}
-        public Map<String,Integer> optionCounterSelectedAsset{get;set;}
-        public Integer selectedQty{get;set;}
-        public Boolean submitJSON{get;set;}
-        public String quoteName{get;set;}
-        public Map<String, SBQQ__ProductFeature__c> featuresList{get;set;}
-      	public Map <String, List<SBQQ__ProductFeature__c>> mapFeatureObject{get;set;}
-        public Map <String, String> mapObjectFilters{get;set;}
-        public Map<ID, ID> prodToOptionMap{get;set;}
+        public List<FeatureWrapper> features {get;set;}
+        public Map<String,OptionsWrapper> poWrapSelected {get;set;}
+        public Map<String,OptionsWrapper> poWrapSelectedCodex {get;set;}
+        public Map<String,OptionsWrapper> poWrapNew {get;set;}
+        private Map<String,String> product_to_Options {get;set;}
+        private Map<String,String> options_to_Feature {get;set;}
+        public Map<String,Integer> optionCounterSelected {get;set;}
+        public Map<String,Integer> optionCounterSelectedAsset {get;set;}
+        public Integer selectedQty {get;set;}
+        public Boolean submitJSON {get;set;}
+        public String quoteName {get;set;}
+        public Map<String, SBQQ__ProductFeature__c> featuresList {get;set;}
+      	public Map <String, List<SBQQ__ProductFeature__c>> mapFeatureObject {get;set;}
+        public Map <String, String> mapObjectFilters {get;set;}
+        public Map<ID, ID> prodToOptionMap {get;set;}
 
     	//Codex properties
     	public String codexQueryStr {get;set;}
-        public List<CodexWrapper> codexRecords{get;set;}
-        public List<SelectedCodexWrapper> selectedCodex{get;set;}
-        public List<codOptionsWrapper> codOptionsNew{get;set;}
-        public List<extConfigWrapper> externalObjs{get;set;}
-        public Integer codexRecordCount{get; set;}
-        public Integer codPageNumber{get;set;}
-        public Integer codPageSize{get;set;}
-        public Map<String, String> prodToCMap{get;set;}
-    	public Map<String, String> cToPMap{get;set;}
+        public List<CodexWrapper> codexRecords; //{get;set;}
+        public List<SelectedCodexWrapper> selectedCodex {get;set;}
+        private Set<Id> setSelectedCodexes;
+        private Set<Id> setAddedOptions;
+        public List<codOptionsWrapper> codOptionsNew {get;set;}
+        public List<extConfigWrapper> externalObjs {get;set;}
+        public Integer codexRecordCount {get; set;}
+        public Integer codPageNumber {get;set;}
+        public Integer codPageSize {get;set;}
+        public Map<String, String> prodToCMap {get;set;}
+    	public Map<String, String> cToPMap {get;set;}
+        public Boolean showCodex {get;set;}
+    	public List<SelectedCodexWrapper> lstWrapper {get;set;}
+    	public List<SelectedCodexWrapper> lstSetController {get;set;}
+        public Set<String> existingCodex {get;set;}
+ 
     
+    	//CustomIterable obj;
 		
     	//Connector properties
     	public String connectorQueryStr {get;set;}
-        public List<ConnectorsWrapper> connectorRecords{get;set;}
-        public List<SelectedConnectorsWrapper> selectedConnectors{get;set;}
-        public List<conOptionsWrapper> conOptionsNew{get;set;}
-        public Integer connectorRecordCount{get; set;}
-        public Integer conPageNumber{get;set;}
-        public Integer conPageSize{get;set;}
-        public Map<String, String> prodToConMap{get;set;}
-    	public Map<String, String> conToPMap{get;set;}
-    
-    
+        public List<ConnectorsWrapper> connectorRecords {get;set;}
+        public List<SelectedConsWrapper> selectedCons {get;set;}
+        public List<conOptionsWrapper> conOptionsNew {get;set;}
+        public Integer connectorRecordCount {get; set;}
+        public Integer conPageNumber {get;set;}
+        public Integer conPageSize {get;set;}
+        public Map<String, String> prodToConMap {get;set;}
+    	public Map<String, String> conToPMap {get;set;}
+    	public Boolean showConnector {get;set;}
+        public Set<String> existingConnectors {get;set;}
+
+    	//Pagination for codex selection pane
         public ApexPages.StandardSetController con {
             get{
                 if(con == null){
@@ -65,21 +77,32 @@ public with sharing class qtcExternalConfigurator{
             }
             set;
         }
-
-
+    	
+    	//Pagination controller for selected codex pane
+    	//public ApexPages.StandardSetController cons {get; set;} 
+       
+    
+    
+//Constructor    
 public QtcExternalConfigurator(){
 
-    //system.debug('--->>>External Configurator starting...');
-    system.debug('Initial JSON Input ' +jsonInput);
-
-    submitJSON=false;
-
-    
+    submitJSON=false;    
+    setSelectedCodexes = new Set<Id>();
+   	getCodexRecords();
+    selectedCodex = new List<SelectedCodexWrapper>();
+    selectedCons = new List<SelectedConsWrapper>();
+    setAddedOptions=new Set<Id>();
+ 
 }
 
     public PageReference jsonProcess(){
 
-        system.debug('JSON input: ' + jsonInput);
+        System.debug('JSON input: ' + json.serializepretty(jsonInput));
+        
+                
+    	//call method to get existing configuration Ids    
+    	getReconfigIds(jsonInput);
+        
         
         //Get Bundle ID from the JSON
         String configIdLabel='configuredProductId';
@@ -111,20 +134,42 @@ public QtcExternalConfigurator(){
             jsonInput=jsonInput.replace(featureName, replaceName);
         }
             system.debug('INITIAL EDITED INPUT: ' + jsonInput);
-            
-         
-            product_to_Options=new Map<String,String>();
-            options_to_Feature=new Map<String,String>();
+        	System.debug('Log JSONinput=====> ' + json.serializepretty(jsonInput));
+        
+        //Display connectors or codex
+        List<SBQQ__ProductFeature__c> codFeats = [SELECT ID FROM SBQQ__ProductFeature__c WHERE External_Config_Object__c='Codex__c' and SBQQ__ConfiguredSKU__c=:bundleId];
+        List<SBQQ__ProductFeature__c> conFeats = [SELECT ID FROM SBQQ__ProductFeature__c WHERE External_Config_Object__c='Connector__c' and SBQQ__ConfiguredSKU__c=:bundleId];
+			System.debug('Codex feature count: '+codFeats.size());
+        	System.debug('Connector feature count: '+conFeats.size());
 
+                if(codFeats.size()>0){
+                    showCodex=true;
+                }
+                else{
+                    showCodex=false;
+                }
+                if(conFeats.size()>0){
+                    showConnector=true;
+                }
+                else{
+                    showConnector=false;
+                }         
+        			system.debug('Show codex: '+showCodex);
+           			system.debug('Show connector: '+showConnector);
+
+        
+        	product_to_Options=new Map<String,String>();
+            options_to_Feature=new Map<String,String>();
+			
+        	        
             //Parse the scrubbed JSON input
             myConfig=JSON2Apex.parse(jsonInput);
                 system.debug('Parsed JSONinput: ' + myConfig);
 
-
             //Invoke initial processes
             customObjectsMap();
+            
             gatherSearchableFeatures();
-
 
             accountId=myConfig.quote.SBQQ_Account_c;
             quoteName=myConfig.quote.Name;
@@ -148,8 +193,8 @@ public QtcExternalConfigurator(){
             for(SBQQ__ProductFeature__c f:featuresList) {
                 configObjects.add(f.External_Config_Object__c);
             }
-                    system.debug('The following features were returned: '+ featuresList);
-                    system.debug('The following configuration objects were returned: '+ configObjects);
+                  //  system.debug('Features returned: '+ featuresList);
+                  //  system.debug('Configuration returned: '+ configObjects);
 
         //Create map of feature to custom objects and custom object to filter fields
         Map <String, List<SBQQ__ProductFeature__c>> mapFeatureObject = new Map <String, List<SBQQ__ProductFeature__c>>();
@@ -158,12 +203,11 @@ public QtcExternalConfigurator(){
                 mapFeatureObject.put(feat.External_Config_Object__c,featuresList);
                 mapObjectFilters.put(feat.External_Config_Object__c, getWhereClause(feat.External_Config_Tested_Field__c, feat.External_Config_Operator__c, feat.External_Config_Filter_Value__c));
                 }
-                system.debug('Map of features:objects '+ mapFeatureObject);
-                system.debug('Map of objects:filters '+ mapObjectFilters);
+               // system.debug('Map of features:objects '+ mapFeatureObject);
+               // system.debug('Map of objects:filters '+ mapObjectFilters);
 
         //Create map of Feature Object : Field Sets
         Map <String, String> mapObjectFieldset = mapObjectFieldset(featuresList);
-            system.debug('Map of features:field sets '+ mapObjectFieldset);
 
                       
         //Get list of valid options
@@ -175,105 +219,242 @@ public QtcExternalConfigurator(){
         //For Codex, get field set members and filter field values
         if(mapObjectFieldset.ContainsKey('Codex__c')){
             String codexFieldSet = mapObjectFieldset.get('Codex__c');
-                system.debug('Codex field set is ' + codexFieldSet);
-
+            
             List<Schema.FieldSetMember> fieldSetMemberList = readFieldSet(codexFieldSet, 'Codex__c');
             List<String> codexFsFields = new List<String>();
             Integer codexColumnsCt = codexFsFields.size();
                      
-        //Get fields to include in Codex query
-        for(Schema.FieldSetMember fsMemberObj : fieldSetMemberList){
-            codexFsFields.add(fsMemberObj.getFieldPath());
-                system.debug('API Name ====>' + fsMemberObj.getFieldPath()); //api name
-        }
-            
-        //Generate SELECT query string for Codex
-        if(codexFsFields.size() > 0){
-                String codexQueryFields = getListToString(codexFsFields);
-                    system.debug('Codex Query fields string: ' + codexQueryFields); 
-                    
-        //Generate WHERE clause for query string
-            String codexWhereClause = mapObjectFilters.get('Codex__c');
-                system.debug('Codex WHERE clause string is ' + codexWhereClause);
-
-        //Take SELECT fields string and WHERE clause string to generate full query string
-            if(codexWhereClause != null){
-                String codexQueryStr = 'SELECT Id, Name, Product__c, ' + codexQueryFields +' FROM Codex__c ' + codexWhereClause +'AND Product__r.Id IN :validOptions LIMIT 50';
-                    system.debug('Codex query string is: ' + codexQueryStr);
-                    
-        //Execute the query and add results to wrapper class              
-            codexRecords = new List<CodexWrapper>();
-                for(Codex__c c : (List<Codex__c>)con.getRecords()) {
-                    codexRecords.add(new CodexWrapper(c));
+            //Get fields to include in Codex query
+            for(Schema.FieldSetMember fsMemberObj : fieldSetMemberList){
+                codexFsFields.add(fsMemberObj.getFieldPath());
+            }
+                
+            //Generate SELECT query string for Codex
+            if(codexFsFields.size() > 0){
+                    String codexQueryFields = getListToString(codexFsFields);
+                        
+            //Generate WHERE clause for query string
+                String codexWhereClause = mapObjectFilters.get('Codex__c');
+    
+            //Take SELECT fields string and WHERE clause string to generate full query string
+                if(codexWhereClause != null){
+                    String codexQueryStr = 'SELECT Id, Name, Product__c, ' + codexQueryFields +' FROM Codex__c ' + codexWhereClause +'AND Product__r.Id IN :validOptions';
+                        system.debug('Codex query string is: ' + codexQueryStr);
+    
                 }
-                system.debug('Codex records list includes ' +codexRecords.size() + ' records.');
+            }
+
+        }
+               
+        if(mapObjectFieldset.ContainsKey('Connector__c')){
+            String connectorFieldSet = mapObjectFieldset.get('Connector__c');
+            
+            List<Schema.FieldSetMember> fieldSetMemberList = readFieldSet(connectorFieldSet, 'Connector__c');
+            List<String> connectorFsFields = new List<String>();
+            Integer connectorColumnsCt = connectorFsFields.size();
+                     
+            //Get fields to include in Connector query
+            for(Schema.FieldSetMember fsMemberObj : fieldSetMemberList){
+                connectorFsFields.add(fsMemberObj.getFieldPath());
+            }
+                
+            //Generate SELECT query string for Connector
+            if(connectorFsFields.size() > 0){
+                    String connectorQueryFields = getListToString(connectorFsFields);
+                        
+            	//Generate WHERE clause for query string
+                String connectorWhereClause = mapObjectFilters.get('Connector__c');
+    
+            	//Take SELECT fields string and WHERE clause string to generate full query string
+                if(connectorWhereClause != null){
+                    String connectorQueryStr = 'SELECT Id, Product__c, ProductName__c,' + connectorQueryFields +' FROM Connector__c ' + connectorWhereClause +'AND Product__r.Id IN :validOptions';
+                        
+            	//Execute the query and add results to wrapper class              
+                connectorRecords = new List<ConnectorsWrapper>();
+                    for(Connector__c c : Database.query(connectorQueryStr)) {
+                        ConnectorsWrapper cw=new ConnectorsWrapper(c);
+                        cw.selected = setSelectedCodexes.contains(c.Id);
+                        connectorRecords.add(cw);
+                    }
+                }
             }
         }
-
-        }
+        
     return null;
 
-   }
+    }
+
+    //Get Codex Records for initial page
+	public List<CodexWrapper> getCodexRecords(){
+    	codexRecords = new List<CodexWrapper>();
+                for(Codex__c c : (List<Codex__c>)con.getRecords()) {
+                    CodexWrapper cw = new CodexWrapper(c);
+                    cw.selected = setSelectedCodexes.contains(c.Id);
+					codexRecords.add(cw);
+                }
+        return codexRecords;
+    }
+    
+    //Get existing Selections from Configuration
+    public void getReconfigIds(String jsonInput){
+        
+        //Deserialize Untyped JSON
+        Map<String, Object> jsonResults = (Map<String, Object>)JSON.deserializeUntyped(jsonInput);
+        	system.debug('json untyped ---> ' +jsonResults.get('product'));
+            system.debug('untyped keys: '+jsonResults.keyset()); 
+        
+        //Set Redirect Values
+        Map<String, Object> redirectMap = (Map<String, Object>)jsonResults.get('redirect');
+        	redirectMap.put('auto','true');
+        	redirectMap.put('save','true');
+          		//system.debug('redirectMap ==> ' + redirectMap);
+				system.debug('new json results==> '+jsonResults);
+        	
+        String jsonOutput = JSON.serialize(jsonResults);
+        	system.debug('JSON Output Results====> '+jsonOutput);
+        
+        existingCodex = new Set<String>();
+        existingConnectors = new Set<String>();
+                   
+        //Start at product level
+        Map<String, Object> productObjsMap = (Map<String, Object>)jsonResults.get('product');
+        	system.debug('product objs: '+productObjsMap);
+        
+        //Get option configurations (features)
+        Map<String, Object> optionConfigMap = (Map<String, Object>)productObjsMap.get('optionConfigurations');
+        	system.debug('option configs===> '+optionConfigMap.keyset());
+        
+        	//Get Options    
+        	List<Object> returnOptions = (List<Object>)optionConfigMap.get('By Return');
+        		for (Object option: returnOptions){
+            		Map<String, Object> existingOptions = (Map<String, Object>)option;
+                		system.debug('existingOptions ==> '+existingOptions);
+                
+        		//Get Read Only    
+                for(Object readOnly : existingOptions.keyset()){
+                    if(readOnly =='readOnly'){
+                        Map<String, Object> readOnlyObjs = (Map<String, Object>)existingOptions.get('readOnly');
+                           system.debug('readOnly==> '+readOnlyObjs);
+                     //Get Line level
+                     for(Object line : readOnlyObjs.keyset()){
+                         if(line == 'line'){
+                            Map<String, Object> lines = (Map<String, Object>)readOnlyObjs.get('line');
+                               system.debug('line==> '+lines);
+                             for(Object attribute : lines.keyset()){
+                                 if(attribute == 'Return_Code__c'){
+                                     String codexId = String.valueOf(lines.get('Return_Code__c'));
+                                     existingCodex.add(codexID);
+                                     	system.debug('adding codex: '+codexId);
+                                 }
+                                 if(attribute == 'Connector__c'){
+                                     String connector = String.valueOf(lines.get('Connector__c'));
+                                     existingConnectors.add(connector);
+                                     	system.debug('adding connector: '+connector);
+                                 }
+                             }
+                     	  }
+                     }
+                  }
+               }                           
+            }        
+        	system.debug('Codex list==> '+existingCodex);        
+        	system.debug('Connector list==> '+existingConnectors); 
+        	
+        	//take set of strings and add to Selected Codex Wrappers
+        	List<CodexWrapper> existingCodWraps = new List<CodexWrapper>();
+			List<Codex__c> existingCodObjs = [SELECT ID, Name, Return_Code__c, Jurisdiction__c, Product__c, CountryCode__c FROM Codex__c WHERE ID in:existingCodex];
+        		for(Codex__c cod : existingCodObjs){
+                    CodexWrapper cw = new CodexWrapper(cod);
+                    	existingCodWraps.add(cw);
+        		}
+        		system.debug('Existing cod wraps==> '+existingCodWraps);
+        		
+        			for(CodexWrapper c : existingCodWraps){
+            			SelectedCodexWrapper scw = new SelectedCodexWrapper(c);
+                    		selectedCodex.add(scw);
+                    		setSelectedCodexes.add(scw.codex.Id);
+        			}
+        			system.debug('SelectedCodex ==> '+selectedCodex);
+        	      	
+        	//take set of strings and add to Selected Connectors
+        	List<Connector__c> existingConObjs = [SELECT ID, Name, Product__c, ProductName__c FROM Connector__c WHERE ID in:existingConnectors];
+        
+    }
+    
+   		//CODEX RECORD PAGINATION METHODS
+    	// indicates whether there are more records after the current page set.
+        public Boolean hasNext {
+            get {
+                return con.getHasNext();
+            }
+            set;
+        }
+        // indicates whether there are more records before the current page set.
+        public Boolean hasPrevious {
+            get {
+                return con.getHasPrevious();
+            }
+            set;
+        }
+        // returns the page number of the current page set
+        public Integer pageNumber {
+            get {
+                return con.getPageNumber();
+            }
+            set;
+        } 
+        // returns the first page of records
+        public void first() {
+            con.first();
+        }
+        // returns the last page of records
+        public void last() {
+            con.last();
+        }
+        // returns the previous page of records
+        public void previous() {
+            con.previous();
+        }
+        // returns the next page of records
+        public void next() {
+            con.next();
+        }
+        // returns the PageReference of the original page, if known, or the home page.
+        public void cancel() {
+            con.cancel();
+        }
 
     
-   // indicates whether there are more records after the current page set.
-	public Boolean hasNext {
-		get {
-			return con.getHasNext();
-		}
-		set;
-	}
-    
-    // indicates whether there are more records before the current page set.
-	public Boolean hasPrevious {
-		get {
-			return con.getHasPrevious();
-		}
-		set;
-	}
-    
-    // returns the page number of the current page set
-	public Integer pageNumber {
-		get {
-			return con.getPageNumber();
-		}
-		set;
-	}
-    
-    // returns the first page of records
- 	public void first() {
- 		con.first();
- 	}
-    
-    // returns the last page of records
- 	public void last() {
- 		con.last();
- 	}
-
- 	// returns the previous page of records
- 	public void previous() {
- 		con.previous();
- 	}
-
- 	// returns the next page of records
- 	public void next() {
- 		con.next();
- 	}
-
- 	// returns the PageReference of the original page, if known, or the home page.
- 	public void cancel() {
- 		con.cancel();
- 	}
-
     //Take selected Codex records and add to selected wrapper
     public pageReference gatherSelectedCodex(){
-        selectedCodex = new List<SelectedCodexWrapper>();
+         //List<Codex__c> selCodexList = new List<Codex__c>();
           for(CodexWrapper c : codexRecords){
                 if(c.selected == true){
-                    selectedCodex.add(new SelectedCodexWrapper(c));
+                    if(!setSelectedCodexes.contains(c.codex.Id)) {
+                    	selectedCodex.add(new SelectedCodexWrapper(c));
+                    	setSelectedCodexes.add(c.codex.Id);
+                    	//selCodexList.add(c.codex);
+                    }
                 }
             }
-            system.debug('Select codex list includes '+ selectedCodex.size()+' records');
+        
+        //lld test
+        updateSelections();
+        return null;
+    }
+    
+    //Take selected Connector records and add to selected wrapper
+    public pageReference gatherSelectedCons(){
+          for(ConnectorsWrapper c : connectorRecords){
+                if(c.selected == true){
+                    if(!setSelectedCodexes.contains(c.connector.Id)) {
+	                    selectedCons.add(new SelectedConsWrapper(c));
+                        setSelectedCodexes.add(c.connector.Id);
+                    }
+                }
+            }
+            system.debug('Selected connectors list includes '+ selectedCons.size()+' records');
+        updateSelections();
         return null;
     }
 
@@ -288,21 +469,24 @@ public QtcExternalConfigurator(){
         return prodToOptionMap;
     }
     
-    //Create a map of Product to Codex records from Selected CodexWrapper 
-    public Map<String, String> getProdCodexMap (List<SelectedCodexWrapper> codWraps){
-        Map<String, String> pToCMap = new Map<String, String>();
-            for(SelectedCodexWrapper c:codWraps){
-                pToCMap.put(c.codexProduct, c.codex.Id);
-            }
-            //system.debug('Selected Product to Codex map includes: '+ pToCMap);
-        return pToCMap;
-    }
-    
-      //Create a map of Codex to Product records from Selected CodexWrapper 
+    //Create a map of Codex to Product records from Selected CodexWrapper 
     public Map<String, String> getCodexProdMap (List<SelectedCodexWrapper> codWraps){
         Map<String, String> cToPMap = new Map<String, String>();
             for(SelectedCodexWrapper c:codWraps){
-                cToPMap.put(c.codex.Id, c.codexProduct);
+  //              if(!setAddedOptions.contains(c.codex.Id)) {
+	                cToPMap.put(c.codex.Id, c.codexProduct);
+                    setAddedOptions.add(c.codex.Id);
+  //              }
+            }
+            system.debug('Selected codex to product map includes: '+ cToPMap.size());
+        return cToPMap;
+    }
+    
+    //Create a map of Connector to Product records from Selected CodexWrapper 
+    public Map<String, String> getConProdMap (List<SelectedConsWrapper> conWraps){
+        Map<String, String> cToPMap = new Map<String, String>();
+            for(SelectedConsWrapper c:conWraps){
+                cToPMap.put(c.connector.Id, c.conProduct);
             }
             system.debug('Selected codex to product map includes: '+ cToPMap.size());
         return cToPMap;
@@ -334,18 +518,104 @@ public QtcExternalConfigurator(){
                 c.selected = false;
         }        
     }
-
-    //Method to remove selected Codex from Selected Codex wrapper
-    public void removeCodex(){
-        Integer i = 0; 
-            while(i<selectedCodex.size()){
-               if(selectedCodex.get(i).isSelected = true){
-                    selectedCodex.remove(i);
+    
+    //Method to clear selections in Connectors Wrapper
+    public void resetCons(){
+        for(ConnectorsWrapper c : connectorRecords){
+                c.selected = false;
+        }        
+    }
+    
+    //Method to remove selected Connectors from Selected Wrapper
+    public void removeConns(){
+    /*    List<Integer> deleteCList = new List<Integer>();
+        	for(integer i = 0; i<selectedCons.size(); i++){
+               if(selectedCons[i].isSelected == true){
+                    deleteCList.add(i);
                }
                 else{
                     i++;
                 }
-        }       
+        	} 
+        for(integer x : deleteCList){
+            selectedCons.remove(x);
+        }
+*/
+        List<SelectedConsWrapper> newSelectedCons = new List<SelectedConsWrapper>();
+        for(SelectedConsWrapper scw:selectedCons) {
+            if(!scw.isSelected) {
+                newSelectedCons.add(scw);
+            } else {
+                setSelectedCodexes.remove(scw.connector.Id);
+            }
+        }
+        selectedCons = newSelectedCons;
+    }
+
+    //Method to remove selected Codex from Selected Codex wrapper
+     public void removeCodex(){
+        List<SelectedCodexWrapper> selectedCodexes = new List<SelectedCodexWrapper>();
+        Set<String> codexToRemove = new Set<String>();
+        for(SelectedCodexWrapper scw : selectedCodex) {
+            if(!scw.isSelected) {
+                selectedCodexes.add(scw);
+            } else {
+                setSelectedCodexes.remove(scw.codex.Id);
+                codexToRemove.add(scw.codex.Id);
+            }
+            removeCodexes(codexToRemove);
+        }
+        selectedCodex = selectedCodexes;
+     
+    }
+
+    private void removeCodexes(Set<String> codexToRemove) {
+        
+            
+        List<JSON2Apex.Options> jsonCodexOptions = myConfig.product.OptionConfigurations.Feature_2;
+ 		List<JSON2Apex.Options> newOptions = new List<JSON2Apex.Options>();
+        Integer index=0;
+        System.debug('opts to del: '+codexToRemove);
+        for(JSON2Apex.Options opt:jsonCodexOptions) {
+           system.debug('Return_Code__c: '+opt.configurationData.Return_Code_c);
+           if(!codexToRemove.contains(opt.configurationData.Return_Code_c)) {
+               system.debug('adding :'+opt.configurationData.Return_Code_c);
+               opt.Index = index++;
+               newOptions.add(opt);
+           }
+        }                         
+        myConfig.product.OptionConfigurations.Feature_2 = newOptions;
+        //Serialize the new configuration JSON and set to new JSON String
+        String jtest=JSON.serialize(myConfig);
+            system.debug('New JSON string is: '+ jtest); 
+ 
+        //Fix blank string
+        String blankline='"' + 'line' + '"' +':null';
+
+        //Set the fixes back to include underscores and namespace prefixes
+        jtest=jtest.replaceAll('SBQQ_', 'SBQQ__');
+        jtest=jtest.replaceAll('_c', '__c');
+        jtest=jtest.replaceAll('_r', '__r');   
+        jtest=jtest.replaceAll('SBQQSC_', 'SBQQSC__');
+        jtest=jtest.replaceAll('SBQQ___', 'SBQQ__');
+        jtest=jtest.replace('type_Z', 'type');
+        jtest=jtest.replace(blankline,'');
+        jtest=jtest.replace('_c', '__c');
+        jtest=jtest.replace('___c', '__c');
+
+        for(SBQQ__ProductFeature__c  feat:[Select id, Name, Replacement_Name__c from SBQQ__ProductFeature__c where SBQQ__ConfiguredSKU__c=:bundleId Order by SBQQ__Number__c ]){
+            String featureName='"' + feat.Name + '"';
+            String replaceName='"' + feat.Replacement_Name__c + '"';
+            //system.debug(featureName);
+            //system.debug(replaceName);
+            jtest=jtest.replace(replaceName, featureName);
+
+        }
+     
+        system.debug('====>JSON TO CPQ===> '+ jtest);
+
+        jsonInput=jtest;
+        submitJSON=true;
     }
 
     //Method to create maps of product:option, option:feature
@@ -357,10 +627,12 @@ public QtcExternalConfigurator(){
     }
 
     
-    
+    //Convert Selections to Option configuration and update JSON
     public PageReference updateSelections(){
 
         for(FeatureWrapper f:features){
+            if(f.feat == null)
+            	continue;
             String featureId=f.feat.id;
 
             List<JSON2Apex.Options> jsonOptions;
@@ -399,22 +671,7 @@ public QtcExternalConfigurator(){
                             //myNewOption.readOnly = new JSON2Apex.ReadOnly();
                             system.debug('Adding option to class...');
                         }
-                        
-                    }else{  //Less than Original Count
-                        //Remove option from Class
-                        //system.debug('Removing from Options');
-                        //system.debug(o.qty);
-                        //system.debug(originalCount);
-                        //system.debug(jsonOptions);
-                        for(Integer i=originalCount; i>o.qty; i--){
-                            for(JSON2Apex.Options opt:jsonOptions){
-
-                                if(opt.Index==i-1){
-                                    opt.Selected=false;
-                                }
-                            }    
-                        }
-                        
+                   
                         system.debug('JSON Options: ' + jsonOptions);
                     }
                 }
@@ -434,84 +691,157 @@ public QtcExternalConfigurator(){
 
                             //myNewOption.readOnly=new JSON2Apex.readOnly();
                             jsonOptions.add(myNewOption);
-                        }
-                    system.debug('Added new options that never existed');
-                
+                        }              
                 }
             }
         }
         
         //Convert selected Codex into list of Options that should be added to the configuration       
-        //system.debug('Features: ' + features);
-        Map<ID, SBQQ__ProductOption__c> prodToOptionMapT = prodOptMap(bundleId);
-        Map<String, Integer> codexOptionCounter=new Map<String,Integer>();
-        Map<String, String> codToProdMap = getCodexProdMap(selectedCodex);
-        Set<String> codOptIds = new Set<String>();
-        Map<String, SBQQ__ProductOption__c> codexOptionMap = new Map<String, SBQQ__ProductOption__c> ();
-                for(String cod: codToProdMap.keyset()){
-                    String prod = codToProdMap.get(cod);
-                    SBQQ__ProductOption__c opt = prodToOptionMapT.get(prod);
-                    	codexOptionMap.put(cod, opt);
-                    codOptIds.add(opt.Id);
-                    }
-                //system.debug('Codex to Option Map has ' +codexOptionMap.size());
-        		//system.debug('Option Ids set: '+codOptIds);
-        
-        for(SBQQ__ProductOption__c opt: codexOptionMap.values()){
-            	String oId = opt.Id;
-                    if(codexOptionCounter.containskey(oId)){
-                       codexOptionCounter.put(oId, codexOptionCounter.get(oId)+1);                    
-                    }
-                    else{
-                         codexOptionCounter.put(oId, 1);
-                    }
-        }
-        	system.debug('Codex option counter: '+ codexOptionCounter);
-    
-	//Add options to wrapper that will be used to add to class
-        codOptionsNew = new List<codOptionsWrapper>();
-        	Set <String> codOptions = codexOptionMap.keyset();
-        	system.debug('Cod string list '+codOptions);
-            for(String cod : codOptions){
-	               	SBQQ__ProductOption__c opt = codexOptionMap.get(cod);
-                	String pCode = opt.SBQQ__ProductCode__c;
-                    String pName = opt.SBQQ__ProductName__c;
-                codOptionsNew.add(new codOptionsWrapper(opt, cod, pCode, pName));
-            }      
-            system.debug('New cos:'+ codOptionsNew);
-
-        
-        List<JSON2Apex.Options> jsonCodexOptions = myConfig.product.OptionConfigurations.Feature_2;
+        if(showCodex){
+            //system.debug('Features: ' + features);
+            Map<ID, SBQQ__ProductOption__c> prodToOptionMapT = prodOptMap(bundleId);
+            Map<String, Integer> codexOptionCounter=new Map<String,Integer>();
+            Map<String, String> codToProdMap = getCodexProdMap(selectedCodex);
+            	
+            Set<String> codOptIds = new Set<String>();         	
+            Map<String, SBQQ__ProductOption__c> codexOptionMap = new Map<String, SBQQ__ProductOption__c> ();
+                    for(String cod: codToProdMap.keyset()){
+                        String prod = codToProdMap.get(cod);
+                        SBQQ__ProductOption__c opt = prodToOptionMapT.get(prod);
+                            codexOptionMap.put(cod, opt);
+                        codOptIds.add(opt.Id);
+                        }
+                    //system.debug('Codex to Option Map has ' +codexOptionMap.size());
+                    //system.debug('Option Ids set: '+codOptIds);
             
-        	for(JSON2Apex.Options jo: jsonCodexOptions){
-                jo.selected=false;
+            for(SBQQ__ProductOption__c opt: codexOptionMap.values()){
+                    String oId = opt.Id;
+                        if(codexOptionCounter.containskey(oId)){
+                           codexOptionCounter.put(oId, codexOptionCounter.get(oId)+1);                    
+                        }
+                        else{
+                             codexOptionCounter.put(oId, 1);
+                        }
+            }
+                system.debug('Codex option counter: '+ codexOptionCounter);
+        
+            //Add options to wrapper that will be used to add to class
+            codOptionsNew = new List<codOptionsWrapper>();
+                //Set <String> codOptions = codexOptionMap.keyset();   
+            	List<Codex__c> codexList = [Select ID, Name, Return_Code__c FROM Codex__c WHERE ID in:codexOptionMap.keyset() AND ID NOT IN:existingCodex];
+            		system.debug('Codex list: '+codexList);
+                for(Codex__c cod : codexList){
+                        SBQQ__ProductOption__c opt = codexOptionMap.get(cod.Id);
+                        String pCode = opt.SBQQ__ProductCode__c;
+                        String pName = opt.SBQQ__ProductName__c;
+                    	String retLabel = cod.Return_Code__c;
+                    codOptionsNew.add(new codOptionsWrapper(opt, cod.Id, pCode, pName, cod));
+                }      
+                system.debug('New cos:'+ codOptionsNew);
+    
+            
+            List<JSON2Apex.Options> jsonCodexOptions = myConfig.product.OptionConfigurations.Feature_2;
+            Set<String> selCodexes = new Set<String>();
+            for(JSON2Apex.Options sCod:jsonCodexOptions) {
+                selCodexes.add(sCod.configurationData.Return_Code_c);
+            }
+                                     
+                Integer i=jsonCodexOptions.size();//0;
+    
+                for(codOptionsWrapper o: codOptionsNew){
+                    if(o.qty>0 && o.isSelected && !selCodexes.contains(o.codexId)){
+                        string oId = o.optionId;
+                        integer optCount=codexOptionCounter.get(oId);
+                        JSON2Apex.Options myNewOption=new JSON2Apex.Options();
+                                  myNewOption.selected=true;
+                                  myNewOption.optionId=o.productOption.id;
+                                  myNewOption.productCode=o.productCode;
+                                  myNewOption.productName=o.productName;
+                                  myNewOption.Quantity=1;
+                                  myNewOption.Index=optCount+i++;
+                        		  //myNewOption.Return_Code_Label_c=o.retLabel;
+                                  myNewOption.configurationData = new JSON2Apex.ConfigurationData();
+                                  myNewOption.configurationData.Return_Code_c= o.codexId;
+                        		  myNewOption.configurationData.Return_Code_Label_c= o.retLabel;
+                                  //myNewOption.readOnly=new JSON2Apex.readOnly();
+                              jsonCodexOptions.add(myNewOption);
+                          system.debug('Adding new option: '+myNewOption);
+                     }
+                }
+        }
+        
+        //Add selected connectors to the configuration
+        if(showConnector){
+            //system.debug('Features: ' + features);
+            Map<ID, SBQQ__ProductOption__c> prodToOptionMapT = prodOptMap(bundleId);
+            Map<String, Integer> conOptionCounter=new Map<String,Integer>();
+            Map<String, String> conToProdMap = getConProdMap(selectedCons);
+            Set<String> conOptIds = new Set<String>();
+            Map<String, SBQQ__ProductOption__c> conOptionMap = new Map<String, SBQQ__ProductOption__c> ();
+                    for(String con: conToProdMap.keyset()){
+                        String prod = conToProdMap.get(con);
+                        SBQQ__ProductOption__c opt = prodToOptionMapT.get(prod);
+                            conOptionMap.put(con, opt);
+                        conOptIds.add(opt.Id);
+                        }
+                    system.debug('Connector to Option Map has ' +conOptionMap.size());
+                    system.debug('Option Ids set: '+conOptIds);
+            
+            for(SBQQ__ProductOption__c opt: conOptionMap.values()){
+                    String oId = opt.Id;
+                        if(conOptionCounter.containskey(oId)){
+                           conOptionCounter.put(oId, conOptionCounter.get(oId)+1);                    
+                        }
+                        else{
+                             conOptionCounter.put(oId, 1);
+                        }
+            }
+                system.debug('Connector option counter: '+ conOptionCounter);
+        
+            //Add options to wrapper that will be used to add to class
+            conOptionsNew = new List<conOptionsWrapper>();
+                //Set <String> conOptions = conOptionMap.keyset();
+                List<Connector__c> connectorList = [Select ID, Name FROM Connector__c WHERE ID in:conOptionMap.keyset()];
+                	for(Connector__c con : connectorList){
+                        SBQQ__ProductOption__c opt = conOptionMap.get(con.Id);
+                        String pCode = opt.SBQQ__ProductCode__c;
+                        String pName = opt.SBQQ__ProductName__c;
+                    conOptionsNew.add(new conOptionsWrapper(opt, con.Id, pCode, pName, con));
+                }      
+                system.debug('New con options:'+ conOptionsNew);
+    
+            
+            List<JSON2Apex.Options> jsonConnectorOptions = myConfig.product.OptionConfigurations.Feature_5;
+            Set<String> selCons = new Set<String>();
+            for(JSON2Apex.Options sCod:jsonConnectorOptions) {
+                selCons.add(sCod.configurationData.Connector_c);
             }
                    
-        	Integer i=0;
-
-        	for(codOptionsWrapper o: codOptionsNew){
-                if(o.qty>0 && o.isSelected){
-                    string oId = o.optionId;
-                    integer optCount=codexOptionCounter.get(oId);
-                    JSON2Apex.Options myNewOption=new JSON2Apex.Options();
-                              myNewOption.selected=true;
-                              myNewOption.optionId=o.productOption.id;
-                              myNewOption.productCode=o.productCode;
-                              myNewOption.productName=o.productName;
-                              myNewOption.Quantity=1;
-                         	  //myNewOption.Return_Code_c=o.codexId;
-                              myNewOption.Index=i++;
-                           	  myNewOption.configurationData = new JSON2Apex.ConfigurationData();
-                         	  myNewOption.configurationData.Return_Code_c= o.codexId;
-                              //myNewOption.readOnly=new JSON2Apex.readOnly();
-                          jsonCodexOptions.add(myNewOption);
-                      system.debug('Adding new option: '+myNewOption);
-                 }
-
-            }
+                Integer i=jsonConnectorOptions.size();//0;
+    
+                for(conOptionsWrapper o: conOptionsNew){
+                    if(o.qty>0 && o.isSelected && !selCons.contains(o.connectorId)){
+                        string oId = o.optionId;
+                        integer optCount=conOptionCounter.get(oId);
+                        JSON2Apex.Options myNewOption=new JSON2Apex.Options();
+                                  myNewOption.selected=true;
+                                  myNewOption.optionId=o.productOption.id;
+                                  myNewOption.productCode=o.productCode;
+                                  myNewOption.productName=o.productName;
+                                  myNewOption.Quantity=1;
+                                  myNewOption.Index=optCount+i++;
+                                  myNewOption.configurationData = new JSON2Apex.ConfigurationData();
+                                  myNewOption.configurationData.Connector_c= o.connectorId;
+                                  //myNewOption.readOnly=new JSON2Apex.readOnly();
+                              jsonConnectorOptions.add(myNewOption);
+                          system.debug('Adding new option: '+myNewOption);
+                     }
+                }
+       	}
+        
 
         //Set Redirect to QLE after broadcast
-        myConfig.redirect.auto=false;
+        myConfig.redirect.auto=true;
 
         //Update config JSON to save JSON back to CPQ
         myConfig.redirect.save=true;
@@ -542,18 +872,12 @@ public QtcExternalConfigurator(){
             jtest=jtest.replace(replaceName, featureName);
 
         }
-
-
-        //jtest=jtest.replaceAll('Feature_1', 'Feature 1');  
-        //jtest=jtest.replaceAll('Other_Options', 'Other Options');   
-        
-        //jsonInput=jsonInput.replaceAll('option', 'something');
-        
+     
         system.debug('====>JSON TO CPQ===> '+ jtest);
-
+		system.debug('jsonOutput==> ' +jsonOutput);
         
         jsonInput=jtest;
-
+        //jsonInput=jsonOutput;
         submitJSON=true;
         return null;
     }
@@ -615,7 +939,7 @@ public QtcExternalConfigurator(){
                                 poWrapSelected_f.put(opt.optionId,oWrap);
                                 optionCounterSelected.put(opt.optionId,optionCounterSelected.get(opt.optionId) + 1);
                             }else{
-                                poWrapSelected_f.put(opt.optionId, new OptionsWrapper(opt.productCode, opt.productName, opt.optionId, 1, null,true,null));
+                                poWrapSelected_f.put(opt.optionId, new OptionsWrapper(opt.productCode, opt.productName, opt.optionId, 1, true));
                                 optionCounterSelected.put(opt.optionId,1);
                             }
 
@@ -629,7 +953,7 @@ public QtcExternalConfigurator(){
                                     poWrapSelected_f.put(opt.optionId,oWrap);
                                     optionCounterSelected.put(opt.optionId,optionCounterSelected.get(opt.optionId) + 1);
                                 }else{
-                                    poWrapSelected_f.put(opt.optionId, new OptionsWrapper(opt.productCode, opt.productName, opt.optionId, 1, null,true,null));
+                                    poWrapSelected_f.put(opt.optionId, new OptionsWrapper(opt.productCode, opt.productName, opt.optionId, 1, true));
                                     optionCounterSelected.put(opt.optionId,1);
                                 }
                         }else{
@@ -639,14 +963,14 @@ public QtcExternalConfigurator(){
                                     poWrapSelected_f.put(opt.optionId,oWrap);
                                     optionCounterSelected.put(opt.optionId,optionCounterSelected.get(opt.optionId) + 1);
                                 }else{
-                                    poWrapSelected_f.put(opt.optionId, new OptionsWrapper(opt.productCode, opt.productName, opt.optionId, 1, null,true,null));
+                                    poWrapSelected_f.put(opt.optionId, new OptionsWrapper(opt.productCode, opt.productName, opt.optionId, 1,true));
                                     optionCounterSelected.put(opt.optionId,1);
                                 }
                         }
                         
                     }else{//Not Selected
                         //Auto Add it to the Option Wrapper Class
-                        poWrapNew_f.put(opt.optionId, new OptionsWrapper(opt.productCode, opt.productName, opt.optionId, 0, null,false,null));
+                        poWrapNew_f.put(opt.optionId, new OptionsWrapper(opt.productCode, opt.productName, opt.optionId, 0, false));
                     }
                     
                 }
@@ -699,26 +1023,7 @@ public QtcExternalConfigurator(){
     }
     //Search filters entry
     public PageReference searchCodex(){
-        
-
-        //List<Codex> tempCodexList=new List<Codex>();
-
-        //for(Codex__c cod:codexRecords){
-        //    if(){
-        //    //search criteria
-        //        tempCodexList.add(cod);
-        //        }
-        //    }
-
-        //    if(search_productcode!=null && search_productcode!=''){
-        //        system.debug(cod);
-
-        //        if(cod.Product2.ProductCode.containsIgnoreCase(search_productcode)){
-        //            tempCodexList.add(cod);  
-        //        }
-        //    }
-        //}
-
+       
         //codexRecords=tempCodexList;
         return null;
     }
@@ -794,7 +1099,7 @@ public QtcExternalConfigurator(){
       return optionProductIdList;
     }
 
-        //Wrapper for initial Codex records before selection
+    //Wrapper for initial Codex records before selection
     public class CodexWrapper{
         public List<Codex__c> codexRecords{get;set;}
         public Codex__c codex{get;set;}
@@ -804,7 +1109,7 @@ public QtcExternalConfigurator(){
         public string countryCode {get;set;}
         public string jurisdiction {get;set;}
         public string returnCode {get;set;}
-
+        public Boolean isDisabled {get; set;}
         public CodexWrapper(Codex__c c){
             this.codex = c;
             this.selected = false;
@@ -813,9 +1118,31 @@ public QtcExternalConfigurator(){
             this.countryCode = c.CountryCode__c;
             this.jurisdiction = c.Jurisdiction__c;
             this.returnCode = c.Return_Code__c;
+            this.isDisabled = false;
         }
     }
 
+    //Wrapper for initial Connectors before selection
+    public class ConnectorsWrapper{
+        public List<Connector__c> connectorRecords {get;set;}
+        public Connector__c connector {get;set;}
+        public Boolean selected {get;set;}
+        public string connectorName {get;set;}
+        public string defaultImp {get;set;}
+        public string connectorProduct {get;set;}
+        public string conProductName {get;set;}
+        
+        public ConnectorsWrapper(Connector__c cons){
+            connector = cons;
+            this.selected = false;
+            this.connectorName = cons.Name;
+            this.defaultImp = cons.Default_Self_Serve__c;
+            this.connectorProduct = cons.Product__c;
+            this.conProductName=cons.ProductName__c;
+
+        }
+    }
+    
     //Wrapper for selected Codex records
     public class SelectedCodexWrapper{
         public CodexWrapper selectedCodex{get;set;}
@@ -837,12 +1164,29 @@ public QtcExternalConfigurator(){
             this.jurisdiction = cod.jurisdiction;
             this.returnCode = cod.returnCode;
             this.codexId = cod.codex.id;
-
         }
     }
-
-
  
+    //Wrapper for selected Connectors
+    public class SelectedConsWrapper{
+        public ConnectorsWrapper selectedCon {get;set;}
+        public Connector__c connector{get;set;}
+        public Boolean isSelected {get;set;}
+        public String conName{get;set;}
+        public String conProduct{get;set;}
+        public String conProductName{get;set;}
+        public string defaultImp {get;set;}
+
+        public SelectedConsWrapper(ConnectorsWrapper selCon){
+            selectedCon=selCon;
+            connector=selCon.connector;
+            this.isSelected=false;
+            this.conName=selCon.connectorName;
+            this.conProduct=selCon.connectorProduct;
+            this.conProductName=selCon.conProductName;
+            this.defaultImp=selCon.defaultImp;
+        }
+    }
     //Wrapper for External Object Records
     public class ExtConfigWrapper{
         public string objId {get;set;}
@@ -877,17 +1221,21 @@ public QtcExternalConfigurator(){
         public SBQQ__ProductOption__c productOption{get;set;}
         public Boolean isSelected{get;set;}
         public Integer qty{get;set;}
-        public String codexId{get;set;}
+        public Id codexId{get;set;}
         public String optionId{get;set;}
+        public String retLabel{get;set;}
+        public Codex__c codex{get;set;}
         
-        public codOptionsWrapper(SBQQ__ProductOption__c option, String cod, String pCode, String pName){
+        public codOptionsWrapper(SBQQ__ProductOption__c option, Id cod, String pCode, String pName, Codex__c codex){
            productOption=option;
+           codex=codex;
            qty=1;
            isSelected=true;
            productName=pName;
            productCode=pCode;
            codexId=cod;
            this.optionId=option.Id;
+           this.retLabel=codex.Return_Code__c;
            }
         }
     
@@ -899,57 +1247,40 @@ public QtcExternalConfigurator(){
         public Boolean isSelected{get;set;}
         public Integer topIndex{get;set;}
         public Integer qty{get;set;}
-        public String asset{get;set;}
-        public String assetSerialNumber{get;set;}
-        public OptionsWrapper( String pCode, String pName, String pOptionId, Integer qty, String asst, Boolean selected, String serialNumber){
+        public OptionsWrapper( String pCode, String pName, String pOptionId, Integer qty, Boolean selected){
            productCode=pCode;
            productName=pName;
            productOptionId=pOptionId;
            this.qty=qty;
-           asset=asst;
            isSelected=selected;
-           assetSerialNumber=serialNumber;
-           if(asset!=null){
-            qtyEditable=false;
-           }
+           qtyEditable=true;
         }
     }
     
     public class conOptionsWrapper{
-        public String productCode{get;set;}
-        public String productName{get;set;}
-        public SBQQ__ProductOption__c productOption{get;set;}
-        public Boolean isSelected{get;set;}
-        public Integer qty{get;set;}
-        public String connectorId{get;set;}
-        public String optionId{get;set;}
+        public String productCode {get;set;}
+        public String productName {get;set;}
+        public SBQQ__ProductOption__c productOption {get;set;}
+        public Boolean isSelected {get;set;}
+        public Integer qty {get;set;}
+        public String connectorId {get;set;}
+        public String optionId {get;set;}
+        public Connector__c connector {get;set;}
+        public String connectorName {get;set;}
         
-        public conOptionsWrapper(SBQQ__ProductOption__c option, String connectorId, String pCode, String pName){
+        
+        public conOptionsWrapper(SBQQ__ProductOption__c option, String conId, String pCode, String pName, Connector__c con){
            productOption=option;
            qty=1;
            isSelected=true;
            productName=pName;
            productCode=pCode;
-           connectorId=connectorId;
+           connectorId=conId;
            this.optionId=option.Id;
+           connector=con;
+           this.connectorName=con.Name;
+                      
            }
         }
 
-   //Wrapper for initial Connectors before selection
-    public class ConnectorsWrapper{
-        public Connector__c connector {get;set;}
-
-        public ConnectorsWrapper(Connector__c con){
-            connector = con;
-        }
-    }
-
-    //Wrapper for selected Connectors
-    public class SelectedConnectorsWrapper{
-        public Connector__c selectedConnector{get;set;}
-
-        public SelectedConnectorsWrapper(Connector__c selCon){
-            selectedConnector = selCon;
-        }
-    }
 }

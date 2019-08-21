@@ -31,13 +31,13 @@ public class ContactTriggerHandler extends TriggerHandler {
         String EloquaAvalaraCaseSafeID='';
         //this will only execute for test
         // TODO: Fix custom settin issue
-        if(KeyPairValue__c.getInstance('EloquaAvalaraCaseSafeID')==null){
+      /*  if(KeyPairValue__c.getInstance('EloquaAvalaraCaseSafeID')==null){
             //Setup custom setting
             List<KeyPairValue__c> listKeyPairValue=new List<KeyPairValue__c>(); 
             listKeyPairValue.add(new KeyPairValue__c(Name='EloquaAvalaraCaseSafeID ',Values__c='00540000000yXrwAAE '));
             insert listKeyPairValue;            
-        }        
-        EloquaAvalaraCaseSafeID =KeyPairValue__c.getInstance('EloquaAvalaraCaseSafeID').Values__c;  
+        }     */   
+       // EloquaAvalaraCaseSafeID =KeyPairValue__c.getInstance('EloquaAvalaraCaseSafeID').Values__c;  
         Set<String> contactEmails=new Set<String>();
         for(Contact c:(List<Contact>)Trigger.new){
             if(String.isNotBlank(c.Email)){
@@ -238,9 +238,9 @@ public class ContactTriggerHandler extends TriggerHandler {
          afterInsertUpdateExecuted=true;
         String ContactResponseVelocityOwnerChange='';
         // try{
-        if(Test.isRunningTest()){
+       /* if(Test.isRunningTest()){
           TestCreateMetadata tcm=new TestCreateMetadata();
-        }
+        }*/
         ContactResponseVelocityOwnerChange =KeyPairValue__c.getInstance('LeadResponseVelocityOwnerChange').Values__c;     
         //}
         // catch(Exception ex){}           

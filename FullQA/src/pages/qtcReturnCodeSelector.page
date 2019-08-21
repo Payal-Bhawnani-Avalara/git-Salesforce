@@ -1,0 +1,188 @@
+<!--
+  @Page Name          : qtcExternalConfigurator.page
+  @Description        : VF page used for selection of connectors or codex in Salesforce CPQ
+  ==========================================================================================
+-->
+<apex:page controller="qtcExternalConfigurator2" showHeader="false" sidebar="false" applyHtmlTag="false" applyBodyTag="false" >
+    <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" lang="en">
+
+        <apex:pageMessages />
+            <apex:slds />
+            <head>
+              <script type="text/javascript">
+              <apex:includeScript value="{!URLFOR($Resource.easyxdm, '/easyXDM.debug.js')}"/>
+              </script>
+
+              <script type="text/javascript">
+              <apex:includeScript value="{!URLFOR($Resource.easyxdm, '/json2.js')}"/>
+              </script>
+
+            </head>
+     
+<div class="slds-scope">
+  <apex:form >
+    <body>
+      <div class="slds-page-header">
+        <div class="slds-grid">
+            <div class="slds-col slds-has-flexi-truncate">
+                <div class="slds-media slds-no-space slds-grow">
+                    <div class="slds-media__figure">
+                        <span class="slds-icon_container slds-icon-standard-opportunity" title="Description of icon when needed"><svg class=" slds-icon">
+                          <use xlink:href="{!URLFOR($ASSET.SLDS, '/assets/icons/standard-sprite/svg/symbols.svg#custom')}"></use></svg></span>
+                         <!-- <use xlink:href="{!URLFOR($ASSET.SLDS, '/assets/icons/standard-sprite/svg/symbols.svg#opportunity')}"></use></svg></span> -->
+                    </div>
+                    <div class="slds-media__body">
+                        <nav>
+                            <ol class="slds-breadcrumb slds-line-height_reset">
+                                <li class="slds-breadcrumb__item"><span><apex:outputText value="{!quoteName}"/></span></li>
+                            </ol>
+                        </nav>
+                        <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate">Returns Selector</h1>
+                    </div>
+                </div>
+            </div>
+            <apex:actionFunction name="passStringToController" action="{!jsonProcess}" rerender="hiddenoutput, selectionPanel, conSelectionPanel, selectedPanel">
+              <apex:param name="p1" value="" assignTo="{!jsonInput}"/>
+            </apex:actionFunction>
+
+            <!--<div class="slds-col slds-no-flex slds-grid slds-align-top">
+                <div class="slds-button-group" role="group">
+                    <apex:commandButton styleClass="slds-button slds-button_neutral" value="Save All" onclick="broadcast()"></apex:commandButton>
+                </div>
+            </div>-->
+        </div>
+    </div>
+     
+      <apex:outputPanel id="broadcastpanel" style="display: none;">                        
+        <script type="text/javascript">
+        
+            var rpc = new easyXDM.Rpc({},{
+                remote: {
+                    postMessage: {}
+                },
+                local: {
+                    postMessage: function(message) {
+                        document.getElementById('{!$Component.output}').value = message;
+                        document.getElementById('{!$Component.output2}').value = message;
+                        passStringToController(message);
+                        console.log('Incoming message: ');
+                        console.log(message);
+                    }
+                }
+            });
+           
+            function broadcast() {
+                //alert('Saving Selections');
+                //sendbroadcast();
+                console.log('Output:');
+                console.log(document.getElementById('{!$Component.output}').value);
+                console.log('Input:');
+                console.log({!jsonInput});
+                //alert('Logged');
+                rpc.postMessage(document.getElementById('{!$Component.output}').value);
+
+            }
+          
+        </script>
+      </apex:outputPanel>
+
+  <apex:outputPanel id="selectedPanel" >
+  <apex:pageBlock id="selectedRecordsBlock" >
+      <apex:outputPanel id="selectedRecordsPanel" >
+        <div align="left">
+          <h1 padding-left="24px" class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate">Selected Codex</h1>
+        </div>
+        <div align="center">
+            <apex:commandButton styleClass="slds-button slds-button_neutral" value="Add Selections" action="{!updateSelections}" rerender="hiddenoutput, selectionPanel" rendered="false"/>              
+            <apex:commandButton styleClass="slds-button slds-button_neutral" value="Remove" action="{!removeCodex}" reRender="selectedRecordsPanel,selectedPanel,selectionPanel,hiddenoutput"/>
+            <apex:commandButton styleClass="slds-button slds-button_neutral" value="Save All" onclick="broadcast()"></apex:commandButton>
+        </div>
+        <br/>
+        <apex:pageBlockTable border=".5" width="40%" value="{!selectedCodex}" var="c" headerClass="colHeadr">
+            <apex:column headerValue="Remove"> 
+                <apex:inputCheckbox value="{!c.isSelected}"  style="text-align:center;" id="checked" /> 
+            </apex:column>
+            <apex:column headerValue="Country Code" value="{!c.countryCode}"/>
+            <apex:column headerValue="Jurisdiction" value="{!c.jurisdiction}"/>
+            <apex:column headerValue="Return Code" value="{!c.returnCode}"/>
+        </apex:pageBlockTable>
+      </apex:outputPanel>
+      <!--<apex:pageBlockButtons location="bottom" rendered="{! IF(ISNULL(selectedCodex), false, true) }">
+            <div align="right">
+              <apex:commandButton styleClass="slds-button slds-button_neutral" value="First" action="{!first}"/>
+              <apex:commandButton styleClass="slds-button slds-button_neutral" value="Previous" action="{!previous}" rendered="{!hasPrevious}"/>
+              <apex:commandButton styleClass="slds-button slds-button_neutral" value="Next" action="{!next}" rendered="{!hasNext}"/>
+              <apex:commandButton styleClass="slds-button slds-button_neutral" value="Last" action="{!last}"/>
+            </div>
+      	</apex:pageBlockButtons>
+            <div align="right" >  
+              <apex:outputText rendered="{! IF(ISNULL(selectedCodex), false, true) }">Page Number: {!pageNumber} </apex:outputText>
+            </div>-->
+  </apex:pageBlock>
+  </apex:outputPanel>
+  <!-- <br/>
+  
+<apex:outputPanel id="SearchPanel">
+        <div align="center">
+          <apex:commandButton styleClass="slds-button slds-button_neutral" value="Search" action="{!SearchCodex}"/>
+          <apex:commandButton styleClass="slds-button slds-button_neutral" value="Clear Filters"/>
+        </div>     
+    </apex:outputPanel> -->
+                    
+<!--   <br/>
+ --><apex:pageBlock id="selectionPanel">
+    <div align="left">
+      <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate">Codex Entries</h1>
+    </div>
+        <div align="center">
+          <apex:commandButton styleClass="slds-button slds-button_neutral" value="Add Selections" action="{!gatherSelectedCodex}" reRender="selectedRecordsBlock,hiddenoutput"/>
+        </div>
+      <br/>
+        <apex:pageBlockTable id="codexTable" border=".5" width="40%" value="{!codexRecords}" var="cod" headerClass="colHeadr">
+            <apex:column headerClass="colHeadr" style="text-align:center;"> 
+                <apex:facet name="header">
+                    <apex:inputCheckbox id="checkall" onclick="checkAll(this)" style="text-align:center;"/>
+                </apex:facet>
+                  <apex:inputCheckbox value="{!cod.selected}"  style="text-align:center;" id="checkedone" /> 
+            </apex:column>
+            <apex:column headerValue="Country Code" value="{!cod.countryCode}"/>
+            <apex:column headerValue="Jurisdiction" value="{!cod.jurisdiction}"/>
+            <apex:column headerValue="Return Code" value="{!cod.returnCode}"/>
+        </apex:pageBlockTable>
+      <apex:pageBlockButtons location="bottom">
+        <div align="right">
+          <apex:commandButton styleClass="slds-button slds-button_neutral" value="First" action="{!first}" rerender="selectionPanel,selectedPanel" />
+          <apex:commandButton styleClass="slds-button slds-button_neutral" value="Previous" action="{!previous}" rendered="{!hasPrevious}" rerender="selectionPanel" />
+          <apex:commandButton styleClass="slds-button slds-button_neutral" value="Next" action="{!next}" rendered="{!hasNext}" rerender="selectionPanel" />
+          <apex:commandButton styleClass="slds-button slds-button_neutral" value="Last" action="{!last}" rerender="selectionPanel" />
+        </div>
+      </apex:pageBlockButtons>
+    <div align="right" >  
+      <apex:outputText >Page Number: {!pageNumber}</apex:outputText>
+    </div>
+  </apex:pageBlock>
+  
+    </body>
+    <apex:outputPanel id="hiddenoutput" style="display:none;" >
+         <apex:inputTextArea id="output" value="{!jsonInput}" />
+         <apex:inputTextarea id="output2" />
+
+    </apex:outputPanel>
+    <br/>
+    <br/>
+    <br/>
+
+    </apex:form>
+    <script>
+        function checkAll(cb){
+            var inputElem = document.getElementsByTagName("input");
+            for(var i=0; i<inputElem.length; i++){
+                if(inputElem[i].id.indexOf("checkedone")!=-1)
+                    inputElem[i].checked=cb.checked;
+            }
+
+        }
+    </script>
+</div>
+</html>
+</apex:page>

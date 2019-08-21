@@ -1,6 +1,6 @@
 @isTest
 private class ContactTriggerHandlerTest {
-     @testSetup static void setup() {
+   @testSetup static void setup() {
        //Setup custom setting
        List<CC_AVA_KeyPairValue__c> listCC_AVA_KeyPairValue=new List<CC_AVA_KeyPairValue__c>(); 
        listCC_AVA_KeyPairValue.add(new CC_AVA_KeyPairValue__c(Name='BizTech_API_URL_Sandbox',Value__c='http://api.salesforce.com/'));

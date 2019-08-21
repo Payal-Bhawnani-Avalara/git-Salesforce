@@ -30,7 +30,8 @@ public with sharing class OSCPQ_Utils {
                         		TwinMapping_MapFromContractToQuote__c,
                         		TwinMapping_PrimaryQuoteToOpp__c,
                         		TwinMapping_MapToContract__c,
-                                TwinMapping_CloneQuoteGroups__c
+                                TwinMapping_CloneQuoteGroups__c,
+                                Debug_EnableLimitLogging__c
                         FROM CPQ_Setting__mdt 
                         WHERE QualifiedApiName = :apiName
                        ];
@@ -405,5 +406,19 @@ public with sharing class OSCPQ_Utils {
         }
         
         return fieldNamesToTwinMapList;
+    }
+
+    /*
+    * Helper method that will do console.log statements for all Apex limits if the relevant flag is set to true.
+    * Params:
+    *   whereStr: Description of where this statement is called, ex: 'Entering Quote Insert Trigger'
+    */
+    public static void limitsDebug(String whereStr, boolean debugEnabled) {
+        if(debugEnabled) {
+            System.debug('Total # of SOQL Queries ' + whereStr + ': ' + Limits.getQueries() + ' of ' + Limits.getLimitQueries());
+            System.debug('Total # of records Queried ' + whereStr + ': ' + Limits.getDmlRows() + ' of ' + Limits.getLimitDmlRows());
+            System.debug('Total # of DML statements ' + whereStr + ': ' + Limits.getDmlStatements() + ' of ' + Limits.getLimitDmlStatements());
+            System.debug('Total # of CPQ time (ms) ' + whereStr + ': ' + Limits.getCpuTime() + ' of ' + Limits.getLimitCpuTime());
+        }
     }
 }

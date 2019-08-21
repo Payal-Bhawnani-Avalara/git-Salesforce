@@ -22,16 +22,16 @@
 	            var message = response.getReturnValue();
 	            console.log("message>>>>>>>>" + JSON.stringify(message));
 	            if (message == 'record successfully insert') {
+	                component.set("v.ShowModule", true);
 	                document.getElementById("showErrorrTractConfig").style.display = "none";
 	                document.getElementById("showMessageTractConfig").style.display = "block";
-	                component.set("v.ShowModule", true);
 	                component.find('btnSubmit').set("v.disabled", true);
+	                component.find('btnPrint').set("v.disabled", true);
 	                component.find('btnPrev').set("v.disabled", true);
 	                var cmpTarget = component.find('Modalbox1');
                     var cmpBack = component.find('Modalbackdrop');
                     $A.util.addClass(cmpTarget, 'slds-fade-in-open');
                     $A.util.addClass(cmpBack, 'slds-backdrop--open');
-	
 	            } else {
 	                document.getElementById("showMessageTractConfig").style.display = "none";
 	                document.getElementById("showErrorrTractConfig").style.display = "block";
@@ -39,8 +39,24 @@
 	        });
 	        $A.enqueueAction(action);
 	    } else {
-	           alert('Please complete all required fields.');
+	          var toastEvent = $A.get("e.force:showToast");
+		                 toastEvent.setParams({
+		                 title : 'Error Message',
+		                 message:'Please complete all required fields.',
+		                 //messageTemplate: 'Mode is pester ,duration is 5sec and Message is overrriden',
+		                 duration:' 3000',
+		                 key: 'info_alt',
+		                 type: 'error',
+		                 mode: 'pester'
+	                 });
+                    toastEvent.fire(); 
 	        }  
+    },
+    isCanvasBlank:function (canvas) {
+        var blank = document.createElement('canvas');
+        blank.width = canvas.width;
+        blank.height = canvas.height;
+        return canvas.toDataURL() == blank.toDataURL();
     },
     fetchbusinessEntityTypePicklist: function(component, event, helper) {
         var action = component.get("c.getPicklistvalues");
@@ -178,7 +194,7 @@
         $A.enqueueAction(action);
     },
     fetchtypeBusPicklist: function(component, event, helper) {
-        var action = component.get("c.getPicklistvalues");
+        var action = component.get("c.getKeyPairValue");
         action.setParams({
             'objectName': component.get("v.ObjectName"),
             'field_apiname': component.get("v.typeBus"),
@@ -377,6 +393,17 @@
     },
     eraseHelper: function(component, event, helper) {
         var m = confirm("Want to clear");
+         var toastEvent = $A.get("e.force:showToast");
+		                 toastEvent.setParams({
+		                 title : 'Error Message',
+		                 message:'Please complete all required fields.',
+		                 //messageTemplate: 'Mode is pester ,duration is 5sec and Message is overrriden',
+		                 duration:' 3000',
+		                 key: 'info_alt',
+		                 type: 'error',
+		                 mode: 'pester'
+	                 });
+                    toastEvent.fire(); 
         if (m) {
             var canvas = component.find('can').getElement();
             var ctx = canvas.getContext("2d");

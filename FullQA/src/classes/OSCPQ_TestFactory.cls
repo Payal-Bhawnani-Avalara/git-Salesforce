@@ -77,8 +77,7 @@ public class OSCPQ_TestFactory {
                                 SBQQ__IgnoreParentContractedPrices__c = false,
                                 SBQQ__PreserveBundle__c = true,
                                 SBQQ__RenewalModel__c = 'Contract Based',
-                               	SBQQ__RenewalPricingMethod__c = 'List',
-                                
+                               	SBQQ__RenewalPricingMethod__c = 'Uplift',
                                	BillingCountry = 'United States',
                                 BillingStreet = '1060 W Addison St',
                                 BillingCity = 'Chicago',
@@ -114,7 +113,11 @@ public class OSCPQ_TestFactory {
                 Pricebook2Id = Test.getStandardPricebookId(),
             	SBQQ__QuotePricebookId__c = Test.getStandardPricebookId(),
             	StageName = 'Proposal',
-            	Type = 'New'
+                Amount = 5000,
+                LeadSource = 'Direct Visitor',
+                SubType__c = 'Excise',
+                RecordTypeId = Schema.SObjectType.Opportunity.getRecordTypeInfosByDeveloperName().get('Excise_Tax_Division_Opportunity').getRecordTypeId(),
+                Type = 'New'
             );
         
         if(insertFlag){
@@ -199,7 +202,9 @@ public class OSCPQ_TestFactory {
                               RecordTypeId = Schema.SObjectType.Order.getRecordTypeInfosByDeveloperName().get('CPQ').getRecordTypeId(),
                               Status = 'Draft',
                               SBQQ__Contracted__c = false,
-                              SBQQ__PriceCalcStatus__c = 'Not Needed'
+                              SBQQ__PriceCalcStatus__c = 'Not Needed',
+                              Pricebook2Id = Test.getStandardPricebookId(),
+                              SBQQ__ContractingMethod__c = 'By Subscription End Date'
                              );
 
         
@@ -252,8 +257,6 @@ public class OSCPQ_TestFactory {
         ql.SBQQ__Quote__c = quote.Id;
         ql.SBQQ__Product__c = prod.Id;
         ql.SBQQ__Number__c = 1;
-        ql.SBQQ__ListPrice__c = 100;
-        ql.SBQQ__NetPrice__c = 100;
         
 
         if(insertFlag) {

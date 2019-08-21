@@ -32,7 +32,7 @@ public class OSCPQ_ContractTriggerHandler_Test {
         oppList.add(OSCPQ_TestFactory.createSingleOpp(acct, false));
         oppList[1].SBQQ__RenewedContract__c = contList[1].Id;
         oppList[1].Name = 'Master Opp';
-        oppList[0].NextStep = 'Master Opp';
+        oppList[1].NextStep = 'Master Opp';
         insert oppList;
         
         contList[0].SBQQ__RenewalOpportunity__c = oppList[0].Id;

@@ -3,6 +3,79 @@ public class SSTWizardController {
     public static string save(SST_Onboarding__c sstData,String signatureBody){
         try{ 
         	//sstData.SST_State_Selection__c=String.join(sstStatePicklistselected, ';');
+        	if(sstData.Company_Corporate_Address_State__c =='AR'){
+        	    sstData.ArkansasSSTVolunteer__c = 'False (SST Non-Volunteer)';
+        	    sstData.Arkansas_NV_Reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='GA'){
+        	   sstData.Georgia_SST_Volunteer__c = 'False (SST Non-Volunteer)';
+        	    sstData.Georgia_NV_Reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='IN'){
+        	   sstData.Indiana_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.Indiana_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='IA'){
+        	   sstData.Iowa_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.Iowa_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='KS'){
+        	   sstData.Kansas_V__c = 'False (SST Non-Volunteer)';
+        	   sstData.Kansas_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='KY'){
+        	   sstData.Kentucky_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.Kentucky_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='MI'){
+        	   sstData.Michigan_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.Michigan_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='MN'){
+        	   sstData.Minnesota_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.Minnesota_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='NE'){
+        	   sstData.Nebraska_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.Nebraska_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='NV'){
+        	   sstData.Nevada_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.Nevada_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='NJ'){
+        	   sstData.New_Jersey_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.New_Jersey_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='NC'){
+        	   sstData.North_Carolina_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.North_Carolina_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='ND'){
+        	   sstData.North_Dakota_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.North_Dakota_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='OH'){
+        	   sstData.Ohio_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.Ohio_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='OK'){
+        	   sstData.Oklahoma_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.Oklahoma_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='RI'){
+        	   sstData.Rhode_Island_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.Rhode_Island_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='SD'){
+        	   sstData.South_Dakota_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.South_Dakota_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='TN'){
+        	   sstData.Tennessee_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.Tennessee_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='UT'){
+        	   sstData.Utah_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.Utah_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='VT'){
+        	   sstData.Vermont_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.Vermont_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='WA'){
+        	   sstData.Washington_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.Washington_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='WV'){
+        	   sstData.West_Virginia_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.West_Virginia_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='WI'){
+        	   sstData.Wisconsin_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.Wisconsin_nv_reason__c = 'Place of Business';
+        	}if(sstData.Company_Corporate_Address_State__c =='WY'){
+        	   sstData.Wyoming_v__c = 'False (SST Non-Volunteer)';
+        	   sstData.Wyoming_nv_reason__c = 'Place of Business';
+        	}
             insert sstData; 
             Blob content;
             Attachment a = new Attachment();
