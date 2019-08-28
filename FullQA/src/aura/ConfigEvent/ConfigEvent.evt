@@ -1,0 +1,11 @@
+<!--
+Original Shift(developer@originalshift.com)
+Purpose: Event for q2cExtConfig cmp to pass JSON back to
+back to Salesforce CPQ configurator.
+
+History:
+Aug 19/19 - Original Shift - Initial Implementation
+-->
+<aura:event type="APPLICATION" description="Salesforce CPQ Configuration Event">
+    <aura:attribute name="configData" type="String" description="JSON String from Salesforce CPQ configuration" access="global" />
+</aura:event>

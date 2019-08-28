@@ -1,0 +1,9 @@
+.THIS .slds-button_icon-bare {
+    display: none;
+}
+
+.THIS table.dataTable thead .sorting_asc,
+.THIS .sorting_desc,
+.THIS .sorting {
+    background-image: none !important;
+}

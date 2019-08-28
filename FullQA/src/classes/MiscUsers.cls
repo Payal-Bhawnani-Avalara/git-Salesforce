@@ -1,57 +1,19 @@
 public with sharing class MiscUsers {
-    public List<User> Records {get; set;}
-    
+    public List<User> ActiveFrozenRecords {get; set;}
+    public List<User> ActiveNoLoginRecords {get;set;}
+    public List<userlicense> CurrentLicenses {get;set;}
+    public List<PackageLicense> CurrentPROS {get;set;}
+    public List<PackageLicense> CurrentDE {get;set;}
+
     public MiscUsers(){
-        Records =
-            [SELECT FirstName, LastName, Email, ID, LastModifiedDate From User where ID IN (SELECT UserID from Userlogin where IsFrozen = True) and IsActive = True];
-    }
-    public static List<PermissionSetAssignment> GetPermSetsByUserID(String Id){
- 		List<PermissionSetAssignment> PermSets = new List<PermissionSetAssignment>();
-        PermSets = [SELECT ID from PermissionSetAssignment where AssigneeID = :Id];
-        return PermSets;
-    }
-    public static User GetUserMetaDataByUserID(String Id){
-        User thisuser = new User();
-        thisuser = [SELECT Id, Full_Name__c
-                    ,ForecastEnabled
-                    ,JigsawImportLimitOverride
-                    ,ManagerId
-                    ,ProfileId
-                    ,UserPermissionsInteractionUser
-                    ,UserPermissionsJigsawProspectingUser
-                    ,UserPermissionsKnowledgeUser
-                    ,UserPermissionsLiveAgentUser
-                    ,UserPermissionsMarketingUser
-                    ,UserPermissionsMobileUser
-                    ,UserPermissionsOfflineUser
-                    ,UserPermissionsSFContentUser
-                    ,UserPermissionsSupportUser
-                    ,UserPermissionsWorkDotComUserFeature
-                    ,UserRoleId 
-                    from User where Id =:Id];
-        return thisuser;
-    }
-    
-    public static String CloneNewUser(User mirroruser, String newuserID){
-        User newuser = new User();
-        newuser.Id = newuserID;
-        newuser.ForecastEnabled = mirroruser.ForecastEnabled;
-		newuser.JigsawImportLimitOverride = mirroruser.JigsawImportLimitOverride;
-        newuser.ManagerId = mirroruser.ManagerId;
-        newuser.ProfileId = mirroruser.ProfileId;
-        newuser.UserPermissionsInteractionUser = mirroruser.UserPermissionsInteractionUser;
-        newuser.UserPermissionsJigsawProspectingUser = mirroruser.UserPermissionsJigsawProspectingUser;
-        newuser.UserPermissionsKnowledgeUser = mirroruser.UserPermissionsKnowledgeUser;
-        newuser.UserPermissionsLiveAgentUser = mirroruser.UserPermissionsLiveAgentUser;
-        newuser.UserPermissionsMarketingUser = mirroruser.UserPermissionsMarketingUser;
-        newuser.UserPermissionsMobileUser = mirroruser.UserPermissionsMobileUser;
-        newuser.UserPermissionsOfflineUser = mirroruser.UserPermissionsOfflineUser;
-        newuser.UserPermissionsSFContentUser = mirroruser.UserPermissionsSFContentUser;
-        newuser.UserPermissionsSupportUser = mirroruser.UserPermissionsSupportUser;
-        newuser.UserPermissionsWorkDotComUserFeature = mirroruser.UserPermissionsWorkDotComUserFeature;
-        newuser.UserRoleId = mirroruser.UserRoleId;
-        
-        update newuser;
-        return 'ok';
+        ActiveFrozenRecords =
+            [SELECT Full_Name__c, Email, ID, Profile.Name,Days_Since_Freeze__c From User where ID IN (SELECT UserID from Userlogin where IsFrozen = True) and Profile.Name != 'PSE - Consultant (Platform User)' and IsActive = True ORDER by Days_Since_Freeze__c DESC];
+
+        ActiveNoLoginRecords = 
+			[SELECT Full_Name__c,Email,ID,LastLoginDate,LastModifiedDate, Profile.Name,Profile.UserLicense.Name from User where Profile.UserLicense.LicenseDefinitionKey = 'SFDC' AND (NOT USERNAME like 'dma@avalara.com') AND (NOT USERNAME like 'glautomation@avalara.com') AND (NOT USERNAME like  'pendgli@avalara.com') AND (NOT USERNAME like 'psunassigned@avalara.com') AND (NOT USERNAME like '%insightssecurity%') AND (NOT USERNAME like 'dg-extding@avalara.com') AND (NOt Username like 'camaccount@avalara.com') and (NOT username like 'inside.sales@avalara.com') and (not username like 'golivebacklog@avalara.com') AND (NOT Full_name__c like '%Account Distribution%') AND isActive=true and (Not Profile.name like '%api%') and (not Profile.Name like '%Community%') AND ID IN (SELECT UserID from Userlogin where IsFrozen = False) and email != 'golive@avalara.com' and Profile.Name != 'PSE - Consultant (Platform User)' and lastLoginDate <= :DATE.TODAY()-45  ORDER by Profile.Name];
+
+		CurrentLicenses = [SELECT Name, TotalLicenses, UsedLicenses FROM userlicense WHERE name = 'Salesforce'];
+		CurrentPROS = [SELECT Id, Status, AllowedLicenses, UsedLIcenses, NamespacePrefix FROM PackageLicense WHERE NamespacePrefix = 'CameleonCPQ'];
+		CurrentDE = [SELECT Id, Status, AllowedLicenses, UsedLIcenses, NamespacePrefix from PackageLicense where namespaceprefix = 'n2de'];
     }
 }

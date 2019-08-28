@@ -710,7 +710,7 @@
 		     component.set("v.ncRe",true); 
 	      }else{
 	         component.set("v.showNcVol", true); 
-		     component.set("v.showNcCoV",false); 
+		     component.set("v.showNdCoV",false); 
 		     component.set("v.showCoV",false);  
 		     component.set("v.ncRe",false);  
 	      }        

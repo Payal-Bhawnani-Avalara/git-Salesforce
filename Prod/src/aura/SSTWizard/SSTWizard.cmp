@@ -1292,6 +1292,12 @@ also stores property of third parties that is distributed from the same location
                                                             </lightning:select>
                                                             <lightning:input aura:id="tableId" label="Pennsylvania Sales Tax License Account ID" name="Pennsylvania Sales Tax License Account ID"   value="{! v.sstData.Pennsylvania_Sales_Tax_Account_Id__c}" required="true" />
                                                             <!-- Pennsylvania Sales Tax License Account ID: -->
+                                                             <lightning:select aura:id="tableId" name="PaRPP" label="Are you remitting pre-payments to Pennsylvania?" value="{! v.sstData.Remitting_pre_payments_to_Pennsylvania__c}" required="true">
+                                                                <option value="">Select</option>
+                                                                <aura:iteration var="option" items="{!v.sstRemotePicklist }">
+                                                                    <option value="{! option }">{! option }</option>
+                                                                </aura:iteration>
+                                                            </lightning:select>
                                                         </aura:if>
                                                     </th>
                                                     <th data-label="Remote" scope="row">

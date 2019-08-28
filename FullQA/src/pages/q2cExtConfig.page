@@ -1,0 +1,67 @@
+<!--
+Original Shift(developer@originalshift.com)
+Purpose: Visualforce page called by Salesforce CPQ custom actions to select products based on
+references in other objects.
+
+Details: - Includes easy XDM js library as required by SFDC CPQ
+- Receives and broadcasts JSON to CPQ configurator
+- Calls q2cExtConfig Lightning app
+
+History:
+Aug 19/19 - Original Shift - Initial Implementation
+-->
+
+<apex:page sidebar="false" showHeader="false" applyHtmlTag="false" applyBodyTag="false" docType="html-5.0"
+           standardStylesheets="false">
+    <html xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Q2C External Config</title>
+        <!-- easyXDM.min.js compiled and minified JavaScript -->
+        <apex:includeScript value="{!URLFOR($Resource.easyxdm, '/easyXDM.debug.js')}" />
+        <apex:includeScript value="{!URLFOR($Resource.easyxdm, '/json2.js')}" />
+        <!-- Scripts to render Lightning components in Visualforce -->
+        <apex:includeLightning />
+    </head>
+
+    <body>
+    <!-- Div to host LEX app -->
+    <div id="ext-config"></div>
+    </body>
+
+    <!-- easyXDM and Lightning for VF for passing config data to/from Salesforce CPQ -->
+    <script type="text/javascript">
+        let rpc = new easyXDM.Rpc({}, {
+            // method defined in Salesforce CPQ
+            remote: {
+                postMessage: {}
+            },
+            local: {
+                postMessage: function (message) {
+                    console.log("External Config JSON Recieved");
+                    console.log(message);
+                    // Lightning out/for VF to host  custom config UI
+                    $Lightning.use("c:q2cExtConfigApp", function () {
+                        $Lightning.createComponent("c:q2cExtConfig", {configData: message},
+                            "ext-config",
+                            function () {
+                                $A.eventService.addHandler({"event": "c:ConfigEvent", "handler": broadcast});
+                            }
+                        );
+                    });
+                }
+            }
+        });
+
+        // Broadcast function back to Salesforce CPQ to create the config
+        let broadcast = function (event) {
+            console.log(event);
+            let data = event.getParam("configData");
+            console.log(data);
+            rpc.postMessage(data);
+        }
+    </script>
+    </html>
+</apex:page>

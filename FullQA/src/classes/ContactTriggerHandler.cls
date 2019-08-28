@@ -28,6 +28,7 @@ public class ContactTriggerHandler extends TriggerHandler {
         //Get partner rep email of all contacts where partner is not populated 
         Set<String> setPartnerContactEmails=new Set<String>();
         Set<Id> accountIdContactOwnerUpdate = new Set<ID>();
+        List<Primary_Invoice_Contact_Change__e> pIConEvents = new List<Primary_Invoice_Contact_Change__e> ();
         String EloquaAvalaraCaseSafeID='';
         //this will only execute for test
         // TODO: Fix custom settin issue
@@ -71,8 +72,33 @@ public class ContactTriggerHandler extends TriggerHandler {
             // Contact oldCon  = (Contact)trigger.oldMap.get(c.Id);
             if(c.accountid != null ){  
                 accountIdContactOwnerUpdate.add(c.AccountId);
-            }    
+            }  
+            
+            
+           /*  if(Trigger.isInsert || (Trigger.isUpdate && c.Primary_Invoice_Contact__c != ((Contact)Trigger.oldMap.get(c.Id)).Primary_Invoice_Contact__c && c.accountid != null)
+            ){
+            	pIConEvents.add(new Primary_Invoice_Contact_Change__e(Account_ID__c = c.accountid,Change_Date_Time__c = datetime.now(),Contact_ID__c = c.id,Primary_Invoice_Contact_Change__c = true));   
+            }  */
         }
+        
+      /*  List<Database.SaveResult> results = EventBus.publish(pIConEvents);
+       // Utility.createApexLog('Primary Invoice Contact Change Event', results,true);
+        List<ApexLog__c> apexLogs = new  List<ApexLog__c>();
+        for (Database.SaveResult sr : results) {
+          if (sr.isSuccess()) {
+             System.debug('Successfully published event.');
+            apexLogs.add(new ApexLog__c(Status__c = 'Successfully published event.'));
+         } else {
+           for(Database.Error err : sr.getErrors()) {
+              System.debug('Error returned: ' +
+                        err.getStatusCode() +
+                        ' - ' +
+                        err.getMessage());
+                apexLogs.add(new ApexLog__c(Message__c=  err.getMessage()));
+             }
+          }       
+        }
+        Insert apexLogs;*/
         //get most recent contact where email match with partner rep email
         //if(setPartnerContactEmails.size()>0){
         Set<Id> partnerIDs=new Set<Id>();

@@ -31,7 +31,7 @@ public class OSCPQ_QuoteDocTriggerHandlerTest {
         
         SBQQ__Quote__c quote = [SELECT Id, SBQQ__Status__c FROM SBQQ__Quote__c LIMIT 1];
         Opportunity opp = [SELECT Id, StageName FROM Opportunity LIMIT 1];
-        System.assert(quote.SBQQ__Status__c == 'Accepted', 'Expected Quote Status to go to Accepted but it is ' + quote.SBQQ__Status__c);
+        System.assert(quote.SBQQ__Status__c == 'Accepted' || quote.SBQQ__Status__c == 'Approved', 'Expected Quote Status to go to Accepted or Approved but it is ' + quote.SBQQ__Status__c);
         System.assert(opp.StageName == 'Closed Won', 'Expected Opp StageName to be Closed Won but it is ' + opp.StageName);
     }
     

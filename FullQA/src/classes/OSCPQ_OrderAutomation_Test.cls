@@ -123,7 +123,10 @@ public class OSCPQ_OrderAutomation_Test {
     
     @isTest static void testQueueableSingle(){
     	Order ord = [SELECT Id, SBQQ__Contracted__c, Status FROM Order LIMIT 1];
-        ord.Status = 'Activated';
+        //ord.Status = 'Activated';
+        ord.Status = 'Submitted';
+        ord.NetSuite_Sales_Order_Id__c = '99999999';
+        
         update ord;
         
         List<Id> ordIdList = new List<Id>{ord.Id};

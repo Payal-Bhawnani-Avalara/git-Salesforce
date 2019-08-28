@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </div>
-            <apex:actionFunction name="passStringToController" action="{!jsonProcess}" rerender="hiddenoutput, conSelectionPanel, selectionPanel">
+            <apex:actionFunction name="passStringToController" action="{!jsonProcess}" rerender="selectedRecordsPanel,selectionPanel,conSelectionPanel,hiddenoutput,conSelections">
               <apex:param name="p1" value="" assignTo="{!jsonInput}"/>
             </apex:actionFunction>
 
@@ -88,7 +88,7 @@
         </div>
         <div align="center">
             <apex:commandButton styleClass="slds-button slds-button_neutral" value="Add Selections" action="{!updateSelections}" rerender="hiddenoutput, selectionPanel" rendered="false"/>              
-            <apex:commandButton styleClass="slds-button slds-button_neutral" value="Remove" action="{!removeConns}" reRender="selectedRecordsPanel,selectionPanel,conSelectionPanel,hiddenoutput"/>
+            <apex:commandButton styleClass="slds-button slds-button_neutral" value="Remove" action="{!removeConns}" reRender="selectedRecordsPanel,selectionPanel,conSelectionPanel,hiddenoutput,conSelections"/>
             <apex:commandButton styleClass="slds-button slds-button_neutral" value="Save All" onclick="broadcast()"></apex:commandButton>
         </div>
       <br/>
@@ -116,12 +116,13 @@
     </apex:outputPanel>-->
                     
 <!--   <br/>-->
+ <apex:outputPanel id="conSelections">
  <apex:pageBlock id="conSelectionPanel" >
     <div align="left">
       <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate">Connectors</h1>
     </div>
         <div align="center">
-          <apex:commandButton styleClass="slds-button slds-button_neutral" value="Add Selections" action="{!gatherSelectedCons}" reRender="selectedConsBlock,selectionPanel,hiddenoutput"/>
+          <apex:commandButton styleClass="slds-button slds-button_neutral" value="Add Selections" action="{!gatherSelectedCons}" reRender="selectedRecordsPanel,selectionPanel,hiddenoutput,conSelections"/>
         </div>
       <br/>
         <apex:pageBlockTable border=".5" width="40%" value="{!connectorRecords}" var="cons" headerClass="colHeadr">
@@ -147,8 +148,9 @@
       <apex:outputText >Page Number: {!pageNumber}</apex:outputText>
     </div>
   </apex:pageBlock>
+     </apex:outputPanel>
     </body>
-    <apex:outputPanel id="hiddenoutput" style="display:none;" > 
+    <apex:outputPanel id="hiddenoutput" style="display:none;" >
          <apex:inputTextArea id="output" value="{!jsonInput}" />
          <apex:inputTextarea id="output2"/>
     </apex:outputPanel>

@@ -1,0 +1,164 @@
+<!--
+Original Shift(developer@originalshift.com)
+Purpose: Lightning component to display a searchable table of data for
+selection and configuration of Salesforce CPQ bundles.
+
+Details: - Includes jquery and datatables javascript libraries
+- Uses the lightning design List Builder as a reference
+
+History:
+Aug 19/19 - Original Shift - Initial Implementation
+-->
+
+<aura:component controller="q2cExtConfigController" description="Q2C External Configurator Host"
+                implements="force:appHostable" access="global">
+
+    <ltng:require styles="{!$Resource.dataTables + '/datatables.min.css'}"
+                  scripts="{!$Resource.dataTables + '/datatables.min.js'}"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:registerEvent name="configEvent" type="c:ConfigEvent"/>
+    <aura:attribute name="configData" type="String"/>
+    <aura:attribute name="configObj" type="Map"/>
+    <aura:attribute name="tableData" type="Map"/>
+    <aura:attribute name="tableColumns" type="Map"/>
+    <aura:attribute name="feature" type="Map"/>
+    <aura:attribute name="tableOptions" type="Map"/>
+    <aura:attribute name="tableRows" type="Map"/>
+    <aura:attribute name="selection" type="List"/>
+
+    <aura:handler event="aura:waiting" action="{!c.waiting}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.doneWaiting}"/>
+    <aura:attribute name="HideSpinner" type="Boolean" default="true"/>
+
+    <aura:renderIf isTrue="{!v.HideSpinner}">
+        <div class="slds-spinner_container">
+            <div class="slds-spinner--brand slds-spinner slds-spinner--large" role="alert">
+                <span class="slds-assistive-text">Loading, Please Wait...</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:renderIf>
+
+    <div class="slds-list-builder">
+        <header class="slds-page-header">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-p-vertical_x-small slds-p-horizontal_large slds-shrink-none slds-theme_shade">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label slds-assistive-text" for="combobox-unique-id-21">
+                                Search
+                            </label>
+                            <div class="slds-form-element__control">
+                                <div class="slds-combobox_container">
+                                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                         aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                             role="none">
+                                            <input type="text" class="slds-input slds-combobox__input" id="tableSearch"
+                                                   role="textbox" placeholder="Search Records"/>
+                                            <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+                                            <lightning:icon class="slds-icon slds-icon_x-small slds-icon-text-default"
+                                                            iconName="utility:search" size="x-small"
+                                                            alternativeText="icon"/>
+                                        </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="slds-grid slds-grow" id="content-id-1">
+            <div class="slds-grid slds-grid_vertical">
+                <div class="slds-scrollable slds-grow">
+                    <div class="slds-scrollable_none">
+                        <table id="tableId" aura:id="tableId" aria-multiselectable="true"
+                               class="slds-table slds-no-row-hover slds-table_bordered slds-table_fixed-layout"
+                               role="grid">
+                            <thead>
+                            <tr class="">
+                                <th class="" scope="col" style="width:3.75rem"></th>
+                                <!-- Iterate over the column data to create the table headers -->
+                                <aura:iteration items="{!v.tableColumns}" var="column">
+                                    <th aria-label="{!v.tableColumns}" aria-sort="none" class="" scope="col">
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                            <span class="slds-truncate" title="{!column.label}">{!column.label}</span>
+                                        </div>
+                                    </th>
+                                </aura:iteration>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!--Iterate over the rows to display the returned record data -->
+                            <aura:iteration items="{!v.tableRows}" var="record">
+                                <!-- If the record has been previously selected -->
+                                <aura:if isTrue="{!record.selected}">
+                                    <!-- Display the checkbox with a value of the record Id and selected -->
+                                    <tr aria-selected="true" class="slds-hint-parent slds-is-selected">
+                                        <td class="slds-text-align_right" role="gridcell" tabindex="0">
+                                            <div class="slds-checkbox_add-button">
+                                                <input type="checkbox" class="slds-assistive-text"
+                                                       aura:id="tableCheckbox" id="{!record.Id}"
+                                                       value="{!record.Id}" tabindex="-1" checked="true"
+                                                       onchange="{!c.checkChange}"/>
+                                                <label for="{!record.Id}" class="slds-checkbox_faux">
+                                                    <span class="slds-assistive-text">Select {!record.Id}</span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <!-- Iterate over the fields in the row based on the feature field set definition -->
+                                        <aura:iteration items="{!record.fields}" var="field">
+                                            <td scope="gridcell">
+                                                <div class="slds-truncate" title="{!field.label}">{!field.data}</div>
+                                            </td>
+                                        </aura:iteration>
+                                    </tr>
+                                    <!-- Else if the record has not been previously selected -->
+                                    <aura:set attribute="else">
+                                        <!--Display the checkbox with a value of the record Id and unselected -->
+                                        <tr aria-selected="false" class="slds-hint-parent">
+                                            <td class="slds-text-align_right" role="gridcell" tabindex="0">
+                                                <div class="slds-checkbox_add-button">
+                                                    <input type="checkbox" class="slds-assistive-text"
+                                                           aura:id="tableCheckbox" id="{!record.Id}"
+                                                           value="{!record.Id}" tabindex="-1" checked="false"
+                                                           onchange="{!c.checkChange}"/>
+                                                    <label for="{!record.Id}" class="slds-checkbox_faux">
+                                                        <span class="slds-assistive-text">Select {!record.Id}</span>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <!-- Iterate over the fields in the row based on the feature field set definition -->
+                                            <aura:iteration items="{!record.fields}" var="field">
+                                                <td scope="gridcell">
+                                                    <div class="slds-truncate"
+                                                         title="{!field.label}">{!field.data}</div>
+                                                </td>
+                                            </aura:iteration>
+                                        </tr>
+                                    </aura:set>
+                                </aura:if>
+                            </aura:iteration>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="slds-modal__footer">
+            <!--<lightning:textarea
+                    name="rawConfig"
+                    value="{!v.configData}"
+                    label="Config Data"
+            />-->
+            <!-- Button to save the configuration -->
+            <lightning:button label="Save" iconName="utility:save" iconPosition="left" variant="brand"
+                              onclick="{!c.handleConfigSave}"/>
+        </footer>
+    </div>
+</aura:component>
